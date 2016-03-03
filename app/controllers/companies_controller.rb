@@ -1,5 +1,6 @@
 class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
+  skip_before_action :require_logged_in, only: [:new, :create]
 
   # GET /companies
   # GET /companies.json
@@ -69,6 +70,6 @@ class CompaniesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def company_params
-      params.require(:company).permit(:name, :email, :password_digest)
+      params.require(:company).permit(:name, :email, :password, :password_confirmation)
     end
 end
