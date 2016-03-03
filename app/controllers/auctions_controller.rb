@@ -15,6 +15,7 @@ class AuctionsController < ApplicationController
   # GET /auctions/new
   def new
     @auction = Auction.new
+    @auction_part = AuctionPart.new
   end
 
   # GET /auctions/1/edit
@@ -69,6 +70,6 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id)
+      params.require(:auction).permit(:company_id, :part_num)
     end
 end

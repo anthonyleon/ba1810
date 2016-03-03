@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303050513) do
+ActiveRecord::Schema.define(version: 20160303065116) do
 
   create_table "auction_parts", force: :cascade do |t|
     t.string   "part_num"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20160303050513) do
     t.integer  "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "part_num"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id"
