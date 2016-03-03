@@ -14,6 +14,7 @@ class AuctionPartsController < ApplicationController
 
   # GET /auction_parts/new
   def new
+    @auction = Auction.new
     @auction_part = AuctionPart.new
   end
 
