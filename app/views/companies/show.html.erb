@@ -1,14 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <h1>Name:</h1>
   <%= @company.name %>
 </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @company.email %>
-</p>
-
-<%= link_to 'Edit', edit_company_path(@company) %> |
-<%= link_to 'Back', companies_path %>
+<%= link_to 'New auction', new_auction_path, class: 'btn btn-primary' %>
+<%= link_to 'Edit', edit_company_path(@company), class: 'btn btn-primary' %>
+<%= link_to 'Back', companies_path, class: 'btn btn-primary' %>
