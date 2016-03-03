@@ -1,12 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <div>
-  <h1>Name:</h1>
-  <%= @company.name %>
+  <%= link_to 'Edit', edit_company_path(@company), class: 'btn btn-primary' %>
+  <%= link_to 'Back', companies_path, class: 'btn btn-primary' %>
 </div>
 
-<div id="auction_list" class="col-md-6">
-  <h1>Your auctions:</h1>
+<div>
+  <h1><%= @company.name %></h1>
+</div>
+
+
+<div id="auction_list" class="col-md-6 clearfix">
+  <h2>Your auctions:</h2>
   <% unless @buyer_auctions.nil? %>
 
     <% @buyer_auctions.each do |auction| %>
@@ -19,5 +24,17 @@
   <% end %>
 </div>
 
-<%= link_to 'Edit', edit_company_path(@company), class: 'btn btn-primary' %>
-<%= link_to 'Back', companies_path, class: 'btn btn-primary' %>
+<div id="bid_list" class="col-md-6 clearfix">
+  <h2>Your bids:</h2>
+  <% unless @supplier_auctions.nil? %>
+
+    <% @supplier_auctions.each do |auction| %>
+      <%= link_to auction do %>
+        <%= render auction %>
+      <% end %>
+    <% end %>
+
+  <% end %>
+</div>
+
+
