@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :require_logged_in
 
   def current_user
-    @current_user ||= Company.find_by(id: session[:company_id]
+    @current_user ||= Company.find_by(id: session[:company_id])
   end
 
   def require_logged_in

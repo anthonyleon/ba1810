@@ -10,10 +10,5 @@
   <%= @company.email %>
 </p>
 
-<p>
-  <strong>Password digest:</strong>
-  <%= @company.password_digest %>
-</p>
-
 <%= link_to 'Edit', edit_company_path(@company) %> |
 <%= link_to 'Back', companies_path %>
