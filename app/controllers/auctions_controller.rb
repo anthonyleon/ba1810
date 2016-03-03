@@ -39,6 +39,7 @@ class AuctionsController < ApplicationController
       if @auction.save && @auction_part.save
         @part_match.auction_parts << @auction_part
         @auction.auction_part = @auction_part
+        current_user.auctions << @auction
 
         format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
         format.json { render :show, status: :created, location: @auction }

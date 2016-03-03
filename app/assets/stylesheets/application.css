@@ -18,12 +18,15 @@ body {
   text-align: center;
 }
 
-a {
+a.btn {
   text-decoration: none;
   color: #fff;
 }
 
-a:visited {
+a.btn:visited {
   color: #fff;
 }
+
+
+
 
