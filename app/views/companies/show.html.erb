@@ -1,10 +1,23 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<div>
   <h1>Name:</h1>
   <%= @company.name %>
-</p>
+</div>
 
-<%= link_to 'New auction', new_auction_path, class: 'btn btn-primary' %>
+<div id="auction_list" class="col-md-6">
+  <h1>Your auctions:</h1>
+  <% unless @buyer_auctions.nil? %>
+
+    <% @buyer_auctions.each do |auction| %>
+      <%= link_to auction do %>
+        <%= render auction %>
+      <% end %>
+    <% end %>
+    <%= link_to 'New auction', new_auction_path, class: 'btn btn-primary' %>
+
+  <% end %>
+</div>
+
 <%= link_to 'Edit', edit_company_path(@company), class: 'btn btn-primary' %>
 <%= link_to 'Back', companies_path, class: 'btn btn-primary' %>
