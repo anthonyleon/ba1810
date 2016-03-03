@@ -15,23 +15,7 @@
     <%= f.label :part_num %><br>
     <%= f.text_field :part_num %>
   </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
-  </div>
-  <div class="field">
-    <%= f.label :manufacturer %><br>
-    <%= f.text_field :manufacturer %>
-  </div>
-  <div class="field">
-    <%= f.label :company_id %><br>
-    <%= f.text_field :company_id %>
-  </div>
-  <div class="field">
-    <%= f.label :part_id %><br>
-    <%= f.text_field :part_id %>
-  </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Submit', class: 'btn btn-primary' %>
   </div>
 <% end %>
