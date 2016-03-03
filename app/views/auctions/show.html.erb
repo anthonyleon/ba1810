@@ -1,9 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<div>
   <h1>Company:</h1>
   <%= @auction.company %>
-</p>
+</div>
+<div>
+  <h1>Initial Price:</h1>
+  <%= number_to_currency @init_price %>
+</div>
 
-<%= link_to 'Edit', edit_auction_path(@auction) %> |
-<%= link_to 'Back', auctions_path %>
+
+<%= link_to 'Edit', edit_auction_path(@auction), class: 'btn btn-primary' %> 
+<%= link_to 'Back', auctions_path, class: 'btn btn-primary' %>

@@ -10,6 +10,7 @@ class AuctionsController < ApplicationController
   # GET /auctions/1
   # GET /auctions/1.json
   def show
+    @init_price = @auction.auction_part.init_price
   end
 
   # GET /auctions/new
