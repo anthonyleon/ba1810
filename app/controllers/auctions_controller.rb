@@ -32,7 +32,7 @@ class AuctionsController < ApplicationController
         init_price: @part_match.manufacturer_price
       )
     else
-      render :new, notice: "Couldn't find that part in our database"
+      render :new, notice: "Couldn't find part in our database"
     end
 
     respond_to do |format|
