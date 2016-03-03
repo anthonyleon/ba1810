@@ -1,0 +1,18 @@
+<h1>Log in</h1>
+<div><%= notice %></div>
+<%= form_for(:login, url: login_path) do |f| %>
+  <div>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
+  <div>
+    <%= f.label :password %>
+    <%= f.text_field :password %>
+  </div>
+  <div>
+    <%= f.submit 'Submit' %>
+  </div>
+<% end %>
+<div>
+  <%= link_to 'Sign up', new_company_path %>
+</div>

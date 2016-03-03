@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Part num:</strong>
+  <%= @auction_part.part_num %>
+</p>
+
+<p>
+  <strong>Init price:</strong>
+  <%= @auction_part.init_price %>
+</p>
+
+<p>
+  <strong>Part:</strong>
+  <%= @auction_part.part %>
+</p>
+
+<p>
+  <strong>Auction:</strong>
+  <%= @auction_part.auction %>
+</p>
+
+<%= link_to 'Edit', edit_auction_part_path(@auction_part) %> |
+<%= link_to 'Back', auction_parts_path %>

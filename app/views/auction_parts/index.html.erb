@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Auction Parts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Part num</th>
+      <th>Init price</th>
+      <th>Part</th>
+      <th>Auction</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @auction_parts.each do |auction_part| %>
+      <tr>
+        <td><%= auction_part.part_num %></td>
+        <td><%= auction_part.init_price %></td>
+        <td><%= auction_part.part %></td>
+        <td><%= auction_part.auction %></td>
+        <td><%= link_to 'Show', auction_part %></td>
+        <td><%= link_to 'Edit', edit_auction_part_path(auction_part) %></td>
+        <td><%= link_to 'Destroy', auction_part, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Auction part', new_auction_part_path %>
