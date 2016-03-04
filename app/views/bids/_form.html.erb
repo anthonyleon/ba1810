@@ -17,7 +17,7 @@
   </div>
 
   <div class="field">
-    <%= f.hidden_field :inventory_part_id %>
+    <%= f.hidden_field :inventory_part_id, :value => @match_parts.ids, :id => 'hiddeninv' %>
   </div>
 
   <div class="actions">
