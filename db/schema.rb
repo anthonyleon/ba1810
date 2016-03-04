@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160303065116) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "auction_parts", force: :cascade do |t|
     t.string   "part_num"
     t.string   "description"
@@ -24,8 +27,8 @@ ActiveRecord::Schema.define(version: 20160303065116) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "auction_parts", ["auction_id"], name: "index_auction_parts_on_auction_id"
-  add_index "auction_parts", ["part_id"], name: "index_auction_parts_on_part_id"
+  add_index "auction_parts", ["auction_id"], name: "index_auction_parts_on_auction_id", using: :btree
+  add_index "auction_parts", ["part_id"], name: "index_auction_parts_on_part_id", using: :btree
 
   create_table "auctions", force: :cascade do |t|
     t.integer  "company_id"
@@ -34,7 +37,7 @@ ActiveRecord::Schema.define(version: 20160303065116) do
     t.string   "part_num"
   end
 
-  add_index "auctions", ["company_id"], name: "index_auctions_on_company_id"
+  add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
 
   create_table "bids", force: :cascade do |t|
     t.decimal  "amount",            null: false
@@ -45,9 +48,9 @@ ActiveRecord::Schema.define(version: 20160303065116) do
     t.datetime "updated_at",        null: false
   end
 
-  add_index "bids", ["auction_id"], name: "index_bids_on_auction_id"
-  add_index "bids", ["company_id"], name: "index_bids_on_company_id"
-  add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id"
+  add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
+  add_index "bids", ["company_id"], name: "index_bids_on_company_id", using: :btree
+  add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "name",            null: false
@@ -57,8 +60,8 @@ ActiveRecord::Schema.define(version: 20160303065116) do
     t.datetime "updated_at",      null: false
   end
 
-  add_index "companies", ["email"], name: "index_companies_on_email", unique: true
-  add_index "companies", ["name"], name: "index_companies_on_name", unique: true
+  add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree
+  add_index "companies", ["name"], name: "index_companies_on_name", unique: true, using: :btree
 
   create_table "inventory_parts", force: :cascade do |t|
     t.string   "part_num",     null: false
@@ -70,8 +73,8 @@ ActiveRecord::Schema.define(version: 20160303065116) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id"
-  add_index "inventory_parts", ["part_id"], name: "index_inventory_parts_on_part_id"
+  add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id", using: :btree
+  add_index "inventory_parts", ["part_id"], name: "index_inventory_parts_on_part_id", using: :btree
 
   create_table "parts", force: :cascade do |t|
     t.string   "description",        null: false
