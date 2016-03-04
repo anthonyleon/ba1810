@@ -4,12 +4,13 @@ class InventoryPartsController < ApplicationController
   # GET /inventory_parts
   # GET /inventory_parts.json
   def index
-    @inventory_parts = InventoryPart.all
+    @inventory_parts = current_user.inventory_parts
   end
 
   # GET /inventory_parts/1
   # GET /inventory_parts/1.json
   def show
+
   end
 
   # GET /inventory_parts/new
@@ -83,6 +84,6 @@ class InventoryPartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_part_params
-      params.require(:inventory_part).permit(:part_num, :description, :manufacturer, :company_id, :part_id)
+      params.require(:inventory_part).permit(:part_num, :description, :manufacturer, :company_id, :part_id, :serial_num)
     end
 end

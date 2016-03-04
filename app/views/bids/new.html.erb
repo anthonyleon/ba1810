@@ -1,13 +1,35 @@
 <h1>New Bid</h1>
 
-<% @parts = current_user.inventory_parts %>
-<% @match_parts = @parts.where(part_num: @auction.part_num) %>
-  <%= @match_part.each do |part| %>
-    <%= render part %>
-  <% end %>
+<div class='container'>
+  <div class="tables">
+    <p>
+      <label for="search">
+        <strong>Enter Part Number or Serial Number to Search Inventory </strong>
+      </label>
+      <input type="text" id="search">
+    </p>
 
-  
-<%= render 'form' %>
+    <table id="tblData">
+      <thead>
+        <tr>
+          <th>Part Number</th>
+          <th>Description</th>
+          <th>Serial Number</th>
+          <th>Manufacturer</th>
+        </tr>
+      </thead>
 
-
-<%= link_to 'Back', bids_path %>
+      <tbody>
+        <% @match_parts.each do |inventory| %>
+          <tr>
+            <td><%= inventory.part_num%></td>
+            <td><%= inventory.description %></td>
+            <td><%= inventory.serial_num %></td>
+            <td><%= inventory.manufacturer %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+  <%= render 'form' %>
