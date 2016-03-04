@@ -15,6 +15,7 @@ class CompaniesController < ApplicationController
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
+    @possible_auctions = get_possible_auctions
   end
 
   # GET /companies/new
@@ -70,6 +71,21 @@ class CompaniesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_company
       @company = Company.find(params[:id])
+    end
+
+    def get_possible_auctions
+      possible_auctions = []
+
+      current_user.inventory_parts.each do |inv_part|
+        if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
+          @auction_parts.each do |auct_part|
+            possible_auctions << auct_part.auction
+          end
+        end
+      end
+      p possible_auctions
+      p possible_auctions.uniq!
+      possible_auctions.uniq!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
