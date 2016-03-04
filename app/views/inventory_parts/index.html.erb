@@ -27,6 +27,10 @@
               <td><%= inventory.description %></td>
               <td><%= inventory.serial_num %></td>
               <td><%= inventory.manufacturer %></td>
+              <td class= "srchtbl"><%= inventory.part_num%></td>
+              <td class= "srchtbl"><%= inventory.description %></td>
+              <td class= "srchtbl"><%= inventory.serial_num %></td>
+              <td class= "srchtbl"><%= inventory.manufacturer %></td>
               <td><%= link_to 'Show', @inventory_part %></td>
               <td><%= link_to 'Destroy', @inventory_part, method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
