@@ -29,11 +29,11 @@
     </tbody>
   </table>
 
-  
+
 </div>
 
 <% unless @auction.company == current_user %>
   <%= link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn btn-primary' %>
 <% end %>
 <%= link_to 'Edit', edit_auction_path(@auction), class: 'btn btn-primary' %>
-<%= link_to 'Back', auctions_path, class: 'btn btn-primary' %>
+<%= link_to 'Back', company_path, class: 'btn btn-primary' %>
