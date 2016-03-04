@@ -66,7 +66,7 @@ class InventoryPartsController < ApplicationController
   def destroy
     @inventory_part.destroy
     respond_to do |format|
-      format.html { redirect_to inventory_parts_url, notice: 'Inventory part was successfully destroyed.' }
+      format.html { redirect_to inventory_parts_path, notice: 'Inventory part was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
