@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>Amount:</th>
+      <th>Company:</th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td><%= number_to_currency bid.amount %></td>
+        <td><%= bid.company.name %></td>
+        <% unless @auction.company == current_user %>
+          <td><%= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }  %></td>
+        <% end %>
+      </tr>
+  </tbody>
+</table>
