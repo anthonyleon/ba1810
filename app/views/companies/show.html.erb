@@ -38,4 +38,17 @@
   <% end %>
 </div>
 
+<div id="bid_list" class="col-md-6 clearfix">
+  <h2>Your bids:</h2>
+  <% unless @possible_auctions.nil? %>
+
+    <% @possible_auction.each do |auction| %>
+      <%= link_to auction do %>
+        <%= render auction %>
+      <% end %>
+    <% end %>
+
+  <% end %>
+</div>
+
 
