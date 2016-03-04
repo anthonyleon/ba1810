@@ -1,6 +1,9 @@
 <td><%= number_to_currency bid.amount %></td>
 <td><%= bid.company.name %></td>
 <td><%= bid.inventory_part.part_num %></td>
+<td><%= bid.inventory_part.description %></td>
+<td><%= bid.inventory_part.serial_num %></td>
+<td><%= bid.inventory_part.manufacturer %></td>
 <% unless @auction.company == current_user %>
 <td><%= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }  %></td>
 <% end %>
