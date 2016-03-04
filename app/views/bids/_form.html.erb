@@ -15,7 +15,11 @@
     <%= f.label :amount %><br>
     <%= f.text_field :amount %>
   </div>
-  
+
+  <div class="field">
+    <%= f.hidden_field :inventory_part_id %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
