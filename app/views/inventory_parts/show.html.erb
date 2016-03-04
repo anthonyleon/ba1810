@@ -1,19 +1,27 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <h3>Part num:</h3>
-  <%= @inventory_part.part_num %>
-</p>
+<table>
+  <thead>
+    <tr>
+      <th>Part Number</th>
+      <th>Description</th>
+      <th>Serial Number</th>
+      <th>Manufacturer</th>
+    </tr>
+  </thead>
 
-<p>
-  <h3>Description:</h3>
-  <%= @inventory_part.description %>
-</p>
+  <tbody>
+    <% @inventory_part.each do |inventory| %>
+      <tr>
+        <td><%= inventory.part_num%></td>
+        <td><%= inventory.description %></td>
+        <td><%= inventory.serial_num %></td>
+        <td><%= inventory.manufacturer %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<p>
-  <h3>Manufacturer:</h3>
-  <%= @inventory_part.manufacturer %>
-</p>
 
 <%= link_to 'Edit', edit_inventory_part_path(@inventory_part) %> |
 <%= link_to 'Back', inventory_parts_path %>
