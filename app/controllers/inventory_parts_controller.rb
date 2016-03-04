@@ -27,11 +27,12 @@ class InventoryPartsController < ApplicationController
     @inventory_part = InventoryPart.new(inventory_part_params)
     @part_match = Part.find_by(part_num: @inventory_part.part_num)
     if @part_match
+      p @part_match
       build_inv_part @part_match, @inventory_part
       @inventory_part.part = @part_match
       @inventory_part.company = current_user
     else
-      render :new, notice: "Couldn't find part in out database"
+      redirect_to new_inventory_part_path, notice: "Couldn't find part in out database"
     end
 
     respond_to do |format|
