@@ -1,19 +1,27 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <h3>Part num:</h3>
-  <%= @inventory_part.part_num %>
-</p>
+<div class="container">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Part Number</th>
+        <th>Description</th>
+        <th>Serial Number</th>
+        <th>Manufacturer</th>
+      </tr>
+    </thead>
 
-<p>
-  <h3>Description:</h3>
-  <%= @inventory_part.description %>
-</p>
-
-<p>
-  <h3>Manufacturer:</h3>
-  <%= @inventory_part.manufacturer %>
-</p>
+    <tbody>
+      <% @inventory_part %>
+        <tr>
+          <td><%= @inventory_part.part_num%></td>
+          <td><%= @inventory_part.description %></td>
+          <td><%= @inventory_part.serial_num %></td>
+          <td><%= @inventory_part.manufacturer %></td>
+        </tr>
+    </tbody>
+  </table>
+</div>
 
 <%= link_to 'Edit', edit_inventory_part_path(@inventory_part) %> |
 <%= link_to 'Back', inventory_parts_path %>

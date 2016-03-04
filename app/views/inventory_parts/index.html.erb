@@ -26,14 +26,14 @@
               <td class= "srchtbl"><%= inventory.description %></td>
               <td class= "srchtbl"><%= inventory.serial_num %></td>
               <td class= "srchtbl"><%= inventory.manufacturer %></td>
-              <td><%= link_to 'Show', @inventory_part %></td>
-              <td><%= link_to 'Destroy', @inventory_part, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <td><%= link_to 'Show', inventory_part_url(inventory) %></td>
+              <td><%= link_to 'Destroy', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
-  </div>
+
 <br>
 
 <%= link_to 'New Inventory part', new_inventory_part_path, class: 'btn btn-primary' %>
