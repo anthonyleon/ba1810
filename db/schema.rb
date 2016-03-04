@@ -15,11 +15,13 @@ ActiveRecord::Schema.define(version: 20160303065116) do
 
   create_table "auction_parts", force: :cascade do |t|
     t.string   "part_num"
+    t.string   "description"
+    t.string   "manufacturer"
     t.decimal  "init_price"
     t.integer  "part_id"
     t.integer  "auction_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "auction_parts", ["auction_id"], name: "index_auction_parts_on_auction_id"
