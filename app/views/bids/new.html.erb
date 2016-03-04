@@ -20,7 +20,7 @@
 
       <tbody>
         <% @match_parts.each do |inventory| %>
-          <tr>
+          <tr data-inventory-part-id="#{inventory.id}">
             <td class= "srchtbl"><%= inventory.part_num%></td>
             <td class= "srchtbl"><%= inventory.description %></td>
             <td class= "srchtbl"><%= inventory.serial_num %></td>
