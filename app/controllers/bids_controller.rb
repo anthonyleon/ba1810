@@ -1,6 +1,6 @@
 class BidsController < ApplicationController
   before_action :set_bid, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_auction, only: [:new, :create, :destroy]
   # GET /bids
   # GET /bids.json
   def index
@@ -15,6 +15,9 @@ class BidsController < ApplicationController
   # GET /bids/new
   def new
     @bid = Bid.new
+    @parts = current_user.inventory_parts
+    @match_parts = @parts.where(part_num: @auction.part_num)
+
   end
 
   # GET /bids/1/edit
@@ -28,7 +31,7 @@ class BidsController < ApplicationController
 
     respond_to do |format|
       if @bid.save
-        format.html { redirect_to @bid, notice: 'Bid was successfully created.' }
+        format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
         format.html { render :new }
@@ -70,5 +73,9 @@ class BidsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def bid_params
       params.require(:bid).permit(:amount, :company_id, :auction_id, :inventory_part_id)
+    end
+
+    def set_auction
+      @auction = Auction.find(params[:auction_id])
     end
 end

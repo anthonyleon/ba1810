@@ -26,16 +26,16 @@ class AuctionsController < ApplicationController
   # POST /auctions.json
   def create
     @auction = Auction.new(auction_params)
-    if @part_match = Part.find_by(part_num: @auction.part_num)
-      @auction_part = AuctionPart.new(
-        part_num: @part_match.part_num, 
-        init_price: @part_match.manufacturer_price,
-        description: @part_match.description,
-        manufacturer: @part_match.manufacturer
-      )
-    else
-      render :new, notice: "Couldn't find part in our database"
-    end
+      if @part_match = Part.find_by(part_num: @auction.part_num)
+        @auction_part = AuctionPart.new(
+          part_num: @part_match.part_num,
+          init_price: @part_match.manufacturer_price,
+          description: @part_match.description,
+          manufacturer: @part_match.manufacturer
+        )
+      else
+        render :new, notice: "Couldn't find part in our database"
+      end
 
     respond_to do |format|
       if @auction.save && @auction_part.save
