@@ -15,6 +15,8 @@ class BidsController < ApplicationController
   # GET /bids/new
   def new
     @bid = Bid.new
+    @parts = current_user.inventory_parts
+    @match_parts = @parts.where(part_num: @auction.part_num)
   end
 
   # GET /bids/1/edit
