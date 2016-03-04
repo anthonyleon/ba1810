@@ -10,8 +10,14 @@
 </div>
 
 
+<h2> Bids </h2>
+
+<% @auction.bids.each do |bid| %>
+  <%= render bid %>
+<% end %>
+
 <% unless @auction.company == current_user %>
   <%= link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn btn-primary' %>
 <% end %>
-<%= link_to 'Edit', edit_auction_path(@auction), class: 'btn btn-primary' %> 
+<%= link_to 'Edit', edit_auction_path(@auction), class: 'btn btn-primary' %>
 <%= link_to 'Back', auctions_path, class: 'btn btn-primary' %>
