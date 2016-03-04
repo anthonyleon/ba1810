@@ -1,27 +1,27 @@
 <p id="notice"><%= notice %></p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Part Number</th>
-      <th>Description</th>
-      <th>Serial Number</th>
-      <th>Manufacturer</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @inventory_part.each do |inventory| %>
+<div class="container">
+  <table class="table table-hover">
+    <thead>
       <tr>
-        <td><%= inventory.part_num%></td>
-        <td><%= inventory.description %></td>
-        <td><%= inventory.serial_num %></td>
-        <td><%= inventory.manufacturer %></td>
+        <th>Part Number</th>
+        <th>Description</th>
+        <th>Serial Number</th>
+        <th>Manufacturer</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @inventory_part %>
+        <tr>
+          <td><%= @inventory_part.part_num%></td>
+          <td><%= @inventory_part.description %></td>
+          <td><%= @inventory_part.serial_num %></td>
+          <td><%= @inventory_part.manufacturer %></td>
+        </tr>
+    </tbody>
+  </table>
+</div>
 
 <%= link_to 'Edit', edit_inventory_part_path(@inventory_part) %> |
 <%= link_to 'Back', inventory_parts_path %>
