@@ -11,7 +11,7 @@
 </div>
 
 
-<div id="auction_list" class="col-md-6 clearfix">
+<div id="auction_list" class="col-md-4 clearfix">
   <h2>Your auctions:</h2>
   <% unless @buyer_auctions.nil? %>
 
@@ -25,7 +25,7 @@
   <% end %>
 </div>
 
-<div id="bid_list" class="col-md-6 clearfix">
+<div id="bid_list" class="col-md-4 clearfix">
   <h2>Your bids:</h2>
   <% unless @supplier_auctions.nil? %>
 
@@ -38,11 +38,11 @@
   <% end %>
 </div>
 
-<div id="bid_list" class="col-md-6 clearfix">
-  <h2>Your bids:</h2>
-  <% unless @possible_auctions.nil? %>
+<div id="bid_list" class="col-md-4 clearfix">
+  <h2>You could be interested in:</h2>
+  <% unless @possible_auctions.empty? %>
 
-    <% @possible_auction.each do |auction| %>
+    <% @possible_auctions.each do |auction| %>
       <%= link_to auction do %>
         <%= render auction %>
       <% end %>
