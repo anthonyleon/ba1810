@@ -21,10 +21,6 @@
       <tbody>
         <% @match_parts.each do |inventory| %>
           <tr>
-            <td><%= inventory.part_num%></td>
-            <td><%= inventory.description %></td>
-            <td><%= inventory.serial_num %></td>
-            <td><%= inventory.manufacturer %></td>
             <td class= "srchtbl"><%= inventory.part_num%></td>
             <td class= "srchtbl"><%= inventory.description %></td>
             <td class= "srchtbl"><%= inventory.serial_num %></td>
