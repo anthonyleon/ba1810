@@ -17,6 +17,7 @@ class BidsController < ApplicationController
     @bid = Bid.new
     @parts = current_user.inventory_parts
     @match_parts = @parts.where(part_num: @auction.part_num)
+    @inventory = @match_parts.ids
 
   end
 
