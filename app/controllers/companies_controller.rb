@@ -15,7 +15,8 @@ class CompaniesController < ApplicationController
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
-    @possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
+    possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
+    @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
   end
 
   # GET /companies/new
