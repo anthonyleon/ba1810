@@ -30,21 +30,22 @@ class AuctionsController < ApplicationController
 
     respond_to do |format|
       if @part_match
-        @auction_part = AuctionPart.new(
-          part_num: @part_match.part_num,
-          init_price: @part_match.manufacturer_price,
-          description: @part_match.description,
-          manufacturer: @part_match.manufacturer
-        )
-        @auction.save && @auction_part.save
+          @auction_part = AuctionPart.new(
+            part_num: @part_match.part_num,
+            init_price: @part_match.manufacturer_price,
+            description: @part_match.description,
+            manufacturer: @part_match.manufacturer
+          )
+
+          # @auction.save && @auction_part.save
           @part_match.auction_parts << @auction_part
           @auction.auction_part = @auction_part
           current_user.auctions << @auction
-
-        format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
-        format.json { render :show, status: :created, location: @auction }
+          @auction.save && @auction_part.save
+          format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
+          format.json { render :show, status: :created, location: @auction }
       else
-        format.html { render :new }
+        format.html { redirect_to new_auction_path, notice: 'That part does not exist in our database.' }
       end
     end
   end
