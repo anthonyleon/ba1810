@@ -27,6 +27,16 @@ class CompaniesController < ApplicationController
   def edit
   end
 
+  def confirm_email
+    company = Company.find_by(confirm_token: params[:id])
+    if company
+      company.email_activate
+      redirect_to login_path, notice: 'Welcome to bid.aero, your email has been confirmed'
+    else
+      redirect_to root_path, notice: 'Sorry, company does not exist'
+    end
+  end
+
   # POST /companies
   # POST /companies.json
   def create

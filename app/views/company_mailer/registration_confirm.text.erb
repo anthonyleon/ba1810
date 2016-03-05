@@ -1,3 +1,4 @@
-CompanyMailer#registration_confirm
+Welcome to bid.aero <%= @company.name %>
 
-<%= @greeting %>, find me in app/views/company_mailer/registration_confirm.text.erb
+Please click the link belot to complete your registration.
+<%= company_confirm_email_url(@comopany.confirm_token) %>
