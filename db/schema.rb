@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 20160304223421) do
     t.integer  "part_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "serial_num"
+    t.string   "serial_num",   null: false
   end
 
   add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id", using: :btree
