@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160304223421) do
+ActiveRecord::Schema.define(version: 20160305225926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20160304223421) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "part_num"
+    t.boolean  "active"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -53,11 +54,13 @@ ActiveRecord::Schema.define(version: 20160304223421) do
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
-    t.string   "name",            null: false
-    t.string   "email",           null: false
-    t.string   "password_digest", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "name",                            null: false
+    t.string   "email",                           null: false
+    t.string   "password_digest",                 null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "email_confirmed", default: false
+    t.string   "confirm_token"
   end
 
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree
@@ -81,7 +84,7 @@ ActiveRecord::Schema.define(version: 20160304223421) do
     t.integer  "part_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "serial_num",   null: false
+    t.string   "serial_num"
   end
 
   add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id", using: :btree
