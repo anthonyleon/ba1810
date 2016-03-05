@@ -6,10 +6,4 @@ class Company < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 8 }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true
-
-  before_save :check_values
-
-  def check_values
-    raise self
-  end
 end
