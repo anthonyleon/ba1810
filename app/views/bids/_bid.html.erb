@@ -4,7 +4,10 @@
 <td><%= bid.inventory_part.serial_num %></td>
 <td><%= bid.inventory_part.manufacturer %></td>
 <td><%= number_to_currency bid.amount %></td>
+<% if @auction.company == current_user || bid.company == current_user %>
 <td><%= link_to 'Part Documents', inventory_part_path(bid.inventory_part,bid_id: bid.id) %></td>
+<% end %>
+
 <% if bid.company == current_user %>
   <td><%= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }  %></td>
 <% end %>
