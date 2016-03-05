@@ -15,10 +15,7 @@ class CompaniesController < ApplicationController
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
-    @possible_auctions = get_possible_auctions
-    p "*"*200
-    p "possible auctions"
-    p @possible_auctions
+    @possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
   end
 
   # GET /companies/new
@@ -82,24 +79,12 @@ class CompaniesController < ApplicationController
       @parts = current_user.inventory_parts
 
       @parts.each do |inv_part|
-        p "~"*200
-        p "inventory part's part id"
-        p inv_part.part_id
         if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
-          p "*"*200
-          p "auction part collection"
-          p @auction_parts
           @auction_parts.each do |auct_part|
-            p "~"*200
-            p "Auction part"
-            p auct_part
             possible_auctions << auct_part.auction
           end
         end
       end
-      p "*"*200
-      p "POSSIBLE AUCTIONS"
-      p possible_auctions
       possible_auctions
     end
 
