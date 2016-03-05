@@ -17,6 +17,7 @@ class CompaniesController < ApplicationController
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
     possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
     @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
+    @inactive_auctions = current_user.auctions.where(active: false)
   end
 
   # GET /companies/new
@@ -82,7 +83,7 @@ class CompaniesController < ApplicationController
       @parts.each do |inv_part|
         if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
           @auction_parts.each do |auct_part|
-            possible_auctions << auct_part.auction
+            possible_auctions << auct_part.auction.where(active: true)
           end
         end
       end
