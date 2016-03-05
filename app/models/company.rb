@@ -10,6 +10,6 @@ class Company < ActiveRecord::Base
   before_save :check_values
 
   def check_values
-    raise
+    raise self
   end
 end
