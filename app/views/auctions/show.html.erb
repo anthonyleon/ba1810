@@ -38,7 +38,8 @@
 
 <% if @auction.company == current_user %>
   <%= link_to 'Edit', edit_auction_path(@auction), class: 'btn btn-primary' %>
+  <%= link_to 'Destroy', auction_path , method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'%>
 <% else %>
   <%= link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn btn-primary' %>
 <% end %>
-<%= link_to 'Back to Company Dashboard', company_path, class: 'btn btn-primary' %>
+<%= link_to 'Back to Company Dashboard', company_path(current_user), class: 'btn btn-primary' %>
