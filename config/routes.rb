@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+
+  get 'documents/index'
+
+  get 'documents/new'
+
+  get 'documents/create'
+
   root 'session#new'
 
   get 'signup' => 'company#new'
@@ -6,7 +13,9 @@ Rails.application.routes.draw do
   post 'login' => 'session#create'
   get 'logout' => 'session#destroy'
 
-  resources :inventory_parts
+  resources :inventory_parts do
+    resources :documents, shallow: true
+  end
 
   resources :auctions do
     resources :auction_parts
