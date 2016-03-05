@@ -25,7 +25,7 @@
       </tr>
     </thead>
     <tbody>
-          <% @auction.bids.each do |bid| %>
+          <% @auction.bids.order(amount: :asc).each do |bid| %>
             <tr>
               <%= render bid %>
             </tr>
