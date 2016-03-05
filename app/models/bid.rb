@@ -9,7 +9,7 @@ class Bid < ActiveRecord::Base
       user_bids.each do |bid|
         auctions.push(bid.auction)
       end
-      auctions.uniq! unless auctions.nil?
+      auctions.uniq! || auctions
     end
   end
 end
