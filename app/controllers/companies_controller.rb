@@ -34,8 +34,9 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.save
-        session[:company_id] = @company.id
-        format.html { redirect_to @company, notice: 'Company was successfully created.' }
+        CompanyMailer.registration_confirm(@company).deliver
+        # session[:company_id] = @company.id
+        format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
         format.json { render :show, status: :created, location: @company }
       else
         format.html { render :new }
