@@ -2,7 +2,7 @@ class SessionController < ApplicationController
   skip_before_action :require_logged_in
 
   def new
-    redirect_to company_path(session[:company_id]) if current_user
+    redirect_to current_user if current_user
   end
 
   def create
