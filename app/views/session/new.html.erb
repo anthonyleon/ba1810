@@ -1,18 +1,18 @@
+<div class="container form-container">
 <h1>Log in</h1>
 <div><%= notice %></div>
-<%= form_for(:login, url: login_path) do |f| %>
-  <div>
-    <%= f.label :email %>
-    <%= f.text_field :email %>
+<%= form_for(:login, url: login_path, html: { class: "inline-form" }) do |f| %>
+  <div class="field form-group">
+    <%= f.text_field :email, class: "form-control", placeholder: "E-mail" %>
   </div>
-  <div>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
+  <div class="field form-group">
+    <%= f.password_field :password, class: "form-control", placeholder: "password" %>
   </div>
-  <div>
+  <div class="field form-group">
     <%= f.submit 'Submit', class: 'btn btn-primary' %>
   </div>
 <% end %>
 <div>
   <%= link_to 'Sign up', new_company_path, class: 'btn btn-primary' %>
+</div>
 </div>
