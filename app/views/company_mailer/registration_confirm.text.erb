@@ -1,4 +1,4 @@
 Welcome to bid.aero <%= @company.name %>
 
 Please click the link belot to complete your registration.
-<%= company_confirm_email_url(@comopany.confirm_token) %>
+<%= confirm_email_company_path(@company.confirm_token) %>
