@@ -10,7 +10,7 @@ class InventoryPartsController < ApplicationController
   # GET /inventory_parts/1
   # GET /inventory_parts/1.json
   def show
-
+    @document = Document.new
   end
 
   # GET /inventory_parts/new
@@ -27,22 +27,19 @@ class InventoryPartsController < ApplicationController
   def create
     @inventory_part = InventoryPart.new(inventory_part_params)
     @part_match = Part.find_by(part_num: @inventory_part.part_num)
-    if @part_match
-      p @part_match
-      build_inv_part @part_match, @inventory_part
-      @inventory_part.part = @part_match
-      @inventory_part.company = current_user
-    else
-      redirect_to new_inventory_part_path, notice: "Couldn't find part in out database"
-    end
 
     respond_to do |format|
-      if @inventory_part.save
+      if @part_match
+        build_inv_part(@part_match, @inventory_part)
+
+        @inventory_part.part = @part_match
+        @inventory_part.company = current_user
+        @inventory_part.save
+
         format.html { redirect_to @inventory_part, notice: 'Inventory part was successfully created.' }
         format.json { render :show, status: :created, location: @inventory_part }
       else
-        format.html { render :new }
-        format.json { render json: @inventory_part.errors, status: :unprocessable_entity }
+        format.html { redirect_to new_inventory_part_path }
       end
     end
   end
@@ -84,6 +81,6 @@ class InventoryPartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_part_params
-      params.require(:inventory_part).permit(:part_num, :description, :manufacturer, :company_id, :part_id, :serial_num)
+      params.require(:inventory_part).permit(:part_num, :description, :manufacturer, :company_id, :part_id, :serial_num, :document_id)
     end
 end
