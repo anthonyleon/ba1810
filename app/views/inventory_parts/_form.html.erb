@@ -1,3 +1,5 @@
+<p id="alert"><%= alert %></p>
+
 <%= form_for([@part, @inventory_part]) do |f| %>
   <% if @inventory_part.errors.any? %>
     <div id="error_explanation">

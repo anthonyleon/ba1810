@@ -34,12 +34,13 @@ class InventoryPartsController < ApplicationController
 
         @inventory_part.part = @part_match
         @inventory_part.company = current_user
-        @inventory_part.save
-
+        unless @inventory_part.save
+          format.html { render :new }
+        end
         format.html { redirect_to @inventory_part, notice: 'Inventory part was successfully created.' }
         format.json { render :show, status: :created, location: @inventory_part }
       else
-        format.html { redirect_to new_inventory_part_path }
+        format.html { redirect_to new_inventory_part_path, alert: 'Part Number was not valid.' }
       end
     end
   end
