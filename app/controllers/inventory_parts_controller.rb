@@ -10,6 +10,7 @@ class InventoryPartsController < ApplicationController
   # GET /inventory_parts/1
   # GET /inventory_parts/1.json
   def show
+    @bid = Bid.find(params[:bid_id])
     @document = Document.new
   end
 
