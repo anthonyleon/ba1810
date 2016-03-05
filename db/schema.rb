@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160304052149) do
+ActiveRecord::Schema.define(version: 20160304223421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,16 @@ ActiveRecord::Schema.define(version: 20160304052149) do
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree
   add_index "companies", ["name"], name: "index_companies_on_name", unique: true, using: :btree
 
+  create_table "documents", force: :cascade do |t|
+    t.string   "name"
+    t.string   "attachment"
+    t.integer  "inventory_part_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "documents", ["inventory_part_id"], name: "index_documents_on_inventory_part_id", using: :btree
+
   create_table "inventory_parts", force: :cascade do |t|
     t.string   "part_num",     null: false
     t.string   "description",  null: false
@@ -92,6 +102,7 @@ ActiveRecord::Schema.define(version: 20160304052149) do
   add_foreign_key "bids", "auctions"
   add_foreign_key "bids", "companies"
   add_foreign_key "bids", "inventory_parts"
+  add_foreign_key "documents", "inventory_parts"
   add_foreign_key "inventory_parts", "companies"
   add_foreign_key "inventory_parts", "parts"
 end
