@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+gem 'stripe'
 gem 'rails_12factor'
 gem 'carrierwave'
 gem 'hirb'
