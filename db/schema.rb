@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(version: 20160306001505) do
     t.integer  "auction_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "condition"
   end
 
   add_index "auction_parts", ["auction_id"], name: "index_auction_parts_on_auction_id", using: :btree
@@ -37,6 +36,7 @@ ActiveRecord::Schema.define(version: 20160306001505) do
     t.datetime "updated_at",                null: false
     t.string   "part_num"
     t.boolean  "active",     default: true, null: false
+    t.string   "condition"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
