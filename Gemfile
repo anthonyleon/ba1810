@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'mailgun_rails'
+gem 'figaro'
 gem 'rails_12factor'
 gem 'carrierwave'
 gem 'hirb'
