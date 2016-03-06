@@ -11,6 +11,11 @@ class AuctionsController < ApplicationController
   # GET /auctions/1.json
   def show
     @init_price = @auction.auction_part.init_price
+    @condition_ne = (@auction.condition_ne) ? 'New ': ""
+    @condition_oh = (@auction.condition_ne) ? 'Overhaul ': ""
+    @condition_sv = (@auction.condition_sv) ? 'Servicable ': ""
+    @condition_ar = (@auction.condition_ar) ? 'As Removed ': ""
+    @condition_sc = (@auction.condition_sc) ? 'Scrap ': ""
   end
 
   # GET /auctions/new
