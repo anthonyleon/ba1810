@@ -28,6 +28,8 @@ class CompaniesController < ApplicationController
   end
 
   def confirm_email
+    p "*"*500
+    p params
     company = Company.find_by(confirm_token: params[:id])
     if company
       company.email_activate

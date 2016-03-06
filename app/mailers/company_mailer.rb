@@ -1,4 +1,5 @@
 class CompanyMailer < ApplicationMailer
+  skip_before_action :requre_logged_in
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
