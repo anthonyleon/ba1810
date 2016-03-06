@@ -10,6 +10,10 @@ class InventoryPartsController < ApplicationController
   # GET /inventory_parts/1
   # GET /inventory_parts/1.json
   def show
+    unless params[:bid_id].nil?
+      @bid = Bid.find(params[:bid_id])
+    end
+
     @document = Document.new
   end
 

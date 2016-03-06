@@ -45,7 +45,7 @@ class AuctionsController < ApplicationController
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
-        format.html { redirect_to new_auction_path, notice: 'That part does not exist in our database.' }
+        format.html { redirect_to new_auction_path, alert: 'That part does not exist in our database.' }
       end
     end
   end
@@ -69,7 +69,7 @@ class AuctionsController < ApplicationController
   def destroy
     @auction.destroy
     respond_to do |format|
-      format.html { redirect_to auctions_url, notice: 'Auction was successfully destroyed.' }
+      format.html { redirect_to current_user, notice: 'Auction was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
