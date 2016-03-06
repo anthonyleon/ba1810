@@ -1,0 +1,15 @@
+<div id="auction_list" class="col-md-6 clearfix">
+  <h2>Your auctions:</h2>
+  <% unless @buyer_auctions.nil? %>
+
+    <% @buyer_auctions.each do |auction| %>
+      <%= link_to auction do %>
+        <%= render auction %>
+      <% end %>
+    <% end %>
+    <%= link_to 'New auction', new_auction_path, class: 'btn btn-primary' %>
+
+  <% end %>
+</div>
+
+
