@@ -15,22 +15,25 @@
  */
 
 body {
-  text-align: center;
+  font-family: Poppins, sans-serif !important;
+  margin: none;
+}
+
+input.btn {
+  color: #000;
 }
 
 a.btn {
   text-decoration: none;
-  color: #fff;
-}
-
-a.btn:visited {
-  color: #fff;
+  color: #000;
 }
 
 td {
   text-align: left;
 }
 
-div.form-container {
-  width: 20%;
+.btn, .btn.primary {
+  background: none !important;
 }
+
+
