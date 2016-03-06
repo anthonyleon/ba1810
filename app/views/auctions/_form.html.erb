@@ -16,6 +16,27 @@
     <%= f.text_field :part_num %>
   </div>
 
+  <div class="field">
+    <%= f.check_box(:condition_ne) %>
+    <%= label_tag "NE" %>
+  </div>
+  <div class="field">
+    <%= f.check_box(:condition_oh) %>
+    <%= label_tag "OH" %>
+  </div>
+  <div class="field">
+    <%= f.check_box(:condition_sv) %>
+    <%= label_tag "SV" %>
+  </div>
+  <div class="field">
+    <%= f.check_box(:condition_ar) %>
+    <%= label_tag "AR" %>
+  </div>
+  <div class="field">
+    <%= f.check_box(:condition_sc) %>
+    <%= label_tag "SC" %>
+  </div>
+
   <div class="actions">
     <%= f.submit 'Submit' %>
   </div>

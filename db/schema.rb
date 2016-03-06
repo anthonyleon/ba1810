@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160306001505) do
+ActiveRecord::Schema.define(version: 20160306195940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,11 +32,16 @@ ActiveRecord::Schema.define(version: 20160306001505) do
 
   create_table "auctions", force: :cascade do |t|
     t.integer  "company_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "part_num"
-    t.boolean  "active",     default: true, null: false
+    t.boolean  "active",       default: true, null: false
     t.string   "condition"
+    t.boolean  "condition_ne"
+    t.boolean  "condition_oh"
+    t.boolean  "condition_sv"
+    t.boolean  "condition_ar"
+    t.boolean  "condition_sc"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
