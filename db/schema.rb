@@ -54,11 +54,13 @@ ActiveRecord::Schema.define(version: 20160305225926) do
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
-    t.string   "name",            null: false
-    t.string   "email",           null: false
-    t.string   "password_digest", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "name",                            null: false
+    t.string   "email",                           null: false
+    t.string   "password_digest",                 null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "email_confirmed", default: false
+    t.string   "confirm_token"
   end
 
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree

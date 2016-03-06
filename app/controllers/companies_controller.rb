@@ -83,7 +83,7 @@ class CompaniesController < ApplicationController
       @parts.each do |inv_part|
         if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
           @auction_parts.each do |auct_part|
-            possible_auctions << auct_part.auction.where(active: true)
+            possible_auctions << auct_part.auction if auct_part.auction.active == true
           end
         end
       end
