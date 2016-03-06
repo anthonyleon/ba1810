@@ -29,7 +29,9 @@ class AuctionsController < ApplicationController
     @part_match = Part.find_by(part_num: @auction.part_num)
 
     respond_to do |format|
+
       if @part_match
+
           @auction_part = AuctionPart.new(
             part_num: @part_match.part_num,
             init_price: @part_match.manufacturer_price,
@@ -82,6 +84,6 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num)
+      params.require(:auction).permit(:company_id, :part_num, :condition_ne, :condition_oh, :condition_sv, :condition_ar, :condition_sc)
     end
 end

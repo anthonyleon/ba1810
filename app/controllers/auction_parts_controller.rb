@@ -70,6 +70,6 @@ class AuctionPartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_part_params
-      params.require(:auction_part).permit(:part_num, :init_price, :part_id, :auction_id)
+      params.require(:auction_part).permit(:part_num, :init_price, :part_id, :auction_id, :condition)
     end
 end
