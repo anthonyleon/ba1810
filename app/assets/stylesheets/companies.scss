@@ -6,13 +6,22 @@
   margin: none;
   padding: none;
   background-image: url("bkg-plane.jpeg");
+  background-size: 100% auto;
   height: 100vh;
+  text-align: center;
 
   #signup {
-    width: 50%;
+    width: 45%;
     margin: 0 auto;
+    padding-bottom: 3em;
     background: #fff;
   }
+
+  .form-container {
+    margin: auto;
+    width: 70%;
+  }
+
 }
 
 #auction-partial {
@@ -77,12 +86,6 @@ main {
   h1 {
     font-size: 3em;
     color: #fff;
-  }
-
-  #dashboard-auctions {
-    div {
-      display: none;
-    }
   }
 }
 
