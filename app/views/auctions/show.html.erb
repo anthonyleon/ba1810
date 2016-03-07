@@ -1,13 +1,19 @@
 <p id="notice"><%= notice %></p>
 
+
 <div>
   <h1>Part Number being Auctioned:</h1>
   <%= @auction.part_num %>
 </div>
-<div>
 
 
-
+<div class= "container">
+  <p class= "text-center">
+    <h1>Part number:</h1>
+    <%= @auction.part_num %>
+  </p>
+</div>
+<div class= "container">
   <h1>Acceptable Conditions:</h1>
   <p>
     <%= @condition_ne %>
@@ -17,23 +23,25 @@
     <%= @condition_sc %>
   </p>
 </div>
-<div>
+<div class= "container">
   <h1>Initial Price:</h1>
 
   <%= number_to_currency @init_price %>
 </div>
 
-
-<h2> Bids </h2>
+<div class= "center-block">
+  <h2> Bids </h2>
+</div>
 
 <div class="container">
-  <table class="table table-hover">
+  <table class="table table-hover.table-condensed">
     <thead>
       <tr>
         <th>Company</th>
         <th>Part number</th>
         <th>Description</th>
         <th>Serial Number</th>
+        <th>Condition</th>
         <th>Manufacturer</th>
         <th>Amount</th>
       </tr>
@@ -46,14 +54,30 @@
           <% end %>
     </tbody>
   </table>
-
-
 </div>
 
 <% if @auction.company == current_user %>
-  <%= link_to 'Edit', edit_auction_path(@auction), class: 'btn btn-primary' %>
-  <%= link_to 'Destroy', auction_path , method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'%>
+  <%= link_to 'Edit Auction Details', edit_auction_path(@auction), class: 'btn btn-primary' %>
+  <%= link_to 'Delete Auction', auction_path , method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'%>
 <% else %>
   <%= link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn btn-primary' %>
 <% end %>
 <%= link_to 'Back to Company Dashboard', company_path(current_user), class: 'btn btn-primary' %>
+
+<footer class="footer">
+  <div class= "container">
+    <p class= "footer-inline">
+      <address>
+        <strong>Bid.aero, LLC</strong><br>
+        13611 South Dixie HWY<br>
+        Suite 109-539<br>
+        Miami, Florida 33176<br>
+      </address>
+
+      <address>
+        <strong>Contact Bid.aero</strong><br>
+          <a href="mailto:info@bid-aero.com">info@bid-aero.com</a>
+      </address>
+    </p>
+  </div>
+</footer>
