@@ -14,6 +14,7 @@
           <th>Part Number</th>
           <th>Description</th>
           <th>Serial Number</th>
+          <th>Condition</th>
           <th>Manufacturer</th>
         </tr>
       </thead>
@@ -24,6 +25,7 @@
             <td class= "srchtbl"><%= inventory.part_num%></td>
             <td class= "srchtbl"><%= inventory.description %></td>
             <td class= "srchtbl"><%= inventory.serial_num %></td>
+            <td class= "srchtbl"><%= inventory.condition %></td>
             <td class= "srchtbl"><%= inventory.manufacturer %></td>
           </tr>
         <% end %>
