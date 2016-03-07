@@ -1,4 +1,4 @@
-<div class="container form-container">
+<div class="form-container">
   <%= form_for(@company, html: { class: "inline-form" }) do |f| %>
   <% if @company.errors.any? %>
     <div id="error_explanation">
@@ -13,19 +13,15 @@
   <% end %>
 
   <div class="field form-group">
-    <%= f.label :name %><br>
     <%= f.text_field :name, class: 'form-control', placeholder: "Company name" %>
   </div>
   <div class="field form-group">
-    <%= f.label :email %><br>
     <%= f.text_field :email, class: 'form-control', placeholder: "E-mail" %>
   </div>
   <div class="field form-group">
-    <%= f.label :password %><br>
     <%= f.password_field :password, class: 'form-control', placeholder: "Password" %>
   </div>
   <div class="field form-group">
-    <%= f.label :password_confirmation %><br>
     <%= f.password_field :password_confirmation, class: 'form-control', placeholder: "Confirm password" %>
   </div>
   <div class="actions">
