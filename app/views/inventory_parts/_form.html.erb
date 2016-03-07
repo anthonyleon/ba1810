@@ -21,6 +21,27 @@
     <%= f.label :Serial_Number %><br>
     <%= f.text_field :serial_num %>
   </div>
+  <div class="field">
+    <%= f.radio_button(:condition, "NE") %>
+    <%= label_tag "New" %>
+  </div>
+  <div class="field">
+    <%= f.radio_button(:condition, "OH") %>
+    <%= label_tag "Over Haul" %>
+  </div>
+  <div class="field">
+    <%= f.radio_button(:condition, "SV") %>
+    <%= label_tag "Servicable" %>
+  </div>
+  <div class="field">
+    <%= f.radio_button(:condition, "AR") %>
+    <%= label_tag "As Removed" %>
+  </div>
+  <div class="field">
+    <%= f.radio_button(:condition, "SC") %>
+    <%= label_tag "Scrap" %>
+  </div>
+
   <div class="actions">
     <%= f.submit 'Submit', class: 'btn btn-primary' %>
   </div>
