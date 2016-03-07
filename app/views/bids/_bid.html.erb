@@ -11,5 +11,5 @@
 <% if bid.company == current_user %>
   <td><%= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }  %></td>
   <% else %>
-  <td><%= link_to 'Buy', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }  %></td>
+  <td><%= link_to 'Buy', auction_bid_path(@auction, bid), method: :show, data: { confirm: 'Are you sure you want to make this purchase?' }  %></td>
 <% end %>
