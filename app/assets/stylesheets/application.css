@@ -35,7 +35,7 @@ td {
 .btn, .btn.primary {
   background: none !important;
 }
-
+/** anthonys edit for footer
 footer {
     display: inline-block;
     position: absolute;
@@ -44,3 +44,4 @@ footer {
     height: 190px;
     background-color: #f5f5f5;
 }
+/**/
