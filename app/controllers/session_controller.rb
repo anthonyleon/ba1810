@@ -8,8 +8,13 @@ class SessionController < ApplicationController
   def create
     @company = Company.find_by_email(params[:login][:email]).try(:authenticate, params[:login][:password])
     if @company
-      session[:company_id] = @company.id
-      redirect_to @company
+      if @company.email_confirmed
+        session[:company_id] = @company.id
+        redirect_to @company
+      else
+        flash.now[:error] = "Please confirm your email by clicking the link sent to your email address"
+        render :new
+      end
     else
       redirect_to root_path, notice: "Wrong credentials"
     end
