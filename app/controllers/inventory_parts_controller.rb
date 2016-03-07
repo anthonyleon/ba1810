@@ -86,6 +86,6 @@ class InventoryPartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_part_params
-      params.require(:inventory_part).permit(:part_num, :description, :manufacturer, :company_id, :part_id, :serial_num, :document_id)
+      params.require(:inventory_part).permit(:part_num, :description, :manufacturer, :company_id, :part_id, :serial_num, :document_id, :condition)
     end
 end
