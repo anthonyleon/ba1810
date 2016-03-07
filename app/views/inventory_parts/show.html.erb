@@ -75,12 +75,17 @@
 <% end %>
 <br>
 
-<% if @bid %>
-  <% if @inventory_part.company == current_user %>
-    <%= link_to 'Edit', edit_inventory_part_path(@inventory_part) %> |
-    <%= link_to 'Back to Inventory', inventory_parts_path %> |
-    <%= link_to 'Back to Auction',auction_path(@bid.auction)%>
-  <% else %>
-    <%= link_to 'Back to Auction',auction_path(@bid.auction)%>
+<div>
+  <% if @bid %>
+    <% if @inventory_part.company == current_user %>
+      <%= link_to 'Edit', edit_inventory_part_path(@inventory_part), class: 'btn btn-primary' %>
+      <%= link_to 'Back to Inventory', inventory_parts_path, class: 'btn btn-primary' %>
+      <%= link_to 'Back to Auction', auction_path(@bid.auction), class: 'btn btn-primary' %>
+    <% else %>
+      <%= link_to 'Back to Auction', auction_path(@bid.auction), class: 'btn btn-primary' %>
+    <% end %>
+  <% elsif @inventory_part.company == current_user %>
+    <%= link_to 'Edit', edit_inventory_part_path(@inventory_part), class: 'btn btn-primary' %>
+    <%= link_to 'Back to Inventory', inventory_parts_path, class: 'btn btn-primary' %>
   <% end %>
-<% end %>
+</div>
