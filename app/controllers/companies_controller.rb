@@ -1,6 +1,6 @@
 class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
-  skip_before_action :require_logged_in, only: [:new, :create]
+  skip_before_action :require_logged_in, only: [:new, :create, :confirm_email]
 
   # GET /companies
   # GET /companies.json
@@ -17,6 +17,7 @@ class CompaniesController < ApplicationController
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
     possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
     @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
+    @inactive_auctions = current_user.auctions.where(active: false)
   end
 
   # GET /companies/new
@@ -28,6 +29,18 @@ class CompaniesController < ApplicationController
   def edit
   end
 
+  def confirm_email
+    p "*"*500
+    p params
+    company = Company.find_by(confirm_token: params[:format])
+    if company
+      company.email_activate
+      redirect_to login_path, notice: 'Welcome to bid.aero, your email has been confirmed'
+    else
+      redirect_to root_path, notice: 'Sorry, company does not exist'
+    end
+  end
+
   # POST /companies
   # POST /companies.json
   def create
@@ -35,8 +48,9 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.save
-        session[:company_id] = @company.id
-        format.html { redirect_to @company, notice: 'Company was successfully created.' }
+        CompanyMailer.registration_confirm(@company).deliver
+        # session[:company_id] = @company.id
+        format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
         format.json { render :show, status: :created, location: @company }
       else
         format.html { render :new }
@@ -82,7 +96,7 @@ class CompaniesController < ApplicationController
       @parts.each do |inv_part|
         if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
           @auction_parts.each do |auct_part|
-            possible_auctions << auct_part.auction
+            possible_auctions << auct_part.auction if auct_part.auction.active == true
           end
         end
       end

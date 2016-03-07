@@ -1,18 +1,35 @@
-<div class="container form-container">
-<h1>Log in</h1>
-<div><%= notice %></div>
-<%= form_for(:login, url: login_path, html: { class: "inline-form" }) do |f| %>
-  <div class="field form-group">
-    <%= f.text_field :email, class: "form-control", placeholder: "E-mail" %>
+<div id="login" class="col-md-3 clearfix">
+  <div class="form-container">
+  <button id="about" class="btn">About Bid.aero</button>
+  <h1>Log in</h1>
+    <div><%= notice %></div>
+    <%= form_for(:login, url: login_path, html: { class: "inline-form", id: "login-form" }) do |f| %>
+      <div class="field form-group">
+        <%= f.text_field :email, class: "form-control", placeholder: "E-mail" %>
+      </div>
+      <div class="field form-group">
+        <%= f.password_field :password, class: "form-control", placeholder: "password" %>
+      </div>
+      <div class="field form-group">
+        <%= f.submit 'Submit', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+    <div id="sign-up">
+      <p>Not a registered company?</p>
+      <%= link_to 'Sign up', new_company_path, class: 'btn btn-primary' %>
+    </div>
   </div>
-  <div class="field form-group">
-    <%= f.password_field :password, class: "form-control", placeholder: "password" %>
-  </div>
-  <div class="field form-group">
-    <%= f.submit 'Submit', class: 'btn btn-primary' %>
-  </div>
-<% end %>
-<div>
-  <%= link_to 'Sign up', new_company_path, class: 'btn btn-primary' %>
 </div>
+<div id="landing" class="col-md-9 clearfix">
+  <div class="about">
+    <div class="close">
+      <h2>&times;</h2>
+    </div>
+    <div class="text">
+      <h2>Bid.aero</h2>
+      <p>Gluten-free distillery readymade, mustache direct trade pinterest locavore synth drinking vinegar organic. Disrupt flannel plaid tousled +1 street art bushwick, iPhone sustainable bitters intelligentsia knausgaard banjo microdosing gochujang. Gochujang semiotics helvetica offal letterpress listicle viral, authentic scenester pour-over lo-fi keffiyeh skateboard actually kitsch. Austin DIY heirloom, beard microdosing deep v yr shoreditch XOXO man bun pinterest celiac gastropub kitsch listicle. Paleo heirloom shoreditch gluten-free meggings freegan, yuccie craft beer. Man braid master cleanse viral, occupy neutra cronut drinking vinegar chicharrones you probably haven't heard of them. Franzen health goth asymmetrical, fixie everyday carry lomo lo-fi intelligentsia you probably haven't heard of them.</p>
+    </div>  
+    
+  </div>
 </div>
+
