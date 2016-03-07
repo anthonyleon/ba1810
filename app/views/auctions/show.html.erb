@@ -5,7 +5,21 @@
   <%= @auction.part_num %>
 </div>
 <div>
+
   <h1>Manufacturer List Price:</h1>
+
+  <h1>Acceptable Conditions:</h1>
+  <p>
+    <%= @condition_ne %>
+    <%= @condition_oh %>
+    <%= @condition_sv %>
+    <%= @condition_ar %>
+    <%= @condition_sc %>
+  </p>
+</div>
+<div>
+  <h1>Initial Price:</h1>
+
   <%= number_to_currency @init_price %>
 </div>
 
