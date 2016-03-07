@@ -1,0 +1,22 @@
+<form action="" method="GET">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_GHSQ1SVwsKr7xQcMKMbYGh7h"
+    data-amount="2000"
+    data-description="$20.00"
+    data-locale="auto">
+  </script>
+</form>
+
+<%= form_tag charges_path do %>
+  <article>
+    <% if flash[:error].present? %>
+      <div id="error_explanation">
+        <p><%= flash[:error] %></p>
+      </div>
+    <% end %>
+    <label class="amount">
+      <span>Amount: $20.00</span>
+    </label>
+  </article>
+<% end %>

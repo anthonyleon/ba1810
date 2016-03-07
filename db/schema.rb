@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20160306195940) do
     t.boolean  "condition_sv"
     t.boolean  "condition_ar"
     t.boolean  "condition_sc"
-
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
