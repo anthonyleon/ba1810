@@ -1,3 +1,55 @@
 // Place all the styles related to the session controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#login-form {
+  margin: auto;
+  width: 70%;
+}
+
+#login {
+  padding-top: 10em;
+  height: 100vh;
+  
+  .form-container {
+    text-align: center;
+  }
+
+  #sign-up {
+    margin-top: 6em;
+  }
+
+  #about {
+    text-decoration: underline;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+#landing {
+  background-image: url("bkg-plane.jpeg");
+  background-size: auto 100%;
+  height: 100vh;
+
+  .about {
+    margin-top: 9em;
+    padding: 3em 0;
+    background: rgba(255, 255, 255, 0.4);
+    display: none;
+    width: 50%;
+  }
+
+  .close {
+    margin: -2em 1em;
+  }
+
+  .text {
+    width: 70%;
+    margin: auto;
+  }
+}
+
+
+
