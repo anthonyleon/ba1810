@@ -25,11 +25,11 @@
 }
 
 #auction-partial {
-  background: #f2f2f2;
-  margin: 1em;
+  background: #e6e6e6;
+  margin: 2em 1em;
   display: inline-block;
-  width: 13em;
-  height: 13em;
+  width: 16em;
+  height: 16em;
 
   .container {
     margin: 1em auto;
@@ -79,8 +79,32 @@ main {
   background-size: 100% auto; 
   background-attachment: fixed;
 
+  #dashboard-auctions {
+    padding: 2em;
+    min-height: 30em;
+    width: 85%;
+    margin: 0 auto;
+    background: #fff;
+  }
+
+  .white-btn {
+    background: #fff !important;
+    border: none;
+    display: inline-block;
+  }
+
   #company-name {
-    margin: 2em;
+    width: 85%;
+    margin: 0 auto;
+
+    .company-name {
+      float: left;
+    }
+
+    a {
+      margin-top: 2.4em;
+      float: right; 
+    }
   }
 
   h1 {
