@@ -1,3 +1,88 @@
 // Place all the styles related to the companies controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#signup-page {
+  margin: none;
+  padding: none;
+  background-image: url("bkg-plane.jpeg");
+  height: 100vh;
+
+  #signup {
+    width: 50%;
+    margin: 0 auto;
+    background: #fff;
+  }
+}
+
+#auction-partial {
+  background: #f2f2f2;
+  margin: 1em;
+  display: inline-block;
+  width: 13em;
+  height: 13em;
+
+  .container {
+    margin: 1em auto;
+  }
+}
+
+nav {
+  position: fixed;
+  background: #fff;
+  padding: 1em 0;
+  font-size: 1em;
+  width: 100%;
+  height: 4em;
+  display: flex !important;
+  flex-flow: row wrap;
+  justify-content: space-around;
+
+  a {
+    color: #333;
+    text-decoration: none;
+
+    &:hover {
+      color: #333;
+      border-bottom: 1px solid #333;
+      text-decoration: none;
+    }
+
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  div {
+    display: inline-block;
+    margin: 0.2em 1em;
+
+    &.active {
+      border-bottom: 1px solid #333;
+    }
+  }
+}
+
+main {
+  min-height: 100vh;
+  padding-top: 4em;
+  background-image: url("sky.jpeg");
+  background-size: 100% auto; 
+  background-attachment: fixed;
+
+  #company-name {
+    margin: 2em;
+  }
+
+  h1 {
+    font-size: 3em;
+    color: #fff;
+  }
+
+  #dashboard-auctions {
+    div {
+      display: none;
+    }
+  }
+}
+

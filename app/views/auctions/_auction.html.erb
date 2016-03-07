@@ -1,11 +1,13 @@
-<div>
-  <div>
-    <h2>Part Number:</h2>
-    <%= auction.part_num %>
-  </div>
+<div id="auction-partial">
+  <div class="container">
+    <div>
+      <h4>Part Number:</h4>
+      <%= auction.part_num %>
+    </div>
 
-  <div>
-    <h2>Starting Price:</h2>
-    <%= number_to_currency auction.auction_part.init_price %>
+    <div>
+      <h4>Starting Price:</h4>
+      <%= number_to_currency auction.auction_part.init_price %>
+    </div>
   </div>
 </div>

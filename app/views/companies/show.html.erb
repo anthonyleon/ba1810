@@ -1,21 +1,25 @@
-<p id="notice"><%= notice %></p>
+<nav>
+  <div class="nav-option" id="1"><img src="#" alt="Bid.aero logo"></div>
+  <div class="nav-option" id="2"><a href="#">My Auctions</a></div>
+  <div class="nav-option" id="3"><a href="#">My Bids</a></div>
+  <div class="nav-option" id="4"><a href="#">Requests</a></div>
+  <div class="nav-option" id="5"><a href="#">Closed</a></div>
+  <div>
+    <%= link_to "Log out", logout_path %>
+  </div>
+  <div>
+    <%= link_to 'Inventory', inventory_parts_path %>
+  </div>
 
-<div>
-  <%= link_to 'Edit', edit_company_path(@company), class: 'btn btn-primary' %>
-  <%= link_to 'Inventory', inventory_parts_path, class: 'btn btn-primary' %>
+</nav>
+<main class="clearfix">
+<div id="company-name"><h1><%= @company.name %></h1></div>
+<div id="dashboard-auctions">
+  <div id="buyer-auctions">this is a block of text that should show up when you click my auctions<%= render 'auctions/buyer_auctions' %></div>
+  <div id="supplier-auctions">this is a block of text that should show up when you click my bids<%= render 'auctions/supplier_auctions' %></div>
+  <div id="possible-auctions"><%= render 'auctions/possible_auctions' %></div>
+  <div id="inactive-auctions"><%= render 'auctions/inactive_auctions' %></div>
 </div>
-
-<div>
-  <h1><%= @company.name %></h1>
-</div>
-
-<div class="container">
-  <%= render 'auctions/buyer_auctions' %>
-  <%= render 'auctions/supplier_auctions' %>
-</div>
-<div class="container">
-  <%= render 'auctions/possible_auctions' %>
-  <%= render 'auctions/inactive_auctions' %>
-</div>
+</main>
 
 

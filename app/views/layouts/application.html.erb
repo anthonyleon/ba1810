@@ -19,10 +19,8 @@
 </head>
 <body>
   <% if current_user %>
-    <div id="logout">
-      <%= link_to 'Log out', logout_path, class: 'btn btn-primary' %>
-      <%= link_to 'Home', root_path, class: 'btn btn-primary' %>
-    </div>
+      <%# link_to 'Log out', logout_path, class: 'btn btn-primary' %>
+      <%# link_to 'Home', root_path, class: 'btn btn-primary' %>
   <% end %>
 
   <%= yield %>

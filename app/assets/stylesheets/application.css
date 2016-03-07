@@ -36,4 +36,10 @@ td {
   background: none !important;
 }
 
+.btn:hover {
+  color: #000 !important;
+  text-decoration: underline !important;
+}
+
+
 
