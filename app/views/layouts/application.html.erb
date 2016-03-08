@@ -18,12 +18,26 @@
 
 </head>
 <body>
-  <% if current_user %>
-      <%# link_to 'Log out', logout_path, class: 'btn btn-primary' %>
-      <%# link_to 'Home', root_path, class: 'btn btn-primary' %>
-  <% end %>
 
   <%= yield %>
+
+  <footer class="footer">
+    <div class= "container">
+      <p class= "footer-inline">
+        <address>
+          <strong>Bid.aero, LLC</strong><br>
+          13611 South Dixie HWY<br>
+          Suite 109-539<br>
+          Miami, Florida 33176<br>
+        </address>
+
+        <address>
+          <strong>Contact Bid.aero</strong><br>
+          <a href="mailto:info@bid-aero.com">info@bid-aero.com</a>
+        </address>
+      </p>
+    </div>
+  </footer>
 
 </body>
 </html>
