@@ -13,7 +13,7 @@
           <h2>Amount:</h2>
           <%= number_to_currency @bid.amount %>
         </p>
-        
+
         <p>
           <h2>Company:</h2>
           <%= @bid.company.name %>
@@ -22,14 +22,14 @@
           <script
           src="https://checkout.stripe.com/checkout.js" class="stripe-button"
           data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-          data-name="Stripe.com"
-          data-description="2 widgets"
-          data-amount="2000"
+          data-name= "From: <%= @bid.company.name %>"
+          data-description= "Part Number: <%= @bid.inventory_part.part_num %>"
+          data-amount= "<%= @bid.amount * 100 %>"
           data-locale="auto">
           </script>
         </form>
       </div>
-      
+
       <div class="col-md-6">
         <div class="container">
           <h4>Part: <%= @bid.inventory_part.description %></h4>
@@ -70,6 +70,6 @@
       </table>
 
       <% end %>
-      `</div>
+      </div>
     </div>
   </main>
