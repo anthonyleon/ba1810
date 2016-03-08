@@ -1,0 +1,17 @@
+<nav>
+  <div class="logo">
+    <div class="nav-option" id="1"><%= image_tag("bid-aero-logo.svg") %></div>
+  </div>
+  <div class="nav-links">
+    <div>
+      <%= link_to 'Dashboard', company_path(current_user) %>
+    </div>
+    <div>|</div>
+    <div>
+      <%= link_to "Log out", logout_path %>
+    </div>
+    <div>
+      <%= link_to 'Inventory', inventory_parts_path %>
+    </div>
+  </div>
+</nav>
