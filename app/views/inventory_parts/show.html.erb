@@ -1,86 +1,86 @@
 <%= render 'layouts/navbar' %>
+<main>
+  <div id="banner">
+    <h1>
+      <%= @inventory_part.description %>
+      <%= @inventory_part.serial_num %>
+    </h1>
+  </div>
 
-<div class="container">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Part Number</th>
-        <th>Description</th>
-        <th>Serial Number</th>
-        <th>Condition</th>
-        <th>Manufacturer</th>
-      </tr>
-    </thead>
+  <div id="main-container">
 
-    <tbody>
-      <% @inventory_part %>
-        <tr>
-          <td><%= @inventory_part.part_num%></td>
-          <td><%= @inventory_part.description %></td>
-          <td><%= @inventory_part.serial_num %></td>
-          <td><%= @inventory_part.condition %></td>
-          <td><%= @inventory_part.manufacturer %></td>
-        </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="container">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Download Link</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @inventory_part.documents.each do |document| %>
-        <tr>
-          <td><%= document.name %></td>
-          <td><%= link_to 'Download', document.attachment_url %></td>
-          <% if document.inventory_part.company == current_user %>
-            <td><%= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?' } %></td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-<% if @inventory_part.company == current_user %>
-  <% if !@document.errors.empty? %>
-    <div class="alert alert-error">
-      <ul>
-        <% @document.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
+    <div class="col-md-6">
+      <div class="container">
+        <h4>Part number: <%= @inventory_part.part_num%></h4>
+        <h4>Condition: <%= @inventory_part.condition %></h4>
+        <h4>Manufacturer: <%= @inventory_part.manufacturer %></h4>
+        <br>
+      </div>
     </div>
-  <% end %>
 
-  <div>
-    Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
-  </div>
+    <div class="col-md-6">
+      <% if @inventory_part.company == current_user %>
+      <% if !@document.errors.empty? %>
+      <div class="alert alert-error">
+        <ul>
+          <% @document.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
 
-  <div class="well">
-    <%= form_for ([@inventory_part, @document]), html: { multipart: true } do |f| %>
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-      <%= f.label :attachment %>
-      <%= f.file_field :attachment %>
-      <%= f.submit "Save" %>
-    <% end %>
-  </div>
-<% end %>
-<br>
+      
 
-<% if @bid %>
-  <% if @inventory_part.company == current_user %>
+      <div class="container">
+        <div>
+          Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
+        </div>
+        <br>
+        <%= form_for ([@inventory_part, @document]), html: { multipart: true, class: "form-inline" } do |f| %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Title" %>
+        <%= f.file_field :attachment %>
+        <%= f.submit "Upload", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+    <div class="col-md-12" id="documents">
+        <% if @inventory_part.documents.empty? %>
+        <p>There are no documents associated with this part.</p>
+        <% else %>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Download Link</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @inventory_part.documents.each do |document| %>
+            <tr>
+              <td><%= document.name %></td>
+              <td><%= link_to 'Download', document.attachment_url %></td>
+              <% if document.inventory_part.company == current_user %>
+              <td><%= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn' %></td>
+              <% end %>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <% end %>
+    </div>
+
+    <% if @bid %>
+    <% if @inventory_part.company == current_user %>
     <%= link_to 'Edit', edit_inventory_part_path(@inventory_part) %> |
     <%= link_to 'Back to Inventory', inventory_parts_path %> |
     <%= link_to 'Back to Auction',auction_path(@bid.auction)%>
-  <% else %>
+    <% else %>
     <%= link_to 'Back to Auction',auction_path(@bid.auction)%>
-  <% end %>
-<% end %>
+    <% end %>
+    <% end %>
+  </main>
