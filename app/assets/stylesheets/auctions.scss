@@ -19,3 +19,93 @@
 //     background-color: #f5f5f5;
 // }
 // 
+
+// #auction-show-background {
+//   background: url('sky.jpeg');
+//   background-size: 100% auto;
+//   height: 100vh;
+//   margin-top: -10px;
+// }
+
+nav {
+  z-index: 2;
+}
+
+main {
+  min-height: 100vh;
+  padding-top: 4em;
+  background-image: url("sky.jpeg");
+  background-size: 100% auto; 
+  background-attachment: fixed;
+  padding-bottom: 4em;
+
+  #banner {
+  width: 85%;
+  margin: 0 auto;
+
+    a {
+      margin-top: 2.4em;
+      float: right; 
+    }
+
+    p {
+      color: #fff;
+    }
+  }
+}
+
+#main-container {
+  padding: 2em;
+  min-height: 30em;
+  width: 85%;
+  margin: 0 auto;
+  background: #fff;
+}
+
+#bids-container {
+  margin: 3em 0;
+  clear: both;
+}
+
+.part-name {
+  display: inline-block;
+}
+
+#auction-buttons {
+  text-align: right;
+}
+
+.nobid {
+  margin-top: 7em;
+}
+
+#bids-container {
+  width: 90%;
+  margin-left: 1em;
+}
+
+#checkbox-group {
+  margin-left: 2em;
+  margin-bottom: 2em;
+  text-align: left;
+}
+
+.logo {
+  height: 3em;
+
+  img {
+    margin-top: -1em;
+    height: 4em;
+    width: auto;
+  }
+}
+
+
+
+
+
+
+
+
+
+
