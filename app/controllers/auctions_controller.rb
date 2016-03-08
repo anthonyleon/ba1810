@@ -6,7 +6,14 @@ class AuctionsController < ApplicationController
   def index
     @auctions = Auction.all
   end
-
+#
+  def set_auction_to_false
+    @auction = Auction.find(params[:id])
+    @auction.active = false
+    @auction.save
+    redirect_to company_path
+  end
+# 
   # GET /auctions/1
   # GET /auctions/1.json
   def show
