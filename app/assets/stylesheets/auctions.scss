@@ -20,7 +20,55 @@
 // }
 // 
 
-#auction-show-container {
-  background: url('sky.jpeg')
+// #auction-show-background {
+//   background: url('sky.jpeg');
+//   background-size: 100% auto;
+//   height: 100vh;
+//   margin-top: -10px;
+// }
+main {
+  min-height: 100vh;
+  padding-top: 4em;
+  background-image: url("sky.jpeg");
+  background-size: 100% auto; 
+  background-attachment: fixed;
+
+  #auction-banner {
+  width: 85%;
+  margin: 0 auto;
+
+    a {
+      margin-top: 2.4em;
+      float: right; 
+    }
+
+    p {
+      color: #fff;
+    }
+  }
 }
 
+#auction-container {
+  padding: 2em;
+  min-height: 30em;
+  width: 85%;
+  margin: 0 auto;
+  background: #fff;
+}
+
+#bids-container {
+  margin: 3em 0;
+  clear: both;
+}
+
+.part-name {
+  display: inline-block;
+}
+
+#auction-buttons {
+  text-align: right;
+}
+
+.nobid {
+  margin-top: 7em;
+}
