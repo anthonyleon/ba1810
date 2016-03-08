@@ -38,13 +38,13 @@
           <%= number_to_currency @init_price %>
         </div>
       </div>
-      
+
       <% if @auction.bids.empty? %>
         <div class="nobid text-center">
           <h4>There are no bids on this auction yet.</h4>
         </div>
       <% else %>
-        
+
         <div class="container" id="bids-container">
           <div>
             <h2> Bids </h2>
@@ -69,7 +69,7 @@
           </table>
         </div>
       <% end %>
-    
+
     </div>
   </main>
 </div>
