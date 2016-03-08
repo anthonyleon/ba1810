@@ -26,6 +26,11 @@
 //   height: 100vh;
 //   margin-top: -10px;
 // }
+
+nav {
+  z-index: 2;
+}
+
 main {
   min-height: 100vh;
   padding-top: 4em;
