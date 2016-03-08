@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   get 'login' => 'session#new'
   post 'login' => 'session#create'
   get 'logout' => 'session#destroy'
-
+#
+  get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
+# 
   resources :inventory_parts do
     resources :documents, shallow: true
   end
