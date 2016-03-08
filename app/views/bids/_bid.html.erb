@@ -11,7 +11,7 @@
 <% if bid.company == current_user %>
   <td><%= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }  %></td>
 <% elsif @auction.company == current_user %>
-  <td><%= link_to 'Buy Part', new_charge_path %></td>
+  <td><%= link_to 'Buy Part', auction_bid_path(@auction, bid) %></td>
     <% @auction.active = false %>
-     <% @auction.save %>
+    <% @auction.save %>
 <% end %>
