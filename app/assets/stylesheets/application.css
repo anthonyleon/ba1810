@@ -40,6 +40,9 @@ td {
   text-decoration: underline !important;
 }
 
+footer {
+  margin-top: 3em;
+}
 /** anthonys edit for footer
 footer {
     display: inline-block;
