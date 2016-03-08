@@ -1,42 +1,67 @@
-<p id="notice"><%= notice %></p>
-<h1>Inventory</h1>
-
-    <div class="container">
-      <p>
-        <label for="search">
-          <strong>Enter Part Number or Serial Number to Search Inventory</strong>
-        </label>
-        <input type="text" id="search">
-      </p>
-
-      <table id="tblData" class="table table-hover">
-        <thead>
-          <tr>
-            <th>Part Number</th>
-            <th>Description</th>
-            <th>Serial Number</th>
-            <th>Condition</th>
-            <th>Manufacturer</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @inventory_parts.each do |inventory| %>
-            <tr>
-              <td class= "srchtbl"><%= inventory.part_num%></td>
-              <td class= "srchtbl"><%= inventory.description %></td>
-              <td class= "srchtbl"><%= inventory.serial_num %></td>
-              <td class= "srchtbl"><%= inventory.condition %></td>
-              <td class= "srchtbl"><%= inventory.manufacturer %></td>
-              <td><%= link_to 'Show', inventory_part_url(inventory) %></td>
-              <td><%= link_to 'Destroy', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+<nav>
+  <div class="logo">
+    <div class="nav-option" id="1"><img src="#" alt="Bid.aero logo"></div>
+  </div>
+  <div class="nav-links">
+    <div>
+      <%= link_to 'Dashboard', company_path(current_user) %>
     </div>
+    <div>|</div>
+    <div>
+      <%= link_to "Log out", logout_path %>
+    </div>
+    <div>
+      <%= link_to 'Inventory', inventory_parts_path %>
+    </div>
+  </div>
+</nav>
 
-<br>
+<main>
 
-<%= link_to 'New Inventory part', new_inventory_part_path, class: 'btn btn-primary' %>
-<%= link_to 'Back', company_path(current_user), class: 'btn btn-primary' %>
+  <div class="clearfix" id="banner">
+    <div id="inventory">
+      <h1>Inventory</h1>
+    </div>
+    <%= link_to 'New Inventory part', new_inventory_part_path, class: 'btn btn-primary white-btn', id: "inventory-new" %>
+  </div>
+
+  <div id="main-container">
+
+    
+
+    <p>
+      <label for="search">
+        <strong>Enter Part Number or Serial Number to Search Inventory</strong>
+      </label>
+      <input type="text" id="search">
+    </p>
+  
+    <table id="tblData" class="table table-hover">
+      <thead>
+        <tr>
+          <th>Part Number</th>
+          <th>Description</th>
+          <th>Serial Number</th>
+          <th>Condition</th>
+          <th>Manufacturer</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <% @inventory_parts.each do |inventory| %>
+          <tr>
+            <td class= "srchtbl"><%= inventory.part_num%></td>
+            <td class= "srchtbl"><%= inventory.description %></td>
+            <td class= "srchtbl"><%= inventory.serial_num %></td>
+            <td class= "srchtbl"><%= inventory.condition %></td>
+            <td class= "srchtbl"><%= inventory.manufacturer %></td>
+            <td><%= link_to 'Show', inventory_part_url(inventory) %></td>
+            <td><%= link_to 'Destroy', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+
