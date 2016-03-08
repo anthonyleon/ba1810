@@ -3,8 +3,7 @@
 <main>
   <div id="banner" class="clearfix">
     <h1>
-      <%= @bid.inventory_part.description %>
-      <%= @bid.inventory_part.serial_num %>
+      Review your order
     </h1>
   </div>
   <div id="main-container">
@@ -33,7 +32,9 @@
       
       <div class="col-md-6">
         <div class="container">
-          <h4>Part number: <%= @bid.inventory_part.part_num%></h4>
+          <h4>Part: <%= @bid.inventory_part.description %></h4>
+          <h4>Part number: <%= @bid.inventory_part.part_num %></h4>
+          <h4>Serial number: <%= @bid.inventory_part.serial_num %></h4>
           <h4>Condition: <%= @bid.inventory_part.condition %></h4>
           <h4>Manufacturer: <%= @bid.inventory_part.manufacturer %></h4>
           <br>
