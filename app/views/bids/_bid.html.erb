@@ -8,31 +8,10 @@
 <% if @auction.company == current_user || bid.company == current_user %>
 <td><%= link_to 'Part Documents', inventory_part_path(bid.inventory_part,bid_id: bid.id) %></td>
 <% end %>
-<!-- < if @auction.company == current_user %>
-<td>< link_to 'Buy Part',  %></td>
-< end %> -->
+
 
 <% if bid.company == current_user %>
   <td><%= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }  %></td>
-  <% else %>
-  <td> <form action="" method="GET">
-    <script
-      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-      data-key="pk_test_GHSQ1SVwsKr7xQcMKMbYGh7h"
-      data-amount= "Amount due" <%= number_to_currency bid.amount %>
-      data-description= <%= number_to_currency bid.amount %>
-      data-locale="auto">
-    </script>
-  </form>
-
-  <%= form_tag charges_path do %>
-    <article>
-      <% if flash[:error].present? %>
-        <div id="error_explanation">
-          <p><%= flash[:error] %></p>
-        </div>
-      <% end %>
-    </article>
-  <% end %>
-</td>
+<% elsif @auction.company == current_user %>
+  <td><%= link_to 'Buy Part', new_charge_path %></td>
 <% end %>
