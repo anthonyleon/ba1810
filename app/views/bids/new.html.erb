@@ -1,36 +1,50 @@
-<h1>New Bid</h1>
 
-  <div class="container">
-    <p>
-      <label for="search">
-        <strong>Enter Part Number or Serial Number to Search Inventory </strong>
-      </label>
-      <input type="text" id="search">
-    </p>
+<div class="bid-form">
+  <h1>New Bid</h1>
+</div>
 
-    <table id="tblData" class="table table-hover">
-      <thead>
-        <tr>
-          <th>Part Number</th>
-          <th>Description</th>
-          <th>Serial Number</th>
-          <th>Condition</th>
-          <th>Manufacturer</th>
-        </tr>
-      </thead>
+<main>
 
-      <tbody>
-        <% @match_parts.each do |inventory| %>
-          <tr data-inventory-part-id="#{inventory.id}">
-            <td class= "srchtbl"><%= inventory.part_num%></td>
-            <td class= "srchtbl"><%= inventory.description %></td>
-            <td class= "srchtbl"><%= inventory.serial_num %></td>
-            <td class= "srchtbl"><%= inventory.condition %></td>
-            <td class= "srchtbl"><%= inventory.manufacturer %></td>
+  <div id="main-container">
+
+    <div id="bid-form">
+      <%= render 'form' %>
+    </div>
+    
+    <div class="container" id="bid-inventory">
+      <div>
+        <label for="search">
+          <p>Select the part you would like to offer in this bid:</p>
+        </label>
+        <input type="text" id="search" class="form-control", placeholder="Search inventory">
+      </div>
+    
+      <table id="tblData" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Part Number</th>
+            <th>Description</th>
+            <th>Serial Number</th>
+            <th>Condition</th>
+            <th>Manufacturer</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+    
+        <tbody>
+          <% @match_parts.each do |inventory| %>
+            <tr data-inventory-part-id="#{inventory.id}">
+              <td class= "srchtbl"><%= inventory.part_num%></td>
+              <td class= "srchtbl"><%= inventory.description %></td>
+              <td class= "srchtbl"><%= inventory.serial_num %></td>
+              <td class= "srchtbl"><%= inventory.condition %></td>
+              <td class= "srchtbl"><%= inventory.manufacturer %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <%= render 'form' %>
+</main>
+
+
