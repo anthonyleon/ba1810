@@ -1,9 +1,26 @@
-
-<div class="bid-form">
-  <h1>New Bid</h1>
-</div>
+<nav>
+  <div class="logo">
+    <div class="nav-option" id="1"><img src="#" alt="Bid.aero logo"></div>
+  </div>
+  <div class="nav-links">
+    <div>
+      <%= link_to 'Dashboard', company_path(current_user) %>
+    </div>
+    <div>|</div>
+    <div>
+      <%= link_to "Log out", logout_path %>
+    </div>
+    <div>
+      <%= link_to 'Inventory', inventory_parts_path %>
+    </div>
+  </div>
+</nav>
 
 <main>
+
+  <div class="clearfix" id="banner">
+    <h1>Place Bid</h1>
+  </div>
 
   <div id="main-container">
 
