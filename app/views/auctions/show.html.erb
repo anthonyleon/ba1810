@@ -61,7 +61,7 @@
             </thead>
             <tbody>
                   <% @auction.bids.order(amount: :asc).each do |bid| %>
-                    <tr>
+                    <tr id="cursor-row">
                       <%= render bid %>
                     </tr>
                   <% end %>
