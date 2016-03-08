@@ -1,21 +1,7 @@
 <div id="auction-show-background">
-  <nav>
-    <div class="logo">
-      <div class="nav-option" id="1"><img src="#" alt="Bid.aero logo"></div>
-    </div>
-    <div class="nav-links">
-      <div>
-        <%= link_to 'Dashboard', company_path(current_user) %>
-      </div>
-      <div>|</div>
-      <div>
-        <%= link_to "Log out", logout_path %>
-      </div>
-      <div>
-        <%= link_to 'Inventory', inventory_parts_path %>
-      </div>
-    </div>
-  </nav>
+
+  <%= render 'layouts/navbar' %>
+
   <main class="clearfix">
 
     <div id="banner" class="clearfix">
