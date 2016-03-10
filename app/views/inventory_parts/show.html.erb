@@ -30,7 +30,7 @@
       </div>
       <% end %>
 
-      
+
 
       <div class="container">
         <div>
@@ -76,12 +76,12 @@
 
 
     <% if @bid %>
-    <% if @inventory_part.company == current_user %>
-    <%= link_to 'Edit', edit_inventory_part_path(@inventory_part) %> |
-    <%= link_to 'Back to Inventory', inventory_parts_path %> |
-    <%= link_to 'Back to Auction',auction_path(@bid.auction)%>
-    <% else %>
-    <%= link_to 'Back to Auction',auction_path(@bid.auction)%>
-    <% end %>
+      <% if @inventory_part.company == current_user %>
+        <%= link_to 'Edit', edit_inventory_part_path(@inventory_part) %> |
+        <%= link_to 'Back to Inventory', inventory_parts_path %> |
+        <%= link_to 'Back to Auction',auction_path(@bid.auction)%>
+      <% else %>
+        <%= link_to 'Back to Auction',auction_path(@bid.auction)%>
+      <% end %>
     <% end %>
   </main>
