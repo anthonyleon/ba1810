@@ -85,7 +85,7 @@ main {
   min-height: 100vh;
   padding-top: 4em;
   background-image: image-url("sky.jpeg");
-  background-size: 100% auto;
+  background-size: 100% auto; 
   background-attachment: fixed;
 
   #dashboard-auctions {
@@ -112,7 +112,7 @@ main {
 
     a {
       margin-top: 2.4em;
-      float: right;
+      float: right; 
     }
   }
 
@@ -121,3 +121,4 @@ main {
     color: #fff;
   }
 }
+
