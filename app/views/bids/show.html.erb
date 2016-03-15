@@ -21,7 +21,7 @@
         <form action="/charges" method="POST">
           <script
           src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+          data-key="test key"
           data-name= "From: <%= @bid.company.name %>"
           data-description= "Part Number: <%= @bid.inventory_part.part_num %>"
           data-amount= "<%= @bid.amount * 100 %>"
