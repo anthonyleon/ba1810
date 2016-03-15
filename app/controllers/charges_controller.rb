@@ -11,7 +11,7 @@ class ChargesController < ApplicationController
 
     # Amount in cents
     @amount = 500
-    Stripe.api_key = 'sk_test_JaFXqkUnZAlFA2jNazzMGtlg'
+    Stripe.api_key = 'secret test key'
     token = params[:stripeToken]
     customer = Stripe::Customer.create(
       :email => params[:stripeEmail],
@@ -25,7 +25,7 @@ class ChargesController < ApplicationController
       :currency    => 'usd',
       :source => token
     )
-    
+
   rescue Stripe::CardError => e
     flash[:error] = e.message
     redirect_to company_path(current_user)
