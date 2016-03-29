@@ -6,9 +6,16 @@ class CompanyMailer < ApplicationMailer
   #
   #   en.company_mailer.registration_confirm.subject
   #
-  def registration_confirm company 
+  def registration_confirm company
     @company = company
 
     mail to: "#{@company.name} <#{@company.email}>", subject: "Confirm your registration with Bid.Aero"
+  end
+
+  def new_bids bid
+     @bid = bid
+     email = @bid.company.email
+
+    mail to: " <#{email}>", subject: "new bids in auction!"
   end
 end

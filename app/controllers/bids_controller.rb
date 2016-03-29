@@ -18,7 +18,6 @@ class BidsController < ApplicationController
     @parts = current_user.inventory_parts
     @match_parts = @parts.where(part_num: @auction.part_num)
     @inventory = @match_parts.ids
-
   end
 
   # GET /bids/1/edit
@@ -32,6 +31,7 @@ class BidsController < ApplicationController
     @bid.company = current_user
     respond_to do |format|
       if @bid.save
+        CompanyMailer.new_bids(@bid).deliver
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
