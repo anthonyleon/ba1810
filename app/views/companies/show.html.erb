@@ -14,6 +14,9 @@
     <div>
       <%= link_to 'Inventory', inventory_parts_path %>
     </div>
+    <div>
+      <%= link_to "Create your stripe account", "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_819iSAa0oVEdOFkQ7m5mgjOCHnmp90oj&scope=read_write" %>
+    </div>
   </div>
 </nav>
 
@@ -22,11 +25,11 @@
 
   <div id="company-name" class="clearfix">
     <div class="company-name"><h1><%= @company.name %></h1></div>
-    <%= link_to 'New Auction', new_auction_path, class: 'btn btn-primary white-btn' %> 
+    <%= link_to 'New Auction', new_auction_path, class: 'btn btn-primary white-btn' %>
   </div>
-    
+
   <div id="dashboard-auctions" class="clearfix">
-  
+
     <div id="buyer-auctions">
       <% if @buyer_auctions.empty? %>
         <p>You have no auctions yet.</p>
@@ -58,5 +61,3 @@
   </div>
 
 </main>
-
-
