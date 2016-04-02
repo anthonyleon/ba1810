@@ -12,10 +12,25 @@ class CompanyMailer < ApplicationMailer
     mail to: "#{@company.name} <#{@company.email}>", subject: "Confirm your registration with Bid.Aero"
   end
 
-  def new_bids bid
-     @bid = bid
-     email = @bid.company.email
+  def place_new_bid bid
+    @bid = bid
+    email = @bid.company.email
 
-    mail to: " <#{email}>", subject: "new bids in auction!"
+    mail to: "<#{email}>", subject: "Placed Bid in Auction #{@bid.auction_id}!"
+  end
+
+  def auction_notification bid
+    @bid = bid
+    @bidders = Bid.where(auction_id: @bid.auction)
+    @single_bidder = []
+    Company.uniq(@bidders)
+
+    @bidders.each do |bidder|
+      @single_bidder << bidder.company.email
+    end
+
+    @single_bidder.each do |bidder|
+      mail to: "<#{bidder}>", subject: "Placed Bid in Auction #{@bid.auction_id}!"
+    end
   end
 end

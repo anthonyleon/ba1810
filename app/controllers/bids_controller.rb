@@ -31,7 +31,12 @@ class BidsController < ApplicationController
     @bid.company = current_user
     respond_to do |format|
       if @bid.save
-        CompanyMailer.new_bids(@bid).deliver
+        if @bid.company == current_user
+          CompanyMailer.auction_notification(@bid).deliver_now
+          CompanyMailer.place_new_bid(@bid).deliver_now
+        else
+
+        end
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
