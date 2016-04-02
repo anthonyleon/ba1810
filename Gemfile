@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+gem 'rails-erd', '~> 1.4', '>= 1.4.6'
 gem 'stripe'
 gem 'mailgun_rails'
 gem 'figaro'
