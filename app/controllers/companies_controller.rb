@@ -30,8 +30,6 @@ class CompaniesController < ApplicationController
   end
 
   def confirm_email
-    p "*"*500
-    p params
     company = Company.find_by(confirm_token: params[:format])
     if company
       company.email_activate
