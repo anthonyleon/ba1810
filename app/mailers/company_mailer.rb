@@ -30,7 +30,7 @@ class CompanyMailer < ApplicationMailer
     end
 
     @single_bidder.each do |bidder|
-      mail to: "<#{bidder}>", subject: "Placed Bid in Auction #{@bid.auction_id}!"
+      mail to: "<#{bidder}>", subject: "Bids are being placed in an Auction #{@bid.auction_id}, find out how you rank!"
     end
   end
 end
