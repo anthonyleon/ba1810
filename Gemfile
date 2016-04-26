@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'armor_payments'
 gem 'stripe'
 gem 'mailgun_rails'
 gem 'figaro'
