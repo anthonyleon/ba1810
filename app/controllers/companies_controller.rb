@@ -84,7 +84,7 @@ class CompaniesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_company
-      @company = Company.find(params[:id])
+      @company = Company.find(params[:format])
     end
 
     def get_possible_auctions
