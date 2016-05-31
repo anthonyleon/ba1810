@@ -42,8 +42,12 @@ class InventoryPartsController < ApplicationController
     end
   end
 
-  def upload
-    
+
+  # import spreadsheet of parts inventory
+  def import
+    @imported_parts = InventoryPart.import(params[:file])
+    @imported_parts.company_id = current_user.id
+    redirect_to company_inventory_parts_path, notice: "Products imported."
   end
 
   def update
@@ -70,6 +74,10 @@ class InventoryPartsController < ApplicationController
     
     def set_inventory_part
       @inventory_part = InventoryPart.find(params[:id])
+    end
+    
+    def import_inventory
+      params.require(:contact_import).permit(:file)
     end
 
     def build_inv_part part_match, inventory_part
