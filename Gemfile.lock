@@ -60,6 +60,7 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
       mimemagic (>= 0.3.0)
+    choice (0.2.0)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -73,6 +74,9 @@ GEM
     diff-lcs (1.2.5)
     domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
+    erd (0.4.0)
+      nokogiri
+      rails-erd (>= 0.4.5)
     erubis (2.7.0)
     execjs (2.7.0)
     faker (1.6.3)
@@ -81,7 +85,6 @@ GEM
       thor (~> 0.14)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    hirb (0.7.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -103,6 +106,7 @@ GEM
       actionmailer (>= 3.2.13)
       json (>= 1.7.7)
       rest-client (>= 1.6.7)
+    method_source (0.8.2)
     mime-types (2.99.2)
     mimemagic (0.3.1)
     mini_portile2 (2.0.0)
@@ -112,6 +116,12 @@ GEM
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.4)
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -132,6 +142,11 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
+    rails-erd (1.4.7)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     rails_12factor (0.0.3)
@@ -151,6 +166,9 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    roo (2.3.2)
+      nokogiri (~> 1)
+      rubyzip (~> 1.1, < 2.0.0)
     rspec-core (3.4.4)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -168,6 +186,8 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    ruby-graphviz (1.2.2)
+    rubyzip (1.2.0)
     sass (3.4.22)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -178,6 +198,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    slop (3.6.0)
     spring (1.7.1)
     sprockets (3.6.0)
       concurrent-ruby (~> 1.0)
@@ -219,16 +240,18 @@ DEPENDENCIES
   capybara
   carrierwave
   coffee-rails (~> 4.1.0)
+  erd
   faker
   figaro
-  hirb
   jbuilder (~> 2.0)
   jquery-rails
   launchy
   mailgun_rails
   pg
+  pry-rails
   rails (= 4.2.5.1)
   rails_12factor
+  roo
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
