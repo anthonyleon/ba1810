@@ -1,11 +1,13 @@
 source 'https://rubygems.org'
 
+gem 'roo'
+gem 'erd'
 gem 'stripe'
 gem 'mailgun_rails'
 gem 'figaro'
 gem 'rails_12factor'
 gem 'carrierwave'
-gem 'hirb'
+gem 'pry-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
 # Use postgresql as the database for Active Record
