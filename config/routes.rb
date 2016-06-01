@@ -19,15 +19,21 @@ Rails.application.routes.draw do
     resources :documents, shallow: true
   end
 
+
   resources :auctions do
     resources :auction_parts
     resources :bids
   end
 
+  resource :company do
+    resources :inventory_parts do
+      collection { post :import }
+    end
+  end
 
   resources :charges
 
-  resources :companies do
+  resource :company do
     member do
       get :confirm_email
     end
