@@ -45,8 +45,8 @@ class InventoryPartsController < ApplicationController
 
   # import spreadsheet of parts inventory
   def import
-    @imported_parts = InventoryPart.import(params[:file])
-    @imported_parts.company_id = current_user.id
+    InventoryPart.import(params[:file], current_user)
+
     redirect_to company_inventory_parts_path, notice: "Products imported."
   end
 
