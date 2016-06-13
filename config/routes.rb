@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get 'logout' => 'session#destroy'
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
-# 
+#
   resources :inventory_parts do
     resources :documents, shallow: true
   end
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :bids
   end
 
-  resource :company do
+  resources :companies do
     resources :inventory_parts do
       collection { post :import }
     end
@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
   resources :charges
 
-  resource :company do
+  resources :companies do
     member do
       get :confirm_email
     end
