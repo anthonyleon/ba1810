@@ -22,6 +22,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'faker'
 gem 'sass-rails', '~> 5.0'
 gem 'haml'
+gem "flutie"
 
 group :development, :test do
   gem "erb2haml", :group => :development
