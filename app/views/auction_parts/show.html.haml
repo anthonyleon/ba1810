@@ -1,0 +1,16 @@
+%p#notice= notice
+%p
+  %strong Part num:
+  = @auction_part.part_num
+%p
+  %strong Init price:
+  = @auction_part.init_price
+%p
+  %strong Part:
+  = @auction_part.part
+%p
+  %strong Auction:
+  = @auction_part.auction
+= link_to 'Edit', edit_auction_part_path(@auction_part)
+|
+= link_to 'Back', auction_parts_path

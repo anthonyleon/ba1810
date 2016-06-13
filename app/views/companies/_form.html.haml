@@ -1,0 +1,20 @@
+.form-container
+  = form_for(@company, html: { class: "inline-form" }) do |f|
+    - if @company.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@company.errors.count, "error")
+          prohibited this company from being saved:
+        %ul
+          - @company.errors.full_messages.each do |message|
+            %li= message
+    .field.form-group
+      = f.text_field :name, class: 'form-control', placeholder: "Company name"
+    .field.form-group
+      = f.text_field :email, class: 'form-control', placeholder: "E-mail"
+    .field.form-group
+      = f.password_field :password, class: 'form-control', placeholder: "Password"
+    .field.form-group
+      = f.password_field :password_confirmation, class: 'form-control', placeholder: "Confirm password"
+    .actions
+      = f.submit 'Submit', class: 'btn btn-primary'

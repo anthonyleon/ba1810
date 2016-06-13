@@ -23,11 +23,17 @@ parts_database = [
   ["VHF TRANSCEIVER", "822-1044-004", "ROCKWELL COLLINS", 33252],
   ["ALTIMETER TRANSCEIVER", "9599-607-14", "BRITISH AEROSPACE", 20077],
   ["TCAS COMPUTER", "9000000-20004", "ACSS", 99369]
-
-
-
 ]
 
 parts_database.each do |description, partnum, manufacturer, manufacturer_price|
-  Part.create(description: description, part_num: partnum, manufacturer: manufacturer, manufacturer_price: manufacturer_price)
+  InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: 1, serial_num: "191223", condition: "OH")
+end
+
+5.times do
+  Auction.create(company_id: 1, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
+end
+5.times do
+  AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
+                      manufacturer: Faker::Company.name, init_price: Faker::Commerce.price ,
+                      auction_id: rand(1...5) )
 end

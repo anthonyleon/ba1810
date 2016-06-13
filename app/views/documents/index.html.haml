@@ -1,0 +1,19 @@
+- if !flash[:notice].blank?
+  .alert.alert-info
+    = flash[:notice]
+%br/
+= link_to "New Document", new_document_path, class: "btn btn-primary"
+%br/
+%br/
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Download Link
+      %th  
+  %tbody
+    - @documents.each do |document|
+      %tr
+        %td= document.name
+        %td= link_to "Download Document", document.attachment_url
+        %td= button_to "Delete",  document, method: :delete, class: "btn btn-danger", confirm: "Are you sure that you wish to delete #{document.name}?"

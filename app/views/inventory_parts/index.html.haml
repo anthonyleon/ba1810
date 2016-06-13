@@ -1,0 +1,31 @@
+= render 'layouts/navbar'
+%main
+  #banner.clearfix
+    #inventory
+      %h1 Inventory
+    = link_to 'New Inventory part', new_inventory_part_path, class: 'btn btn-primary white-btn', id: "inventory-new"
+  #main-container
+    %p
+      %input#search.form-control{:type => "text"}>/
+      , placeholder="Search inventory"&gt;
+    %table#tblData.table.table-hover
+      %thead
+        %tr
+          %th Part Number
+          %th Description
+          %th Serial Number
+          %th Condition
+          %th Manufacturer
+      %tbody
+        - @inventory_parts.each do |inventory|
+          %tr
+            %td.srchtbl= inventory.part_num
+            %td.srchtbl= inventory.description
+            %td.srchtbl= inventory.serial_num
+            %td.srchtbl= inventory.condition
+            %td.srchtbl= inventory.manufacturer
+            %td= link_to 'Show', inventory_part_url(inventory)
+            %td= link_to 'Destroy', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
+  = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+    = file_field_tag :file
+    = submit_tag Import
