@@ -9,9 +9,9 @@
     #main-container.clearfix
       #auction-buttons
         - if @auction.company == current_user
-          = link_to 'Edit', edit_auction_path(@auction), class: 'btn btn-primary'
+          = link_to 'Edit', edit_auction_path(@auction), class: 'btn custom-btn'
         - else
-          = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn btn-primary'
+          = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn'
       .container
         .container.col-md-6
           %h3 Conditions:

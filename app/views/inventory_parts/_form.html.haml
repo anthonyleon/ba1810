@@ -1,32 +1,29 @@
 .form-container
-  = form_for([@part, @inventory_part], class: "form-inline") do |f|
-    - if @inventory_part.errors.any?
-      #error_explanation
-        %h2
-          = pluralize(@inventory_part.errors.count, "error")
-          prohibited this inventory_part from being saved:
-        %ul
-          - @inventory_part.errors.full_messages.each do |message|
-            %li= message
+  = simple_form_for ([@part, @inventory_part]) do |f|
     .field.form-group
       = f.text_field :part_num, placeholder: "Part number", class: "form-control"
     .field.form-group
       = f.text_field :serial_num, placeholder: "Serial number",class: "form-control"
     #checkbox-group
-      .field
-        = f.radio_button(:condition, "NE")
-        = label_tag "New"
-      .field
-        = f.radio_button(:condition, "OH")
-        = label_tag "Over Haul"
-      .field
-        = f.radio_button(:condition, "SV")
-        = label_tag "Servicable"
-      .field
-        = f.radio_button(:condition, "AR")
-        = label_tag "As Removed"
-      .field
-        = f.radio_button(:condition, "SC")
-        = label_tag "Scrap"
+      = f.radio_button :condition, 'email'
+      = label :inventory_part_condition, "email"
+      %p
+        = f.radio_button :condition, "over_haul"
+        = label :inventory_part_condition, 'over_haul'
+      %p
+        = f.radio_button(:condition, "servicable")
+        = label :inventory_part_condition, "servicable"
+      %p
+        = f.radio_button(:condition, "as_removed")
+        = label :inventory_part_condition, "as_removed"
+      %p
+        = f.radio_button(:condition, "scrap")
+        = label :inventory_part_condition, "scrap"
     .actions
-      = f.submit 'Submit', class: 'btn btn-primary'
+      = f.submit 'Submit', class: 'btn custom-btn'
+
+
+:javascript
+  $(document).ready(function() {
+    $('select').material_select();
+  });
