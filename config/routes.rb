@@ -14,16 +14,22 @@ Rails.application.routes.draw do
   get 'logout' => 'session#destroy'
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
-# 
+#
   resources :inventory_parts do
     resources :documents, shallow: true
   end
+
 
   resources :auctions do
     resources :auction_parts
     resources :bids
   end
 
+  resources :companies do
+    resources :inventory_parts do
+      collection { post :import }
+    end
+  end
 
   resources :charges
 

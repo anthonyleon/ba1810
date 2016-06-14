@@ -1,0 +1,29 @@
+= render 'layouts/navbar'
+%main
+  #banner.clearfix
+    %h1 Place Bid
+  #main-container
+    #bid-form
+      = render 'form'
+    #bid-inventory.container
+      %div
+        %label{:for => "search"}
+          %p Select the part you would like to offer in this bid:
+        = succeed "," do
+          %input#search.form-control{:type => "text"}/
+      %table#tblData.table.table-hover
+        %thead
+          %tr
+            %th Part Number
+            %th Description
+            %th Serial Number
+            %th Condition
+            %th Manufacturer
+        %tbody
+          - @match_parts.each do |inventory|
+            %tr#cursor-row{"data-inventory-part-id" => "\#{inventory.id}"}
+              %td.srchtbl= inventory.part_num
+              %td.srchtbl= inventory.description
+              %td.srchtbl= inventory.serial_num
+              %td.srchtbl= inventory.condition
+              %td.srchtbl= inventory.manufacturer

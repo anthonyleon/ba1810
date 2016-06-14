@@ -1,0 +1,52 @@
+= render 'layouts/navbar'
+%main
+  #banner.clearfix
+    %h1
+      Review your order
+  #main-container
+    #checkout-container.container.clearfix
+      %div>
+      "col-md-5" id="bid-buy"&gt;
+      %p
+        %h2 Amount:
+        = number_to_currency @bid.amount
+      %p
+        %h2 Company:
+        = @bid.company.name
+      %form{:action => "/charges", :method => "POST"}
+        %script.stripe-button{"data-key" => "test key", "data-name" => "From: ", :src => "https://checkout.stripe.com/checkout.js"}
+        = @bid.company.name
+        "
+        data-description= "Part Number: #{@bid.inventory_part.part_num}"
+        data-amount= "#{@bid.amount * 100}"
+        data-locale="auto"&gt;
+  .col-md-6
+    .container
+      %h4
+        Part: #{@bid.inventory_part.description}
+      %h4
+        Part number: #{@bid.inventory_part.part_num}
+      %h4
+        Serial number: #{@bid.inventory_part.serial_num}
+      %h4
+        Condition: #{@bid.inventory_part.condition}
+      %h4
+        Manufacturer: #{@bid.inventory_part.manufacturer}
+      %br
+  #documents.col-md-12
+    - if @bid.inventory_part.documents.empty?
+      %p There are no documents associated with this part.
+    - else
+      %table.table.table-hover
+        %thead
+          %tr
+            %th Name
+            %th Download Link
+            %th
+        %tbody
+          - @bid.inventory_part.documents.each do |document|
+            %tr
+              %td= document.name
+              %td= link_to 'Download', document.attachment_url
+              - if document.inventory_part.company == current_user
+                %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn'
