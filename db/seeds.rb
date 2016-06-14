@@ -1,6 +1,6 @@
-@company = Company.create!(name: "Admin", email: 'admin@demo.com', password: 'password', password_confirmation: 'password')
-
-# This file should contain all the record creation needed to seed the database with its default values.
+# @company = Company.create!(name: "Admin", email: 'admin@demo.com', password: 'password', password_confirmation: 'password')
+# @company2 = Company.create!(name: "Company2", email: 'Company2@demo.com', password: 'password', password_confirmation: 'password')
+# # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 # Examples:
@@ -27,15 +27,51 @@ parts_database = [
   ["TCAS COMPUTER", "9000000-20004", "ACSS", 99369]
 ]
 
-parts_database.each do |description, partnum, manufacturer, manufacturer_price|
-  InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: 1, serial_num: "191223", condition: "OH")
+i = 1
+while (i < 30)
+  Company.create( name: Faker::Company.name, email: Faker::Internet.email,  password: 'password', password_confirmation: 'password')
+  parts_database.each do |description, partnum, manufacturer, manufacturer_price|
+    InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: i, serial_num: "191223", condition: "OH")
+  end
+  i += 1
 end
 
-5.times do
-  @auction = Auction.create(company_id: @company.id, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
+
+
+# 5.times do
+#   @auction = Auction.create(company_id: @company.id, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
+# end
+
+# 5.times do
+#   AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
+#                       manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
+
+
+
+
+i = 0  
+while (i < 16)
+  i+=1
+  Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true)
+
 end
 
-5.times do
-  AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
-                      manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
+i = 0
+while (i < 16)
+  i+=1
+  AuctionPart.create( part_num: parts_database[i-1][1], description: Faker::Company.catch_phrase,
+                      manufacturer: Faker::Company.name, init_price: Faker::Commerce.price, auction_id: i)
+
 end
+
+i = 0
+while (i < 30)
+  i+=1
+  Bid.create( amount: Faker::Commerce.amount, company_id: i, auction_id: Faker::Number.between(1, 10), inventory_part_id: Faker::Number.between(1, 150))
+end
+
+
+
+
+
+
