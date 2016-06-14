@@ -1,0 +1,56 @@
+.row
+  .col.s12
+    .card
+      .card-content
+        %span.card-title
+          = @inventory_part.description
+        = link_to "Back", inventory_parts_path, class:"waves-effect waves-light btn custom-btn right"
+        %p
+          Serial Number:
+          = @inventory_part.serial_num
+        %p
+          Part number: #{@inventory_part.part_num}
+        %p
+          Condition: #{@inventory_part.condition}
+        %p
+          Manufacturer: #{@inventory_part.manufacturer}
+        %br/
+      - if @inventory_part.company == current_user
+        - if !@document.errors.empty?
+          .alert.alert-error
+            %ul
+              - @document.errors.full_messages.each do |msg|
+                %li= msg
+        .container
+          %div
+            Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
+          %br/
+          = form_for ([@inventory_part, @document]), html: { multipart: true, class: "form-inline" } do |f|
+            = f.text_field :name, class: "form-control", placeholder: "Title"
+            = f.file_field :attachment
+            = f.submit "Upload", class: "btn custom-btn"
+      #documents.col-md-12
+        - if @inventory_part.documents.empty?
+          %p There are no documents associated with this part.
+        - else
+          %table.table.table-hover
+            %thead
+              %tr
+                %th Name
+                %th Download Link
+                %th  
+            %tbody
+              - @inventory_part.documents.each do |document|
+                %tr
+                  %td= document.name
+                  %td= link_to 'Download', document.attachment_url
+                  - if document.inventory_part.company == current_user
+                    %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn custom-btn'
+      - if @bid
+        - if @inventory_part.company == current_user
+          = link_to 'Edit', edit_inventory_part_path(@inventory_part)
+          |
+          \#{link_to 'Back to Inventory', inventory_parts_path} |
+          \#{link_to 'Back to Auction',auction_path(@bid.auction)}
+        - else
+          = link_to 'Back to Auction',auction_path(@bid.auction)

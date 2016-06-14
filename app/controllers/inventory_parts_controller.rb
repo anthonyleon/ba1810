@@ -1,14 +1,11 @@
 class InventoryPartsController < ApplicationController
   before_action :set_inventory_part, only: [:show, :edit, :update, :destroy]
 
-  # GET /inventory_parts
-  # GET /inventory_parts.json
+
   def index
     @inventory_parts = current_user.inventory_parts
   end
 
-  # GET /inventory_parts/1
-  # GET /inventory_parts/1.json
   def show
     unless params[:bid_id].nil?
       @bid = Bid.find(params[:bid_id])
@@ -17,17 +14,13 @@ class InventoryPartsController < ApplicationController
     @document = Document.new
   end
 
-  # GET /inventory_parts/new
   def new
     @inventory_part = InventoryPart.new
   end
 
-  # GET /inventory_parts/1/edit
   def edit
   end
 
-  # POST /inventory_parts
-  # POST /inventory_parts.json
   def create
     @inventory_part = InventoryPart.new(inventory_part_params)
     @part_match = Part.find_by(part_num: @inventory_part.part_num)
@@ -49,8 +42,14 @@ class InventoryPartsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /inventory_parts/1
-  # PATCH/PUT /inventory_parts/1.json
+
+  # import spreadsheet of parts inventory
+  def import
+    InventoryPart.import(params[:file], current_user)
+
+    redirect_to company_inventory_parts_path, notice: "Products imported."
+  end
+
   def update
     respond_to do |format|
       if @inventory_part.update(inventory_part_params)
@@ -63,8 +62,6 @@ class InventoryPartsController < ApplicationController
     end
   end
 
-  # DELETE /inventory_parts/1
-  # DELETE /inventory_parts/1.json
   def destroy
     @inventory_part.destroy
     respond_to do |format|
@@ -74,9 +71,13 @@ class InventoryPartsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_inventory_part
       @inventory_part = InventoryPart.find(params[:id])
+    end
+
+    def import_inventory
+      params.require(:contact_import).permit(:file)
     end
 
     def build_inv_part part_match, inventory_part
@@ -84,7 +85,6 @@ class InventoryPartsController < ApplicationController
       inventory_part.manufacturer = part_match.manufacturer
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_part_params
       params.require(:inventory_part).permit(:part_num, :description, :manufacturer, :company_id, :part_id, :serial_num, :document_id, :condition)
     end

@@ -1,0 +1,45 @@
+#auction-show-background
+  = render 'layouts/navbar'
+  %main.clearfix
+    #banner.clearfix
+      %div
+        %h1.part-name
+          = @auction.auction_part.description
+          = @auction.part_num
+    #main-container.clearfix
+      #auction-buttons
+        - if @auction.company == current_user
+          = link_to 'Edit', edit_auction_path(@auction), class: 'btn custom-btn'
+        - else
+          = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn'
+      .container
+        .container.col-md-6
+          %h3 Conditions:
+          %p
+            = @condition_ne
+            = @condition_oh
+            = @condition_sv
+            = @condition_ar
+            = @condition_sc
+        .container.col-md-6
+          %h3 Initial Price:
+          = number_to_currency @init_price
+      - if @auction.bids.empty?
+        .nobid.text-center
+          %h4 There are no bids on this auction yet.
+      - else
+        #bids-container.container
+          %div
+            %h2 Bids
+          %table.table{:class => "table-hover.table-condensed"}
+            %thead
+              %tr
+                %th Company
+                %th Serial Number
+                %th Condition
+                %th Manufacturer
+                %th Amount
+            %tbody
+              - @auction.bids.order(amount: :asc).each do |bid|
+                %tr#cursor-row
+                  = render bid

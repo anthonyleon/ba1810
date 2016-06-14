@@ -1,55 +1,55 @@
-// Place all the styles related to the session controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// // Place all the styles related to the session controller here.
+// // They will automatically be included in application.css.
+// // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#login-form {
-  margin: auto;
-  width: 70%;
-}
+// #login-form {
+//   margin: auto;
+//   width: 70%;
+// }
 
-#login {
-  padding-top: 10em;
-  height: 100vh;
-  
-  .form-container {
-    text-align: center;
-  }
+// #login {
+//   padding-top: 10em;
+//   height: 100vh;
 
-  #sign-up {
-    margin-top: 6em;
-  }
+//   .form-container {
+//     text-align: center;
+//   }
 
-  #about {
-    text-decoration: underline;
+//   #sign-up {
+//     margin-top: 6em;
+//   }
 
-    &:focus {
-      outline: none;
-    }
-  }
-}
+//   #about {
+//     text-decoration: underline;
 
-#landing {
-  background-image: image-url("bkg-plane.jpeg");
-  background-size: 100% auto;
-  height: 100vh;
+//     &:focus {
+//       outline: none;
+//     }
+//   }
+// }
 
-  .about {
-    margin-top: 1em;
-    padding: 3em 0;
-    background: rgba(255, 255, 255, 0.5);
-    display: none;
-    width: 60%;
-  }
+// #landing {
+//   background-image: image-url("bkg-plane.jpeg");
+//   background-size: 100% auto;
+//   height: 100vh;
 
-  .close {
-    margin: -2em 1em;
-  }
+//   .about {
+//     margin-top: 1em;
+//     padding: 3em 0;
+//     background: rgba(255, 255, 255, 0.5);
+//     display: none;
+//     width: 60%;
+//   }
 
-  .text {
-    width: 70%;
-    margin: auto;
-  }
-}
+//   .close {
+//     margin: -2em 1em;
+//   }
+
+//   .text {
+//     width: 70%;
+//     margin: auto;
+//   }
+// }
 
 
 

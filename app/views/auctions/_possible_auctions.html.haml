@@ -1,0 +1,5 @@
+#bid_list
+  - unless @possible_auctions.empty?
+    - @possible_auctions.each do |auction|
+      = link_to auction do
+        = render auction

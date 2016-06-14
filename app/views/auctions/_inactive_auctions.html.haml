@@ -1,0 +1,5 @@
+#auction_list
+  - unless @inactive_auctions.nil?
+    - @inactive_auctions.each do |auction|
+      = link_to auction do
+        = render auction

@@ -1,0 +1,44 @@
+%header
+  %nav
+    %a.brand-logo{:href => root_path}= image_tag("bid-aero-logo.svg")
+    %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
+      %i.material-icons menu
+    %ul.right.hide-on-med-and-down
+      %li
+        = link_to 'Inventory', inventory_parts_path
+      %li
+        = link_to "Log out", logout_path
+    %span.right.hide-on-med-and-down{style: "margin-right: 15px;"}
+      %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
+        New
+        %i.material-icons.my-custom-m-icons arrow_drop_down
+      / Dropdown Structure
+      %ul#nav-dropdown.dropdown-content
+        %li
+          = link_to 'Part Search', "javascript:void(0)"
+        %li
+          = link_to 'Inventory', inventory_parts_path
+        %li
+          = link_to 'Engine Listing', "javascript:void(0)"
+        %li
+          = link_to 'Aircraft Listing', "javascript:void(0)"
+  %ul#mobile-demo.side-nav.fixed
+    .company-logo
+      %img{:src => "http://mascotaviajera.files.wordpress.com/2011/07/airplane_logo.gif", :alt => "", class: "responsive-img circle", width: '100px'}/
+    %li
+      = link_to 'Dashboard', company_path(current_user)
+    %li
+      = link_to 'Current Auctions', "javascript:void(0)"
+    %li
+      = link_to 'My Bids', "javascript:void(0)"
+    %li
+      = link_to 'Current Opportunities', "javascript:void(0)"
+    %li
+      = link_to 'Inventory', inventory_parts_path
+    %li
+      = link_to "Log out", logout_path
+
+:javascript
+$(document).ready(function(){
+  $('.dropdown-button').dropdown();
+});
