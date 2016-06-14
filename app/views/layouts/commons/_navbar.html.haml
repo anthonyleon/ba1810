@@ -1,0 +1,26 @@
+%header
+  %nav
+    %a.brand-logo{:href => "#!"}= image_tag("bid-aero-logo.svg")
+    %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
+      %i.material-icons menu
+    %ul.right.hide-on-med-and-down
+      - if current_user
+        %li
+          = link_to 'Dashboard', company_path(current_user)
+        %li
+          = link_to 'Inventory', inventory_parts_path
+        %li
+          = link_to "Log out", logout_path
+    %ul#mobile-demo.side-nav.fixed
+      - if current_user
+        .company-logo
+          %img{:src => "http://brandongaille.com/wp-content/uploads/2013/07/Adidas-Company-Logo.jpg", :alt => "", class: "responsive-img circle", width: '100px'}/
+        %li
+          = link_to 'Dashboard', company_path(current_user)
+        %li
+          = link_to 'Inventory', inventory_parts_path
+        %li
+          = link_to "Log out", logout_path
+      - else
+        .new-session
+          = render './layouts/commons/new_session'
