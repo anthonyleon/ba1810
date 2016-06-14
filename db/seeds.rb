@@ -1,3 +1,5 @@
+@company = Company.create!(name: "Admin", email: 'admin@demo.com', password: 'password', password_confirmation: 'password')
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -30,10 +32,10 @@ parts_database.each do |description, partnum, manufacturer, manufacturer_price|
 end
 
 5.times do
-  Auction.create(company_id: 1, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
+  @auction = Auction.create(company_id: @company.id, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
 end
+
 5.times do
   AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
-                      manufacturer: Faker::Company.name, init_price: Faker::Commerce.price ,
-                      auction_id: rand(1...5) )
+                      manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
 end

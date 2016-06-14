@@ -1,7 +1,7 @@
 #company-name.clearfix
   .company-name
     %h1= @company.name
-  = link_to 'New Auction', new_auction_path, class: 'btn btn-primary white-btn'
+  = link_to 'New Auction', new_auction_path, class: 'btn custom-btn white-btn'
 #dashboard-auctions.clearfix
   #buyer-auctions
     - if @buyer_auctions.empty?

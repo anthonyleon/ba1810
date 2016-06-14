@@ -14,18 +14,18 @@
     #checkbox-group
       .field.checkbox.form-group
         = f.check_box(:condition_ne)
-        = label_tag "New"
+        = label_tag "auction_condition_ne", "New"
       .field.checkbox.form-group
         = f.check_box(:condition_oh)
-        = label_tag "Overhaul"
+        = label_tag "auction_condition_oh", "Overhaul"
       .field.checkbox.form-group
         = f.check_box(:condition_sv)
-        = label_tag "Serviceable"
+        = label_tag "auction_condition_sv", "Serviceable"
       .field.checkbox.form-group
         = f.check_box(:condition_ar)
-        = label_tag "As removed"
+        = label_tag "auction_condition_ar", "As removed"
       .field.checkbox.form-group
         = f.check_box(:condition_sc)
-        = label_tag "Scrap"
+        = label_tag "auction_condition_sc", "Scrap"
     .actions
-      = f.submit 'Submit', class: "btn btn-primary"
+      = f.submit 'Submit', class: "btn custom-btn"
