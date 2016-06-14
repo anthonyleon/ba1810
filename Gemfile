@@ -23,6 +23,7 @@ gem 'faker'
 gem 'sass-rails', '~> 5.0'
 gem 'haml'
 gem "flutie"
+gem 'stylus'
 
 group :development, :test do
   gem "erb2haml", :group => :development

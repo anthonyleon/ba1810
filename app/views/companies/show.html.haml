@@ -1,45 +1,25 @@
-%nav
-  .logo
-    #1.nav-option= image_tag("bid-aero-logo.svg")
-  .nav-links
-    #2.nav-option
-      %a{:href => "#"} My Auctions
-    #3.nav-option
-      %a{:href => "#"} My Bids
-    #4.nav-option
-      %a{:href => "#"} Requests
-    #5.nav-option
-      %a{:href => "#"} Closed
-    %div |
-    %div
-      = link_to "Log out", logout_path
-    %div
-      = link_to 'Inventory', inventory_parts_path
-    %div
-      = link_to "Create your stripe account", "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_819iSAa0oVEdOFkQ7m5mgjOCHnmp90oj&scope=read_write"
-%main.clearfix
-  #company-name.clearfix
-    .company-name
-      %h1= @company.name
-    = link_to 'New Auction', new_auction_path, class: 'btn btn-primary white-btn'
-  #dashboard-auctions.clearfix
-    #buyer-auctions
-      - if @buyer_auctions.empty?
-        %p You have no auctions yet.
-      - else
-        = render 'auctions/buyer_auctions'
-    #supplier-auctions
-      - if @supplier_auctions.empty?
-        %p You are not participating in any auctions yet.
-      - else
-        = render 'auctions/supplier_auctions'
-    #possible-auctions
-      - if @possible_auctions.empty?
-        %p There are no companies looking for parts in your inventory yet.
-      - else
-        = render 'auctions/possible_auctions'
-    #inactive-auctions
-      - if @inactive_auctions.empty?
-        %p You haven't closed any auctions yet.
-      - else
-        = render 'auctions/inactive_auctions'
+#company-name.clearfix
+  .company-name
+    %h1= @company.name
+  = link_to 'New Auction', new_auction_path, class: 'btn btn-primary white-btn'
+#dashboard-auctions.clearfix
+  #buyer-auctions
+    - if @buyer_auctions.empty?
+      %p You have no auctions yet.
+    - else
+      = render 'auctions/buyer_auctions'
+  #supplier-auctions
+    - if @supplier_auctions.empty?
+      %p You are not participating in any auctions yet.
+    - else
+      = render 'auctions/supplier_auctions'
+  #possible-auctions
+    - if @possible_auctions.empty?
+      %p There are no companies looking for parts in your inventory yet.
+    - else
+      = render 'auctions/possible_auctions'
+  #inactive-auctions
+    - if @inactive_auctions.empty?
+      %p You haven't closed any auctions yet.
+    - else
+      = render 'auctions/inactive_auctions'
