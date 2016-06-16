@@ -1,16 +1,23 @@
-%p#notice= notice
-%h1 Listing Auctions
-%table
-  %thead
-    %tr
-      %th Company
-      %th{:colspan => "3"}
-  %tbody
-    - @auctions.each do |auction|
-      %tr
-        %td= auction.company
-        %td= link_to 'Show', auction
-        %td= link_to 'Edit', edit_auction_path(auction)
-        %td= link_to 'Destroy', auction, method: :delete, data: { confirm: 'Are you sure?' }
-%br/
-= link_to 'New Auction', new_auction_path
+.row
+  .col.s12
+    %ul.tabs
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#currentAuctions"} Current Auctions
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#myBids"} My Bids
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#currentOpportunities"} Current Opportunities
+      .indicator.custom-green-color{:style => "z-index:1"}
+  #currentAuctions.col.s12.right-align.active
+    = render 'auctions/buyer_auctions'
+  #myBids.col.s12
+    = render 'auctions/supplier_auctions'
+  #currentOpportunities.col.s12
+    = render 'auctions/possible_auctions'
+
+:javascript
+  $(function(){
+    $('ul.tabs').tabs();
+    $('#buyerAuctionsDT, #currentOpportunitiesDT').dataTable();
+  });
+
