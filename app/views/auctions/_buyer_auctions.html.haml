@@ -1,5 +1,37 @@
-#auction_list
-  - unless @buyer_auctions.nil?
-    - @buyer_auctions.each do |auction|
-      = link_to auction do
-        = render auction
+- unless @buyer_auctions.nil?
+  %p#notice= notice
+  .card
+    .card-content
+      .row
+        .card.col.s12.m6.offset-m3
+          .card-content.center-align
+            %h5 Current Auction
+      %table.table.striped.responsive-table#buyerAuctionsDT
+        %thead
+          %tr
+            %th Part Number
+            %th Description
+            %th Conditions
+            %th Start Date
+            %th Days Active
+            %th Amount of Bid
+            %th Lowest Bid
+            %th
+            %th
+            %th
+        %tbody
+          - @buyer_auctions.each do |auction|
+            %tr
+              %td= auction.part_num
+              %td= AuctionPart.find(auction.id).description
+              %td= auction.condition
+              %td= auction.created_at.strftime("%m/%d/%Y")
+              %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+              %td= "Amount"
+              %td= "L Bid"
+              %td= link_to 'Show', auction
+              %td= link_to 'Edit', edit_auction_path(auction)
+              %td= link_to 'Destroy', auction, method: :delete, data: { confirm: 'Are you sure?' }
+      %div{style: "text-align: left;"}
+        = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
+
