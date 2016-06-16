@@ -1,12 +1,26 @@
+$custom-green: #189B4C
+
 html
   height: 100%
 body
   font-family: 'Roboto', sans-serif
 
+a:hover, a:focus
+  text-decoration: none !important
+
 .custom-container
   width: 90%
   margin: 0 auto
 
-@import 'sidenav'
+.custom-green-text
+  color: $custom-green !important
+
+.custom-green-color
+  background: $custom-green !important
+  height: 5px !important
+
+@import './base/sidenav'
+@import './base/buyer_auctions'
+@import './base/inventory'
 
 
