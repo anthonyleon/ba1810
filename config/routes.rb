@@ -25,19 +25,22 @@ Rails.application.routes.draw do
     resources :bids
   end
 
-  resources :companies do
+  resources :companies, except: :index do
     resources :inventory_parts do
       collection { post :import }
+    end
+    member do
+      get :confirm_email
     end
   end
 
   resources :charges
 
-  resources :companies do
-    member do
-      get :confirm_email
-    end
-  end
+  # resources :companies do
+  #   member do
+  #     get :confirm_email
+  #   end
+  # end
 
 
 
