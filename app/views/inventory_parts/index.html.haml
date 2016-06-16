@@ -7,9 +7,7 @@
 
 .card
   .card-content
-    %p
-      %input#search.form-control{:type => "text", placeholder: "Search inventory"}
-    %table#tblData.table.striped.responsive-table
+    %table#invetoryPartsDT.table.striped.responsive-table
       %thead
         %tr
           %th Part Number
@@ -17,6 +15,8 @@
           %th Serial Number
           %th Condition
           %th Manufacturer
+          %th
+          %th
       %tbody
         - @inventory_parts.each do |inventory|
           %tr
@@ -27,6 +27,12 @@
             %td.srchtbl= inventory.manufacturer
             %td= link_to 'Show', inventory_part_url(inventory)
             %td= link_to 'Destroy', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
+
 = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
   = file_field_tag :file
   / = submit_tag Import
+
+:javascript
+  $(function(){
+    $('#invetoryPartsDT').dataTable();
+  });
