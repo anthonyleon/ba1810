@@ -28,7 +28,7 @@ class AuctionsController < ApplicationController
     @condition_sv = (@auction.condition_sv) ? 'Servicable ': ""
     @condition_ar = (@auction.condition_ar) ? 'As Removed ': ""
     @condition_sc = (@auction.condition_sc) ? 'Scrap ': ""
-    @all_conditons_empty = ( @condition_ne.empty? || @condition_oh.empty? || @condition_sv.empty? || @condition_ar.empty? || @condition_sc.empty?)
+    @all_conditons_empty = ( @condition_ne.empty? && @condition_oh.empty? && @condition_sv.empty? && @condition_ar.empty? && @condition_sc.empty?)
   end
 
   # GET /auctions/new

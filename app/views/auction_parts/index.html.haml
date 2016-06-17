@@ -1,4 +1,4 @@
-%p#notice= notice
+%p#notice.center-align= notice
 %h1 Listing Auction Parts
 %table
   %thead
@@ -17,6 +17,6 @@
         %td= auction_part.auction
         %td= link_to 'Show', auction_part
         %td= link_to 'Edit', edit_auction_part_path(auction_part)
-        %td= link_to 'Destroy', auction_part, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to 'Delete', auction_part, method: :delete, data: { confirm: 'Are you sure?' }
 %br/
 = link_to 'New Auction part', new_auction_part_path
