@@ -1,4 +1,4 @@
-# @company = Company.create!(name: "Admin", email: 'admin@demo.com', password: 'password', password_confirmation: 'password')
+@company = Company.create!(name: "Admin", email: 'admin@demo.com', password: 'password', password_confirmation: 'password')
 # @company2 = Company.create!(name: "Company2", email: 'Company2@demo.com', password: 'password', password_confirmation: 'password')
 # # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
@@ -25,7 +25,15 @@ parts_database = [
   ["VHF TRANSCEIVER", "822-1044-004", "ROCKWELL COLLINS", 33252],
   ["ALTIMETER TRANSCEIVER", "9599-607-14", "BRITISH AEROSPACE", 20077],
   ["TCAS COMPUTER", "9000000-20004", "ACSS", 99369]
+
+
+
 ]
+
+parts_database.each do |description, partnum, manufacturer, manufacturer_price|
+  Part.create(description: description, part_num: partnum, manufacturer: manufacturer, manufacturer_price: manufacturer_price)
+end
+
 
 i = 1
 while (i < 30)
@@ -49,7 +57,7 @@ end
 
 
 
-i = 0  
+i = 0
 while (i < 16)
   i+=1
   Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true)
@@ -69,9 +77,3 @@ while (i < 30)
   i+=1
   Bid.create( amount: Faker::Commerce.amount, company_id: i, auction_id: Faker::Number.between(1, 10), inventory_part_id: Faker::Number.between(1, 150))
 end
-
-
-
-
-
-

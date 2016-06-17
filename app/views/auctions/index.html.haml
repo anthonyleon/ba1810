@@ -9,15 +9,8 @@
         %a.custom-green-text{:href => "#currentOpportunities"} Current Opportunities
       .indicator.custom-green-color{:style => "z-index:1"}
   #currentAuctions.col.s12.right-align.active
-    = render 'auctions/buyer_auctions'
+    = render 'auctions/partials/buyer_auctions'
   #myBids.col.s12
-    = render 'auctions/supplier_auctions'
+    = render 'auctions/partials/supplier_auctions'
   #currentOpportunities.col.s12
-    = render 'auctions/possible_auctions'
-
-:javascript
-  $(function(){
-    $('ul.tabs').tabs();
-    $('#buyerAuctionsDT, #currentOpportunitiesDT').dataTable();
-  });
-
+    = render 'auctions/partials/possible_auctions'

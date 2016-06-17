@@ -30,6 +30,11 @@ gem 'sass-rails', '~> 5.0'
 gem 'haml'
 gem "flutie"
 gem 'stylus'
+gem 'jquery-turbolinks'
+gem 'font-awesome-sass'
+gem 'sweetalert-rails'
+gem 'httparty'
+gem 'nokogiri'
 
 group :development, :test do
   gem "erb2haml", :group => :development

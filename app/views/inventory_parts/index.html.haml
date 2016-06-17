@@ -1,13 +1,9 @@
-.row
-  .col.s12.m9.offset-m1
-    .card
-      .card-content
-        %h2.center-align.flow-text Inventory Parts
-        / link_to 'New Inven Part', new_inventory_part_path, class: 'btn custom-btn white-btn', id: "inventory-new"
-
 .card
   .card-content
-    %table#invetoryPartsDT.table.striped.responsive-table
+    .card-title.center-align
+      %h5 Inventory Parts
+    %hr/
+    %table#invetoryPartsDT.table.striped.responsive-table.bordered
       %thead
         %tr
           %th Part Number
@@ -26,13 +22,10 @@
             %td.srchtbl= inventory.condition
             %td.srchtbl= inventory.manufacturer
             %td= link_to 'Show', inventory_part_url(inventory)
-            %td= link_to 'Destroy', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
+            / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
+            %td= link_to 'Delete', inventory_part_path(inventory), data: { inventory_behavior: 'delete' }
 
 = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
   = file_field_tag :file
   / = submit_tag Import
 
-:javascript
-  $(function(){
-    $('#invetoryPartsDT').dataTable();
-  });

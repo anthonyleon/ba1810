@@ -2,7 +2,6 @@
   .col.s12.m10.offset-m1
     .card
       .card-content
-
         %span.card-title.activator.grey-text.text-darken-4
           %h5
             = @auction.auction_part.description
@@ -14,12 +13,10 @@
         - else
           = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
         %hr{style: "clear:both;margin-top: 60px;"}/
-        %ul.collapsible{"data-collapsible" => "accordion"}
-          %li
-            .collapsible-header
-              %i.material-icons> star_rate
-              = @all_conditons_empty ? "No Condition Avaiable" : "Conditions"
-            .collapsible-body
+        %ul
+          %li.center-align
+            %h5= @all_conditons_empty ? "No Condition Avaiable" : "Acceptable Conditions"
+            %div.conditons-of-part
               - if !@condition_ne.empty?
                 %p= @condition_ne
               - if !@condition_oh.empty?
@@ -30,17 +27,18 @@
                 %p= @condition_ar
               - if !@condition_sc.empty?
                 %p= @condition_sc
-
-        %h3 Initial Price:
-        = number_to_currency @init_price
+        %hr/
+        %p.flow-text
+          Initial Price:
+          = number_to_currency @init_price
         - if @auction.bids.empty?
-          .nobid.text-center
-            %h4 There are no bids on this auction yet.
+          .nobid.center-align
+            %p.flow-text There are no bids on this auction yet.
         - else
-          #bids-container.container
+          #bids-container
             %div
               %h2 Bids
-            %table.table{:class => "table-hover.table-condensed"}
+            %table.table.responsive-table.bordered
               %thead
                 %tr
                   %th Company
