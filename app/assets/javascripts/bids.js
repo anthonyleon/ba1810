@@ -5,3 +5,5 @@ $(document).on('ready page: load', function() {
     var mydata = $('data-inventory-part-id').data();
   });
 });
+
+
