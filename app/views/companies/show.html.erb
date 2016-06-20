@@ -1,0 +1,70 @@
+
+<nav>
+  <div class="logo">
+    <div class="nav-option" id="1"><%= image_tag("bid-aero-logo.svg") %></div>
+  </div>
+  <div class="nav-links">
+    <div class="nav-option" id="2"><a href="#">My Auctions</a></div>
+    <div class="nav-option" id="3"><a href="#">My Bids</a></div>
+    <div class="nav-option" id="4"><a href="#">Requests</a></div>
+    <div class="nav-option" id="5"><a href="#">Closed</a></div>
+    <div>|</div>
+    <div>
+      <%= link_to "Log out", logout_path %>
+    </div>
+    <div>
+      <%= link_to 'Inventory', inventory_parts_path %>
+    </div>
+    <div>
+      
+      <script src="https://sandbox.armorpayments.com/assets/js/modal.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+          // var url = '<%#= @url %>'; ## & is being changed to &amp; in transition from controller to view
+          var url = '<%= raw @url %>';
+          armor.openModal(url);
+        </script>
+    </div>
+  </div>
+</nav>
+
+
+<main class="clearfix">
+
+  <div id="company-name" class="clearfix">
+    <div class="company-name"><h1><%= @company.name %></h1></div>
+    <%= link_to 'New Auction', new_auction_path, class: 'btn btn-primary white-btn' %>
+  </div>
+
+  <div id="dashboard-auctions" class="clearfix">
+
+    <div id="buyer-auctions">
+      <% if @buyer_auctions.empty? %>
+        <p>You have no auctions yet.</p>
+      <% else %>
+        <%= render 'auctions/partials/buyer_auctions' %>
+      <% end %>
+    </div>
+    <div id="supplier-auctions">
+      <% if @supplier_auctions.empty? %>
+        <p>You are not participating in any auctions yet.</p>
+      <% else %>
+        <%= render 'auctions/partials/supplier_auctions' %>
+      <% end %>
+    </div>
+    <div id="possible-auctions">
+      <% if @possible_auctions.empty? %>
+        <p>There are no companies looking for parts in your inventory yet.</p>
+      <% else %>
+        <%= render 'auctions/partials/possible_auctions' %>
+      <% end %>
+    </div>
+    <div id="inactive-auctions">
+       <% if @inactive_auctions.empty? %>
+        <p>You haven't closed any auctions yet.</p>
+      <% else %>
+        <%= render 'auctions/partials/inactive_auctions' %>
+      <% end %>
+    </div>
+  </div>
+
+</main>

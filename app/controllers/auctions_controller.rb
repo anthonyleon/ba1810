@@ -6,7 +6,7 @@ class AuctionsController < ApplicationController
   def index
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions.where(active: true)
-    @supplier_auctions = Bid.supplier_auctions(current_user.bids)
+    @supplier_auctions = Bid.where(company_id: current_user.id)
     possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
     @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
     @inactive_auctions = current_user.auctions.where(active: false)
