@@ -12,12 +12,28 @@
   .field.form-group
     = f.text_field :email, class: 'form-control', placeholder: "E-mail"
   .field.form-group
+    = f.text_field :phone, class: 'form-control', placeholder: "xxx-xxx-xxxx"
+  .field.form-group
+    = f.text_field :representative, class: 'form-control', placeholder: "Account Holder Full Name"
+  .field.form-group
+    = f.text_field :EIN, class: 'form-control', placeholder: "Federal Tax ID(EIN)"
+  .field.form-group
+    = f.text_field :address, class: 'form-control', placeholder: "Address"
+  .field.form-group
+    = f.text_field :city, class: 'form-control', placeholder: "City"
+  .field.form-group
+    = f.text_field :state, class: 'form-control', placeholder: "State"
+  .field.form-group
+    = f.text_field :zip, class: 'form-control', placeholder: "Zip code"
+  .field.form-group
+    = f.text_field :country, class: 'form-control', placeholder: "Country"
+  .field.form-group
     = f.password_field :password, class: 'form-control', placeholder: "Password"
   .field.form-group
-    = f.password_field :password_confirmation, class: 'form-control', placeholder: "Confirm password"
+    = f.password_field :password_confirmation, class: 'form-control', placeholder: "Confirm password"    
   %span.actions
     = f.submit 'Sign Up', class: 'btn custom-btn'
 
     %a.btn.custom-btn.waves-effect.waves-light{href: root_path}
       %i.material-icons.right vpn_key
-      Login In
+      Log In
