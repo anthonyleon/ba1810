@@ -71,11 +71,11 @@ class InventoryPartsController < ApplicationController
   end
 
   private
-    
+
     def set_inventory_part
       @inventory_part = InventoryPart.find(params[:id])
     end
-    
+
     def import_inventory
       params.require(:contact_import).permit(:file)
     end

@@ -1,0 +1,22 @@
+%p#notice.center-align= notice
+%h1 Listing Bids
+%table
+  %thead
+    %tr
+      %th Amount
+      %th Company
+      %th Auction
+      %th Inventory part
+      %th{:colspan => "3"}
+  %tbody
+    - @bids.each do |bid|
+      %tr
+        %td= bid.amount
+        %td= bid.company
+        %td= bid.auction
+        %td= bid.inventory_part
+        %td= link_to 'Show', bid
+        %td= link_to 'Edit', edit_bid_path(bid)
+        %td= link_to 'Delete', bid, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Bid', new_bid_path

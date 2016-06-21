@@ -1,0 +1,53 @@
+.row
+  .col.s12.m10.offset-m1
+    .card
+      .card-content
+        %span.card-title.activator.grey-text.text-darken-4
+          %h5
+            = @auction.auction_part.description
+          %h6
+            = @auction.part_num
+
+        - if @auction.company == current_user
+          = link_to 'Edit', edit_auction_path(@auction), class: 'btn custom-btn right'
+        - else
+          = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
+        %hr{style: "clear:both;margin-top: 60px;"}/
+        %ul
+          %li.center-align
+            %h5= @all_conditons_empty ? "No Condition Avaiable" : "Acceptable Conditions"
+            %div.conditons-of-part
+              - if !@condition_ne.empty?
+                %p= @condition_ne
+              - if !@condition_oh.empty?
+                %p= @condition_oh
+              - if !@condition_sv.empty?
+                %p= @condition_sv
+              - if !@condition_ar.empty?
+                %p= @condition_ar
+              - if !@condition_sc.empty?
+                %p= @condition_sc
+        %hr/
+        %p.flow-text
+          Initial Price:
+          = number_to_currency @init_price
+        - if @auction.bids.empty?
+          .nobid.center-align
+            %p.flow-text There are no bids on this auction yet.
+        - else
+          #bids-container
+            %div
+              %h2 Bids
+            %table.table.responsive-table.bordered
+              %thead
+                %tr
+                  %th Company
+                  %th Serial Number
+                  %th Condition
+                  %th Manufacturer
+                  %th Amount
+              %tbody
+                - @auction.bids.order(amount: :asc).each do |bid|
+                  %tr#cursor-row
+                    = render bid
+
