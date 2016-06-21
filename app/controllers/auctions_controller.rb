@@ -4,7 +4,12 @@ class AuctionsController < ApplicationController
   # GET /auctions
   # GET /auctions.json
   def index
-    @auctions = Auction.all
+    @auctions = current_user.auctions
+    @buyer_auctions = current_user.auctions.where(active: true)
+    @supplier_auctions = Bid.supplier_auctions(current_user.bids)
+    possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
+    @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
+    @inactive_auctions = current_user.auctions.where(active: false)
   end
 #
   def set_auction_to_false
@@ -13,7 +18,7 @@ class AuctionsController < ApplicationController
     @auction.save
     redirect_to company_path
   end
-# 
+#
   # GET /auctions/1
   # GET /auctions/1.json
   def show
@@ -23,6 +28,7 @@ class AuctionsController < ApplicationController
     @condition_sv = (@auction.condition_sv) ? 'Servicable ': ""
     @condition_ar = (@auction.condition_ar) ? 'As Removed ': ""
     @condition_sc = (@auction.condition_sc) ? 'Scrap ': ""
+    @all_conditons_empty = ( @condition_ne.empty? && @condition_oh.empty? && @condition_sv.empty? && @condition_ar.empty? && @condition_sc.empty?)
   end
 
   # GET /auctions/new
@@ -89,6 +95,19 @@ class AuctionsController < ApplicationController
   end
 
   private
+    def get_possible_auctions
+      possible_auctions = []
+      @parts = current_user.inventory_parts
+
+      @parts.each do |inv_part|
+        if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
+          @auction_parts.each do |auct_part|
+            possible_auctions << auct_part.auction if auct_part.auction.active == true
+          end
+        end
+      end
+      possible_auctions
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_auction
       @auction = Auction.find(params[:id])

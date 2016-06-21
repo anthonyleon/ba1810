@@ -1,0 +1,31 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h5 Inventory Parts
+    %hr/
+    %table#invetoryPartsDT.table.striped.responsive-table.bordered
+      %thead
+        %tr
+          %th Part Number
+          %th Description
+          %th Serial Number
+          %th Condition
+          %th Manufacturer
+          %th
+          %th
+      %tbody
+        - @inventory_parts.each do |inventory|
+          %tr
+            %td.srchtbl= inventory.part_num
+            %td.srchtbl= inventory.description
+            %td.srchtbl= inventory.serial_num
+            %td.srchtbl= inventory.condition
+            %td.srchtbl= inventory.manufacturer
+            %td= link_to 'Show', inventory_part_url(inventory)
+            / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
+            %td= link_to 'Delete', inventory_part_path(inventory), data: { inventory_behavior: 'delete' }
+
+= form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+  = file_field_tag :file
+  / = submit_tag Import
+

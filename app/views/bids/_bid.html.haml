@@ -1,0 +1,12 @@
+%td= bid.company.name
+%td= bid.inventory_part.serial_num
+%td= bid.inventory_part.condition
+%td= bid.inventory_part.manufacturer
+%td= number_to_currency bid.amount
+- if @auction.company == current_user || bid.company == current_user
+  %td= link_to 'Part Documents', inventory_part_path(bid.inventory_part,bid_id: bid.id)
+- if bid.company == current_user
+  / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
+  %td= link_to 'Delete', auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' }
+- elsif @auction.company == current_user
+  %td= link_to 'Buy Part', auction_bid_path(@auction, bid)

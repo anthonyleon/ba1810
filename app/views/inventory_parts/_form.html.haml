@@ -1,0 +1,29 @@
+.form-container
+  = simple_form_for ([@part, @inventory_part]) do |f|
+    .field.form-group
+      = f.text_field :part_num, placeholder: "Part number", class: "form-control"
+    .field.form-group
+      = f.text_field :serial_num, placeholder: "Serial number",class: "form-control"
+    #checkbox-group
+      = f.radio_button :condition, 'email'
+      = label :inventory_part_condition, "email"
+      %p
+        = f.radio_button :condition, "over_haul"
+        = label :inventory_part_condition, 'over_haul'
+      %p
+        = f.radio_button(:condition, "servicable")
+        = label :inventory_part_condition, "servicable"
+      %p
+        = f.radio_button(:condition, "as_removed")
+        = label :inventory_part_condition, "as_removed"
+      %p
+        = f.radio_button(:condition, "scrap")
+        = label :inventory_part_condition, "scrap"
+    .actions
+      = f.submit 'Submit', class: 'btn custom-btn'
+
+
+:javascript
+  $(document).ready(function() {
+    $('select').material_select();
+  });

@@ -1,0 +1,81 @@
+header, main, footer
+  padding-left: 240px
+
+@media only screen and (max-width : 992px)
+  header, main, footer
+    padding-left: 0
+
+nav
+  box-shadow: none !important
+  a:hover, a:focus
+    color: rgba(255,255,255,1) !important
+    text-decoration: none !important
+
+.company-logo
+  padding-top: 3px
+  background: #283761
+  text-align: center
+  height: 64px
+  img
+    width: 60px
+    height: 56px !important
+
+a.brand-logo
+  height: 55px
+  margin-top: 10px
+  img
+    height: 45px
+    margin-left: 10px
+    position: relative
+    top: -1.5px
+
+header
+  nav
+    background: #283761
+    .btn
+      height: 36px !important
+      line-height: 36px !important
+  #nav-dropdown
+    min-width: 150px
+.my-custom-m-icons
+  position: relative
+  top: -47px
+  left: 30px
+
+.custom-btn
+  background-color: $custom-green !important
+
+.session.session-new,
+.companies.companies-new,
+.companies.companies-create
+  background-image: url("plane")
+  background-size: 100% 100%
+  height: 100%
+
+.new-session
+  color: #000
+  display: flex
+  height: 100%
+  padding: 0 2%
+
+.new-session.row
+  margin-bottom: 0 !important
+
+#mobile-demo
+  background-color: #fafafa
+  display: flex
+  flex-direction: column
+  li:last-child
+    margin-top: auto
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active
+  transition: background-color 5000s ease-in-out 0s !important
+
+.side-nav
+  a:hover, a:focus
+    color: #039be5 !important
+    text-decoration: none !important
+    -webkit-tap-highlight-color: transparent !important

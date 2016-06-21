@@ -1,0 +1,12 @@
+- if !@document.errors.empty?
+  .alert.alert-error
+    %ul
+      - @document.errors.full_messages.each do |msg|
+        %li= msg
+.well
+  = form_for @document, html: { multipart: true } do |f|
+    = f.label :name
+    = f.text_field :name
+    = f.label :attachment
+    = f.file_field :attachment
+    = f.submit "Save", class: "btn custom-btn"

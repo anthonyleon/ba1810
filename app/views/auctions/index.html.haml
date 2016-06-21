@@ -1,0 +1,16 @@
+.row
+  .col.s12
+    %ul.tabs
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#currentAuctions"} Current Auctions
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#myBids"} My Bids
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#currentOpportunities"} Current Opportunities
+      .indicator.custom-green-color{:style => "z-index:1"}
+  #currentAuctions.col.s12.right-align.active
+    = render 'auctions/partials/buyer_auctions'
+  #myBids.col.s12
+    = render 'auctions/partials/supplier_auctions'
+  #currentOpportunities.col.s12
+    = render 'auctions/partials/possible_auctions'
