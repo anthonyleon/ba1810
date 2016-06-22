@@ -1,7 +1,12 @@
+#company-name.clearfix
+  .company-name
+    %h1= @company.name
+
 .row
   .col.m12
     %table.table.responsive-table.bordered.highlight
-      %thead
+      %thead 
+        %h5 Today's Top Industry Performers
         %tr
           %th Name
           %th Currency
@@ -12,7 +17,7 @@
         - @data.each do |key, value|
           %tr
             %td{style: "padding: 10px !important"}= value[:name]
-            %td{style: "padding: 10px !important"} Cur
+            %td{style: "padding: 10px !important"} USD
             %td{style: "padding: 10px !important"}= value[:price]
             %td{style: "padding: 10px !important"}
               = value[:change]
@@ -21,10 +26,10 @@
 
 
 
-#company-name.clearfix
-  .company-name
-    %h1= @company.name
-  = link_to 'New Auction', new_auction_path, class: 'btn custom-btn white-btn'
+/ #company-name.clearfix
+/   .company-name
+/     %h1= @company.name
+/   = link_to 'New Auction', new_auction_path, class: 'btn custom-btn white-btn'
 / #dashboard-auctions.clearfix
 /   #buyer-auctions
 /     - if @buyer_auctions.empty?
