@@ -37,7 +37,7 @@ end
 
 i = 1
 while (i < 30)
-  Company.create( name: Faker::Company.name, email: Faker::Internet.email,  password: 'password', password_confirmation: 'password')
+  Company.create( name: Faker::Company.name, email: Faker::Internet.email,  password: 'password', password_confirmation: 'password', phone: "305-726-8857", address: Faker::Address.street_address, city: Faker::Address.city, state: Faker::Address.state, zip: Faker::Address.zip_code, representative: Faker::Internet.user_name, country: Faker::Address.country_code)
   parts_database.each do |description, partnum, manufacturer, manufacturer_price|
     InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: i, serial_num: "191223", condition: "OH")
   end
@@ -75,5 +75,5 @@ end
 i = 0
 while (i < 30)
   i+=1
-  Bid.create( amount: Faker::Commerce.amount, company_id: i, auction_id: Faker::Number.between(1, 10), inventory_part_id: Faker::Number.between(1, 150))
+  Bid.create( amount: Faker::Commerce.price, company_id: i, auction_id: Faker::Number.between(1, 10), inventory_part_id: Faker::Number.between(1, 150))
 end

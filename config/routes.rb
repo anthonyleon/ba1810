@@ -15,6 +15,12 @@ Rails.application.routes.draw do
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
 #
+
+  post 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase', as: 'auction_purchase'
+
+  get 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
+
+
   resources :inventory_parts do
     resources :documents, shallow: true
   end

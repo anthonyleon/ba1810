@@ -70,11 +70,41 @@ class BidsController < ApplicationController
     end
   end
 
+  def purchase
+    set_armor_client
+    set_order
+    result = client.orders(@bid.armor_account_id).create(@order_data)
+    @bid.update(:order_id => result.data[:body]["order_id"])
+    @auction.update(:order_id => result.data[:body]["order_id"])
+  end
+
+  def purchase_confirmation
+
+  end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_bid
       @bid = Bid.find(params[:id])
+    end
+
+    def set_armor_client
+      @client = ArmorPayments::API.new('71634fba00bd805fba58cce92b394ee8', '9bf2dcb9214a2b25af659f1506c63ff4ee6cce28f2f1f754ad3a8288bcb06eb5', true)
+    end
+
+    def set_order
+      @order_data = {     
+        "type" => 1,
+        "seller_id" => @bid.company.armor_user_id,
+        "buyer_id" => current_user.company.armor_user_id,
+        "amount" => @bid.amount,
+        "summary" => @auction.part_num,
+        "description" => @auction.condition,
+        "invoice_num" => "12345",
+        "purchase_order_num" => "67890",
+        "message" => "Hello, Example Buyer! Thank you for your example goods order." }
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

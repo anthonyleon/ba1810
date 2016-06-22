@@ -4,6 +4,12 @@
       .card-content
         .card-title.center-align
           Edit Company
-
         = render 'form'
         %hr/
+
+/ %script{ :src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript" }
+/ :javascript
+/   var url = "#{@url}";
+/   	console.log(url);
+/   	armor.openModal(url);
+  

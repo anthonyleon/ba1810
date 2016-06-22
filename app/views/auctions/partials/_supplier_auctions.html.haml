@@ -18,7 +18,7 @@
           - @supplier_auctions.each do |bid|
             %tr
               %td= bid.auction.part_num
-              %td= AuctionPart.find(bid.id).description
+              %td= AuctionPart.find(bid.auction.id).description
               %td= bid.auction.condition
               %td= bid.auction.created_at.strftime("%m/%d/%Y")
               %td= ((Time.zone.now - bid.auction.created_at) / 1.day).to_i
@@ -27,6 +27,6 @@
               %td= link_to 'Show', bid.auction
               %td= link_to 'Edit', edit_auction_bid_path(bid.auction, bid)
               / %td= link_to 'Delete', bid, method: :delete, data: { confirm: 'Are you sure?' }
-              %td= link_to 'Delete', bid, data: { current_opportunities_behavior: 'delete' }
+              %td= link_to 'Delete', data: { current_opportunities_behavior: 'delete' }
       %div{style: "text-align: left;"}
         = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'

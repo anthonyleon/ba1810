@@ -4,7 +4,7 @@ class CompaniesController < ApplicationController
 
   before_action :set_company, only: [:show, :edit, :update, :destroy]
   skip_before_action :require_logged_in, only: [:new, :create, :confirm_email]
-  before_action :set_armor_client, only: [:create, :show]
+  before_action :set_armor_client, only: [:create, :edit, :update]
 
   # GET /companies
   # GET /companies.json
@@ -62,6 +62,9 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1/edit
   def edit
+    # auth_data = { 'uri' => "/accounts/#{current_user.armor_account_id}/bankaccounts", 'action' => 'create' }
+    # p result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
+    # p @url = result.data[:body]["url"]
   end
 
   def confirm_email
@@ -85,9 +88,13 @@ class CompaniesController < ApplicationController
 
         #armor user create
         armor_create
-        p result = @client.accounts.create(@account_data)
-        p armor_account_num = result.data[:body]["account_id"].to_s
+        result = @client.accounts.create(@account_data)
+        armor_account_num = result.data[:body]["account_id"].to_s
         @company.update(armor_account_id: armor_account_num)
+
+        ## Company armor_user_id
+        users = @client.accounts.users(armor_account_num).all
+        @company.update(:armor_user_id => users.data[:body][0]["user_id"])
 
         # session[:company_id] = @company.id
         format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
@@ -104,6 +111,19 @@ class CompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @company.update(company_params)
+      ## solely for testing purposes to set seed companies with an armor user id and account id
+      if !@company.armor_account_id
+        #armor user create
+        armor_create
+        p result = @client.accounts.create(@account_data)
+        p armor_account_num = result.data[:body]["account_id"].to_s
+        @company.update(armor_account_id: armor_account_num)
+
+        ## Company armor_user_id
+        p users = @client.accounts.users(armor_account_num).all
+        @company.update(:armor_user_id => users.data[:body][0]["user_id"])
+        
+      end
         format.html { redirect_to @company, notice: 'Company was successfully updated.' }
         format.json { render :show, status: :ok, location: @company }
       else
