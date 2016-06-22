@@ -48,6 +48,7 @@ class AuctionsController < ApplicationController
     result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
     p @url = result.data[:body]["url"]
 
+
     ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
     action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
     result = @client.orders(current_user.armor_account_id).update(@bid.order_id, action_data)
@@ -117,7 +118,6 @@ class AuctionsController < ApplicationController
   end
 
   private
-
 
     def set_armor_client
       @client = ArmorPayments::API.new('71634fba00bd805fba58cce92b394ee8', '9bf2dcb9214a2b25af659f1506c63ff4ee6cce28f2f1f754ad3a8288bcb06eb5', true)
