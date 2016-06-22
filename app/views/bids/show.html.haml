@@ -13,13 +13,7 @@
       %p
         %h2 Company:
         = @bid.company.name
-      %form{:action => "/charges", :method => "POST"}
-        %script.stripe-button{"data-key" => "test key", "data-name" => "From: ", :src => "https://checkout.stripe.com/checkout.js"}
-        = @bid.company.name
-        "
-        data-description= "Part Number: #{@bid.inventory_part.part_num}"
-        data-amount= "#{@bid.amount * 100}"
-        data-locale="auto"&gt;
+        
   .col-md-6
     .container
       %h4

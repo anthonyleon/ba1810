@@ -6,7 +6,6 @@ gem 'armor_payments'
 gem 'roo'
 gem 'erd'
 
-gem 'stripe'
 gem 'mailgun_rails'
 gem 'figaro'
 gem 'rails_12factor'
@@ -42,7 +41,6 @@ group :development, :test do
   gem 'capybara'
   gem 'rspec-rails'
   gem 'launchy'
-  gem 'faker'
 end
 
 group :development do
@@ -50,4 +48,6 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'spring'
+  gem 'brakeman', :require => false
+  gem 'rubocop', :require => false
 end
