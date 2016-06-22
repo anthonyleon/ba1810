@@ -15,15 +15,15 @@
             %th
             %th
         %tbody
-          - @possible_auctions.each do |auction|
+          - @supplier_auctions.each do |auction|
             %tr
               %td= auction.part_num
               %td= AuctionPart.find(auction.id).description
               %td= auction.condition
               %td= auction.created_at.strftime("%m/%d/%Y")
               %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-              %td= "Amount"
-              %td= "L Bid"
+              %td= auction.bids.count
+              %td= number_to_currency auction.bids.min.amount
               %td= link_to 'Show', auction
               %td= link_to 'Edit', edit_auction_path(auction)
               / %td= link_to 'Delete', auction, method: :delete, data: { confirm: 'Are you sure?' }
