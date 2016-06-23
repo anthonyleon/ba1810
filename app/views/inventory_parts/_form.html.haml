@@ -5,11 +5,11 @@
     .field.form-group
       = f.text_field :serial_num, placeholder: "Serial number",class: "form-control"
     #checkbox-group
-      = f.radio_button :condition, 'email'
-      = label :inventory_part_condition, "email"
+      = f.radio_button :condition, 'new'
+      = label :inventory_part_condition, "new"
       %p
-        = f.radio_button :condition, "over_haul"
-        = label :inventory_part_condition, 'over_haul'
+        = f.radio_button :condition, "overhaul"
+        = label :inventory_part_condition, 'overhaul'
       %p
         = f.radio_button(:condition, "servicable")
         = label :inventory_part_condition, "servicable"
@@ -19,6 +19,11 @@
       %p
         = f.radio_button(:condition, "scrap")
         = label :inventory_part_condition, "scrap"
+
+      = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+        = file_field_tag :file
+        / = submit_tag Import
+
     .actions
       = f.submit 'Submit', class: 'btn custom-btn'
 
