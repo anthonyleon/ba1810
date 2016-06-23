@@ -17,15 +17,15 @@
           %li.center-align
             %h5= @all_conditons_empty ? "No Condition Avaiable" : "Acceptable Conditions"
             %div.conditons-of-part
-              - if !@condition_ne.empty?
+              - if @auction.condition_ne == true
                 %p= @condition_ne
-              - if !@condition_oh.empty?
+              - if @auction.condition_oh == true
                 %p= @condition_oh
-              - if !@condition_sv.empty?
+              - if @auction.condition_sv == true
                 %p= @condition_sv
-              - if !@condition_ar.empty?
+              - if @auction.condition_ar == true
                 %p= @condition_ar
-              - if !@condition_sc.empty?
+              - if @auction.condition_sc == true
                 %p= @condition_sc
         %hr/
         %p.flow-text

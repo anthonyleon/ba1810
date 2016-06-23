@@ -12,6 +12,44 @@ class AuctionsController < ApplicationController
     possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
     @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
     @inactive_auctions = current_user.auctions.where(active: false)
+
+    @buyer_auctions.each do |auction|
+      @condition = []
+        @condition << "NE" if auction.condition_ne == true
+          
+        @condition << "OH" if auction.condition_oh == true
+          
+        @condition << "SV" if auction.condition_sv == true
+          
+        @condition << "AR" if auction.condition_ar == true
+          
+        @condition << "SC" if auction.condition_sc == true
+
+        auction.condition = @condition.to_sentence
+          
+      auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
+
+      
+    end
+
+    @supplier_auctions.each do |auction|
+      @condition = []
+        @condition << "NE" if auction.condition_ne == true
+          
+        @condition << "OH" if auction.condition_oh == true
+          
+        @condition << "SV" if auction.condition_sv == true
+          
+        @condition << "AR" if auction.condition_ar == true
+          
+        @condition << "SC" if auction.condition_sc == true
+
+        auction.condition = @condition.to_sentence 
+          
+      auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
+
+      
+    end  
   end
 #
   def set_auction_to_false
@@ -30,7 +68,7 @@ class AuctionsController < ApplicationController
     @condition_sv = (@auction.condition_sv) ? 'Servicable ': ""
     @condition_ar = (@auction.condition_ar) ? 'As Removed ': ""
     @condition_sc = (@auction.condition_sc) ? 'Scrap ': ""
-    @all_conditons_empty = ( @condition_ne.empty? && @condition_oh.empty? && @condition_sv.empty? && @condition_ar.empty? && @condition_sc.empty?)
+    @all_conditions_empty = ( @condition_ne.empty? && @condition_oh.empty? && @condition_sv.empty? && @condition_ar.empty? && @condition_sc.empty?)
   end
 
   def purchase
