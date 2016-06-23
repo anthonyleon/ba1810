@@ -35,14 +35,14 @@ parts_database.each do |description, partnum, manufacturer, manufacturer_price|
 end
 
 
-# i = 1
-# while (i < 30)
-#   Company.create( name: Faker::Company.name, email: Faker::Internet.email,  password: 'password', password_confirmation: 'password')
-#   parts_database.each do |description, partnum, manufacturer, manufacturer_price|
-#     InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: i, serial_num: "191223", condition: "OH")
-#   end
-#   i += 1
-# end
+i = 1
+while (i < 30)
+  Company.create( name: Faker::Company.name, email: Faker::Internet.email,  password: 'password', password_confirmation: 'password')
+  parts_database.each do |description, partnum, manufacturer, manufacturer_price|
+    InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: i, serial_num: "191223", condition: "OH")
+  end
+  i += 1
+end
 
 
 
@@ -57,23 +57,23 @@ end
 
 
 
-# i = 0
-# while (i < 16)
-#   i+=1
-#   Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true)
+i = 0
+while (i < 16)
+  i+=1
+  Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true)
 
-# end
+end
 
-# i = 0
-# while (i < 16)
-#   i+=1
-#   AuctionPart.create( part_num: parts_database[i-1][1], description: Faker::Company.catch_phrase,
-#                       manufacturer: Faker::Company.name, init_price: Faker::Commerce.price, auction_id: i)
+i = 0
+while (i < 16)
+  i+=1
+  AuctionPart.create( part_num: parts_database[i-1][1], description: Faker::Company.catch_phrase,
+                      manufacturer: Faker::Company.name, init_price: Faker::Commerce.price, auction_id: i)
 
-# end
+end
 
-# i = 0
-# while (i < 30)
-#   i+=1
-#   Bid.create( amount: Faker::Commerce.amount, company_id: i, auction_id: Faker::Number.between(1, 10), inventory_part_id: Faker::Number.between(1, 150))
-# end
+i = 0
+while (i < 30)
+  i+=1
+  Bid.create( amount: Faker::Commerce.price, company_id: i, auction_id: Faker::Number.between(1, 10), inventory_part_id: Faker::Number.between(1, 150))
+end

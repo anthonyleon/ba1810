@@ -9,7 +9,7 @@
             %th Conditions
             %th Start Date
             %th Days Active
-            %th Amount of Bid
+            %th Amount of Bids
             %th Lowest Bid
             %th
             %th
@@ -22,8 +22,8 @@
               %td= auction.condition
               %td= auction.created_at.strftime("%m/%d/%Y")
               %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-              %td= "Amount"
-              %td= "L Bid"
+              %td= auction.bids.count
+              %td= number_to_currency auction.bids.minimum(:amount) unless auction.bids.empty?
               %td= link_to 'Show', auction
               %td= link_to 'Edit', edit_auction_path(auction)
               / %td= link_to 'Delete', auction, method: :delete, data: { confirm: 'Are you sure?' }
