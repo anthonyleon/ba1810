@@ -4,51 +4,52 @@
 
 .row
   .col.m12
-    %table.table.responsive-table.bordered.highlight
-      %thead 
-        %h5 Today's Top Industry Performers
-        %tr
-          %th Name
-          %th Currency
-          %th Price
-          %th Change
-          %th Mkt Cap
-      %tbody
-        - @data.each do |key, value|
-          %tr
-            %td{style: "padding: 10px !important"}= value[:name]
-            %td{style: "padding: 10px !important"} USD
-            %td{style: "padding: 10px !important"}= value[:price]
-            %td{style: "padding: 10px !important"}
-              = value[:change]
-              = value[:change_in_percentage]
-            %td{style: "padding: 10px !important"}= value[:mkt_cap]
+    .card
+      .card-content
+        %table.table.responsive-table.bordered.highlight
+          %thead
+            %h5 Today's Top Industry Performers
+            %tr
+              %th Name
+              %th Currency
+              %th Price
+              %th Change
+              %th Mkt Cap
+          %tbody
+            - @data.each do |key, value|
+              %tr
+                %td{style: "padding: 10px !important"}= value[:name]
+                %td{style: "padding: 10px !important"} USD
+                %td{style: "padding: 10px !important"}= value[:price]
+                %td{style: "padding: 10px !important"}
+                  = value[:change]
+                  = value[:change_in_percentage]
+                %td{style: "padding: 10px !important"}= value[:mkt_cap]
 
 
 
-/ #company-name.clearfix
-/   .company-name
-/     %h1= @company.name
-/   = link_to 'New Auction', new_auction_path, class: 'btn custom-btn white-btn'
-/ #dashboard-auctions.clearfix
-/   #buyer-auctions
-/     - if @buyer_auctions.empty?
-/       %p You have no auctions yet.
-/     - else
-/       = render '/auctions/partials/buyer_auctions'
-/   #supplier-auctions
-/     - if @supplier_auctions.empty?
-/       %p You are not participating in any auctions yet.
-/     - else
-/       = render '/auctions/partials/supplier_auctions'
-/   #possible-auctions
-/     - if @possible_auctions.empty?
-/       %p There are no companies looking for parts in your inventory yet.
-/     - else
-/       = render '/auctions/partials/possible_auctions'
-/   #inactive-auctions
-/     - if @inactive_auctions.empty?
-/       %p You haven't closed any auctions yet.
-/     - else
-/       = render '/auctions/partials/inactive_auctions'
-
+    / #company-name.clearfix
+    /   .company-name
+    /     %h1= @company.name
+    /   = link_to 'New Auction', new_auction_path, class: 'btn custom-btn white-btn'
+    / #dashboard-auctions.clearfix
+    /   #buyer-auctions
+    /     - if @buyer_auctions.empty?
+    /       %p You have no auctions yet.
+    /     - else
+    /       = render '/auctions/partials/buyer_auctions'
+    /   #supplier-auctions
+    /     - if @supplier_auctions.empty?
+    /       %p You are not participating in any auctions yet.
+    /     - else
+    /       = render '/auctions/partials/supplier_auctions'
+    /   #possible-auctions
+    /     - if @possible_auctions.empty?
+    /       %p There are no companies looking for parts in your inventory yet.
+    /     - else
+    /       = render '/auctions/partials/possible_auctions'
+    /   #inactive-auctions
+    /     - if @inactive_auctions.empty?
+    /       %p You haven't closed any auctions yet.
+    /     - else
+    /       = render '/auctions/partials/inactive_auctions'
