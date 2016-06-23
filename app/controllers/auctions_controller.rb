@@ -1,6 +1,7 @@
 class AuctionsController < ApplicationController
   before_action :set_auction, only: [:show, :edit, :update, :destroy]
   before_action :set_bid_auction, only: [:purchase, :purchase_confirmation]
+  before_action :set_armor_client, only: [:purchase, :purchase_confirmation]
 
   # GET /auctions
   # GET /auctions.json
@@ -33,7 +34,6 @@ class AuctionsController < ApplicationController
   end
 
   def purchase
-    set_armor_client
     set_order
     p result = @client.orders(@bid.company.armor_account_id).create(@order_data)
     @bid.update(:order_id => result.data[:body]["order_id"])
@@ -43,7 +43,6 @@ class AuctionsController < ApplicationController
   end
 
   def purchase_confirmation
-    set_armor_client
     auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}/paymentinstructions", 'action' => 'view' }
     result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
     p @url = result.data[:body]["url"]

@@ -50,4 +50,6 @@ group :development do
   gem 'spring'
   gem 'brakeman', :require => false
   gem 'rubocop', :require => false
+  gem "rubycritic", :require => false
+  gem 'dawnscanner', :require=>false
 end
