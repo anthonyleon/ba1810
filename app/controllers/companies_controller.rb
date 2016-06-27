@@ -2,9 +2,9 @@ class CompaniesController < ApplicationController
   require 'httparty'
   require 'nokogiri'
 
-  before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :set_company, only: [:edit, :update, :destroy]
   skip_before_action :require_logged_in, only: [:new, :create, :confirm_email]
-  before_action :set_armor_client, only: [:create, :edit, :update]
+  before_action :set_armor_client, only: [:create, :edit, :update, :sales]
 
   # GET /companies
   # GET /companies.json
@@ -15,6 +15,7 @@ class CompaniesController < ApplicationController
   # GET /companies/1
   # GET /companies/1.json
   def show
+    @company = current_user
     # redirect_to root_path unless current_user.id == params[:id].to_i
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions.where(active: true)
@@ -140,6 +141,22 @@ class CompaniesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to companies_url, notice: 'Company was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def sales
+    @winning_bids = []
+    current_user.bids.map do |bid|
+      @winning_bids << bid if bid.order_id
+    end
+  end
+
+  def purchases
+    @completed_auctions = []
+    @winning_bid = []
+    current_user.auctions.where(active: false).each do |auction|
+      @winning_bid << auction.bids.find_by(order_id: auction.order_id)
+      @completed_auctions << auction
     end
   end
 
