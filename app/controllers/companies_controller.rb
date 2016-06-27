@@ -2,7 +2,7 @@ class CompaniesController < ApplicationController
   require 'httparty'
   require 'nokogiri'
 
-  before_action :set_company, only: [:edit, :update, :destroy]
+  before_action :set_company, only: [:update, :destroy]
   skip_before_action :require_logged_in, only: [:new, :create, :confirm_email]
   before_action :set_armor_client, only: [:create, :edit, :update, :sales]
 
@@ -63,6 +63,7 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1/edit
   def edit
+    @company = current_user
     # auth_data = { 'uri' => "/accounts/#{current_user.armor_account_id}/bankaccounts", 'action' => 'create' }
     # p result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
     # p @url = result.data[:body]["url"]
