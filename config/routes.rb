@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   get 'sales' => 'companies#sales', as: 'sales'
   get 'purchases' => 'companies#purchases', as: 'purchases'
   get 'home' => 'companies#show', as: 'company'
-
+  get 'company/edit' => 'companies#edit', as: 'edit_company'
+  
   resources :inventory_parts do
     resources :documents, shallow: true
   end
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
     resources :bids
   end
 
-  resources :companies, except: [:index, :show] do
+  resources :companies, except: [:index, :show, :edit] do
     resources :inventory_parts do
       collection { post :import }
     end
