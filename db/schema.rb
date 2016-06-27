@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620174135) do
+ActiveRecord::Schema.define(version: 20160623180644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20160620174135) do
     t.boolean  "condition_ar"
     t.boolean  "condition_sc"
     t.string   "order_id"
+    t.string   "po_num"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 20160620174135) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "order_id"
+    t.string   "invoice_num"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree

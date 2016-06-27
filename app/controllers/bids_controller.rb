@@ -10,6 +10,11 @@ class BidsController < ApplicationController
   # GET /bids/1
   # GET /bids/1.json
   def show
+    set_armor_client
+    @result = @client.shipmentcarriers.all
+    @result[:body].each do |carrier|
+      p carrier["name"]
+    end
   end
 
   # GET /bids/new

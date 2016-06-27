@@ -8,7 +8,7 @@ class AuctionsController < ApplicationController
   def index
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions.where(active: true)
-    @supplier_auctions = Bid.where(company_id: current_user.id)
+    @supplier_auctions = Bid.supplier_auctions(current_user.bids)
     possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
     @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
     @inactive_auctions = current_user.auctions.where(active: false)
@@ -77,6 +77,8 @@ class AuctionsController < ApplicationController
     @bid.update(:order_id => result.data[:body]["order_id"])
     @auction.update(:order_id => result.data[:body]["order_id"])
 
+    ##### We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??
+
     redirect_to action: "purchase_confirmation"
   end
 
@@ -84,6 +86,8 @@ class AuctionsController < ApplicationController
     auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}/paymentinstructions", 'action' => 'view' }
     result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
     p @url = result.data[:body]["url"]
+
+    @bid.auction.update(active: false)
 
 
     ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT

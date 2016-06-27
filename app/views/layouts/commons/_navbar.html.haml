@@ -27,11 +27,15 @@
     .company-logo
       %img{:src => "http://mascotaviajera.files.wordpress.com/2011/07/airplane_logo.gif", :alt => "", class: "responsive-img circle", width: '100px'}/
     %li
-      = link_to 'Dashboard', company_path(current_user)
+      = link_to 'Dashboard', company_path
     %li
       = link_to 'Current Auctions', auctions_path
     %li
       = link_to 'Inventory', inventory_parts_path
+    %li
+      = link_to 'Sales', sales_path
+    %li
+      = link_to 'Purchases', purchases_path
     %li
       = link_to 'Settings', edit_company_path(current_user)
     %li

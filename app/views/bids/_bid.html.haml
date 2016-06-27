@@ -8,6 +8,7 @@
 - if bid.company == current_user
   / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
   %td= link_to 'Delete', auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' }
+  ///////////// we need an edit bid button
 - elsif @auction.company == current_user
   %td= button_to "Buy Part", {:controller => :auctions, :action => 'purchase', :id => bid.id, :auction_id => @auction.id }, :method => :post
   / %td= link_to 'Buy Part', auction_purchase_path(@auction.id, bid.id)
