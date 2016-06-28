@@ -14,7 +14,14 @@ Rails.application.routes.draw do
   get 'logout' => 'session#destroy'
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
-#
+  post 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase', as: 'auction_purchase'
+  get 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
+
+  get 'sales' => 'companies#sales', as: 'sales'
+  get 'purchases' => 'companies#purchases', as: 'purchases'
+  get 'home' => 'companies#show', as: 'company'
+  get 'company/edit' => 'companies#edit', as: 'edit_company'
+  
   resources :inventory_parts do
     resources :documents, shallow: true
   end
@@ -25,7 +32,7 @@ Rails.application.routes.draw do
     resources :bids
   end
 
-  resources :companies, except: :index do
+  resources :companies, except: [:index, :show, :edit] do
     resources :inventory_parts do
       collection { post :import }
     end

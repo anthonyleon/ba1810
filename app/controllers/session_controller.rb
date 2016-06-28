@@ -10,6 +10,18 @@ class SessionController < ApplicationController
     if @company
       session[:company_id] = @company.id
       redirect_to @company
+      # if !@company.armor_account_id
+      #   @company.update(company_params)
+      #   set_armor_client
+      #   armor_create
+      #   p result = @client.accounts.create(@account_data)
+      #   p armor_account_num = result.data[:body]["account_id"]
+
+      #   ## Company armor_user_id
+      #   p users = @client.accounts.users(armor_account_num).all
+      #   @company.update(armor_account_id: armor_account_num, armor_user_id: users.data[:body][0]["user_id"])
+      # end
+
       # if @company.email_confirmed
       #   session[:company_id] = @company.id
       #   redirect_to @company
@@ -26,4 +38,29 @@ class SessionController < ApplicationController
     session[:company_id] = nil
     redirect_to root_path
   end
+
+  # private
+  #   def set_armor_client
+  #     @client = ArmorPayments::API.new('71634fba00bd805fba58cce92b394ee8', '9bf2dcb9214a2b25af659f1506c63ff4ee6cce28f2f1f754ad3a8288bcb06eb5', true)
+  #   end
+
+  #   def armor_create
+  #     @account_data = {     
+  #       "company": @company.name,
+  #       "user_name": @company.representative,
+  #       "user_email": @company.email,
+  #       "user_phone": "+1 #{@company.phone.gsub('-', '')}",
+  #       "address": @company.address,
+  #       "city": @company.city,
+  #       "state": @company.state,
+  #       "zip": @company.zip,
+  #       "country": @company.country,
+  #       "email_confirmed": true, 
+  #       "agreed_terms": true 
+  #       }
+  #   end
+
+  #   def company_params
+  #     params.require(:company).permit(:armor_account_id, :armor_user_id)
+  #   end
 end

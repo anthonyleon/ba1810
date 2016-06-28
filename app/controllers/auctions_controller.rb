@@ -1,5 +1,7 @@
 class AuctionsController < ApplicationController
   before_action :set_auction, only: [:show, :edit, :update, :destroy]
+  before_action :set_bid_auction, only: [:purchase, :purchase_confirmation]
+  before_action :set_armor_client, only: [:purchase, :purchase_confirmation]
 
   # GET /auctions
   # GET /auctions.json
@@ -69,6 +71,30 @@ class AuctionsController < ApplicationController
     @all_conditions_empty = ( @condition_ne.empty? && @condition_oh.empty? && @condition_sv.empty? && @condition_ar.empty? && @condition_sc.empty?)
   end
 
+  def purchase
+    set_order
+    p result = @client.orders(@bid.company.armor_account_id).create(@order_data)
+    @bid.update(:order_id => result.data[:body]["order_id"])
+    @auction.update(:order_id => result.data[:body]["order_id"])
+
+    ##### We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??
+
+    redirect_to action: "purchase_confirmation"
+  end
+
+  def purchase_confirmation
+    auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}/paymentinstructions", 'action' => 'view' }
+    result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
+    p @url = result.data[:body]["url"]
+
+    @bid.auction.update(active: false)
+
+
+    ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
+    action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
+    result = @client.orders(current_user.armor_account_id).update(@bid.order_id, action_data)
+  end
+
   # GET /auctions/new
   def new
     @auction = Auction.new
@@ -133,6 +159,24 @@ class AuctionsController < ApplicationController
   end
 
   private
+
+    def set_armor_client
+      @client = ArmorPayments::API.new('71634fba00bd805fba58cce92b394ee8', '9bf2dcb9214a2b25af659f1506c63ff4ee6cce28f2f1f754ad3a8288bcb06eb5', true)
+    end
+
+    def set_order
+      @order_data = {     
+        "type" => 1,
+        "seller_id" => @bid.company.armor_user_id,
+        "buyer_id" => current_user.armor_user_id,
+        "amount" => @bid.amount,
+        "summary" => @auction.part_num,
+        "description" => @auction.condition,
+        "invoice_num" => "12345",
+        "purchase_order_num" => "67890",
+        "message" => "Hello, Example Buyer! Thank you for your example goods order." }
+    end
+
     def get_possible_auctions
       possible_auctions = []
       @parts = current_user.inventory_parts
@@ -149,6 +193,11 @@ class AuctionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_auction
       @auction = Auction.find(params[:id])
+    end
+
+    def set_bid_auction
+      @auction = Auction.find(params[:auction_id])
+      @bid = Bid.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

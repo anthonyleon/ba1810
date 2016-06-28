@@ -6,6 +6,9 @@ class Company < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 8 }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true
+  # validates :EIN, uniqueness: true
+  # validates :address, :city, :state, :zip, :country, presence: true
+  # validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format, please input correct form: xxx-xxx-xxxx" }
 
   before_create :confirmation_token
 
