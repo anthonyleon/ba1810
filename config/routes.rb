@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :aircrafts
   get 'documents/index'
 
   get 'documents/new'
