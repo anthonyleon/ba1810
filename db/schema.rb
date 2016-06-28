@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308214138) do
+ActiveRecord::Schema.define(version: 20160623180644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 20160308214138) do
     t.boolean  "condition_sv"
     t.boolean  "condition_ar"
     t.boolean  "condition_sc"
+    t.string   "order_id"
+    t.string   "po_num"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -53,6 +55,8 @@ ActiveRecord::Schema.define(version: 20160308214138) do
     t.integer  "inventory_part_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "order_id"
+    t.string   "invoice_num"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
@@ -60,13 +64,23 @@ ActiveRecord::Schema.define(version: 20160308214138) do
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
-    t.string   "name",                            null: false
-    t.string   "email",                           null: false
-    t.string   "password_digest",                 null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "email_confirmed", default: false
+    t.string   "name",                             null: false
+    t.string   "email",                            null: false
+    t.string   "password_digest",                  null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "email_confirmed",  default: false
     t.string   "confirm_token"
+    t.string   "armor_account_id"
+    t.string   "phone"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "country"
+    t.string   "EIN"
+    t.string   "armor_user_id"
+    t.string   "representative"
   end
 
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree

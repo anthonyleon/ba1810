@@ -1,0 +1,27 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h5 Purchases
+    %hr/
+    %table#invetoryPartsDT.table.striped.responsive-table.bordered
+      %thead
+        %tr
+          %th Part Number
+          %th Description
+          %th Serial Number
+          %th Condition
+          %th Manufacturer
+          %th Price Paid
+          %th
+      %tbody
+        - @winning_bid.each do |bid|
+          %tr
+            %td.srchtbl= bid.inventory_part.part_num
+            %td.srchtbl= bid.inventory_part.description
+            %td.srchtbl= bid.inventory_part.serial_num
+            %td.srchtbl= bid.inventory_part.condition
+            %td.srchtbl= bid.inventory_part.manufacturer
+            %td.srchtbl= number_to_currency bid.amount
+            %td= link_to 'Show', auction_bid_path(bid.auction, bid)
+      /doesn't work right. ask henry to fix
+

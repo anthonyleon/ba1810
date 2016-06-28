@@ -8,7 +8,7 @@ class InventoryPart < ActiveRecord::Base
   has_many :documents, dependent: :destroy
 
 
-  # self methods for importing xls, csv files using Roo
+  # class methods for importing xls, csv files using Roo
   def self.import(file, current_user)
 	  spreadsheet = open_spreadsheet(file)
   	  header = spreadsheet.row(1)
