@@ -25,6 +25,7 @@
             / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
             %td= link_to 'Delete', inventory_part_path(inventory), data: { inventory_behavior: 'delete' }
 
+= link_to 'Upload New Inventory', new_inventory_part_path, class: "btn upload"
 
 
 

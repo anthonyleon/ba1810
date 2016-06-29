@@ -8,7 +8,6 @@ gem 'erd'
 
 gem 'mailgun_rails'
 gem 'figaro'
-gem 'rails_12factor'
 gem 'carrierwave'
 gem 'pry-rails'
 gem 'rails', '4.2.5.1'
@@ -42,6 +41,11 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'launchy'
 end
+
+group :production do
+  gem 'rails_12factor'
+end
+
 
 group :development do
   gem 'web-console', '~> 2.0'

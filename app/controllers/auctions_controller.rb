@@ -72,10 +72,7 @@ class AuctionsController < ApplicationController
   end
 
   def purchase
-    set_order
-    p result = @client.orders(@bid.company.armor_account_id).create(@order_data)
-    @bid.update(:order_id => result.data[:body]["order_id"])
-    @auction.update(:order_id => result.data[:body]["order_id"])
+
 
     ##### We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??
 
@@ -83,9 +80,14 @@ class AuctionsController < ApplicationController
   end
 
   def purchase_confirmation
+    set_order
+    p result = @client.orders(@bid.company.armor_account_id).create(@order_data)
+    @bid.update(order_id: result.data[:body]["order_id"])
+    @auction.update(order_id: result.data[:body]["order_id"])
+
     auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}/paymentinstructions", 'action' => 'view' }
     result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
-    p @url = result.data[:body]["url"]
+    @url = result.data[:body]["url"]
 
     @bid.auction.update(active: false)
 
@@ -161,7 +163,7 @@ class AuctionsController < ApplicationController
   private
 
     def set_armor_client
-      @client = ArmorPayments::API.new('71634fba00bd805fba58cce92b394ee8', '9bf2dcb9214a2b25af659f1506c63ff4ee6cce28f2f1f754ad3a8288bcb06eb5', true)
+      @client = ArmorPayments::API.new( 'ARMOR_PKEY', 'ARMOR_SKEY', true)
     end
 
     def set_order
@@ -172,8 +174,8 @@ class AuctionsController < ApplicationController
         "amount" => @bid.amount,
         "summary" => @auction.part_num,
         "description" => @auction.condition,
-        "invoice_num" => "12345",
-        "purchase_order_num" => "67890",
+        "invoice_num" => "123456",
+        "purchase_order_num" => "675890",
         "message" => "Hello, Example Buyer! Thank you for your example goods order." }
     end
 
