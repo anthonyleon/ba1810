@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   get 'home' => 'companies#show', as: 'company'
   get 'company/edit' => 'companies#edit', as: 'edit_company'
   
+  post 'payment' => 'bids#release_payment', as: 'payment'
+
+
   resources :inventory_parts do
     resources :documents, shallow: true
   end

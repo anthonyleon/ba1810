@@ -1,6 +1,6 @@
 class BidsController < ApplicationController
-  before_action :set_bid, only: [:show, :edit, :update, :destroy]
-  before_action :set_auction, only: [:new, :create, :destroy]
+  before_action :set_bid, only: [:show, :edit, :update, :destroy, :release_payment]
+  before_action :set_auction, only: [:new, :create, :destroy, :show, :update]
   # GET /bids
   # GET /bids.json
   def index
@@ -12,8 +12,9 @@ class BidsController < ApplicationController
   def show
     set_armor_client
     @result = @client.shipmentcarriers.all
-    @result[:body].each do |carrier|
-      p carrier["name"]
+    if @bid.carrier_code
+      release_payment
+      funds_released
     end
   end
 
@@ -56,8 +57,20 @@ class BidsController < ApplicationController
   def update
     respond_to do |format|
       if @bid.update(bid_params)
-        format.html { redirect_to @bid, notice: 'Bid was successfully updated.' }
+        format.html { redirect_to auction_bid_path(@auction, @bid), notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
+        if @bid.tracking_num # POST shipping info to armor 
+          set_armor_client
+          @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.carrier_code.to_i - 1]["name"])
+          user_id = @bid.company.armor_user_id
+          account_id = @bid.company.armor_account_id
+          order_id = @bid.order_id
+          action_data = { "user_id" => user_id, "carrier_id" => @bid.carrier_code, "tracking_id" => @bid.tracking_num, 
+                           "description" => @bid.shipment_desc }
+          result = @client.orders(account_id).shipments(order_id).create(action_data)
+          deliver_data = { "action" => "delivered", "confirm" => true }
+          delivery_result = @client.orders(account_id).update(order_id, deliver_data)
+        end
       else
         format.html { render :edit }
         format.json { render json: @bid.errors, status: :unprocessable_entity }
@@ -89,6 +102,8 @@ class BidsController < ApplicationController
 
 
 
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_bid
@@ -96,7 +111,7 @@ class BidsController < ApplicationController
     end
 
     def set_armor_client
-      @client = ArmorPayments::API.new('71634fba00bd805fba58cce92b394ee8', '9bf2dcb9214a2b25af659f1506c63ff4ee6cce28f2f1f754ad3a8288bcb06eb5', true)
+      @client = ArmorPayments::API.new( 'ARMOR_PKEY', 'ARMOR_SKEY', true)
     end
 
     def set_order
@@ -112,9 +127,27 @@ class BidsController < ApplicationController
         "message" => "Hello, Example Buyer! Thank you for your example goods order." }
     end
 
+    def release_payment
+      set_armor_client
+      account_id = current_user.armor_account_id
+      user_id = current_user.armor_user_id
+      auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}", 'action' => 'release' }
+      result = @client.accounts.users(account_id).authentications(user_id).create(auth_data)
+      @url = result.data[:body]["url"]
+    end
+
+    def funds_released # for testing purposes only sandbox trigger
+      account_id = @bid.company.armor_account_id
+      order_id = @bid.order_id
+      action_data = { "action" => "release", "confirm" => true }
+      p result = @client.orders(account_id).update(order_id, action_data)
+      @bid.auction.update(paid: true)
+    end
+
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def bid_params
-      params.require(:bid).permit(:amount, :company_id, :auction_id, :inventory_part_id)
+      params.require(:bid).permit(:amount, :company_id, :auction_id, :inventory_part_id, :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
     end
 
     def set_auction

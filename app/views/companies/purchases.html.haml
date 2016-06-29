@@ -15,13 +15,17 @@
           %th
       %tbody
         - @winning_bid.each do |bid|
-          %tr
-            %td.srchtbl= bid.inventory_part.part_num
-            %td.srchtbl= bid.inventory_part.description
-            %td.srchtbl= bid.inventory_part.serial_num
-            %td.srchtbl= bid.inventory_part.condition
-            %td.srchtbl= bid.inventory_part.manufacturer
-            %td.srchtbl= number_to_currency bid.amount
-            %td= link_to 'Show', auction_bid_path(bid.auction, bid)
+          - if bid.order_id != nil
+            %tr
+              %td.srchtbl= bid.inventory_part.part_num
+              %td.srchtbl= bid.inventory_part.description
+              %td.srchtbl= bid.inventory_part.serial_num
+              %td.srchtbl= bid.inventory_part.condition
+              %td.srchtbl= bid.inventory_part.manufacturer
+              %td.srchtbl= number_to_currency bid.amount
+              %td= link_to 'Show', auction_bid_path(bid.auction, bid)
+              / %td= button_to 'Release Funds', {controller: "bids", action: "release_payment", id: bid.id, auction_id: bid.auction.id}, method: "post" unless !bid.delivered || bid.auction.paid
+
+            
       /doesn't work right. ask henry to fix
 

@@ -23,7 +23,7 @@
       %main
         .custom-container
           = yield
-    - else current_user
+    - else
       .new-session.row{style: "max-height: 100vh;"}
         = yield
 
