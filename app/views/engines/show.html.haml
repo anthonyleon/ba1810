@@ -1,0 +1,42 @@
+.row
+  .col.s12.m10.offset-m1
+    .card
+      .card-content
+        %span.card-title.activator.grey-text.text-darken-4
+          %p#notice= notice
+          %p
+            %strong Engine major variant:
+            = @engine.engine_major_variant
+          %p
+            %strong Engine minor variant:
+            = @engine.engine_minor_variant
+          %p
+            %strong Esn:
+            = @engine.esn
+          %p
+            %strong Condition:
+            = @engine.condition
+          %p
+            %strong Engine Status:
+            = @engine.current_status
+          %p
+            %strong Last operator:
+            = @engine.last_operator
+          %p
+            %strong Location:
+            = @engine.location
+          %p
+            %strong Cycles remaining:
+            = @engine.cycles_remaining
+          %p
+            %strong Available date:
+            = @engine.available_date
+          %p
+            %strong Sale:
+            = @engine.sale
+          %p
+            %strong Lease:
+            = @engine.lease
+          = link_to 'Edit', edit_engine_path(@engine), class: "btn custom-btn"
+          |
+          = link_to 'Back', engines_path, class: "btn custom-btn"
