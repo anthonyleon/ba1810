@@ -1,0 +1,56 @@
+= form_for(@engine) do |f|
+  - if @engine.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@engine.errors.count, "error")
+        prohibited this engine from being saved:
+      %ul
+        - @engine.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.text_field :engine_major_variant, placeholder: "Engine Major Variant"
+  .field
+    = f.text_field :engine_minor_variant, placeholder: "Engine Minor Variant"
+  .field
+    = f.text_field :esn, placeholder: "ESN"
+  %div Engine Condition
+  #form-group.radio_button
+    = f.radio_button :condition, "NE"
+    = f.label :condition_ne, "NE"
+  #form-group.radio_button
+    = f.radio_button :condition, "OH"
+    = f.label :condition_oh, "Overhaul"
+  #form-group.radio_button
+    = f.radio_button :condition, "SV"
+    = f.label :condition_sv, "Servicable"
+  #form-group.radio_button
+    = f.radio_button :condition, "Non-SV"
+    = f.label "condition_non-sv", "Non-Serviceable"
+  %br
+    %div Engine Status
+    #form-group.radio_button
+      = f.radio_button :current_status,  "In Service"
+      = f.label :current_status_in_service, "In Service"
+    #form-group.radio_button
+      = f.radio_button :current_status,  "Off Service"
+      = f.label :current_status_off_service, "Off Service"
+    %br
+      .field
+        = f.text_field :current_operator, placeholder: "Current Opperator"
+      .field
+        = f.text_field :last_operator, placeholder: "Last Operator"
+      .field
+        = f.text_field :location, placeholder: "Location Stored"
+      .field
+        = f.text_field :cycles_remaining, placeholder: "Disk Limiter"
+      .field
+        = f.text_field :available_date, placeholder: "Available Date"
+      #form-group.checkbox
+        = f.check_box :sale
+        = f.label :sale, "For Sale"
+      #form-group.checkbox
+        = f.check_box(:lease)
+        = f.label :lease, "For Lease"
+      %br
+        .actions
+          = f.submit

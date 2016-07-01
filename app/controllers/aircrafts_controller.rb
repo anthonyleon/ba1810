@@ -25,6 +25,7 @@ class AircraftsController < ApplicationController
   # POST /aircrafts.json
   def create
     @aircraft = Aircraft.new(aircraft_params)
+    @aircraft.company = current_user
 
     respond_to do |format|
       if @aircraft.save
@@ -69,6 +70,6 @@ class AircraftsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def aircraft_params
-      params.require(:aircraft).permit(:aircraft_type, :msn, :tail_number, :yob, :mtow, :engine_major_variant, :engine_minor_variant, :apu_model, :cabin_config, :in_service, :off_service, :current_operator, :last_operator, :location, :maintenance_status, :available_date, :sale, :lease)
+      params.require(:aircraft).permit(:company_id, :aircraft_type, :msn, :tail_number, :yob, :mtow, :engine_major_variant, :engine_minor_variant, :apu_model, :cabin_config, :in_service, :off_service, :current_operator, :last_operator, :location, :maintenance_status, :available_date, :sale, :lease)
     end
 end

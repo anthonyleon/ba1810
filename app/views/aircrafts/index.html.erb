@@ -1,28 +1,20 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Aircrafts</h1>
+<h1>Aircraft Availability</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Aircraft type</th>
-      <th>Msn</th>
-      <th>Tail number</th>
-      <th>Yob</th>
-      <th>Mtow</th>
-      <th>Engine major variant</th>
-      <th>Engine minor variant</th>
-      <th>Apu model</th>
-      <th>Cabin config</th>
-      <th>In service</th>
-      <th>Off service</th>
-      <th>Current operator</th>
-      <th>Last operator</th>
-      <th>Location</th>
+      <th>Aircraft Type</th>
+      <th>MSN</th>
+      <th>Tail Number</th>
+      <th>Y.O.B.</th>
+      <th>MTow</th>
+      <th>Engine Type</th>
+      <th>APU</th>
       <th>Maintenance status</th>
-      <th>Available date</th>
-      <th>Sale</th>
-      <th>Lease</th>
+      <th>Available Date</th>
+      <th>Available For</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -30,27 +22,24 @@
   <tbody>
     <% @aircrafts.each do |aircraft| %>
       <tr>
-        <td><%= aircraft.aircraft_type %></td>
-        <td><%= aircraft.msn %></td>
-        <td><%= aircraft.tail_number %></td>
-        <td><%= aircraft.yob %></td>
-        <td><%= aircraft.mtow %></td>
-        <td><%= aircraft.engine_major_variant %></td>
-        <td><%= aircraft.engine_minor_variant %></td>
-        <td><%= aircraft.apu_model %></td>
-        <td><%= aircraft.cabin_config %></td>
-        <td><%= aircraft.in_service %></td>
-        <td><%= aircraft.off_service %></td>
-        <td><%= aircraft.current_operator %></td>
-        <td><%= aircraft.last_operator %></td>
-        <td><%= aircraft.location %></td>
-        <td><%= aircraft.maintenance_status %></td>
-        <td><%= aircraft.available_date %></td>
-        <td><%= aircraft.sale %></td>
-        <td><%= aircraft.lease %></td>
-        <td><%= link_to 'Show', aircraft %></td>
+        <td><%= aircraft.aircraft_type.upcase %></td>
+        <td><%= link_to aircraft.msn.upcase, aircraft %></td>
+        <td><%= aircraft.tail_number.upcase %></td>
+        <td><%= aircraft.yob.upcase %></td>
+        <td><%= aircraft.mtow.upcase %></td>
+        <td><%= aircraft.engine_major_variant.upcase + "-" + aircraft.engine_minor_variant.upcase%></td>
+        <td><%= aircraft.apu_model.upcase %></td>
+        <td><%= aircraft.maintenance_status.upcase %></td>
+        <td><%= aircraft.available_date.upcase %></td>
+        <td><%= if aircraft.sale? && aircraft.lease?
+                  "Sale or Lease"
+                elsif aircraft.lease?
+                  "Lease"
+                else "Contact Rep"
+                end%></td>
         <td><%= link_to 'Edit', edit_aircraft_path(aircraft) %></td>
-        <td><%= link_to 'Destroy', aircraft, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', aircraft, data: { aircraft_behavior: 'delete' } %></td>      
+
       </tr>
     <% end %>
   </tbody>
