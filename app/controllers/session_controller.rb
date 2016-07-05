@@ -41,7 +41,7 @@ class SessionController < ApplicationController
 
   # private
   #   def set_armor_client
-  #     @client = ArmorPayments::API.new( 'ARMOR_PKEY', 'ARMOR_SKEY', true)
+  #     @client = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
   #   end
 
   #   def armor_create

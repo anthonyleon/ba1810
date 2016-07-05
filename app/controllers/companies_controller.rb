@@ -146,19 +146,18 @@ class CompaniesController < ApplicationController
   end
 
   def sales
-    @winning_bids = []
-    current_user.bids.map do |bid|
-      @winning_bids << bid if bid.order_id
+    @sales = []
+    current_user.bids.each do |bid|
+      @sales << bid if bid.order_id != nil
     end
   end
 
   def purchases
-    @completed_auctions = []
-    @winning_bid = []
+    @purchases = []
     current_user.auctions.where(active: false).each do |auction|
-      @winning_bid << auction.bids.find_by(order_id: auction.order_id)
-      @completed_auctions << auction
+      @purchases << auction.bids.find_by(order_id: auction.order_id)
     end
+    @purchases.compact!
   end
 
   private
@@ -182,7 +181,7 @@ class CompaniesController < ApplicationController
     end
 
     def set_armor_client
-      @client = ArmorPayments::API.new( 'ARMOR_PKEY', 'ARMOR_SKEY', true)
+      @client = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
     end
 
     def armor_create
