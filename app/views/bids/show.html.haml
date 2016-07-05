@@ -37,6 +37,8 @@
         %p
           %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
           %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => @url} Release Payment
+      - elsif @auction.paid
+        = render :partial => "ratings/rate", :locals => {:rating => @rating}
 
     %h4
       Part: #{@bid.inventory_part.description}
