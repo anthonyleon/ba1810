@@ -9,8 +9,9 @@ class AuctionsController < ApplicationController
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions.where(active: true)
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
-    possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
-    @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
+    # possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
+    # @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
+    get_possible_auctions
     @inactive_auctions = current_user.auctions.where(active: false)
 
     @buyer_auctions.each do |auction|
@@ -52,12 +53,7 @@ class AuctionsController < ApplicationController
     end  
   end
 #
-  def set_auction_to_false
-    @auction = Auction.find(params[:id])
-    @auction.active = false
-    @auction.save
-    redirect_to company_path
-  end
+
 #
   # GET /auctions/1
   # GET /auctions/1.json
@@ -180,17 +176,27 @@ class AuctionsController < ApplicationController
     end
 
     def get_possible_auctions
-      possible_auctions = []
       @parts = current_user.inventory_parts
+      @possible_auctions = []
 
-      @parts.each do |inv_part|
-        if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
-          @auction_parts.each do |auct_part|
-            possible_auctions << auct_part.auction if auct_part.auction.active == true
-          end
+      @parts.each do |inventory|
+        Auction.where(part_num: inventory.part_num).each do |auction|
+          @possible_auctions << auction if auction.active == true && auction.company != current_user
         end
       end
-      possible_auctions
+
+      @possible_auctions.flatten!
+      @possible_auctions.uniq!
+
+
+      # @parts.each do |inv_part|
+      #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
+      #     @auction_parts.each do |auct_part|
+      #       possible_auctions << auct_part.auction if auct_part.auction.active == true
+      #     end
+      #   end
+      # end
+      # possible_auctions
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_auction

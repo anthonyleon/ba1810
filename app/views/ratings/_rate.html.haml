@@ -1,12 +1,12 @@
 = form_for([@company, @rating]) do |f|
 
-  - %w[timeliness cleanliness godliness].each do |ness|
-    .field
-      %div{id: "#{ness}-star-rating"}
-      = f.label :"#{ness}"
-  / .field
-  /   #star-rating
-  /   = f.label :timeliness
+  / - %w[timeliness cleanliness godliness].each do |ness|
+  /   .field
+  /     %div{id: "#{ness}-star-rating"}
+  /     = f.label :"#{ness}"
+  .field
+    #star-rating
+    = f.label :timeliness
   %br
   .actions
     %a.waves-effect.waves-light.btn-large= f.submit "Submit"
