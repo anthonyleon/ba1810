@@ -12,6 +12,7 @@ class Company < ActiveRecord::Base
   # validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format, please input correct form: xxx-xxx-xxxx" }
 
   before_create :confirmation_token
+  before_save :downcase_email
 
   def email_activate
     self.email_confirmed = true
@@ -20,6 +21,10 @@ class Company < ActiveRecord::Base
   end
 
   private
+
+  def downcase_email
+    self.email.downcase!
+  end
 
   def confirmation_token
     if self.confirm_token.blank?

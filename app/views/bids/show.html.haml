@@ -33,7 +33,7 @@
       - elsif current_user == @auction.company && !@bid.carrier_code
         Part has not been shipped yet.
       
-      - if current_user == @auction.company && @bid.delivered && !@auction.paid
+      - if current_user == @auction.company && !@auction.paid # Add this when out of Testing Purposes && @bid.delivered && !@auction.paid
         %p
           %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
           %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => @url} Release Payment

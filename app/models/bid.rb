@@ -12,4 +12,16 @@ class Bid < ActiveRecord::Base
       auctions.uniq! || auctions
     end
   end
+
+ def average_rating
+    arr = []
+    company.ratings.each do |rating|
+        arr << rating.timeliness
+        arr << rating.documentation
+        arr << rating.packaging
+        arr << rating.dependability
+    end
+    (arr.sum / arr.count.to_f)
+  end
+  
 end
