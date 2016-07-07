@@ -3,6 +3,7 @@ class Company < ActiveRecord::Base
   has_many :auctions, dependent: :destroy
   has_many :bids
   has_many :inventory_parts
+  has_many :ratings
   validates :password, presence: true, length: { minimum: 8 }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true
@@ -11,6 +12,7 @@ class Company < ActiveRecord::Base
   # validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format, please input correct form: xxx-xxx-xxxx" }
 
   before_create :confirmation_token
+  before_save :downcase_email
 
   def email_activate
     self.email_confirmed = true
@@ -18,7 +20,13 @@ class Company < ActiveRecord::Base
     save!(validate: false)
   end
 
+
   private
+
+
+  def downcase_email
+    self.email.downcase!
+  end
 
   def confirmation_token
     if self.confirm_token.blank?

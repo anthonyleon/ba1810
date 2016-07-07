@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :ratings
   get 'documents/index'
 
   get 'documents/new'
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
   end
 
   resources :companies, except: [:index, :show, :edit] do
+    resources :ratings
     resources :inventory_parts do
       collection { post :import }
     end

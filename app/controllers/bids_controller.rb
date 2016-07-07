@@ -11,11 +11,15 @@ class BidsController < ApplicationController
   # GET /bids/1.json
   def show
     set_armor_client
-    @result = @client.shipmentcarriers.all
-    if @bid.carrier_code
+    @carriers = @client.shipmentcarriers.all
+
+    if @bid.carrier_code != nil
       release_payment
       funds_released
     end
+
+    @company = @bid.company
+    @rating = Rating.new
   end
 
   # GET /bids/new
@@ -111,7 +115,7 @@ class BidsController < ApplicationController
     end
 
     def set_armor_client
-      @client = ArmorPayments::API.new( 'ARMOR_PKEY', 'ARMOR_SKEY', true)
+      @client = ArmorPayments::API.new ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true
     end
 
     def set_order
@@ -128,19 +132,18 @@ class BidsController < ApplicationController
     end
 
     def release_payment
-      set_armor_client
       account_id = current_user.armor_account_id
       user_id = current_user.armor_user_id
       auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}", 'action' => 'release' }
-      result = @client.accounts.users(account_id).authentications(user_id).create(auth_data)
-      @url = result.data[:body]["url"]
+      url_result = @client.accounts.users(account_id).authentications(user_id).create(auth_data)
+      @url = url_result.data[:body]["url"]
     end
 
     def funds_released # for testing purposes only sandbox trigger
       account_id = @bid.company.armor_account_id
       order_id = @bid.order_id
       action_data = { "action" => "release", "confirm" => true }
-      p result = @client.orders(account_id).update(order_id, action_data)
+      fund_result = @client.orders(account_id).update(order_id, action_data)
       @bid.auction.update(paid: true)
     end
 

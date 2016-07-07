@@ -14,7 +14,7 @@
           %th Price
           %th
       %tbody
-        - @winning_bids.each do |bid|
+        - @sales.each do |bid|
           %tr
             %td.srchtbl= bid.inventory_part.part_num
             %td.srchtbl= bid.inventory_part.description

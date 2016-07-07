@@ -11,7 +11,7 @@
     / = f.text_field :name, class: 'form-control', placeholder: "Company name"
     / - carrier_collection = @result[:body].collect{ |c| [c["name"], c["carrier_id"]] }
     / = f.select_tag :shipment_carrier, options_for_select(carrier_collection), :class => "select"
-    - carrier_collection = @result[:body].collect{ |c| [c["name"], c["carrier_id"]] }
+    - carrier_collection = @carriers[:body].collect{ |c| [c["name"], c["carrier_id"]] }
     = f.select :carrier_code, options_for_select(carrier_collection), {}, { :class => "select" }
   .field.form-group
     = f.text_field :tracking_num, class: 'form-control', placeholder: "Tracking Number"

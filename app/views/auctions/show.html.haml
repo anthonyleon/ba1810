@@ -46,6 +46,7 @@
                   %th Condition
                   %th Manufacturer
                   %th Amount
+                  %th Avg Rating
               %tbody
                 - @auction.bids.order(amount: :asc).each do |bid|
                   %tr#cursor-row
