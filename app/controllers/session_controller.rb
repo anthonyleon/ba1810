@@ -6,10 +6,10 @@ class SessionController < ApplicationController
   end
 
   def create
-    @company = Company.find_by_email(params[:login][:email]).try(:authenticate, params[:login][:password])
+    @company = Company.find_by_email(params[:login][:email].downcase).try(:authenticate, params[:login][:password])
     if @company
       session[:company_id] = @company.id
-      redirect_to @company
+      redirect_to company_path
       # if !@company.armor_account_id
       #   @company.update(company_params)
       #   set_armor_client
@@ -41,7 +41,7 @@ class SessionController < ApplicationController
 
   # private
   #   def set_armor_client
-  #     @client = ArmorPayments::API.new( 'ARMOR_PKEY', 'ARMOR_SKEY', true)
+  #     @client = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
   #   end
 
   #   def armor_create
