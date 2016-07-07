@@ -11,10 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628181655) do
+ActiveRecord::Schema.define(version: 20160629162607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "aircrafts", force: :cascade do |t|
+    t.string   "aircraft_type"
+    t.string   "msn"
+    t.string   "tail_number"
+    t.string   "yob"
+    t.string   "mtow"
+    t.string   "engine_major_variant"
+    t.string   "engine_minor_variant"
+    t.string   "apu_model"
+    t.string   "cabin_config"
+    t.boolean  "in_service"
+    t.boolean  "off_service"
+    t.string   "current_operator"
+    t.string   "last_operator"
+    t.string   "location"
+    t.string   "maintenance_status"
+    t.string   "available_date"
+    t.boolean  "sale"
+    t.boolean  "lease"
+    t.integer  "company_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "aircrafts", ["company_id"], name: "index_aircrafts_on_company_id", using: :btree
 
   create_table "auction_parts", force: :cascade do |t|
     t.string   "part_num"
@@ -102,6 +128,32 @@ ActiveRecord::Schema.define(version: 20160628181655) do
 
   add_index "documents", ["inventory_part_id"], name: "index_documents_on_inventory_part_id", using: :btree
 
+  create_table "engines", force: :cascade do |t|
+    t.string   "engine_major_variant"
+    t.string   "engine_minor_variant"
+    t.string   "esn"
+    t.string   "condition"
+    t.boolean  "new"
+    t.boolean  "overhaul"
+    t.boolean  "serviceable"
+    t.boolean  "non_serviceable"
+    t.string   "current_status"
+    t.boolean  "in_service"
+    t.boolean  "off_service"
+    t.string   "current_operator"
+    t.string   "last_operator"
+    t.string   "location"
+    t.string   "cycles_remaining"
+    t.string   "available_date"
+    t.boolean  "sale"
+    t.boolean  "lease"
+    t.integer  "company_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "engines", ["company_id"], name: "index_engines_on_company_id", using: :btree
+
   create_table "inventory_parts", force: :cascade do |t|
     t.string   "part_num",     null: false
     t.string   "description"
@@ -126,6 +178,7 @@ ActiveRecord::Schema.define(version: 20160628181655) do
     t.datetime "updated_at",         null: false
   end
 
+  add_foreign_key "aircrafts", "companies"
   add_foreign_key "auction_parts", "auctions"
   add_foreign_key "auction_parts", "parts"
   add_foreign_key "auctions", "companies"
@@ -133,6 +186,7 @@ ActiveRecord::Schema.define(version: 20160628181655) do
   add_foreign_key "bids", "companies"
   add_foreign_key "bids", "inventory_parts"
   add_foreign_key "documents", "inventory_parts"
+  add_foreign_key "engines", "companies"
   add_foreign_key "inventory_parts", "companies"
   add_foreign_key "inventory_parts", "parts"
 end
