@@ -20,7 +20,9 @@ class Company < ActiveRecord::Base
     save!(validate: false)
   end
 
+
   private
+
 
   def downcase_email
     self.email.downcase!

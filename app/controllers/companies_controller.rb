@@ -166,24 +166,10 @@ class CompaniesController < ApplicationController
       @company = Company.find(params[:id])
     end
 
-    def get_possible_auctions
-      possible_auctions = []
-      @parts = current_user.inventory_parts
-
-      @parts.each do |inv_part|
-        if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
-          @auction_parts.each do |auct_part|
-            possible_auctions << auct_part.auction if auct_part.auction.active == true
-          end
-        end
-      end
-      possible_auctions
-    end
-
     def set_armor_client
       @client = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
     end
-
+  
     def armor_create
       @account_data = {     
         "company": @company.name,
@@ -198,6 +184,20 @@ class CompaniesController < ApplicationController
         "email_confirmed": true, 
         "agreed_terms": true 
         }
+    end
+
+    def get_possible_auctions
+      possible_auctions = []
+      @parts = current_user.inventory_parts
+
+      @parts.each do |inv_part|
+        if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
+          @auction_parts.each do |auct_part|
+            possible_auctions << auct_part.auction if auct_part.auction.active == true
+          end
+        end
+      end
+      possible_auctions
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
