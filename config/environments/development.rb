@@ -17,13 +17,7 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-  API_KEY = Figaro.env.mailgun_api_key
-  DOMAIN = Figaro.env.mailgun_domain
-  config.action_mailer.delivery_method = :mailgun
-  config.action_mailer.mailgun_settings = {
-          api_key: API_KEY, 
-          domain: DOMAIN 
-  }
+ 
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
