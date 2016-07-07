@@ -178,17 +178,14 @@ class AuctionsController < ApplicationController
     def get_possible_auctions
       @parts = current_user.inventory_parts
       @possible_auctions = []
-
       @parts.each do |inventory|
         Auction.where(part_num: inventory.part_num).each do |auction|
           @possible_auctions << auction if auction.active == true && auction.company != current_user
         end
       end
-
       @possible_auctions.flatten!
       @possible_auctions.uniq!
-
-
+      ## OLD CODE
       # @parts.each do |inv_part|
       #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
       #     @auction_parts.each do |auct_part|
