@@ -4,6 +4,7 @@ class Company < ActiveRecord::Base
   has_many :bids
   has_many :inventory_parts
   has_many :ratings
+  has_many :notifications, dependent: :destroy
   validates :password, presence: true, length: { minimum: 8 }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true

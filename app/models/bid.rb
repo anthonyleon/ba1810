@@ -2,6 +2,7 @@ class Bid < ActiveRecord::Base
   belongs_to :company
   belongs_to :auction
   belongs_to :inventory_part
+  has_many :notifications
 
   def self.supplier_auctions user_bids
     auctions = []
@@ -21,7 +22,8 @@ class Bid < ActiveRecord::Base
         arr << rating.packaging
         arr << rating.dependability
     end
-    (arr.sum / arr.count.to_f)
+    arr.compact!
+    (arr.sum / arr.count.to_f) unless arr.empty?
   end
   
 end
