@@ -1,13 +1,21 @@
 require 'rails_helper'
 
-RSpec.feature "creating an auction" do
-	scenario "allow a company to search for a part" do 
+feature "creating an auction", :javascript => true do
+	before do 
+		sign_in
+	end
 
-		visit new_auction_path
+	scenario "allow a company to search for a part" do
 
-		fill_in 'Part number', with: "8063-215"
+		find_link('Part Search').click
+
+		fill_in 'Part number', :with => "8063-215"
 		check ("New")
 
-		expect(page)
+		click_button "Submit"
+
+		save_and_open_page
 	end
 end
+
+
