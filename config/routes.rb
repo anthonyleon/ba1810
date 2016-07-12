@@ -49,7 +49,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :charges
 
   # resources :companies do
   #   member do
