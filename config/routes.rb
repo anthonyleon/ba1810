@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     resources :bids
   end
 
-  resources :companies, except: [:index, :show, :edit] do
+  resources :companies, except: [:index, :show] do
     resources :ratings
     resources :inventory_parts do
       collection { post :import }
