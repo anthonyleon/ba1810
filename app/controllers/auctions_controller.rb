@@ -9,55 +9,25 @@ class AuctionsController < ApplicationController
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions.where(active: true)
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
-    possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
-    @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
+    # possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
+    # @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
+    get_possible_auctions
     @inactive_auctions = current_user.auctions.where(active: false)
 
     @buyer_auctions.each do |auction|
-      @condition = []
-        @condition << "NE" if auction.condition_ne == true
-          
-        @condition << "OH" if auction.condition_oh == true
-          
-        @condition << "SV" if auction.condition_sv == true
-          
-        @condition << "AR" if auction.condition_ar == true
-          
-        @condition << "SC" if auction.condition_sc == true
-
+        condition_match(auction)
         auction.condition = @condition.to_sentence
-          
       auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
-
-      
     end
 
     @supplier_auctions.each do |auction|
-      @condition = []
-        @condition << "NE" if auction.condition_ne == true
-          
-        @condition << "OH" if auction.condition_oh == true
-          
-        @condition << "SV" if auction.condition_sv == true
-          
-        @condition << "AR" if auction.condition_ar == true
-          
-        @condition << "SC" if auction.condition_sc == true
-
+        condition_match(auction)
         auction.condition = @condition.to_sentence 
-          
       auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
-
-      
     end  
   end
 #
-  def set_auction_to_false
-    @auction = Auction.find(params[:id])
-    @auction.active = false
-    @auction.save
-    redirect_to company_path
-  end
+
 #
   # GET /auctions/1
   # GET /auctions/1.json
@@ -72,10 +42,7 @@ class AuctionsController < ApplicationController
   end
 
   def purchase
-    set_order
-    p result = @client.orders(@bid.company.armor_account_id).create(@order_data)
-    @bid.update(:order_id => result.data[:body]["order_id"])
-    @auction.update(:order_id => result.data[:body]["order_id"])
+
 
     ##### We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??
 
@@ -83,9 +50,14 @@ class AuctionsController < ApplicationController
   end
 
   def purchase_confirmation
+    set_order
+    p result = @client.orders(@bid.company.armor_account_id).create(@order_data)
+    @bid.update(order_id: result.data[:body]["order_id"])
+    @auction.update(order_id: result.data[:body]["order_id"])
+
     auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}/paymentinstructions", 'action' => 'view' }
     result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
-    p @url = result.data[:body]["url"]
+    @url = result.data[:body]["url"]
 
     @bid.auction.update(active: false)
 
@@ -126,6 +98,7 @@ class AuctionsController < ApplicationController
           @auction.auction_part = @auction_part
           current_user.auctions << @auction
           @auction.save && @auction_part.save
+          notify
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
@@ -161,7 +134,7 @@ class AuctionsController < ApplicationController
   private
 
     def set_armor_client
-      @client = ArmorPayments::API.new('71634fba00bd805fba58cce92b394ee8', '9bf2dcb9214a2b25af659f1506c63ff4ee6cce28f2f1f754ad3a8288bcb06eb5', true)
+      @client = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
     end
 
     def set_order
@@ -172,23 +145,53 @@ class AuctionsController < ApplicationController
         "amount" => @bid.amount,
         "summary" => @auction.part_num,
         "description" => @auction.condition,
-        "invoice_num" => "12345",
-        "purchase_order_num" => "67890",
+        "invoice_num" => "123456",
+        "purchase_order_num" => "675890",
         "message" => "Hello, Example Buyer! Thank you for your example goods order." }
     end
 
-    def get_possible_auctions
-      possible_auctions = []
-      @parts = current_user.inventory_parts
-
-      @parts.each do |inv_part|
-        if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
-          @auction_parts.each do |auct_part|
-            possible_auctions << auct_part.auction if auct_part.auction.active == true
-          end
+    def notify
+      InventoryPart.where(:part_num => @auction.part_num).each do |part|
+        condition_match(@auction)
+        if part.company != current_user
+          #for this to work condition needs to be "NE, OH, SV, AR, or SC" not "new or NEW or Overhaul or overhaul"
+          Notification.create(company_id: part.company.id) if @condition.include? part.condition
         end
       end
-      possible_auctions
+    end
+    
+    def condition_match(auction)
+        @condition = []
+        @condition << "NE" if auction.condition_ne == true
+          
+        @condition << "OH" if auction.condition_oh == true
+          
+        @condition << "SV" if auction.condition_sv == true
+          
+        @condition << "AR" if auction.condition_ar == true
+          
+        @condition << "SC" if auction.condition_sc == true
+    end
+
+    def get_possible_auctions
+      @parts = current_user.inventory_parts
+      @possible_auctions = []
+      @parts.each do |inventory|
+        Auction.where(part_num: inventory.part_num).each do |auction|
+          @possible_auctions << auction if auction.active == true && auction.company != current_user
+        end
+      end
+      @possible_auctions.flatten!
+      @possible_auctions.uniq!
+      ## OLD CODE
+      # @parts.each do |inv_part|
+      #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
+      #     @auction_parts.each do |auct_part|
+      #       possible_auctions << auct_part.auction if auct_part.auction.active == true
+      #     end
+      #   end
+      # end
+      # possible_auctions
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_auction

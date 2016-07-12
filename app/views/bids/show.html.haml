@@ -4,8 +4,7 @@
       Review your order
   #main-container
     #checkout-container.container.clearfix
-      %div>
-      "col-md-5" id="bid-buy"&gt;
+      .col-md-5#bid-buy
       %p
         %h2 Amount:
         = number_to_currency @bid.amount
@@ -17,11 +16,29 @@
   .container
     %h3
       Shipment Carrier
-    %p
-      %select.form-control{:name => 'shipment carrier'}
-        = @result[:body].each do |carrier|
-          %option{:value => carrier["carrier_id"]}
-            = carrier["name"]
+    .container
+      - if @bid.order_id == nil
+        Bid is still being considered.
+      - elsif @bid.carrier_code && @bid.tracking_num
+        %h4
+          Shipment has been sent:
+        %h5
+          Carrier: #{@bid.carrier}
+        %h5
+          Tracking Number: #{@bid.tracking_num}
+        %h5
+          Description: #{@bid.shipment_desc}
+      - elsif current_user == @bid.company
+        = render 'shipment'
+      - elsif current_user == @auction.company && !@bid.carrier_code
+        Part has not been shipped yet.
+      
+      - if current_user == @auction.company && !@auction.paid # Add this when out of Testing Purposes && @bid.delivered && !@auction.paid
+        %p
+          %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+          %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => @url} Release Payment
+      - elsif @auction.paid
+        = render :partial => "ratings/rate", :locals => {:rating => @rating}
 
     %h4
       Part: #{@bid.inventory_part.description}
@@ -33,6 +50,7 @@
       Condition: #{@bid.inventory_part.condition}
     %h4
       Manufacturer: #{@bid.inventory_part.manufacturer}
+    
     %br
 
   #documents.col-md-12
@@ -52,3 +70,4 @@
               %td= link_to 'Download', document.attachment_url
               - if document.inventory_part.company == current_user
                 %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn'
+

@@ -150,8 +150,6 @@ GEM
       dm-core (~> 1.2.0)
     do_sqlite3 (0.10.17)
       data_objects (= 0.10.17)
-    domain_name (0.5.20160615)
-      unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     erb2haml (0.1.5)
       html2haml
@@ -186,8 +184,6 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
-    http-cookie (1.0.2)
-      domain_name (~> 0.5)
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -213,10 +209,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    mailgun_rails (0.8.0)
-      actionmailer (>= 3.2.13)
-      json (>= 1.7.7)
-      rest-client (>= 1.6.7)
     method_source (0.8.2)
     mime-types (2.99.2)
     mimemagic (0.3.1)
@@ -224,7 +216,6 @@ GEM
     minitest (5.9.0)
     multi_json (1.12.1)
     multi_xml (0.5.5)
-    netrc (0.11.0)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
@@ -285,10 +276,6 @@ GEM
       codeclimate-engine-rb (~> 0.3.1)
       parser (~> 2.3, >= 2.3.0.6)
       rainbow (~> 2.0)
-    rest-client (1.8.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
     roo (2.4.0)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -339,13 +326,15 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sendgrid (1.2.4)
+      json
     sexp_processor (4.7.0)
     simple_form (3.2.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
     slop (3.6.0)
     spring (1.7.1)
-    sprockets (3.6.1)
+    sprockets (3.6.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.0.4)
@@ -372,9 +361,6 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.2)
     unicode-display_width (1.1.0)
     uuidtools (2.1.5)
     virtus (1.0.5)
@@ -416,7 +402,6 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   launchy
-  mailgun_rails
   nokogiri
   pg
   pry-rails
@@ -428,6 +413,7 @@ DEPENDENCIES
   rubycritic
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  sendgrid
   simple_form
   spring
   stylus

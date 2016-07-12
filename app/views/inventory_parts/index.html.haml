@@ -16,15 +16,15 @@
       %tbody
         - @inventory_parts.each do |inventory|
           %tr
-            %td.srchtbl= inventory.part_num
+            %td.srchtbl= link_to inventory.part_num, inventory
             %td.srchtbl= inventory.description
             %td.srchtbl= inventory.serial_num
             %td.srchtbl= inventory.condition
             %td.srchtbl= inventory.manufacturer
-            %td= link_to 'Show', inventory_part_url(inventory)
             / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
             %td= link_to 'Delete', inventory_part_path(inventory), data: { inventory_behavior: 'delete' }
 
+= link_to 'Upload New Inventory', new_inventory_part_path, class: "btn upload"
 
 
 
