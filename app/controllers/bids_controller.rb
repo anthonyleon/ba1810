@@ -45,6 +45,7 @@ class BidsController < ApplicationController
         if @bid.company == current_user
           CompanyMailer.auction_notification(@bid).deliver_now
           CompanyMailer.place_new_bid(@bid).deliver_now
+          CompanyMailer.notify_buyer(@bid.auction).deliver_now
         else
         end
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }

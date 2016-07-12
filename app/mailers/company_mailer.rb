@@ -17,12 +17,18 @@ class CompanyMailer < ApplicationMailer
     @bid = bid
     email = @bid.company.email
 
-    mail to: "<#{email}>", subject: "Placed Bid in Auction #{@bid.auction_id}!"
+    mail to: "<#{email}>", subject: "You Successfully Placed Bid in an Auction for #{@bid.auction.part_num}!"
+  end
+
+  def notify_buyer auction
+    @company = auction.company
+
+    mail to: @company.email, subject: "A New Bid Has Been Place on Your Auction for #{auction.part_num}"
   end
 
   def auction_notification bid
     @bid = bid
-    @bidders = Bid.where(auction_id: @bid.auction)
+    @bidders = Bid.where(auction_id: @bid.auction_id)
     @single_bidder = []
     Company.uniq(@bidders)
 
