@@ -15,41 +15,15 @@ class AuctionsController < ApplicationController
     @inactive_auctions = current_user.auctions.where(active: false)
 
     @buyer_auctions.each do |auction|
-      @condition = []
-        @condition << "NE" if auction.condition_ne == true
-          
-        @condition << "OH" if auction.condition_oh == true
-          
-        @condition << "SV" if auction.condition_sv == true
-          
-        @condition << "AR" if auction.condition_ar == true
-          
-        @condition << "SC" if auction.condition_sc == true
-
+        condition_match(auction)
         auction.condition = @condition.to_sentence
-          
       auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
-
-      
     end
 
     @supplier_auctions.each do |auction|
-      @condition = []
-        @condition << "NE" if auction.condition_ne == true
-          
-        @condition << "OH" if auction.condition_oh == true
-          
-        @condition << "SV" if auction.condition_sv == true
-          
-        @condition << "AR" if auction.condition_ar == true
-          
-        @condition << "SC" if auction.condition_sc == true
-
+        condition_match(auction)
         auction.condition = @condition.to_sentence 
-          
       auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
-
-      
     end  
   end
 #
@@ -124,6 +98,7 @@ class AuctionsController < ApplicationController
           @auction.auction_part = @auction_part
           current_user.auctions << @auction
           @auction.save && @auction_part.save
+          notify
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
@@ -173,6 +148,29 @@ class AuctionsController < ApplicationController
         "invoice_num" => "123456",
         "purchase_order_num" => "675890",
         "message" => "Hello, Example Buyer! Thank you for your example goods order." }
+    end
+
+    def notify
+      InventoryPart.where(:part_num => @auction.part_num).each do |part|
+        condition_match(@auction)
+        if part.company != current_user
+          #for this to work condition needs to be "NE, OH, SV, AR, or SC" not "new or NEW or Overhaul or overhaul"
+          Notification.create(company_id: part.company.id) if @condition.include? part.condition
+        end
+      end
+    end
+    
+    def condition_match(auction)
+        @condition = []
+        @condition << "NE" if auction.condition_ne == true
+          
+        @condition << "OH" if auction.condition_oh == true
+          
+        @condition << "SV" if auction.condition_sv == true
+          
+        @condition << "AR" if auction.condition_ar == true
+          
+        @condition << "SC" if auction.condition_sc == true
     end
 
     def get_possible_auctions

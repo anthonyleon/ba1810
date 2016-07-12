@@ -1,0 +1,81 @@
+= form_for(@aircraft) do |f|
+  - if @aircraft.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@aircraft.errors.count, "error")
+        prohibited this aircraft from being saved:
+      %ul
+        - @aircraft.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :aircraft_type
+    %br
+      = f.text_field :aircraft_type
+  .field
+    = f.label :msn
+    %br
+      = f.text_field :msn
+  .field
+    = f.label :tail_number
+    %br
+      = f.text_field :tail_number
+  .field
+    = f.label :yob
+    %br
+      = f.text_field :yob
+  .field
+    = f.label :mtow
+    %br
+      = f.text_field :mtow
+  .field
+    = f.label :engine_major_variant
+    %br
+      = f.text_field :engine_major_variant
+  .field
+    = f.label :engine_minor_variant
+    %br
+      = f.text_field :engine_minor_variant
+  .field
+    = f.label :apu_model
+    %br
+      = f.text_field :apu_model
+  .field
+    = f.label :cabin_config
+    %br
+      = f.text_field :cabin_config
+  .field
+    = f.check_box :in_service
+    = f.label :in_service
+    %br
+  .field
+    = f.check_box :off_service
+    = f.label :off_service
+    %br
+  .field
+    = f.label :current_operator
+    %br
+      = f.text_field :current_operator
+  .field
+    = f.label :last_operator
+    %br
+      = f.text_field :last_operator
+  .field
+    = f.label :location
+    %br
+      = f.text_field :location
+  .field
+    = f.label :maintenance_status
+    %br
+      = f.text_field :maintenance_status
+  .field
+    = f.label :available_date
+    %br
+      = f.text_field :available_date
+  #form-group.checkbox
+    = f.check_box :sale
+    = f.label :sale, "For Sale"
+  #form-group.field
+    = f.check_box :lease
+    = f.label :lease, "For Lease"
+  .actions
+    = f.submit

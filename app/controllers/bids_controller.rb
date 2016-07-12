@@ -41,11 +41,12 @@ class BidsController < ApplicationController
     @bid.company = current_user
     respond_to do |format|
       if @bid.save
+        notify
         if @bid.company == current_user
           CompanyMailer.auction_notification(@bid).deliver_now
           CompanyMailer.place_new_bid(@bid).deliver_now
+          CompanyMailer.notify_buyer(@bid.auction).deliver_now
         else
-
         end
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
@@ -112,6 +113,10 @@ class BidsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_bid
       @bid = Bid.find(params[:id])
+    end
+
+    def notify
+      Notification.create(company_id: @auction.company.id, bid_id: @bid.id, auction_id: @auction.id)
     end
 
     def set_armor_client

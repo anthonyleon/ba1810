@@ -3,7 +3,10 @@ class Company < ActiveRecord::Base
   has_many :auctions, dependent: :destroy
   has_many :bids
   has_many :inventory_parts
+  has_many :aircrafts
+  has_many :engines
   has_many :ratings
+  has_many :notifications, dependent: :destroy
   validates :password, presence: true, length: { minimum: 8 }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true

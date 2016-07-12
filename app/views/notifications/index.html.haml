@@ -1,0 +1,29 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h5 Notifications
+    %hr/
+    %table#invetoryPartsDT.table.striped.responsive-table.bordered
+      %thead
+        %tr
+          %th Event
+          %th Description
+          %th Serial Number
+          %th Condition
+          %th Manufacturer
+          %th
+          %th
+      %tbody
+        - @notifications.each do |note|
+          -if note.bid_id
+            %tr
+              %td.srchtbl= link_to "New Bid on One of your Auctions", note.bid.auction
+              %td.srchtbl= note.bid.auction.part_num
+          -elsif note.auction_id
+            %tr
+              %td.srchtbl= link_to "New Opportunity", note.auction
+              %td.srchtbl= note.auction.part_num
+            
+            / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
+      
+
