@@ -30,7 +30,7 @@
         .card-content
           %table.table.bordered.highlight.responsive-table
             %thead
-              %h5 Engines
+              %h5 Engine Availability
               %tr
                 %th Engine Model
                 %th ESN
@@ -59,8 +59,9 @@
                   %td= "Contact Rep"
                 %td= engine.company.name
                 %td= engine.company.representative
-                %td= link_to 'Edit', edit_engine_path(engine)
-                %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' }
+                - if engine.company == current_user
+                  %td= link_to 'Edit', edit_engine_path(engine)
+                  %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' }
 
     .col.m12
       .card{style: "overflow: scroll;"}
@@ -95,8 +96,10 @@
                   - elsif aircraft.sale?
                     %td=  "Sale"
                   - else "Contact Rep"
-                  %td= link_to 'Edit', edit_aircraft_path(aircraft)
-                  %td= link_to 'Delete', aircraft, data: { aircraft_behavior: 'delete' }
+
+                  - if aircraft.company == current_user
+                    %td= link_to 'Edit', edit_aircraft_path(aircraft)
+                    %td= link_to 'Delete', aircraft, data: { aircraft_behavior: 'delete' }
 
     /   .company-name
     /     %h1= @company.name
