@@ -37,6 +37,8 @@
           %p
             %strong Lease:
             = @engine.lease
-          = link_to 'Edit', edit_engine_path(@engine), class: "btn custom-btn"
-          |
+            
+          - if @engine.company == current_user
+            = link_to 'Edit', edit_engine_path(@engine), class: "btn custom-btn"
+            |
           = link_to 'Back', company_path, class: "btn custom-btn"
