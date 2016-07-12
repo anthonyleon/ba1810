@@ -38,7 +38,7 @@ $(document).ready(function() {
             }
           });
         } else {
-          swal("Cancelled", "Your " + message + " was deleted!", "error");
+          swal("Cancelled", "Your " + message + " was not deleted!", "error");
         }
       });
     });
@@ -48,6 +48,9 @@ $(document).ready(function() {
   dataBehavior("[data-buyer-auctions-behavior='delete']", "auction");
   dataBehavior("[data-current-opportunities-behavior='delete']", "auction");
   dataBehavior("[data-auction-bid-behavior='delete']", "bid");
+  dataBehavior("[data-engine-behavior='delete']", "engine");
+  dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
+
 
   $('#invetoryPartsDT').dataTable({
     "aoColumns": [

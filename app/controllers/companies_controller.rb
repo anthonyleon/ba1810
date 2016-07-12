@@ -15,6 +15,9 @@ class CompaniesController < ApplicationController
   # GET /companies/1
   # GET /companies/1.json
   def show
+    @engines = Engine.all
+    @aircrafts = Aircraft.all
+
     @company = current_user
     # redirect_to root_path unless current_user.id == params[:id].to_i
     @auctions = current_user.auctions
@@ -124,7 +127,7 @@ class CompaniesController < ApplicationController
         ## Company armor_user_id
         p users = @client.accounts.users(armor_account_num).all
         @company.update(:armor_user_id => users.data[:body][0]["user_id"])
-        
+
       end
         format.html { redirect_to @company, notice: 'Company was successfully updated.' }
         format.json { render :show, status: :ok, location: @company }
@@ -171,7 +174,7 @@ class CompaniesController < ApplicationController
     end
   
     def armor_create
-      @account_data = {     
+      @account_data = {
         "company": @company.name,
         "user_name": @company.representative,
         "user_email": @company.email,
@@ -181,8 +184,8 @@ class CompaniesController < ApplicationController
         "state": @company.state,
         "zip": @company.zip,
         "country": @company.country,
-        "email_confirmed": true, 
-        "agreed_terms": true 
+        "email_confirmed": true,
+        "agreed_terms": true
         }
     end
 
