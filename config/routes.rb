@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get 'purchases' => 'companies#purchases', as: 'purchases'
   get 'home' => 'companies#show', as: 'company'
   get 'company/edit' => 'companies#edit', as: 'edit_company'
-  
+
   resources :inventory_parts do
     resources :documents, shallow: true
   end
