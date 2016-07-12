@@ -5,8 +5,9 @@ class Notification < ActiveRecord::Base
 
 	def self.any_unread?(user)
 		notifications = user.notifications.map do |notify|
-    	notify.unread?
+    	notify.read?
     end
-    notifications.include?(true)
+    notifications.include?(false)
 	end
+
 end

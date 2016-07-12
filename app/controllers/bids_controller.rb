@@ -42,12 +42,7 @@ class BidsController < ApplicationController
     respond_to do |format|
       if @bid.save
         notify
-        if @bid.company == current_user
-          CompanyMailer.auction_notification(@bid).deliver_now
-          CompanyMailer.place_new_bid(@bid).deliver_now
-          CompanyMailer.notify_buyer(@bid.auction).deliver_now
-        else
-        end
+        notify_auctioner(@auction.company)
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
@@ -116,7 +111,16 @@ class BidsController < ApplicationController
     end
 
     def notify
-      Notification.create(company_id: @auction.company.id, bid_id: @bid.id, auction_id: @auction.id)
+      @auction.bids.uniq.each do |bid|
+        Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id) unless bid.company == current_user
+        CompanyMailer.auction_notification(bid).deliver_now
+        CompanyMailer.place_new_bid(bid).deliver_now 
+      end
+    end
+
+    def notify_auctioner(user)
+      Notification.create(company_id: user.id, auction_id: @auction.id)
+      CompanyMailer.notify_buyer(@bid.auction).deliver_now
     end
 
     def set_armor_client
@@ -157,6 +161,7 @@ class BidsController < ApplicationController
     def bid_params
       params.require(:bid).permit(:amount, :company_id, :auction_id, :inventory_part_id, :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
     end
+
 
     def set_auction
       @auction = Auction.find(params[:auction_id])
