@@ -4,7 +4,7 @@ class CompaniesController < ApplicationController
 
   before_action :set_company, only: [:update, :destroy]
   skip_before_action :require_logged_in, only: [:new, :create, :confirm_email]
-  before_action :set_armor_client, only: [:create, :edit, :update, :sales]
+  before_action :set_armor_client, only: [:create, :edit, :update, :sales, :purchases]
 
   # GET /companies
   # GET /companies.json
@@ -67,9 +67,9 @@ class CompaniesController < ApplicationController
   # GET /companies/1/edit
   def edit
     @company = current_user
-    # auth_data = { 'uri' => "/accounts/#{current_user.armor_account_id}/bankaccounts", 'action' => 'create' }
-    # p result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
-    # p @url = result.data[:body]["url"]
+    auth_data = { 'uri' => "/accounts/#{current_user.armor_account_id}/bankaccounts", 'action' => 'create' }
+    p result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
+    p @url = result.data[:body]["url"]
   end
 
   def confirm_email
@@ -149,19 +149,18 @@ class CompaniesController < ApplicationController
   end
 
   def sales
-    @winning_bids = []
-    current_user.bids.map do |bid|
-      @winning_bids << bid if bid.order_id
+    @sales = []
+    current_user.bids.each do |bid|
+      @sales << bid if bid.order_id != nil
     end
   end
 
   def purchases
-    @completed_auctions = []
-    @winning_bid = []
+    @purchases = []
     current_user.auctions.where(active: false).each do |auction|
-      @winning_bid << auction.bids.find_by(order_id: auction.order_id)
-      @completed_auctions << auction
+      @purchases << auction.bids.find_by(order_id: auction.order_id)
     end
+    @purchases.compact!
   end
 
   private
@@ -170,24 +169,10 @@ class CompaniesController < ApplicationController
       @company = Company.find(params[:id])
     end
 
-    def get_possible_auctions
-      possible_auctions = []
-      @parts = current_user.inventory_parts
-
-      @parts.each do |inv_part|
-        if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
-          @auction_parts.each do |auct_part|
-            possible_auctions << auct_part.auction if auct_part.auction.active == true
-          end
-        end
-      end
-      possible_auctions
-    end
-
     def set_armor_client
-      @client = ArmorPayments::API.new('71634fba00bd805fba58cce92b394ee8', '9bf2dcb9214a2b25af659f1506c63ff4ee6cce28f2f1f754ad3a8288bcb06eb5', true)
+      @client = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
     end
-
+  
     def armor_create
       @account_data = {
         "company": @company.name,
@@ -202,6 +187,20 @@ class CompaniesController < ApplicationController
         "email_confirmed": true,
         "agreed_terms": true
         }
+    end
+
+    def get_possible_auctions
+      possible_auctions = []
+      @parts = current_user.inventory_parts
+
+      @parts.each do |inv_part|
+        if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
+          @auction_parts.each do |auct_part|
+            possible_auctions << auct_part.auction if auct_part.auction.active == true
+          end
+        end
+      end
+      possible_auctions
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
