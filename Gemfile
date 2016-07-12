@@ -7,7 +7,7 @@ gem 'armor_payments'
 gem 'roo'
 gem 'erd'
 
-gem 'mailgun_rails'
+gem 'sendgrid'
 gem 'figaro'
 gem 'carrierwave'
 gem 'pry-rails'

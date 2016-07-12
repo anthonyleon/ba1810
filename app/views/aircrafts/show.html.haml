@@ -1,0 +1,60 @@
+%p#notice= notice
+%p
+  %strong Aircraft type:
+  = @aircraft.aircraft_type
+%p
+  %strong Msn:
+  = @aircraft.msn
+%p
+  %strong Tail number:
+  = @aircraft.tail_number
+%p
+  %strong Yob:
+  = @aircraft.yob
+%p
+  %strong Mtow:
+  = @aircraft.mtow
+%p
+  %strong Engine major variant:
+  = @aircraft.engine_major_variant
+%p
+  %strong Engine minor variant:
+  = @aircraft.engine_minor_variant
+%p
+  %strong Apu model:
+  = @aircraft.apu_model
+%p
+  %strong Cabin config:
+  = @aircraft.cabin_config
+%p
+  %strong In service:
+  = @aircraft.in_service
+%p
+  %strong Off service:
+  = @aircraft.off_service
+%p
+  %strong Current operator:
+  = @aircraft.current_operator
+%p
+  %strong Last operator:
+  = @aircraft.last_operator
+%p
+  %strong Location:
+  = @aircraft.location
+%p
+  %strong Maintenance status:
+  = @aircraft.maintenance_status
+%p
+  %strong Available date:
+  = @aircraft.available_date
+%p
+  %strong Sale:
+  = @aircraft.sale
+%p
+  %strong Lease:
+  = @aircraft.lease
+
+- if @aircraft.company == current_user
+  = link_to 'Edit', edit_aircraft_path(@aircraft), class: "btn custom-btn"
+  |
+= link_to 'Back', company_path, class: "btn custom-btn"

@@ -1,0 +1,11 @@
+.row
+  .col.s12.m10.offset-m1
+    .card
+      .card-content
+        %div.card-title.activator.grey-text.text-darken-4.center-align
+          Editing Engine Listing
+        = render 'form'
+        %hr/
+        = link_to 'Engine Profile', @engine, class: "btn custom-btn"
+        |
+        = link_to 'Back', company_path, class: "btn custom-btn"

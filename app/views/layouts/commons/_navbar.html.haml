@@ -6,6 +6,11 @@
       %i.material-icons menu
     %ul.right.hide-on-med-and-down
       %li
+        = link_to notifications_index_path do
+          %i.material-icons{class: Notification.any_unread?(current_user) ? "red-bell" : ""  }
+            notifications_active 
+        
+      %li
         = link_to 'Inventory', inventory_parts_path
       %li
         = link_to "Log out", logout_path
@@ -20,9 +25,9 @@
         %li
           = link_to 'Inventory', new_inventory_part_path
         %li
-          = link_to 'Engine Listing', "javascript:void(0)"
+          = link_to 'Engine Listing', new_engine_path
         %li
-          = link_to 'Aircraft Listing', "javascript:void(0)"
+          = link_to 'Aircraft Listing', new_aircraft_path
   %ul#mobile-demo.side-nav.fixed
     .company-logo
       %img{:src => "http://mascotaviajera.files.wordpress.com/2011/07/airplane_logo.gif", :alt => "", class: "responsive-img circle", width: '100px'}/

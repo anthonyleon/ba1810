@@ -1,0 +1,43 @@
+%p#notice= notice
+%h1 Engines Avialable
+%table
+  %thead
+    %tr
+      %th Engine Model
+      %th ESN
+      %th Condition
+      %th Current Status
+      %th Last Operator
+      %th Location
+      %th Limiter
+      %th Available Date
+      %th Available For
+      %th Owner/Rep
+      %th Contact
+      %th{:colspan => "3"}
+  %tbody
+    - @engines.each do |engine|
+      %tr
+        %td= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
+        %td= link_to engine.esn, engine
+        %td= engine.condition
+        - if engine.in_service?
+          %td= "In Service"
+        - else
+          %td= "Off Service"
+        %td= engine.last_operator.capitalize
+        %td= engine.location.capitalize
+        %td= engine.cycles_remaining
+        %td= engine.available_date
+        - if engine.sale? && engine.lease?
+          %td= "Sale or Lease"
+        - elsif engine.lease?
+          %td=  "Lease"
+        -else
+          %td= "Contact Rep"
+        %td= engine.company.name
+        %td= engine.company.representative
+        %td= link_to 'Edit', edit_engine_path(engine)
+        %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' }
+%br
+  = link_to 'New Engine', new_engine_path
