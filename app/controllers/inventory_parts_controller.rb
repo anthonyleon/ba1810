@@ -7,10 +7,7 @@ class InventoryPartsController < ApplicationController
   end
 
   def show
-    unless params[:bid_id].nil?
-      @bid = Bid.find(params[:bid_id])
-    end
-
+    @bid = Bid.find(params[:bid_id]) unless params[:bid_id].nil?
     @document = Document.new
   end
 

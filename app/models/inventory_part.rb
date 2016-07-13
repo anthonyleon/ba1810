@@ -6,7 +6,24 @@ class InventoryPart < ActiveRecord::Base
   belongs_to :part
   has_many :bids
   has_many :documents, dependent: :destroy
+  before_save :condition_format
 
+
+# until I can fix the radio button to accept the abbreviations (testing purposes)
+  def condition_format
+    case self.condition
+    when "overhaul"
+      self.condition = "OH"
+    when "as_removed"
+      self.condition = "AR"
+    when "serviceable"
+      self.condition = "SV"
+    when "scrap"
+      self.condition = "SC"
+    when "new"
+      self.condition = "NE"
+    end
+  end
 
   # class methods for importing xls, csv files using Roo
   def self.import(file, current_user)
