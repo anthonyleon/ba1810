@@ -16,11 +16,9 @@ class AuctionsController < ApplicationController
     @sales_opportunities.each do |auction|
       condition_match(auction)
     end
-
     @buyer_auctions.each do |auction|
         condition_match(auction)
     end
-
     @supplier_auctions.each do |auction|
         condition_match(auction)
       auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
@@ -34,7 +32,7 @@ class AuctionsController < ApplicationController
   def show
     @init_price = @auction.auction_part.init_price
     @condition_ne = (@auction.condition_ne) ? 'New ': ""
-    @condition_oh = (@auction.condition_ne) ? 'Overhaul ': ""
+    @condition_oh = (@auction.condition_oh) ? 'Overhaul ': ""
     @condition_sv = (@auction.condition_sv) ? 'Servicable ': ""
     @condition_ar = (@auction.condition_ar) ? 'As Removed ': ""
     @condition_sc = (@auction.condition_sc) ? 'Scrap ': ""
@@ -42,16 +40,15 @@ class AuctionsController < ApplicationController
   end
 
   def purchase
-
-
-    ##### We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??
-
+    ##### We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??s
+    
+    Transaction.create(bid_id: @bid.id, auction_id: @auction.id, buyer_id: @auction.company.id, seller_id: @bid.company.id, inventory_part_id: @bid.inventory_part_id)
     redirect_to action: "purchase_confirmation"
   end
 
   def purchase_confirmation
     set_order
-    p result = @client.orders(@bid.company.armor_account_id).create(@order_data)
+    result = @client.orders(@bid.company.armor_account_id).create(@order_data)
     @bid.update(order_id: result.data[:body]["order_id"])
     @auction.update(order_id: result.data[:body]["order_id"])
 
@@ -60,7 +57,6 @@ class AuctionsController < ApplicationController
     @url = result.data[:body]["url"]
 
     @bid.auction.update(active: false)
-
 
     ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
     action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
@@ -188,17 +184,8 @@ class AuctionsController < ApplicationController
         end
       end
       @sales_opportunities.uniq!
-      ## OLD CODE
-      # @parts.each do |inv_part|
-      #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
-      #     @auction_parts.each do |auct_part|
-      #       possible_auctions << auct_part.auction if auct_part.auction.active == true
-      #     end
-      #   end
-      # end
-      # possible_auctions
     end
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_auction
       @auction = Auction.find(params[:id])
     end
