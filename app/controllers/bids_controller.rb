@@ -88,21 +88,13 @@ class BidsController < ApplicationController
     end
   end
 
-  def purchase
-    set_armor_client
-    set_order
-    result = client.orders(@bid.armor_account_id).create(@order_data)
-    @bid.update(:order_id => result.data[:body]["order_id"])
-    @auction.update(:order_id => result.data[:body]["order_id"])
-  end
-
-  def purchase_confirmation
-
-  end
-
-
-
-
+  # def purchase #(testing purposes)
+  #   set_armor_client
+  #   set_order
+  #   result = client.orders(@bid.armor_account_id).create(@order_data)
+  #   @bid.update(:order_id => result.data[:body]["order_id"])
+  #   @auction.update(:order_id => result.data[:body]["order_id"])
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
