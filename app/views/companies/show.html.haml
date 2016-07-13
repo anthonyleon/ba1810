@@ -60,7 +60,7 @@
                 %td= engine.company.representative
                 - if engine.company == current_user
                   %td= link_to 'Edit', edit_engine_path(engine)
-                  %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' }
+                  %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' } 
 
     .col.m12
       .card{style: "overflow: scroll;"}
