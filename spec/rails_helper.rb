@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'helpers/sign_in'
 require 'helpers/auction_part'
+require 'helpers/inventory_parts_helper_spec'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -40,6 +41,7 @@ RSpec.configure do |config|
 
   config.include SignInHelper
   config.include AuctionPartMatchHelper
+  config.include InventoryPartHelper
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and

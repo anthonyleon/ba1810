@@ -7,4 +7,6 @@ module SignInHelper
 		click_button("Log In")
 		visit("/companies/#{@company.id}/confirm_email.#{@company.confirm_token}")
 	end
+
+	
 end
