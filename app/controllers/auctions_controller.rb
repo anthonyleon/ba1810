@@ -95,7 +95,6 @@ class AuctionsController < ApplicationController
           current_user.auctions << @auction
           @auction.save && @auction_part.save
           notify
-          p @condition
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
@@ -148,11 +147,14 @@ class AuctionsController < ApplicationController
     end
 
     def notify
+      parts = []
       InventoryPart.where(part_num: @auction.part_num).each do |part|
+        parts << part
+      end
+      parts.uniq! { |p| p.company_id }
+      parts.each do |part|
         condition_match(@auction)
-        # if part.company != current_user
-          Notification.create(company_id: part.company.id, auction_id: @auction.id) if @condition.include?(part.condition) && part.company != current_user
-        # end
+        Notification.create(company_id: part.company.id, auction_id: @auction.id) if @condition.include?(part.condition) && part.company != current_user
       end
     end
     
@@ -171,7 +173,7 @@ class AuctionsController < ApplicationController
         if @condition.count == 5
           auction.update(condition: "All Conditions") 
         else
-          auction.condition = @condition.to_sentence
+          auction.update(condition: @condition.to_sentence)
         end
     end
 

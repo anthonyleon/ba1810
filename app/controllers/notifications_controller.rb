@@ -3,7 +3,7 @@ class NotificationsController < ApplicationController
   before_action :mark_as_read, only: [:index]
   
   def index
-  	@notifications = current_user.notifications
+  	@notifications = current_user.notifications.order(created_at: :desc)
   end
 
 
