@@ -11,13 +11,13 @@
             %th Days Active
             %th Amount of Bids
             %th Lowest Bid
-            %th
-            %th
-            %th
+            -# %th
+            -# %th
+            -# %th
         %tbody
           - @sales_opportunities.each do |auction|
             %tr
-              %td= auction.id
+              %td= link_to auction.part_num, auction
               %td= AuctionPart.find(auction.id).description
               %td= auction.condition
               %td= auction.created_at.strftime("%m/%d/%Y")
@@ -27,8 +27,7 @@
                 %td= "N/A"
               -else
                 %td= number_to_currency auction.bids.minimum(:amount)
-              %td= link_to 'Show', auction
-              %td= link_to 'Edit', edit_auction_path(auction)
-              %td= link_to 'Delete', auction, data: { current_opportunities_behavior: 'delete' }
+              -# %td= link_to 'Edit', edit_auction_path(auction)
+              -# %td= link_to 'Delete', auction, data: { current_opportunities_behavior: 'delete' }
       %div{style: "text-align: left;"}
         = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
