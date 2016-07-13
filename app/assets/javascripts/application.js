@@ -64,7 +64,7 @@ $(document).ready(function() {
     ]
   });
 
-  $('#buyerAuctionsDT, #currentOpportunitiesDT').dataTable({
+  $('#buyerAuctionsDT').dataTable({
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },
@@ -74,10 +74,34 @@ $(document).ready(function() {
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": false },
+      { "bSortable": false }
+    ]
+  });
+  $('#mybidsDT').dataTable({
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
       { "bSortable": false },
       { "bSortable": false }
     ]
   });
+  $('#currentOpportunitiesDT').dataTable({
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+    ]
+  });
 })
+
 
 //= require turbolinks
