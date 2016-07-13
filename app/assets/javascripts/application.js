@@ -85,9 +85,7 @@ $(document).ready(function() {
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": false },
-      { "bSortable": false }
+      { "bSortable": true }
     ]
   });
   $('#currentOpportunitiesDT').dataTable({
@@ -98,7 +96,7 @@ $(document).ready(function() {
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
-      { "bSortable": true },
+      { "bSortable": true }
     ]
   });
 })
