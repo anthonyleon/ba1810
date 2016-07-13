@@ -95,6 +95,7 @@ class AuctionsController < ApplicationController
           current_user.auctions << @auction
           @auction.save && @auction_part.save
           notify
+          p @condition
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
@@ -150,25 +151,24 @@ class AuctionsController < ApplicationController
       InventoryPart.where(part_num: @auction.part_num).each do |part|
         condition_match(@auction)
         # if part.company != current_user
-          #for this to work condition needs to be "NE, OH, SV, AR, or SC" not "new or NEW or Overhaul or overhaul"
-          Notification.create(company_id: part.company.id, auction_id: @auction.id) if @condition.include? part.condition && part.company != current_user
+          Notification.create(company_id: part.company.id, auction_id: @auction.id) if @condition.include?(part.condition) && part.company != current_user
         # end
       end
     end
     
     def condition_match(auction)
-        @condition = []
-        @condition << "NE" if auction.condition_ne == true
+        @condition = ["NE", "OH", "SV", "AR", "SC"]
+        @condition.delete("NE") if auction.condition_ne == false
           
-        @condition << "OH" if auction.condition_oh == true
+        @condition.delete("OH") if auction.condition_oh == false
           
-        @condition << "SV" if auction.condition_sv == true
+        @condition.delete("SV") if auction.condition_sv == false
           
-        @condition << "AR" if auction.condition_ar == true
+        @condition.delete("AR") if auction.condition_ar == false
           
-        @condition << "SC" if auction.condition_sc == true
-      
-        if @condition.count == 5 || @condition.count == 0
+        @condition.delete("SC") if auction.condition_sc == false
+
+        if @condition.count == 5
           auction.update(condition: "All Conditions") 
         else
           auction.condition = @condition.to_sentence
