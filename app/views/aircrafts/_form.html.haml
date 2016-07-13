@@ -43,14 +43,15 @@
     = f.label :cabin_config
     %br
       = f.text_field :cabin_config
-  .field
-    = f.check_box :in_service
-    = f.label :in_service
+  %br
+  #form-group.radio_button
+    = f.radio_button :service_status, "In Service"
+    = f.label :service_status_in_service, "In Service"
     %br
-  .field
-    = f.check_box :off_service
-    = f.label :off_service
-    %br
+  #form-group.radio_button
+    = f.radio_button :service_status, "Off Service"
+    = f.label :service_status_off_service, "Off Service"
+  %br
   .field
     = f.label :current_operator
     %br
