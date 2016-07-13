@@ -1,4 +1,4 @@
-- unless @possible_auctions.empty?
+- unless @sales_opportunities.empty?
   .card
     .card-content
       %table.table.striped.responsive-table#currentOpportunitiesDT.bordered
@@ -15,7 +15,7 @@
             -# %th
             -# %th
         %tbody
-          - @possible_auctions.each do |auction|
+          - @sales_opportunities.each do |auction|
             %tr
               %td= link_to auction.part_num, auction
               %td= AuctionPart.find(auction.id).description

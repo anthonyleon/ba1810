@@ -2,14 +2,14 @@ class SessionController < ApplicationController
   skip_before_action :require_logged_in
 
   def new
-    redirect_to current_user if current_user
+    redirect_to home_path if current_user
   end
 
   def create
     @company = Company.find_by_email(params[:login][:email].downcase).try(:authenticate, params[:login][:password])
     if @company
       session[:company_id] = @company.id
-      redirect_to company_path
+      redirect_to home_path
       # if !@company.armor_account_id
       #   @company.update(company_params)
       #   set_armor_client
