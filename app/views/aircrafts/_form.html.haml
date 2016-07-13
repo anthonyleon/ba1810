@@ -8,74 +8,49 @@
         - @aircraft.errors.full_messages.each do |message|
           %li= message
   .field
-    = f.label :aircraft_type
-    %br
-      = f.text_field :aircraft_type
+    = f.text_field :aircraft_type, placeholder: "Aircraft Type"
   .field
-    = f.label :msn
-    %br
-      = f.text_field :msn
+    = f.text_field :msn, placeholder: "MSN"
   .field
-    = f.label :tail_number
-    %br
-      = f.text_field :tail_number
+    = f.text_field :tail_number, placeholder: "Tail Number"
   .field
-    = f.label :yob
-    %br
-      = f.text_field :yob
+    = f.text_field :yob, placeholder: "YOB"
   .field
-    = f.label :mtow
-    %br
-      = f.text_field :mtow
+    = f.text_field :mtow, placeholder: "MTOW"
   .field
-    = f.label :engine_major_variant
-    %br
-      = f.text_field :engine_major_variant
+    = f.text_field :engine_major_variant, placeholder: "Engine Major Variant"
   .field
-    = f.label :engine_minor_variant
-    %br
-      = f.text_field :engine_minor_variant
+    = f.text_field :engine_minor_variant, placeholder: "Engine Minor Variant"
   .field
-    = f.label :apu_model
-    %br
-      = f.text_field :apu_model
+    = f.text_field :apu_model, placeholder: "APU Model"
   .field
-    = f.label :cabin_config
+    = f.text_field :cabin_config, placeholder: "Cabin Configuration"
+  %br
+  %div Aircraft Status
+  #form-group.radio_button
+    = f.radio_button :service_status, "In Service"
+    = f.label :service_status_in_service, "In Service"
     %br
-      = f.text_field :cabin_config
+  #form-group.radio_button
+    = f.radio_button :service_status, "Off Service"
+    = f.label :service_status_off_service, "Off Service"
+  %br
   .field
-    = f.check_box :in_service
-    = f.label :in_service
-    %br
+    = f.text_field :current_operator, placeholder: "Current Operator"
   .field
-    = f.check_box :off_service
-    = f.label :off_service
-    %br
+    = f.text_field :last_operator, placeholder: "Last Operator"
   .field
-    = f.label :current_operator
-    %br
-      = f.text_field :current_operator
+    = f.text_field :location, placeholder: "Location"
   .field
-    = f.label :last_operator
-    %br
-      = f.text_field :last_operator
+    = f.text_field :maintenance_status, placeholder: "Maintenance Status"
   .field
-    = f.label :location
-    %br
-      = f.text_field :location
-  .field
-    = f.label :maintenance_status
-    %br
-      = f.text_field :maintenance_status
-  .field
-    = f.label :available_date
-    %br
-      = f.text_field :available_date
+    = f.text_field :available_date, placeholder: "Available Date, DD/MM/YY"
   #form-group.checkbox
     = f.check_box :sale
     = f.label :sale, "For Sale"
   #form-group.field
     = f.check_box :lease
     = f.label :lease, "For Lease"
+  %br
   .actions
     = f.submit

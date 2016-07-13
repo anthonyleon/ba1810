@@ -13,6 +13,7 @@
     = f.text_field :engine_minor_variant, placeholder: "Engine Minor Variant"
   .field
     = f.text_field :esn, placeholder: "ESN"
+  %br
   %div Engine Condition
   #form-group.radio_button
     = f.radio_button :condition, "NE"
@@ -34,23 +35,22 @@
     #form-group.radio_button
       = f.radio_button :current_status,  "Off Service"
       = f.label :current_status_off_service, "Off Service"
-    %br
-      .field
-        = f.text_field :current_operator, placeholder: "Current Opperator"
-      .field
-        = f.text_field :last_operator, placeholder: "Last Operator"
-      .field
-        = f.text_field :location, placeholder: "Location Stored"
-      .field
-        = f.text_field :cycles_remaining, placeholder: "Disk Limiter"
-      .field
-        = f.text_field :available_date, placeholder: "Available Date"
-      #form-group.checkbox
-        = f.check_box :sale
-        = f.label :sale, "For Sale"
-      #form-group.checkbox
-        = f.check_box(:lease)
-        = f.label :lease, "For Lease"
-      %br
-        .actions
-          = f.submit
+  .field
+    = f.text_field :current_operator, placeholder: "Current Operator"
+  .field
+    = f.text_field :last_operator, placeholder: "Last Operator"
+  .field
+    = f.text_field :location, placeholder: "Location Stored"
+  .field
+    = f.text_field :cycles_remaining, placeholder: "Disk Limiter"
+  .field
+    = f.text_field :available_date, placeholder: "Available Date, DD/MM/YY"
+  #form-group.checkbox
+    = f.check_box :sale
+    = f.label :sale, "For Sale"
+  #form-group.checkbox
+    = f.check_box(:lease)
+    = f.label :lease, "For Lease"
+  %br
+    .actions
+      = f.submit

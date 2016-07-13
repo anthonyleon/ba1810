@@ -15,18 +15,16 @@
               %th Lowest Bid
               %th
               %th
-              %th
           %tbody
             - @buyer_auctions.each do |auction|
               %tr
-                %td= auction.part_num
+                %td= link_to auction.part_num, auction
                 %td= AuctionPart.find(auction.id).description
                 %td= auction.condition
                 %td= auction.created_at.strftime("%m/%d/%Y")
                 %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
                 %td= auction.bids.count
                 %td= number_to_currency auction.bids.minimum(:amount) unless auction.bids.empty?
-                %td= link_to 'Show', auction
                 %td= link_to 'Edit', edit_auction_path(auction)
                 / %td= link_to 'Delete', auction, method: :delete, data: { confirm: 'Are you sure?' }
                 %td= link_to 'Delete', auction, data: { buyer_auctions_behavior: 'delete' } if auction.company == current_user
