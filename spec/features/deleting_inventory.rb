@@ -1,13 +1,14 @@
 require 'rails_helper'
 
-feature "User creates a single line item for inventory", :javascript => true do
+
+feature "User deletes a single line item for inventory", :javascript => true do
 	before do 
 		sign_in
 		auction_part_match
 		create_inventory
 	end
 
-	scenario "allow a company to create a single inventory item" do
+	scenario "allow a company to delete a single inventory item" do
 		within('ul.right.hide-on-med-and-down') do
 			find_link('Inventory').click
 		end
@@ -28,6 +29,12 @@ feature "User creates a single line item for inventory", :javascript => true do
 			find_link('Inventory').click
 		end
 
+		within_table('invetoryPartsDT') do
+  		find_link('Delete').click
+  	end
+
+
 		save_and_open_page
 	end
 end
+

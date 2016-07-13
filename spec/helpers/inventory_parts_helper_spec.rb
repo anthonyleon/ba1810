@@ -1,15 +1,11 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the InventoryPartsHelper. For example:
-#
-# describe InventoryPartsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
-RSpec.describe InventoryPartsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+module InventoryPartHelper
+	def create_inventory
+		@inventory_part = InventoryPart.create(part_num: "8063-215", serial_num: "1", condition: "New")
+  end
+
+  def current_opportunity 
+  	@auction = Auction.create(part_num: "8063-215", condition: "New")
+  end
 end
