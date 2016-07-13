@@ -27,11 +27,8 @@
   %strong Cabin config:
   = @aircraft.cabin_config
 %p
-  %strong In service:
-  = @aircraft.in_service
-%p
-  %strong Off service:
-  = @aircraft.off_service
+  %strong Service Status:
+  = @aircraft.service_status
 %p
   %strong Current operator:
   = @aircraft.current_operator
@@ -57,4 +54,4 @@
 - if @aircraft.company == current_user
   = link_to 'Edit', edit_aircraft_path(@aircraft), class: "btn custom-btn"
   |
-= link_to 'Back', company_path, class: "btn custom-btn"
+= link_to 'Back', home_path, class: "btn custom-btn"

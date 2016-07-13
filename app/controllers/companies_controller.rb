@@ -19,7 +19,6 @@ class CompaniesController < ApplicationController
     @aircrafts = Aircraft.all
 
     @company = current_user
-    # redirect_to root_path unless current_user.id == params[:id].to_i
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions.where(active: true)
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
@@ -129,7 +128,7 @@ class CompaniesController < ApplicationController
         @company.update(:armor_user_id => users.data[:body][0]["user_id"])
 
       end
-        format.html { redirect_to @company, notice: 'Company was successfully updated.' }
+        format.html { redirect_to home_path, notice: 'Company was successfully updated.' }
         format.json { render :show, status: :ok, location: @company }
       else
         format.html { render :edit }
