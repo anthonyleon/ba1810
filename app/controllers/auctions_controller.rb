@@ -9,6 +9,7 @@ class AuctionsController < ApplicationController
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions.where(active: true)
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
+    # @bid = Bid.where(company_id: current_user.id)
     # possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
     # @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
     # @inactive_auctions = current_user.auctions.where(active: false)
@@ -24,7 +25,7 @@ class AuctionsController < ApplicationController
     @supplier_auctions.each do |auction|
         condition_match(auction)
       auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
-    end  
+    end
   end
 #
 
@@ -138,7 +139,7 @@ class AuctionsController < ApplicationController
     end
 
     def set_order
-      @order_data = {     
+      @order_data = {
         "type" => 1,
         "seller_id" => @bid.company.armor_user_id,
         "buyer_id" => current_user.armor_user_id,
@@ -159,21 +160,21 @@ class AuctionsController < ApplicationController
         # end
       end
     end
-    
+
     def condition_match(auction)
         @condition = []
         @condition << "NE" if auction.condition_ne == true
-          
+
         @condition << "OH" if auction.condition_oh == true
-          
+
         @condition << "SV" if auction.condition_sv == true
-          
+
         @condition << "AR" if auction.condition_ar == true
-          
+
         @condition << "SC" if auction.condition_sc == true
-      
+
         if @condition.count == 5 || @condition.count == 0
-          auction.update(condition: "All Conditions") 
+          auction.update(condition: "All Conditions")
         else
           auction.condition = @condition.to_sentence
         end
