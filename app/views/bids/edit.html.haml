@@ -1,5 +1,34 @@
 %h1 Editing Bid
-= render 'form'
-= link_to 'Show', @bid
-|
-= link_to 'Back', bids_path
+.row
+  .card
+    .card-content
+      %span.card-title
+        Place Bid
+      = render 'form'
+      #bid-inventory.container
+        %table#bidDT.table.table-hover.responsive-table
+          %thead
+            %tr
+              %th Part Number
+              %th Description
+              %th Serial Number
+              %th Condition
+              %th Manufacturer
+          %tbody
+            - @match_parts.each do |inventory|
+              %tr#cursor-row{"data-inventory-part-id" => "\#{inventory.id}"}
+                %td.srchtbl= inventory.part_num
+                %td.srchtbl= inventory.description
+                %td.srchtbl= inventory.serial_num
+                %td.srchtbl= inventory.condition
+                %td.srchtbl= inventory.manufacturer
+
+:javascript
+  $(function(){
+    $("#bidDT").dataTable();
+  })
+-# 
+-# = render 'form'
+-# = link_to 'Show', auction_bid_path(@auction, @bid)
+-# -# |
+-# -# = link_to 'Back', bids_path
