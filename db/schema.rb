@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713142406) do
+ActiveRecord::Schema.define(version: 20160713161045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,19 @@ ActiveRecord::Schema.define(version: 20160713142406) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "company_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string   "order_id"
+    t.integer  "auction_id"
+    t.integer  "bid_id"
+    t.integer  "inventory_part_id"
+    t.string   "po_num"
+    t.string   "invoice_num"
+    t.integer  "seller_id"
+    t.integer  "buyer_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   add_foreign_key "aircrafts", "companies"
