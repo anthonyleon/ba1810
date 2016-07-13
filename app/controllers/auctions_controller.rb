@@ -11,18 +11,18 @@ class AuctionsController < ApplicationController
     @supplier_auctions = Bid.supplier_auctions(current_user.bids)
     # possible_auctions = get_possible_auctions.uniq! || get_possible_auctions
     # @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
-    get_possible_auctions
-    @inactive_auctions = current_user.auctions.where(active: false)
+    # @inactive_auctions = current_user.auctions.where(active: false)
+    get_sales_opportunities
+    @sales_opportunities.each do |auction|
+      condition_match(auction)
+    end
 
     @buyer_auctions.each do |auction|
         condition_match(auction)
-        auction.condition = @condition.to_sentence
-      auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
     end
 
     @supplier_auctions.each do |auction|
         condition_match(auction)
-        auction.condition = @condition.to_sentence 
       auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
     end  
   end
@@ -151,12 +151,12 @@ class AuctionsController < ApplicationController
     end
 
     def notify
-      InventoryPart.where(:part_num => @auction.part_num).each do |part|
+      InventoryPart.where(part_num: @auction.part_num).each do |part|
         condition_match(@auction)
-        if part.company != current_user
+        # if part.company != current_user
           #for this to work condition needs to be "NE, OH, SV, AR, or SC" not "new or NEW or Overhaul or overhaul"
-          Notification.create(company_id: part.company.id) if @condition.include? part.condition
-        end
+          Notification.create(company_id: part.company.id, auction_id: @auction.id) if @condition.include? part.condition && part.company != current_user
+        # end
       end
     end
     
@@ -171,18 +171,23 @@ class AuctionsController < ApplicationController
         @condition << "AR" if auction.condition_ar == true
           
         @condition << "SC" if auction.condition_sc == true
+      
+        if @condition.count == 5 || @condition.count == 0
+          auction.update(condition: "All Conditions") 
+        else
+          auction.condition = @condition.to_sentence
+        end
     end
 
-    def get_possible_auctions
+    def get_sales_opportunities
       @parts = current_user.inventory_parts
-      @possible_auctions = []
-      @parts.each do |inventory|
-        Auction.where(part_num: inventory.part_num).each do |auction|
-          @possible_auctions << auction if auction.active == true && auction.company != current_user
+      @sales_opportunities = []
+      @parts.uniq.each do |inventory|
+        Auction.where(part_num: inventory.part_num, active: true).each do |auction|
+          @sales_opportunities << auction if auction.company != current_user
         end
       end
-      @possible_auctions.flatten!
-      @possible_auctions.uniq!
+      @sales_opportunities.uniq!
       ## OLD CODE
       # @parts.each do |inv_part|
       #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)

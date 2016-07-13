@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :engines
-  resources :aircrafts
+  resources :engines, except: [:index]
+  resources :aircrafts, except: [:index]
 
 
   get 'notifications/index'
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
   get 'sales' => 'companies#sales', as: 'sales'
   get 'purchases' => 'companies#purchases', as: 'purchases'
-  get 'home' => 'companies#show', as: 'company'
+  get 'home' => 'companies#show', as: 'home'
   get 'company/edit' => 'companies#edit', as: 'edit_company'
 
   post 'payment' => 'bids#release_payment', as: 'payment'
@@ -34,7 +34,6 @@ Rails.application.routes.draw do
   resources :inventory_parts do
     resources :documents, shallow: true
   end
-
 
   resources :auctions do
     resources :auction_parts
