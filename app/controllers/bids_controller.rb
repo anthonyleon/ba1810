@@ -41,8 +41,8 @@ class BidsController < ApplicationController
     @bid.company = current_user
     respond_to do |format|
       if @bid.save
-        notify
-        notify_auctioner(@auction.company)
+        notify("A competing bid has been placed on an auction you are participating in for #{@auction.part_num}")
+        notify_auctioner(@auction.company, "A new bid was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
@@ -57,6 +57,8 @@ class BidsController < ApplicationController
   def update
     respond_to do |format|
       if @bid.update(bid_params)
+        notify("A competing bid has been updated on an auction you're in for for #{@auction.part_num}")
+        notify_auctioner(@auction.company, "A bid was updated in your auction!")
         format.html { redirect_to auction_bid_path(@auction, @bid), notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
         if @bid.tracking_num # POST shipping info to armor 
@@ -102,16 +104,21 @@ class BidsController < ApplicationController
       @bid = Bid.find(params[:id])
     end
 
-    def notify
-      @auction.bids.uniq.each do |bid|
-        Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id) unless bid.company == current_user
+    def notify(message)
+      bid_collection =[]
+      @auction.bids.each do |bid|
+        bid_collection << bid
+      end
+      bid_collection.uniq! { |b| b.company_id }
+      bid_collection.each do |bid|
+        Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id, message: message) unless bid.company == current_user
         CompanyMailer.auction_notification(bid).deliver_now
         CompanyMailer.place_new_bid(bid).deliver_now 
       end
     end
 
-    def notify_auctioner(user)
-      Notification.create(company_id: user.id, auction_id: @auction.id)
+    def notify_auctioner(user, message)
+      Notification.create(company_id: user.id, auction_id: @auction.id, message: message)
       CompanyMailer.notify_buyer(@bid.auction).deliver_now
     end
 
