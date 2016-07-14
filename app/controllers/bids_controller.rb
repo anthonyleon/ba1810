@@ -1,6 +1,6 @@
 class BidsController < ApplicationController
   before_action :set_bid, only: [:show, :edit, :update, :destroy, :release_payment]
-  before_action :set_auction, only: [:new, :create, :destroy, :show, :update]
+  before_action :set_auction, only: [:new, :edit, :create, :destroy, :show, :update]
   # GET /bids
   # GET /bids.json
   def index
@@ -32,6 +32,9 @@ class BidsController < ApplicationController
 
   # GET /bids/1/edit
   def edit
+    @parts = current_user.inventory_parts
+    @match_parts = @parts.where(part_num: @auction.part_num)
+    @inventory = @match_parts.ids
   end
 
   # POST /bids
@@ -59,15 +62,15 @@ class BidsController < ApplicationController
       if @bid.update(bid_params)
         notify_other_bidders("A competing bid has been updated on an auction you're in for for #{@auction.part_num}")
         notify_auctioner(@auction.company, "A bid was updated in your auction!")
-        format.html { redirect_to auction_bid_path(@auction, @bid), notice: 'Bid was successfully updated.' }
+        format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
-        if @bid.tracking_num # POST shipping info to armor 
+        if @bid.tracking_num # POST shipping info to armor
           set_armor_client
           @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.carrier_code.to_i - 1]["name"])
           user_id = @bid.company.armor_user_id
           account_id = @bid.company.armor_account_id
           order_id = @bid.order_id
-          action_data = { "user_id" => user_id, "carrier_id" => @bid.carrier_code, "tracking_id" => @bid.tracking_num, 
+          action_data = { "user_id" => user_id, "carrier_id" => @bid.carrier_code, "tracking_id" => @bid.tracking_num,
                            "description" => @bid.shipment_desc }
           result = @client.orders(account_id).shipments(order_id).create(action_data)
           deliver_data = { "action" => "delivered", "confirm" => true }
@@ -127,7 +130,7 @@ class BidsController < ApplicationController
     end
 
     def set_order
-      @order_data = {     
+      @order_data = {
         "type" => 1,
         "seller_id" => @bid.company.armor_user_id,
         "buyer_id" => current_user.company.armor_user_id,
