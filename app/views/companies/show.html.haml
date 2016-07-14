@@ -7,23 +7,23 @@
       .card-content
         %table.table.bordered.highlight
           %thead
-            %h5 Today's Top Industry Performers
+            %h5 Today's Aviation Financial Data
             %tr
-              %th Name
+              %th Aviation Leasing Stocks
               %th Currency
               %th Price
               %th Change
               %th Mkt Cap
           %tbody
-            - @data.each do |key, value|
+            - @data.each do |data|
               %tr
-                %td{style: "padding: 10px !important"}= value[:name]
-                %td{style: "padding: 10px !important"} USD
-                %td{style: "padding: 10px !important"}= value[:price]
-                %td{style: "padding: 10px !important"}
-                  = value[:change]
-                  = value[:change_in_percentage]
-                %td{style: "padding: 10px !important"}= value[:mkt_cap]
+              %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
+              %td{style: "padding: 10px !important"} USD
+              %td{style: "padding: 10px !important"}= "$" + data.ask
+              %td{style: "padding: 10px !important"}= data.change + " (" + data.change_in_percent + ")"
+              %td{style: "padding: 10px !important"}= data.market_capitalization
+
+
     .col.m12
       .card{style: "overflow: scroll;"}
         .card-content
@@ -60,7 +60,7 @@
                 %td= engine.company.representative
                 - if engine.company == current_user
                   %td= link_to 'Edit', edit_engine_path(engine)
-                  %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' } 
+                  %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' }
 
     .col.m12
       .card{style: "overflow: scroll;"}
