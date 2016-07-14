@@ -10,23 +10,18 @@
           %th Part #
           %th When?
           %th Condition
-          %th Manufacturer
-          %th
-          %th
       %tbody
         - @notifications.each do |note|
-          -if note.bid_id
-            %tr
-              %td.srchtbl= link_to "New Bid on One of your Auctions", note.bid.auction
-              %td.srchtbl= note.bid.auction.part_num
-              %td.srchtbl= distance_of_time_in_words_to_now(DateTime.now, Time.now + note.bid.created_at)
-              %td.srchtbl= note.bid.condition
-          -elsif note.auction_id
-            %tr
-              %td.srchtbl= link_to "New Opportunity", note.auction
-              %td.srchtbl= note.auction.part_num
-              %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.auction.created_at.to_f) + ' ago'
-              %td.srchtbl= note.auction.condition
+          %tr.notification
+            %td.srchtbl= link_to note.message, note.auction
+            %td.srchtbl= note.auction.part_num
+          -if note.bid
+            %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
+            %td.srchtbl= note.bid.inventory_part.condition
+          -else
+            %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
+            %td.srchtbl= note.auction.condition
+
             
             / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
       
