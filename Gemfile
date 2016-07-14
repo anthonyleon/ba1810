@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 
 gem 'armor_payments'
-
+gem 'yahoo-finance'
 gem 'roo'
 gem 'erd'
 
