@@ -41,7 +41,7 @@ class BidsController < ApplicationController
     @bid.company = current_user
     respond_to do |format|
       if @bid.save
-        notify("A competing bid has been placed on an auction you are participating in for #{@auction.part_num}")
+        notify_other_bidders("A competing bid has been placed on an auction you are participating in for #{@auction.part_num}")
         notify_auctioner(@auction.company, "A new bid was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
@@ -57,7 +57,7 @@ class BidsController < ApplicationController
   def update
     respond_to do |format|
       if @bid.update(bid_params)
-        notify("A competing bid has been updated on an auction you're in for for #{@auction.part_num}")
+        notify_other_bidders("A competing bid has been updated on an auction you're in for for #{@auction.part_num}")
         notify_auctioner(@auction.company, "A bid was updated in your auction!")
         format.html { redirect_to auction_bid_path(@auction, @bid), notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
@@ -104,7 +104,7 @@ class BidsController < ApplicationController
       @bid = Bid.find(params[:id])
     end
 
-    def notify(message)
+    def notify_other_bidders(message)
       bid_collection =[]
       @auction.bids.each do |bid|
         bid_collection << bid
@@ -112,8 +112,8 @@ class BidsController < ApplicationController
       bid_collection.uniq! { |b| b.company_id }
       bid_collection.each do |bid|
         Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id, message: message) unless bid.company == current_user
-        CompanyMailer.auction_notification(bid).deliver_now
-        CompanyMailer.place_new_bid(bid).deliver_now 
+        CompanyMailer.delay.auction_notification(bid)
+        CompanyMailer.delay.place_new_bid(bid)
       end
     end
 

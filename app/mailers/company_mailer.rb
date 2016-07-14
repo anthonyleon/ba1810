@@ -1,6 +1,6 @@
 class CompanyMailer < ApplicationMailer
   skip_before_action :requre_logged_in
-
+  # handle_asynchronously [:notify_buyer, :auction_notification], :run_at => Proc.new { 5.minutes.from_now }
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
