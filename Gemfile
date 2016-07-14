@@ -7,6 +7,7 @@ gem 'armor_payments'
 gem 'roo'
 gem 'erd'
 
+gem 'delayed_job_active_record'
 gem 'sendgrid'
 gem 'figaro'
 gem 'carrierwave'
