@@ -29,7 +29,7 @@ class CompaniesController < ApplicationController
     @inactive_auctions = current_user.auctions.where(active: false)
 
     yahoo_client = YahooFinance::Client.new
-    @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
+    @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY", "WLFC"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
   end
 
   # GET /companies/new
