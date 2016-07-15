@@ -44,7 +44,7 @@ class BidsController < ApplicationController
     @bid.company = current_user
     respond_to do |format|
       if @bid.save
-        notify_other_bidders("A competing bid has been placed on an auction you are participating in for #{@auction.part_num}")
+        notify_other_bidders("A bid has been placed on an auction you are participating in!")
         notify_auctioner(@auction.company, "A new bid was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
@@ -60,7 +60,7 @@ class BidsController < ApplicationController
   def update
     respond_to do |format|
       if @bid.update(bid_params)
-        notify_other_bidders("A competing bid has been updated on an auction you're in for for #{@auction.part_num}")
+        notify_other_bidders("A bid has been updated on an auction you're competing in!")
         notify_auctioner(@auction.company, "A bid was updated in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
