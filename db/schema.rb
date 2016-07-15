@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714185229) do
+ActiveRecord::Schema.define(version: 20160715165832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,12 +97,12 @@ ActiveRecord::Schema.define(version: 20160714185229) do
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
-    t.string   "name",                             null: false
-    t.string   "email",                            null: false
-    t.string   "password_digest",                  null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.boolean  "email_confirmed",  default: false
+    t.string   "name",                                   null: false
+    t.string   "email",                                  null: false
+    t.string   "password_digest",                        null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "email_confirmed",        default: false
     t.string   "confirm_token"
     t.string   "armor_account_id"
     t.string   "phone"
@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(version: 20160714185229) do
     t.string   "EIN"
     t.string   "armor_user_id"
     t.string   "representative"
+    t.string   "password_reset_token"
+    t.datetime "password_reset_sent_at"
   end
 
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree
