@@ -8,8 +8,8 @@
       %li
         = link_to notifications_index_path do
           %i.material-icons{class: Notification.any_unread?(current_user) ? "red-bell" : ""  }
-            notifications_active 
-        
+            notifications_active
+
       %li
         = link_to 'Inventory', inventory_parts_path
       %li
@@ -37,6 +37,10 @@
       = link_to 'Current Auctions', auctions_path
     %li
       = link_to 'Inventory', inventory_parts_path
+    %li
+      = link_to 'Aircrafts', aircrafts_path
+    %li
+      = link_to 'Engines', engines_path
     %li
       = link_to 'Sales', sales_path
     %li
