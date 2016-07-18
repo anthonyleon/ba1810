@@ -37,7 +37,8 @@
           %td= "Contact Rep"
         %td= engine.company.name
         %td= engine.company.representative
-        %td= link_to 'Edit', edit_engine_path(engine)
-        %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' }
+        - if engine.company == current_user
+          %td= link_to 'Edit', edit_engine_path(engine)
+          %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' }
 %br
   = link_to 'New Engine', new_engine_path
