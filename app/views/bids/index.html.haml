@@ -15,8 +15,8 @@
         %td= bid.company
         %td= bid.auction
         %td= bid.inventory_part
-        %td= link_to 'Show', bid
-        %td= link_to 'Edit', edit_bid_path(bid)
-        %td= link_to 'Delete', bid, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to 'Show', auction_bid_path(bid.auction, bid)
+        %td= link_to 'Edit', edit_auction_bid_path(bid.auction, bid)
+        %td= link_to 'Delete', auction_bid_path(bid.auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
 %br/
-= link_to 'New Bid', new_bid_path
+= link_to 'New Bid', new_auction_bid_path
