@@ -40,28 +40,6 @@ class AuctionsController < ApplicationController
     @all_conditions_empty = ( @condition_ne.empty? && @condition_oh.empty? && @condition_sv.empty? && @condition_ar.empty? && @condition_sc.empty?)
   end
 
-  def purchase
-    set_order
-    result = @client.orders(@bid.company.armor_account_id).create(@order_data)
-    Transaction.create(
-      order_id: result.data[:body]["order_id"], 
-      bid_id: @bid.id, 
-      auction_id: @auction.id, 
-      buyer_id: @auction.company.id, 
-      seller_id: @bid.company.id, 
-      inventory_part_id: @bid.inventory_part_id)
-
-    auth_data = { 'uri' => "/accounts/#{current_user.armor_account_id}/orders/#{@bid.order_id}/paymentinstructions", 'action' => 'view' }
-    p result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
-    @url = result.data[:body]["url"]
-
-    @auction.update(active: false)
-
-    ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
-    action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
-    result = @client.orders(current_user.armor_account_id).update(@bid.order_id, action_data)
-  end
-
   # GET /auctions/new
   def new
     @auction = Auction.new
@@ -126,6 +104,28 @@ class AuctionsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def purchase
+    set_order
+    result = @client.orders(@bid.company.armor_account_id).create(@order_data)
+    Transaction.create(
+      order_id: result.data[:body]["order_id"], 
+      bid_id: @bid.id, 
+      auction_id: @auction.id, 
+      buyer_id: @auction.company.id, 
+      seller_id: @bid.company.id, 
+      inventory_part_id: @bid.inventory_part_id)
+
+    auth_data = { 'uri' => "/accounts/#{current_user.armor_account_id}/orders/#{@bid.order_id}/paymentinstructions", 'action' => 'view' }
+    result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
+    @url = result.data[:body]["url"]
+    @auction.update(active: false)
+
+    ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
+    action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
+    result = @client.orders(current_user.armor_account_id).update(@bid.order_id, action_data)
+  end
+
 
   private
 
