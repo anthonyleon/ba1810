@@ -10,10 +10,11 @@ class BidsController < ApplicationController
   # GET /bids/1
   # GET /bids/1.json
   def show
+    @transaction = @bid.tx
     set_armor_client
     @carriers = @client.shipmentcarriers.all
-
-    if @bid.carrier_code != nil
+    #release_payment  uncomment to see modal when shipment info not set
+    if @transaction.carrier_code != nil
       release_payment
       funds_released
     end
@@ -145,8 +146,8 @@ class BidsController < ApplicationController
     def release_payment
       account_id = current_user.armor_account_id
       user_id = current_user.armor_user_id
-      auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{@bid.order_id}", 'action' => 'release' }
-      url_result = @client.accounts.users(account_id).authentications(user_id).create(auth_data)
+      auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{@bid.tx.order_id}", 'action' => 'release' }
+      p url_result = @client.accounts.users(account_id).authentications(user_id).create(auth_data)
       @url = url_result.data[:body]["url"]
     end
 

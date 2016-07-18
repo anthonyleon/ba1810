@@ -123,17 +123,18 @@ class CompaniesController < ApplicationController
 
   def sales
     @sales = []
-    current_user.bids.each do |bid|
-      @sales << bid if bid.order_id != nil
+    sales = Transaction.where(seller_id: current_user.id)
+    sales.each do |sale|
+      @sales << sale
     end
   end
 
   def purchases
     @purchases = []
-    current_user.auctions.where(active: false).each do |auction|
-      @purchases << auction.bids.find_by(order_id: auction.order_id)
+    purchases = Transaction.where(buyer_id: current_user.id)
+    purchases.each do |auction|
+      @purchases << auction
     end
-    @purchases.compact!
   end
 
   private
