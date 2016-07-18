@@ -14,18 +14,18 @@
           %th Price Paid
           %th
       %tbody
-        - @purchases.each do |bid|
+        - @purchases.each do |transaction|
           %tr
-            %td.srchtbl= bid.inventory_part.part_num
-            %td.srchtbl= bid.inventory_part.description
-            %td.srchtbl= bid.inventory_part.serial_num
-            %td.srchtbl= bid.inventory_part.condition
-            %td.srchtbl= bid.inventory_part.manufacturer
-            %td.srchtbl= number_to_currency bid.amount
-            -if bid.delivered == true && bid.auction.paid == false
-              %td= link_to 'Release Payment', auction_bid_path(bid.auction, bid)
+            %td.srchtbl= transaction.bid.inventory_part.part_num
+            %td.srchtbl= transaction.bid.inventory_part.description
+            %td.srchtbl= transaction.bid.inventory_part.serial_num
+            %td.srchtbl= transaction.bid.inventory_part.condition
+            %td.srchtbl= transaction.bid.inventory_part.manufacturer
+            %td.srchtbl= number_to_currency transaction.bid.amount
+            -if transaction.delivered == true && transaction.auction.paid == false
+              %td= link_to 'Release Payment', auction_bid_path(transaction.auction, transaction.bid)
             -else
-              %td= link_to 'Show', auction_bid_path(bid.auction, bid)
+              %td= link_to 'Show', auction_bid_path(transaction.auction, transaction.bid)
             / %td= button_to 'Release Funds', {controller: "bids", action: "release_payment", id: bid.id, auction_id: bid.auction.id}, method: "post" unless !bid.delivered || bid.auction.paid
 
             
