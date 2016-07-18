@@ -145,7 +145,7 @@ class BidsController < ApplicationController
     def release_payment
       account_id = current_user.armor_account_id
       user_id = current_user.armor_user_id
-      auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}", 'action' => 'release' }
+      auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{@bid.order_id}", 'action' => 'release' }
       url_result = @client.accounts.users(account_id).authentications(user_id).create(auth_data)
       @url = url_result.data[:body]["url"]
     end
