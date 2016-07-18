@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160715165832) do
+ActiveRecord::Schema.define(version: 20160718175141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,9 +69,7 @@ ActiveRecord::Schema.define(version: 20160715165832) do
     t.boolean  "condition_sv"
     t.boolean  "condition_ar"
     t.boolean  "condition_sc"
-    t.string   "order_id"
     t.string   "po_num"
-    t.boolean  "paid"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -83,13 +81,7 @@ ActiveRecord::Schema.define(version: 20160715165832) do
     t.integer  "inventory_part_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.string   "order_id"
     t.string   "invoice_num"
-    t.string   "carrier_code"
-    t.string   "tracking_num"
-    t.text     "shipment_desc"
-    t.string   "carrier"
-    t.boolean  "delivered"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
@@ -229,6 +221,12 @@ ActiveRecord::Schema.define(version: 20160715165832) do
     t.integer  "buyer_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "carrier_code"
+    t.string   "tracking_num"
+    t.string   "carrier"
+    t.string   "shipment_desc"
+    t.boolean  "delivered"
+    t.boolean  "paid"
   end
 
   add_foreign_key "aircrafts", "companies"
