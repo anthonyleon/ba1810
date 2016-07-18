@@ -49,12 +49,14 @@ class AuctionsController < ApplicationController
 
   def purchase_confirmation
     set_order
+    p @bid.company.armor_account_id
+    p @order_data
     result = @client.orders(@bid.company.armor_account_id).create(@order_data)
     @bid.update(order_id: result.data[:body]["order_id"])
     @auction.update(order_id: result.data[:body]["order_id"])
 
     auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}/paymentinstructions", 'action' => 'view' }
-    result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
+    p result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
     @url = result.data[:body]["url"]
 
     @bid.auction.update(active: false)
@@ -142,7 +144,7 @@ class AuctionsController < ApplicationController
         "buyer_id" => current_user.armor_user_id,
         "amount" => @bid.amount,
         "summary" => @auction.part_num,
-        "description" => @auction.condition,
+        "description" => @bid.inventory_part.condition,
         "invoice_num" => "123456",
         "purchase_order_num" => "675890",
         "message" => "Hello, Example Buyer! Thank you for your example goods order." }
