@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :engines, except: [:index]
-  resources :aircrafts, except: [:index]
+  resources :engines
+  resources :aircrafts
 
 
   get 'notifications/index'
