@@ -67,12 +67,12 @@ class BidsController < ApplicationController
         format.json { render :show, status: :ok, location: @bid }
         if @bid.tracking_num # POST shipping info to armor
           set_armor_client
-          @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.carrier_code.to_i - 1]["name"])
+          @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.tx.carrier_code.to_i - 1]["name"])
           user_id = @bid.company.armor_user_id
           account_id = @bid.company.armor_account_id
-          order_id = @bid.order_id
-          action_data = { "user_id" => user_id, "carrier_id" => @bid.carrier_code, "tracking_id" => @bid.tracking_num,
-                           "description" => @bid.shipment_desc }
+          order_id = @bid.tx.order_id
+          action_data = { "user_id" => user_id, "carrier_id" => @bid.tx.carrier_code, "tracking_id" => @bid.tx.tracking_num,
+                           "description" => @bid.tx.shipment_desc }
           result = @client.orders(account_id).shipments(order_id).create(action_data)
           deliver_data = { "action" => "delivered", "confirm" => true }
           delivery_result = @client.orders(account_id).update(order_id, deliver_data)
@@ -153,7 +153,7 @@ class BidsController < ApplicationController
 
     def funds_released # for testing purposes only sandbox trigger
       account_id = @bid.company.armor_account_id
-      order_id = @bid.order_id
+      order_id = @bid.tx.order_id
       action_data = { "action" => "release", "confirm" => true }
       fund_result = @client.orders(account_id).update(order_id, action_data)
       @bid.auction.update(paid: true)
