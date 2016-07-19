@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713142406) do
+ActiveRecord::Schema.define(version: 20160718192931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,19 +59,18 @@ ActiveRecord::Schema.define(version: 20160713142406) do
 
   create_table "auctions", force: :cascade do |t|
     t.integer  "company_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "part_num"
-    t.boolean  "active",       default: true, null: false
+    t.boolean  "active",         default: true, null: false
     t.string   "condition"
     t.boolean  "condition_ne"
     t.boolean  "condition_oh"
     t.boolean  "condition_sv"
     t.boolean  "condition_ar"
     t.boolean  "condition_sc"
-    t.string   "order_id"
     t.string   "po_num"
-    t.boolean  "paid"
+    t.integer  "transaction_id"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -83,13 +82,8 @@ ActiveRecord::Schema.define(version: 20160713142406) do
     t.integer  "inventory_part_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.string   "order_id"
     t.string   "invoice_num"
-    t.string   "carrier_code"
-    t.string   "tracking_num"
-    t.text     "shipment_desc"
-    t.string   "carrier"
-    t.boolean  "delivered"
+    t.integer  "transaction_id"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
@@ -97,12 +91,12 @@ ActiveRecord::Schema.define(version: 20160713142406) do
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
-    t.string   "name",                             null: false
-    t.string   "email",                            null: false
-    t.string   "password_digest",                  null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.boolean  "email_confirmed",  default: false
+    t.string   "name",                                   null: false
+    t.string   "email",                                  null: false
+    t.string   "password_digest",                        null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "email_confirmed",        default: false
     t.string   "confirm_token"
     t.string   "armor_account_id"
     t.string   "phone"
@@ -114,10 +108,28 @@ ActiveRecord::Schema.define(version: 20160713142406) do
     t.string   "EIN"
     t.string   "armor_user_id"
     t.string   "representative"
+    t.string   "password_reset_token"
+    t.datetime "password_reset_sent_at"
   end
 
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree
   add_index "companies", ["name"], name: "index_companies_on_name", unique: true, using: :btree
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.string   "name"
@@ -177,6 +189,7 @@ ActiveRecord::Schema.define(version: 20160713142406) do
     t.datetime "updated_at",                 null: false
     t.integer  "bid_id"
     t.integer  "auction_id"
+    t.string   "message"
   end
 
   create_table "parts", force: :cascade do |t|
@@ -197,6 +210,23 @@ ActiveRecord::Schema.define(version: 20160713142406) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "company_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string   "order_id"
+    t.integer  "inventory_part_id"
+    t.string   "po_num"
+    t.string   "invoice_num"
+    t.integer  "seller_id"
+    t.integer  "buyer_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "carrier_code"
+    t.string   "tracking_num"
+    t.string   "carrier"
+    t.string   "shipment_desc"
+    t.boolean  "delivered"
+    t.boolean  "paid"
   end
 
   add_foreign_key "aircrafts", "companies"

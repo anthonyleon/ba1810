@@ -32,5 +32,9 @@
   .field.form-group
     = f.password_field :password_confirmation, class: 'form-control', placeholder: "Confirm password"
   %span.actions
-
-    = f.submit 'Submit', class: 'btn custom-btn'
+  -if current_user
+    = f.submit 'Update', class: 'btn custom-btn'
+  -else
+    %button.btn.custom-btn.waves-effect.waves-light{:name => "action", :type => "submit"}
+      %i.material-icons.right lock_open
+      Sign Up

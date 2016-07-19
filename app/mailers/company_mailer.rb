@@ -1,6 +1,5 @@
 class CompanyMailer < ApplicationMailer
   skip_before_action :requre_logged_in
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -11,6 +10,12 @@ class CompanyMailer < ApplicationMailer
     @company = company
 
     mail to: @company.email, subject: "BID.AERO Registration Confirmation"
+  end
+
+  def password_reset company
+    @company = company
+    mail to: company.email, subject: "Password Reset"
+
   end
 
   def place_new_bid bid
