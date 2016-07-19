@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   end
 
   resources :auctions do
-    resources :auction_parts
+    resources :auction_parts, except: [:index]
     resources :bids
   end
 
