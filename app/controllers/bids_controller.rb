@@ -10,10 +10,11 @@ class BidsController < ApplicationController
   # GET /bids/1
   # GET /bids/1.json
   def show
+    @transaction = @bid.tx
     set_armor_client
     @carriers = @client.shipmentcarriers.all
-
-    if @bid.carrier_code != nil
+    #release_payment  uncomment to see modal when shipment info not set
+    if @transaction.carrier_code != nil
       release_payment
       funds_released
     end
@@ -44,8 +45,8 @@ class BidsController < ApplicationController
     @bid.company = current_user
     respond_to do |format|
       if @bid.save
-        notify
-        notify_auctioner(@auction.company)
+        notify_other_bidders("A bid has been placed on an auction you are participating in!")
+        notify_auctioner(@auction.company, "A new bid was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
@@ -60,16 +61,18 @@ class BidsController < ApplicationController
   def update
     respond_to do |format|
       if @bid.update(bid_params)
+        notify_other_bidders("A bid has been updated on an auction you're competing in!")
+        notify_auctioner(@auction.company, "A bid was updated in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
         if @bid.tracking_num # POST shipping info to armor
           set_armor_client
-          @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.carrier_code.to_i - 1]["name"])
+          @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.tx.carrier_code.to_i - 1]["name"])
           user_id = @bid.company.armor_user_id
           account_id = @bid.company.armor_account_id
-          order_id = @bid.order_id
-          action_data = { "user_id" => user_id, "carrier_id" => @bid.carrier_code, "tracking_id" => @bid.tracking_num,
-                           "description" => @bid.shipment_desc }
+          order_id = @bid.tx.order_id
+          action_data = { "user_id" => user_id, "carrier_id" => @bid.tx.carrier_code, "tracking_id" => @bid.tx.tracking_num,
+                           "description" => @bid.tx.shipment_desc }
           result = @client.orders(account_id).shipments(order_id).create(action_data)
           deliver_data = { "action" => "delivered", "confirm" => true }
           delivery_result = @client.orders(account_id).update(order_id, deliver_data)
@@ -91,21 +94,13 @@ class BidsController < ApplicationController
     end
   end
 
-  def purchase
-    set_armor_client
-    set_order
-    result = client.orders(@bid.armor_account_id).create(@order_data)
-    @bid.update(:order_id => result.data[:body]["order_id"])
-    @auction.update(:order_id => result.data[:body]["order_id"])
-  end
-
-  def purchase_confirmation
-
-  end
-
-
-
-
+  # def purchase #(testing purposes)
+  #   set_armor_client
+  #   set_order
+  #   result = client.orders(@bid.armor_account_id).create(@order_data)
+  #   @bid.update(:order_id => result.data[:body]["order_id"])
+  #   @auction.update(:order_id => result.data[:body]["order_id"])
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -113,16 +108,21 @@ class BidsController < ApplicationController
       @bid = Bid.find(params[:id])
     end
 
-    def notify
-      @auction.bids.uniq.each do |bid|
-        Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id) unless bid.company == current_user
-        CompanyMailer.auction_notification(bid).deliver_now
-        CompanyMailer.place_new_bid(bid).deliver_now
+    def notify_other_bidders(message)
+      bid_collection =[]
+      @auction.bids.each do |bid|
+        bid_collection << bid
+      end
+      bid_collection.uniq! { |b| b.company_id }
+      bid_collection.each do |bid|
+        Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id, message: message) unless bid.company == current_user
+        CompanyMailer.delay.auction_notification(bid)
+        CompanyMailer.delay.place_new_bid(bid)
       end
     end
 
-    def notify_auctioner(user)
-      Notification.create(company_id: user.id, auction_id: @auction.id)
+    def notify_auctioner(user, message)
+      Notification.create(company_id: user.id, auction_id: @auction.id, message: message)
       CompanyMailer.notify_buyer(@bid.auction).deliver_now
     end
 
@@ -146,14 +146,14 @@ class BidsController < ApplicationController
     def release_payment
       account_id = current_user.armor_account_id
       user_id = current_user.armor_user_id
-      auth_data = { 'uri' => "/accounts/#{@bid.company.armor_account_id}/orders/#{@bid.order_id}", 'action' => 'release' }
-      url_result = @client.accounts.users(account_id).authentications(user_id).create(auth_data)
+      auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{@bid.tx.order_id}", 'action' => 'release' }
+      p url_result = @client.accounts.users(account_id).authentications(user_id).create(auth_data)
       @url = url_result.data[:body]["url"]
     end
 
     def funds_released # for testing purposes only sandbox trigger
       account_id = @bid.company.armor_account_id
-      order_id = @bid.order_id
+      order_id = @bid.tx.order_id
       action_data = { "action" => "release", "confirm" => true }
       fund_result = @client.orders(account_id).update(order_id, action_data)
       @bid.auction.update(paid: true)

@@ -6,6 +6,7 @@ class Company < ActiveRecord::Base
   has_many :aircrafts
   has_many :engines
   has_many :ratings
+  has_many :transactions
   has_many :notifications, dependent: :destroy
   validates :password, presence: true, length: { minimum: 8 }
   validates :email, presence: true, uniqueness: true
@@ -23,6 +24,18 @@ class Company < ActiveRecord::Base
     save!(validate: false)
   end
 
+  def generate_token(column)
+    begin
+      self[column] = SecureRandom.urlsafe_base64
+    end while Company.exists?(column => self[column])
+  end
+
+  def send_password_reset
+    generate_token(:password_reset_token)
+    self.password_reset_sent_at = Time.zone.now
+    save!(validate: false)
+    CompanyMailer.password_reset(self).deliver_now
+  end
 
   private
 
