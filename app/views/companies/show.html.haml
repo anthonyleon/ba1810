@@ -19,7 +19,7 @@
               %tr
               %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
               %td{style: "padding: 10px !important"} USD
-              %td{style: "padding: 10px !important"}= "$" + data.ask
+              %td{style: "padding: 10px !important"}= "$" + '%.2f' % data.ask
               %td{style: "padding: 10px !important"}= data.change + " (" + data.change_in_percent + ")"
               %td{style: "padding: 10px !important"}= data.market_capitalization
 
