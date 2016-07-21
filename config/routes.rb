@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   resources :engines
   resources :aircrafts
 
-
-
+  post 'transactions/:id' => 'transactions#update', as: "transactions_update"
   get 'notifications/index'
 
   resources :ratings
@@ -42,7 +41,7 @@ Rails.application.routes.draw do
   end
 
   resources :auctions do
-    resources :auction_parts
+    resources :auction_parts, except: [:index]
     resources :bids
   end
 

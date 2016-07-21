@@ -1,18 +1,21 @@
 = form_for([@company, @rating]) do |f|
 
-  / - %w[timeliness cleanliness godliness].each do |ness|
-  /   .field
-  /     %div{id: "#{ness}-star-rating"}
-  /     = f.label :"#{ness}"
-  .field
-    #star-rating
-    = f.label :timeliness
+  - %w[timeliness packaging documentation dependability bid_aero].each do |rating|
+    .field
+      %div{id: "#{rating}-star-rating"}
+      = f.label :"#{rating}"
+  / .field
+  /   #star-rating
+  /   = f.label :timeliness
   %br
   .actions
     %a.waves-effect.waves-light.btn-large= f.submit "Submit"
 
 :javascript
-  $('#star-rating').raty({
-    path: '/assets/',
-    scoreName: 'rating[timeliness]'
+  ['timeliness', 'packaging', 'documentation', 'dependability', 'bid_aero'].forEach(function(somethingNess) {
+    $('#' + somethingNess + '-star-rating').raty({
+      scoreName: 'rating[' + somethingNess + ']',
+      starOff      : '#{image_path("star-off.png")}',
+      starOn       : '#{image_path("star-on.png")}',
+    });
   });

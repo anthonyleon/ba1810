@@ -3,8 +3,6 @@ class AuctionsController < ApplicationController
   before_action :set_bid_and_auction, only: [:purchase, :purchase_confirmation]
   before_action :set_armor_client, only: [:purchase, :purchase_confirmation]
 
-  # GET /auctions
-  # GET /auctions.json
   def index
     @auctions = current_user.auctions
     @buyer_auctions = current_user.auctions.where(active: true)
@@ -25,11 +23,7 @@ class AuctionsController < ApplicationController
       auction.update(condition: "All Conditions") if @condition.count == 5 || @condition.count == 0
     end
   end
-#
 
-#
-  # GET /auctions/1
-  # GET /auctions/1.json
   def show
     @init_price = @auction.auction_part.init_price
     @condition_ne = (@auction.condition_ne) ? 'New ': ""
@@ -40,17 +34,13 @@ class AuctionsController < ApplicationController
     @all_conditions_empty = ( @condition_ne.empty? && @condition_oh.empty? && @condition_sv.empty? && @condition_ar.empty? && @condition_sc.empty?)
   end
 
-  # GET /auctions/new
   def new
     @auction = Auction.new
   end
 
-  # GET /auctions/1/edit
   def edit
   end
 
-  # POST /auctions
-  # POST /auctions.json
   def create
     @auction = Auction.new(auction_params)
     @part_match = Part.find_by(part_num: @auction.part_num)
@@ -81,8 +71,6 @@ class AuctionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /auctions/1
-  # PATCH/PUT /auctions/1.json
   def update
     respond_to do |format|
       if @auction.update(auction_params)
@@ -95,8 +83,6 @@ class AuctionsController < ApplicationController
     end
   end
 
-  # DELETE /auctions/1
-  # DELETE /auctions/1.json
   def destroy
     @auction.destroy
     respond_to do |format|
@@ -119,7 +105,7 @@ class AuctionsController < ApplicationController
     auth_data = { 'uri' => "/accounts/#{current_user.armor_account_id}/orders/#{transaction.order_id}/paymentinstructions", 'action' => 'view' }
     result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
     @url = result.data[:body]["url"]
-    @auction.update(active: false)
+    @auction.update(active: false) #change this to be on webhook [testing purposes]
 
     ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
     action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
