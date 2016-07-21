@@ -2,6 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 require 'csv'
+require 'fog/aws'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -34,7 +35,6 @@ module BidAero
     config.active_job.queue_adapter = :delayed_job
 
     
-    config.assets.initialize_on_precompile = true
     # secret keys
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
