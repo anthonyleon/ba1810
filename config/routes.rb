@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   resources :engines
   resources :aircrafts
 
-
-
+  post 'transactions/:id' => 'transactions#update', as: "transactions_update"
   get 'notifications/index'
 
   resources :ratings
