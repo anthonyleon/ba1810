@@ -34,7 +34,7 @@ module BidAero
     config.active_job.queue_adapter = :delayed_job
 
     
-    config.assets.initialize_on_precompile = false
+    config.assets.initialize_on_precompile = true
     # secret keys
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
