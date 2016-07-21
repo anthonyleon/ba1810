@@ -105,7 +105,7 @@ class AuctionsController < ApplicationController
     auth_data = { 'uri' => "/accounts/#{current_user.armor_account_id}/orders/#{transaction.order_id}/paymentinstructions", 'action' => 'view' }
     result = @client.accounts.users(current_user.armor_account_id).authentications(current_user.armor_user_id).create(auth_data)
     @url = result.data[:body]["url"]
-    @auction.update(active: false)
+    @auction.update(active: false) #change this to be on webhook [testing purposes]
 
     ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
     action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
