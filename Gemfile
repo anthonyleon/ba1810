@@ -5,7 +5,7 @@ gem 'armor_payments'
 gem 'yahoo-finance'
 gem 'roo'
 gem 'erd'
-
+gem 'newrelic_rpm'
 gem 'fog-aws'
 gem 'delayed_job_active_record'
 gem 'sendgrid'
