@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :engines
   resources :aircrafts
 
+
+  post 'transactions/paymentinescrow' => 'transactions#payment_in_escrow', as: "pay_for_part"
   post 'transactions/:id' => 'transactions#update', as: "transactions_update"
   get 'notifications/index'
 
