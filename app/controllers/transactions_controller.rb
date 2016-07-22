@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
   def payment_in_escrow
-    
+    redirect_to root_path
   end
 
   def update
