@@ -69,19 +69,14 @@ class CompaniesController < ApplicationController
         ## Company armor_user_id
         users = @client.accounts.users(armor_account_num).all
         user_id = users.data[:body][0]["user_id"] unless users.data[:body]["status"] == "error"
-        if user_id == nil
-          @company.destroy
-          format.html { render :new, notice: 'Please confirm telephone number and country code are correct' }
           ## need help to display errors that are received from armor payments to the user (testing purposes)
 
-        else
-          CompanyMailer.registration_confirm(@company).deliver
-          @company.update(:armor_user_id => user_id)
-          @company.update(armor_account_id: armor_account_num)
-          # session[:company_id] = @company.id
-          format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
-          format.json { render :show, status: :created, location: @company }
-        end
+        CompanyMailer.registration_confirm(@company).deliver
+        @company.update(:armor_user_id => user_id)
+        @company.update(armor_account_id: armor_account_num)
+        # session[:company_id] = @company.id
+        format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
+        format.json { render :show, status: :created, location: @company }
       else
         format.html { render :new }
         format.json { render json: @company.errors, status: :unprocessable_entity }
