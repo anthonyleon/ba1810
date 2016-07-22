@@ -1,4 +1,8 @@
 class TransactionsController < ApplicationController
+  def payment_in_escrow
+    
+  end
+
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
