@@ -242,6 +242,7 @@ GEM
     minitest (5.9.0)
     multi_json (1.12.1)
     multi_xml (0.5.5)
+    newrelic_rpm (3.16.0.318)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
@@ -433,6 +434,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   launchy
+  newrelic_rpm
   nokogiri
   pg
   pry-rails
@@ -455,4 +457,4 @@ DEPENDENCIES
   yahoo-finance
 
 BUNDLED WITH
-   1.12.4
+   1.12.5
