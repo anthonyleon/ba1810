@@ -46,14 +46,14 @@ end
 
 
 
-5.times do
-  @auction = Auction.create(company_id: @company.id, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
-end
+# 5.times do
+#   @auction = Auction.create(company_id: @company.id, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
+# end
 
-5.times do
-  AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
-                      manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
-end
+# 5.times do
+#   AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
+#                       manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
+# end
 
 
 
