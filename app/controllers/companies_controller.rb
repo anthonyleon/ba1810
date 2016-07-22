@@ -66,7 +66,7 @@ class CompaniesController < ApplicationController
 
         #armor user create
         armor_create
-        result = @client.accounts.create(@account_data)
+        p result = @client.accounts.create(@account_data)
         armor_account_num = result.data[:body]["account_id"].to_s
         @company.update(armor_account_id: armor_account_num)
 
