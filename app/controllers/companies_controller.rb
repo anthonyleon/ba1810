@@ -28,8 +28,8 @@ class CompaniesController < ApplicationController
     @possible_auctions = possible_auctions - @supplier_auctions - @buyer_auctions
     @inactive_auctions = current_user.auctions.where(active: false)
 
-    yahoo_client = YahooFinance::Client.new
-    @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY", "WLFC"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
+    # yahoo_client = YahooFinance::Client.new
+    # @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY", "WLFC"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
   end
 
   # GET /companies/new
@@ -62,21 +62,26 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.save
-        CompanyMailer.registration_confirm(@company).deliver
-
         #armor user create
         armor_create
         p result = @client.accounts.create(@account_data)
         armor_account_num = result.data[:body]["account_id"].to_s
-        @company.update(armor_account_id: armor_account_num)
-
         ## Company armor_user_id
         users = @client.accounts.users(armor_account_num).all
-        @company.update(:armor_user_id => users.data[:body][0]["user_id"])
+        user_id = users.data[:body][0]["user_id"] unless users.data[:body]["status"] == "error"
+        if user_id == nil
+          @company.destroy
+          format.html { render :new, notice: 'Please confirm telephone number and country code are correct' }
+          ## need help to display errors that are received from armor payments to the user (testing purposes)
 
-        # session[:company_id] = @company.id
-        format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
-        format.json { render :show, status: :created, location: @company }
+        else
+          CompanyMailer.registration_confirm(@company).deliver
+          @company.update(:armor_user_id => user_id)
+          @company.update(armor_account_id: armor_account_num)
+          # session[:company_id] = @company.id
+          format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
+          format.json { render :show, status: :created, location: @company }
+        end
       else
         format.html { render :new }
         format.json { render json: @company.errors, status: :unprocessable_entity }
