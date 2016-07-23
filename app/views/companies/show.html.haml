@@ -1,42 +1,44 @@
-#company-name.clearfix
-  .company-name
-    %h1= current_user.name
-.row
-  .col.m12
-    .card
-      .card-content
-        %table.table.bordered.highlight
-          %thead
-            %h5 Today's Aviation Financial Data
-            %tr
-              %th Aviation Leasing Stocks
-              %th Currency
-              %th Price
-              %th Change
-              %th Mkt Cap
-          %tbody
-            - @data.each do |data|
-              %tr
-              %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
-              %td{style: "padding: 10px !important"} USD
-              %td{style: "padding: 10px !important"}= "$" + '%.2f' % data.ask
-              %td{style: "padding: 10px !important"}= data.change + " (" + data.change_in_percent + ")"
-              %td{style: "padding: 10px !important"}= data.market_capitalization
+.card-panel.grey.lighten-5
+  %h4.center.black-text.block.custom-card-title
+    = current_user.name
+
+.card.dataTables_wrapper
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center
+        Today's Aviation Financial Data
+    %hr/
+    %table.table.bordered.highlight.responsive-table
+      %thead
+        %tr
+          %th Aviation Leasing Stocks
+          %th Currency
+          %th Price
+          %th Change
+          %th Mkt Cap
+      %tbody
+        - @data.each do |data|
+          %tr
+          %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
+          %td{style: "padding: 10px !important"} USD
+          %td{style: "padding: 10px !important"}= "$" + '%.2f' % data.ask
+          %td{style: "padding: 10px !important"}= data.change + " (" + data.change_in_percent + ")"
+          %td{style: "padding: 10px !important"}= data.market_capitalization
 
 
-  .col.m12
-    .card.dataTables_wrapper
-      .card-content
-        .card-title.center-align
-          %h5 Engines Avialable
-        = render partial: './engines/engine_table'
+.card.dataTables_wrapper
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center Engines Avialable
+    %hr/
+    = render partial: './engines/engine_table'
 
-  .col.m12
-    .card
-      .card-content.dataTables_wrapper
-        .card-title.center-align
-          %h5 Aircraft Availability
-        = render partial: './aircrafts/aircraft_table'
+.card
+  .card-content.dataTables_wrapper
+    .card-title.center-align
+      %h5.custom-card-title.center Aircraft Availability
+    %hr/
+    = render partial: './aircrafts/aircraft_table'
 
     /   .company-name
     /     %h1= @company.name
