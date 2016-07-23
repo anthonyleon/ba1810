@@ -18,13 +18,13 @@
     = javascript_include_tag  "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"
 
   %body{:class => body_class}
-    - if current_user
-      = render "./layouts/commons/navbar"
-      %main
-        .custom-container
+    %main
+      - if current_user
+        = render "./layouts/commons/navbar"
+      - else
+        .new-session.row{style: "max-height: 100vh;"}
           = yield
-    - else
-      .new-session.row{style: "max-height: 100vh;"}
+      .custom-container
         = yield
 
   %footer.page-footer
