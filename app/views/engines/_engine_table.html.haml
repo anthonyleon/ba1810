@@ -35,7 +35,7 @@
           %td= "Contact Rep"
         %td= engine.company.name
         %td= engine.company.representative
-        - if engine.company != current_user
+        - if engine.company == current_user
           = hidden_field_tag 'is_available_engine', 'true'
           %td
             %span

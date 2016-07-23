@@ -2,6 +2,8 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{name: "viewport", content: "initial-scale=1, maximum-scale=1"}
+
     %title BidAero
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
@@ -17,41 +19,17 @@
     = javascript_include_tag  "https://cdn.datatables.net/s/bs/dt-1.10.10/datatables.min.js"
     = javascript_include_tag  "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"
 
-  %body{:class => body_class}
-    %main
-      - if current_user
+  %body{:class => "#{body_class} Site"}
+    - if current_user
+      %main
         = render "./layouts/commons/navbar"
-      - else
-        .new-session.row{style: "max-height: 100vh;"}
+        .custom-container
           = yield
-      .custom-container
-        = yield
-
-  %footer.page-footer
-    .container
-      .row
-        .col.l6.s12
-          %h5.grey-text Contact Us
-          %ul
-            %li
-              %a.grey-text.text-darken-3 13611 S. Dixie HWY
-            %li
-              %a.grey-text.text-darken-3 Suite 109-539 Miami, FL 33176
-          %a.grey-text.text-darken-3{:href => "mailto:info@bid.aero"} info@bid.aero
-
-        .col.l4.offset-l2.s12
-          %h5.grey-text Links
-          %ul
-            %li
-              %a.grey-text.text-darken-3{:href => "#!"} Advertisment
-            %li
-              %a.grey-text.text-darken-3{:href => "#!"} Terms and Conditions
-            %li
-              %a.grey-text.text-darken-3{:href => "#!"} Privacy Policy
-
-    .footer-copyright
-      .container
-        %a.grey-text.text-darken-3 Website designed and programmed in Miami, Florida. Copyright ©2016 Bid.Aero, LLC. All Rights Reserved.
+        = render partial: 'layouts/commons/footer'
+    - else
+      .new-session.background
+        .container
+          = yield
 
 :javascript
   $(function(){

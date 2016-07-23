@@ -95,9 +95,9 @@ class AuctionsController < ApplicationController
     set_order
     result = @client.orders(@bid.company.armor_account_id).create(@order_data)
     transaction = Transaction.create(
-      order_id: result.data[:body]["order_id"], 
-      buyer_id: @auction.company.id, 
-      seller_id: @bid.company.id, 
+      order_id: result.data[:body]["order_id"],
+      buyer_id: @auction.company.id,
+      seller_id: @bid.company.id,
       inventory_part_id: @bid.inventory_part_id)
     @auction.update(transaction_id: transaction.id)
     @bid.update(transaction_id: transaction.id)
@@ -147,17 +147,17 @@ class AuctionsController < ApplicationController
     def condition_match(auction)
         @condition = ["NE", "OH", "SV", "AR", "SC"]
         @condition.delete("NE") if auction.condition_ne == false
-          
+
         @condition.delete("OH") if auction.condition_oh == false
-          
+
         @condition.delete("SV") if auction.condition_sv == false
-          
+
         @condition.delete("AR") if auction.condition_ar == false
-          
+
         @condition.delete("SC") if auction.condition_sc == false
 
         if @condition.count == 5
-          auction.update(condition: "All Conditions") 
+          auction.update(condition: "All Conditions")
         else
           auction.update(condition: @condition.to_sentence)
         end

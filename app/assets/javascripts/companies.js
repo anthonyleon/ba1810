@@ -1,4 +1,3 @@
-
 $(document).on('ready page:load', function(){
   $('#dashboard-auctions>div:visible').hide();
 
@@ -23,8 +22,11 @@ $(document).on('ready page:load', function(){
         break;
     };
   });
-
   // default tab is 2
   $('.nav-option[id="2"').click();
 });
 
+$(function() {
+  $("#salesPartsDT").DataTable();
+  $("#purchaseDT").DataTable();
+});

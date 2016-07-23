@@ -1,55 +1,71 @@
 %p#notice= notice
-%p
-  %strong Aircraft type:
-  = @aircraft.aircraft_type
-%p
-  %strong Msn:
-  = @aircraft.msn
-%p
-  %strong Tail number:
-  = @aircraft.tail_number
-%p
-  %strong Yob:
-  = @aircraft.yob
-%p
-  %strong Mtow:
-  = @aircraft.mtow
-%p
-  %strong Engine major variant:
-  = @aircraft.engine_major_variant
-%p
-  %strong Engine minor variant:
-  = @aircraft.engine_minor_variant
-%p
-  %strong Apu model:
-  = @aircraft.apu_model
-%p
-  %strong Cabin config:
-  = @aircraft.cabin_config
-%p
-  %strong Service Status:
-  = @aircraft.service_status
-%p
-  %strong Current operator:
-  = @aircraft.current_operator
-%p
-  %strong Last operator:
-  = @aircraft.last_operator
-%p
-  %strong Location:
-  = @aircraft.location
-%p
-  %strong Maintenance status:
-  = @aircraft.maintenance_status
-%p
-  %strong Available date:
-  = @aircraft.available_date
-%p
-  %strong Sale:
-  = @aircraft.sale
-%p
-  %strong Lease:
-  = @aircraft.lease
+
+.row
+  .col.s12
+    .card
+      .card-content
+        %div.card-title.activator.grey-text.text-darken-4.center-align
+          Aircraft Listing
+        %hr/
+        .row
+          .col.s12.m6
+            .card
+              .card-row.display-flex-space-between
+                %strong Aircraft type:
+                = @aircraft.aircraft_type
+              .card-row.display-flex-space-between
+                %strong Msn:
+                = @aircraft.msn
+              .card-row.display-flex-space-between
+                %strong Tail number:
+                = @aircraft.tail_number
+              .card-row.display-flex-space-between
+                %strong Yob:
+                = @aircraft.yob
+              .card-row.display-flex-space-between
+                %strong Mtow:
+                = @aircraft.mtow
+              .card-row.display-flex-space-between
+                %strong Engine major variant:
+                = @aircraft.engine_major_variant
+          .col.s12.m6
+            .card
+              .card-row.display-flex-space-between
+                %strong Engine minor variant:
+                = @aircraft.engine_minor_variant
+              .card-row.display-flex-space-between
+                %strong Apu model:
+                = @aircraft.apu_model
+              .card-row.display-flex-space-between
+                %strong Cabin config:
+                = @aircraft.cabin_config
+              .card-row.display-flex-space-between
+                %strong Service Status:
+                = @aircraft.service_status
+              .card-row.display-flex-space-between
+                %strong Current operator:
+                = @aircraft.current_operator
+              .card-row.display-flex-space-between
+                %strong Last operator:
+                = @aircraft.last_operator
+        .row
+          .col.s12.m6
+            .card
+              .card-row.display-flex-space-between
+                %strong Location:
+                = @aircraft.location
+              .card-row.display-flex-space-between
+                %strong Maintenance status:
+                = @aircraft.maintenance_status
+              .card-row.display-flex-space-between
+                %strong Available date:
+                = @aircraft.available_date
+              .card-row.display-flex-space-between
+                %strong Sale:
+                = @aircraft.sale
+              .card-row.display-flex-space-between
+                %strong Lease:
+                = @aircraft.lease
 
 - if @aircraft.company == current_user
   = link_to 'Edit', edit_aircraft_path(@aircraft), class: "btn custom-btn"

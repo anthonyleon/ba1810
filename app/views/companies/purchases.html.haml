@@ -1,9 +1,9 @@
 .card
   .card-content
     .card-title.center-align
-      %h5 Purchases
+      %h5.custom-card-title.center Purchases
     %hr/
-    %table#invetoryPartsDT.table.striped.responsive-table.bordered
+    %table#purchaseDT.table.striped.responsive-table.bordered
       %thead
         %tr
           %th Part Number
@@ -28,6 +28,6 @@
               %td= link_to 'Show', auction_bid_path(transaction.auction, transaction.bid)
             / %td= button_to 'Release Funds', {controller: "bids", action: "release_payment", id: bid.id, auction_id: bid.auction.id}, method: "post" unless !bid.delivered || bid.auction.paid
 
-            
+
       /doesn't work right. ask henry to fix
 

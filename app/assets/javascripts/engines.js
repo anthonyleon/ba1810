@@ -1,9 +1,10 @@
 $(function() {
-  var promise2 = new Promise(function(resolve,reject){
+
+  var promiseEngine = new Promise(function(resolve,reject){
     var is_available = $('#is_available_engine');
     resolve(is_available);
   });
-  promise2
+  promiseEngine
   .then(function(value){
     console.log("ENGINE",value.val());
     if (value.val() == "true") {

@@ -2,7 +2,8 @@
 
 .card
   .card-content
-    = link_to 'New Engine', new_engine_path, class: 'btn'
+    = link_to 'New Engine', new_engine_path, class: 'btn upload'
     .card-title.center-align
-      %h5 Engines Avialable
+      %h5.custom-card-title.center Engines Avialable
+    %hr/
     = render partial: 'engine_table'

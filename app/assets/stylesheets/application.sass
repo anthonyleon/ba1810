@@ -12,7 +12,9 @@ html
   height: 100%
 body
   font-family: 'Roboto', sans-serif
-  height: 100%
+
+.Site
+  min-height: 100vh
   display: -webkit-box
   display: -webkit-flex
   display: -moz-box
@@ -22,6 +24,9 @@ body
 
 main
   flex: 1
+
+.custom-card-title
+  font-weight: 200
 
 a:hover, a:focus
   text-decoration: none !important
@@ -48,7 +53,7 @@ a:hover, a:focus
 
 .upload
   background: $custom-green !important
-  margin-bottom: 20px
+  // margin-bottom: 20px
 
 #paymentInstructionsFrame-lightbox-preview
   cursor: pointer
@@ -93,3 +98,5 @@ table.dataTable thead th.sorting_desc:after
 @import './base/sidenav'
 @import './base/buyer_auctions'
 @import './base/inventory'
+@import 'aircrafts'
+@import 'password_resets'
