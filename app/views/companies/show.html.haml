@@ -27,79 +27,16 @@
   .col.m12
     .card.dataTables_wrapper
       .card-content
-        %table#engineDT.table.bordered.highlight.responsive-table
-          %thead
-            %h5 Engine Availability
-            %tr
-              %th Engine Model
-              %th ESN
-              %th Condition
-              %th Limiter
-              %th Available Date
-              %th Available For
-              %th Owner/Rep
-              %th Contact
-              %th
-              %th
-          %tbody
-            - @engines.each do |engine|
-              %tr
-                %td= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
-                %td= link_to engine.esn, engine
-                %td= engine.condition
-                %td= engine.cycles_remaining
-                %td= engine.available_date
-                - if engine.sale? && engine.lease?
-                  %td= "Sale or Lease"
-                - elsif engine.lease?
-                  %td=  "Lease"
-                - elsif engine.sale?
-                  %td=  "Sale"
-                -else
-                  %td= "Contact Rep"
-                %td= engine.company.name
-                %td= engine.company.representative
-                - if engine.company == current_user
-                  %td= link_to 'Edit', edit_engine_path(engine)
-                  %td= link_to 'Delete', engine, data: { engine_behavior: 'delete' }
+        .card-title.center-align
+          %h5 Engines Avialable
+        = render partial: './engines/engine_table'
 
   .col.m12
     .card
       .card-content.dataTables_wrapper
-        %table.table.bordered.highlight.responsive-table#aircraftDT
-          %thead
-            %h5 Aircraft Availability
-            %tr
-              %th Aircraft Type
-              %th MSN
-              %th Y.O.B.
-              %th Engine Type
-              %th APU
-              %th Maintenance status
-              %th Available Date
-              %th Available For
-              %th{:colspan => "3"}
-          %tbody
-            - @aircrafts.each do |aircraft|
-              %tr
-                %td= aircraft.aircraft_type.upcase
-                %td= link_to aircraft.msn.upcase, aircraft
-                %td= aircraft.yob.upcase
-                %td= aircraft.engine_major_variant.upcase + "-" + aircraft.engine_minor_variant.upcase
-                %td= aircraft.apu_model.upcase
-                %td= aircraft.maintenance_status.upcase
-                %td= aircraft.available_date.upcase
-                - if aircraft.sale? && aircraft.lease?
-                  %td=  "Sale or Lease"
-                - elsif aircraft.lease?
-                  %td=  "Lease"
-                - elsif aircraft.sale?
-                  %td=  "Sale"
-                - else "Contact Rep"
-
-                - if aircraft.company == current_user
-                  %td= link_to 'Edit', edit_aircraft_path(aircraft)
-                  %td= link_to 'Delete', aircraft, data: { aircraft_behavior: 'delete' }
+        .card-title.center-align
+          %h5 Aircraft Availability
+        = render partial: './aircrafts/aircraft_table'
 
     /   .company-name
     /     %h1= @company.name
