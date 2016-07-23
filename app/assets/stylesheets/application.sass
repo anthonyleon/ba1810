@@ -68,6 +68,15 @@ table.dataTable thead th.sorting_desc:after
 .icon-34
   font-size: 34px !important
 
+@keyframes changetransform
+  from
+    transform: rotate(30deg)
+  to
+    transform: rotate(-30deg)
+
+.red-bell
+  animation: changetransform 0.3s infinite alternate
+
 @import "font-awesome-sprockets"
 @import "font-awesome"
 @import './base/global'

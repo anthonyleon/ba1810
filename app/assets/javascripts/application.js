@@ -34,7 +34,8 @@ $(document).ready(function() {
             success: function() {
               swal("Deleted!", "" + message.capitalize() + " Deleted.", "success");
               // ge the tr to delete
-              self.parentElement.parentElement.remove()
+              // debugger;
+              self.closest('tr').remove();
             }
           });
         } else {
@@ -52,7 +53,7 @@ $(document).ready(function() {
   dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
 
 
-$('#engineDT').dataTable({
+$('#engineDTDashBoard').dataTable({
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },
@@ -66,18 +67,18 @@ $('#engineDT').dataTable({
   });
 
 
-  $('#aircraftDT').dataTable({
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": false }
-    ]
-  });
+  // $('#aircraftDT').dataTable({
+  //   "aoColumns": [
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": false }
+  //   ]
+  // });
 
   $('#invetoryPartsDT').dataTable({
     "processing": true,

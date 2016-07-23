@@ -1,7 +1,6 @@
 $(function() {
-  var is_available = $('#is_available');
   var promise = new Promise(function(resolve, reject) {
-    var is_available = $('#is_available');
+    var is_available = $('#is_available_aircraft');
     resolve(is_available);
   });
 

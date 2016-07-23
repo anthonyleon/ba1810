@@ -3,10 +3,12 @@
     %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
       %i.material-icons menu
     %ul.right.hide-on-med-and-down
-      %li{style: 'height: 64px;display: flex;align-items:center;'}
-        = link_to notifications_index_path, style: 'display: flex;' do
-          %span.material-icons{class: Notification.any_unread?(current_user) ? "red-bell" : ""  }
-            notifications_active
+      - notification = Notification.any_unread?(current_user)
+      - if Notification.any_unread?(current_user)
+        %li{style: 'height: 64px;display: flex;align-items:center;'}
+          = link_to notifications_index_path, style: 'display: flex;' do
+            %span.material-icons{class: "red-bell"}
+              notifications_active
       %li
         = link_to 'Inventory', inventory_parts_path
       %li
