@@ -1,57 +1,85 @@
 %header
   %nav
-    %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
-      %i.material-icons menu
-    %ul.right.hide-on-med-and-down
-      - notification = Notification.any_unread?(current_user)
-      - if Notification.any_unread?(current_user)
-        %li{style: 'height: 64px;display: flex;align-items:center;'}
-          = link_to notifications_index_path, style: 'display: flex;' do
-            %span.material-icons{class: "red-bell"}
-              notifications_active
+    .nav-wrapper
+      %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
+        %i.material-icons menu
+      %ul.right.hide-on-med-and-down
+        - notification = Notification.any_unread?(current_user)
+        - if Notification.any_unread?(current_user)
+          %li{style: 'height: 64px;display: flex;align-items:center;'}
+            = link_to notifications_index_path, style: 'display: flex;' do
+              %span.material-icons{class: "red-bell"}
+                notifications_active
+        %li
+          = link_to 'Inventory', inventory_parts_path
+        %li
+          = link_to "Log out", logout_path
+      %span.right.hide-on-med-and-down{style: "margin-right: 15px;"}
+        %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
+          New
+          %i.material-icons.my-custom-m-icons arrow_drop_down
+        / Dropdown Structure
+        %ul#nav-dropdown.dropdown-content
+          %li
+            = link_to 'Part Search', new_auction_path
+          %li
+            = link_to 'Inventory', new_inventory_part_path
+          %li
+            = link_to 'Engine Listing', new_engine_path
+          %li
+            = link_to 'Aircraft Listing', new_aircraft_path
+    %ul#mobile-demo.side-nav.fixed
+      .company-logo
+        %a{:href => root_path}
+          = image_tag("bid-areo-white.png", class: 'responsive-img')
       %li
-        = link_to 'Inventory', inventory_parts_path
+        = link_to home_path do
+          %i.material-icons.left
+            home
+          Dashboard
       %li
-        = link_to "Log out", logout_path
-    %span.right.hide-on-med-and-down{style: "margin-right: 15px;"}
-      %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
-        New
-        %i.material-icons.my-custom-m-icons arrow_drop_down
-      / Dropdown Structure
-      %ul#nav-dropdown.dropdown-content
-        %li
-          = link_to 'Part Search', new_auction_path
-        %li
-          = link_to 'Inventory', new_inventory_part_path
-        %li
-          = link_to 'Engine Listing', new_engine_path
-        %li
-          = link_to 'Aircraft Listing', new_aircraft_path
-  %ul#mobile-demo.side-nav.fixed
-    .company-logo
-      %a{:href => root_path}
-        = image_tag("bid-areo-white.png", class: 'responsive-img')
-    %li
-      = link_to 'Dashboard', home_path
-    %li
-      = link_to 'Current Auctions', auctions_path
-    %li
-      = link_to 'Inventory', inventory_parts_path
-    %li
-      = link_to 'Aircrafts', aircrafts_path
-    %li
-      = link_to 'Engines', engines_path
-    %li
-      = link_to 'Sales', sales_path
-    %li
-      = link_to 'Purchases', purchases_path
-    %li
-      = link_to 'Settings', edit_company_path
-    %li
-      = link_to "Log out", logout_path
+        = link_to auctions_path do
+          %i.material-icons.left
+            grade
+          Current Auctions
+      %li
+        = link_to inventory_parts_path do
+          %i.material-icons.left
+            toys
+          Inventory
+      %li
+        = link_to aircrafts_path do
+          %i.material-icons.left
+            airplanemode_active
+          Aircrafts
+      %li
+        = link_to engines_path do
+          %i.material-icons.left
+            build
+          Engines
+      %li
+        = link_to sales_path do
+          %i.material-icons.left
+            shopping_cart
+          Sales
+      %li
+        = link_to purchases_path do
+          %i.material-icons.left
+            attach_money
+          Purchases
+      %li
+        = link_to edit_company_path do
+          %i.material-icons.left
+            settings
+          Settings
+      %li
+        = link_to logout_path do
+          %i.material-icons.left
+            power_settings_now
+          Log out
 
 
 :javascript
-$(document).ready(function(){
-  $('.dropdown-button').dropdown();
-});
+  $(document).ready(function(){
+    $('.dropdown-button').dropdown();
+  });
