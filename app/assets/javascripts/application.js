@@ -52,14 +52,42 @@ $(document).ready(function() {
   dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
 
 
-  $('#invetoryPartsDT').dataTable({
+$('#engineDT').dataTable({
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
-      { "bSortable": false },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": false }
+    ]
+  });
+
+
+  $('#aircraftDT').dataTable({
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": false }
+    ]
+  });
+
+  $('#invetoryPartsDT').dataTable({
+    "processing": true,
+    "pageLength": 10,
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
       { "bSortable": false }
     ]
   });

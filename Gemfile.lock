@@ -435,6 +435,3 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
   yahoo-finance
-
-BUNDLED WITH
-   1.12.4

@@ -1,15 +1,12 @@
 %header
   %nav
-    %a.brand-logo{:href => root_path}
-      = image_tag("bid-areo-white.png")
     %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
       %i.material-icons menu
     %ul.right.hide-on-med-and-down
-      %li
-        = link_to notifications_index_path do
-          %i.material-icons{class: Notification.any_unread?(current_user) ? "red-bell" : ""  }
+      %li{style: 'height: 64px;display: flex;align-items:center;'}
+        = link_to notifications_index_path, style: 'display: flex;' do
+          %span.material-icons{class: Notification.any_unread?(current_user) ? "red-bell" : ""  }
             notifications_active
-
       %li
         = link_to 'Inventory', inventory_parts_path
       %li
@@ -30,7 +27,8 @@
           = link_to 'Aircraft Listing', new_aircraft_path
   %ul#mobile-demo.side-nav.fixed
     .company-logo
-      %img{:src => "http://mascotaviajera.files.wordpress.com/2011/07/airplane_logo.gif", :alt => "", class: "responsive-img circle", width: '100px'}/
+      %a{:href => root_path}
+        = image_tag("bid-areo-white.png", class: 'responsive-img')
     %li
       = link_to 'Dashboard', home_path
     %li
