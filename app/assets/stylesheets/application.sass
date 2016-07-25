@@ -13,6 +13,21 @@ html
 body
   font-family: 'Roboto', sans-serif
 
+.Site
+  min-height: 100vh
+  display: -webkit-box
+  display: -webkit-flex
+  display: -moz-box
+  display: -ms-flexbox
+  display: flex
+  flex-direction: column
+
+main
+  flex: 1
+
+.custom-card-title
+  font-weight: 200
+
 a:hover, a:focus
   text-decoration: none !important
 
@@ -21,7 +36,7 @@ a:hover, a:focus
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
 
 .custom-container
-  width: 90%
+  width: 95%
   margin: 0 auto
 
 .notification
@@ -38,7 +53,7 @@ a:hover, a:focus
 
 .upload
   background: $custom-green !important
-  margin-bottom: 20px
+  // margin-bottom: 20px
 
 #paymentInstructionsFrame-lightbox-preview
   cursor: pointer
@@ -62,9 +77,26 @@ table.dataTable thead th.sorting_desc:after
   justify-content: center !important
   align-items: center !important
 
+.dataTables_wrapper
+  overflow-x: scroll
+
+.icon-34
+  font-size: 34px !important
+
+@keyframes changetransform
+  from
+    transform: rotate(30deg)
+  to
+    transform: rotate(-30deg)
+
+.red-bell
+  animation: changetransform 0.3s infinite alternate
+
 @import "font-awesome-sprockets"
 @import "font-awesome"
 @import './base/global'
 @import './base/sidenav'
 @import './base/buyer_auctions'
 @import './base/inventory'
+@import 'aircrafts'
+@import 'password_resets'

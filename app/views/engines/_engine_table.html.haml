@@ -1,0 +1,47 @@
+%table.table.striped.responsive-table.bordered#engineDT
+  %thead
+    %tr
+      %th Engine Model
+      %th ESN
+      %th Condition
+      %th Current Status
+      %th Last Operator
+      %th Location
+      %th Limiter
+      %th Available Date
+      %th Available For
+      %th Owner/Rep
+      %th Contact
+      %th.is_h
+  %tbody
+    - @engines.each do |engine|
+      %tr
+        %td= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
+        %td= link_to engine.esn, engine
+        %td= engine.condition
+        - if engine.in_service?
+          %td= "In Service"
+        - else
+          %td= "Off Service"
+        %td= engine.last_operator.capitalize
+        %td= engine.location.capitalize
+        %td= engine.cycles_remaining
+        %td= engine.available_date
+        - if engine.sale? && engine.lease?
+          %td= "Sale or Lease"
+        - elsif engine.lease?
+          %td=  "Lease"
+        -else
+          %td= "Contact Rep"
+        %td= engine.company.name
+        %td= engine.company.representative
+        - if engine.company == current_user
+          = hidden_field_tag 'is_available_engine', 'true'
+          %td
+            %span
+              = link_to edit_engine_path(engine) do
+                %span.material-icons.amber-text.icon-34
+                  mode_edit
+              = link_to engine, data: { engine_behavior: 'delete' } do
+                %span.material-icons.red-text.icon-34
+                  delete_forever
