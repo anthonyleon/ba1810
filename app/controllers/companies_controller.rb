@@ -68,7 +68,7 @@ class CompaniesController < ApplicationController
         armor_account_num = result.data[:body]["account_id"].to_s
         ## Company armor_user_id
         users = @client.accounts.users(armor_account_num).all
-        user_id = users.data[:body][0]["user_id"] unless users.data[:body]["status"] == "error"
+        user_id = users.data[:body][0]["user_id"]
           ## need help to display errors that are received from armor payments to the user (testing purposes)
 
         CompanyMailer.registration_confirm(@company).deliver
