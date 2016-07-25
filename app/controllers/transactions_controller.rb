@@ -1,4 +1,6 @@
 class TransactionsController < ApplicationController
+  protect_from_forgery :except => [:update]
+
   def payment_in_escrow
     redirect_to root_path
   end
