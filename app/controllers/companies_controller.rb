@@ -93,8 +93,8 @@ class CompaniesController < ApplicationController
       if !@company.armor_account_id
         #armor user create
         armor_create
-        p result = @client.accounts.create(@account_data)
-        p armor_account_num = result.data[:body]["account_id"].to_s
+        result = @client.accounts.create(@account_data)
+        armor_account_num = result.data[:body]["account_id"].to_s
         @company.update(armor_account_id: armor_account_num)
 
         ## Company armor_user_id
