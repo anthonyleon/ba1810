@@ -1,11 +1,12 @@
 .row
-  .col.m10.offset-m1
+  .col.s12
     .card
       .card-content
         .card-title.center-align
-          Edit Company
-        = render 'form'
+          %h5.custom-card-title.center
+            Edit Company
         %hr/
+        = render 'form'
 
 %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"} Select Payout Preference
