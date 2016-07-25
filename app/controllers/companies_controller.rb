@@ -93,8 +93,9 @@ class CompaniesController < ApplicationController
       if !@company.armor_account_id
         #armor user create
         armor_create
-        result = @client.accounts.create(@account_data)
-        armor_account_num = result.data[:body]["account_id"].to_s
+        # armor_create
+        p result = @client.accounts.create(@account_data)
+        p armor_account_num = result.data[:body]["account_id"].to_s
         @company.update(armor_account_id: armor_account_num)
 
         ## Company armor_user_id
@@ -149,17 +150,17 @@ class CompaniesController < ApplicationController
 
     def armor_create
       @account_data = {
-        "company": @company.name,
-        "user_name": @company.representative,
-        "user_email": @company.email,
-        "user_phone": "+1 #{@company.phone.gsub('-', '')}",
-        "address": @company.address,
-        "city": @company.city,
-        "state": @company.state,
-        "zip": @company.zip,
-        "country": @company.country,
-        "email_confirmed": true,
-        "agreed_terms": true
+        company: @company.name,
+        user_name: @company.representative,
+        user_email: @company.email,
+        user_phone: "+1 #{@company.phone.gsub('-', '')}",
+        address: @company.address,
+        city: @company.city,
+        state: @company.state,
+        zip: @company.zip,
+        country: @company.country,
+        email_confirmed: true,
+        agreed_terms: true
         }
     end
 

@@ -1,7 +1,7 @@
 .card
   .card-content
     .card-title.center-align
-      %h5 Inventory Parts
+      %h5.custom-card-title.center Inventory Parts
     %hr/
     %table#invetoryPartsDT.table.striped.responsive-table.bordered
       %thead
@@ -12,7 +12,6 @@
           %th Condition
           %th Manufacturer
           %th
-          %th
       %tbody
         - @inventory_parts.each do |inventory|
           %tr
@@ -21,8 +20,10 @@
             %td.srchtbl= inventory.serial_num
             %td.srchtbl= inventory.condition
             %td.srchtbl= inventory.manufacturer
-            / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
-            %td= link_to 'Delete', inventory_part_path(inventory), data: { inventory_behavior: 'delete' }
+            %td
+              = link_to inventory_part_path(inventory), data: { inventory_behavior: 'delete' }  do
+                %span.material-icons.red-text.icon-34
+                  delete_forever
 
 = link_to 'Upload New Inventory', new_inventory_part_path, class: "btn upload"
 
