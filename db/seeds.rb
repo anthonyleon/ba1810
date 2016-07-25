@@ -90,19 +90,19 @@ end
 i = 1
 while (i < 16)
 	i += 1
-	Aircraft.create( aircraft_type: Faker::Company.ein, msn: Faker::Company.ein, tail_number: Faker::StarWars.droid, 
-									 yob: rand(1999..2016), mtow: Faker::Number.number(5), engine_major_variant: Faker::Company.name, 
-									 engine_minor_variant: Faker::Company.name, apu_model: Faker::Company.name, 
-									 cabin_config: Faker::Beer.hop, in_service: true, current_operator: Faker::StarWars.vehicle, 
-									 last_operator: Faker::StarWars.vehicle, location: Faker::StarWars.planet, maintenance_status: "A - Check", 
+	Aircraft.create( aircraft_type: Faker::Company.ein, msn: Faker::Company.ein, tail_number: Faker::StarWars.droid,
+									 yob: rand(1999..2016), mtow: Faker::Number.number(5), engine_major_variant: Faker::Company.name,
+									 engine_minor_variant: Faker::Company.name, apu_model: Faker::Company.name,
+									 cabin_config: Faker::Beer.hop, in_service: true, current_operator: Faker::StarWars.vehicle,
+									 last_operator: Faker::StarWars.vehicle, location: Faker::StarWars.planet, maintenance_status: "A - Check",
 									 available_date: Faker::Date.forward(229), sale: true, company_id: i)
 end
 
 i = 1
 while (i < 29)
 	i += 1
-	Engine.create(engine_major_variant: Faker::StarWars.planet, engine_minor_variant: Faker::StarWars.planet, 
-		esn: Faker::Company.ein, condition: "NEW", new: true, current_status: "in service", in_service: true, 
-		current_operator: Company.find(i).name, last_operator:Company.find(i-1).name, location: Faker::StarWars.planet, 
+	Engine.create(engine_major_variant: Faker::StarWars.planet, engine_minor_variant: Faker::StarWars.planet,
+		esn: Faker::Company.ein, condition: "NEW", new: true, current_status: "in service", in_service: true,
+		current_operator: Company.find(i).name, last_operator:Company.find(i-1).name, location: Faker::StarWars.planet,
 		cycles_remaining: Faker::Number.number(5), available_date: Faker::Date.forward(230), lease: true, company_id: i)
 end
