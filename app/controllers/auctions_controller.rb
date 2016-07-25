@@ -146,7 +146,7 @@ class AuctionsController < ApplicationController
 
     def condition_match(auction)
         @condition = ["NE", "OH", "SV", "AR", "SC"]
-<<<<<<< HEAD
+        
         @condition.delete("NE") if !auction.condition_ne
           
         @condition.delete("OH") if !auction.condition_oh
@@ -156,17 +156,6 @@ class AuctionsController < ApplicationController
         @condition.delete("AR") if !auction.condition_ar
           
         @condition.delete("SC") if !auction.condition_sc
-=======
-        @condition.delete("NE") if auction.condition_ne == false
-
-        @condition.delete("OH") if auction.condition_oh == false
-
-        @condition.delete("SV") if auction.condition_sv == false
-
-        @condition.delete("AR") if auction.condition_ar == false
-
-        @condition.delete("SC") if auction.condition_sc == false
->>>>>>> design/2
 
         if @condition.count == 5
           auction.update(condition: "All Conditions")
