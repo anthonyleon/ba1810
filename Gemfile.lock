@@ -249,9 +249,13 @@ GEM
     parser (2.3.1.2)
       ast (~> 2.2)
     path_expander (1.0.0)
+    pdf-core (0.6.1)
     pg (0.18.4)
     pkg-config (1.1.7)
     powerpack (0.1.1)
+    prawn (2.1.0)
+      pdf-core (~> 0.6.1)
+      ttfunk (~> 1.4.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -383,6 +387,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
+    ttfunk (1.4.0)
     turbolinks (5.0.0)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -437,6 +442,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri
   pg
+  prawn
   pry-rails
   rails (= 4.2.5.1)
   rails_12factor

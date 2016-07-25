@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 
+gem 'prawn'
 gem 'armor_payments'
 gem 'yahoo-finance'
 gem 'roo'
