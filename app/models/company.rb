@@ -46,6 +46,7 @@ class Company < ActiveRecord::Base
     sales_opportunities.flatten.uniq.each do |auction|
       sales_opportunities << auction if !auction.bids.include?(self.bids) || auction.company != self
     end
+    sales_opportunities.uniq!
   end
 
   private
