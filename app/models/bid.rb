@@ -13,7 +13,7 @@ class Bid < ActiveRecord::Base
     auction.company
   end
 
-  def self.supplier_auctions user_bids
+  def self.auctions_participating_in(user_bids)
     auctions = []
     if user_bids
       user_bids.each do |bid|

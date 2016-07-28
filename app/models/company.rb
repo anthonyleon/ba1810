@@ -43,10 +43,11 @@ class Company < ActiveRecord::Base
     @parts.each do |inv_part|
       @auction_parts = AuctionPart.where(part_num: inv_part.part_num)
       @auction_parts.each do |auct_part|
-        possible_auctions << auct_part.auction unless self.auctions.where(active: true).include? auct_part.auction #auct_part.auction.active && auct_part.auction.company != self
+        possible_auctions << auct_part.auction if auct_part.auction.active && auct_part.auction.company != self #auct_part.auction.active && auct_part.auction.company != self
       end
+        current_opportunities = possible_auctions - Bid.auctions_participating_in(self)
     end
-    possible_auctions.uniq!
+    current_opportunities.uniq!
   end
 
   private
