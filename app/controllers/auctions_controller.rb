@@ -6,7 +6,7 @@ class AuctionsController < ApplicationController
     @auctions = current_user.auctions
     @owned_auctions = current_user.auctions.where(active: true)
     @supplier_auctions = Bid.auctions_participating_in(current_user.bids)
-    @sales_opportunities = Auction.get_sales_opportunities(current_user)
+    @sales_opportunities = current_user.get_sales_opportunities
   end
 
   def show
