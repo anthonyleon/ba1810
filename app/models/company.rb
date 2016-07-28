@@ -43,10 +43,15 @@ class Company < ActiveRecord::Base
     parts.each do |inventory|
       sales_opportunities << Auction.where(part_num: inventory.part_num, active: true)
     end
+
     sales_opportunities.flatten.uniq.each do |auction|
-      sales_opportunities << auction if !auction.bids.include?(self.bids) || auction.company != self
+      sales_opportunities << auction unless (auction.bids & (self.bids)) || auction.company == self
     end
-    sales_opportunities.uniq!
+    sales_opportunities.flatten!.uniq!
+  end
+
+  def owns_bid?
+    self.bids
   end
 
   private
