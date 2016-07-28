@@ -13,7 +13,7 @@ class CompaniesController < ApplicationController
     @company = current_user
     @auctions = current_user.auctions
     @auctions_participating_in = Bid.supplier_auctions(current_user.bids)
-    @possible_auctions = current_user.get_possible_auctions - @auctions_participating_in
+    @possible_auctions = current_user.get_possible_auctions - @auctions_participating_in if current_user.inventory_parts
     @inactive_auctions = current_user.auctions.where(active: false)
     yahoo_client = YahooFinance::Client.new
     @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY", "WLFC"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
