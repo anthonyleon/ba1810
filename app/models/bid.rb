@@ -23,13 +23,13 @@ class Bid < ActiveRecord::Base
     end
   end
 
- def average_rating
+  def average_rating
     arr = []
     company.ratings.each do |rating|
-        arr << rating.timeliness
-        arr << rating.documentation
-        arr << rating.packaging
-        arr << rating.dependability
+      arr << rating.timeliness
+      arr << rating.documentation
+      arr << rating.packaging
+      arr << rating.dependability
     end
     arr.compact!
     (arr.sum / arr.count.to_f) unless arr.empty?
