@@ -13,13 +13,13 @@ class Bid < ActiveRecord::Base
     auction.company
   end
 
-  def self.auctions_participating_in(user_bids)
+  def self.owned_bids(bids)
     auctions = []
-    if user_bids
-      user_bids.each do |bid|
+    if bids
+      bids.each do |bid|
         auctions << bid.auction if bid.auction.active
       end
-      auctions.uniq! || auctions
+      auctions.uniq!
     end
   end
 
