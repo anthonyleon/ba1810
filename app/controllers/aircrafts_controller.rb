@@ -1,28 +1,20 @@
 class AircraftsController < ApplicationController
   before_action :set_aircraft, only: [:show, :edit, :update, :destroy]
 
-  # GET /aircrafts
-  # GET /aircrafts.json
   def index
     @aircrafts = Aircraft.all
   end
-
-  # GET /aircrafts/1
-  # GET /aircrafts/1.json
+  
   def show
   end
 
-  # GET /aircrafts/new
   def new
     @aircraft = Aircraft.new
   end
 
-  # GET /aircrafts/1/edit
   def edit
   end
-
-  # POST /aircrafts
-  # POST /aircrafts.json
+  
   def create
     @aircraft = Aircraft.new(aircraft_params)
     @aircraft.company = current_user
@@ -36,10 +28,8 @@ class AircraftsController < ApplicationController
         format.json { render json: @aircraft.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  # PATCH/PUT /aircrafts/1
-  # PATCH/PUT /aircrafts/1.json
+  end 
+  
   def update
     respond_to do |format|
       if @aircraft.update(aircraft_params)
@@ -52,8 +42,6 @@ class AircraftsController < ApplicationController
     end
   end
 
-  # DELETE /aircrafts/1
-  # DELETE /aircrafts/1.json
   def destroy
     @aircraft.destroy
     respond_to do |format|
@@ -63,12 +51,11 @@ class AircraftsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    
     def set_aircraft
       @aircraft = Aircraft.find(params[:id])
     end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
+    
     def aircraft_params
       params.require(:aircraft).permit(:company_id, :aircraft_type, :msn, :tail_number, :yob, :mtow, :engine_major_variant, :engine_minor_variant, :apu_model, :cabin_config, :in_service, :off_service, :current_operator, :last_operator, :location, :maintenance_status, :available_date, :sale, :lease, :service_status)
     end

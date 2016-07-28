@@ -17,7 +17,7 @@
     %h3
       Shipment Carrier
     .container
-      - if @bid.tx.order_id == nil
+      - if !@bid.transaction_id
         Bid is still being considered.
       - elsif @bid.tx.carrier_code && @bid.tx.tracking_num
         %h4

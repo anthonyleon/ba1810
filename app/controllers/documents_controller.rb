@@ -14,7 +14,8 @@ class DocumentsController < ApplicationController
     @document.inventory_part_id = @inventory_part.id
 
     if @document.save
-      redirect_to @inventory_part, notice: "The document #{@document.name} has been uploaded."
+      redirect_to @inventory_part
+      flash.now[:notice] = "The document #{@document.name} has been uploaded."
     else
       redirect_to @inventory_part, notice: "The document #{@document.name} failed to uploaded."
     end

@@ -1,4 +1,4 @@
-- unless @buyer_auctions.nil?
+- unless @owned_auctions.nil?
   %p#notice.center-align= notice
   .row
     .card
@@ -16,7 +16,7 @@
               %th
               %th
           %tbody
-            - @buyer_auctions.each do |auction|
+            - @owned_auctions.each do |auction|
               %tr
                 %td= link_to auction.part_num, auction
                 %td= AuctionPart.find(auction.id).description
