@@ -37,18 +37,6 @@ class Company < ActiveRecord::Base
     CompanyMailer.password_reset(self).deliver_now
   end
 
-  def get_possible_auctions
-    possible_auctions = []
-    @parts = self.inventory_parts
-    @parts.each do |inv_part|
-      @auction_parts = AuctionPart.where(part_num: inv_part.part_num)
-      @auction_parts.each do |auct_part|
-        possible_auctions << auct_part.auction if auct_part.auction.active && auct_part.auction.company != self #auct_part.auction.active && auct_part.auction.company != self
-      end
-        current_opportunities = possible_auctions - Bid.auctions_participating_in(self)
-    end
-    current_opportunities.uniq!
-  end
 
   private
 

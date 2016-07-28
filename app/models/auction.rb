@@ -29,9 +29,9 @@ class Auction < ActiveRecord::Base
     def self.get_sales_opportunities(user)
       parts = user.inventory_parts
       sales_opportunities = []
-      parts.uniq.each do |inventory|
+      parts.each do |inventory|
         self.where(part_num: inventory.part_num, active: true).each do |auction|
-          sales_opportunities << auction if auction.company != user
+          sales_opportunities << auction if auction.company != user && auction.condition.include?(inventory.condition)
         end
       end
       sales_opportunities.uniq!
