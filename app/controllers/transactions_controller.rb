@@ -5,6 +5,7 @@ class TransactionsController < ApplicationController
   # skip_before_filter :verify_authenticity_token
 
   def receive_webhook
+    
   end
 
   def update_shipment
