@@ -18,19 +18,19 @@
             %h5= @all_conditons_empty ? "No Condition Avaiable" : "Acceptable Conditions"
             %div.conditons-of-part
               - if @auction.condition_ne
-                %p= @condition_ne
+                %p= "New"
               - if @auction.condition_oh
-                %p= @condition_oh
+                %p= "Overhaul"
               - if @auction.condition_sv
-                %p= @condition_sv
+                %p= "Serviceable"
               - if @auction.condition_ar
-                %p= @condition_ar
+                %p= "As Removed"
               - if @auction.condition_sc
-                %p= @condition_sc
+                %p= "Scrap"
         %hr/
         %p.flow-text
-          Initial Price:
-          = number_to_currency @init_price
+          New List Price:
+          = number_to_currency @msrp
         - if @auction.bids.empty?
           .nobid.center-align
             %p.flow-text There are no bids on this auction yet.

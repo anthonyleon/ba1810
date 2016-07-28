@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
 
   post 'transactions/paymentinescrow' => 'transactions#payment_in_escrow', as: "pay_for_part"
-  post 'transactions/:id' => 'transactions#update', as: "transactions_update"
+  patch 'transactions/:id' => 'transactions#update_shipment', as: "transaction_shipment_path"
   get 'notifications/index'
 
   resources :ratings

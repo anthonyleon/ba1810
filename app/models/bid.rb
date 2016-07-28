@@ -5,6 +5,14 @@ class Bid < ActiveRecord::Base
   belongs_to :tx, class_name: "Transaction", foreign_key: "transaction_id"
   has_many :notifications
 
+  def seller
+    company
+  end
+
+  def buyer
+    auction.company
+  end
+
   def self.supplier_auctions user_bids
     auctions = []
     if user_bids
