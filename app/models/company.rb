@@ -46,7 +46,7 @@ class Company < ActiveRecord::Base
         possible_auctions << auct_part.auction unless self.auctions.where(active: true).include? auct_part.auction #auct_part.auction.active && auct_part.auction.company != self
       end
     end
-    possible_auctions
+    possible_auctions.uniq!
   end
 
   private
