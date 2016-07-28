@@ -3,7 +3,6 @@ class AuctionsController < ApplicationController
   before_action :set_bid_and_auction, only: [:purchase, :purchase_confirmation]
 
   def index
-    @auctions = current_user.auctions
     @owned_auctions = current_user.auctions.where(active: true)
     @supplier_auctions = Bid.owned_bids(current_user.bids)
     @sales_opportunities = current_user.get_sales_opportunities
