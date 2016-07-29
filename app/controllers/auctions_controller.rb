@@ -4,7 +4,9 @@ class AuctionsController < ApplicationController
 
   def index
     @owned_auctions = current_user.auctions.where(active: true)
-    @supplier_auctions = current_user.owned_bids
+    p "***" * 80
+    p @supplier_auctions = current_user.owned_bids
+    p "***" * 80
     @sales_opportunities = get_sales_opportunities
   end
 
