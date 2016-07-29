@@ -13,15 +13,6 @@ class Bid < ActiveRecord::Base
     auction.company
   end
 
-  def self.owned_bids(company)
-    auctions = []
-    if company.bids
-      company.bids.each do |bid|
-        auctions << bid.auction if bid.auction.active
-      end
-      auctions.uniq!
-    end
-  end
 
   def average_rating
     arr = []
