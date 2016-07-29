@@ -5,7 +5,7 @@ class AuctionsController < ApplicationController
   def index
     @owned_auctions = current_user.auctions.where(active: true)
     @supplier_auctions = Bid.owned_bids(current_user)
-    @sales_opportunities = current_user.get_sales_opportunities
+    @sales_opportunities = get_sales_opportunities
   end
 
   def show
@@ -97,6 +97,25 @@ class AuctionsController < ApplicationController
     end
 
 
+    def get_sales_opportunities
+      @parts = current_user.inventory_parts
+      @sales_opportunities = []
+      @parts.uniq.each do |inventory|
+        Auction.where(part_num: inventory.part_num, active: true).each do |auction|
+          @sales_opportunities << auction unless auction.company == current_user || !(auction.bids & current_user.bids).empty?
+        end
+      end
+      @sales_opportunities.uniq!
+      ## OLD CODE
+      # @parts.each do |inv_part|
+      #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
+      #     @auction_parts.each do |auct_part|
+      #       possible_auctions << auct_part.auction if auct_part.auction.active == true
+      #     end
+      #   end
+      # end
+      # possible_auctions
+    end
 
     def set_auction
       @auction = Auction.find(params[:id])
