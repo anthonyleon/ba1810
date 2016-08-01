@@ -1,9 +1,9 @@
 .card
   .card-content
     .card-title.center-align
-      %h5 Sales
+      %h5.custom-card-title.center Sales
     %hr/
-    %table#invetoryPartsDT.table.striped.responsive-table.bordered
+    %table#salesPartsDT.table.striped.responsive-table.bordered
       %thead
         %tr
           %th Part Number
@@ -14,12 +14,12 @@
           %th Price
           %th
       %tbody
-        - @sales.each do |bid|
+        - @sales.each do |transaction|
           %tr
-            %td.srchtbl= bid.inventory_part.part_num
-            %td.srchtbl= bid.inventory_part.description
-            %td.srchtbl= bid.inventory_part.serial_num
-            %td.srchtbl= bid.inventory_part.condition
-            %td.srchtbl= bid.inventory_part.manufacturer
-            %td.srchtbl= number_to_currency bid.amount
-            %td= link_to 'Show', auction_bid_path(bid.auction, bid)
+            %td.srchtbl= transaction.bid.inventory_part.part_num
+            %td.srchtbl= transaction.bid.inventory_part.description
+            %td.srchtbl= transaction.bid.inventory_part.serial_num
+            %td.srchtbl= transaction.bid.inventory_part.condition
+            %td.srchtbl= transaction.bid.inventory_part.manufacturer
+            %td.srchtbl= number_to_currency transaction.bid.amount
+            %td= link_to 'Show', auction_bid_path(transaction.auction, transaction.bid)

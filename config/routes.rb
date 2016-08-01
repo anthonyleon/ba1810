@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
 
-  resources :engines, except: [:index]
-  resources :aircrafts, except: [:index]
+
+  get 'password_resets/new'
+
+  resources :engines
+  resources :aircrafts
 
 
+  post 'transactions/paymentinescrow' => 'transactions#payment_in_escrow', as: "pay_for_part"
+  patch 'transactions/:id' => 'transactions#update_shipment', as: "transaction_shipment_path"
   get 'notifications/index'
 
   resources :ratings
@@ -31,12 +36,14 @@ Rails.application.routes.draw do
 
   post 'payment' => 'bids#release_payment', as: 'payment'
 
+  resources :password_resets
+
   resources :inventory_parts do
     resources :documents, shallow: true
   end
 
   resources :auctions do
-    resources :auction_parts
+    resources :auction_parts, except: [:index]
     resources :bids
   end
 

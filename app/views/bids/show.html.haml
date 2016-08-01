@@ -17,27 +17,27 @@
     %h3
       Shipment Carrier
     .container
-      - if @bid.order_id == nil
+      - if !@bid.transaction_id
         Bid is still being considered.
-      - elsif @bid.carrier_code && @bid.tracking_num
+      - elsif @bid.tx.carrier_code && @bid.tx.tracking_num
         %h4
           Shipment has been sent:
         %h5
-          Carrier: #{@bid.carrier}
+          Carrier: #{@bid.tx.carrier}
         %h5
-          Tracking Number: #{@bid.tracking_num}
+          Tracking Number: #{@bid.tx.tracking_num}
         %h5
-          Description: #{@bid.shipment_desc}
+          Description: #{@bid.tx.shipment_desc}
       - elsif current_user == @bid.company
         = render 'shipment'
-      - elsif current_user == @auction.company && !@bid.carrier_code
+      - elsif current_user == @auction.company && !@bid.tx.carrier_code
         Part has not been shipped yet.
       
-      - if current_user == @auction.company && !@auction.paid # Add this when out of Testing Purposes && @bid.delivered && !@auction.paid
+      - if current_user == @auction.company && !@transaction.paid # Add this when out of Testing Purposes && @transaction.delivered
         %p
           %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-          %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => @url} Release Payment
-      - elsif @auction.paid
+          %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"} Release Payment
+      - elsif @transaction.paid ## add association to bid to know if rating has been made
         = render :partial => "ratings/rate", :locals => {:rating => @rating}
 
     %h4

@@ -1,5 +1,5 @@
 .row
-  .col.s12.m10.offset-m1
+  .col.s12
     .card
       .card-content
         %span.card-title.activator.grey-text.text-darken-4
@@ -17,20 +17,20 @@
           %li.center-align
             %h5= @all_conditons_empty ? "No Condition Avaiable" : "Acceptable Conditions"
             %div.conditons-of-part
-              - if @auction.condition_ne == true
-                %p= @condition_ne
-              - if @auction.condition_oh == true
-                %p= @condition_oh
-              - if @auction.condition_sv == true
-                %p= @condition_sv
-              - if @auction.condition_ar == true
-                %p= @condition_ar
-              - if @auction.condition_sc == true
-                %p= @condition_sc
+              - if @auction.condition_ne
+                %p= "New"
+              - if @auction.condition_oh
+                %p= "Overhaul"
+              - if @auction.condition_sv
+                %p= "Serviceable"
+              - if @auction.condition_ar
+                %p= "As Removed"
+              - if @auction.condition_sc
+                %p= "Scrap"
         %hr/
         %p.flow-text
-          Initial Price:
-          = number_to_currency @init_price
+          New List Price:
+          = number_to_currency @msrp
         - if @auction.bids.empty?
           .nobid.center-align
             %p.flow-text There are no bids on this auction yet.
