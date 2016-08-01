@@ -1,11 +1,11 @@
-= form_for([@auction, @bid]) do |f|
-  - if @bid.errors.any?
+= form_for(transaction_shipment_path) do |f|
+  - if @transaction.errors.any?
     #error_explanation
       %p
-        = pluralize(@bid.errors.count, "error")
+        = pluralize(@transaction.errors.count, "error")
         prohibited this shipment from being saved:
       %ul
-        - @bid.errors.full_messages.each do |message|
+        - @transaction.errors.full_messages.each do |message|
           %li= message
   .field.form-group
     / = f.text_field :name, class: 'form-control', placeholder: "Company name"

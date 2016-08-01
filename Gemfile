@@ -1,12 +1,14 @@
 source 'https://rubygems.org'
 
 
-
+gem 'prawn'
 gem 'armor_payments'
 gem 'yahoo-finance'
 gem 'roo'
 gem 'erd'
-
+gem 'newrelic_rpm'
+gem 'fog-aws'
+gem 'delayed_job_active_record'
 gem 'sendgrid'
 gem 'figaro'
 gem 'carrierwave'
@@ -20,7 +22,6 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
-
 
 gem 'simple_form'
 

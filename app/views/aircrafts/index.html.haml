@@ -1,0 +1,10 @@
+%p#notice= notice
+
+
+.card
+  .card-content
+    = link_to 'New Aircraft', new_aircraft_path, class: 'btn upload'
+    .card-title.center-align
+      %h5.custom-card-title.center Aircraft Availability
+    %hr/
+    = render partial: 'aircraft_table'

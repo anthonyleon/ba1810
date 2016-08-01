@@ -23,10 +23,10 @@
 
     .actions
       = f.submit 'Submit', class: 'btn custom-btn'
-
-  = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
-    = file_field_tag :file
-    = submit_tag "Import"
+  -if !@inventory_part.condition
+    = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+      = file_field_tag :file
+      = submit_tag "Import"
 
 :javascript
   $(document).ready(function() {
