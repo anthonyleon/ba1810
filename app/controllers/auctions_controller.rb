@@ -3,10 +3,11 @@ class AuctionsController < ApplicationController
   before_action :set_bid_and_auction, only: [:purchase, :purchase_confirmation]
 
   def index
-    @auctions = current_user.auctions
     @owned_auctions = current_user.auctions.where(active: true)
-    @supplier_auctions = Bid.supplier_auctions(current_user.bids)
-    @sales_opportunities = Auction.get_sales_opportunities(current_user)
+    p "***" * 80
+    p @supplier_auctions = owned_bids
+    p "***" * 80
+    get_sales_opportunities
   end
 
   def show
@@ -93,11 +94,41 @@ class AuctionsController < ApplicationController
       parts.uniq! { |p| p.company_id }
       parts.each do |part|
         @condition = @auction.condition_match
-        Notification.create(company_id: part.company.id, auction_id: @auction.id, message: message) if @condition.include?(part.condition) && part.company != current_user
+        Notification.create(company_id: part.company.id, auction_id: @auction.id, message: message) unless (!@condition.include?(part.condition) && @condition != "All Conditions") || part.company != current_user
       end
     end
 
 
+    def get_sales_opportunities
+      parts = current_user.inventory_parts
+      parts.uniq! { |part| [part[:part_num], part[:condition]] }
+      @sales_opportunities = []
+      parts.each do |part|
+        #stick auction in sales opportunities if the auction is not the current_user's, already contains a current_user bid, or if the auction isn't asking for the part in questions condition
+        Auction.where(part_num: part.part_num, active: true).each do |auction|
+          @sales_opportunities << auction unless auction.company == current_user || !(auction.bids & current_user.bids).empty? || !auction.condition.include?(part.condition)
+          @sales_opportunities << auction if auction.condition == "All Conditions" && auction.company != current_user && (auction.bids & current_user.bids).empty?
+        end
+      end
+      ## OLD CODE
+      # @parts.each do |inv_part|
+      #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
+      #     @auction_parts.each do |auct_part|
+      #       possible_auctions << auct_part.auction if auct_part.auction.active == true
+      #     end
+      #   end
+      # end
+      # possible_auctions
+      @sales_opportunities.uniq!
+    end
+
+    def owned_bids
+      auctions = []
+      current_user.bids.each do |bid|
+        auctions << bid.auction if bid.auction.active
+      end
+      auctions
+    end
 
     def set_auction
       @auction = Auction.find(params[:id])

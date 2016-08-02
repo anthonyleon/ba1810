@@ -1,10 +1,32 @@
 class TransactionsController < ApplicationController
-  protect_from_forgery :except => [:payment_in_escrow]
+  protect_from_forgery :except => [:receive_webhook]
+  skip_before_action :require_logged_in, only: [:receive_webhook]
   before_action :set_transaction, only: [:update_shipment]
   ## or?
   # skip_before_filter :verify_authenticity_token
 
   def receive_webhook
+    if request.headers['Content-Type'] == 'application/json'
+      data = JSON.parse(request.body.read)
+      if data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
+        case data["event"]["type"]
+        when "0"
+          Transaction.create
+    else
+      # application/x-www-form-urlencoded
+      data = params.as_json
+    end
+
+    render nothing: true
+  
+    # puts env
+    # if params["event"]["type"] == "0"
+    #   puts "HEELLLLOOOO WOOOORLLLDD as params"
+    #   Transaction.create(company_id: params["event"]["type"])
+    # elsif request.headers['Content-Type'] == 'application/json'
+    #   data = JSON.parse(request.body.read)
+    #   puts "JSONNNNNNNNNN"
+    # end
   end
 
   def update_shipment
