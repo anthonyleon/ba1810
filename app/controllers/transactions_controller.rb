@@ -7,7 +7,11 @@ class TransactionsController < ApplicationController
 
   def receive_webhook
     if request.headers['Content-Type'] == 'application/json'
-      p data = JSON.parse(request.body.read)
+      data = JSON.parse(request.body.read)
+      if data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
+        case data["event"]["type"]
+        when "0"
+          Transaction.create
     else
       # application/x-www-form-urlencoded
       data = params.as_json
