@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  protect_from_forgery :except => [:payment_in_escrow]
+  protect_from_forgery :except => [:receive_webhook]
   before_action :set_transaction, only: [:update_shipment]
   ## or?
   # skip_before_filter :verify_authenticity_token
