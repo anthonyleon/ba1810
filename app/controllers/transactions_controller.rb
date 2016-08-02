@@ -5,7 +5,10 @@ class TransactionsController < ApplicationController
   # skip_before_filter :verify_authenticity_token
 
   def receive_webhook
-    
+    if params["event"]["type"] == "0"
+      puts "HEELLLLOOOO WOOOORLLLDD"
+      Transaction.create(company_id: params["event"]["type"])
+    end
   end
 
   def update_shipment
