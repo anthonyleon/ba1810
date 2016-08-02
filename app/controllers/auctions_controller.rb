@@ -106,8 +106,8 @@ class AuctionsController < ApplicationController
       parts.each do |part|
         #stick auction in sales opportunities if the auction is not the current_user's, already contains a current_user bid, or if the auction isn't asking for the part in questions condition
         Auction.where(part_num: part.part_num, active: true).each do |auction|
-          @sales_opportunities << auction unless auction.company == current_user || !(auction.bids & current_user.bids).empty? || !auction.condition.include?(part.condition)
-          @sales_opportunities << auction if auction.condition == "All Conditions"
+          @sales_opportunities << auction unless auction.company == current_user || (auction.bids & current_user.bids).empty? || !auction.condition.include?(part.condition)
+          @sales_opportunities << auction if auction.condition == "All Conditions" && auction.company != current_user && !(auction.bids & current_user.bids).empty?
         end
       end
       ## OLD CODE
