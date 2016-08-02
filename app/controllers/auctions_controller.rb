@@ -94,7 +94,7 @@ class AuctionsController < ApplicationController
       parts.uniq! { |p| p.company_id }
       parts.each do |part|
         @condition = @auction.condition_match
-        Notification.create(company_id: part.company.id, auction_id: @auction.id, message: message) unless !@condition.include?(part.condition) || part.company != current_user
+        Notification.create(company_id: part.company.id, auction_id: @auction.id, message: message) unless (!@condition.include?(part.condition) && @condition != "All Conditions") || part.company != current_user
       end
     end
 
