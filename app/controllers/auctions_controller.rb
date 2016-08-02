@@ -119,7 +119,7 @@ class AuctionsController < ApplicationController
       #   end
       # end
       # possible_auctions
-      @sales_opportunities
+      @sales_opportunities.uniq!
     end
 
     def owned_bids
