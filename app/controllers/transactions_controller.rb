@@ -6,14 +6,23 @@ class TransactionsController < ApplicationController
   # skip_before_filter :verify_authenticity_token
 
   def receive_webhook
-    puts env
-    if params["event"]["type"] == "0"
-      puts "HEELLLLOOOO WOOOORLLLDD as params"
-      Transaction.create(company_id: params["event"]["type"])
-    elsif request.headers['Content-Type'] == 'application/json'
-      data = JSON.parse(request.body.read)
-      puts "JSONNNNNNNNNN"
+    if request.headers['Content-Type'] == 'application/json'
+      p data = JSON.parse(request.body.read)
+    else
+      # application/x-www-form-urlencoded
+      data = params.as_json
     end
+
+    render nothing: true
+  
+    # puts env
+    # if params["event"]["type"] == "0"
+    #   puts "HEELLLLOOOO WOOOORLLLDD as params"
+    #   Transaction.create(company_id: params["event"]["type"])
+    # elsif request.headers['Content-Type'] == 'application/json'
+    #   data = JSON.parse(request.body.read)
+    #   puts "JSONNNNNNNNNN"
+    # end
   end
 
   def update_shipment
