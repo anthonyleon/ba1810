@@ -37,14 +37,6 @@ class Company < ActiveRecord::Base
     CompanyMailer.password_reset(self).deliver_now
   end
 
-  def owned_bids
-    auctions = []
-    self.bids.each do |bid|
-      auctions << bid.auction if bid.auction.active
-    end
-    auctions.uniq!
-  end
-
   private
 
   def downcase_email

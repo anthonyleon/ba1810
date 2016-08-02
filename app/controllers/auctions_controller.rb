@@ -5,9 +5,9 @@ class AuctionsController < ApplicationController
   def index
     @owned_auctions = current_user.auctions.where(active: true)
     p "***" * 80
-    p @supplier_auctions = current_user.owned_bids
+    p @supplier_auctions = owned_bids
     p "***" * 80
-    @sales_opportunities = get_sales_opportunities
+    get_sales_opportunities
   end
 
   def show
@@ -100,14 +100,15 @@ class AuctionsController < ApplicationController
 
 
     def get_sales_opportunities
-      @parts = current_user.inventory_parts
+      parts = current_user.inventory_parts
+      parts.uniq! { |part| [part[:part_num], part[:condition]] }
       @sales_opportunities = []
-      @parts.uniq.each do |inventory|
-        Auction.where(part_num: inventory.part_num, active: true).each do |auction|
-          @sales_opportunities << auction unless auction.company == current_user || !(auction.bids & current_user.bids).empty?
+      parts.each do |part|
+        #stick auction in sales opportunities if the auction is not the current_user's, already contains a current_user bid, or if the auction isn't asking for the part in questions condition
+        Auction.where(part_num: part.part_num, active: true).each do |auction|
+          @sales_opportunities << auction unless auction.company == current_user || !(auction.bids & current_user.bids).empty? || !auction.condition.include?(part.condition)
         end
       end
-      @sales_opportunities.uniq!
       ## OLD CODE
       # @parts.each do |inv_part|
       #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
@@ -117,6 +118,15 @@ class AuctionsController < ApplicationController
       #   end
       # end
       # possible_auctions
+      @sales_opportunities
+    end
+
+    def owned_bids
+      auctions = []
+      current_user.bids.each do |bid|
+        auctions << bid.auction if bid.auction.active
+      end
+      auctions
     end
 
     def set_auction
