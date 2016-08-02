@@ -11,11 +11,6 @@ class CompaniesController < ApplicationController
     @engines = Engine.all
     @aircrafts = Aircraft.all
     @company = current_user
-    @auctions = current_user.auctions
-    @supplier_auctions = Bid.supplier_auctions(current_user.bids)
-    possible_auctions = current_user.get_possible_auctions.uniq!
-    @possible_auctions = possible_auctions - @supplier_auctions
-    @inactive_auctions = current_user.auctions.where(active: false)
     yahoo_client = YahooFinance::Client.new
     @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY", "WLFC"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
   end

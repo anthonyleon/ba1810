@@ -26,14 +26,15 @@ class Auction < ActiveRecord::Base
         condition
     end
 
-    def self.get_sales_opportunities(user)
-      parts = user.inventory_parts
-      sales_opportunities = []
-      parts.uniq.each do |inventory|
-        self.where(part_num: inventory.part_num, active: true).each do |auction|
-          sales_opportunities << auction if auction.company != user
-        end
-      end
-      sales_opportunities.uniq!
-    end
+    # def self.get_sales_opportunities(user)
+    #   parts = user.inventory_parts
+    #   sales_opportunities = []
+    #   parts.each do |inventory|
+    #     self.where(part_num: inventory.part_num, active: true).each do |auction|
+    #       p auction
+    #       p sales_opportunities << auction if auction.company != user && auction.condition.include?(inventory.condition)
+    #     end
+    #   end
+    #   sales_opportunities.uniq!
+    # end
 end

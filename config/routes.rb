@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   resources :aircrafts
 
 
-  post 'transactions/paymentinescrow' => 'transactions#payment_in_escrow', as: "pay_for_part"
-  patch 'transactions/:id' => 'transactions#update_shipment', as: "transaction_shipment_path"
+  post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
+  patch 'transactions/:id' => 'transactions#update_shipment', as: "transaction_shipment"
   get 'notifications/index'
 
   resources :ratings
