@@ -12,6 +12,6 @@
   / testing purposes
   ///////////// we need an edit bid button 
 - elsif @auction.company == current_user
-  %td= button_to "Buy Part", {:controller => :auctions, :action => 'purchase', :id => bid.id, :auction_id => @auction.id }, :method => :post
+  %td= button_to "Proceed to Checkout", {:controller => :auctions, :action => 'purchase', :id => bid.id, :auction_id => @auction.id }, :method => :post
   / %td= link_to 'Buy Part', auction_purchase_path(@auction.id, bid.id)
 / We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??s
