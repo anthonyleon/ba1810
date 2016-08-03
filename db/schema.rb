@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20160803215653) do
     t.decimal  "tax"
     t.decimal  "armor_fee"
     t.decimal  "bid_aero_fee"
+    t.decimal  "part_price"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree

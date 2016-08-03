@@ -28,7 +28,7 @@ class ArmorPaymentsApi
 			"type" => 1,
 			"seller_id" => bid.seller.armor_user_id,
 			"buyer_id" => bid.buyer.armor_user_id,
-			"amount" => bid.amount,
+			"amount" => bid.total_amount,
 			"summary" => bid.auction.part_num,
 			"description" => bid.inventory_part.condition,
 			"invoice_num" => "123456",
