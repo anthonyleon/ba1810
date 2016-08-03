@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
   protect_from_forgery :except => [:receive_webhook]
   skip_before_action :require_logged_in, only: [:receive_webhook]
-  before_action :set_transaction, only: [:update]
+  before_action :set_transaction, only: [:create_shipment]
   ## or?
   # skip_before_filter :verify_authenticity_token
 
@@ -12,7 +12,8 @@ class TransactionsController < ApplicationController
         case data["event"]["type"]
         when "2"  # payments received in full 
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
-          
+        when "16" # order cancelled
+
 
         end
       end
@@ -24,9 +25,10 @@ class TransactionsController < ApplicationController
     render nothing: true
   end
 
-  def update
+  def create_shipment
     respond_to do |format|
       if @transaction.update(transaction_params)
+        ArmorPaymentsApi.create_shipment_record(@transaction.bid)
         format.html { redirect_to auction_bid_path(@transaction.auction, @transaction.bid), notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
