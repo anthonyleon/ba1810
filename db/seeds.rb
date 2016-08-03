@@ -61,7 +61,7 @@ end
 i = 0
 while (i < 16)
   i+=1
-  Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true)
+  Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true, destination_address: Faker::Address.street_address, destination_zip: Faker::Address.zip, destination_city: Faker::Address.city_suffix, destination_country: Faker::Address.country, required_date: Faker::Date.forward(23))
 
 end
 
@@ -76,7 +76,8 @@ end
 i = 0
 while (i < 30)
   i+=1
-  Bid.create( amount: Faker::Commerce.price, company_id: i, auction_id: Faker::Number.between(1, 16), inventory_part_id: Faker::Number.between(1, 150))
+  p = Faker::Commerce.price
+  Bid.create( total_amount: p, shipping_cost: p * 0.15, tax: p * 0.07, armor_fee: p * 0.03, bid_aero_fee: p * 0.03, company_id: i, auction_id: Faker::Number.between(1, 16), inventory_part_id: Faker::Number.between(1, 150))
 end
 
 i = 30
