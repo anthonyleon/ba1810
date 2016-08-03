@@ -11,6 +11,16 @@
             %li= message
     .field.form-group
       = f.text_field :part_num, class: "form-control", placeholder: "Part number"
+    .field.form-group
+      = f.text_field :destination_address, class: "form-control", placeholder: "Destination Street Address"
+    .field.form-group
+      = f.text_field :destination_zip, class: "form-control", placeholder: "Destination Zip Code"
+    .field.form-group
+      = f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
+    .field.form-group
+      = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
+    .field.form-group
+      = f.text_field :required_date, class: "form-control", placeholder: "Required by mm/dd/yy"
     #checkbox-group
       .field.checkbox.form-group
         = f.check_box(:condition_ne)
