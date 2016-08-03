@@ -66,7 +66,7 @@ class ArmorPaymentsApi
 
   def self.create_shipment_record(bid)
     #testing purposes carrier name not being passed through form.. because of _shipment partial 'options_for_select'
-    bid.update('carrier', CLIENT.shipmentcarriers.all[:body][bid.tx.carrier_code.to_i - 1]["name"])
+    bid.tx.update('carrier', CLIENT.shipmentcarriers.all[:body][bid.tx.carrier_code.to_i - 1]["name"])
     user_id = bid.company.armor_user_id
     account_id = bid.company.armor_account_id
     order_id = bid.tx.order_id

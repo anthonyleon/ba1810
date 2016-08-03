@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
 
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
-  patch 'transactions/:id' => 'transactions#update_shipment', as: "transaction"
+  patch 'transactions/:id' => 'transactions#update', as: "transaction"
   get 'notifications/index'
 
   resources :ratings

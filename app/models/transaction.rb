@@ -16,7 +16,5 @@ class Transaction < ActiveRecord::Base
 			auction: bid.auction,
 			bid: bid
 			)
-		# self.auction = auction
-		# self.bid = bid
 	end
 end

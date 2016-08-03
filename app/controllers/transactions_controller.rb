@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
   protect_from_forgery :except => [:receive_webhook]
   skip_before_action :require_logged_in, only: [:receive_webhook]
-  before_action :set_transaction, only: [:update_shipment]
+  before_action :set_transaction, only: [:update]
   ## or?
   # skip_before_filter :verify_authenticity_token
 
@@ -15,6 +15,7 @@ class TransactionsController < ApplicationController
           
 
         end
+      end
     else
       # application/x-www-form-urlencoded
       data = params.as_json
@@ -23,10 +24,9 @@ class TransactionsController < ApplicationController
     render nothing: true
   end
 
-  def update_shipment
+  def update
     respond_to do |format|
       if @transaction.update(transaction_params)
-        ppp
         format.html { redirect_to auction_bid_path(@transaction.auction, @transaction.bid), notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
