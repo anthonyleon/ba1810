@@ -9,7 +9,7 @@ class Company < ActiveRecord::Base
   has_many :transactions
   has_many :notifications, dependent: :destroy
   validates :password, presence: true, length: { minimum: 8 }
-  validates :password, format: {with: /[A-Za-z0-9_\W]/,  message: "Password must be 8 characters long.  Must contain letters, numbers, and symbols." }
+  validates :password, format: {with: /[A-Za-z0-9]/,  message: "Password must be 8 characters long.  Must contain letters, numbers, and symbols." }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true
   # validates :EIN, uniqueness: true

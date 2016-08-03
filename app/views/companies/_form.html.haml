@@ -35,8 +35,7 @@
     = f.label :zip
     = f.text_field :zip
   .input-field.col.s12.m6
-    = f.label :country
-    = f.text_field :country
+    = f.select :country, options_for_select(ArmorPaymentsApi.country_list), {}, {:class => "select"}
   .input-field.col.s12.m6
     = f.label :password
     = f.password_field :password
