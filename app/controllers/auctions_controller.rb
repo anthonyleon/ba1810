@@ -80,7 +80,7 @@ class AuctionsController < ApplicationController
     @auction.update(active: false)
 
     ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
-    action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
+    action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.total_amount }
     result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(transaction.order_id, action_data)
     # webhook saying full payment has been received for the below notification
     notify_of_sale("You have won an auction! Please proceed with shipment process.")

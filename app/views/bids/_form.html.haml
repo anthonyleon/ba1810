@@ -8,7 +8,9 @@
         - @bid.errors.full_messages.each do |message|
           %li= message
   .field
-    = f.text_field :amount, class: "form-control", id: "bid-field", placeholder: "Amount"
+    = f.text_field :part_price, class: "form-control", id: "bid-field", placeholder: "Amount"
+  .field
+    = f.text_field :shipping_cost, class: "form-control", id: "bid-field", placeholder: "Shipping Cost"
   .field
     = f.hidden_field :inventory_part_id, :value => @match_parts.ids, :id => 'hiddeninv', class: "form-control"
   #place-bid.actions

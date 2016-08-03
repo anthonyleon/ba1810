@@ -76,8 +76,13 @@ end
 i = 0
 while (i < 30)
   i+=1
-  p = Faker::Commerce.price
-  Bid.create( total_amount: p, shipping_cost: p * 0.15, tax: p * 0.07, armor_fee: p * 0.03, bid_aero_fee: p * 0.03, company_id: i, auction_id: Faker::Number.between(1, 16), inventory_part_id: Faker::Number.between(1, 150))
+  part = Faker::Commerce.price
+  shipping = Faker::Commerce.price * 0.15
+  tax = Faker::Commerce.price * 0.07
+  armor = Faker::Commerce.price * 0.02
+  bidaero = Faker::Commerce.price * 0.03
+  total = part + shipping + tax + armor + bidaero
+  Bid.create( total_amount: total, shipping_cost: shipping, tax: tax, armor_fee: armor, bid_aero_fee: bidaero, part_price: part, company_id: i, auction_id: Faker::Number.between(1, 16), inventory_part_id: Faker::Number.between(1, 150))
 end
 
 i = 30
