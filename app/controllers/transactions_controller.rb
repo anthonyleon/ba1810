@@ -10,28 +10,23 @@ class TransactionsController < ApplicationController
       data = JSON.parse(request.body.read)
       if data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
         case data["event"]["type"]
-        when "0"
-          Transaction.create
+        when "2"  # payments received in full 
+          #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
+          
+
+        end
     else
       # application/x-www-form-urlencoded
       data = params.as_json
     end
 
     render nothing: true
-  
-    # puts env
-    # if params["event"]["type"] == "0"
-    #   puts "HEELLLLOOOO WOOOORLLLDD as params"
-    #   Transaction.create(company_id: params["event"]["type"])
-    # elsif request.headers['Content-Type'] == 'application/json'
-    #   data = JSON.parse(request.body.read)
-    #   puts "JSONNNNNNNNNN"
-    # end
   end
 
   def update_shipment
     respond_to do |format|
       if @transaction.update(transaction_params)
+        ppp
         format.html { redirect_to auction_bid_path(@transaction.auction, @transaction.bid), notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
