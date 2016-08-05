@@ -17,8 +17,8 @@ class TransactionsController < ApplicationController
         when 3 #goods shipped to buyer
         when 4 # goods received by buyer
         when 5 # dispute initiated
-        when 6 #funds released from buyer to seller
-          puts "HELLOOOOO WOOOOOOORLLLLLLDDDDD"
+        when 6 # order accepted - funds released from buyer to seller
+          Transaction.transfer_inventory
 
 
         end

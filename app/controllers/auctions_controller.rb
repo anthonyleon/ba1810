@@ -73,7 +73,7 @@ class AuctionsController < ApplicationController
   def purchase
     # create transaction
     transaction = Transaction.create_armor_order(@bid)
-
+    transaction.transfer_inventory
     ## get URL modal popup
     @url = ArmorPaymentsApi.get_payment_url(current_user, transaction)
 

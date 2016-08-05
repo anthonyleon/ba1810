@@ -17,4 +17,8 @@ class Transaction < ActiveRecord::Base
 			bid: bid
 			)
 	end
+
+	def transfer_inventory
+		self.inventory_part.update_attribute('company_id', self.auction.company.id)
+	end
 end
