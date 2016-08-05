@@ -25,5 +25,13 @@ class Bid < ActiveRecord::Base
     arr.compact!
     (arr.sum / arr.count.to_f) unless arr.empty?
   end
+
+  def calculate_total_payment
+    part = self.part_price
+    self.tax = part * 0.07
+    self.armor_fee = part * 0.025
+    self.bid_aero_fee = part * 0.03
+    self.total_amount = part + self.tax + self.armor_fee + self.bid_aero_fee
+  end
   
 end
