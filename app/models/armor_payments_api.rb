@@ -24,6 +24,8 @@ class ArmorPaymentsApi
 	end
 
 	def self.create_order(bid)
+    p bid.seller.armor_user_id
+    p bid.buyer.armor_user_id
 		data = {
 			"type" => 1,
 			"seller_id" => bid.seller.armor_user_id,
