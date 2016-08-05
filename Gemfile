@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+gem 'country_state_select'
 gem 'prawn'
 gem 'armor_payments'
 gem 'yahoo-finance'
