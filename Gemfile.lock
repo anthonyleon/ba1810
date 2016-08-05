@@ -71,6 +71,8 @@ GEM
       mime-types (>= 1.16)
       mimemagic (>= 0.3.0)
     choice (0.2.0)
+    city-state (0.0.13)
+      rubyzip (~> 1.1)
     codeclimate-engine-rb (0.3.1)
       virtus (~> 1.0)
     coderay (1.1.1)
@@ -85,6 +87,9 @@ GEM
     coffee-script-source (1.10.0)
     colorize (0.8.1)
     concurrent-ruby (1.0.2)
+    country_state_select (2.0.0)
+      city-state
+      rails (>= 3.0)
     cvss (0.99.0)
     data_mapper (1.2.0)
       dm-aggregates (~> 1.2.0)
@@ -423,6 +428,7 @@ DEPENDENCIES
   capybara
   carrierwave
   coffee-rails (~> 4.1.0)
+  country_state_select
   dawnscanner
   delayed_job_active_record
   erb2haml
