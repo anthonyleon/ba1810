@@ -1,7 +1,6 @@
 class BidsController < ApplicationController
   before_action :set_bid, only: [:show, :edit, :update, :destroy, :release_payment]
   before_action :set_auction, only: [:new, :edit, :create, :destroy, :show, :update]
-  before_save :calculate_total_payment
 
   def index
     @bids = Bid.all
