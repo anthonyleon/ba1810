@@ -24,7 +24,7 @@
                 %td= auction.created_at.strftime("%m/%d/%Y")
                 %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
                 %td= auction.bids.count
-                %td= number_to_currency auction.bids.minimum(:amount) unless auction.bids.empty?
+                %td= number_to_currency auction.bids.minimum(:total_amount) unless auction.bids.empty?
                 %td= link_to 'Edit', edit_auction_path(auction)
                 / %td= link_to 'Delete', auction, method: :delete, data: { confirm: 'Are you sure?' }
                 %td= link_to 'Delete', auction, data: { buyer_auctions_behavior: 'delete' } if auction.company == current_user

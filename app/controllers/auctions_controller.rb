@@ -1,12 +1,10 @@
 class AuctionsController < ApplicationController
   before_action :set_auction, only: [:show, :edit, :update, :destroy]
-  before_action :set_bid_and_auction, only: [:purchase, :purchase_confirmation]
+  before_action :set_bid_and_auction, only: [:purchase]
 
   def index
     @owned_auctions = current_user.auctions.where(active: true)
-    p "***" * 80
-    p @supplier_auctions = owned_bids
-    p "***" * 80
+    @supplier_auctions = owned_bids
     get_sales_opportunities
   end
 
@@ -41,7 +39,7 @@ class AuctionsController < ApplicationController
           current_user.auctions << @auction
           @auction.save && @auction_part.save
 
-          notify("You have a new opportunity to sell!")
+          notify_of_opportunities("You have a new opportunity to sell!")
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
@@ -55,6 +53,8 @@ class AuctionsController < ApplicationController
       if @auction.update(auction_params)
         format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
         format.json { render :show, status: :ok, location: @auction }
+        @auction.condition_match
+        notify_of_opportunities("You have a new opportunity to sell!")
       else
         format.html { render :edit }
         format.json { render json: @auction.errors, status: :unprocessable_entity }
@@ -77,25 +77,30 @@ class AuctionsController < ApplicationController
     ## get URL modal popup
     @url = ArmorPaymentsApi.get_payment_url(current_user, transaction)
 
-    @auction.update(active: false) #change this to be on webhook [testing purposes]
+    @auction.update(active: false)
 
     ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
-    action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.amount }
+    action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.total_amount }
     result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(transaction.order_id, action_data)
+    # webhook saying full payment has been received for the below notification
+    notify_of_sale("You have won an auction! Please proceed with shipment process.")
   end
 
   private
 
-    def notify(message)
+    def notify_of_opportunities(message)
       parts = []
-      InventoryPart.where(part_num: @auction.part_num).each do |part|
-        parts << part
+      parts = InventoryPart.where(part_num: @auction.part_num).each do |part|
+        parts << part if @auction.condition.include?(part.condition) || @auction.condition == "All Conditions"
       end
       parts.uniq! { |p| p.company_id }
       parts.each do |part|
-        @condition = @auction.condition_match
-        Notification.create(company_id: part.company.id, auction_id: @auction.id, message: message) unless (!@condition.include?(part.condition) && @condition != "All Conditions") || part.company != current_user
+        Notification.create(company: part.company, auction: @auction, message: message) unless part.company == current_user
       end
+    end
+
+    def notify_of_sale(message)
+      Notification.create(company: @bid.company, bid: @bid, auction: @auction, message: message)
     end
 
 
@@ -110,15 +115,6 @@ class AuctionsController < ApplicationController
           @sales_opportunities << auction if auction.condition == "All Conditions" && auction.company != current_user && (auction.bids & current_user.bids).empty?
         end
       end
-      ## OLD CODE
-      # @parts.each do |inv_part|
-      #   if @auction_parts = AuctionPart.where(part_id: inv_part.part_id)
-      #     @auction_parts.each do |auct_part|
-      #       possible_auctions << auct_part.auction if auct_part.auction.active == true
-      #     end
-      #   end
-      # end
-      # possible_auctions
       @sales_opportunities.uniq!
     end
 
@@ -141,6 +137,6 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :condition_ne, :condition_oh, :condition_sv, :condition_ar, :condition_sc)
+      params.require(:auction).permit(:company_id, :part_num, :condition_ne, :condition_oh, :condition_sv, :condition_ar, :condition_sc, :destination_address, :destination_zip, :destination_city, :destination_country, :required_date)
     end
 end
