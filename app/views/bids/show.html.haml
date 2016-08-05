@@ -7,7 +7,7 @@
       .col-md-5#bid-buy
       %p
         %h2 Amount:
-        = number_to_currency @bid.amount
+        = number_to_currency @bid.total_amount
       %p
         %h2 Company:
         = @bid.company.name
