@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+gem 'country_state_select', '3.0.0'
 gem 'prawn'
 gem 'armor_payments'
 gem 'yahoo-finance'
@@ -23,8 +23,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'simple_form'
 
+gem 'simple_form', '~> 3.2'
 # Utilities
 gem 'faker'
 gem 'sass-rails', '~> 5.0'
