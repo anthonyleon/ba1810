@@ -1,3 +1,11 @@
+$(document).on('ready page:load', function() {
+  return CountryStateSelect({
+    country_id: "company_country",
+    state_id: "company_state"
+  });
+});
+
+
 $(document).on('ready page:load', function(){
   $('#dashboard-auctions>div:visible').hide();
 
@@ -29,4 +37,8 @@ $(document).on('ready page:load', function(){
 $(function() {
   $("#salesPartsDT").DataTable();
   $("#purchaseDT").DataTable();
+
 });
+
+
+           

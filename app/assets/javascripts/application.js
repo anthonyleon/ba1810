@@ -2,7 +2,10 @@
 //= require jquery_ujs
 //= require sweetalert
 //= require jquery.turbolinks
+//= require chosen-jquery
+//= require country_state_select
 //= require_tree .
+
 
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
