@@ -7,8 +7,12 @@ feature "User has the ability to sign out", :javascript => true do
 	end
 
 	scenario "Notification should appear" do 
-		save_and_open_page
+		within('ul.right.hide-on-med-and-down') do 
+			find(:css, 'material-icons').click
+			save_and_open_page
+		end
 	end
 end
 
 
+	

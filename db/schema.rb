@@ -147,8 +147,10 @@ ActiveRecord::Schema.define(version: 20160803215653) do
     t.integer  "inventory_part_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "company_id"
   end
 
+  add_index "documents", ["company_id"], name: "index_documents_on_company_id", using: :btree
   add_index "documents", ["inventory_part_id"], name: "index_documents_on_inventory_part_id", using: :btree
 
   create_table "engines", force: :cascade do |t|
@@ -224,6 +226,7 @@ ActiveRecord::Schema.define(version: 20160803215653) do
 
   create_table "transactions", force: :cascade do |t|
     t.string   "order_id"
+    t.integer  "auction_id"
     t.integer  "inventory_part_id"
     t.string   "po_num"
     t.string   "invoice_num"
