@@ -27,6 +27,17 @@
                 %p= "As Removed"
               - if @auction.condition_sc
                 %p= "Scrap"
+        %ul
+          %li.center-align
+            %h5= "Shipping Instructions"
+            %div{style: "text-align: center; margin-top: 10px;"}
+              = @auction.destination_zip + ", "
+              = @auction.destination_city + ", "
+              = @auction.destination_country
+            %div{style: "text-align: center;"}
+              ="Must be received by "
+              %strong 
+                = @auction.required_date
         %hr/
         %p.flow-text
           New List Price:
@@ -46,9 +57,10 @@
                   %th Condition
                   %th Manufacturer
                   %th Amount
+                  %th Est. Shipping
                   %th Avg Rating
               %tbody
-                - @auction.bids.order(amount: :asc).each do |bid|
+                - @auction.bids.order(total_amount: :asc).each do |bid|
                   %tr#cursor-row
                     = render bid
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718192931) do
+ActiveRecord::Schema.define(version: 20160803215653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,10 +59,10 @@ ActiveRecord::Schema.define(version: 20160718192931) do
 
   create_table "auctions", force: :cascade do |t|
     t.integer  "company_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "part_num"
-    t.boolean  "active",         default: true, null: false
+    t.boolean  "active",              default: true, null: false
     t.string   "condition"
     t.boolean  "condition_ne"
     t.boolean  "condition_oh"
@@ -71,12 +71,16 @@ ActiveRecord::Schema.define(version: 20160718192931) do
     t.boolean  "condition_sc"
     t.string   "po_num"
     t.integer  "transaction_id"
+    t.string   "destination_address"
+    t.string   "destination_zip"
+    t.string   "destination_city"
+    t.string   "destination_country"
+    t.string   "required_date"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
 
   create_table "bids", force: :cascade do |t|
-    t.decimal  "amount",            null: false
     t.integer  "company_id"
     t.integer  "auction_id"
     t.integer  "inventory_part_id"
@@ -84,6 +88,12 @@ ActiveRecord::Schema.define(version: 20160718192931) do
     t.datetime "updated_at",        null: false
     t.string   "invoice_num"
     t.integer  "transaction_id"
+    t.decimal  "total_amount"
+    t.decimal  "shipping_cost"
+    t.decimal  "tax"
+    t.decimal  "armor_fee"
+    t.decimal  "bid_aero_fee"
+    t.decimal  "part_price"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree

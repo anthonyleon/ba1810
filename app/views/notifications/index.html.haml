@@ -13,7 +13,11 @@
       %tbody
         - @notifications.each do |note|
           %tr.notification
-            %td.srchtbl= link_to note.message, note.auction
+            -if note.message.include?('Please proceed with shipment process')
+              %td.srchtbl= link_to note.message, auction_bid_path(note.auction, note.bid)
+            -else
+              %td.srchtbl= link_to note.message, note.auction
+
             %td.srchtbl= note.auction.part_num
             -if note.bid
               %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'

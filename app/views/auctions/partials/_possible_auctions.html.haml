@@ -27,7 +27,7 @@
                 -if auction.bids.empty?
                   %td= "N/A"
                 -else
-                  %td= number_to_currency auction.bids.minimum(:amount)
+                  %td= number_to_currency auction.bids.minimum(:total_amount)
                 -# %td= link_to 'Edit', edit_auction_path(auction)
                 -# %td= link_to 'Delete', auction, data: { current_opportunities_behavior: 'delete' }
         %div{style: "text-align: left;"}

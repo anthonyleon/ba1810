@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
   protect_from_forgery :except => [:receive_webhook]
   skip_before_action :require_logged_in, only: [:receive_webhook]
-  before_action :set_transaction, only: [:update_shipment]
+  before_action :set_transaction, only: [:create_shipment]
   ## or?
   # skip_before_filter :verify_authenticity_token
 
@@ -10,28 +10,31 @@ class TransactionsController < ApplicationController
       data = JSON.parse(request.body.read)
       if data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
         case data["event"]["type"]
-        when "0"
-          Transaction.create
+        when 2  # payments received in full 
+          #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
+        when 16 # order cancelled
+        when 15 # shipment details added to order
+        when 3 #goods shipped to buyer
+        when 4 # goods received by buyer
+        when 5 # dispute initiated
+        when 6 #funds released from buyer to seller
+          puts "HELLOOOOO WOOOOOOORLLLLLLDDDDD"
+
+
+        end
+      end
     else
       # application/x-www-form-urlencoded
       data = params.as_json
     end
 
     render nothing: true
-  
-    # puts env
-    # if params["event"]["type"] == "0"
-    #   puts "HEELLLLOOOO WOOOORLLLDD as params"
-    #   Transaction.create(company_id: params["event"]["type"])
-    # elsif request.headers['Content-Type'] == 'application/json'
-    #   data = JSON.parse(request.body.read)
-    #   puts "JSONNNNNNNNNN"
-    # end
   end
 
-  def update_shipment
+  def create_shipment
     respond_to do |format|
       if @transaction.update(transaction_params)
+        ArmorPaymentsApi.create_shipment_record(@transaction.bid)
         format.html { redirect_to auction_bid_path(@transaction.auction, @transaction.bid), notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else

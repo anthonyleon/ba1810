@@ -38,7 +38,7 @@ class BidsController < ApplicationController
     respond_to do |format|
       if @bid.save
         notify_other_bidders("A bid has been placed on an auction you are participating in!")
-        notify_auctioner(@auction.company, "A new bid was placed in your auction!")
+        notify_auctioner("A new bid was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
@@ -52,7 +52,7 @@ class BidsController < ApplicationController
     respond_to do |format|
       if @bid.update(bid_params)
         notify_other_bidders("A bid has been updated on an auction you're competing in!")
-        notify_auctioner(@auction.company, "A bid was updated in your auction!")
+        notify_auctioner("A bid was updated in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
         if @bid.tracking_num # POST shipping info to armor
@@ -103,8 +103,8 @@ class BidsController < ApplicationController
       end
     end
 
-    def notify_auctioner(user, message)
-      Notification.create(company_id: user.id, auction_id: @auction.id, message: message)
+    def notify_auctioner(message)
+      Notification.create(company: @auction.company, auction: @auction, message: message)
       CompanyMailer.notify_buyer(@bid.auction).deliver_now
     end
 
@@ -117,7 +117,7 @@ class BidsController < ApplicationController
     end
 
     def bid_params
-      params.require(:bid).permit(:amount, :company_id, :auction_id, :inventory_part_id, :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
+      params.require(:bid).permit(:part_price, :shipping_cost, :company_id, :auction_id, :inventory_part_id, :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
     end
 
 
