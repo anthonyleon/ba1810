@@ -6,6 +6,7 @@ class EnginesController < ApplicationController
   end
 
   def show
+    @document = Document.new
   end
 
   def new
@@ -57,6 +58,6 @@ class EnginesController < ApplicationController
     end
 
     def engine_params
-      params.require(:engine).permit(:company_id, :engine_major_variant, :engine_minor_variant, :esn, :condition, :new, :overhaul, :serviceable, :non_serviceable, :current_status, :in_service, :off_service, :current_operator, :last_operator, :location, :cycles_remaining, :available_date, :sale, :lease)
+      params.require(:engine).permit(:company_id, :engine_major_variant, :engine_minor_variant, :esn, :condition, :new, :overhaul, :serviceable, :non_serviceable, :current_status, :in_service, :off_service, :current_operator, :last_operator, :location, :cycles_remaining, :available_date, :sale, :lease, :document_id)
     end
 end
