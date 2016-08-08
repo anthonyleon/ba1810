@@ -21,7 +21,7 @@
             %td.srchtbl= transaction.bid.inventory_part.serial_num
             %td.srchtbl= transaction.bid.inventory_part.condition
             %td.srchtbl= transaction.bid.inventory_part.manufacturer
-            %td.srchtbl= number_to_currency transaction.bid.amount
+            %td.srchtbl= number_to_currency transaction.bid.total_amount
             -if transaction.delivered && !transaction.paid
               %td= link_to 'Release Payment', auction_bid_path(transaction.auction, transaction.bid)
             -else

@@ -53,8 +53,6 @@ class AuctionsController < ApplicationController
       if @auction.update(auction_params)
         format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
         format.json { render :show, status: :ok, location: @auction }
-        @auction.condition_match
-        notify_of_opportunities("You have a new opportunity to sell!")
       else
         format.html { render :edit }
         format.json { render json: @auction.errors, status: :unprocessable_entity }
@@ -73,15 +71,14 @@ class AuctionsController < ApplicationController
   def purchase
     # create transaction
     transaction = Transaction.create_armor_order(@bid)
-
     ## get URL modal popup
-    @url = ArmorPaymentsApi.get_payment_url(current_user, transaction)
+    p @url = ArmorPaymentsApi.get_payment_url(current_user, transaction)
 
     @auction.update(active: false)
 
     ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
     action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.total_amount }
-    result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(transaction.order_id, action_data)
+    p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(transaction.order_id, action_data)
     # webhook saying full payment has been received for the below notification
     notify_of_sale("You have won an auction! Please proceed with shipment process.")
   end
@@ -137,6 +134,6 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :condition_ne, :condition_oh, :condition_sv, :condition_ar, :condition_sc, :destination_address, :destination_zip, :destination_city, :destination_country, :required_date)
+      params.require(:auction).permit(:company_id, :part_num, :condition_ne, :condition_oh, :condition_sv, :condition_ar, :condition_sc, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date)
     end
 end

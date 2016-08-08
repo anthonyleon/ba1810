@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20160808190445) do
     t.string   "destination_city"
     t.string   "destination_country"
     t.string   "required_date"
+    t.string   "destination_state"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree

@@ -1,11 +1,11 @@
 class Company < ActiveRecord::Base
   has_secure_password
   has_many :auctions, dependent: :destroy
-  has_many :bids
-  has_many :inventory_parts
+  has_many :bids, dependent: :destroy
+  has_many :inventory_parts, dependent: :destroy
   has_many :aircrafts
   has_many :engines
-  has_many :ratings
+  has_many :ratings, dependent: :destroy
   has_many :transactions
   has_many :notifications, dependent: :destroy
   has_many :documents, dependent: :destroy
@@ -24,6 +24,12 @@ class Company < ActiveRecord::Base
     self.email_confirmed = true
     self.confirm_token = nil
     save!(validate: false)
+    # only for testing in development seeds
+    unless self.armor_user_id
+      armor_ids = ArmorPaymentsApi.create_account(self)
+      self.update_attribute('armor_account_id', armor_ids[:armor_account_number])
+      self.update_attribute('armor_user_id', armor_ids[:armor_user_number])
+    end
   end
 
   def generate_token(column)

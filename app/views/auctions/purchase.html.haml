@@ -1,6 +1,49 @@
 %h1
 	Purchase Confirmation
 
-%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"} Select Payment Method
+%h5
+	Please confirm shipping address
 
+/ JAVASCRIPT is not updating the ajax request, it's giving the same old info: $('h6').text('#{escape_javascript @auction.destination_address + ", " + @auction.destination_city + ", " + @auction.destination_state + " " + @auction.destination_zip + " " + @auction.destination_country}');
+/ hotfix is to make h6 disappear after changing address
+%h6
+	= @auction.destination_address
+	= @auction.destination_city + ", "
+	= @auction.destination_state
+	= @auction.destination_zip
+	= @auction.destination_country
+
+%span.card-title
+	=render 'destination'
+
+%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+%button.btn.custom-btn.waves-effect.waves-light#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small.armor-modal{"data-url" => "#{@url}"} Select Payment Method
+%button.btn.custom-btn.waves-effect.waves-light#this-address Ship to This Address
+%button.btn.custom-btn.waves-effect.waves-light#change-address Change Shipping Address
+
+
+
+
+
+:javascript
+$(document).ready(function(){
+	$(".form-container").hide();
+	$(".armor-modal").hide();
+
+	$("#this-address").click(function(){
+		$("#this-address").hide();
+		$(".ui-action-small").show();
+	});
+	$("#change-address").click(function(){
+		$("h6").hide(100);
+		$("#change-address").hide(100);
+		$("#this-address").hide(100);
+		$(".form-container").show(200);
+	});
+
+	$(".submit_button").click(function(){
+		$(".form-container").hide(200);
+		$(".ui-action-small").show();
+
+	});
+}):
