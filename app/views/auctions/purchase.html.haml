@@ -1,6 +1,45 @@
 %h1
 	Purchase Confirmation
 
-%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"} Select Payment Method
+%h5
+	Please confirm shipping address
 
+%h6
+	= @auction.destination_address
+	= @auction.destination_city + ", "
+	= @auction.destination_city
+	= @auction.destination_zip
+	= @auction.destination_country
+
+%span.card-title
+	=render 'destination'
+
+%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+%button.btn.custom-btn.waves-effect.waves-light#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small.armor-modal{"data-url" => "#{@url}"} Select Payment Method
+%button.btn.custom-btn.waves-effect.waves-light#this-address Ship to This Address
+%button.btn.custom-btn.waves-effect.waves-light#change-address Change Shipping Address
+
+
+
+
+
+:javascript
+$(document).ready(function(){
+	$(".form-container").hide();
+	$(".armor-modal").hide();
+
+	$("#this-address").click(function(){
+		$("#this-address").hide();
+		$(".ui-action-small").show();
+	});
+	$("#change-address").click(function(){
+		$(".form-container").show();
+		$("#change-address").hide();
+		$("#this-address").hide();
+	});
+
+	$(".submit_button").click(function(){
+		$(".form-container").hide(200);
+		$(".ui-action-small").show();
+	});
+}):
