@@ -4,10 +4,12 @@
 %h5
 	Please confirm shipping address
 
+/ JAVASCRIPT is not updating the ajax request, it's giving the same old info: $('h6').text('#{escape_javascript @auction.destination_address + ", " + @auction.destination_city + ", " + @auction.destination_state + " " + @auction.destination_zip + " " + @auction.destination_country}');
+/ hotfix is to make h6 disappear after changing address
 %h6
 	= @auction.destination_address
 	= @auction.destination_city + ", "
-	= @auction.destination_city
+	= @auction.destination_state
 	= @auction.destination_zip
 	= @auction.destination_country
 
@@ -33,13 +35,15 @@ $(document).ready(function(){
 		$(".ui-action-small").show();
 	});
 	$("#change-address").click(function(){
-		$(".form-container").show();
-		$("#change-address").hide();
-		$("#this-address").hide();
+		$("h6").hide(100);
+		$("#change-address").hide(100);
+		$("#this-address").hide(100);
+		$(".form-container").show(200);
 	});
 
 	$(".submit_button").click(function(){
 		$(".form-container").hide(200);
 		$(".ui-action-small").show();
+
 	});
 }):
