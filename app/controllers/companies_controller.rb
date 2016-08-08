@@ -28,9 +28,6 @@ class CompaniesController < ApplicationController
     company = Company.find_by(confirm_token: params[:format])
     if company
       company.email_activate
-      armor_ids = ArmorPaymentsApi.create_account(company)
-      company.update_attribute('armor_account_id', armor_ids[:armor_account_number])
-      company.update_attribute('armor_user_id', armor_ids[:armor_user_number])
       redirect_to login_path, notice: 'Welcome to bid.aero, your email has been confirmed'
     else
       redirect_to root_path, notice: 'Sorry, company does not exist'

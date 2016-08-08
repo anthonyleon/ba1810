@@ -112,3 +112,7 @@ while (i < 29)
 		current_operator: Company.find(i).name, last_operator:Company.find(i-1).name, location: Faker::StarWars.planet,
 		cycles_remaining: Faker::Number.number(5), available_date: Faker::Date.forward(230), lease: true, company_id: i)
 end
+
+Company.all.each do |company|
+  company.email_activate
+end
