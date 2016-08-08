@@ -3,8 +3,14 @@ Rails.application.routes.draw do
 
   get 'password_resets/new'
 
-  resources :engines
-  resources :aircrafts
+  resources :engines do
+    resources :documents, shallow: true
+  end 
+
+
+  resources :aircrafts do
+    resources :documents, shallow: true
+  end
 
 
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
