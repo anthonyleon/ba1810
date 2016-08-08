@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803215653) do
+ActiveRecord::Schema.define(version: 20160808162658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20160803215653) do
     t.string   "destination_city"
     t.string   "destination_country"
     t.string   "required_date"
+    t.string   "destination_state"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -147,10 +148,8 @@ ActiveRecord::Schema.define(version: 20160803215653) do
     t.integer  "inventory_part_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "company_id"
   end
 
-  add_index "documents", ["company_id"], name: "index_documents_on_company_id", using: :btree
   add_index "documents", ["inventory_part_id"], name: "index_documents_on_inventory_part_id", using: :btree
 
   create_table "engines", force: :cascade do |t|
@@ -226,7 +225,6 @@ ActiveRecord::Schema.define(version: 20160803215653) do
 
   create_table "transactions", force: :cascade do |t|
     t.string   "order_id"
-    t.integer  "auction_id"
     t.integer  "inventory_part_id"
     t.string   "po_num"
     t.string   "invoice_num"
