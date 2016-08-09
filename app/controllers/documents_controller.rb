@@ -19,7 +19,7 @@ class DocumentsController < ApplicationController
       redirect_to @inventory_part || @engine || @aircraft
       flash.now[:notice] = "The document #{@document.name} has been uploaded."
     else
-      redirect_to @inventory_part, notice: "The document #{@document.name} failed to uploaded."
+      redirect_to @inventory_part || @engine || @aircraft, notice: "The document #{@document.name} failed to uploaded."
     end
   end
 
