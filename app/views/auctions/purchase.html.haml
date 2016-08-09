@@ -16,6 +16,11 @@
 %span.card-title
 	=render 'destination'
 
+/ [testing purposes] should be on modal on page before this when they hit 'Proceed to Checkout'
+%button.btn.custom-btn.waves-effect.waves-light
+	= "Use your freight/shipping account?"
+
+
 %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 %button.btn.custom-btn.waves-effect.waves-light#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small.armor-modal{"data-url" => "#{@url}"} Select Payment Method
 %button.btn.custom-btn.waves-effect.waves-light#this-address Ship to This Address
@@ -33,7 +38,11 @@ $(document).ready(function(){
 	$("#this-address").click(function(){
 		$("#this-address").hide();
 		$(".ui-action-small").show();
+		$("#change-address").click(function(){
+			$(".ui-action-small").hide();
+		});
 	});
+
 	$("#change-address").click(function(){
 		$("h6").hide(100);
 		$("#change-address").hide(100);
