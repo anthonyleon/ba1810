@@ -40,6 +40,10 @@ class ArmorPaymentsApi
 		result[:body]["order_id"]
 	end
 
+  def self.update_order(transaction)
+    
+  end
+
   def self.release_payment(bid, company)
     account_id = company.armor_account_id
     user_id = company.armor_user_id
