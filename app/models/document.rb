@@ -5,4 +5,5 @@ class Document < ActiveRecord::Base
   belongs_to :company
   belongs_to :aircraft
   belongs_to :engine
+  belongs_to :company_doc
 end
