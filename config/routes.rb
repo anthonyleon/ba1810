@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
 
+
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
   patch 'transactions/:id' => 'transactions#create_shipment', as: "transaction"
   get 'notifications/index'
@@ -62,6 +63,10 @@ Rails.application.routes.draw do
       get :confirm_email
     end
   end
+
+
+  resources :company_docs
+  
 
 
   # resources :companies do

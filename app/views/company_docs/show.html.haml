@@ -1,0 +1,40 @@
+.row
+  .col.s12
+    .card
+      .card-content
+        %div.card-title.activator.grey-text.text-darken-4.center-align
+          Company Documentation
+        %hr/
+        .row
+          .col.s12.m6
+            .card
+
+- if @company_doc.company == current_user
+%div
+Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
+ %br/
+  = form_for ([@company_doc, @document]), html: { multipart: true, class: "form-inline" } do |f|
+    = f.text_field :name, class: "form-control", placeholder: "Title"
+    = f.file_field :attachment
+    = f.submit "Upload", class: "btn custom-btn"
+  = link_to 'Edit', edit_aircraft_path(@aircraft), class: "btn custom-btn"
+  |
+- if @company_doc.documents.empty?
+  %p There are no documents associated with this part.
+- else
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Name
+        %th Download Link
+        %th  
+      %tbody
+        - @company_doc.documents.each do |document|
+          %tr
+            %td= document.name
+            -if document.attachment.url.downcase.include? "pdf"
+              %td= link_to 'View/Download', document.attachment_url
+            -else
+              %td= link_to 'Download', document.attachment_url
+            - if document.company_doc.company == current_user
+              %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn custom-btn'

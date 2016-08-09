@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160808190445) do
+ActiveRecord::Schema.define(version: 20160809201343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,16 @@ ActiveRecord::Schema.define(version: 20160808190445) do
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree
   add_index "companies", ["name"], name: "index_companies_on_name", unique: true, using: :btree
 
+  create_table "company_docs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "company_id"
+    t.string   "name"
+    t.string   "attachment"
+  end
+
+  add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -151,9 +161,11 @@ ActiveRecord::Schema.define(version: 20160808190445) do
     t.integer  "company_id"
     t.integer  "engine_id"
     t.integer  "aircraft_id"
+    t.integer  "company_doc_id"
   end
 
   add_index "documents", ["aircraft_id"], name: "index_documents_on_aircraft_id", using: :btree
+  add_index "documents", ["company_doc_id"], name: "index_documents_on_company_doc_id", using: :btree
   add_index "documents", ["company_id"], name: "index_documents_on_company_id", using: :btree
   add_index "documents", ["engine_id"], name: "index_documents_on_engine_id", using: :btree
   add_index "documents", ["inventory_part_id"], name: "index_documents_on_inventory_part_id", using: :btree
@@ -254,7 +266,9 @@ ActiveRecord::Schema.define(version: 20160808190445) do
   add_foreign_key "bids", "auctions"
   add_foreign_key "bids", "companies"
   add_foreign_key "bids", "inventory_parts"
+  add_foreign_key "company_docs", "companies"
   add_foreign_key "documents", "aircrafts"
+  add_foreign_key "documents", "company_docs"
   add_foreign_key "documents", "engines"
   add_foreign_key "documents", "inventory_parts"
   add_foreign_key "engines", "companies"
