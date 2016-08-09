@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160809201343) do
+ActiveRecord::Schema.define(version: 20160809225109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,11 +127,13 @@ ActiveRecord::Schema.define(version: 20160809201343) do
   add_index "companies", ["name"], name: "index_companies_on_name", unique: true, using: :btree
 
   create_table "company_docs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "company_id"
     t.string   "name"
     t.string   "attachment"
+    t.boolean  "tax_license"
+    t.boolean  "resale_license"
   end
 
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
