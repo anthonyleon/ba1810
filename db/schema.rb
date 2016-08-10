@@ -132,7 +132,6 @@ ActiveRecord::Schema.define(version: 20160809225109) do
     t.integer  "company_id"
     t.string   "name"
     t.string   "attachment"
-    t.boolean  "tax_license"
     t.boolean  "resale_license"
   end
 
@@ -160,7 +159,6 @@ ActiveRecord::Schema.define(version: 20160809225109) do
     t.integer  "inventory_part_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "company_id"
     t.integer  "engine_id"
     t.integer  "aircraft_id"
     t.integer  "company_doc_id"
@@ -168,7 +166,6 @@ ActiveRecord::Schema.define(version: 20160809225109) do
 
   add_index "documents", ["aircraft_id"], name: "index_documents_on_aircraft_id", using: :btree
   add_index "documents", ["company_doc_id"], name: "index_documents_on_company_doc_id", using: :btree
-  add_index "documents", ["company_id"], name: "index_documents_on_company_id", using: :btree
   add_index "documents", ["engine_id"], name: "index_documents_on_engine_id", using: :btree
   add_index "documents", ["inventory_part_id"], name: "index_documents_on_inventory_part_id", using: :btree
 
