@@ -18,7 +18,7 @@
     .field.form-group
       = f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
     .field.form-group
-      = f.text_field :destination_region, class: "form-control", placeholder: "Destination State/Region"
+      = f.text_field :destination_state, class: "form-control", placeholder: "Destination State/Region"
     .field.form-group
       = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
     .field.form-group
@@ -39,6 +39,14 @@
       .field.checkbox.form-group
         = f.check_box(:condition_sc)
         = label_tag "auction_condition_sc", "Scrap"
+    %br
+    %div I am purchasing this part with the intention to resell and will provide a resale certificate.
+    #form-group.radio_button
+      = f.radio_button :resale_status, "Yes"
+      = f.label :resale_status_yes, "Yes"
+    #form-group.radio_button
+      = f.radio_button :resale_status, "No"
+      = f.label :resale_status_no, "No"
     %br/
     .actions
       = f.submit 'Submit', class: "btn custom-btn"
