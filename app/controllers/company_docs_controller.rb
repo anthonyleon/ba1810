@@ -6,7 +6,8 @@ class CompanyDocsController < ApplicationController
 		@company_doc = CompanyDoc.new
 	end
 
-	def index 
+	def index
+    @company_doc = CompanyDoc.new 
 		@company_docs = current_user.company_docs
 	end
 
@@ -33,7 +34,7 @@ class CompanyDocsController < ApplicationController
     end
 
 	def company_doc_params
-		params.require(:company_doc).permit(:name, :attachment, :company_id)
+		params.require(:company_doc).permit(:name, :attachment, :company_id, :resale_license)
   end
 	
 end

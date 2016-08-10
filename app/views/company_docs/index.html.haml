@@ -1,8 +1,23 @@
+- if !@company_doc.errors.empty?
+  .alert.alert-error
+    %ul
+      - @company_doc.errors.full_messages.each do |msg|
+        %li= msg
+%br/       
+.well
+  = form_for @company_doc, html: { multipart: true } do |f|
+    = f.label :name
+    = f.text_field :name
+    = f.label :attachment
+    = f.file_field :attachment
+    #form-group.checkbox
+    = f.check_box :resale_license
+    = f.label :resale_license, "Check if this is your Resale Certificate"
+    = f.submit "Save", class: "btn custom-btn"
+
 - if !flash[:notice].blank?
   .alert.alert-info
     = flash[:notice]
-%br/
-= link_to "New Document", new_company_doc_path, class: "btn custom-btn"
 %br/
 %br/
 %table.table.table-bordered.table-striped
