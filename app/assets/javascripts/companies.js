@@ -1,3 +1,4 @@
+
 $(document).on('ready page:load', function() {
   return CountryStateSelect({
     country_id: "company_country",
@@ -37,6 +38,9 @@ $(document).on('ready page:load', function(){
 $(function() {
   $("#salesPartsDT").DataTable();
   $("#purchaseDT").DataTable();
+
+
+
 
 });
 

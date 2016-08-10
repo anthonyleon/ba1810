@@ -62,7 +62,7 @@ class TransactionsController < ApplicationController
       @bid.auction.company
     end
     def transaction_params
-      params.require(:transaction).permit(:carrier_code, :tracking_num, :carrier, :shipment_desc, :delivered)
+      params.require(:transaction).permit(:carrier_code, :tracking_num, :carrier, :shipment_desc, :delivered, :shipping_account)
     end
 
     def set_transaction
