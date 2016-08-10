@@ -13,12 +13,21 @@
 	= @auction.destination_zip
 	= @auction.destination_country
 
-%span.card-title
+%span.card-title.destination
 	=render 'destination'
 
 / [testing purposes] should be on modal on page before this when they hit 'Proceed to Checkout'
-%button.btn.custom-btn.waves-effect.waves-light
-	= "Use your freight/shipping account?"
+%p
+%input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
+%label{:for => "filled-in-box"} Use your shipping/freight account #?
+
+.form-container
+	= form_for(@transaction, html: { class: "inline-form" }, remote: true) do |f|
+		.field.form-group.freight_num
+			= f.text_field :shipping_account, class: "form-control", placeholder: "Account #"
+		.actions.freight_num.send_ship_num{style: "margin-bottom: 20px;"}
+			= f.submit 'Submit', class: "btn custom-btn"
+		
 
 
 %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
@@ -30,29 +39,3 @@
 
 
 
-:javascript
-$(document).ready(function(){
-	$(".form-container").hide();
-	$(".armor-modal").hide();
-
-	$("#this-address").click(function(){
-		$("#this-address").hide();
-		$(".ui-action-small").show();
-		$("#change-address").click(function(){
-			$(".ui-action-small").hide();
-		});
-	});
-
-	$("#change-address").click(function(){
-		$("h6").hide(100);
-		$("#change-address").hide(100);
-		$("#this-address").hide(100);
-		$(".form-container").show(200);
-	});
-
-	$(".submit_button").click(function(){
-		$(".form-container").hide(200);
-		$(".ui-action-small").show();
-
-	});
-}):

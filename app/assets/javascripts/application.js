@@ -6,7 +6,6 @@
 //= require country_state_select
 //= require_tree .
 
-
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -54,7 +53,6 @@ $(document).ready(function() {
   dataBehavior("[data-auction-bid-behavior='delete']", "bid");
   dataBehavior("[data-engine-behavior='delete']", "engine");
   dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
-
 
 $('#engineDTDashBoard').dataTable({
     "aoColumns": [
@@ -132,7 +130,8 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true }
     ]
   });
-})
+
+});
 
 
 //= require turbolinks
