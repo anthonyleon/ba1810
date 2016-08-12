@@ -1,0 +1,34 @@
+- if !@company_doc.errors.empty?
+  .alert.alert-error
+    %ul
+      - @company_doc.errors.full_messages.each do |msg|
+        %li= msg
+%br/       
+.well
+  = form_for @company_doc, html: { multipart: true } do |f|
+    = f.label :name
+    = f.text_field :name
+    = f.label :attachment
+    = f.file_field :attachment
+    #form-group.checkbox
+    = f.check_box :resale_license
+    = f.label :resale_license, "Check if this is your Resale Certificate"
+    = f.submit "Save", class: "btn custom-btn"
+
+- if !flash[:notice].blank?
+  .alert.alert-info
+    = flash[:notice]
+%br/
+%br/
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Download Link
+      %th  
+  %tbody
+    - @company_docs.each do |document|
+      %tr
+        %td= document.name
+        %td= link_to "Download Document", document.attachment_url
+        %td= button_to "Delete",  document, method: :delete, class: "btn btn-danger", confirm: "Are you sure that you wish to delete #{document.name}?"
