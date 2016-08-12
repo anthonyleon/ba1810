@@ -35,7 +35,6 @@ class CompanyMailer < ApplicationMailer
     @bid = bid
     @bidders = Bid.where(auction_id: @bid.auction_id)
     @single_bidder = []
-    Company.uniq(@bidders)
 
     @bidders.each do |bidder|
       @single_bidder << bidder.company.email
