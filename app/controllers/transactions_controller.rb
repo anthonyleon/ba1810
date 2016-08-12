@@ -13,6 +13,7 @@ class TransactionsController < ApplicationController
         case data["event"]["type"]
         when 2  # payments received in full 
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
+          @bid.tx.update_attribute('paid', true)
           notify("Payment has been received in full please proceed to ship part", @bid, seller)
         when 16 # order cancelled
           notify("The order ##{@transaction.order_id} for part ##{@bid.auction.part_num} has been cancelled.", @bid, seller)
@@ -21,6 +22,7 @@ class TransactionsController < ApplicationController
         when 3 #goods shipped to buyer
           notify("Your purchase for part ##{@bid.auction.part_num} (order ##{@transaction.order_id}) has been shipped.", @bid, buyer)
         when 4 # goods received by buyer
+          @bid.tx.update_attribute('delivered', true)
           notify("Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", @bid, seller)
         when 5 # dispute initiated
           notify("The buyer for part #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", @bid, seller)

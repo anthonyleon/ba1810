@@ -42,8 +42,12 @@ $(document).on('ready page: load', function() {
 	$(".submit_button").click(function(){
 		$(".destination").hide(200);
 		$(".ui-action-small").show();
-
 	});
+
+	$(".confirm_cost").click(function(){
+	  $(".costs").hide(200);
+	});
+
 });
 
 

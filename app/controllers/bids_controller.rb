@@ -50,12 +50,14 @@ class BidsController < ApplicationController
 
   def update
     respond_to do |format|
+      @bid.assign_attributes(bid_params)
+      p @bid.changed?
       if @bid.update(bid_params)
-        notify_other_bidders("A bid has been updated on an auction you're competing in!")
-        notify_auctioner("A bid was updated in your auction!")
+        # notify_other_bidders("A bid has been updated on an auction you're competing in!")
+        # notify_auctioner("A bid was updated in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
-        if @bid.tracking_num # POST shipping info to armor
+        if @bid.tx.tracking_num # POST shipping info to armor
           set_armor_client
           @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.tx.carrier_code.to_i - 1]["name"])
           user_id = @bid.company.armor_user_id
@@ -98,8 +100,8 @@ class BidsController < ApplicationController
       bid_collection.uniq! { |b| b.company_id }
       bid_collection.each do |bid|
         Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id, message: message) unless bid.company == current_user
-        CompanyMailer.delay.auction_notification(bid)
-        CompanyMailer.delay.place_new_bid(bid)
+        CompanyMailer.delay(run_at: 1.minute.from_now).auction_notification(bid)
+        CompanyMailer.delay(run_at: 1.minute.from_now).place_new_bid(bid)
       end
     end
 
