@@ -1,4 +1,4 @@
-# @company = Company.create!(name: "Admin", email: 'admin@demo.com', password: 'password', password_confirmation: 'password')
+@company = Company.create!(name: "Admin", email: 'admin@demo.com', password: 'password', password_confirmation: 'password')
 # @company2 = Company.create!(name: "Company2", email: 'Company2@demo.com', password: 'password', password_confirmation: 'password')
 # # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
@@ -30,89 +30,89 @@ parts_database = [
 
 ]
 
-# parts_database.each do |description, partnum, manufacturer, manufacturer_price|
-#   Part.create(description: description, part_num: partnum, manufacturer: manufacturer, manufacturer_price: manufacturer_price)
+parts_database.each do |description, partnum, manufacturer, manufacturer_price|
+  Part.create(description: description, part_num: partnum, manufacturer: manufacturer, manufacturer_price: manufacturer_price)
+end
+
+
+i = 1
+while (i < 30)
+  Company.create( name: Faker::Company.name, email: Faker::Internet.email,  password: 'password', password_confirmation: 'password', phone: "305-726-8857", address: Faker::Address.street_address, city: Faker::Address.city, state: Faker::Address.state, zip: Faker::Address.zip_code, representative: Faker::Internet.user_name, country: Faker::Address.country_code)
+  parts_database.each do |description, partnum, manufacturer, manufacturer_price|
+    InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: i, serial_num: "191223", condition: "OH")
+  end
+  i += 1
+end
+
+
+
+# 5.times do
+#   @auction = Auction.create(company_id: @company.id, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
+# end
+
+# 5.times do
+#   AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
+#                       manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
 # end
 
 
-# i = 1
-# while (i < 30)
-#   Company.create( name: Faker::Company.name, email: Faker::Internet.email,  password: 'password', password_confirmation: 'password', phone: "305-726-8857", address: Faker::Address.street_address, city: Faker::Address.city, state: Faker::Address.state, zip: Faker::Address.zip_code, representative: Faker::Internet.user_name, country: Faker::Address.country_code)
-#   parts_database.each do |description, partnum, manufacturer, manufacturer_price|
-#     InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: i, serial_num: "191223", condition: "OH")
-#   end
-#   i += 1
-# end
 
 
+i = 0
+while (i < 16)
+  i+=1
+  Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true, destination_address: Faker::Address.street_address, destination_zip: Faker::Address.zip, destination_city: Faker::Address.city_suffix, destination_country: Faker::Address.country, required_date: Faker::Date.forward(23))
 
-# # 5.times do
-# #   @auction = Auction.create(company_id: @company.id, part_num: Faker::Company.ein, active: true, condition: "OH", condition_oh: true)
-# # end
+end
 
-# # 5.times do
-# #   AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
-# #                       manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
-# # end
-
-
-
-
-# i = 0
-# while (i < 16)
-#   i+=1
-#   Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true, destination_address: Faker::Address.street_address, destination_zip: Faker::Address.zip, destination_city: Faker::Address.city_suffix, destination_country: Faker::Address.country, required_date: Faker::Date.forward(23))
-
-# end
-
-# i = 0
-# while (i < 16)
-#   i+=1
-#   AuctionPart.create( part_num: parts_database[i-1][1], description: Faker::Company.catch_phrase,
-#                       manufacturer: Faker::Company.name, init_price: Faker::Commerce.price, auction_id: i)
-# end
+i = 0
+while (i < 16)
+  i+=1
+  AuctionPart.create( part_num: parts_database[i-1][1], description: Faker::Company.catch_phrase,
+                      manufacturer: Faker::Company.name, init_price: Faker::Commerce.price, auction_id: i)
+end
 
 
-# i = 0
-# while (i < 30)
-#   i+=1
-#   part = Faker::Commerce.price
-#   shipping = Faker::Commerce.price * 0.15
-#   tax = Faker::Commerce.price * 0.07
-#   armor = Faker::Commerce.price * 0.02
-#   bidaero = Faker::Commerce.price * 0.03
-#   total = part + shipping + tax + armor + bidaero
-#   Bid.create( total_amount: total, shipping_cost: shipping, tax: tax, armor_fee: armor, bid_aero_fee: bidaero, part_price: part, company_id: i, auction_id: Faker::Number.between(1, 16), inventory_part_id: Faker::Number.between(1, 150))
-# end
+i = 0
+while (i < 30)
+  i+=1
+  part = Faker::Commerce.price
+  shipping = Faker::Commerce.price * 0.15
+  tax = Faker::Commerce.price * 0.07
+  armor = Faker::Commerce.price * 0.02
+  bidaero = Faker::Commerce.price * 0.03
+  total = part + shipping + tax + armor + bidaero
+  Bid.create( total_amount: total, shipping_cost: shipping, tax: tax, armor_fee: armor, bid_aero_fee: bidaero, part_price: part, company_id: i, auction_id: Faker::Number.between(1, 16), inventory_part_id: Faker::Number.between(1, 150))
+end
 
-# i = 30
-# while i < 36
-#   i += 1
-#   5.times do
-#     Rating.create( packaging: rand(1..5), timeliness: rand(1..5), documentation: rand(1..5), bid_aero: rand(1..5), dependability: rand(1..5), company_id: i)
-#   end
-# end
+i = 30
+while i < 36
+  i += 1
+  5.times do
+    Rating.create( packaging: rand(1..5), timeliness: rand(1..5), documentation: rand(1..5), bid_aero: rand(1..5), dependability: rand(1..5), company_id: i)
+  end
+end
 
-# i = 1
-# while (i < 16)
-# 	i += 1
-# 	Aircraft.create( aircraft_type: Faker::Company.ein, msn: Faker::Company.ein, tail_number: Faker::StarWars.droid,
-# 									 yob: rand(1999..2016), mtow: Faker::Number.number(5), engine_major_variant: Faker::Company.name,
-# 									 engine_minor_variant: Faker::Company.name, apu_model: Faker::Company.name,
-# 									 cabin_config: Faker::Beer.hop, in_service: true, current_operator: Faker::StarWars.vehicle,
-# 									 last_operator: Faker::StarWars.vehicle, location: Faker::StarWars.planet, maintenance_status: "A - Check",
-# 									 available_date: Faker::Date.forward(229), sale: true, company_id: i)
-# end
+i = 1
+while (i < 16)
+	i += 1
+	Aircraft.create( aircraft_type: Faker::Company.ein, msn: Faker::Company.ein, tail_number: Faker::StarWars.droid,
+									 yob: rand(1999..2016), mtow: Faker::Number.number(5), engine_major_variant: Faker::Company.name,
+									 engine_minor_variant: Faker::Company.name, apu_model: Faker::Company.name,
+									 cabin_config: Faker::Beer.hop, in_service: true, current_operator: Faker::StarWars.vehicle,
+									 last_operator: Faker::StarWars.vehicle, location: Faker::StarWars.planet, maintenance_status: "A - Check",
+									 available_date: Faker::Date.forward(229), sale: true, company_id: i)
+end
 
-# i = 1
-# while (i < 29)
-# 	i += 1
-# 	Engine.create(engine_major_variant: Faker::StarWars.planet, engine_minor_variant: Faker::StarWars.planet,
-# 		esn: Faker::Company.ein, condition: "NEW", new: true, current_status: "in service", in_service: true,
-# 		current_operator: Company.find(i).name, last_operator:Company.find(i-1).name, location: Faker::StarWars.planet,
-# 		cycles_remaining: Faker::Number.number(5), available_date: Faker::Date.forward(230), lease: true, company_id: i)
-# end
+i = 1
+while (i < 29)
+	i += 1
+	Engine.create(engine_major_variant: Faker::StarWars.planet, engine_minor_variant: Faker::StarWars.planet,
+		esn: Faker::Company.ein, condition: "NEW", new: true, current_status: "in service", in_service: true,
+		current_operator: Company.find(i).name, last_operator:Company.find(i-1).name, location: Faker::StarWars.planet,
+		cycles_remaining: Faker::Number.number(5), available_date: Faker::Date.forward(230), lease: true, company_id: i)
+end
 
-# Company.all.each do |company|
-#   company.email_activate
-# end
+Company.all.each do |company|
+  company.email_activate unless company.id == 1
+end

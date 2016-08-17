@@ -39,6 +39,16 @@ class TransactionsController < ApplicationController
     render nothing: true
   end
 
+  def deduct_shipping_cost
+    @transaction = Bid.find(params[:id]).tx
+    if @transaction.update(transaction_params)
+      @transaction.bid.shipping_cost = 0
+      @transaction.bid.calculate_total_amount
+      p @transaction.bid
+      p ArmorPaymentsApi.update_order(@transaction.bid, "message" => "Buyer will be using their freight account #. Shipping costs that were quoted have been deducted from the order.")
+    end
+  end
+
   def create_shipment
     respond_to do |format|
       if @transaction.update(transaction_params)

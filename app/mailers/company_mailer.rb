@@ -32,16 +32,8 @@ class CompanyMailer < ApplicationMailer
   end
 
   def auction_notification bid
-    @bid = bid
-    @bidders = Bid.where(auction_id: @bid.auction_id)
-    @single_bidder = []
 
-    @bidders.each do |bidder|
-      @single_bidder << bidder.company.email
-    end
+      mail to: "<#{bid.company.email}>", subject: "Bids are being placed in an Auction #{@bid.auction_id}, find out how you rank!"
 
-    @single_bidder.each do |bidder|
-      mail to: "<#{bidder}>", subject: "Bids are being placed in an Auction #{@bid.auction_id}, find out how you rank!"
-    end
   end
 end

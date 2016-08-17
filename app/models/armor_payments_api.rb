@@ -40,8 +40,17 @@ class ArmorPaymentsApi
 		result[:body]["order_id"]
 	end
 
-  def self.update_order(transaction)
-    
+  def self.update_order(bid, opts = {})
+    p data = {
+      "type" => 1,
+      "amount" => bid.total_amount,
+      "invoice_num" => "123456",
+      "purchase_order_num" => "675890",
+      "message" => opts["message"]
+    }
+    order_id = bid.tx.order_id
+    p result = CLIENT.orders(bid.buyer.armor_account_id).update(order_id, data)
+
   end
 
   def self.release_payment(bid, company)

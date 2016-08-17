@@ -32,8 +32,7 @@ module BidAero
 
     # set host for production email
     config.action_mailer.default_url_options = { host: "localhost:3000" }
-    config.active_job.queue_adapter = :delayed_job
-    
+    config.active_job.queue_adapter = :sidekiq
     
     # secret keys
     config.before_configuration do

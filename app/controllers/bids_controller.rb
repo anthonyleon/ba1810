@@ -100,8 +100,8 @@ class BidsController < ApplicationController
       bid_collection.uniq! { |b| b.company_id }
       bid_collection.each do |bid|
         Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id, message: message) unless bid.company == current_user
-        CompanyMailer.delay(run_at: 1.minute.from_now).auction_notification(bid)
-        CompanyMailer.delay(run_at: 1.minute.from_now).place_new_bid(bid)
+        CompanyMailer.auction_notification(bid).deliver_later(wait: 1.minute)
+        CompanyMailer.place_new_bid(bid).deliver_later(wait_until: 1.minute.from_now)
       end
     end
 
