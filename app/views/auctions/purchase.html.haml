@@ -22,7 +22,7 @@
 %label{:for => "filled-in-box"} Use your shipping/freight account #?
 
 .form-container
-	= form_for(@transaction, html: { class: "inline-form" }, remote: true) do |f|
+	= form_for(deduct_shipping_cost_path, html: { class: "inline-form" }, remote: true) do |f|
 		.field.form-group.freight_num
 			= f.text_field :shipping_account, class: "form-control", placeholder: "Account #"
 		.actions.freight_num.send_ship_num{style: "margin-bottom: 20px;"}

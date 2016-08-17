@@ -3,6 +3,8 @@
     .card-content
       %span.card-title
         Place Bid
+        %div.card-title
+          = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}"
       = render 'form'
       #bid-inventory.container
         %table#bidDT.table.table-hover.responsive-table
