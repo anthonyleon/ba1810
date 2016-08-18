@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'sidekiq'
 gem 'country_state_select', '3.0.0'
 gem 'prawn'
 gem 'armor_payments'
