@@ -1,43 +1,46 @@
+%p#notice= notice
 .row
   .col.s12
     .card
       .card-content
-        %span.card-title.activator.grey-text.text-darken-4
-          %p#notice= notice
-          %p
+        %h5.custom-card-title.center
+          Engine
+        %hr/
+        .row
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Engine major variant:
             = @engine.engine_major_variant
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Engine minor variant:
             = @engine.engine_minor_variant
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Esn:
             = @engine.esn
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Condition:
             = @engine.condition
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Engine Status:
             = @engine.current_status
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Last operator:
             = @engine.last_operator
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Location:
             = @engine.location
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Cycles remaining:
             = @engine.cycles_remaining
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Available date:
             = @engine.available_date
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Sale:
             = @engine.sale
-          %p
+          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Lease:
             = @engine.lease
-      
+
 
           - if @engine.company == current_user
             %div
@@ -73,4 +76,9 @@
                     %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn custom-btn'
           = link_to 'Back', home_path, class: "btn custom-btn"
 
-          
+
+        - if @engine.company == current_user
+          = link_to 'Edit', edit_engine_path(@engine), class: "btn custom-btn"
+          |
+        = link_to 'Back', :back, class: "btn custom-btn"
+
