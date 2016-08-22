@@ -2,14 +2,13 @@
   *= require sweetalert
   *= require chosen
  */
- 
+
+$custom-green: #189B4C
 
 footer.page-footer
   margin-top: 20px
   padding-top: 20px
   background-color: #e0e0e0 !important
-
-$custom-green: #189B4C
 
 html
   height: 100%
@@ -97,8 +96,10 @@ table.dataTable thead th.sorting_desc:after
 
 @import "font-awesome-sprockets"
 @import "font-awesome"
+@import './helpers/mixins_helper'
 @import './base/global'
 @import './base/sidenav'
+@import './base/footer'
 @import './base/buyer_auctions'
 @import './base/inventory'
 @import 'aircrafts'

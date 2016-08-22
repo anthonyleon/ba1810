@@ -229,6 +229,7 @@ ActiveRecord::Schema.define(version: 20160817210804) do
 
   create_table "transactions", force: :cascade do |t|
     t.string   "order_id"
+    t.integer  "auction_id"
     t.integer  "inventory_part_id"
     t.string   "po_num"
     t.string   "invoice_num"

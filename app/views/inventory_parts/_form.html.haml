@@ -1,4 +1,13 @@
 .form-container
+  -if !@inventory_part.condition
+    = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+      .file-field.input-field
+        .btn.custom-btn
+          %span File
+          %input{:type => "file"}
+        .file-path-wrapper
+          %input{:type => "text", class: 'file-path validate '}
+        = submit_tag "Import", class: 'btn custom-btn clearfix'
   = simple_form_for ([@part, @inventory_part]) do |f|
     .field.form-group
       = f.text_field :part_num, placeholder: "Part number", class: "form-control"
@@ -19,14 +28,22 @@
       %p
         = f.radio_button(:condition, "scrap")
         = label :inventory_part_condition, "scrap"
-
-
-    .actions
+    .actions{style: 'margin: 5px 0'}
       = f.submit 'Submit', class: 'btn custom-btn'
-  -if !@inventory_part.condition
-    = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
-      = file_field_tag :file
-      = submit_tag "Import"
+
+  -# -if !@inventory_part.condition
+    -# = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+      -# = file_field_tag :file
+      -# = submit_tag "Import"
+  -# -if !@inventory_part.condition
+  -#   = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+  -#     .file-field.input-field
+  -#       .btn.custom-btn
+  -#         %span File
+  -#         %input{:type => "file"}
+  -#       .file-path-wrapper
+  -#         %input{:type => "text", class: 'file-path validate '}
+  -#         = submit_tag "Import", class: 'btn custom-btn clearfix'
 
 :javascript
   $(document).ready(function() {
