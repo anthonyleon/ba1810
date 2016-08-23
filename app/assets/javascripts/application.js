@@ -53,6 +53,7 @@ $(document).ready(function() {
   dataBehavior("[data-auction-bid-behavior='delete']", "bid");
   dataBehavior("[data-engine-behavior='delete']", "engine");
   dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
+  dataBehavior("[data-company-purchase-behavior='delete']", "company");
 
 $('#engineDTDashBoard').dataTable({
     "aoColumns": [
