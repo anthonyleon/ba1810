@@ -14,19 +14,23 @@
               %th Bid Count
               %th Lowest Bid
               %th
-              %th
           %tbody
             - @owned_auctions.each do |auction|
               %tr
                 %td= link_to auction.part_num, auction
-                %td= AuctionPart.find(auction.id).description
+                %td= auction.auction_part.description
                 %td= auction.condition
                 %td= auction.created_at.strftime("%m/%d/%Y")
                 %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
                 %td= auction.bids.count
                 %td= number_to_currency auction.bids.minimum(:total_amount) unless auction.bids.empty?
-                %td= link_to 'Edit', edit_auction_path(auction)
-                / %td= link_to 'Delete', auction, method: :delete, data: { confirm: 'Are you sure?' }
-                %td= link_to 'Delete', auction, data: { buyer_auctions_behavior: 'delete' } if auction.company == current_user
-        %div{style: "text-align: left;"}
+                %td.clearfix
+                  = link_to edit_auction_path(auction) do
+                    %span.material-icons.amber-text.icon-34
+                      mode_edit
+                  - if auction.company == current_user
+                    = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
+                      %span.material-icons.red-text.icon-34
+                        delete_forever
+        %div{style: "text-align: left;margin:10px 0;"}
           = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'

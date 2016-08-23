@@ -19,7 +19,7 @@
                 %th Manufacturer
             %tbody
               - @match_parts.each do |inventory|
-                %tr#cursor-row{"data-inventory-part-id" => "\#{inventory.id}"}
+                %tr#cursor-row{ data: { "inventory-part-id": inventory.id , url: auction_bids_path(inventory) } }
                   %td.srchtbl= inventory.part_num
                   %td.srchtbl= inventory.description
                   %td.srchtbl= inventory.serial_num
