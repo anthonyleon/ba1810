@@ -26,20 +26,11 @@
             Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
           %br/
           = form_for ([@inventory_part, @document]), html: { multipart: true, class: "form-inline" } do |f|
-            .file-field.input-field
-              .btn.custom-btn
-                %span
-                  %i.material-icons
-                    file_upload
-                = f.file_field :attachment
-              .file-path-wrapper
-                %input.file-path.validate{:type => "text"}
-              = f.submit "Upload", class: "btn custom-btn"
-          -# = form_for ([@inventory_part, @document]), html: { multipart: true, class: "form-inline" } do |f|
-            -# = f.text_field :name, class: "form-control", placeholder: "Title"
-            -# = f.file_field :attachment
+            = f.text_field :name, class: "form-control", placeholder: "Title"
+            = f.file_field :attachment
+            = f.submit "Upload", class: 'btn custom-btn'
 
-      #documents.col-md-12
+      #documents.col-md-12.container
         - if @inventory_part.documents.empty?
           %p There are no documents associated with this part.
         - else
