@@ -38,7 +38,9 @@
           = hidden_field_tag 'is_available_aircraft', 'true'
           %td
             %span
-              = link_to 'Edit', edit_aircraft_path(aircraft)
+              = link_to edit_aircraft_path(aircraft) do
+                %span.material-icons.amber-text.icon-34
+                  mode_edit
               = link_to aircraft, data: { aircraft_behavior: 'delete' } do
                 %span.material-icons.red-text.icon-34
                   delete_forever

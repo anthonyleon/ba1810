@@ -104,8 +104,8 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": false },
-      { "bSortable": false }
-    ]
+    ],
+    "columnDefs": [{ "width": "80px", "targets": 7 }]
   });
   $('#mybidsDT').dataTable({
     "aoColumns": [
