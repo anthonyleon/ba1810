@@ -1,19 +1,19 @@
 /*
   *= require sweetalert
-  *= require chosen
  */
 
 $custom-green: #189B4C
-
-footer.page-footer
-  margin-top: 20px
-  padding-top: 20px
-  background-color: #e0e0e0 !important
 
 html
   height: 100%
 body
   font-family: 'Roboto', sans-serif
+
+label.select.optional
+  opacity: 0
+.chosen-search input[type="text"]
+  padding-right: 0 !important
+  padding-left: 0 !important
 
 .Site
   min-height: 100vh
@@ -94,6 +94,7 @@ table.dataTable thead th.sorting_desc:after
 .red-bell
   animation: changetransform 0.3s infinite alternate
 
+@import "chosen"
 @import "font-awesome-sprockets"
 @import "font-awesome"
 @import './helpers/mixins_helper'
