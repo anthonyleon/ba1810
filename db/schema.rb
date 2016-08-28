@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817210804) do
+ActiveRecord::Schema.define(version: 20160822173040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -243,6 +243,7 @@ ActiveRecord::Schema.define(version: 20160817210804) do
     t.boolean  "delivered"
     t.boolean  "paid"
     t.string   "shipping_account"
+    t.float    "tax_rate"
   end
 
   add_foreign_key "aircrafts", "companies"

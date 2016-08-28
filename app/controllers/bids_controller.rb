@@ -51,7 +51,7 @@ class BidsController < ApplicationController
   def update
     respond_to do |format|
       @bid.assign_attributes(bid_params)
-      p @bid.changed?
+      p ArmorPaymentsApi.update_order(@bid) if @bid.changed?
       if @bid.update(bid_params)
         # notify_other_bidders("A bid has been updated on an auction you're competing in!")
         # notify_auctioner("A bid was updated in your auction!")
