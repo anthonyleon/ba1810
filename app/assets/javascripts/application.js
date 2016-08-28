@@ -6,6 +6,21 @@
 //= require country_state_select
 //= require_tree .
 
+
+
+$(document).ready(function() {
+  var $flashTransition = $('.flash-transition');
+  if (!!$flashTransition.length > 0) {
+    $('.flash-transition').css({
+      'color': 'white',
+      '-webkit-transition': '1.5s',
+      'transition': '1.5s',
+      'height': '40px',
+      'margin': '10px auto'
+    })
+  }
+})
+
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -15,7 +30,7 @@ $(document).ready(function() {
   var dataBehavior = function(data, message) {
     $(data).on("click", function(e){
       e.preventDefault();
-      var self = this;
+      var self = $(this);
       swal({
         title: "Are you sure?",
         text: "You will not be able to recover this "+ message + ".",
