@@ -97,6 +97,39 @@ table.dataTable thead th.sorting_desc:after
 .red-bell
   animation: changetransform 0.3s infinite alternate
 
+@mixin display-flex
+  display: flex
+
+@mixin justify-content($value: center)
+  justify-content: $value
+
+@mixin align-items($value: center)
+  align-items: $value
+
+@mixin flash-div
+  display: none
+  height: 0
+  width: 80%
+  border-radius: 3px
+  color: transparent
+  @include display-flex
+  @include justify-content(center)
+  @include align-items(center)
+
+// Flash
+#flash-success
+  background-color: #00e676
+  @include flash-div
+#flash-notice
+  background-color: #29b6f6
+  @include flash-div
+#flash-error
+  background-color: #f44336
+  @include flash-div
+#flash-warning
+  background-color: #fdd835
+  @include flash-div
+
 @import "chosen"
 @import "font-awesome-sprockets"
 @import "font-awesome"
