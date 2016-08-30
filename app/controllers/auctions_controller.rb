@@ -74,7 +74,7 @@ class AuctionsController < ApplicationController
     if @bid.tx 
       @transaction = @bid.tx 
     else
-      @transaction = Transaction.create_armor_order(@bid)
+      @transaction = Transaction.create_armor_order(@bid) # delete for testing
       ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
       action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.total_amount }
       p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822173040) do
+ActiveRecord::Schema.define(version: 20160830175943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,22 @@ ActiveRecord::Schema.define(version: 20160822173040) do
 
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
   create_table "documents", force: :cascade do |t|
     t.string   "name"
     t.string   "attachment"
@@ -234,8 +250,8 @@ ActiveRecord::Schema.define(version: 20160822173040) do
     t.string   "invoice_num"
     t.integer  "seller_id"
     t.integer  "buyer_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "carrier_code"
     t.string   "tracking_num"
     t.string   "carrier"
@@ -243,7 +259,7 @@ ActiveRecord::Schema.define(version: 20160822173040) do
     t.boolean  "delivered"
     t.boolean  "paid"
     t.string   "shipping_account"
-    t.float    "tax_rate"
+    t.float    "tax_rate",          default: 0.0
   end
 
   add_foreign_key "aircrafts", "companies"
