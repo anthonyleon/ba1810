@@ -4,7 +4,7 @@ class AircraftsController < ApplicationController
   def index
     @aircrafts = Aircraft.all
   end
-  
+
   def show
     @document = Document.new
   end
@@ -15,7 +15,7 @@ class AircraftsController < ApplicationController
 
   def edit
   end
-  
+
   def create
     @aircraft = Aircraft.new(aircraft_params)
     @aircraft.company = current_user
@@ -29,8 +29,8 @@ class AircraftsController < ApplicationController
         format.json { render json: @aircraft.errors, status: :unprocessable_entity }
       end
     end
-  end 
-  
+  end
+
   def update
     respond_to do |format|
       if @aircraft.update(aircraft_params)
@@ -52,11 +52,11 @@ class AircraftsController < ApplicationController
   end
 
   private
-    
+
     def set_aircraft
       @aircraft = Aircraft.find(params[:id])
     end
-    
+
     def aircraft_params
       params.require(:aircraft).permit(:company_id, :aircraft_type, :msn, :tail_number, :yob, :mtow, :engine_major_variant, :engine_minor_variant, :apu_model, :cabin_config, :in_service, :off_service, :current_operator, :last_operator, :location, :maintenance_status, :available_date, :sale, :lease, :service_status, :document_id)
     end

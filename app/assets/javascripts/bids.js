@@ -1,17 +1,10 @@
 $(document).on('ready page: load', function() {
-	console.log('step1');
-  $('table tbody tr').click(function(){
-    $(this).toggleClass('active');
-    var hiddenField = $('#hiddeninv').val();
-    var mydata = $('data-inventory-part-id').data();
-  });
-  console.log('step2');
 	$("#paymentInstructionsFrame-lightbox-preview").click(function(){
 		var url = $(this).attr("data-url");
 		armor.openModal(url);
 	});
 	console.log('end');
-	
+
 	$(".destination").hide();
 	$(".armor-modal").hide();
 	$(".freight_num").hide();
@@ -50,5 +43,22 @@ $(document).on('ready page: load', function() {
 
 });
 
+// $(document).on('click', 'table tbody tr', function(){
+//   $(this).toggleClass('active');
 
+//   var self = $(this),
+//       hiddenField = $('#hiddeninv').val(),
+//       url = self.data('url');
+
+//   $.ajax({
+//     url: url,
+//     type: 'POST',
+//     dataType: 'JSON',
+//     data: { param1: 'value1' },
+//   })
+//   .done(function(data) {
+//     console.log("success");
+//   });
+
+// });
 
