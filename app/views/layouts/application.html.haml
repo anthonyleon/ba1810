@@ -21,12 +21,15 @@
 
 
   %body{:class => "#{body_class} Site"}
+    - unless current_user
+      = render partial: 'layouts/commons/flash'
     - if current_user
       %main
         = render "./layouts/commons/navbar"
         .custom-container
+          = render partial: 'layouts/commons/flash'
           = yield
-        = render partial: 'layouts/commons/footer'
+      = render partial: 'layouts/commons/footer'
     - else
       .new-session.background
         .container

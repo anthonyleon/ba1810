@@ -9,9 +9,12 @@
   %td= link_to 'Part Documents', inventory_part_path(bid.inventory_part, bid_id: bid.id)
 - if bid.company == current_user
   / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
-  %td= link_to 'Delete', auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' }
+  %td
+    = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
+      %span.material-icons.red-text.icon-34
+        delete_forever
   / testing purposes
-  ///////////// we need an edit bid button 
+  ///////////// we need an edit bid button
 - elsif @auction.company == current_user
   %td= button_to "Proceed to Checkout", {:controller => :auctions, :action => 'purchase', :id => bid.id, :auction_id => @auction.id }, :method => :post
   / %td= link_to 'Buy Part', auction_purchase_path(@auction.id, bid.id)

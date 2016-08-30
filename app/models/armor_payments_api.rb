@@ -33,7 +33,7 @@ class ArmorPaymentsApi
 			"description" => bid.inventory_part.condition,
 			"invoice_num" => "123456",
 			"purchase_order_num" => "675890",
-			"message" => "Hello, Example Buyer! Thank you for your example goods order." 
+			"message" => "Hello, Example Buyer! Thank you for your example goods order."
 		}
 		# is this the buyer or seller id? TESTING PURPOSES
 		result = CLIENT.orders(bid.buyer.armor_account_id).create(data)

@@ -1,10 +1,11 @@
-
-$(document).on('ready page:load', function() {
+$(function(){
   return CountryStateSelect({
     country_id: "company_country",
     state_id: "company_state"
   });
-});
+  $('.chosen-single').materialize_select();
+})
+
 
 
 $(document).on('ready page:load', function(){
@@ -45,4 +46,3 @@ $(function() {
 });
 
 
-           
