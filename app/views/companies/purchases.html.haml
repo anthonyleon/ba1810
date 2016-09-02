@@ -24,8 +24,10 @@
             %td.srchtbl= number_to_currency transaction.bid.total_amount
             -if transaction.delivered && !transaction.paid
               %td= link_to 'Release Payment', auction_bid_path(transaction.auction, transaction.bid)
+            -elsif transaction.delivered && transaction.paid
+              %td= link_to 'Completed', auction_bid_path(transaction.auction, transaction.bid)
             -else
-              %td= link_to 'Show', auction_bid_path(transaction.auction, transaction.bid)
+              %td= link_to 'Pending', auction_bid_path(transaction.auction, transaction.bid)
             / %td= button_to 'Release Funds', {controller: "bids", action: "release_payment", id: bid.id, auction_id: bid.auction.id}, method: "post" unless !bid.delivered || bid.auction.paid
 
 
