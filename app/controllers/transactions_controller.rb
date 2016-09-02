@@ -43,7 +43,7 @@ class TransactionsController < ApplicationController
     @transaction = Bid.find(params[:id]).tx
     if @transaction.update(transaction_params)
       @transaction.bid.shipping_cost = 0
-      @transaction.bid.calculate_total_amount
+      @transaction.calculate_total_payment
       p @transaction.bid
       p ArmorPaymentsApi.update_order(@transaction.bid, "message" => "Buyer will be using their freight account #. Shipping costs that were quoted have been deducted from the order.")
     end
