@@ -21,7 +21,7 @@
               %td= auction.created_at.strftime("%m/%d/%Y")
               %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
               %td= auction.bids.count
-              %td= number_to_currency auction.bids.minimum(:total_amount) unless auction.bids.empty?
+              %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
               %td.clearfix
                 = link_to edit_auction_path(auction) do
                   %span.material-icons.amber-text.icon-34
