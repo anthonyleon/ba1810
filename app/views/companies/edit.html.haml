@@ -9,5 +9,6 @@
         = render 'form'
 
 %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"}
-  = image_tag "/images/armor_payments_select_payout.jpg", height: 80, width: 250, style: "border-radius:10px"
+%div.center
+  %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"}
+    = image_tag "/images/armor_payments_select_payout.jpg", height: 70, width: 250, style: "border-radius:10px"

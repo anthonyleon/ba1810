@@ -1,29 +1,28 @@
-- unless @supplier_auctions.nil? || @supplier_auctions.empty?
-  .row
-    .card
-      .card-content
-        %table.table.striped.responsive-table#mybidsDT.bordered
-          %thead
+.row
+  .card
+    .card-content
+      %table.table.striped.responsive-table#mybidsDT.bordered
+        %thead
+          %tr
+            %th Part Number
+            %th Description
+            %th Conditions
+            %th Start Date
+            %th Days Active
+            %th Lowest Bid
+            %th My Bid Price
+            %th
+        %tbody
+          - @supplier_auctions.each do |auction|
             %tr
-              %th Part Number
-              %th Description
-              %th Conditions
-              %th Start Date
-              %th Days Active
-              %th Lowest Bid
-              %th My Bid Price
-              %th
-          %tbody
-            - @supplier_auctions.each do |auction|
-              %tr
-                %td= link_to auction.part_num, auction
-                %td= auction.auction_part.description
-                %td= auction.condition
-                %td= auction.created_at.strftime("%m/%d/%Y")
-                %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-                %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
-                %td= number_to_currency Bid.where(company_id: current_user.id).find_by(auction_id: auction.id).part_price
-                %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => auction.bids.find_by(company_id: current_user.id).id, :auction_id => auction.id }, :method => :get
-                -# edit_auction_bid_path(auction, @bid)
-        %div{style: "text-align: left;"}
-          = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
+              %td= link_to auction.part_num, auction
+              %td= auction.auction_part.description
+              %td= auction.condition
+              %td= auction.created_at.strftime("%m/%d/%Y")
+              %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+              %td= number_to_currency auction.bids.minimum(:total_amount) unless auction.bids.empty?
+              %td= number_to_currency Bid.where(company_id: current_user.id).find_by(auction_id: auction.id).total_amount
+              %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => auction.bids.find_by(company_id: current_user.id).id, :auction_id => auction.id }, :method => :get
+              -# edit_auction_bid_path(auction, @bid)
+      %div{style: "text-align: left;"}
+        = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
