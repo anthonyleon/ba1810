@@ -74,16 +74,19 @@ class AuctionsController < ApplicationController
     if @bid.tx 
       @transaction = @bid.tx 
     else
-      @transaction = Transaction.create_armor_order(@bid) # delete for testing
+      
+      @transaction = Transaction.create_order(@bid) # delete for testing
+      @transaction.calculate_total_payment
+      @transaction.create_armor_order
       ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
-      action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.total_amount }
+      action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.tx.total_amount }
       p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
       # webhook saying full payment has been received for the below notification
       notify_of_sale("You have won an auction! Please proceed with shipment process.")
     end
 
     ## get URL modal popup
-    p @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction)
+    @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction)
 
     @auction.update(active: false)
 

@@ -11,11 +11,9 @@ class Transaction < ActiveRecord::Base
   TIER3 = 500_000
   TIER4 = 1_000_000
 
-	def self.create_armor_order(bid)
-		armor_order_id = ArmorPaymentsApi.create_order(bid)
+	def self.create_order(bid)
 
 		self.create(
-			order_id: armor_order_id,
 			buyer_id: bid.buyer.id,
 			seller_id: bid.seller.id,
 			inventory_part: bid.inventory_part,
@@ -55,6 +53,11 @@ class Transaction < ActiveRecord::Base
     
     self.total_fee = self.armor_fee + self.bid_aero_fee
     self.total_amount = price_before_fees + self.total_fee
+    self.save!
+  end
+
+  def create_armor_order
+    self.order_id = ArmorPaymentsApi.create_order(self.bid)
     self.save!
   end
 
