@@ -28,7 +28,7 @@ class ArmorPaymentsApi
 			"type" => 1,
 			"seller_id" => bid.seller.armor_user_id,
 			"buyer_id" => bid.buyer.armor_user_id,
-			"amount" => bid.total_amount,
+			"amount" => bid.tx.total_amount,
 			"summary" => bid.auction.part_num,
 			"description" => bid.inventory_part.condition,
 			"invoice_num" => "123456",
@@ -43,7 +43,7 @@ class ArmorPaymentsApi
   def self.update_order(bid, opts = {})
     p data = {
       "type" => 1,
-      "amount" => bid.total_amount,
+      "amount" => bid.tx.total_amount,
       "invoice_num" => "123456",
       "purchase_order_num" => "675890",
       "message" => opts["message"]

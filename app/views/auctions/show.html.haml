@@ -60,7 +60,7 @@
                   %th Est. Shipping
                   %th Avg Rating
               %tbody
-                - @auction.bids.order(total_amount: :asc).each do |bid|
+                - @auction.bids.order(part_price: :asc).each do |bid|
                   %tr#cursor-row
                     = render bid
 
