@@ -1,31 +1,31 @@
-- unless @sales_opportunities.nil? || @sales_opportunities.empty?
-  .row
-    .card
-      .card-content
-        %table.table.striped.responsive-table#currentOpportunitiesDT.bordered
-          %thead
+.row
+  .card
+    .card-content
+      %table.table.striped.responsive-table#currentOpportunitiesDT.bordered
+        %thead
+          %tr
+            %th Part Number
+            %th Description
+            %th Conditions
+            %th Start Date
+            %th Days Active
+            %th Amount of Bids
+            %th Lowest Bid
+        %tbody
+          - @sales_opportunities.each do |auction|
             %tr
-              %th Part Number
-              %th Description
-              %th Conditions
-              %th Start Date
-              %th Days Active
-              %th Amount of Bids
-              %th Lowest Bid
-          %tbody
-            - @sales_opportunities.each do |auction|
-              %tr
-                %td= link_to auction.part_num, auction
-                %td= auction.auction_part.description
-                %td= auction.condition
-                %td= auction.created_at.strftime("%m/%d/%Y")
-                %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-                %td= auction.bids.count
-                -if auction.bids.empty?
-                  %td= "N/A"
-                -else
-                  %td= number_to_currency auction.bids.minimum(:part_price)
-                -# %td= link_to 'Edit', edit_auction_path(auction)
-                -# %td= link_to 'Delete', auction, data: { current_opportunities_behavior: 'delete' }
-        %div{style: "text-align: left;"}
-          = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
+              %td= link_to auction.part_num, auction
+              %td= auction.auction_part.description
+              %td= auction.condition
+              %td= auction.created_at.strftime("%m/%d/%Y")
+              %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+              %td= auction.bids.count
+              -if auction.bids.empty?
+                %td= "N/A"
+              -else
+                %td= number_to_currency auction.bids.minimum(:total_amount)
+              -# %td= link_to 'Edit', edit_auction_path(auction)
+              -# %td= link_to 'Delete', auction, data: { current_opportunities_behavior: 'delete' }
+      %div{style: "text-align: left;"}
+        = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
+
