@@ -23,7 +23,7 @@ class AuctionsController < ApplicationController
     @auction = Auction.new(auction_params)
     @part_match = Part.find_by(part_num: @auction.part_num)
     @auction.condition_match
-
+    @auction.resale_check
     respond_to do |format|
 
       if @part_match
