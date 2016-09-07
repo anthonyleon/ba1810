@@ -25,9 +25,6 @@ parts_database = [
   ["VHF TRANSCEIVER", "822-1044-004", "ROCKWELL COLLINS", 33252],
   ["ALTIMETER TRANSCEIVER", "9599-607-14", "BRITISH AEROSPACE", 20077],
   ["TCAS COMPUTER", "9000000-20004", "ACSS", 99369]
-
-
-
 ]
 
 parts_database.each do |description, partnum, manufacturer, manufacturer_price|
