@@ -1,7 +1,7 @@
 %h1
 	="Auction for #{@auction.part_num}"
 -if @bid.buyer
-	-if @auction.resale_yes
+	-if @auction.resale_no
 		%h5
 			= "Please enter correct tax rate for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}"
 	/ .form-container # need this to be an ajax post to UPDATE the @transaction.tax_rate
@@ -18,6 +18,5 @@
 		%h4
 			="Buyer would like to use their shipping account number for shipping "
 
-	-if 
 
 		
