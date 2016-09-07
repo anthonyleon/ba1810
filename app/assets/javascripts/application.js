@@ -6,6 +6,10 @@
 //= require country_state_select
 //= require_tree .
 
+$("form").on('ajax:success', function(event, data, status, xhr) {
+  console.log("Great!");
+});
+
 
 
 $(document).ready(function() {

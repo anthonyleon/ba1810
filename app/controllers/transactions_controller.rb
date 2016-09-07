@@ -39,13 +39,13 @@ class TransactionsController < ApplicationController
     render nothing: true
   end
 
-  def deduct_shipping_cost
-    @transaction = Bid.find(params[:id]).tx
+  def deduct_shipping_cost ## this is wrong.. what's the right way to do this Henry
+    @transaction = Auction.find(params[:id]).tx
     if @transaction.update(transaction_params)
       @transaction.final_shipping_cost = 0
       @transaction.calculate_total_payment
-      p @transaction.bid
-      p ArmorPaymentsApi.update_order(@transaction.bid, "message" => "Buyer will be using their freight account #. Shipping costs that were quoted have been deducted from the order.")
+      @transaction.bid
+      ArmorPaymentsApi.update_order(@transaction.bid, "message" => "Buyer will be using their freight account #. Shipping costs that were quoted have been deducted from the order.")
     end
   end
 

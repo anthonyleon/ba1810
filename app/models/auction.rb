@@ -26,6 +26,11 @@ class Auction < ActiveRecord::Base
         condition
     end
 
+
+  def full_address
+    return "#{self.destination_address}, #{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
+  end
+
     # def self.get_sales_opportunities(user)
     #   parts = user.inventory_parts
     #   sales_opportunities = []

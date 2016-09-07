@@ -41,14 +41,15 @@
         %hr/
         %p.flow-text
           New List Price:
-          = number_to_currency @msrp
+          %strong
+            = number_to_currency @msrp
         - if @auction.bids.empty?
           .nobid.center-align
             %p.flow-text There are no bids on this auction yet.
         - else
           #bids-container
-            %div
-              %h2 Bids
+            %h4.custom-card-title.center
+              Bids
             %table.table.responsive-table.bordered
               %thead
                 %tr

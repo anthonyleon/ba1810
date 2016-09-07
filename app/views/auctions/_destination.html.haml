@@ -1,6 +1,6 @@
 .form-container
   %p#alert= alert
-  = form_for(@auction, html: { class: "inline-form" }, remote: true) do |f|
+  = form_for(@auction, html: { class: "inline-form" }, remote: true ) do |f|
     - if @auction.errors.any?
       #error_explanation
         %h2
@@ -19,7 +19,15 @@
       = f.text_field :destination_zip, class: "form-control", placeholder: "Destination Zip Code"
     .field.form-group
       = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
+    .field
+      = f.date_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
     %br/
     .actions.submit_button
       = f.submit 'Submit', class: "btn custom-btn"
     %br/
+
+
+:javascript
+  $('.datepicker').pickadate({
+    selectMonths: true
+  });
