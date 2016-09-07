@@ -29,6 +29,7 @@ class TransactionsController < ApplicationController
         when 6 # order accepted (ie. funds released from buyer to seller)
           Transaction.find_by(order_id: data["event"]["order_id"]).transfer_inventory #have to do something about this. Doesn't account for if a part is being sent to be put on an engine or aircraft.
           notify("The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.", @bid, seller)
+          
         end
       end
     else
