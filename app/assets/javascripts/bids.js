@@ -23,7 +23,6 @@ $(document).on('ready page: load', function() {
 	});
 
 	$("#change-address").click(function(){
-		// $("h6").hide(100);
 		$("#change-address").hide(100);
 		$("#this-address").hide(100);
 		$(".destination").show(200);
@@ -32,12 +31,15 @@ $(document).on('ready page: load', function() {
 	$(".submit_button").click(function(){
 		$(".destination").hide(200);
 		$(".shipping_account").show(100);
+		$(".proceed").show(100);
 	});
 
 	$(".checkbox").click(function(){
 		$(".freight_num").toggle(200);
+		$(".proceed").toggle();
 		$(".send_ship_num").click(function(){
 			$(".freight_num").hide(200);
+			$(".proceed").show(100);
 		});
 	});
 

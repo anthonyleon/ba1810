@@ -85,14 +85,13 @@ class AuctionsController < ApplicationController
 
     ## get URL modal popup
     @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction)
-
-    @auction.update(active: false)
   end
 
   def purchase 
     @transaction = @auction.tx
     @transaction.calculate_total_payment
     @transaction.create_armor_order
+    @auction.update(active: false)
   end
 
   private
