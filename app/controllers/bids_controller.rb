@@ -11,10 +11,10 @@ class BidsController < ApplicationController
     @carriers = ArmorPaymentsApi.carriers_list
     ## uncomment to see modal when shipment info not set delete out of testing purposes
     @url = ArmorPaymentsApi.release_payment(@bid, current_user)
-    if @transaction.carrier_code != nil
-      @url = ArmorPaymentsApi.release_payment(@bid, current_user)
-      # funds_released
-    end
+    # if @transaction.carrier_code
+    #   @url = ArmorPaymentsApi.release_payment(@bid, current_user)
+    #   # funds_released
+    # end
     @company = @bid.company
     @rating = Rating.new
   end

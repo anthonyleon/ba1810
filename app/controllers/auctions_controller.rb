@@ -92,6 +92,8 @@ class AuctionsController < ApplicationController
     @transaction.calculate_total_payment
     @transaction.create_armor_order
     @auction.update(active: false)
+    @carriers = ArmorPaymentsApi.carriers_list
+    @url = ArmorPaymentsApi.release_payment(@bid, current_user) if @transaction.delivered
   end
 
   private
