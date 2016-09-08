@@ -36,6 +36,7 @@ gem 'font-awesome-sass'
 gem 'sweetalert-rails'
 gem 'httparty'
 gem 'nokogiri'
+gem 'useragent'
 
 group :development, :test do
   gem "erb2haml", :group => :development

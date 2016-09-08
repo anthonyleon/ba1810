@@ -78,11 +78,7 @@ while (i < 30)
   i+=1
   part = Faker::Commerce.price
   shipping = Faker::Commerce.price * 0.15
-  tax = Faker::Commerce.price * 0.07
-  armor = Faker::Commerce.price * 0.02
-  bidaero = Faker::Commerce.price * 0.03
-  total = part + shipping + tax + armor + bidaero
-  Bid.create( total_amount: total, shipping_cost: shipping, tax: tax, armor_fee: armor, bid_aero_fee: bidaero, part_price: part, company_id: i, auction_id: Faker::Number.between(1, 16), inventory_part_id: Faker::Number.between(1, 150))
+  Bid.create( part_price: part, est_shipping_cost: shipping, company_id: i, auction_id: Faker::Number.between(1, 16), inventory_part_id: Faker::Number.between(1, 150))
 end
 
 i = 30
@@ -114,5 +110,5 @@ while (i < 29)
 end
 
 Company.all.each do |company|
-  company.email_activate unless company.id == 1
+  company.email_activate unless !company.state
 end

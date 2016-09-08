@@ -6,23 +6,22 @@
 //= require country_state_select
 //= require_tree .
 
-$("form").on('ajax:success', function(event, data, status, xhr) {
-  console.log("Great!");
-});
-
-
 
 $(document).ready(function() {
   var $flashTransition = $('.flash-transition');
   if (!!$flashTransition.length > 0) {
     $('.flash-transition').css({
       'color': 'white',
-      '-webkit-transition': '1.5s',
-      'transition': '1.5s',
+      '-webkit-transition': '1.2s',
+      'transition': '1.2s',
       'height': '40px',
       'margin': '10px auto'
     })
   }
+  setTimeout(function(){
+    $('.flash-transition').height(0);
+    $('.flash-transition').text("");
+  },3500)
 })
 
 String.prototype.capitalize = function() {
