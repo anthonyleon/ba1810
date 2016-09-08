@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   patch 'update_order' => 'transactions#deduct_shipping_cost', as: "deduct_shipping_cost"
   get 'notifications/index'
 
+
   resources :ratings
   get 'documents/index'
 
