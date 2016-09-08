@@ -56,6 +56,22 @@ class Transaction < ActiveRecord::Base
     self.save!
   end
 
+  def complete
+    self.complete = true
+  end
+  
+  def paid
+    self.paid = true
+  end
+
+  def delivered
+    self.delivered = true
+  end
+
+  def shipped
+    
+  end
+
   def create_armor_order
     self.order_id = ArmorPaymentsApi.create_order(self.bid)
     self.save!

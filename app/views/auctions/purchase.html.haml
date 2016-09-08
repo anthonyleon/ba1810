@@ -14,7 +14,7 @@
 / 			= f.text_field :final_shipping_cost, class: "form-control", placeholder: "Final Shipping Cost" if !@transaction.shipping_account
 / 		.actions.freight_num.send_ship_num{style: "margin-bottom: 20px;"}
 / 			= f.submit 'Submit', class: "btn custom-btn"
--if @transaction.paid
+-if @transaction.paid && !@transaction.shipped
 	%h4
 	-if @transaction.shipping_account
 		="Buyer would like to use their shipping account number for shipping. Please ship product using #{@transaction.shipping_account}." 
