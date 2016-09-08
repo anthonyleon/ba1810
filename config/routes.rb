@@ -5,13 +5,12 @@ Rails.application.routes.draw do
 
   resources :engines do
     resources :documents, shallow: true
-  end 
+  end
 
 
   resources :aircrafts do
     resources :documents, shallow: true
   end
-
 
 
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
@@ -36,8 +35,8 @@ Rails.application.routes.draw do
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
   get 'auctions/:auction_id/bids/:id/purchase_confirmation' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
   get 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase', as: 'auction_purchase'
-  
-  
+
+
 
   get 'sales' => 'companies#sales', as: 'sales'
   get 'purchases' => 'companies#purchases', as: 'purchases'
@@ -69,7 +68,7 @@ Rails.application.routes.draw do
 
 
   resources :company_docs
-  
+
 
 
   # resources :companies do
