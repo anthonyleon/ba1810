@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   end
 
 
-
+  patch "/update_transaction/:id" => 'transactions#update', as: "transaction"
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
-  patch 'transactions/:id' => 'transactions#create_shipment', as: "transaction"
+  patch 'transactions/:id' => 'transactions#create_shipment', as: "create_shipment"
   patch '/auctions/:auction_id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
   get 'notifications/index'
 

@@ -23,21 +23,21 @@ class ArmorPaymentsApi
     return { armor_user_number: user_id, armor_account_number: armor_account_num }
   end
 
-  def self.create_order(bid)
+  def self.create_order(transaction)
     p data = {
      "type" => 1,
-     "seller_id" => bid.seller.armor_user_id,
-     "buyer_id" => bid.buyer.armor_user_id,
-     "amount" => bid.tx.total_amount,
-     "summary" => bid.auction.part_num,
-     "description" => bid.inventory_part.condition,
-     "invoice_num" => "123456",
-     "purchase_order_num" => "675890",
-     "message" => "Hello, Example Buyer! Thank you for your example goods order."
+     "seller_id" => transaction.seller.armor_user_id,
+     "buyer_id" => transaction.buyer.armor_user_id,
+     "amount" => transaction.total_amount,
+     "summary" => transaction.auction.part_num,
+     "description" => transaction.part.condition,
+     "invoice_num" => transaction.invoice_num,
+     "purchase_order_num" => transaction.po_num,
+     "message" => "Order has been created. Awaiting buyer funds."
    }
-   p bid.tx.total_amount
+   p transaction.total_amount
    p "***" * 80
-   p result = CLIENT.orders(bid.seller.armor_account_id).create(data)
+   p result = CLIENT.orders(transaction.seller.armor_account_id).create(data)
    p result[:body]["order_id"]
  end
 
@@ -64,7 +64,7 @@ end
 
 def self.get_payment_url(company, transaction)
   auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/orders/#{transaction.order_id}/paymentinstructions", 'action' => 'view' }
-  result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
+  p result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
   result.data[:body]["url"]
 end
 
@@ -81,12 +81,12 @@ end
 def self.create_shipment_record(bid)
     #testing purposes carrier name not being passed through form.. because of _shipment partial 'options_for_select'
     bid.tx.update_attribute('carrier', CLIENT.shipmentcarriers.all[:body][bid.tx.carrier_code.to_i - 1]["name"])
-    user_id = bid.company.armor_user_id
-    account_id = bid.company.armor_account_id
+    user_id = bid.seller.armor_user_id
+    account_id = bid.seller.armor_account_id
     order_id = bid.tx.order_id
     action_data = { "user_id" => user_id, "carrier_id" => bid.tx.carrier_code, "tracking_id" => bid.tx.tracking_num,
-     "description" => bid.tx.shipment_desc }
-     result = CLIENT.orders(account_id).shipments(order_id).create(action_data)
+    "description" => bid.tx.shipment_desc }
+    result = CLIENT.orders(account_id).shipments(order_id).create(action_data)
    end
 
  end
