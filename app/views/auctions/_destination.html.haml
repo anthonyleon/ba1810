@@ -20,7 +20,7 @@
     .field.form-group
       = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
     .field
-      = f.date_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
+      = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
     %br/
     .actions.submit_button
       = f.submit 'Submit', class: "btn custom-btn"

@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
   patch 'transactions/:id' => 'transactions#create_shipment', as: "transaction"
-  patch 'update_order' => 'transactions#deduct_shipping_cost', as: "deduct_shipping_cost"
+  patch '/auctions/:auction_id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
   get 'notifications/index'
 
 
@@ -38,7 +38,8 @@ Rails.application.routes.draw do
   get 'auctions/:auction_id/bids/:id/purchase_confirmation' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
   get 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase', as: 'auction_purchase'
   
-  
+  get 'purchase/:id/buyer_purchase' => 'transactions#buyer_purchase', as: 'buyer_purchase'
+  get 'purchase/:id/seller_purchase' => 'transactions#seller_purchase', as: 'seller_purchase'
 
   get 'sales' => 'companies#sales', as: 'sales'
   get 'purchases' => 'companies#purchases', as: 'purchases'

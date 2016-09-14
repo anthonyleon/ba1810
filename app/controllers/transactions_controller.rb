@@ -3,17 +3,19 @@ class TransactionsController < ApplicationController
   skip_before_action :require_logged_in, only: [:receive_webhook]
   before_action :set_transaction, only: [:create_shipment]
   before_action :set_bid, only: [:receive_webhook]
+  before_action :set_variables, only: [:buyer_purchase, :seller_purchase]
   ## or?
   # skip_before_filter :verify_authenticity_token
 
   def receive_webhook
+    p "-_-" * 80
     if request.headers['Content-Type'] == 'application/json'
       data = JSON.parse(request.body.read)
       if data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
         case data["event"]["type"]
         when 2  # payments received in full 
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
-          @transaction.paid
+          @transaction.payment_received
           notify("Payment has been received in full please proceed to ship part", @bid, seller)
         when 16 # order cancelled
           notify("The order ##{@transaction.order_id} for part ##{@bid.auction.part_num} has been cancelled.", @bid, seller)
@@ -42,14 +44,15 @@ class TransactionsController < ApplicationController
     render nothing: true
   end
 
-  def deduct_shipping_cost ## this is wrong.. what's the right way to do this Henry
-    @transaction = Auction.find(params[:id]).tx
-    if @transaction.update(transaction_params)
-      @transaction.final_shipping_cost = 0
-      @transaction.calculate_total_payment
-      @transaction.bid
-      ArmorPaymentsApi.update_order(@transaction.bid, "message" => "Buyer will be using their freight account #. Shipping costs that were quoted have been deducted from the order.")
-    end
+  def update_tax_shipping
+    p @transaction = Auction.find(params[:auction_id]).tx
+    respond_to do |format|  ## Add this
+      if @transaction.update(transaction_params)
+        @transaction.calculate_total_payment
+        format.json { render nothing: true, status: :ok}
+        format.html
+      end
+    end  
   end
 
   def create_shipment
@@ -65,6 +68,16 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def buyer_purchase
+    redirect_to root_path unless @bid.buyer == current_user
+    @notification = notify("You have won an auction! Please proceed with shipment process.", @bid, @bid.seller) #put unless bid already has a notification
+  
+  end
+
+  def seller_purchase
+    redirect_to root_path unless @bid.seller == current_user
+  end
+
   private
 
     def notify(message, bid, company)
@@ -77,15 +90,22 @@ class TransactionsController < ApplicationController
       @bid.buyer
     end
     def transaction_params
-      params.require(:transaction).permit(:carrier_code, :tracking_num, :carrier, :shipment_desc, :delivered, :shipping_account)
+      params.require(:transaction).permit(:carrier_code, :tracking_num, :carrier, :shipment_desc, :part_price, :delivered, :shipping_account, :tax_rate, :final_shipping_cost)
     end
 
     def set_transaction
       @transaction = Transaction.find(params[:id])
     end
+
     def set_bid_and_transaction
       @transaction = Transaction.find_by(order_id: data["event"]["order_id"])
       @bid = @transaction.bid
+    end
+
+    def set_variables
+      @bid = Bid.find(params[:id])
+      @auction = @bid.auction
+      @transaction = @auction.tx
     end
     
 end

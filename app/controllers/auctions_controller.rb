@@ -89,11 +89,18 @@ class AuctionsController < ApplicationController
 
   def purchase 
     @transaction = @auction.tx
+    @transaction = Transaction.create_order(@bid) unless @auction.tx
     @transaction.calculate_total_payment
-    @transaction.create_armor_order
+
+    @transaction.create_armor_order unless @transaction.order_id
     @auction.update(active: false)
-    @carriers = ArmorPaymentsApi.carriers_list
+
+
+    @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid
+    ## get URL modal popup
+    @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction) unless @transaction.shipped
     @url = ArmorPaymentsApi.release_payment(@bid, current_user) if @transaction.delivered
+
   end
 
   private
