@@ -1,4 +1,23 @@
-%h1
-	="Auction for #{@auction.part_num}"
--if !@transaction.paid
-	= "Purchase Order generated. Pending seller confirmation of tax and shipping info. The next step will require you to send funds into escrow once the Invoice is generated."
+.row
+	.col.s12
+		.card
+			.card-content
+				%h1
+					="Auction for #{@auction.part_num}"
+				-if !@transaction.paid
+					= "Purchase Order generated. Pending seller confirmation of tax and shipping info. The next step will require you to send funds into escrow once the Invoice is generated."
+	      .card-row.display-flex-space-between
+          %strong Part Price:
+          = @transaction.part_price
+        .card-row.display-flex-space-between
+          %strong Shipping Cost:
+          = @transaction.final_shipping_cost
+        .card-row.display-flex-space-between
+          %strong Tax:
+          = @transaction.tax
+        .card-row.display-flex-space-between
+          %strong Service Fee:
+          = @transaction.total_fee
+        .card-row.display-flex-space-between
+          %strong Total:
+          = @transaction.total_amount
