@@ -10,4 +10,12 @@ class Notification < ActiveRecord::Base
     notifications.include?(false)
 	end
 
+	def self.exists?(bid, msg)
+		arr = []
+		Notification.where(bid: bid).each do |n|
+			arr << n.message
+		end
+		arr.include?(msg)
+	end
+
 end

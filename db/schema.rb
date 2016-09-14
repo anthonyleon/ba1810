@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160913150844) do
+ActiveRecord::Schema.define(version: 20160914204444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -264,6 +264,7 @@ ActiveRecord::Schema.define(version: 20160913150844) do
     t.decimal  "total_fee"
     t.boolean  "complete",            default: false
     t.decimal  "part_price"
+    t.boolean  "shipped"
   end
 
   add_foreign_key "aircrafts", "companies"

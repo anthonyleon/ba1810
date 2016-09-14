@@ -79,6 +79,17 @@ class Transaction < ActiveRecord::Base
     self.delivered = true
   end
 
+  def seller
+    bid.seller
+  end
+
+  def buyer
+    bid.buyer
+  end
+
+  def part
+    bid.inventory_part
+  end
   def shipped
     carrier
   end
