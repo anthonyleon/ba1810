@@ -15,7 +15,6 @@
 %h6.required_date
 	= "Confirm required date: "
 	= @auction.required_date
-	/ HENRY confirm required date form for user to UPDATE @transaction.required_date
 
 / [testing purposes] should be on modal on page before this when they hit 'Proceed to Checkout'
 %p.shipping_account
@@ -23,16 +22,17 @@
 	%label{:for => "filled-in-box"} Use your shipping/freight account #?
 
 .form-container
-	= form_for(deduct_shipping_cost_path, html: { class: "inline-form" }, remote: true) do |f|
+	= form_for(@transaction, html: { class: "inline-form" }, remote: true) do |f|
 		.field.form-group.freight_num
 			= f.text_field :shipping_account, class: "form-control", placeholder: "Account #"
 		.actions.freight_num.send_ship_num{style: "margin-bottom: 20px;"}
 			= f.submit 'Submit', class: "btn custom-btn"
 		
 
-
-= link_to "Proceed", auction_purchase_path, class: "btn custom-btn waves-effect waves-light proceed"
-
+-if @bid.buyer == current_user
+	= link_to "Proceed", buyer_purchase_path, class: "btn custom-btn waves-effect waves-light proceed"
+-elsif @bid.seller == current_user
+	= link_to "Proceed", seller_purchase_path, class: "btn custom-btn waves-effect waves-light proceed"
 
 / %button.btn.custom-btn.waves-effect.waves-light#this-address Confirm Shipping Details
 %button.btn.custom-btn.waves-effect.waves-light#change-address Confirm Shipping Details

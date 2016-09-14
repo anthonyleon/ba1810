@@ -1,0 +1,4 @@
+%h1
+	="Auction for #{@auction.part_num}"
+-if !@transaction.paid
+	= "Purchase Order generated. Pending seller confirmation of tax and shipping info. The next step will require you to send funds into escrow once the Invoice is generated."
