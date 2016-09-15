@@ -6,6 +6,5 @@ class AddPricingFieldsToBids < ActiveRecord::Migration
   	add_column :bids, :tax, :decimal
   	add_column :bids, :armor_fee, :decimal
   	add_column :bids, :bid_aero_fee, :decimal
-  	add_column :bids, :part_price, :decimal
   end
 end
