@@ -136,22 +136,6 @@ ActiveRecord::Schema.define(version: 20160914204444) do
 
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
 
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-
   create_table "documents", force: :cascade do |t|
     t.string   "name"
     t.string   "attachment"
@@ -241,6 +225,7 @@ ActiveRecord::Schema.define(version: 20160914204444) do
 
   create_table "transactions", force: :cascade do |t|
     t.string   "order_id"
+    t.integer  "auction_id"
     t.integer  "inventory_part_id"
     t.string   "po_num"
     t.string   "invoice_num"

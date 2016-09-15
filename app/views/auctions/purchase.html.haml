@@ -1,39 +1,31 @@
-%h1
-	="Auction for #{@auction.part_num}"
--if current_user == @bid.buyer
-	%h5
-	= "This transaction is taxable. Please enter correct tax rate for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}." if @auction.resale_no
-	%h5.shipping_info
-	-if @transaction.shipping_account
-		="Buyer will be using his shipping account for this transaction. Please use the following code: "
-		= @transaction.shipping_account
-	-else
-		= "Also, confirm Final Shipping Cost for part to arrive by #{@auction.required_date}."
-	.form-container
-	= form_for(@transaction, html: { class: "inline-form" }, remote: true, url: update_tax_shipping_path) do |f|
-		.field.form-group
-			= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate"
-		.field.form-group 
-			= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
-		.actions{style: "margin-bottom: 20px;"}
-			= f.submit 'Submit', class: "btn custom-btn"
-/# need this to be an ajax post to UPDATE the @transaction.tax_rate & UPDATE @transaction.final shipping cost
-/ .form-container 
-/ 	= form_for( ???, html: { class: "inline-form" }, remote: true) do |f|
-/ 		.field.form-group.freight_num
-/ 			= f.text_field :tax_rate, class: "form-control", placeholder: "Tax Rate if @auction.resale_no
-/			.field.form-group.freight_num
-/ 			= f.text_field :final_shipping_cost, class: "form-control", placeholder: "Final Shipping Cost" if !@transaction.shipping_account
-/ 		.actions.freight_num.send_ship_num{style: "margin-bottom: 20px;"}
-/ 			= f.submit 'Submit', class: "btn custom-btn"
--if current_user == @bid.seller
-	-if @transaction.paid && !@transaction.shipped
-		%h4
-		-if @transaction.shipping_account
-			="Buyer would like to use their shipping account number for shipping. Please ship product using #{@transaction.shipping_account}." 
-		-else
-			= "Please ship part and provide the relevant information below."
-			=render 'shipment' # need this to be an ajax post to UPDATE the @transaction carrier info (carrier, tracking number, etc.)
+.row
+	.col.s12
+		.card
+			.card-content
+				%div.card-title.activator.grey-text.text-darken-4.center-align
+					= "Auction for #{@auction.part_num}"
+				%hr/
+				-if current_user == @bid.buyer
+					%h5
+					= "Pleaseenter correct tax rate for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}." if @auction.resale_no
+					%h5
+						= "Also, confirm Final Shipping Cost for part to arrive by #{@auction.required_date}." if !@transaction.shipping_account
+				/# need this to be an ajax post to UPDATE the @transaction.tax_rate & UPDATE @transaction.final shipping cost
+				/ .form-container
+				/ 	= form_for( ???, html: { class: "inline-form" }, remote: true) do |f|
+				/ 		.field.form-group.freight_num
+				/ 			= f.text_field :tax_rate, class: "form-control", placeholder: "Tax Rate if @auction.resale_no
+				/			.field.form-group.freight_num
+				/ 			= f.text_field :final_shipping_cost, class: "form-control", placeholder: "Final Shipping Cost" if !@transaction.shipping_account
+				/ 		.actions.freight_num.send_ship_num{style: "margin-bottom: 20px;"}
+				/ 			= f.submit 'Submit', class: "btn custom-btn"
+				-if @transaction.paid && !@transaction.shipped
+					%h4
+					-if @transaction.shipping_account
+						="Buyer would like to use their shipping account number for shipping. Please ship product using #{@transaction.shipping_account}."
+					-else
+						= "Please ship part and provide the relevant information below."
+						= render 'shipment' # need this to be an ajax post to UPDATE the @transaction carrier info (carrier, tracking number, etc.)
 
 
-		
+

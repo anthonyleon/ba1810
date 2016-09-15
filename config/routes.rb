@@ -5,13 +5,12 @@ Rails.application.routes.draw do
 
   resources :engines do
     resources :documents, shallow: true
-  end 
+  end
 
 
   resources :aircrafts do
     resources :documents, shallow: true
   end
-
 
   patch "/update_transaction/:id" => 'transactions#update', as: "transaction"
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
@@ -40,6 +39,7 @@ Rails.application.routes.draw do
   
   get 'purchase/:id/buyer_purchase' => 'transactions#buyer_purchase', as: 'buyer_purchase'
   get 'purchase/:id/seller_purchase' => 'transactions#seller_purchase', as: 'seller_purchase'
+
 
   get 'sales' => 'companies#sales', as: 'sales'
   get 'purchases' => 'companies#purchases', as: 'purchases'
@@ -71,7 +71,7 @@ Rails.application.routes.draw do
 
 
   resources :company_docs
-  
+
 
 
   # resources :companies do
