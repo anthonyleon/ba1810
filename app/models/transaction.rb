@@ -75,7 +75,7 @@ class Transaction < ActiveRecord::Base
     self.paid = true
   end
 
-  def delivered
+  def delivery_received
     self.delivered = true
   end
 
@@ -89,9 +89,6 @@ class Transaction < ActiveRecord::Base
 
   def part
     bid.inventory_part
-  end
-  def shipped
-    carrier
   end
 
   def create_armor_order

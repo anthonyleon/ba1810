@@ -29,10 +29,11 @@
 	%div{style: "width: 50%; margin: 0 auto;"}
 		%strong Total:
 		= number_to_currency(@transaction.total_amount)
-%p
-%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
-	-if @payment_url
-		="Click Here to Send Funds to Escrow"
-	-elsif @release_payment_url
-		="Release Payment From Escrow"
+-if @payment_url || @release_payment_url
+	%p
+	%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+	%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
+		-if @payment_url
+			="Click Here to Send Funds to Escrow"
+		-elsif @release_payment_url
+			="Release Payment From Escrow"
