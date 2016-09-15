@@ -54,10 +54,10 @@ class ArmorPaymentsApi
 
 end
 
-def self.release_payment(bid, company)
+def self.release_payment(transaction, company)
   account_id = company.armor_account_id
   user_id = company.armor_user_id
-  auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{bid.tx.order_id}", 'action' => 'release' }
+  auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{transaction.order_id}", 'action' => 'release' }
   url_result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
   url_result.data[:body]["url"]
 end

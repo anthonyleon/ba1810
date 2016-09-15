@@ -26,7 +26,7 @@ class TransactionsController < ApplicationController
           notify("Your purchase for part ##{@bid.auction.part_num} (order ##{@transaction.order_id}) has been shipped.", @bid, buyer)
           @transaction.update(shipped: true)
         when 4 # goods received by buyer
-          @transaction.delivered
+          @transaction.delivery_received
           notify("Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", @bid, seller)
         when 5 # dispute initiated
           notify("Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", @bid, seller)
@@ -90,7 +90,7 @@ class TransactionsController < ApplicationController
     redirect_to root_path unless @bid.buyer == current_user
     @notification = notify("You have won an auction! Please proceed with shipment process.", @bid, @bid.seller) unless Notification.exists?(@bid, "You have won an auction! Please proceed with shipment process.")
     @payment_url = ArmorPaymentsApi.get_payment_url(@transaction.buyer, @transaction) unless @transaction.shipped || @transaction.paid
-    @release_payment_url = ArmorPaymentsApi.release_payment(@bid, @transaction.buyer) if @transaction.delivered && @transaction.paid
+    @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer) if @transaction.delivered && @transaction.paid
   end
 
   def seller_purchase
