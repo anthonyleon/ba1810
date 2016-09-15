@@ -23,7 +23,7 @@ class AuctionsController < ApplicationController
     @auction = Auction.new(auction_params)
     @part_match = Part.find_by(part_num: @auction.part_num)
     @auction.condition_match
-
+    @auction.resale_check
     respond_to do |format|
 
       if @part_match
@@ -85,14 +85,15 @@ class AuctionsController < ApplicationController
 
     ## get URL modal popup
     @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction)
-
-    @auction.update(active: false)
   end
 
   def purchase 
     @transaction = @auction.tx
     @transaction.calculate_total_payment
     @transaction.create_armor_order
+    @auction.update(active: false)
+    @carriers = ArmorPaymentsApi.carriers_list
+    @url = ArmorPaymentsApi.release_payment(@bid, current_user) if @transaction.delivered
   end
 
   private
