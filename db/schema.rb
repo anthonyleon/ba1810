@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901151138) do
+ActiveRecord::Schema.define(version: 20160907211340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20160901151138) do
     t.string   "required_date"
     t.string   "destination_state"
     t.boolean  "resale_yes"
-    t.boolean  "resale_no"
+    t.boolean  "resale_no",           default: true
     t.string   "resale_status"
   end
 
@@ -231,8 +231,8 @@ ActiveRecord::Schema.define(version: 20160901151138) do
     t.string   "invoice_num"
     t.integer  "seller_id"
     t.integer  "buyer_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "carrier_code"
     t.string   "tracking_num"
     t.string   "carrier"
@@ -247,6 +247,7 @@ ActiveRecord::Schema.define(version: 20160901151138) do
     t.decimal  "bid_aero_fee"
     t.decimal  "final_shipping_cost"
     t.decimal  "total_fee"
+    t.boolean  "complete",            default: false
   end
 
   add_foreign_key "aircrafts", "companies"

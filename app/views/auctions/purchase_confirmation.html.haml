@@ -13,7 +13,8 @@
 	= render 'destination'
 
 %h6.required_date
-	= "Confirm required date: #{@auction.required_date}"
+	= "Confirm required date: "
+	= @auction.required_date
 	/ HENRY confirm required date form for user to UPDATE @transaction.required_date
 
 / [testing purposes] should be on modal on page before this when they hit 'Proceed to Checkout'

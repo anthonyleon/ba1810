@@ -15,8 +15,9 @@ Rails.application.routes.draw do
 
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
   patch 'transactions/:id' => 'transactions#create_shipment', as: "transaction"
-  post 'update_order' => 'transactions#deduct_shipping_cost', as: "deduct_shipping_cost"
+  patch 'update_order' => 'transactions#deduct_shipping_cost', as: "deduct_shipping_cost"
   get 'notifications/index'
+
 
   resources :ratings
   get 'documents/index'
