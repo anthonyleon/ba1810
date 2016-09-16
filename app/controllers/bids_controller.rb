@@ -11,10 +11,10 @@ class BidsController < ApplicationController
     @carriers = ArmorPaymentsApi.carriers_list
     ## uncomment to see modal when shipment info not set delete out of testing purposes
     @url = ArmorPaymentsApi.release_payment(@bid, current_user)
-    if @transaction.carrier_code != nil
-      @url = ArmorPaymentsApi.release_payment(@bid, current_user)
-      # funds_released
-    end
+    # if @transaction.carrier_code
+    #   @url = ArmorPaymentsApi.release_payment(@bid, current_user)
+    #   # funds_released
+    # end
     @company = @bid.company
     @rating = Rating.new
   end
@@ -50,12 +50,14 @@ class BidsController < ApplicationController
 
   def update
     respond_to do |format|
+      @bid.assign_attributes(bid_params)
+      ArmorPaymentsApi.update_order(@bid) if @bid.changed?
       if @bid.update(bid_params)
-        notify_other_bidders("A bid has been updated on an auction you're competing in!")
-        notify_auctioner("A bid was updated in your auction!")
+        # notify_other_bidders("A bid has been updated on an auction you're competing in!")
+        # notify_auctioner("A bid was updated in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
-        if @bid.tracking_num # POST shipping info to armor
+        if @bid.tx.tracking_num # POST shipping info to armor
           set_armor_client
           @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.tx.carrier_code.to_i - 1]["name"])
           user_id = @bid.company.armor_user_id
@@ -98,8 +100,8 @@ class BidsController < ApplicationController
       bid_collection.uniq! { |b| b.company_id }
       bid_collection.each do |bid|
         Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id, message: message) unless bid.company == current_user
-        CompanyMailer.delay.auction_notification(bid)
-        CompanyMailer.delay.place_new_bid(bid)
+        CompanyMailer.auction_notification(bid).deliver_later(wait: 1.minute)
+        CompanyMailer.place_new_bid(bid).deliver_later(wait_until: 1.minute.from_now)
       end
     end
 
@@ -117,7 +119,7 @@ class BidsController < ApplicationController
     end
 
     def bid_params
-      params.require(:bid).permit(:part_price, :shipping_cost, :company_id, :auction_id, :inventory_part_id, :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
+      params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
     end
 
 

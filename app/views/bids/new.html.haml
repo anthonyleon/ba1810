@@ -1,26 +1,30 @@
 .row
-  .card
-    .card-content
-      %span.card-title
-        Place Bid
-      = render 'form'
-      #bid-inventory.container
-        %table#bidDT.table.table-hover.responsive-table
-          %thead
-            %tr
-              %th Part Number
-              %th Description
-              %th Serial Number
-              %th Condition
-              %th Manufacturer
-          %tbody
-            - @match_parts.each do |inventory|
-              %tr#cursor-row{"data-inventory-part-id" => "\#{inventory.id}"}
-                %td.srchtbl= inventory.part_num
-                %td.srchtbl= inventory.description
-                %td.srchtbl= inventory.serial_num
-                %td.srchtbl= inventory.condition
-                %td.srchtbl= inventory.manufacturer
+  .col.s12
+    .card
+      .card-content
+        .card-title.center-align
+          %h5.custom-card-title.center
+            Place Bid
+          .card-title
+            = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}"
+        = render 'form'
+        #bid-inventory{style: "margin-top:15px;"}
+          %table#bidDT.table.table-hover.responsive-table
+            %thead
+              %tr
+                %th Part Number
+                %th Description
+                %th Serial Number
+                %th Condition
+                %th Manufacturer
+            %tbody
+              - @match_parts.each do |inventory|
+                %tr#cursor-row{ data: { "inventory-part-id": inventory.id , url: auction_bids_path(inventory) } }
+                  %td.srchtbl= inventory.part_num
+                  %td.srchtbl= inventory.description
+                  %td.srchtbl= inventory.serial_num
+                  %td.srchtbl= inventory.condition
+                  %td.srchtbl= inventory.manufacturer
 
 :javascript
   $(function(){

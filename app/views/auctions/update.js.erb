@@ -1,0 +1,4 @@
+$("#auction-full-address").html('<%=escape_javascript @auction.full_address %>');
+
+$(".required_date").html('<%=escape_javascript "Confirmed Date: #{@auction.required_date}"%>')
+

@@ -14,7 +14,7 @@
         - @notifications.each do |note|
           %tr.notification
             -if note.message.include?('Please proceed with shipment process')
-              %td.srchtbl= link_to note.message, auction_bid_path(note.auction, note.bid)
+              %td.srchtbl= link_to note.message, seller_purchase_path(note.bid.id)
             -else
               %td.srchtbl= link_to note.message, note.auction
 

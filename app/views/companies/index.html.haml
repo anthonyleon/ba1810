@@ -15,6 +15,9 @@
         %td= company.password_digest
         %td= link_to 'Show', company
         %td= link_to 'Edit', edit_company_path(company)
-        %td= link_to 'Delete', company, method: :delete, data: { confirm: 'Are you sure?' }
+        %td
+          = link_to company, data: { company_purchase_behavior: 'delete' } do
+            %span.material-icons.red-text.icon-34
+              delete_forever
 %br/
 = link_to 'New Company', new_company_path

@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'sidekiq'
 gem 'country_state_select', '3.0.0'
 gem 'prawn'
 gem 'armor_payments'
@@ -8,7 +9,6 @@ gem 'roo'
 gem 'erd'
 gem 'newrelic_rpm'
 gem 'fog-aws'
-gem 'delayed_job_active_record'
 gem 'sendgrid'
 gem 'figaro'
 gem 'carrierwave'
@@ -36,6 +36,7 @@ gem 'font-awesome-sass'
 gem 'sweetalert-rails'
 gem 'httparty'
 gem 'nokogiri'
+gem 'useragent'
 
 group :development, :test do
   gem "erb2haml", :group => :development

@@ -1,13 +1,6 @@
 /*
   *= require sweetalert
-  *= require chosen
  */
- 
-
-footer.page-footer
-  margin-top: 20px
-  padding-top: 20px
-  background-color: #e0e0e0 !important
 
 $custom-green: #189B4C
 
@@ -15,6 +8,12 @@ html
   height: 100%
 body
   font-family: 'Roboto', sans-serif
+
+label.select.optional
+  opacity: 0
+.chosen-search input[type="text"]
+  padding-right: 0 !important
+  padding-left: 0 !important
 
 .Site
   min-height: 100vh
@@ -30,6 +29,9 @@ main
 
 .custom-card-title
   font-weight: 200
+
+.font-18
+  font-size: 18px
 
 a:hover, a:focus
   text-decoration: none !important
@@ -95,11 +97,48 @@ table.dataTable thead th.sorting_desc:after
 .red-bell
   animation: changetransform 0.3s infinite alternate
 
+@mixin display-flex
+  display: flex
+
+@mixin justify-content($value: center)
+  justify-content: $value
+
+@mixin align-items($value: center)
+  align-items: $value
+
+@mixin flash-div
+  display: none
+  height: 0
+  width: 80%
+  border-radius: 3px
+  color: transparent
+  @include display-flex
+  @include justify-content(center)
+  @include align-items(center)
+
+// Flash
+#flash-success
+  background-color: #00e676
+  @include flash-div
+#flash-notice
+  background-color: #29b6f6
+  @include flash-div
+#flash-error
+  background-color: #f44336
+  @include flash-div
+#flash-warning
+  background-color: #fdd835
+  @include flash-div
+
+@import "chosen"
 @import "font-awesome-sprockets"
 @import "font-awesome"
+@import './helpers/mixins_helper'
 @import './base/global'
 @import './base/sidenav'
+@import './base/footer'
 @import './base/buyer_auctions'
 @import './base/inventory'
 @import 'aircrafts'
+@import 'bids'
 @import 'password_resets'

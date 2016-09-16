@@ -1,49 +1,31 @@
-%h1
-	Purchase Confirmation
+.row
+	.col.s12
+		.card
+			.card-content
+				%div.card-title.activator.grey-text.text-darken-4.center-align
+					= "Auction for #{@auction.part_num}"
+				%hr/
+				-if current_user == @bid.buyer
+					%h5
+					= "Pleaseenter correct tax rate for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}." if @auction.resale_no
+					%h5
+						= "Also, confirm Final Shipping Cost for part to arrive by #{@auction.required_date}." if !@transaction.shipping_account
+				/# need this to be an ajax post to UPDATE the @transaction.tax_rate & UPDATE @transaction.final shipping cost
+				/ .form-container
+				/ 	= form_for( ???, html: { class: "inline-form" }, remote: true) do |f|
+				/ 		.field.form-group.freight_num
+				/ 			= f.text_field :tax_rate, class: "form-control", placeholder: "Tax Rate if @auction.resale_no
+				/			.field.form-group.freight_num
+				/ 			= f.text_field :final_shipping_cost, class: "form-control", placeholder: "Final Shipping Cost" if !@transaction.shipping_account
+				/ 		.actions.freight_num.send_ship_num{style: "margin-bottom: 20px;"}
+				/ 			= f.submit 'Submit', class: "btn custom-btn"
+				-if @transaction.paid && !@transaction.shipped
+					%h4
+					-if @transaction.shipping_account
+						="Buyer would like to use their shipping account number for shipping. Please ship product using #{@transaction.shipping_account}."
+					-else
+						= "Please ship part and provide the relevant information below."
+						= render 'shipment' # need this to be an ajax post to UPDATE the @transaction carrier info (carrier, tracking number, etc.)
 
-%h5
-	Please confirm shipping address
-
-/ JAVASCRIPT is not updating the ajax request, it's giving the same old info: $('h6').text('#{escape_javascript @auction.destination_address + ", " + @auction.destination_city + ", " + @auction.destination_state + " " + @auction.destination_zip + " " + @auction.destination_country}');
-/ hotfix is to make h6 disappear after changing address
-%h6
-	= @auction.destination_address
-	= @auction.destination_city + ", "
-	= @auction.destination_state
-	= @auction.destination_zip
-	= @auction.destination_country
-
-%span.card-title
-	=render 'destination'
-
-%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-%button.btn.custom-btn.waves-effect.waves-light#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small.armor-modal{"data-url" => "#{@url}"} Select Payment Method
-%button.btn.custom-btn.waves-effect.waves-light#this-address Ship to This Address
-%button.btn.custom-btn.waves-effect.waves-light#change-address Change Shipping Address
 
 
-
-
-
-:javascript
-$(document).ready(function(){
-	$(".form-container").hide();
-	$(".armor-modal").hide();
-
-	$("#this-address").click(function(){
-		$("#this-address").hide();
-		$(".ui-action-small").show();
-	});
-	$("#change-address").click(function(){
-		$("h6").hide(100);
-		$("#change-address").hide(100);
-		$("#this-address").hide(100);
-		$(".form-container").show(200);
-	});
-
-	$(".submit_button").click(function(){
-		$(".form-container").hide(200);
-		$(".ui-action-small").show();
-
-	});
-}):

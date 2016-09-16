@@ -7,6 +7,23 @@
 //= require_tree .
 
 
+$(document).ready(function() {
+  var $flashTransition = $('.flash-transition');
+  if (!!$flashTransition.length > 0) {
+    $('.flash-transition').css({
+      'color': 'white',
+      '-webkit-transition': '1.2s',
+      'transition': '1.2s',
+      'height': '40px',
+      'margin': '10px auto'
+    })
+  }
+  setTimeout(function(){
+    $('.flash-transition').height(0);
+    $('.flash-transition').text("");
+  },3500)
+})
+
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -16,7 +33,7 @@ $(document).ready(function() {
   var dataBehavior = function(data, message) {
     $(data).on("click", function(e){
       e.preventDefault();
-      var self = this;
+      var self = $(this);
       swal({
         title: "Are you sure?",
         text: "You will not be able to recover this "+ message + ".",
@@ -54,7 +71,7 @@ $(document).ready(function() {
   dataBehavior("[data-auction-bid-behavior='delete']", "bid");
   dataBehavior("[data-engine-behavior='delete']", "engine");
   dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
-
+  dataBehavior("[data-company-purchase-behavior='delete']", "company");
 
 $('#engineDTDashBoard').dataTable({
     "aoColumns": [
@@ -106,8 +123,8 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": false },
-      { "bSortable": false }
-    ]
+    ],
+    "columnDefs": [{ "width": "80px", "targets": 7 }]
   });
   $('#mybidsDT').dataTable({
     "aoColumns": [
@@ -132,7 +149,8 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true }
     ]
   });
-})
+
+});
 
 
 //= require turbolinks
