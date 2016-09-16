@@ -19,18 +19,18 @@
               = f.password_field :password, class: "validate"
               = f.label :password
           .row
-            %button.btn.custom-btn.waves-effect.waves-light{:name => "action", :type => "submit"}
+            %button.btn.custom-btn.waves-effect.waves-light#loginButton{:name => "action", :type => "submit", style: "margin: 5px 0px;"}
               %i.material-icons.right
                 vpn_key
               Log In
-          .row
-            .nav-wrapper
-              %ul
-                %li
-                  = link_to new_password_reset_path, class: 'waves-effect waves-light btn upload' do
-                    %i.material-icons.left.prefix
-                      autorenew
-                    Forgot Your Password?
+
+            -# .nav-wrapper
+            -#   %ul
+            -#     %li
+            = link_to new_password_reset_path, class: 'waves-effect waves-light btn upload right', style: "margin: 5px 0px;" do
+              %i.material-icons.left.prefix
+                autorenew
+              Forgot Your Password?
           .row
             %p.custom-card-title Not a registered company?
             %a.btn.custom-btn.waves-effect.waves-light{href: new_company_path}

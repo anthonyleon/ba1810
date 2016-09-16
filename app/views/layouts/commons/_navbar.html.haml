@@ -31,56 +31,56 @@
     %ul#mobile-demo.side-nav.fixed
       .company-logo
         %a{:href => root_path}
-          = image_tag("bid-areo-white.png", class: 'responsive-img')
+          = image_tag("/images/bid_aero_logo.png", class: 'responsive-img')
       %li
         = link_to home_path do
-          %i.material-icons.left
-            home
+          / %i.material-icons.left
+          /   home
           Dashboard
       %li
         = link_to auctions_path do
           %i.material-icons.left
-            grade
+            gavel
           Current Auctions
       %li
         = link_to inventory_parts_path do
-          %i.material-icons.left
-            toys
+          / %i.material-icons.left
+          /   toys
           Inventory
       %li
         = link_to aircrafts_path do
-          %i.material-icons.left
-            airplanemode_active
+          / %i.material-icons.left
+          /   airplanemode_active
           Aircrafts
       %li
         = link_to engines_path do
-          %i.material-icons.left
-            build
+          / %i.material-icons.left
+          /   build
           Engines
       %li
         = link_to sales_path do
           %i.material-icons.left
-            shopping_cart
+            add_shopping_cart
           Sales
       %li
         = link_to purchases_path do
-          %i.material-icons.left
-            attach_money
+          / %i.material-icons.left
+          /   attach_money
           Purchases
-      %li 
+      %li
         = link_to company_docs_path do
           %i.material-icons.left
-            library_books
-          Documents
+
+            folder
       %li
         = link_to edit_company_path do
-          %i.material-icons.left
-            settings
+          / %i.material-icons.left
+          /   settings
           Settings
       %li
         = link_to logout_path do
-          %i.material-icons.left
-            power_settings_new
+          / %i.material-icons.left
+          /   power_settings_new
           Log out
 
 

@@ -7,15 +7,20 @@ $(function() {
   promiseEngine
   .then(function(value){
     console.log("ENGINE",value.val());
-    if (value.val() == "true") {
-      $('#engineDT').DataTable();
+    if (value.val() === 'true') {
+        console.log("HERE");
+      $('#engineDT').DataTable({
+        "columnDefs": [{ "width": "60px", "targets": 9 }]
+      });
     }
 
     if(value.val() != true || value.length == 0) {
       $('.is_h').remove();
       console.log("AWESOME", value.val(), value.length);
     }
-    $('#engineDT').DataTable();
+    // $('#engineDT').DataTable({
+    //   "columnDefs": [{ "width": "120px", "targets": 9 }]
+    // });
   }, function(error){
     console.log(error);
   });

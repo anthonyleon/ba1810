@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810182448) do
+ActiveRecord::Schema.define(version: 20160914204444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20160810182448) do
     t.string   "required_date"
     t.string   "destination_state"
     t.boolean  "resale_yes"
-    t.boolean  "resale_no"
+    t.boolean  "resale_no",           default: true
     t.string   "resale_status"
   end
 
@@ -92,12 +92,8 @@ ActiveRecord::Schema.define(version: 20160810182448) do
     t.datetime "updated_at",        null: false
     t.string   "invoice_num"
     t.integer  "transaction_id"
-    t.decimal  "total_amount"
-    t.decimal  "shipping_cost"
-    t.decimal  "tax"
-    t.decimal  "armor_fee"
-    t.decimal  "bid_aero_fee"
     t.decimal  "part_price"
+    t.decimal  "est_shipping_cost"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
@@ -139,22 +135,6 @@ ActiveRecord::Schema.define(version: 20160810182448) do
   end
 
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.string   "name"
@@ -251,14 +231,25 @@ ActiveRecord::Schema.define(version: 20160810182448) do
     t.string   "invoice_num"
     t.integer  "seller_id"
     t.integer  "buyer_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "carrier_code"
     t.string   "tracking_num"
     t.string   "carrier"
     t.string   "shipment_desc"
     t.boolean  "delivered"
     t.boolean  "paid"
+    t.string   "shipping_account"
+    t.float    "tax_rate",            default: 0.0
+    t.decimal  "total_amount"
+    t.decimal  "tax"
+    t.decimal  "armor_fee"
+    t.decimal  "bid_aero_fee"
+    t.decimal  "final_shipping_cost"
+    t.decimal  "total_fee"
+    t.boolean  "complete",            default: false
+    t.decimal  "part_price"
+    t.boolean  "shipped"
   end
 
   add_foreign_key "aircrafts", "companies"

@@ -5,18 +5,19 @@ Rails.application.routes.draw do
 
   resources :engines do
     resources :documents, shallow: true
-  end 
+  end
 
 
   resources :aircrafts do
     resources :documents, shallow: true
   end
 
-
-
+  patch "/update_transaction/:id" => 'transactions#update', as: "transaction"
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
-  patch 'transactions/:id' => 'transactions#create_shipment', as: "transaction"
+  patch 'transactions/:id' => 'transactions#create_shipment', as: "create_shipment"
+  patch '/auctions/:auction_id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
   get 'notifications/index'
+
 
   resources :ratings
   get 'documents/index'
@@ -33,8 +34,12 @@ Rails.application.routes.draw do
   get 'logout' => 'session#destroy'
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
-  post 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase', as: 'auction_purchase'
-  get 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
+  get 'auctions/:auction_id/bids/:id/purchase_confirmation' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
+  get 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase', as: 'auction_purchase'
+  
+  get 'purchase/:id/buyer_purchase' => 'transactions#buyer_purchase', as: 'buyer_purchase'
+  get 'purchase/:id/seller_purchase' => 'transactions#seller_purchase', as: 'seller_purchase'
+
 
   get 'sales' => 'companies#sales', as: 'sales'
   get 'purchases' => 'companies#purchases', as: 'purchases'
@@ -66,7 +71,7 @@ Rails.application.routes.draw do
 
 
   resources :company_docs
-  
+
 
 
   # resources :companies do

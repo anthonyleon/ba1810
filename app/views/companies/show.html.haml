@@ -22,10 +22,10 @@
           %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
           %td{style: "padding: 10px !important"} USD
           -if data.ask != "N/A"
-            %td{style: "padding: 10px !important"}= "$" + '%.2f' % data.ask
+            %td{style: "padding: 10px !important; color: #{data.ask.to_f < 0 ? 'red' : 'green'}"}= "$" + '%.2f' % data.ask
           -else
             %td{style: "padding: 10px !important"}= "N/A"
-          %td{style: "padding: 10px !important"}= data.change + " (" + data.change_in_percent + ")"
+          %td{style: "padding: 10px !important; color: #{data.change.to_f < 0 ? 'red' : 'green'}"}= data.change + " (" + data.change_in_percent + ")"
           %td{style: "padding: 10px !important"}= data.market_capitalization
 
 

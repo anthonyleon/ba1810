@@ -5,26 +5,41 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
  	has_many :notifications
 
-    def condition_match
-        condition = ["NE", "OH", "SV", "AR", "SC"]
+  def condition_match
+      condition = ["NE", "OH", "SV", "AR", "SC"]
+      
+      condition.delete("NE") if !self.condition_ne
         
-        condition.delete("NE") if !self.condition_ne
-          
-        condition.delete("OH") if !self.condition_oh
-          
-        condition.delete("SV") if !self.condition_sv
-          
-        condition.delete("AR") if !self.condition_ar
-          
-        condition.delete("SC") if !self.condition_sc
+      condition.delete("OH") if !self.condition_oh
+        
+      condition.delete("SV") if !self.condition_sv
+        
+      condition.delete("AR") if !self.condition_ar
+        
+      condition.delete("SC") if !self.condition_sc
 
-        if condition.count == 5
-          self.update(condition: "All Conditions")
-        else
-          self.update(condition: condition.to_sentence)
-        end
-        condition
+      if condition.count == 5
+        self.update(condition: "All Conditions")
+      else
+        self.update(condition: condition.to_sentence)
+      end
+      condition
+  end
+
+  def resale_check
+    if self.resale_status == "Yes"
+      self.resale_yes = true
+      self.resale_no = false
+    else 
+      self.resale_no = true
+      self.resale_yes = false
     end
+  end
+
+
+  def full_address
+    return "#{self.destination_address}, #{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
+  end
 
     # def self.get_sales_opportunities(user)
     #   parts = user.inventory_parts

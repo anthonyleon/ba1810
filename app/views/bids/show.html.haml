@@ -7,19 +7,30 @@
       .col-md-5#bid-buy
       %p
         %h2 Amount:
-        = number_to_currency @bid.total_amount
+        = number_to_currency @bid.part_price
       %p
         %h2 Company:
         = @bid.company.name
         
 .col-md-6
   .container
+    = "Destination: " + @auction.destination_address + ", " + @auction.destination_city + ", " + @auction.destination_state + @auction.destination_zip 
+  .container
+    -if !@shipping_account
+      = "Confirm shipping costs for part to arrive by #{@auction.required_date}"
+  .form-container
+    = form_for([@auction, @bid], html: { class: "inline-form costs" }, remote: true) do |f|
+      .field.form-group.cost
+        = f.text_field :shipping_cost, class: "form-control", placeholder: "#{@bid.est_shipping_cost}"
+      .actions.confirm_cost{style: "margin-bottom: 20px;"}
+        = f.submit 'Submit', class: "btn custom-btn"
+        
+  .container
     %h3
       Shipment Carrier
+
     .container
-      - if !@bid.transaction_id
-        Bid is still being considered.
-      - elsif @bid.tx.carrier_code && @bid.tx.tracking_num
+      - if @bid.tx.carrier_code && @bid.tx.tracking_num
         %h4
           Shipment has been sent:
         %h5
@@ -70,4 +81,7 @@
               %td= link_to 'Download', document.attachment_url
               - if document.inventory_part.company == current_user
                 %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn'
+
+
+
 
