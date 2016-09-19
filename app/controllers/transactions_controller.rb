@@ -33,6 +33,7 @@ class TransactionsController < ApplicationController
         when 6 # order accepted (ie. funds released from buyer to seller)
           @transaction.transfer_inventory #have to do something about this. Doesn't account for if a part is being sent to be put on an engine or aircraft.
           @transaction.completed
+          # CREATE A REVIEW NOTIFICATION
           notify("The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.", @bid, @bid.seller)
         end
       end
@@ -92,8 +93,8 @@ class TransactionsController < ApplicationController
   def buyer_purchase
     redirect_to root_path unless @bid.buyer == current_user
     @notification = notify("You have won an auction! Please proceed with shipment process.", @bid, @bid.seller) unless Notification.exists?(@bid, "You have won an auction! Please proceed with shipment process.")
-    
-    if !@transaction.shipped && !@transaction.paid
+    @auction.update(active: false) if @auction.active
+    if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       @payment_url = ArmorPaymentsApi.get_payment_url(@transaction.buyer, @transaction)
     elsif @transaction.delivered && @transaction.paid && !@transaction.complete
       @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer) 
