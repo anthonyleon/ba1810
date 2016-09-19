@@ -59,7 +59,6 @@ i = 0
 while (i < 16)
   i+=1
   Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true, destination_address: Faker::Address.street_address, destination_zip: Faker::Address.zip, destination_city: Faker::Address.city_suffix, destination_country: Faker::Address.country, required_date: Faker::Date.forward(23))
-
 end
 
 i = 0
