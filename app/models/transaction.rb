@@ -26,7 +26,7 @@ class Transaction < ActiveRecord::Base
 	def calculate_total_payment
     part = self.part_price
 
-    self.tax = part * self.tax_rate
+    self.tax = part * (self.tax_rate / 100)
     p "#{self.part_price.to_f.to_s}"
     p "#{self.tax_rate.to_f.to_s} + tax_rate"
     p "#{self.tax.to_f.to_s} + TAX"
@@ -67,16 +67,19 @@ class Transaction < ActiveRecord::Base
     self.save!
   end
 
-  def complete
+  def completed
     self.complete = true
+    self.save!
   end
   
   def payment_received
     self.paid = true
+    self.save!
   end
 
   def delivery_received
     self.delivered = true
+    self.save!
   end
 
   def seller
@@ -84,7 +87,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def buyer
-    bid.buyer
+    self.bid.buyer
   end
 
   def part
@@ -97,6 +100,6 @@ class Transaction < ActiveRecord::Base
   end
 
 	def transfer_inventory
-		self.inventory_part.update_attribute('company_id', self.auction.company.id)
+		self.inventory_part.update_attribute('company_id', nil)
 	end
 end
