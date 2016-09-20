@@ -105,6 +105,16 @@ class TransactionsController < ApplicationController
     redirect_to root_path unless @bid.seller == current_user
     @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid
   end
+  def show
+    @transaction = Transaction.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = ReportPdf.new(@transaction)
+        send_data pdf.render, filename: 'report.pdf', type: 'application/pdf'
+      end
+    end
+  end
 
   private
 
@@ -130,5 +140,5 @@ class TransactionsController < ApplicationController
       @bid = @transaction.bid
       @auction = @transaction.auction
     end
-    
+	    
 end
