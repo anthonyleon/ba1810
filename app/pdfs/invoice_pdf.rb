@@ -1,7 +1,7 @@
-class ReportPdf < Prawn::Document
-  def initialize(products)
+class InvoicePdf < Prawn::Document
+  def initialize(product)
     super()
-    @product = product
+    @transaction = product
     header
     text_content
     table_content
@@ -42,11 +42,10 @@ class ReportPdf < Prawn::Document
   end
 
   def product_rows
-    [['#', 'Name', 'Price']] +
-      @products.map do |product|
-      [product.id, product.name, product.price]
-    end
+    [['#', 'Name', 'Price']]
+    #   @transaction.map do |product|
+    #   [product.id, product.name, product.price]
+    # end
   end
-end
 end
 
