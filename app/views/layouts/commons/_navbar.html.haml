@@ -1,9 +1,9 @@
 %header
   %nav
-    .nav-wrapper.z-depth-2
+    .nav-wrapper.top-nav.z-depth-2
       %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
         %i.material-icons menu
-      %ul.right.hide-on-med-and-down
+      %ul#nav-buttons.right.hide-on-med-and-down
         - notification = Notification.any_unread?(current_user)
         - if Notification.any_unread?(current_user)
           %li{style: 'height: 64px;display: flex;align-items:center;'}
@@ -19,7 +19,7 @@
           = link_to 'Inventory', inventory_parts_path
         %li
           = link_to "Log out", logout_path
-      %span.right.hide-on-med-and-down{style: "margin-right: 15px;"}
+      %span#button.right.hide-on-med-and-down{style: "margin-right: 15px;"}
         %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
           New
           %i.material-icons.my-custom-m-icons arrow_drop_down
