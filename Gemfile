@@ -60,4 +60,5 @@ group :development do
   gem 'rubocop', :require => false
   gem "rubycritic", :require => false
   gem 'dawnscanner', :require=>false
+  gem 'quiet_assets'
 end

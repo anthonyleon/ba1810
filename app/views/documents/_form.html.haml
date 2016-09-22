@@ -1,0 +1,38 @@
+%div.card
+  %div.card-content
+    - if object.company == current_user
+      %h5.custom-card-title.center Attach a document
+      %hr
+      %div
+      %br/
+      = form_for ([object, @document]), html: { multipart: true, class: "form-inline" } do |f|
+        = f.text_field :name, class: "form-control", placeholder: "Title"
+        = f.file_field :attachment
+        %strong Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
+        %div.btn.custom-btn.doc-upload
+          %i.fa.fa-upload
+          = f.submit "Upload"
+
+    #documents.col-md-12
+    - if object.documents.empty?
+      %p There are no documents associated with this part.
+    - else
+      %table.table.table-hover
+        %thead
+          %tr
+            %th Name
+            %th Download Link
+            %th  
+        %tbody
+          - object.documents.each do |document|
+            %tr
+              %td= document.name
+              -if document.attachment.url.to_s.downcase.include? "pdf"
+                %td= link_to 'View/Download', document.attachment_url
+              -else
+                %td= link_to 'Download', document.attachment_url
+              - if document.send(object.class.to_s.downcase.to_sym).company == current_user
+                %td
+                  %div.btn.custom-btn.doc-delete
+                    %i.fa.fa-trash-o
+                    = link_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}
