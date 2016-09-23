@@ -8,10 +8,12 @@
       = form_for ([object, @document]), html: { multipart: true, class: "form-inline" } do |f|
         = f.text_field :name, class: "form-control", placeholder: "Title"
         = f.file_field :attachment
-        %strong Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
-        %div.btn.custom-btn.doc-upload
-          %i.fa.fa-upload
-          = f.submit "Upload"
+        .row
+          %strong Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
+        .row
+          %div.btn.custom-btn.doc-upload
+            %i.fa.fa-upload
+            = f.submit "Upload"
 
     #documents.col-md-12
     - if object.documents.empty?
