@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'draper'
 gem 'sidekiq'
 gem 'country_state_select', '3.0.0'
 gem 'prawn'
