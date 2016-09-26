@@ -9,7 +9,9 @@
     %strong Condition
     = f.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
   .actions{style: 'margin: 5px 0'}
-    = f.submit 'Submit', class: 'btn custom-btn'
+    %div.btn.custom-btn
+      %i.fa.fa-check-square-o
+      = f.submit 'Update Inventory Part'
 
 :javascript
   $(document).ready(function() {
