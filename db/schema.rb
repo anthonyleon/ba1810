@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160925173106) do
+ActiveRecord::Schema.define(version: 20160925232715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,11 +64,6 @@ ActiveRecord::Schema.define(version: 20160925173106) do
     t.string   "part_num"
     t.boolean  "active",              default: true, null: false
     t.string   "condition"
-    t.boolean  "condition_ne"
-    t.boolean  "condition_oh"
-    t.boolean  "condition_sv"
-    t.boolean  "condition_ar"
-    t.boolean  "condition_sc"
     t.string   "po_num"
     t.integer  "transaction_id"
     t.string   "destination_address"
