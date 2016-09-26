@@ -4,62 +4,30 @@
       .card-content
         %span.card-title
           = @inventory_part.description
-        = link_to "Back", inventory_parts_path, class:"waves-effect waves-light btn custom-btn right"
         %p
           Serial Number:
           = @inventory_part.serial_num
         %p
           Part number: #{@inventory_part.part_num}
         %p
-          Condition: #{@inventory_part.condition}
+          Condition: #{@inventory_part.condition_tag}
         %p
           Manufacturer: #{@inventory_part.manufacturer}
         %br/
-      - if @inventory_part.company == current_user
-        - if !@document.errors.empty?
-          .alert.alert-error
-            %ul
-              - @document.errors.full_messages.each do |msg|
-                %li= msg
-        .container
-          %div
-            Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
-          %br/
-          = form_for ([@inventory_part, @document]), html: { multipart: true, class: "form-inline" } do |f|
-            = f.text_field :name, class: "form-control", placeholder: "Title"
-            = f.file_field :attachment
-            = f.submit "Upload", class: 'btn custom-btn'
 
-      #documents.col-md-12.container
-        - if @inventory_part.documents.empty?
-          %p There are no documents associated with this part.
-        - else
-          %table.table.table-hover
-            %thead
-              %tr
-                %th Name
-                %th Download Link
-                %th  
-            %tbody
-              - @inventory_part.documents.each do |document|
-                %tr
-                  %td= document.name
-                  -if document.attachment.url.downcase.include? "pdf"
-                    %td= link_to 'View/Download', document.attachment_url
-                  -else
-                    %td= link_to 'Download', document.attachment_url
-                  - if document.inventory_part.company == current_user
-                    %td
-                      = link_to document, data: { aircraft_behavior: 'delete' } do
-                        %span.material-icons.red-text.icon-34
-                          delete_forever
-      - if @bid
-        - if @inventory_part.company == current_user
-          = link_to 'Edit', edit_inventory_part_path(@inventory_part)
-          |
-          \#{link_to 'Back to Inventory', inventory_parts_path} |
-          \#{link_to 'Back to Auction',auction_path(@bid.auction)}
-        - else
-          = link_to 'Back to Auction',auction_path(@bid.auction)
+    = render 'documents/form', object: @inventory_part if @inventory_part.company == current_user
+
+  %div.btn.custom-btn
+    %i.fa.fa-arrow-left
+    = link_to "Back", inventory_parts_path, class:"waves-effect waves-light"
+  - if @inventory_part.company == current_user
+    |
+    %div.btn.custom-btn
+      %i.fa.fa-pencil
+      = link_to 'Edit this inventory part', edit_inventory_part_path(@inventory_part)
+      / #{link_to 'Back to Inventory', inventory_parts_path} |
+      / #{link_to 'Back to Auction',auction_path(@bid.auction)}
+    -# else
+      / = link_to 'Back to Auction',auction_path(@bid.auction)
 
 

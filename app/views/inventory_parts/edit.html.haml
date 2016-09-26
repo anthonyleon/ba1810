@@ -1,5 +1,10 @@
-%h1 Editing Inventory Part
-= render 'form'
-= link_to 'Show', @inventory_part
-|
-= link_to 'Back', inventory_parts_path
+.row
+  .col.s12
+    .card
+      .card-content
+        %h5.custom-card-title.center
+          Update #{@inventory_part.description}
+        = render 'form'
+  %div.btn.custom-btn
+    %i.fa.fa-arrow-left
+    = link_to 'View'

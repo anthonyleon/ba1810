@@ -13,22 +13,11 @@
     = f.text_field :engine_minor_variant, placeholder: "Engine Minor Variant"
   .field
     = f.text_field :esn, placeholder: "ESN"
-  %br
-  %div Engine Condition
-  #form-group.radio_button
-    = f.radio_button :condition, "NE"
-    = f.label :condition_ne, "NE"
-  #form-group.radio_button
-    = f.radio_button :condition, "OH"
-    = f.label :condition_oh, "Overhaul"
-  #form-group.radio_button
-    = f.radio_button :condition, "SV"
-    = f.label :condition_sv, "Servicable"
-  #form-group.radio_button
-    = f.radio_button :condition, "Non-SV"
-    = f.label "condition_non-sv", "Non-Serviceable"
-  %br
-    %div Engine Status
+  .field
+    %p Engine Condition
+    = f.select :condition, Engine.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
+  .field
+    %p Engine Status
     #form-group.radio_button
       = f.radio_button :current_status,  "In Service"
       = f.label :current_status_in_service, "In Service"
@@ -55,3 +44,7 @@
     .actions
       = f.submit class: 'btn custom-btn'
 
+:javascript
+  $(document).ready(function() {
+    $('select').material_select();
+  });

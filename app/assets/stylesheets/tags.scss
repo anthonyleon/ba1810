@@ -10,13 +10,21 @@
 }
 
 .tag_overhaul {
-  background-color: orange;
+  background-color: yellow;
 }
 
 .tag_serviceable {
   background-color: darkorange;
 }
 
+.tag_as_removed {
+  background-color: orange;
+}
+
 .tag_non_serviceable {
+  background-color: red;
+}
+
+.tag_scrap {
   background-color: red;
 }

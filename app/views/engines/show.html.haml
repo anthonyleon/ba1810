@@ -17,7 +17,7 @@
             = @engine.esn
           %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Condition:
-            = @engine.condition
+            = @engine.condition_tag
           %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Engine Status:
             = @engine.current_status
@@ -42,7 +42,11 @@
 
     = render 'documents/form', object: @engine if @engine.company == current_user
 
-    - if @engine.company == current_user
-      %div.btn.custom-btn.edit-btn
-        %i.fa.fa-pencil
-        = link_to 'Edit this engine', edit_engine_path(@engine)
+  %div.btn.custom-btn
+    %i.fa.fa-arrow-left
+    = link_to "Back", engines_path, class:"waves-effect waves-light"
+  - if @engine.company == current_user
+    |
+    %div.btn.custom-btn.edit-btn
+      %i.fa.fa-pencil
+      = link_to 'Edit this engine', edit_engine_path(@engine)

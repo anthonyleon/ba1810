@@ -6,4 +6,6 @@
           Editing Engine Listing
         = render 'form'
         %hr/
-        = link_to 'Back', @engine, class: "btn custom-btn"
+  %div.btn.custom-btn
+    %i.fa.fa-arrow-left
+    = link_to 'View', @engine
