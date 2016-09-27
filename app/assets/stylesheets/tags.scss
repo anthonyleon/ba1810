@@ -1,4 +1,4 @@
-.tag_condition {
+.tag {
   padding: 3px 3px;
   border-radius: 3px;
   margin: 2px;
@@ -26,5 +26,13 @@
 }
 
 .tag_scrap {
+  background-color: red;
+}
+
+.tag_in_service {
+  background-color: green;
+}
+
+.tag_off_service {
   background-color: red;
 }
