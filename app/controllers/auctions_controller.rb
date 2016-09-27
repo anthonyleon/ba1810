@@ -123,8 +123,6 @@ class AuctionsController < ApplicationController
       Notification.create(company: @bid.company, bid: @bid, auction: @auction, message: message)
     end
 
-
-
     def get_sales_opportunities
       parts = current_user.inventory_parts
       parts.uniq! { |part| [part[:part_num], part[:condition]] }
