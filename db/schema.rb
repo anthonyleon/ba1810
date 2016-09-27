@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927230522) do
+ActiveRecord::Schema.define(version: 20160927233403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,8 +26,6 @@ ActiveRecord::Schema.define(version: 20160927230522) do
     t.string   "engine_minor_variant"
     t.string   "apu_model"
     t.string   "cabin_config"
-    t.boolean  "in_service"
-    t.boolean  "off_service"
     t.string   "current_operator"
     t.string   "last_operator"
     t.string   "location"
@@ -38,7 +36,7 @@ ActiveRecord::Schema.define(version: 20160927230522) do
     t.integer  "company_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
-    t.string   "service_status"
+    t.integer  "service_status"
   end
 
   add_index "aircrafts", ["company_id"], name: "index_aircrafts_on_company_id", using: :btree
