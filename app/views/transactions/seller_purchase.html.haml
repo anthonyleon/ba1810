@@ -33,6 +33,8 @@
 	="Part is en route. You will be notified when buyer has received shipment."
 -elsif @transaction.delivered && !@transaction.complete
 	="Part has been delivered, awaiting release of funds."
+-elsif @transaction.invoice_num && !@transaction.paid
+	="You're all set. We are awaiting payment in escrow from the buyer, at which point we will prompt you to ship the piece."
 -elsif @transaction.paid && !@transaction.shipped
 	%h4
 	-if @transaction.shipping_account
@@ -40,16 +42,18 @@
 	-else
 		= "Please ship part and provide the relevant information below."
 		=render 'shipment' # need this to be an ajax post to UPDATE the @transaction carrier info (carrier, tracking number, etc.)
--elsif !@transaction.paid
+-elsif !@transaction.invoice_num
 	-if @auction.resale_no && @transaction.shipping_account
 		%h5
 		="Buyer will be using his shipping account for this transaction. Please use the following code: "
 		= @transaction.shipping_account
 		= "This transaction is taxable. Please enter correct tax rate (%) for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}."
 		.form-container
-			= form_for(@transaction, html: { class: "inline-form" }, remote: true, url: update_tax_shipping_path(@auction.id)) do |f|
+			= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@auction.id)) do |f|
 				.field.form-group
 					= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+				.field.form-group
+					= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 				.actions{style: "margin-bottom: 20px;"}
 					= f.submit 'Submit', class: "btn custom-btn"
 	-elsif @auction.resale_yes && @transaction.shipping_account
@@ -62,9 +66,11 @@
 		= "Buyer has a resale ceritifcate applicable for this transaction"
 		= "Confirm Final Shipping Cost for part to arrive by #{@auction.required_date}, to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
 		.form-container
-		= form_for(@transaction, html: { class: "inline-form" }, remote: true, url: update_tax_shipping_path(@auction.id)) do |f|
+		= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@auction.id)) do |f|
 			.field.form-group 
 				= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost"
+			.field.form-group
+				= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 			.actions{style: "margin-bottom: 20px;"}
 				= f.submit 'Submit', class: "btn custom-btn"
 	-elsif @auction.resale_no && !@transaction.shipping_account
@@ -72,10 +78,13 @@
 		= "Confirm Final Shipping Cost for part to arrive by #{@auction.required_date}, to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
 		= "This transaction is taxable. Please enter correct tax rate (%) for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}."	
 		.form-container
-			= form_for(@transaction, html: { class: "inline-form" }, remote: true, url: update_tax_shipping_path(@auction.id)) do |f|
+			= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@auction.id)) do |f|
 				.field.form-group
 					= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
 				.field.form-group 
 					= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
+				.field.form-group
+					= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 				.actions{style: "margin-bottom: 20px;"}
 					= f.submit 'Submit', class: "btn custom-btn"
+
