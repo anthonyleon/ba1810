@@ -25,15 +25,9 @@
     = f.text_field :apu_model, placeholder: "APU Model"
   .field
     = f.text_field :cabin_config, placeholder: "Cabin Configuration"
-  %br
-  %div Aircraft Status
-  #form-group.radio_button
-    = f.radio_button :service_status, "In Service"
-    = f.label :service_status_in_service, "In Service"
-    %br
-  #form-group.radio_button
-    = f.radio_button :service_status, "Off Service"
-    = f.label :service_status_off_service, "Off Service"
+  .field
+    %p Aircraft Status
+    = f.select :service_status, Aircraft.service_statuses.to_a.map { |s| [s[0].humanize, s[0]] }
   %br
   .field
     = f.text_field :current_operator, placeholder: "Current Operator"
