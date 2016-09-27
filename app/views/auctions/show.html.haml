@@ -9,24 +9,16 @@
             = @auction.part_num
 
         - if @auction.company == current_user
-          = link_to 'Edit', edit_auction_path(@auction), class: 'btn custom-btn right'
+          %div.btn.custom-btn.right
+            %i.fa.fa-pencil
+            = link_to 'Edit this Auction', edit_auction_path(@auction)
         - else
           = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
         %hr{style: "clear:both;margin-top: 60px;"}/
         %ul
           %li.center-align
             %h5= @all_conditons_empty ? "No Condition Avaiable" : "Acceptable Conditions"
-            %div.conditons-of-part
-              - if @auction.condition_ne
-                %p= "New"
-              - if @auction.condition_oh
-                %p= "Overhaul"
-              - if @auction.condition_sv
-                %p= "Serviceable"
-              - if @auction.condition_ar
-                %p= "As Removed"
-              - if @auction.condition_sc
-                %p= "Scrap"
+            %p #{@auction.condition_tag}
         %ul
           %li.center-align
             %h5= "Shipping Instructions"
@@ -36,7 +28,7 @@
               = @auction.destination_country
             %div{style: "text-align: center;"}
               ="Must be received by "
-              %strong 
+              %strong
                 = @auction.required_date
         %hr/
         %p.flow-text
@@ -64,4 +56,6 @@
                 - @auction.bids.order(part_price: :asc).each do |bid|
                   %tr#cursor-row
                     = render bid
-
+    %div.btn.custom-btn
+      %i.fa.fa-arrow-left
+      = link_to 'Back to Auctions', auctions_path

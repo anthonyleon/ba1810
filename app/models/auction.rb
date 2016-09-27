@@ -5,32 +5,13 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
  	has_many :notifications
 
-  def condition_match
-      condition = ["NE", "OH", "SV", "AR", "SC"]
-      
-      condition.delete("NE") if !self.condition_ne
-        
-      condition.delete("OH") if !self.condition_oh
-        
-      condition.delete("SV") if !self.condition_sv
-        
-      condition.delete("AR") if !self.condition_ar
-        
-      condition.delete("SC") if !self.condition_sc
-
-      if condition.count == 5
-        self.update(condition: "All Conditions")
-      else
-        self.update(condition: condition.to_sentence)
-      end
-      condition
-  end
+  enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
 
   def resale_check
     if self.resale_status == "Yes"
       self.resale_yes = true
       self.resale_no = false
-    else 
+    else
       self.resale_no = true
       self.resale_yes = false
     end

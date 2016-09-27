@@ -36,7 +36,7 @@ i = 1
 while (i < 30)
   Company.create( name: Faker::Company.name, email: Faker::Internet.email,  password: 'password', password_confirmation: 'password', phone: "305-726-8857", address: Faker::Address.street_address, city: Faker::Address.city, state: Faker::Address.state, zip: Faker::Address.zip_code, representative: Faker::Internet.user_name, country: Faker::Address.country_code)
   parts_database.each do |description, partnum, manufacturer, manufacturer_price|
-    InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: i, serial_num: "191223", condition: "OH")
+    InventoryPart.create(part_num: partnum, description: description,  manufacturer: manufacturer, company_id: i, serial_num: "191223", condition: rand(1..5))
   end
   i += 1
 end
@@ -58,7 +58,7 @@ end
 i = 0
 while (i < 16)
   i+=1
-  Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: "OH", condition_oh: true, destination_address: Faker::Address.street_address, destination_zip: Faker::Address.zip, destination_city: Faker::Address.city_suffix, destination_country: Faker::Address.country, required_date: Faker::Date.forward(23))
+  Auction.create(company_id: i, part_num: parts_database[i-1][1], active: true, condition: rand(1..5), destination_address: Faker::Address.street_address, destination_zip: Faker::Address.zip, destination_city: Faker::Address.city_suffix, destination_country: Faker::Address.country, required_date: Faker::Date.forward(23))
 end
 
 i = 0
@@ -100,11 +100,11 @@ i = 1
 while (i < 29)
 	i += 1
 	Engine.create(engine_major_variant: Faker::StarWars.planet, engine_minor_variant: Faker::StarWars.planet,
-		esn: Faker::Company.ein, condition: "NEW", new: true, current_status: "in service", in_service: true,
+		esn: Faker::Company.ein, condition: rand(1..3), current_status: "in service", in_service: true,
 		current_operator: Company.find(i).name, last_operator:Company.find(i-1).name, location: Faker::StarWars.planet,
 		cycles_remaining: Faker::Number.number(5), available_date: Faker::Date.forward(230), lease: true, company_id: i)
 end
 
-Company.all.each do |company|
+Company.where(id: 1..10).each do |company|
   company.email_activate unless !company.state
 end

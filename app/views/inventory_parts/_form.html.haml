@@ -1,49 +1,17 @@
-.form-container
-  -if !@inventory_part.condition
-    = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
-      .file-field.input-field
-        .btn.custom-btn
-          %span File
-          %input{:type => "file"}
-        .file-path-wrapper
-          %input{:type => "text", class: 'file-path validate '}
-        = submit_tag "Import", class: 'btn custom-btn clearfix'
-  = simple_form_for ([@part, @inventory_part]) do |f|
-    .field.form-group
-      = f.text_field :part_num, placeholder: "Part number", class: "form-control"
-    .field.form-group
-      = f.text_field :serial_num, placeholder: "Serial number",class: "form-control"
-    #checkbox-group
-      = f.radio_button :condition, 'new'
-      = label :inventory_part_condition, "new"
-      %p
-        = f.radio_button :condition, "overhaul"
-        = label :inventory_part_condition, "overhaul"
-      %p
-        = f.radio_button(:condition, "serviceable")
-        = label :inventory_part_condition, "serviceable"
-      %p
-        = f.radio_button(:condition, "as_removed")
-        = label :inventory_part_condition, "as_removed"
-      %p
-        = f.radio_button(:condition, "scrap")
-        = label :inventory_part_condition, "scrap"
-    .actions{style: 'margin: 5px 0'}
-      = f.submit 'Submit', class: 'btn custom-btn'
-
-  -# -if !@inventory_part.condition
-    -# = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
-      -# = file_field_tag :file
-      -# = submit_tag "Import"
-  -# -if !@inventory_part.condition
-  -#   = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
-  -#     .file-field.input-field
-  -#       .btn.custom-btn
-  -#         %span File
-  -#         %input{:type => "file"}
-  -#       .file-path-wrapper
-  -#         %input{:type => "text", class: 'file-path validate '}
-  -#         = submit_tag "Import", class: 'btn custom-btn clearfix'
+= simple_form_for ([@part, @inventory_part]) do |f|
+  .field.form-group
+    %strong Part Number
+    = f.text_field :part_num, placeholder: "Part number", class: "form-control"
+  .field.form-group
+    %strong Serial Number
+    = f.text_field :serial_num, placeholder: "Serial number",class: "form-control"
+  .field.form-group
+    %strong Condition
+    = f.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
+  .actions{style: 'margin: 5px 0'}
+    %div.btn.custom-btn
+      %i.fa.fa-check-square-o
+      = f.submit 'Update Inventory Part'
 
 :javascript
   $(document).ready(function() {

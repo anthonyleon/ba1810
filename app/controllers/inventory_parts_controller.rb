@@ -3,10 +3,11 @@ class InventoryPartsController < ApplicationController
 
 
   def index
-    @inventory_parts = current_user.inventory_parts
+    @inventory_parts = current_user.inventory_parts.decorate
   end
 
   def show
+    @inventory_part = @inventory_part.decorate
     @bid = Bid.find(params[:bid_id]) unless params[:bid_id].nil?
     @document = Document.new
   end
