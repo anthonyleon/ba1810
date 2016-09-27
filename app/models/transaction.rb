@@ -31,7 +31,6 @@ class Transaction < ActiveRecord::Base
     p "#{self.tax_rate.to_f.to_s} + tax_rate"
     p "#{self.tax.to_f.to_s} + TAX"
 
-
     if self.shipping_account
     	self.final_shipping_cost = 0 
       p "SET TO ZERO"

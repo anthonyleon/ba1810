@@ -53,9 +53,8 @@ class TransactionsController < ApplicationController
         #generate invoice here....
         armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
-
-        format.json { render nothing: true, status: :ok}
-        format.html
+        format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
+        format.json { render :show, status: :ok, location: @aircraft }
       end
     end  
   end
@@ -107,12 +106,24 @@ class TransactionsController < ApplicationController
   end
 
   def show
+    
     @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = InvoicePdf.new(@transactions)
-        send_data pdf.render, filename: 'report.pdf', type: 'application/pdf'
+        pdf = InvoicePdf.new(@transaction)
+        send_data pdf.render, filename: "Invoice_#{@transaction.order_id}.pdf", type: 'application/pdf'
+      end
+    end
+  end
+
+  def po
+    @transaction = Transaction.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = PoPdf.new(@transaction)
+        send_data pdf.render, filename: "PO_#{@transaction.order_id}.pdf", type: 'application/pdf'
       end
     end
   end

@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   patch '/auctions/:auction_id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
   get 'notifications/index'
 
-  resources :transactions
+  get '/transactions/:id' => 'transactions#show', as: 'transaction_show'
+  get 'purchase_order/:id' => 'transactions#po', as: 'transaction_po'
+
   resources :ratings
   get 'documents/index'
 
