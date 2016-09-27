@@ -2,10 +2,11 @@ class EnginesController < ApplicationController
   before_action :set_engine, only: [:show, :edit, :update, :destroy]
 
   def index
-    @engines = Engine.all
+    @engines = Engine.all.decorate
   end
 
   def show
+    @engine = @engine.decorate
     @document = Document.new
   end
 
@@ -52,12 +53,12 @@ class EnginesController < ApplicationController
   end
 
   private
-  
+
     def set_engine
       @engine = Engine.find(params[:id])
     end
 
     def engine_params
-      params.require(:engine).permit(:company_id, :engine_major_variant, :engine_minor_variant, :esn, :condition, :new, :overhaul, :serviceable, :non_serviceable, :current_status, :in_service, :off_service, :current_operator, :last_operator, :location, :cycles_remaining, :available_date, :sale, :lease, :document_id)
+      params.require(:engine).permit(:company_id, :engine_major_variant, :engine_minor_variant, :esn, :condition, :current_status, :in_service, :off_service, :current_operator, :last_operator, :location, :cycles_remaining, :available_date, :sale, :lease, :document_id)
     end
 end

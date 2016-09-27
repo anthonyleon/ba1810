@@ -7,24 +7,8 @@ class InventoryPart < ActiveRecord::Base
   has_one :tx, class_name: "Transaction", foreign_key: "transaction_id"
   has_many :bids
   has_many :documents, dependent: :destroy
-  before_save :condition_format
 
-
-# until I can fix the radio button to accept the abbreviations (testing purposes)
-  def condition_format
-    case self.condition
-    when "overhaul"
-      self.condition = "OH"
-    when "as_removed"
-      self.condition = "AR"
-    when "serviceable"
-      self.condition = "SV"
-    when "scrap"
-      self.condition = "SC"
-    when "new"
-      self.condition = "NE"
-    end
-  end
+  enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
 
   # class methods for importing xls, csv files using Roo
   def self.import(file, current_user)

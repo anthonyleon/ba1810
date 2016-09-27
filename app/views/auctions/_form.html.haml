@@ -23,22 +23,25 @@
       = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
     .field.form-group
       = f.text_field :required_date, class: "form-control", placeholder: "Required by mm/dd/yy"
-    #checkbox-group
-      .field.checkbox.form-group
-        = f.check_box(:condition_ne)
-        = label_tag "auction_condition_ne", "New"
-      .field.checkbox.form-group
-        = f.check_box(:condition_oh)
-        = label_tag "auction_condition_oh", "Overhaul"
-      .field.checkbox.form-group
-        = f.check_box(:condition_sv)
-        = label_tag "auction_condition_sv", "Serviceable"
-      .field.checkbox.form-group
-        = f.check_box(:condition_ar)
-        = label_tag "auction_condition_ar", "As removed"
-      .field.checkbox.form-group
-        = f.check_box(:condition_sc)
-        = label_tag "auction_condition_sc", "Scrap"
+    .field.form-group
+      %strong Condition
+      = f.select :condition, Auction.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
+    / #checkbox-group
+    /   .field.checkbox.form-group
+    /     = f.check_box(:condition_ne)
+    /     = label_tag "auction_condition_ne", "New"
+    /   .field.checkbox.form-group
+    /     = f.check_box(:condition_oh)
+    /     = label_tag "auction_condition_oh", "Overhaul"
+    /   .field.checkbox.form-group
+    /     = f.check_box(:condition_sv)
+    /     = label_tag "auction_condition_sv", "Serviceable"
+    /   .field.checkbox.form-group
+    /     = f.check_box(:condition_ar)
+    /     = label_tag "auction_condition_ar", "As removed"
+    /   .field.checkbox.form-group
+    /     = f.check_box(:condition_sc)
+    /     = label_tag "auction_condition_sc", "Scrap"
     %br
     %div I am purchasing this part with the intention to resell and will provide a resale certificate.
     #form-group.radio_button
@@ -48,5 +51,6 @@
       = f.radio_button :resale_status, "No"
       = f.label :resale_status_no, "No"
     %br/
-    .actions
-      = f.submit 'Submit', class: "btn custom-btn"
+    %div.btn.custom-btn
+      %i.fa.fa-check-square-o
+      = f.submit 'Update Auction'

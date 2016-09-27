@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914204444) do
+ActiveRecord::Schema.define(version: 20160926224039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,7 @@ ActiveRecord::Schema.define(version: 20160914204444) do
     t.datetime "updated_at",                         null: false
     t.string   "part_num"
     t.boolean  "active",              default: true, null: false
-    t.string   "condition"
-    t.boolean  "condition_ne"
-    t.boolean  "condition_oh"
-    t.boolean  "condition_sv"
-    t.boolean  "condition_ar"
-    t.boolean  "condition_sc"
+    t.integer  "condition"
     t.string   "po_num"
     t.integer  "transaction_id"
     t.string   "destination_address"
@@ -156,11 +151,7 @@ ActiveRecord::Schema.define(version: 20160914204444) do
     t.string   "engine_major_variant"
     t.string   "engine_minor_variant"
     t.string   "esn"
-    t.string   "condition"
-    t.boolean  "new"
-    t.boolean  "overhaul"
-    t.boolean  "serviceable"
-    t.boolean  "non_serviceable"
+    t.integer  "condition"
     t.string   "current_status"
     t.boolean  "in_service"
     t.boolean  "off_service"
@@ -187,7 +178,7 @@ ActiveRecord::Schema.define(version: 20160914204444) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.string   "serial_num",   null: false
-    t.string   "condition"
+    t.integer  "condition"
   end
 
   add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id", using: :btree

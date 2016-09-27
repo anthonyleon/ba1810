@@ -18,7 +18,7 @@
       %tr
         %td= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
         %td= link_to engine.esn, engine
-        %td= engine.condition
+        %td= engine.condition_tag
         - if engine.in_service?
           %td= "In Service"
         - else
@@ -37,6 +37,8 @@
         %td= engine.company.representative
         - if engine.company != current_user
           = hidden_field_tag 'is_available_engine', 'true'
+
+        - if engine.company == current_user
           %td{style: 'text-align: center;'}
             = link_to edit_engine_path(engine) do
               %span.material-icons.amber-text.icon-34

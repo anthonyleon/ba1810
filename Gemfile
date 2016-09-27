@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'draper'
 gem 'sidekiq'
 gem 'country_state_select', '3.0.0'
 gem 'prawn'
@@ -61,4 +62,5 @@ group :development do
   gem 'rubocop', :require => false
   gem "rubycritic", :require => false
   gem 'dawnscanner', :require=>false
+  gem 'quiet_assets'
 end
