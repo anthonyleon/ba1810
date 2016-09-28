@@ -24,8 +24,9 @@
               = link_to inventory_part_path(inventory), data: { inventory_behavior: 'delete' }  do
                 %span.material-icons.red-text.icon-34
                   delete_forever
-
-= link_to 'Upload New Inventory', new_inventory_part_path, class: "btn upload"
+%div.btn.custom-btn
+  %i.fa.fa-upload
+  = link_to 'Upload New Inventory', new_inventory_part_path
 
 
 
