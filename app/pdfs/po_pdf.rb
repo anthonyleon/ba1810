@@ -109,7 +109,7 @@ include ActionView::Helpers::NumberHelper
     if @transaction.shipping_account
       shipment << ["#{@auction.requested_carrier}", "#{@transaction.requested_shipping}", "??", "@auction.required_date"]
     else
-      shipment << ["??", "??", "//", "//"]
+      shipment << ["#{@transaction.carrier}", "#{@transaction.shipment_desc}", "N/A", "#{@transaction.auction.required_date}"]
     end
     array = [["Ship Via", "Requested Shipping Method", "Shipping Terms", "Delivery Date"]] + shipment
   end
@@ -129,7 +129,7 @@ include ActionView::Helpers::NumberHelper
   def product_rows
     array = [['#', 'Name', 'Price']] +
       # @transaction.map do |product|
-      [[@transaction.order_id, @transaction.auction.part_num, number_to_currency(@transaction.part_price)], ['yolo', 'bro', 'hello']]
+      [[@transaction.order_id, @transaction.auction.part_num, number_to_currency(@transaction.part_price)]]
     # end
     if array.count < 12
       array + [[" ", " ", " "]] * (12 - array.count)

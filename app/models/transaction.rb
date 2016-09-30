@@ -33,7 +33,6 @@ class Transaction < ActiveRecord::Base
 
     if self.shipping_account
     	self.final_shipping_cost = 0 
-      p "SET TO ZERO"
     end
 
     p "#{self.final_shipping_cost.to_f.to_s} + FINAL SHIPPPING COST"

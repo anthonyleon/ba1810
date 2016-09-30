@@ -111,7 +111,7 @@ include ActionView::Helpers::NumberHelper
   def product_rows
     array = [['#', 'Name', 'Price']] +
       # @transaction.map do |product|
-      [[@transaction.order_id, @transaction.auction.part_num, number_to_currency(@transaction.part_price)], ['yolo', 'bro', 'hello']]
+      [[@transaction.order_id, @transaction.auction.part_num, number_to_currency(@transaction.part_price)]]
     # end
     if array.count < 12
       array + [[" ", " ", " "]] * (12 - array.count)
@@ -148,7 +148,7 @@ include ActionView::Helpers::NumberHelper
   end
 
   def fee_rows
-    array = [["","Subtotal", number_to_currency(@transaction.part_price)]] + [["","Shipping", number_to_currency(@transaction.final_shipping_cost)]] + [["","Tax", number_to_currency(@transaction.tax)]] + [["","Service Fee", number_to_currency(@transaction.total_fee)]] + [["","Total Amount", number_to_currency(@transaction.total_amount)]]    
+    array = [["","Subtotal", number_to_currency(@transaction.part_price)]] + [["","Shipping", number_to_currency(@transaction.final_shipping_cost)]] + [["","Tax (#{@transaction.tax_rate}%)", number_to_currency(@transaction.tax)]] + [["","Service Fee", number_to_currency(@transaction.total_fee)]] + [["","Total Amount", number_to_currency(@transaction.total_amount)]]    
   end
 end
 
