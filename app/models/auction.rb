@@ -5,7 +5,15 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
  	has_many :notifications
 
-  enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
+  serialize :condition, Array
+
+  def self.conditions
+    %w(recent overhaul as_removed serviceable non_serviceable scrap)
+  end
+
+  def conditions
+    condition.to_a
+  end
 
   def resale_check
     if self.resale_status == "Yes"
@@ -16,7 +24,6 @@ class Auction < ActiveRecord::Base
       self.resale_yes = false
     end
   end
-
 
   def full_address
     return "#{self.destination_address}, #{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
