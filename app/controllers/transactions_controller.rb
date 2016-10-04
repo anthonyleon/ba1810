@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
   skip_before_action :require_logged_in, only: [:receive_webhook]
   before_action :set_transaction, only: [:create_shipment, :update]
   before_action :set_bid, only: [:receive_webhook]
-  before_action :set_variables, only: [:buyer_purchase, :seller_purchase]
+  before_action :set_variables, only: [:buyer_purchase, :seller_purchase, :material_cert]
   ## or?
   # skip_before_filter :verify_authenticity_token
 
@@ -124,6 +124,16 @@ class TransactionsController < ApplicationController
       format.pdf do
         pdf = PoPdf.new(@transaction)
         send_data pdf.render, filename: "PO_#{@transaction.order_id}.pdf", type: 'application/pdf'
+      end
+    end
+  end
+
+  def material_cert
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = MaterialCertPdf.new(@transaction)
+        send_data pdf.render, filename: "MaterialCert_#{@transaction.order_id}.pdf", type: 'application/pdf'
       end
     end
   end

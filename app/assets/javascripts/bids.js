@@ -9,6 +9,7 @@ $(document).on('ready page: load', function() {
 		armor.openModal(url);
 	});
 	console.log('end');
+	
 
 	$(".destination").hide();
 	$(".armor-modal").hide();
@@ -17,20 +18,16 @@ $(document).on('ready page: load', function() {
 	$(".proceed").hide();
 	$(".po_num").hide();
 
-	$("#this-address").click(function(){
-		$("#this-address").hide(150);
-		$(".shipping_account").show(100);
-	});
 
-	$("#change-address").click(function(){
-		$("#change-address").hide(100);
+	$("#confirm-shipping").click(function(){
+		$("#confirm-shipping").hide(100);
+		$(".shipping_account").show(100);
 		$("#this-address").hide(100);
 		$(".destination").show(200);
 	});
 
 	$(".submit_button").click(function(){
 		$(".destination").hide(200);
-		$(".shipping_account").show(100);
 		$(".po_num").show(100);
 	});
 
