@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get '/transactions/:id' => 'transactions#show', as: 'transaction_show'
   get 'purchase_order/:id' => 'transactions#po', as: 'transaction_po'
+  get '/material_cert/:id' => 'transactions#material_cert', as: 'material_cert'
 
   resources :ratings
   get 'documents/index'

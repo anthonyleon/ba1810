@@ -21,6 +21,15 @@
       = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
     .field
       = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
+    .shipping_account
+      %input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
+      %label{:for => "filled-in-box"} Use your shipping/freight account #?
+    .form-container
+      = f.fields_for @transaction do |cm|
+        .field.form-group.freight_num
+          = cm.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"           
+        .field.form-group.freight_num
+          = cm.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
     %br/
     .actions.submit_button
       = f.submit 'Submit', class: "btn custom-btn"
