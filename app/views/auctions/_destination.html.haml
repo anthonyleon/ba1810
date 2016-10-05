@@ -25,7 +25,7 @@
       %input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
       %label{:for => "filled-in-box"} Use your shipping/freight account #?
     .form-container
-      = f.fields_for @transaction do |cm|
+      = f.fields_for :transaction do |cm|
         .field.form-group.freight_num
           = cm.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"           
         .field.form-group.freight_num

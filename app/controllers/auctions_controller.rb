@@ -53,6 +53,9 @@ class AuctionsController < ApplicationController
 
   def update
     respond_to do |format|
+      binding.pry
+      @auction.tx.build
+      # binding.pry
       if @auction.update(auction_params)
         format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
         format.js { }
@@ -73,12 +76,7 @@ class AuctionsController < ApplicationController
   end
 
   def purchase_confirmation
-    ## create transaction
-    ## if else logic for testing purposes, for if armor order already created
-    # if @bid.tx
-    #   @transaction = @bid.tx
-    # else
-      @transaction = Transaction.create_order(@bid) # delete for testing
+      @transaction = Transaction.create_order(@bid)
       ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
       action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.tx.total_amount }
       p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
@@ -148,6 +146,12 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :condition, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no)
+      params.require(:auction).permit(:company_id, :part_num, :condition, :destination_address, :destination_zip, :destination_city, 
+        :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, transaction_attributes: [:shipping_account, :carrier])
     end
+
+    # def transaction_params
+    #   params.require(:auction[:transactions]).permit(:carrier, :shipping_account)
+      
+    # end
 end
