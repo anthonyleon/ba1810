@@ -1,6 +1,6 @@
 class Transaction < ActiveRecord::Base
-	has_one :auction
-	has_one :bid
+	belongs_to :auction
+	belongs_to :bid
 	belongs_to :inventory_part
 	# confused about this association transaction has buyer and seller (testing purposes)
 	has_many :companies
