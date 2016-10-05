@@ -5,6 +5,8 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
  	has_many :notifications
 
+  accepts_nested_attributes_for :tx
+
   enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
 
   def resale_check
