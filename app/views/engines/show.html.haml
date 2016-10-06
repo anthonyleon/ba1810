@@ -1,10 +1,40 @@
-.row
+.row.profile.engine-profile
   .col.s12
     .card
       .card-content
         %h5.custom-card-title.center
           Engine
-        %hr/
+        %div.profile-image
+          = image_tag 'aircraft-engine.png', size: "300x200", alt: 'Engine'
+
+    .card
+      .card-content
+        %h5.custom-card-title
+          Owner/Rep Info
+        .row
+          %p.col.m6.s12{style: "margin: 5px 0"}
+            %strong Last operator:
+            = @engine.last_operator
+
+    .card
+      .card-content
+        %h5.custom-card-title
+          Asset Conditions
+        .row
+          %p.col.m6.s12{style: "margin: 5px 0"}
+            %strong Sale:
+            = @engine.sale
+          %p.col.m6.s12{style: "margin: 5px 0"}
+            %strong Lease:
+            = @engine.lease
+          %p.col.m6.s12{style: "margin: 5px 0"}
+            %strong Available date:
+            = @engine.available_date
+
+    .card
+      .card-content
+        %h5.custom-card-title
+          Engine Description
         .row
           %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Engine major variant:
@@ -22,23 +52,21 @@
             %strong Engine Status:
             = @engine.service_status_tag
           %p.col.m6.s12{style: "margin: 5px 0"}
-            %strong Last operator:
-            = @engine.last_operator
-          %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Location:
             = @engine.location
           %p.col.m6.s12{style: "margin: 5px 0"}
             %strong Cycles remaining:
             = @engine.cycles_remaining
-          %p.col.m6.s12{style: "margin: 5px 0"}
-            %strong Available date:
-            = @engine.available_date
-          %p.col.m6.s12{style: "margin: 5px 0"}
-            %strong Sale:
-            = @engine.sale
-          %p.col.m6.s12{style: "margin: 5px 0"}
-            %strong Lease:
-            = @engine.lease
+
+    .card
+      .card-content
+        %h5.custom-card-title
+          Documents
+        .row
+          - if @engine.documents.empty?
+            %strong No Documents available
+          - else
+          / Need to create 'documents/document' partial
 
     = render 'documents/form', object: @engine if @engine.company == current_user
 
