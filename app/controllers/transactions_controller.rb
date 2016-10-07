@@ -79,7 +79,7 @@ class TransactionsController < ApplicationController
   def create_shipment
     respond_to do |format|
       if @transaction.update(transaction_params)
-        ArmorPaymentsApi.create_shipment_record(@transaction.bid)
+        ArmorPaymentsApi.create_shipment_record(@transaction)
         format.html { redirect_to auction_purchase_path(@transaction.auction, @transaction.bid), notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
