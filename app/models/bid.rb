@@ -2,7 +2,7 @@ class Bid < ActiveRecord::Base
   belongs_to :company
   belongs_to :auction
   belongs_to :inventory_part
-  has_one :tx, class_name: "Transaction", foreign_key: "transaction_id"
+  has_one :tx, class_name: "Transaction"
   has_many :notifications
 
   def seller

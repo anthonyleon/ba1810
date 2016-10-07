@@ -1,13 +1,13 @@
 class BidsController < ApplicationController
   before_action :set_bid, only: [:show, :edit, :update, :destroy, :release_payment]
   before_action :set_auction, only: [:new, :edit, :create, :destroy, :show, :update]
+  before_action :set_transaction, only: [:show, :update, :funds_released]
 
   def index
     @bids = Bid.all
   end
 
   def show
-    @transaction = @bid.tx
     @carriers = ArmorPaymentsApi.carriers_list
     ## uncomment to see modal when shipment info not set delete out of testing purposes
     @url = ArmorPaymentsApi.release_payment(@bid, current_user)
@@ -51,20 +51,20 @@ class BidsController < ApplicationController
   def update
     respond_to do |format|
       @bid.assign_attributes(bid_params)
-      ArmorPaymentsApi.update_order(@bid) if @bid.changed?
+      ArmorPaymentsApi.update_order(@transaction) if @transaction.bid.changed?
       if @bid.update(bid_params)
         # notify_other_bidders("A bid has been updated on an auction you're competing in!")
         # notify_auctioner("A bid was updated in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
-        if @bid.tx.tracking_num # POST shipping info to armor
+        if @transaction.tracking_num # POST shipping info to armor
           set_armor_client
-          @bid.update(carrier: @client.shipmentcarriers.all[:body][@bid.tx.carrier_code.to_i - 1]["name"])
+          @bid.update(carrier: @client.shipmentcarriers.all[:body][@transaction.carrier_code.to_i - 1]["name"])
           user_id = @bid.company.armor_user_id
           account_id = @bid.company.armor_account_id
-          order_id = @bid.tx.order_id
-          action_data = { "user_id" => user_id, "carrier_id" => @bid.tx.carrier_code, "tracking_id" => @bid.tx.tracking_num,
-                           "description" => @bid.tx.shipment_desc }
+          order_id = @transaction.order_id
+          action_data = { "user_id" => user_id, "carrier_id" => @transaction.carrier_code, "tracking_id" => @transaction.tracking_num,
+                           "description" => @transaction.shipment_desc }
           result = @client.orders(account_id).shipments(order_id).create(action_data)
 
           # for sandbox testing purposes only (should be triggered on webhook)
@@ -112,7 +112,7 @@ class BidsController < ApplicationController
 
     def funds_released # for testing purposes only sandbox trigger
       account_id = @bid.company.armor_account_id
-      order_id = @bid.tx.order_id
+      order_id = @transaction.order_id
       action_data = { "action" => "release", "confirm" => true }
       fund_result = @client.orders(account_id).update(order_id, action_data)
       @bid.auction.update(paid: true)
@@ -122,6 +122,9 @@ class BidsController < ApplicationController
       params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
     end
 
+    def set_transaction
+      @transaction = Transaction.find_by(bid_id: params[:id])
+    end
 
     def set_auction
       @auction = Auction.find(params[:auction_id])
