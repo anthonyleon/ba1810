@@ -25,10 +25,6 @@
 
 				.form-container
 					= form_for(@transaction, html: { class: "inline-form" }, remote: true) do |f|
-						/ .field.form-group.freight_num
-						/ 	= f.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"						
-						/ .field.form-group.freight_num
-						/ 	= f.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
 						.field.form-group.po_num
 							= f.text_field :po_num, class: "form-control", placeholder: "Purchase Order Number"
 						.actions.po_num.po_submit{style: "margin-bottom: 20px;"}
