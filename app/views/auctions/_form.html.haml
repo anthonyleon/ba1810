@@ -23,8 +23,8 @@
       = f.text_field :destination_state, class: "form-control", placeholder: "Destination State/Region"
     .field.form-group
       = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
-    .field.form-group
-      = f.text_field :required_date, class: "form-control", placeholder: "Required by mm/dd/yy"
+    .field
+      = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
     .field.form-group
       %strong Condition
       = f.select :condition, Auction.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
@@ -56,3 +56,9 @@
     %div.btn.custom-btn
       %i.fa.fa-check-square-o
       = f.submit 'Update Auction'
+
+
+:javascript
+  $('.datepicker').pickadate({
+    selectMonths: true
+  });
