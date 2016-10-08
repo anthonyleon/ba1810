@@ -7,9 +7,6 @@
 				%hr/
 				%h5.center-align
 					Please confirm shipping address
-
-				/ JAVASCRIPT is not updating the ajax request, it's giving the same old info: $('h6').text('#{escape_javascript @auction.destination_address + ", " + @auction.destination_city + ", " + @auction.destination_state + " " + @auction.destination_zip + " " + @auction.destination_country}');
-				/ hotfix is to make h6 disappear after changing address
 				%h6#auction-full-address.center-align
 					= @auction.full_address
 
@@ -18,9 +15,7 @@
 
 				%h6.required_date.center-align
 					= "Confirm required date: "
-					= @auction.required_date
-
-				/ [testing purposes] should be on modal on page before this when they hit 'Proceed to Checkout'
+					= @auction.required_date.strftime("%B %d %Y")
 
 
 				.form-container
@@ -31,10 +26,6 @@
 							= f.submit 'Submit', class: "btn custom-btn"
 						
 
-				-if @bid.buyer == current_user
-					= link_to "Proceed", buyer_purchase_path(@transaction), class: "btn custom-btn waves-effect waves-light proceed"
-				-elsif @bid.seller == current_user
-					= link_to "Proceed", seller_purchase_path(@transaction), class: "btn custom-btn waves-effect waves-light proceed"
 
 				/ %button.btn.custom-btn.waves-effect.waves-light#this-address Confirm Shipping Details
 				%button.btn.custom-btn.waves-effect.waves-light#confirm-shipping.center-align Confirm Shipping Details
