@@ -1,3 +1,4 @@
+/ Are we even using this view anymore??
 %main
   #banner.clearfix
     %h1
@@ -30,18 +31,18 @@
       Shipment Carrier
 
     .container
-      - if @bid.tx.carrier_code && @bid.tx.tracking_num
+      - if @transaction.carrier_code && @transaction.tracking_num
         %h4
           Shipment has been sent:
         %h5
-          Carrier: #{@bid.tx.carrier}
+          Carrier: #{@transaction.carrier}
         %h5
-          Tracking Number: #{@bid.tx.tracking_num}
+          Tracking Number: #{@transaction.tracking_num}
         %h5
-          Description: #{@bid.tx.shipment_desc}
+          Description: #{@transaction.shipment_desc}
       - elsif current_user == @bid.company
         = render 'shipment'
-      - elsif current_user == @auction.company && !@bid.tx.carrier_code
+      - elsif current_user == @auction.company && !@transaction.carrier_code
         Part has not been shipped yet.
       
       - if current_user == @auction.company && !@transaction.paid # Add this when out of Testing Purposes && @transaction.delivered
