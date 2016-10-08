@@ -1,9 +1,9 @@
 class Transaction < ActiveRecord::Base
-	has_one :auction
-	has_one :bid
+	has_one :auction, through: :bid
+	belongs_to :bid
 	belongs_to :inventory_part
-	# confused about this association transaction has buyer and seller (testing purposes)
-	has_many :companies
+  has_many :companies
+  
 	#armor payments $$ brackets/tiers
   TIER0 = 0
   TIER1 = 5_000
@@ -31,10 +31,8 @@ class Transaction < ActiveRecord::Base
     p "#{self.tax_rate.to_f.to_s} + tax_rate"
     p "#{self.tax.to_f.to_s} + TAX"
 
-
     if self.shipping_account
     	self.final_shipping_cost = 0 
-      p "SET TO ZERO"
     end
 
     p "#{self.final_shipping_cost.to_f.to_s} + FINAL SHIPPPING COST"

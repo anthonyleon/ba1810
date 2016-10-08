@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161004001641) do
+ActiveRecord::Schema.define(version: 20161005172703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 20161004001641) do
     t.boolean  "active",              default: true, null: false
     t.text     "condition"
     t.string   "po_num"
-    t.integer  "transaction_id"
     t.string   "destination_address"
     t.string   "destination_zip"
     t.string   "destination_city"
@@ -84,7 +83,6 @@ ActiveRecord::Schema.define(version: 20161004001641) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "invoice_num"
-    t.integer  "transaction_id"
     t.decimal  "part_price"
     t.decimal  "est_shipping_cost"
   end
@@ -212,7 +210,6 @@ ActiveRecord::Schema.define(version: 20161004001641) do
 
   create_table "transactions", force: :cascade do |t|
     t.string   "order_id"
-    t.integer  "auction_id"
     t.integer  "inventory_part_id"
     t.string   "po_num"
     t.string   "invoice_num"
@@ -237,6 +234,7 @@ ActiveRecord::Schema.define(version: 20161004001641) do
     t.boolean  "complete",            default: false
     t.decimal  "part_price"
     t.boolean  "shipped"
+    t.integer  "bid_id"
   end
 
   add_foreign_key "aircrafts", "companies"

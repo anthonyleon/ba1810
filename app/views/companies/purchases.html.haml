@@ -13,6 +13,8 @@
           %th Manufacturer
           %th Price Paid
           %th
+          %th PO
+          %th Invoice
       %tbody
         - @purchases.each do |transaction|
           %tr
@@ -28,6 +30,8 @@
               %td= link_to 'Completed', buyer_purchase_path(transaction)
             -else
               %td= link_to 'Pending', buyer_purchase_path(transaction)
+            %td.srchtbl= link_to 'PO', transaction_po_path(transaction, :format => :pdf) 
+            %td.srchtbl= link_to 'Invoice', transaction_show_path(transaction, :format => :pdf) 
             / %td= button_to 'Release Funds', {controller: "bids", action: "release_payment", id: bid.id, auction_id: bid.auction.id}, method: "post" unless !bid.delivered || bid.auction.paid
 
 
