@@ -25,7 +25,7 @@ class AuctionsController < ApplicationController
   def create
     @auction = Auction.new(auction_params)
     @part_match = Part.find_by(part_num: @auction.part_num)
-    @auction.condition_match
+    # @auction.condition_match
     @auction.resale_check
     respond_to do |format|
 
@@ -53,9 +53,11 @@ class AuctionsController < ApplicationController
 
   def update
     respond_to do |format|
-      @transaction = Transaction.find(transaction_params[:id])
       if @auction.update(auction_params)
-        @transaction.update(transaction_params)
+        unless params[:commit] == "Update Auction"
+          @transaction = Transaction.find(transaction_params[:id])
+          @transaction.update(transaction_params)
+        end
         format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
         format.js { }
         format.json { render :show, status: :ok, location: @auction }

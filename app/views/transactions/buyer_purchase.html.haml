@@ -2,10 +2,16 @@
 	.col.s12
 		.card
 			.card-content
-				%h1
+				.custom-card-title
+				%h3.custom-card-title.center
 					="Auction for #{@auction.part_num}"
 				-if !@transaction.paid
-					= "Purchase Order generated. Pending seller confirmation of tax and shipping info. The next step will require you to send funds into escrow once the Invoice is generated."
+					%div.center
+						%h5 Purchase Order generated.
+						%br
+						Pending seller confirmation of tax and shipping info.
+						%br
+						The next step will require you to send funds into escrow once the Invoice is generated.
 					%div
 					= "Status: Pending Seller Confirmation"
 				-elsif @transaction.paid && !@transaction.shipped
@@ -13,10 +19,10 @@
 				-elsif @transaction.shipped
 					="Part is en route, once part is accepted please release funds from escrow to seller."
 .card-row.display-flex-space-between
-	%div	
+	%div
 		%strong Part Price:
 		= number_to_currency(@transaction.part_price)
-	%div	
+	%div
 		%strong Shipping Cost:
 	-if @transaction.shipping_account
 		= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
@@ -26,10 +32,10 @@
 		= number_to_currency(@transaction.bid.est_shipping_cost)
 		%i
 			= "est"
-	%div	
+	%div
 		%strong Tax:
 		= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
-	%div	
+	%div
 		%strong Service Fee:
 		= number_to_currency(@transaction.total_fee)
 	%div{style: "width: 50%; margin: 0 auto;"}
