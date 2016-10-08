@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
       data = JSON.parse(request.body.read)
       if data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
         case data["event"]["type"]
-        when 2  # payments received in full 
+        when 2  # payments received in full
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
           @transaction.payment_received
           notify("Payment has been received in full please proceed to shipping procedure.", @bid, @bid.seller)
@@ -56,7 +56,7 @@ class TransactionsController < ApplicationController
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :ok, location: @aircraft }
       end
-    end  
+    end
   end
 
   def update
@@ -96,7 +96,7 @@ class TransactionsController < ApplicationController
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       @payment_url = ArmorPaymentsApi.get_payment_url(@transaction.buyer, @transaction)
     elsif @transaction.delivered && @transaction.paid && !@transaction.complete
-      @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer) 
+      @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer)
     end
   end
 
@@ -106,7 +106,7 @@ class TransactionsController < ApplicationController
   end
 
   def show
-    
+
     @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
@@ -162,5 +162,5 @@ class TransactionsController < ApplicationController
       @bid = @transaction.bid
       @auction = @transaction.auction
     end
-	    
+
 end
