@@ -4,9 +4,9 @@ namespace :condition do
   task update: :environment do
     puts "This will update all the record data from tables with a condition column, to integers"
 
-    %w[new overhaul as_removed serviceable scrap].each_with_index do |c, index|
+    %w[new overhaul as_removed serviceable non_serviceable scrap].each_with_index do |c, index|
       puts "Updating records with #{c} condition"
-      [Auction, InventoryPart, Engine].each do |t|
+      [InventoryPart, Engine].each do |t|
         c = 'OH' if c == 'overhaul' && t == InventoryPart
         t.where("condition ilike '%#{c}%'").each do |i|
           puts "Updating record #{i} to condition #{index}"

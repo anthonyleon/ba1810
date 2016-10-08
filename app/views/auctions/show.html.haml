@@ -17,8 +17,9 @@
         %hr{style: "clear:both;margin-top: 60px;"}/
         %ul
           %li.center-align
-            %h5= @all_conditons_empty ? "No Condition Avaiable" : "Acceptable Conditions"
-            %p #{@auction.condition_tag}
+            %h5= @auction.condition_header
+            - @auction.conditions.each do |condition|
+              = @auction.condition_tag(condition)
         %ul
           %li.center-align
             %h5= "Shipping Instructions"

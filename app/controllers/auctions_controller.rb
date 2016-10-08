@@ -25,7 +25,6 @@ class AuctionsController < ApplicationController
   def create
     @auction = Auction.new(auction_params)
     @part_match = Part.find_by(part_num: @auction.part_num)
-    @auction.condition_match
     @auction.resale_check
     respond_to do |format|
 
@@ -130,8 +129,7 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :condition, :destination_address, :destination_zip, :destination_city, 
-        :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no)
+      params.require(:auction).permit(:company_id, :part_num, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
     end
 
     def transaction_params

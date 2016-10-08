@@ -18,12 +18,7 @@
     = f.select :condition, Engine.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
   .field
     %p Engine Status
-    #form-group.radio_button
-      = f.radio_button :current_status,  "In Service"
-      = f.label :current_status_in_service, "In Service"
-    #form-group.radio_button
-      = f.radio_button :current_status,  "Off Service"
-      = f.label :current_status_off_service, "Off Service"
+    = f.select :service_status, Engine.service_statuses.to_a.map { |s| [s[0].humanize, s[0]] }
   .field
     = f.text_field :current_operator, placeholder: "Current Operator"
   .field
