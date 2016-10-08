@@ -46,7 +46,7 @@ class TransactionsController < ApplicationController
   end
 
   def update_tax_shipping
-    p @transaction = Auction.find(params[:auction_id]).tx
+    @transaction = Auction.find(params[:auction_id]).tx
     respond_to do |format|  ## Add this
       if @transaction.update(transaction_params)
         @transaction.calculate_total_payment
@@ -90,7 +90,7 @@ class TransactionsController < ApplicationController
   end
 
   def buyer_purchase
-    redirect_to root_path unless @bid.buyer == current_user
+    redirect_to root_path unless @transaction.buyer == current_user
     @notification = notify("You have won an auction! Please proceed with shipment process.", @bid, @bid.seller) unless Notification.exists?(@bid, "You have won an auction! Please proceed with shipment process.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
