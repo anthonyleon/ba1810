@@ -3,6 +3,8 @@
  */
 
 $custom-green: #189B4C
+$light-grey: #9E9E9E
+
 $break-medium: 800px
 $break-large: 1200px
 
@@ -132,6 +134,28 @@ table.dataTable thead th.sorting_desc:after
   background-color: #fdd835
   @include flash-div
 
+// CARDS
+// Show
+.info-card
+  font-size: 1.2em
+
+  .card-title
+    border-bottom: 1px solid $light-grey
+    margin-bottom: 20px
+
+  .condition
+    text-align: center
+
+  .info
+    display: flex
+    text-align: center
+    margin-bottom: 20px
+
+    .container
+      display: flex
+      flex-direction: column
+
+
 @import "chosen"
 @import "font-awesome-sprockets"
 @import "font-awesome"
@@ -149,3 +173,4 @@ table.dataTable thead th.sorting_desc:after
 @import 'documents'
 @import 'tags'
 @import 'auctions'
+@import 'profile'

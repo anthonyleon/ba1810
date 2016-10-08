@@ -1,4 +1,4 @@
-.tag_condition {
+.tag {
   padding: 3px 3px;
   border-radius: 3px;
   margin: 2px;
@@ -10,7 +10,7 @@
 }
 
 .tag_overhaul {
-  background-color: yellow;
+  background-color: #D45F29;
 }
 
 .tag_serviceable {
@@ -26,5 +26,13 @@
 }
 
 .tag_scrap {
+  background-color: red;
+}
+
+.tag_in_service {
+  background-color: green;
+}
+
+.tag_off_service {
   background-color: red;
 }

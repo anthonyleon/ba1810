@@ -1,101 +1,101 @@
-.row
+.row.profile.aircraft-profile
   .col.s12
     .card
       .card-content
         %div.card-title.activator.grey-text.text-darken-4.center-align
           Aircraft Listing
-        %hr/
-        .row
-          .col.s12.m6
-            .card
-              .card-row.display-flex-space-between
-                %strong Aircraft type:
-                = @aircraft.aircraft_type
-              .card-row.display-flex-space-between
-                %strong Msn:
-                = @aircraft.msn
-              .card-row.display-flex-space-between
-                %strong Tail number:
-                = @aircraft.tail_number
-              .card-row.display-flex-space-between
-                %strong Yob:
-                = @aircraft.yob
-              .card-row.display-flex-space-between
-                %strong Mtow:
-                = @aircraft.mtow
-              .card-row.display-flex-space-between
-                %strong Engine major variant:
-                = @aircraft.engine_major_variant
-          .col.s12.m6
-            .card
-              .card-row.display-flex-space-between
-                %strong Engine minor variant:
-                = @aircraft.engine_minor_variant
-              .card-row.display-flex-space-between
-                %strong Apu model:
-                = @aircraft.apu_model
-              .card-row.display-flex-space-between
-                %strong Cabin config:
-                = @aircraft.cabin_config
-              .card-row.display-flex-space-between
-                %strong Service Status:
-                = @aircraft.service_status
-              .card-row.display-flex-space-between
-                %strong Current operator:
-                = @aircraft.current_operator
-              .card-row.display-flex-space-between
-                %strong Last operator:
-                = @aircraft.last_operator
-        .row
-          .col.s12.m6
-            .card
-              .card-row.display-flex-space-between
-                %strong Location:
-                = @aircraft.location
-              .card-row.display-flex-space-between
-                %strong Maintenance status:
-                = @aircraft.maintenance_status
-              .card-row.display-flex-space-between
-                %strong Available date:
-                = @aircraft.available_date
-              .card-row.display-flex-space-between
-                %strong Sale:
-                = @aircraft.sale
-              .card-row.display-flex-space-between
-                %strong Lease:
-                = @aircraft.lease
+        %div.profile-image
+          = image_tag 'aircraft.png', size: '200x200', alt: 'Aircraft'
 
+    .row
+      .card
+        .card-content
+          %h5.custom-card-title
+            Owner/Rep Info
+            %hr
+          .card-row.display-flex-space-between
+            %strong Aircraft type:
+            = @aircraft.aircraft_type
+          .card-row.display-flex-space-between
+            %strong Msn:
+            = @aircraft.msn
+          .card-row.display-flex-space-between
+            %strong Tail number:
+            = @aircraft.tail_number
+          .card-row.display-flex-space-between
+            %strong Yob:
+            = @aircraft.yob
+          .card-row.display-flex-space-between
+            %strong Mtow:
+            = @aircraft.mtow
+          .card-row.display-flex-space-between
+            %strong Engine major variant:
+            = @aircraft.engine_major_variant
 
-- if @aircraft.company == current_user
-  %div
-  Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
-  %br/
-  = form_for ([@aircraft, @document]), html: { multipart: true, class: "form-inline" } do |f|
-    = f.text_field :name, class: "form-control", placeholder: "Title"
-    = f.file_field :attachment
-    = f.submit "Upload", class: "btn custom-btn"
-  = link_to 'Edit', edit_aircraft_path(@aircraft), class: "btn custom-btn"
-  |
-- if @aircraft.documents.empty?
-  %p There are no documents associated with this part.
-- else
-  %table.table.table-hover
-    %thead
-      %tr
-        %th Name
-        %th Download Link
-        %th  
-      %tbody
-        - @aircraft.documents.each do |document|
-          %tr
-            %td= document.name
-            -if document.attachment.url.downcase.include? "pdf"
-              %td= link_to 'View/Download', document.attachment_url
-            -else
-              %td= link_to 'Download', document.attachment_url
-            - if document.aircraft.company == current_user
-              %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn custom-btn'
-= link_to 'Back', home_path, class: "btn custom-btn"
+    .row
+      .card
+        .card-content
+          %h5.custom-card-title
+            Asset Conditions
+            %hr
+          .card-row.display-flex-space-between
+            %strong Engine minor variant:
+            = @aircraft.engine_minor_variant
+          .card-row.display-flex-space-between
+            %strong Apu model:
+            = @aircraft.apu_model
+          .card-row.display-flex-space-between
+            %strong Cabin config:
+            = @aircraft.cabin_config
+          .card-row.display-flex-space-between
+            %strong Service Status:
+            = @aircraft.service_status_tag
+          .card-row.display-flex-space-between
+            %strong Current operator:
+            = @aircraft.current_operator
+          .card-row.display-flex-space-between
+            %strong Last operator:
+            = @aircraft.last_operator
 
+    .row
+      .card
+        .card-content
+          %h5.custom-card-title
+            Aircraft Description
+            %hr
+          .card-row.display-flex-space-between
+            %strong Location:
+            = @aircraft.location
+          .card-row.display-flex-space-between
+            %strong Maintenance status:
+            = @aircraft.maintenance_status
+          .card-row.display-flex-space-between
+            %strong Available date:
+            = @aircraft.available_date
+          .card-row.display-flex-space-between
+            %strong Sale:
+            = @aircraft.sale
+          .card-row.display-flex-space-between
+            %strong Lease:
+            = @aircraft.lease
+
+    .card
+      .card-content
+        %h5.custom-card-title
+          Documents
+          %hr
+        - if @aircraft.documents.empty?
+          No Documents Available
+        - else
+          = render @aircraft.documents
+
+    = render 'documents/form', object: @aircraft if @aircraft.company == current_user
+%div.btn.custom-btn
+  %i.fa.fa-arrow-left
+  = link_to 'Back to aircrafts', aircrafts_path
+|
+%div.btn.custom-btn
+  %i.fa.fa-edit
+  = link_to 'Edit this aircraft', edit_aircraft_path(@aircraft)
 
 

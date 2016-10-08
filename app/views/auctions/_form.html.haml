@@ -10,40 +10,32 @@
           - @auction.errors.full_messages.each do |message|
             %li= message
     .field.form-group
+      %h5 Part Number
       = f.text_field :part_num, class: "form-control", placeholder: "Part number"
+    %h4 Destination
     .field.form-group
       = f.text_field :destination_shop, class: "form-control", placeholder: "Destination Shop"
     .field.form-group
+      %h5 Street Address
       = f.text_field :destination_address, class: "form-control", placeholder: "Destination Street Address"
     .field.form-group
+      %h5 Zip
       = f.text_field :destination_zip, class: "form-control", placeholder: "Destination Zip Code"
     .field.form-group
+      %h5 City
       = f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
     .field.form-group
+      %h5 State
       = f.text_field :destination_state, class: "form-control", placeholder: "Destination State/Region"
     .field.form-group
+      %h5 Country
       = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
-    .field
-      = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
     .field.form-group
-      %strong Condition
-      = f.select :condition, Auction.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
-    / #checkbox-group
-    /   .field.checkbox.form-group
-    /     = f.check_box(:condition_ne)
-    /     = label_tag "auction_condition_ne", "New"
-    /   .field.checkbox.form-group
-    /     = f.check_box(:condition_oh)
-    /     = label_tag "auction_condition_oh", "Overhaul"
-    /   .field.checkbox.form-group
-    /     = f.check_box(:condition_sv)
-    /     = label_tag "auction_condition_sv", "Serviceable"
-    /   .field.checkbox.form-group
-    /     = f.check_box(:condition_ar)
-    /     = label_tag "auction_condition_ar", "As removed"
-    /   .field.checkbox.form-group
-    /     = f.check_box(:condition_sc)
-    /     = label_tag "auction_condition_sc", "Scrap"
+      %h5 Date
+      = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
+    .field.form-group.auction-condition-form
+      %h5 Condition
+      = f.collection_check_boxes(:condition, Auction.conditions, :to_s, :humanize )
     %br
     %div I am purchasing this part with the intention to resell and will provide a resale certificate.
     #form-group.radio_button
@@ -55,7 +47,7 @@
     %br/
     %div.btn.custom-btn
       %i.fa.fa-check-square-o
-      = f.submit 'Update Auction'
+      = f.submit 'Submit Auction'
 
 
 :javascript

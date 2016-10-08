@@ -19,10 +19,7 @@
         %td= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
         %td= link_to engine.esn, engine
         %td= engine.condition_tag
-        - if engine.in_service?
-          %td= "In Service"
-        - else
-          %td= "Off Service"
+        %td= engine.service_status_tag
         %td= engine.last_operator.capitalize
         %td= engine.location.capitalize
         %td= engine.cycles_remaining
