@@ -10,6 +10,8 @@
           - @auction.errors.full_messages.each do |message|
             %li= message
     .field.form-group
+      = f.text_field :destination_shop, class: "form-control", placeholder: "Destination Shop"
+    .field.form-group
       = f.text_field :destination_address, class: "form-control", placeholder: "Destination Street Address"
     .field.form-group
       = f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
