@@ -17,7 +17,7 @@ class AuctionDecorator < AssetDecorator
   end
 
   def condition_header
-    header = condition.reject { |c| c.to_s.empty? }.empty? ? "No Condition Avaiable" : "Acceptable Conditions"
+    header = condition.reject { |c| c.to_s.empty? }.empty? ? "No Condition Available" : "Acceptable Conditions"
 
     h.content_tag(:p, header)
   end
