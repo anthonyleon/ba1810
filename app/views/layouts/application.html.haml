@@ -35,17 +35,17 @@
         .container
           = yield
 
-:javascript
-  $(function(){
-    $('.modal-trigger').leanModal();
-    $('.button-collapse').sideNav({
-        menuWidth: 240, // Default is 240
-      }
-    );
-  var pgurl = window.location.pathname;
-   $(".side-nav li a").each(function(){
-      if( $(this).attr("href") == pgurl || $(this).attr("href") == '' ) {
-        $($(this)).parent().addClass("active");
-      };
+  :javascript
+    $(function(){
+      $('.modal-trigger').leanModal();
+      $('.button-collapse').sideNav({
+          menuWidth: 240, // Default is 240
+        }
+      );
+    var pgurl = window.location.pathname;
+     $(".side-nav li a").each(function(){
+        if( $(this).attr("href") == pgurl || $(this).attr("href") == '' ) {
+          $($(this)).parent().addClass("active");
+        };
+      });
     });
-  });
