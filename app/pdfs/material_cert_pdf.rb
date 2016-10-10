@@ -7,6 +7,8 @@ class MaterialCertPdf < Prawn::Document
     table_one
     table_two
     table_three
+    table_four
+    table_five
     box
     footer
   end
@@ -27,7 +29,7 @@ class MaterialCertPdf < Prawn::Document
   def table_two
     table reference do
       self.column_widths = [270, 270]
-      self.cell_style = { height: 70, border_color: 'd3d3d3' }
+      self.cell_style = { height: 80, border_color: 'd3d3d3' }
     end
   end
 
@@ -39,12 +41,36 @@ class MaterialCertPdf < Prawn::Document
     table breakdown do
       self.column_widths = [40, 140, 205, 30, 75, 50]
       self.cell_style = { height: 40, border_color: 'd3d3d3' }
+      style(row(1), height: 165)
     end
   end
 
   def breakdown
     [["ITEM", "DESCRIPTION", "MANUFACTURER / PART NUMBER", "QTY", "SERIAL", "STATUS"]] +
     [["1", "#{@transaction.bid.inventory_part.description}", "#{@transaction.auction.part_num}", "1", "#{@transaction.bid.inventory_part.serial_num}", "#{@transaction.bid.inventory_part.condition}"]]
+  end
+
+  def table_four
+    table lower_portion do
+      self.column_widths = [270, 270]
+      self.cell_style = { height: 40, border_color: 'd3d3d3' }
+      style(row(1), height: 165)
+    end
+  end
+
+  def lower_portion
+      [["TRACEABLE TO: #{@transaction.seller.name}", "LAST CERTIFIED AGENCY:"], ["NEW PARTS / MATERIAL VERIFICATION: \n\n THE FOLLOWING SIGNATURE ATTESTS THAT THE PART(S) OR MATERIAL(S) IDENTIFIED ABOVE WAS (WERE) MANUFACTURED BY A FAA PRODUCTION APPROVAL HOLDER (PAH), OR TO AN INDUSTRY COMMERCIAL STANDARD.", " USED, REPAIRED OR OVERHAUL PARTS VERIFICATION:\n\n THE FOLLOWING SIGNATURE ATTEST THAT THE DOCUMENTATION SPECIFIED ABOVE ATTACHED IS ACCURATE WITH REGARD TO THE ITEM(S) DESCRIBED"], ["SIGNATURE:", "SIGNATURE:"]]
+  end
+
+  def table_five
+    table last_bit do
+      self.column_widths = [135, 135, 135, 135]
+      self.cell_style = { height: 40, border_color: 'd3d3d3' }
+    end
+  end
+
+  def last_bit
+    [["NAME:", "DATE:", "NAME:", "DATE:"]]
   end
 
   def box
