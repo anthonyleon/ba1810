@@ -1,7 +1,7 @@
 FactoryGirl.define do
 	factory :bid do
-	  part_price: part
-	  est_shipping_cost: shipping
+	  part_price 					900
+	  est_shipping_cost 	45
 	  company
 	  auction
 	  inventory_part
