@@ -54,7 +54,7 @@
                   %th Est. Shipping
                   %th Avg Rating
               %tbody
-                - @auction.bids.order(part_price: :asc).each do |bid|
+                - BidDecorator.decorate_collection(@auction.bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row
                     = render bid
     %div.btn.custom-btn
