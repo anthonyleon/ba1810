@@ -2,7 +2,7 @@ class TransactionsController < ApplicationController
   protect_from_forgery :except => [:receive_webhook]
   skip_before_action :require_logged_in, only: [:receive_webhook]
   before_action :set_transaction, only: [:update_tax_shipping, :create_shipment, :update]
-  before_action :set_bid, only: [:receive_webhook]
+  before_action :set_bid_and_transaction, only: [:receive_webhook]
   before_action :set_variables, only: [:buyer_purchase, :seller_purchase, :material_cert]
   ## or?
   # skip_before_filter :verify_authenticity_token
