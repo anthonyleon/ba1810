@@ -16,7 +16,7 @@ class Company < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   # validates :EIN, uniqueness: true
   # validates :address, :city, :state, :zip, :country, presence: true
-  validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format, please input correct form: xxx-xxx-xxxx" }
+  # validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format, please input correct form: xxx-xxx-xxxx" }
 
   before_create :confirmation_token
   before_save :downcase_email
