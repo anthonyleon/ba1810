@@ -2,16 +2,17 @@ class TransactionsController < ApplicationController
   protect_from_forgery :except => [:receive_webhook]
   skip_before_action :require_logged_in, only: [:receive_webhook]
   before_action :set_transaction, only: [:update_tax_shipping, :create_shipment, :update]
-  before_action :set_bid_and_transaction, only: [:receive_webhook]
   before_action :set_variables, only: [:buyer_purchase, :seller_purchase, :material_cert]
   ## or?
   # skip_before_filter :verify_authenticity_token
 
   def receive_webhook
     if request.headers['Content-Type'] == 'application/json'
-      data = JSON.parse(request.body.read)
-      if data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
-        case data["event"]["type"]
+      @data = JSON.parse(request.body.read)
+      @transaction = Transaction.find_by(order_id: data["event"]["order_id"])
+      @bid = @transaction.bid
+      if @data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
+        case @data["event"]["type"]
         when 2  # payments received in full
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
           @transaction.payment_received
@@ -155,10 +156,7 @@ class TransactionsController < ApplicationController
       @transaction = Transaction.find(params[:id])
     end
 
-    def set_bid_and_transaction
-      @transaction = Transaction.find_by(order_id: data["event"]["order_id"])
-      @bid = @transaction.bid
-    end
+
 
     def set_variables
       @transaction = Transaction.find(params[:id])
