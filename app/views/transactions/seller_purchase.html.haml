@@ -49,7 +49,7 @@
 		= @transaction.shipping_account
 		= "This transaction is taxable. Please enter correct tax rate (%) for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}."
 		.form-container
-			= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@auction.id)) do |f|
+			= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
 				.field.form-group
 					= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
 				.field.form-group
@@ -66,7 +66,7 @@
 		= "Buyer has a resale ceritifcate applicable for this transaction"
 		= "Confirm Final Shipping Cost for part to arrive by #{@auction.required_date}, to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
 		.form-container
-		= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@auction.id)) do |f|
+		= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
 			.field.form-group 
 				= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost"
 			.field.form-group
@@ -78,7 +78,7 @@
 		= "Confirm Final Shipping Cost for part to arrive by #{@auction.required_date}, to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
 		= "This transaction is taxable. Please enter correct tax rate (%) for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}."	
 		.form-container
-			= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@auction.id)) do |f|
+			= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
 				.field.form-group
 					= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
 				.field.form-group 
