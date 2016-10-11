@@ -5,7 +5,7 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
-require 'helpers/sign_in'
+require 'helpers'
 require 'helpers/auction_part'
 require 'helpers/inventory_parts_helper_spec'
 
@@ -39,7 +39,7 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  config.include SignInHelper
+  config.include Helpers
   config.include AuctionPartMatchHelper
   config.include InventoryPartHelper
   config.include FactoryGirl::Syntax::Methods
