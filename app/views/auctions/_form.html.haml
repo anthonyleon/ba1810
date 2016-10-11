@@ -16,7 +16,7 @@
       %h4 Destination 
     .field.form-group
       %h5 Company Name
-      = f.text_field :destination_shop, class: "form-control", placeholder: "Destination Shop"
+      = f.text_field :destination_company, class: "form-control", placeholder: "Destination Company"
     .field.form-group
       %h5 Street Address
       = f.text_field :destination_address, class: "form-control", placeholder: "Destination Street Address"
@@ -49,7 +49,7 @@
     %br/
     %div.btn.custom-btn
       %i.fa.fa-check-square-o
-      = f.submit 'Submit Auction'
+      = f.submit 'Submit Request'
 
 
   :javascript
