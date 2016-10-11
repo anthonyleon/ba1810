@@ -12,8 +12,10 @@
     .field.form-group
       %h5 Part Number
       = f.text_field :part_num, class: "form-control", placeholder: "Part number"
-    %h4 Destination
+    %div{style: "text-align: center;"}
+      %h4 Destination 
     .field.form-group
+      %h5 Company Name
       = f.text_field :destination_shop, class: "form-control", placeholder: "Destination Shop"
     .field.form-group
       %h5 Street Address
@@ -24,7 +26,7 @@
     .field.form-group
       %h5 City
       = f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
-    .field.form-group
+    .field.form-group 
       %h5 State
       = f.text_field :destination_state, class: "form-control", placeholder: "Destination State/Region"
     .field.form-group
