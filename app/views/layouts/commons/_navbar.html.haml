@@ -7,12 +7,12 @@
         - notification = Notification.any_unread?(current_user)
         - if Notification.any_unread?(current_user)
           %li{style: 'height: 64px;display: flex;align-items:center;'}
-            = link_to notifications_index_path, style: 'display: flex;' do
+            = link_to notifications_index_path, style: 'display: flex;', class: 'bell' do
               %span.material-icons{class: "red-bell"}
                 notifications_active
         -else
           %li{style: 'height: 64px;display: flex;align-items:center;'}
-            = link_to notifications_index_path, style: 'display: flex;' do
+            = link_to notifications_index_path, style: 'display: flex;', class: "bell" do
               %span.material-icons
                 notifications
         %li
