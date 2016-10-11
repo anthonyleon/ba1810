@@ -95,8 +95,10 @@ class TransactionsController < ApplicationController
     @notification = notify("You have won an auction! Please proceed with shipment process.", @bid, @bid.seller) unless Notification.exists?(@bid, "You have won an auction! Please proceed with shipment process.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
+      response.headers.delete "X-Frame-Options"
       @payment_url = ArmorPaymentsApi.get_payment_url(@transaction.buyer, @transaction)
     elsif @transaction.delivered && @transaction.paid && !@transaction.complete
+      response.headers.delete "X-Frame-Options"
       @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer)
     end
   end
