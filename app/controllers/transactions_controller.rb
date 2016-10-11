@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
   protect_from_forgery :except => [:receive_webhook]
   skip_before_action :require_logged_in, only: [:receive_webhook]
-  before_action :set_transaction, only: [:create_shipment, :update]
+  before_action :set_transaction, only: [:update_tax_shipping, :create_shipment, :update]
   before_action :set_bid, only: [:receive_webhook]
   before_action :set_variables, only: [:buyer_purchase, :seller_purchase, :material_cert]
   ## or?
@@ -46,13 +46,13 @@ class TransactionsController < ApplicationController
   end
 
   def update_tax_shipping
-    @transaction = Auction.find(params[:auction_id]).tx
     respond_to do |format|  ## Add this
       if @transaction.update(transaction_params)
         @transaction.calculate_total_payment
         #generate invoice here....
         armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
+        notify("Seller has finalized costs. Please send funds to escrow.", @transaction.bid, @transaction.buyer)
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :ok, location: @aircraft }
       end
