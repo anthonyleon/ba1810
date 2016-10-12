@@ -14,3 +14,5 @@
     = render 'auctions/partials/supplier_auctions'
   #currentOpportunities.col.s12
     = render 'auctions/partials/possible_auctions'
+  %div{style: "text-align: left;margin:10px 0;"}
+    = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
