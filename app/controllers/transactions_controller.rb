@@ -65,6 +65,7 @@ class TransactionsController < ApplicationController
       if @transaction.update(transaction_params)
         @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
         @transaction.update(shipped: true) if params[:commit] == "Update Tracking Info"
+        binding.pry
         if @transaction.seller == current_user
           format.html { redirect_to seller_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
         elsif @transaction.buyer == current_user
