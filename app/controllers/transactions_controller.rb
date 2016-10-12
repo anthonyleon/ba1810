@@ -65,7 +65,6 @@ class TransactionsController < ApplicationController
       if @transaction.update(transaction_params)
         @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
         @transaction.update(shipped: true) if params[:commit] == "Update Tracking Info"
-        binding.pry
         if @transaction.seller == current_user
           format.html { redirect_to seller_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
         elsif @transaction.buyer == current_user
@@ -98,10 +97,11 @@ class TransactionsController < ApplicationController
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
-      @payment_url = ArmorPaymentsApi.get_payment_url(@transaction.buyer, @transaction)
+      @payment_url = ArmorPaymentsApi.get_payment_url(@transaction)
     elsif @transaction.delivered && @transaction.paid && !@transaction.complete
       response.headers.delete "X-Frame-Options"
-      @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer)
+      p @release_payment_url = ArmorPaymentsApi.release_payment(@transaction)
+      p @dispute_transaction_url = ArmorPaymentsApi.initiate_dispute(@transaction)
     end
   end
 
