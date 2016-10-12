@@ -31,6 +31,18 @@ feature 'Companies can complete checkout process' do
       expect(page).to have_field('auction[destination_country]', with: auction.destination_country)
     end
 
+    it 'should update when destination info has been updated' do
+      expect(Transaction.last.auction).to eq auction
+      find_and_fill_checkout_page
+      wait_for_ajax
+      expect(auction.destination_company).to eq "Bid Aero"
+      expect(auction.destination_address).to eq "123 Main Street"
+      expect(auction.destination_city).to eq "Miami"
+      expect(auction.destination_state).to eq "FL"
+      expect(auction.destination_zip).to eq "12345"
+      expect(auction.destination_country).to eq "US"
+    end
+
   	
   end
 
