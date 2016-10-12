@@ -110,7 +110,6 @@ class TransactionsController < ApplicationController
   end
 
   def show
-
     @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
