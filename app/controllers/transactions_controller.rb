@@ -9,7 +9,7 @@ class TransactionsController < ApplicationController
   def receive_webhook
     if request.headers['Content-Type'] == 'application/json'
       @data = JSON.parse(request.body.read)
-      @transaction = Transaction.find_by(order_id: data["event"]["order_id"])
+      @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
       @bid = @transaction.bid
       if @data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
         case @data["event"]["type"]
@@ -65,6 +65,7 @@ class TransactionsController < ApplicationController
       if @transaction.update(transaction_params)
         @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
         @transaction.update(shipped: true) if params[:commit] == "Update Tracking Info"
+        binding.pry
         if @transaction.seller == current_user
           format.html { redirect_to seller_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
         elsif @transaction.buyer == current_user
@@ -110,7 +111,6 @@ class TransactionsController < ApplicationController
   end
 
   def show
-
     @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
