@@ -29,6 +29,8 @@ feature 'Companies can complete checkout process' do
       expect(page).to have_field('auction[destination_state]', auction.destination_state)
       expect(page).to have_field('auction[destination_zip]', with: auction.destination_zip)
       expect(page).to have_field('auction[destination_country]', with: auction.destination_country)
+      find_and_fill_checkout_page
+      expect(page).to have_field('#po_num')
     end
 
   	
