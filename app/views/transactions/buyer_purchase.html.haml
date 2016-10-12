@@ -6,6 +6,12 @@
 					="Auction for #{@auction.part_num}"
 				-if !@transaction.paid
 					= "Purchase Order generated. Pending seller confirmation of tax and shipping info. The next step will require you to send funds into escrow once the Invoice is generated."
+					%div
+					= "Status: Pending Seller Confirmation"
+				-elsif @transaction.paid && !@transaction.shipped
+					="Waiting for shipment information to be received."
+				-elsif @transaction.shipped
+					="Part is en route, once part is accepted please release funds from escrow to seller."
 .card-row.display-flex-space-between
 	%div	
 		%strong Part Price:

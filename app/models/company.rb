@@ -39,6 +39,14 @@ class Company < ActiveRecord::Base
     end while Company.exists?(column => self[column])
   end
 
+  def owned_bids
+    auctions = []
+    self.bids.each do |bid|
+      auctions << bid.auction if bid.auction.active
+    end
+    auctions
+  end
+
   def send_password_reset
     generate_token(:password_reset_token)
     self.password_reset_sent_at = Time.zone.now

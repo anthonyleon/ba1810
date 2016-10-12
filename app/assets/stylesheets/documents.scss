@@ -1,0 +1,20 @@
+.doc-upload {
+  margin-top: 1%;
+
+  input {
+    text-transform: uppercase;
+    background-color: transparent;
+    border: none;
+    font-family: "Roboto", sans-serif;
+  }
+
+  input:focus {
+    outline: none;
+  }
+}
+
+.doc-delete {
+  a {
+    color: #ffffff;
+  }
+}

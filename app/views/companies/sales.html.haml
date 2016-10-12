@@ -22,4 +22,4 @@
             %td.srchtbl= transaction.bid.inventory_part.condition
             %td.srchtbl= transaction.bid.inventory_part.manufacturer
             %td.srchtbl= number_to_currency transaction.total_amount
-            %td= link_to 'Show', auction_bid_path(transaction.auction, transaction.bid)
+            %td= link_to 'Show', seller_purchase_path(transaction)

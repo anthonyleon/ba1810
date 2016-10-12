@@ -3,12 +3,15 @@ class AuctionsController < ApplicationController
   before_action :set_bid_and_auction, only: [:purchase_confirmation, :purchase]
 
   def index
-    @owned_auctions = current_user.auctions.where(active: true)
-    @supplier_auctions = owned_bids
-    get_sales_opportunities
+    @owned_auctions = current_user.auctions.where(active: true).decorate
+    @supplier_auctions = AuctionDecorator.decorate_collection(current_user.owned_bids)
+    # above code should look like this but I need to work on owned_bids first
+    # @supplier_auctions = current_user.owned_bids.decorate
+    @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
   end
 
   def show
+    @auction = @auction.decorate
     @msrp = @auction.auction_part.init_price
   end
 
@@ -50,7 +53,9 @@ class AuctionsController < ApplicationController
 
   def update
     respond_to do |format|
+      @transaction = Transaction.find(transaction_params[:id])
       if @auction.update(auction_params)
+        @transaction.update(transaction_params)
         format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
         format.js { }
         format.json { render :show, status: :ok, location: @auction }
@@ -70,15 +75,10 @@ class AuctionsController < ApplicationController
   end
 
   def purchase_confirmation
-    ## create transaction
-    ## if else logic for testing purposes, for if armor order already created
-    # if @bid.tx 
-    #   @transaction = @bid.tx 
-    # else     
-      @transaction = Transaction.create_order(@bid) # delete for testing
-      ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT
-      action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @bid.tx.total_amount }
-      p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
+      @transaction = Transaction.create_order(@bid)
+      ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT [testing purposes]
+      # action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @transaction.total_amount }
+      # p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
       # webhook saying full payment has been received for the below notification
       notify_of_sale("You have won an auction! Please proceed with shipment process.")
     # end
@@ -87,21 +87,20 @@ class AuctionsController < ApplicationController
     @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction)
   end
 
-  def purchase 
-    @transaction = @auction.tx
-    @transaction = Transaction.create_order(@bid) unless @auction.tx
-    @transaction.calculate_total_payment
+  # def purchase This is no longer being used.. Also delete the view TESTING
+  #   @transaction = @auction.tx
+  #   @transaction = Transaction.create_order(@bid) unless @auction.tx
+  #   @transaction.calculate_total_payment
 
-    @transaction.create_armor_order unless @transaction.order_id
-    @auction.update(active: false)
+  #   @transaction.create_armor_order unless @transaction.order_id
+  #   @auction.update(active: false)
 
 
-    @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid
-    ## get URL modal popup
-    @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction) unless @transaction.shipped
-    @url = ArmorPaymentsApi.release_payment(@bid, current_user) if @transaction.delivered
-
-  end
+  #   @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid
+  #   ## get URL modal popup
+  #   @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction) unless @transaction.shipped
+  #   @url = ArmorPaymentsApi.release_payment(@bid, current_user) if @transaction.delivered
+  # end
 
   private
 
@@ -120,29 +119,6 @@ class AuctionsController < ApplicationController
       Notification.create(company: @bid.company, bid: @bid, auction: @auction, message: message)
     end
 
-
-    def get_sales_opportunities
-      parts = current_user.inventory_parts
-      parts.uniq! { |part| [part[:part_num], part[:condition]] }
-      @sales_opportunities = []
-      parts.each do |part|
-        #stick auction in sales opportunities if the auction is not the current_user's, already contains a current_user bid, or if the auction isn't asking for the part in questions condition
-        Auction.where(part_num: part.part_num, active: true).each do |auction|
-          @sales_opportunities << auction unless auction.company == current_user || !(auction.bids & current_user.bids).empty? || !auction.condition.include?(part.condition)
-          @sales_opportunities << auction if auction.condition == "All Conditions" && auction.company != current_user && (auction.bids & current_user.bids).empty?
-        end
-      end
-      @sales_opportunities.uniq!
-    end
-
-    def owned_bids
-      auctions = []
-      current_user.bids.each do |bid|
-        auctions << bid.auction if bid.auction.active
-      end
-      auctions
-    end
-
     def set_auction
       @auction = Auction.find(params[:id])
     end
@@ -154,6 +130,11 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :condition_ne, :condition_oh, :condition_sv, :condition_ar, :condition_sc, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no)
+      params.require(:auction).permit(:company_id, :part_num, :condition, :destination_address, :destination_zip, :destination_city, 
+        :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no)
+    end
+
+    def transaction_params
+      params.require(:auction).permit(transactions: [:id, :carrier, :shipping_account])[:transactions]
     end
 end

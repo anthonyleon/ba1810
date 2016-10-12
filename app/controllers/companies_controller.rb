@@ -8,7 +8,7 @@ class CompaniesController < ApplicationController
   # before_action :set_armor_client, only: [:create, :edit, :update, :sales, :purchases]
 
   def show
-    @engines = Engine.all
+    @engines = EngineDecorator.decorate_collection(Engine.all)
     @aircrafts = Aircraft.all
     @company = current_user
     yahoo_client = YahooFinance::Client.new
