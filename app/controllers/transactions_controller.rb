@@ -9,7 +9,7 @@ class TransactionsController < ApplicationController
   def receive_webhook
     if request.headers['Content-Type'] == 'application/json'
       @data = JSON.parse(request.body.read)
-      @transaction = Transaction.find_by(order_id: data["event"]["order_id"])
+      @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
       @bid = @transaction.bid
       if @data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
         case @data["event"]["type"]
