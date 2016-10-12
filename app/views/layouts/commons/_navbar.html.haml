@@ -19,6 +19,9 @@
           = link_to 'Inventory', inventory_parts_path
         %li
           = link_to "Log out", logout_path
+      %span.company-logo
+        %a{:href => root_path}
+          = image_tag("/images/bid_aero_logo.png")
       %span#button.right.hide-on-med-and-down{style: "margin-right: 15px;"}
         %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
           New
@@ -33,57 +36,54 @@
             = link_to 'Engine Listing', new_engine_path
           %li
             = link_to 'Aircraft Listing', new_aircraft_path
-    %ul#mobile-demo.side-nav.fixed
-      .company-logo.z-depth-2
-        %a{:href => root_path}
-          = image_tag("/images/bid_aero_logo.png", class: 'responsive-img')
-      %li
-        = link_to home_path do
+    %ul#mobile-demo.side-nav.fixed{style: "z-index: 0;"}
+      %li{style: "padding-top: 65px;"}
+        = link_to home_path, {class: "sidenav-button"} do
           %i.material-icons.left
             home
           Dashboard
       %li
-        = link_to auctions_path do
+        = link_to auctions_path, {class: "sidenav-button"} do
           %i.material-icons.left
             gavel
           Current Auctions
       %li
-        = link_to inventory_parts_path do
+        = link_to inventory_parts_path, {class: "sidenav-button"} do
           %i.material-icons.left
             build
           Inventory
       %li
-        = link_to aircrafts_path do
+        = link_to aircrafts_path, {class: "sidenav-button"} do
           %i.material-icons.left
             airplanemode_active
           Aircrafts
       %li
-        = link_to engines_path do
+        = link_to engines_path, {class: "sidenav-button"} do
           %i.material-icons.left
             toys
           Engines
       %li
-        = link_to sales_path do
+        = link_to sales_path, {class: "sidenav-button"} do
           %i.material-icons.left
             attach_money
           Sales
       %li
-        = link_to purchases_path do
+        = link_to purchases_path, {class: "sidenav-button"} do
           %i.material-icons.left
             add_shopping_cart
           Purchases
       %li
-        = link_to company_docs_path do
+        = link_to company_docs_path, {class: "sidenav-button"} do
           %i.material-icons.left
             folder
           Documents
       %li
-        = link_to edit_company_path do
+        = link_to edit_company_path, {class: "sidenav-button"} do
           %i.material-icons.left
             settings
           Settings
       %li
-        = link_to logout_path do
+        = link_to logout_path, {class: "sidenav-button"} do
           %i.material-icons.left
             power_settings_new
           Log out
