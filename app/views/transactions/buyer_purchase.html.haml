@@ -50,7 +50,9 @@
 	-elsif @release_payment_url
 		%p
 		%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-		/ %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@release_payment_url}"}
-		/ 	="Release Payment From Escrow"
+			/ %a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@release_payment_url}"}
+			/ 	="Release Payment From Escrow"
 		%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_transaction_url}"}
 			= "Initiate Dispute"
+-if @transaction.disputed
+	="You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
