@@ -500,7 +500,7 @@
           .col-md-3{:style => "margin-top: 20px;"}
             Order Amount:
           .col-md-8
-            %input.form-control.input-md.round.mb-xs-10{:onkeyup => "getTransactionFee(this.value)", :placeholder => "Enter the amount of the order in USD", :type => "text"}/
+            %input.form-control.input-md.round.mb-xs-10{:onkeyup => "getTransactionFee(parseFloat(this.value))", :placeholder => "Enter the amount of the order in USD", :type => "text"}/
           .col-md-3.left{:style => "margin-top: 20px;"}
             Transaction fee for this order:
           #transactionFee.col-md-9{:style => "margin-top: 20px;"}
