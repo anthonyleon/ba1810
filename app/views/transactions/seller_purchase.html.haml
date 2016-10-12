@@ -87,4 +87,5 @@
 					= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 				.actions{style: "margin-bottom: 20px;"}
 					= f.submit 'Submit', class: "btn custom-btn"
-
+-if @transaction.disputed
+	="Transaction has been disputed by the the purchaser. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."

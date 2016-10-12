@@ -29,6 +29,7 @@ class TransactionsController < ApplicationController
           @transaction.delivery_received
           notify("Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", @bid, @bid.seller)
         when 5 # dispute initiated
+          @transaction.mark_as_disputed
           notify("Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", @bid, @bid.seller)
           # testing purposes. ALSO SEND AN EMAIL TO THE USER
         when 6 # order accepted (ie. funds released from buyer to seller)
@@ -65,6 +66,7 @@ class TransactionsController < ApplicationController
       if @transaction.update(transaction_params)
         @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
         @transaction.update(shipped: true) if params[:commit] == "Update Tracking Info"
+        @transaction.update(carrier: true) if params[:commit] == "Update Tracking Info"
         if @transaction.seller == current_user
           format.html { redirect_to seller_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
         elsif @transaction.buyer == current_user
@@ -98,7 +100,7 @@ class TransactionsController < ApplicationController
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
       @payment_url = ArmorPaymentsApi.get_payment_url(@transaction)
-    elsif @transaction.delivered && @transaction.paid && !@transaction.complete
+    elsif @transaction.delivered && @transaction.paid && !@transaction.complete && !@transaction.disputed
       response.headers.delete "X-Frame-Options"
       p @release_payment_url = ArmorPaymentsApi.release_payment(@transaction)
       p @dispute_transaction_url = ArmorPaymentsApi.initiate_dispute(@transaction)
@@ -107,7 +109,7 @@ class TransactionsController < ApplicationController
 
   def seller_purchase
     redirect_to root_path unless @bid.seller == current_user
-    @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid
+    @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid && !@transaction.carrier_code
   end
 
   def show

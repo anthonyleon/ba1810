@@ -92,6 +92,14 @@ class ArmorPaymentsApi
     result[:body]["url"]
   end
 
+  def self.send_message(company_sending_message, transaction, company_receiving_message)
+    account_id = company_sending_message.armor_account_id
+    user_id = company_sending_message.armor_user_id
+
+    auth_data = { 'uri' => "/accounts/#{company_receiving_message.account_id}/orders/#{transaction.order_id}/disputes/#{??NEEDS TO BE DISPUTE NUMBER}", 'action' => 'view' }
+    result = client.accounts.users(account_id).authentications(user_id).create(auth_data)
+  end
+
   def self.create_shipment_record(transaction)
     #testing purposes carrier name not being passed through form.. because of _shipment partial 'options_for_select'
     transaction.update_attribute('carrier', CLIENT.shipmentcarriers.all[:body][transaction.carrier_code.to_i - 1]["name"])
