@@ -25,4 +25,22 @@ module Helpers
 
     click_button 'Create Auction' if opts[:submit]
   end
+
+  def find_and_fill_inventory_part_form(opts ={})
+    part_num = opts[:part_num] || "9000000-20004"
+
+    fill_in 'inventory_part[part_num]', with: part_num
+    fill_in 'inventory_part[serial_num]', with: '123456'
+    find('#inventory_part_condition').find(:xpath, 'option[2]').select_option
+    find_button 'Update Inventory Part'
+    click_button 'Update Inventory Part' if opts[:submit]
+  end
+
+  def find_and_fill_bid_form(opts={})
+    part_num = opts[:part_num] || "9000000-20004"
+
+    fill_in 'bid[part_price]', with: 2_000
+    fill_in 'bid[est_shipping_cost]', with: 123
+    click_button 'Place bid'
+  end
 end
