@@ -57,17 +57,17 @@ class ArmorPaymentsApi
 
   end
 
-  def self.release_payment(transaction, company)
-    account_id = company.armor_account_id
-    user_id = company.armor_user_id
+  def self.release_payment(transaction)
+    account_id = transaction.buyer.armor_account_id
+    user_id = transaction.buyer.armor_user_id
     auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{transaction.order_id}", 'action' => 'release' }
     url_result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
     url_result.data[:body]["url"]
   end
 
-  def self.get_payment_url(company, transaction)
-    auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/orders/#{transaction.order_id}/paymentinstructions", 'action' => 'view' }
-    p result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
+  def self.get_payment_url(transaction)
+    auth_data = { 'uri' => "/accounts/#{transaction.buyer.armor_account_id}/orders/#{transaction.order_id}/paymentinstructions", 'action' => 'view' }
+    p result = CLIENT.accounts.users(transaction.buyer.armor_account_id).authentications(transaction.buyer.armor_user_id).create(auth_data)
     result.data[:body]["url"]
   end
 
@@ -83,10 +83,13 @@ class ArmorPaymentsApi
   end
 
   def self.initiate_dispute(transaction)
-    account_id = transaction.buyer.armor_account_id
+    buyer_account_id = transaction.buyer.armor_account_id
+    seller_account_id = transaction.seller.armor_account_id
     user_id = transaction.buyer.armor_user_id
-    auth_data = { 'uri' => "/accounts/290465/orders/#{transaction.order_id}/disputes", 'action' => 'view' }
-    result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
+
+    auth_data = { 'uri' => "/accounts/#{seller_account_id}/orders/#{transaction.order_id}/disputes", 'action' => 'view' }
+    p result = CLIENT.accounts.users(buyer_account_id).authentications(user_id).create(auth_data)
+    result[:body]["url"]
   end
 
   def self.create_shipment_record(transaction)
