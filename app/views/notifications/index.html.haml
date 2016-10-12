@@ -16,7 +16,7 @@
             -if note.bid != nil && note.bid.tx
               -if note.bid.tx.seller == current_user
                 %td.srchtbl= link_to note.message, seller_purchase_path(note.bid.tx.id)
-              -elsif note.bit.tx.buyer == current_user
+              -elsif note.bid.tx.buyer == current_user
                 %td.srchtbl= link_to note.message, buyer_purchase_path(note.bid.tx.id)
             -else
               %td.srchtbl= link_to note.message, note.auction
