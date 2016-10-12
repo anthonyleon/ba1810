@@ -43,4 +43,16 @@ module Helpers
     fill_in 'bid[est_shipping_cost]', with: 123
     click_button 'Place bid'
   end
+
+  def find_and_fill_checkout_page
+    fill_in 'auction[destination_company]', with: "Bid Aero"
+    fill_in 'auction[destination_address]', with: "123 Main Street"
+    fill_in 'auction[destination_city]', with: "Miami"
+    fill_in 'auction[destination_state]', with: "FL"
+    fill_in 'auction[destination_zip]', with: "12345"
+    fill_in 'auction[destination_country]', with: "US"
+    fill_in 'auction[transactions][carrier]', with: "FedEx"
+    fill_in 'auction[transactions][shipping_account]', with: "x341s1kj24124515j5k1lu1"
+    click_button 'Submit'
+  end
 end
