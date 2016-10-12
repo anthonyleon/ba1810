@@ -1,20 +1,25 @@
 %header
   %nav
-    .nav-wrapper
+    .nav-wrapper.top-nav.z-depth-2
       %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
         %i.material-icons menu
-      %ul.right.hide-on-med-and-down
+      %ul#nav-buttons.right.hide-on-med-and-down
         - notification = Notification.any_unread?(current_user)
         - if Notification.any_unread?(current_user)
           %li{style: 'height: 64px;display: flex;align-items:center;'}
             = link_to notifications_index_path, style: 'display: flex;' do
               %span.material-icons{class: "red-bell"}
                 notifications_active
+        -else
+          %li{style: 'height: 64px;display: flex;align-items:center;'}
+            = link_to notifications_index_path, style: 'display: flex;' do
+              %span.material-icons
+                notifications
         %li
           = link_to 'Inventory', inventory_parts_path
         %li
           = link_to "Log out", logout_path
-      %span.right.hide-on-med-and-down{style: "margin-right: 15px;"}
+      %span#button.right.hide-on-med-and-down{style: "margin-right: 15px;"}
         %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
           New
           %i.material-icons.my-custom-m-icons arrow_drop_down
@@ -29,13 +34,13 @@
           %li
             = link_to 'Aircraft Listing', new_aircraft_path
     %ul#mobile-demo.side-nav.fixed
-      .company-logo
+      .company-logo.z-depth-2
         %a{:href => root_path}
           = image_tag("/images/bid_aero_logo.png", class: 'responsive-img')
       %li
         = link_to home_path do
-          / %i.material-icons.left
-          /   home
+          %i.material-icons.left
+            home
           Dashboard
       %li
         = link_to auctions_path do
@@ -44,28 +49,28 @@
           Current Auctions
       %li
         = link_to inventory_parts_path do
-          / %i.material-icons.left
-          /   toys
+          %i.material-icons.left
+            build
           Inventory
       %li
         = link_to aircrafts_path do
-          / %i.material-icons.left
-          /   airplanemode_active
+          %i.material-icons.left
+            airplanemode_active
           Aircrafts
       %li
         = link_to engines_path do
-          / %i.material-icons.left
-          /   build
+          %i.material-icons.left
+            toys
           Engines
       %li
         = link_to sales_path do
           %i.material-icons.left
-            add_shopping_cart
+            attach_money
           Sales
       %li
         = link_to purchases_path do
-          / %i.material-icons.left
-          /   attach_money
+          %i.material-icons.left
+            add_shopping_cart
           Purchases
       %li
         = link_to company_docs_path do
@@ -74,13 +79,13 @@
             folder
       %li
         = link_to edit_company_path do
-          / %i.material-icons.left
-          /   settings
+          %i.material-icons.left
+            settings
           Settings
       %li
         = link_to logout_path do
-          / %i.material-icons.left
-          /   power_settings_new
+          %i.material-icons.left
+            power_settings_new
           Log out
 
 

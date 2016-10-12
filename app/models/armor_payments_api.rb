@@ -41,16 +41,16 @@ class ArmorPaymentsApi
    p result[:body]["order_id"]
  end
 
- def self.update_order(bid, opts = {})
+ def self.update_order(transaction, opts = {})
   p data = {
     "type" => 1,
-    "amount" => bid.tx.total_amount,
+    "amount" => transaction.total_amount,
     "invoice_num" => "123456",
     "purchase_order_num" => "675890",
     "message" => opts["message"]
   }
-  order_id = bid.tx.order_id
-  p result = CLIENT.orders(bid.seller.armor_account_id).update(order_id, data)
+  order_id = transaction.order_id
+  p result = CLIENT.orders(transaction.seller.armor_account_id).update(order_id, data)
 
 end
 
@@ -78,14 +78,14 @@ def self.carriers_list
   CLIENT.shipmentcarriers.all
 end
 
-def self.create_shipment_record(bid)
+def self.create_shipment_record(transaction)
     #testing purposes carrier name not being passed through form.. because of _shipment partial 'options_for_select'
-    bid.tx.update_attribute('carrier', CLIENT.shipmentcarriers.all[:body][bid.tx.carrier_code.to_i - 1]["name"])
-    user_id = bid.seller.armor_user_id
-    account_id = bid.seller.armor_account_id
-    order_id = bid.tx.order_id
-    action_data = { "user_id" => user_id, "carrier_id" => bid.tx.carrier_code, "tracking_id" => bid.tx.tracking_num,
-    "description" => bid.tx.shipment_desc }
+    transaction.update_attribute('carrier', CLIENT.shipmentcarriers.all[:body][transaction.carrier_code.to_i - 1]["name"])
+    user_id = transaction.seller.armor_user_id
+    account_id = transaction.seller.armor_account_id
+    order_id = transaction.order_id
+    action_data = { "user_id" => user_id, "carrier_id" => transaction.carrier_code, "tracking_id" => transaction.tracking_num,
+    "description" => transaction.shipment_desc }
     result = CLIENT.orders(account_id).shipments(order_id).create(action_data)
    end
 

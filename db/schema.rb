@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914204444) do
+ActiveRecord::Schema.define(version: 20161005172703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,14 +63,8 @@ ActiveRecord::Schema.define(version: 20160914204444) do
     t.datetime "updated_at",                         null: false
     t.string   "part_num"
     t.boolean  "active",              default: true, null: false
-    t.string   "condition"
-    t.boolean  "condition_ne"
-    t.boolean  "condition_oh"
-    t.boolean  "condition_sv"
-    t.boolean  "condition_ar"
-    t.boolean  "condition_sc"
+    t.integer  "condition"
     t.string   "po_num"
-    t.integer  "transaction_id"
     t.string   "destination_address"
     t.string   "destination_zip"
     t.string   "destination_city"
@@ -91,8 +85,6 @@ ActiveRecord::Schema.define(version: 20160914204444) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "invoice_num"
-    t.integer  "transaction_id"
-    t.decimal  "total_amount"
     t.decimal  "part_price"
     t.decimal  "est_shipping_cost"
   end
@@ -137,22 +129,6 @@ ActiveRecord::Schema.define(version: 20160914204444) do
 
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
 
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-
   create_table "documents", force: :cascade do |t|
     t.string   "name"
     t.string   "attachment"
@@ -173,11 +149,7 @@ ActiveRecord::Schema.define(version: 20160914204444) do
     t.string   "engine_major_variant"
     t.string   "engine_minor_variant"
     t.string   "esn"
-    t.string   "condition"
-    t.boolean  "new"
-    t.boolean  "overhaul"
-    t.boolean  "serviceable"
-    t.boolean  "non_serviceable"
+    t.integer  "condition"
     t.string   "current_status"
     t.boolean  "in_service"
     t.boolean  "off_service"
@@ -204,7 +176,7 @@ ActiveRecord::Schema.define(version: 20160914204444) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.string   "serial_num",   null: false
-    t.string   "condition"
+    t.integer  "condition"
   end
 
   add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id", using: :btree
@@ -242,7 +214,6 @@ ActiveRecord::Schema.define(version: 20160914204444) do
 
   create_table "transactions", force: :cascade do |t|
     t.string   "order_id"
-    t.integer  "auction_id"
     t.integer  "inventory_part_id"
     t.string   "po_num"
     t.string   "invoice_num"
@@ -267,6 +238,7 @@ ActiveRecord::Schema.define(version: 20160914204444) do
     t.boolean  "complete",            default: false
     t.decimal  "part_price"
     t.boolean  "shipped"
+    t.integer  "bid_id"
   end
 
   add_foreign_key "aircrafts", "companies"
