@@ -1,51 +1,55 @@
 .row
 	.col.s12
-		.card
+		.card.buyer_purchase
 			.card-content
 				.custom-card-title
 				%h3.custom-card-title.center
 					="Auction for #{@auction.part_num}"
+					%br
+					="#{@auction.auction_part.description}"
 				-if !@transaction.paid
 					%div.center
 						%h5 Purchase Order generated.
-						%br
+					%div.status
+						%span.tag.tag-pending-seller-confirmation Status: Pending Seller Confirmation
+					%div.center
 						Pending seller confirmation of tax and shipping info.
 						%br
 						The next step will require you to send funds into escrow once the Invoice is generated.
-					%div
-					= "Status: Pending Seller Confirmation"
 				-elsif @transaction.paid && !@transaction.shipped
 					="Waiting for shipment information to be received."
 				-elsif @transaction.shipped
 					="Part is en route, once part is accepted please release funds from escrow to seller."
-.card-row.display-flex-space-between
-	%div
-		%strong Part Price:
-		= number_to_currency(@transaction.part_price)
-	%div
-		%strong Shipping Cost:
-	-if @transaction.shipping_account
-		= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
-	-elsif @transaction.final_shipping_cost
-		= number_to_currency(@transaction.final_shipping_cost )
-	-else
-		= number_to_currency(@transaction.bid.est_shipping_cost)
-		%i
-			= "est"
-	%div
-		%strong Tax:
-		= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
-	%div
-		%strong Service Fee:
-		= number_to_currency(@transaction.total_fee)
-	%div{style: "width: 50%; margin: 0 auto;"}
-		%strong Total:
-		= number_to_currency(@transaction.total_amount)
--if @payment_url || @release_payment_url
-	%p
-	%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-	%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
-		-if @payment_url
-			="Click Here to Send Funds to Escrow"
-		-elsif @release_payment_url
-			="Release Payment From Escrow"
+				%hr
+				%div.part-info
+					%div
+						%strong Part Price:
+						%br
+						= number_to_currency(@transaction.part_price)
+					%div
+						%strong Shipping Cost:
+					-if @transaction.shipping_account
+						= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
+					-elsif @transaction.final_shipping_cost
+						= number_to_currency(@transaction.final_shipping_cost)
+					-else
+						= number_to_currency(@transaction.bid.est_shipping_cost)
+						%i
+							= "est"
+					%div
+						%strong Tax:
+						= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
+					%div
+						%strong Service Fee:
+						= number_to_currency(@transaction.total_fee)
+					%div{style: "width: 50%; margin: 0 auto;"}
+						%strong Total:
+						= number_to_currency(@transaction.total_amount)
+				-if @payment_url || @release_payment_url
+					%p
+					%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+					%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
+						-if @payment_url
+							="Click Here to Send Funds to Escrow"
+						-elsif @release_payment_url
+							="Release Payment From Escrow"
