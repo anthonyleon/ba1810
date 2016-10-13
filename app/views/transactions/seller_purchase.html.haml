@@ -24,6 +24,11 @@
 						%span.tag.tag-shipping-info Status: Pending Shipment
 					%div.center
 						Please proceed with shipment and enter shipping information.
+				-elsif !@transaction.shipped && !@transaction.delivered
+					%div.status
+						%span.tag.tag-part-shipped Status: Pending Carrier Confirmation
+					%div.center
+						Shipment information has been received, we are awaiting confirmation from carrier.
 				-elsif @transaction.shipped && !@transaction.delivered
 					%div.status
 						%span.tag.tag-part-shipped Status: Part en Route
