@@ -16,6 +16,7 @@ class TransactionsController < ApplicationController
       p "==" * 120
       if @data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
         case @data["event"]["type"]
+        when 0  # order created
         when 2  # payments received in full
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
           @transaction.payment_received
