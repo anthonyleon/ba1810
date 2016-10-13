@@ -154,11 +154,11 @@
 				-if @transaction.disputed && !@transaction.dispute_settlement
 					="Transaction has been disputed by the the purchaser. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
 					%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-					%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+					%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
 						="Create Settlement Offer"
 				-elsif @transaction.dispute_settlement
 					= "A settlement offer has been made. Please review."
 					%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-					%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
+					%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
 						="Review Settlement Offer"
 
