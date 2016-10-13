@@ -9,8 +9,8 @@ class TransactionsController < ApplicationController
   def receive_webhook
     if request.headers['Content-Type'] == 'application/json'
       @data = JSON.parse(request.body.read)
-      @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
-      @bid = @transaction.bid
+      p @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
+      p @bid = @transaction.bid
       if @data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
         case @data["event"]["type"]
         when 2  # payments received in full
@@ -66,7 +66,6 @@ class TransactionsController < ApplicationController
       if @transaction.update(transaction_params)
         @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
         @transaction.update(shipped: true) if params[:commit] == "Update Tracking Info"
-        @transaction.update(carrier: true) if params[:commit] == "Update Tracking Info"
         if @transaction.seller == current_user
           format.html { redirect_to seller_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
         elsif @transaction.buyer == current_user
@@ -104,12 +103,15 @@ class TransactionsController < ApplicationController
       response.headers.delete "X-Frame-Options"
       p @release_payment_url = ArmorPaymentsApi.release_payment(@transaction)
       p @dispute_transaction_url = ArmorPaymentsApi.initiate_dispute(@transaction)
+    elsif @transaction.disputed
+      @dispute_settlement_url = ArmorPaymentsApi.settle_dispute(current_user, @tansaction, @transaction.seller)
     end
   end
 
   def seller_purchase
     redirect_to root_path unless @bid.seller == current_user
     @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid && !@transaction.carrier_code
+    @dispute_settlement_url = ArmorPaymentsApi.settle_dispute(current_user, @tansaction, @transaction.buyer) if @transaction.disputed
   end
 
   def show
