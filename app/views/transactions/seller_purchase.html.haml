@@ -75,7 +75,6 @@
 								%strong #{@auction.required_date}
 								%br
 								= "to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
-							= "Buyer has a resale ceritifcate applicable for this transaction"
 							.form-container
 							= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
 								.field.form-group
@@ -86,6 +85,7 @@
 									= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 								.actions{style: "margin-bottom: 20px;"}
 									= f.submit 'Submit', class: "btn custom-btn"
+							= "Buyer has a resale ceritifcate applicable for this transaction"
 						-elsif @auction.resale_no && !@transaction.shipping_account
 							%h5
 							= "Confirm Final Shipping Cost for part to arrive by #{@auction.required_date}, to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
