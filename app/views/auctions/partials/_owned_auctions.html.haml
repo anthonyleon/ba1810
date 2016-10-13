@@ -17,7 +17,7 @@
             %tr
               %td= link_to auction.part_num, auction
               %td= auction.auction_part.description
-              %td= auction.condition_tag
+              %td= auction.index_condition_tag
               %td= auction.created_at.strftime("%m/%d/%Y")
               %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
               %td= auction.bids.count
@@ -30,6 +30,3 @@
                   = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
                     %span.material-icons.red-text.icon-34
                       delete_forever
-      %div{style: "text-align: left;margin:10px 0;"}
-        = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
-

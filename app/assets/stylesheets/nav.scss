@@ -3,8 +3,29 @@
   right: 1px;
   height: auto !important;
   width: 100%;
-  z-index: 2;
+  z-index: 1;
   background: #283761;
+}
+
+.sidenav-button:active {
+  border-left: #239A4F;
+  border-style: solid;
+  border-width: 0 0 0 4px;
+}
+
+.company-logo {
+  padding-top: 8px;
+  background: #283761;
+  text-align: center;
+  height: 64px;
+  min-width: 150px;
+  img {
+    width: 215px;
+    height: auto;
+    margin-bottom: -22px;
+    margin-left: 6px;
+    margin-top: 2px;
+  }
 }
 
 nav {

@@ -3,32 +3,59 @@ $("a[data-remote]").on("ajax:success", function (e, data, status, xhr){
   console.info(data,e,status);
 });
 
-$(document).on('ready page: load', function() {
+$(document).on('ready page:load', function() {
 	$("#paymentInstructionsFrame-lightbox-preview").click(function(){
 		var url = $(this).attr("data-url");
 		armor.openModal(url);
 	});
 	console.log('end');
-	
 
-	$(".destination").hide();
-	$(".armor-modal").hide();
-	$(".freight_num").hide();
-	$(".shipping_account").hide();
-	$(".proceed").hide();
-	$(".po_num").hide();
-
-
-	$("#confirm-shipping").click(function(){
-		$("#confirm-shipping").hide(100);
-		$(".shipping_account").show(100);
-		$("#this-address").hide(100);
-		$(".destination").show(200);
+	[
+		".armor-modal",
+		".freight_num",
+		".proceed",
+		".purhcase-order-confirmation"
+	]
+	.forEach(function(f) {
+		$(f).hide();
 	});
+
+	// Update PO Num, then 'proceed'
+	$('.po-submit').click(function() {
+		var transactionId = $(this).data().transactionId;
+		var poNum = $('.purhcase-order-confirmation #po_num').val();
+		$.ajax({
+			url: '/update_transaction/' + transactionId,
+			method: 'PATCH',
+			data: {
+				transaction: {
+					po_num: poNum
+				}
+			}
+		})
+		.success(function(data){
+			console.log('here');
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			console.log(jqXHR, textStatus, errorThrown);
+		})
+		.always(function(data){
+			$('.purhcase-order-confirmation #po_num').val(" ");
+			window.location = '/purchase/' + transactionId + '/buyer_purchase';
+		});
+	});
+
+
+	// $("#confirm-shipping").click(function(){
+	// 	$("#confirm-shipping").hide(100);
+	// 	$(".shipping_account").show(100);
+	// 	$("#this-address").hide(100);
+	// 	$(".destination").show(200);
+	// });
 
 	$(".submit_button").click(function(){
 		$(".destination").hide(200);
-		$(".po_num").show(100);
+		$(".purhcase-order-confirmation").show(100);
 	});
 
 	$(".checkbox").click(function(){
@@ -37,12 +64,6 @@ $(document).on('ready page: load', function() {
 
 	$(".confirm_cost").click(function(){
 	  $(".costs").hide(200);
-	});
-
-	$(".po_submit").click(function(){
-		$(".proceed").show(100);
-		$(".po_num").hide(100);
-		$(".freight_num").hide(100);
 	});
 });
 

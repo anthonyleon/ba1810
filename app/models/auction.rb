@@ -5,9 +5,17 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
  	has_many :notifications
 
-  accepts_nested_attributes_for :tx
+  serialize :condition, Array
 
-  enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
+  def self.conditions
+    %w(recent overhaul as_removed serviceable non_serviceable scrap)
+  end
+
+  def conditions
+    condition.to_a
+  end
+
+  accepts_nested_attributes_for :tx
 
   def resale_check
     if self.resale_status == "Yes"
@@ -19,7 +27,6 @@ class Auction < ActiveRecord::Base
     end
   end
 
-
   def full_address
     return "#{self.destination_address}, #{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
   end
@@ -29,8 +36,8 @@ class Auction < ActiveRecord::Base
       parts.uniq! { |part| [part[:part_num], part[:condition]] }
       sales_opportunities = []
       parts.each do |part|
-        #stick auction in sales opportunities 
-        #if the auction is not the user's, already contains a user bid, 
+        #stick auction in sales opportunities
+        #if the auction is not the user's, already contains a user bid,
         #or if the auction isn't asking for the part in-question's condition
         Auction.where(part_num: part.part_num, active: true).each do |auction|
           insider_user = auction.company == user
