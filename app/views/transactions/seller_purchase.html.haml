@@ -78,7 +78,7 @@
 						="Part has been delivered, awaiting release of funds."
 					-elsif @transaction.invoice_num && !@transaction.paid
 						="You're all set. We are awaiting payment in escrow from the buyer, at which point we will prompt you to ship the piece."
-					-elsif @transaction.paid && !@transaction.shipped
+					-elsif @transaction.paid && !@transaction.carrier_code
 						%h4
 						-if @transaction.shipping_account
 							= "Buyer will be using his shipping account for this transaction. Please use the following freight company (#{@transaction.carrier}) and  account number (##{@transaction.shipping_account}) "
@@ -102,7 +102,7 @@
 										= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 									.actions{style: "margin-bottom: 20px;"}
 										= f.submit 'Submit', class: "btn custom-btn"
-						-elsif @auction.resale_yes && @transaction.shipping_account
+						-elsif @auction.resale_yes && @transaction.shipping_account && !@transaction.carrier_code
 							%h5
 							= "Buyer has a resale ceritifcate applicable for this transaction"
 							%br
