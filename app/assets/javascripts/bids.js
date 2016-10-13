@@ -3,7 +3,7 @@ $("a[data-remote]").on("ajax:success", function (e, data, status, xhr){
   console.info(data,e,status);
 });
 
-$(document).on('ready page: load', function() {
+$(document).on('ready page:load', function() {
 	$("#paymentInstructionsFrame-lightbox-preview").click(function(){
 		var url = $(this).attr("data-url");
 		armor.openModal(url);
