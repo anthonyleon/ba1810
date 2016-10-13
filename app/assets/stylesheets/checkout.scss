@@ -3,3 +3,21 @@
     font-size: 1.30rem !important;
   }
 }
+
+.buyer_purchase {
+  .status {
+    text-align: center;
+    margin-bottom: 10px;
+
+    span {
+      font-size: 1.3em;
+    }
+  }
+
+  .part-info {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.3em;
+    line-height: 40px;
+  }
+}
