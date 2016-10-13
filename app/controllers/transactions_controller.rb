@@ -9,6 +9,7 @@ class TransactionsController < ApplicationController
   def receive_webhook
     if request.headers['Content-Type'] == 'application/json'
       @data = JSON.parse(request.body.read)
+      binding.pry
       p "=+" * 120
       p @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
       p "=-" * 120
