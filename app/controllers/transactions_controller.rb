@@ -20,26 +20,31 @@ class TransactionsController < ApplicationController
         when 2  # payments received in full
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
           @transaction.payment_received
-          notify("Payment has been received in full please proceed to shipping procedure.", @bid, @bid.seller)
+          Notification.notify(@bid, @bid.seller, "Payment has been received in full please proceed to shipping procedure.")
         when 16 # order cancelled
-          notify("The order ##{@transaction.order_id} for part ##{@bid.auction.part_num} has been cancelled.", @bid, @bid.seller)
-          notify("You have cancelled your order ##{@transaction.order_id}", @bid, @bid.buyer)
+          Notification.notify(@bid, @bid.seller, "The order ##{@transaction.order_id} for part ##{@bid.auction.part_num} has been cancelled.")
+          Notification.notify(@bid, @bid.buyer, "You have cancelled your order ##{@transaction.order_id}")
         when 15 # shipment details added to order (testing purposes, not really but need to check later) this doesn't mean it was received does it?
-          notify("Shipment information for order ##{@transaction.order_id} for #{@transaction.auction.part_num} has been received.", @bid, @bid.buyer)
+          Notification.notify(@bid, @bid.buyer, "Shipment information for order ##{@transaction.order_id} for #{@transaction.auction.part_num} has been received.")
         when 3 #goods shipped to buyer
-          notify("Your purchase for part ##{@bid.auction.part_num} (order ##{@transaction.order_id}) has been shipped.", @bid, @bid.buyer)
+          Notification.notify(@bid, @bid.buyer, "Your purchase for part ##{@bid.auction.part_num} (order ##{@transaction.order_id}) has been shipped.")
           @transaction.update(shipped: true)
         when 4 # goods received by buyer
           @transaction.delivery_received
-          notify("Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", @bid, @bid.seller)
+          Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.")
         when 5 # dispute initiated
-          notify("Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", @bid, @bid.seller)
+          @transaction.mark_as_disputed
+          Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.")
           # testing purposes. ALSO SEND AN EMAIL TO THE USER
         when 6 # order accepted (ie. funds released from buyer to seller)
           @transaction.transfer_inventory #have to do something about this. Doesn't account for if a part is being sent to be put on an engine or aircraft.
           @transaction.completed
           # CREATE A REVIEW NOTIFICATION
-          notify("The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.", @bid, @bid.seller)
+          Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")
+        when 10
+          @transaction.update(dispute_settlement: true)
+          @company = Company.find_by(@data["event"]) #whos the disputer?
+          Notification.notify(@bid, @company, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")
         end
       end
     else
@@ -57,7 +62,7 @@ class TransactionsController < ApplicationController
         #generate invoice here....
         armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
-        notify("Seller has finalized costs. Please send funds to escrow.", @transaction.bid, @transaction.buyer)
+        Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :ok, location: @aircraft }
       end
@@ -97,20 +102,26 @@ class TransactionsController < ApplicationController
 
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
-    @notification = notify("You have won an auction! Please proceed with shipment process.", @bid, @bid.seller) unless Notification.exists?(@bid, "You have won an auction! Please proceed with shipment process.")
+    Notification.notify(@bid, @bid.seller, "You have won an auction! Please proceed with shipment process.") unless Notification.exists?(@bid, "You have won an auction! Please proceed with shipment process.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
-      @payment_url = ArmorPaymentsApi.get_payment_url(@transaction.buyer, @transaction)
-    elsif @transaction.delivered && @transaction.paid && !@transaction.complete
+      @payment_url = ArmorPaymentsApi.get_payment_url(@transaction)
+    elsif @transaction.delivered && @transaction.paid && !@transaction.complete && !@transaction.disputed
       response.headers.delete "X-Frame-Options"
-      @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer)
+      p @release_payment_url = ArmorPaymentsApi.release_payment(@transaction)
+      p @dispute_transaction_url = ArmorPaymentsApi.initiate_dispute(@transaction)
+    elsif @transaction.disputed
+      @dispute_settlement_url = ArmorPaymentsApi.settle_dispute(current_user, @tansaction, @transaction.seller)
+      @settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
     end
   end
 
   def seller_purchase
     redirect_to root_path unless @bid.seller == current_user
-    @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid
+    @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid && !@transaction.carrier_code
+    @dispute_settlement_url = ArmorPaymentsApi.settle_dispute(current_user, @tansaction, @transaction.buyer) if @transaction.disputed
+    @settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
   end
 
   def show
@@ -147,10 +158,6 @@ class TransactionsController < ApplicationController
 
   private
 
-    def notify(message, bid, company)
-      Notification.create(message: message, bid: bid, auction: bid.auction, company: company)
-    end
-
     def transaction_params
       params.require(:transaction).permit(:carrier_code, :tracking_num, :carrier, :shipment_desc, :part_price, :delivered, :shipping_account, :tax_rate, :final_shipping_cost, :po_num, :invoice_num, :order_id)
     end
@@ -158,8 +165,6 @@ class TransactionsController < ApplicationController
     def set_transaction
       @transaction = Transaction.find(params[:id])
     end
-
-
 
     def set_variables
       @transaction = Transaction.find(params[:id])

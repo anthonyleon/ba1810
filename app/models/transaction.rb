@@ -83,6 +83,10 @@ class Transaction < ActiveRecord::Base
     bid.seller
   end
 
+  def mark_as_disputed
+    self.update(disputed: true)
+  end
+
   def buyer
     self.bid.buyer
   end
