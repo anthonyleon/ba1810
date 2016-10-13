@@ -52,7 +52,7 @@
 					%div
 						%strong Shipping Cost:
 						-if @transaction.shipping_account
-							= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
+							= "N/A"
 						-elsif @transaction.final_shipping_cost
 							= number_to_currency(@transaction.final_shipping_cost )
 						-else
@@ -81,7 +81,8 @@
 					-elsif @transaction.paid && !@transaction.shipped
 						%h4
 						-if @transaction.shipping_account
-							="Buyer would like to use their shipping account number for shipping. Please ship product using #{@transaction.shipping_account}."
+							= "Buyer will be using his shipping account for this transaction. Please use the following freight company (#{@transaction.carrier}) and  account number (##{@transaction.shipping_account}) "
+							=render 'shipment'
 						-else
 							= "Please ship part and provide the relevant information below."
 							=render 'shipment' # need this to be an ajax post to UPDATE the @transaction carrier info (carrier, tracking number, etc.)
@@ -105,8 +106,11 @@
 							%h5
 							= "Buyer has a resale ceritifcate applicable for this transaction"
 							%br
-							= "Buyer will be using his shipping account for this transaction. Please use the following code: "
+							= "Buyer will be using his shipping account for this transaction. Please use the following freight company and  account#: "
+							= @transaction.carrier + ", "
 							= @transaction.shipping_account
+							=render 'shipment'
+
 						-elsif @auction.resale_yes && !@transaction.shipping_account
 							%br
 							.shipping-confirmation
@@ -142,9 +146,14 @@
 										= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 									.actions{style: "margin-bottom: 20px;"}
 										= f.submit 'Submit', class: "btn custom-btn"
--if @transaction.disputed
-	="Transaction has been disputed by the the purchaser. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
-		%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-		%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
-			="Create Settlement Offer"
+				-if @transaction.disputed && !@transaction.dispute_settlement
+					="Transaction has been disputed by the the purchaser. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
+					%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+					%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+						="Create Settlement Offer"
+				-elsif @transaction.dispute_settlement
+					= "A settlement offer has been made. Please review."
+					%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+					%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
+						="Review Settlement Offer"
 

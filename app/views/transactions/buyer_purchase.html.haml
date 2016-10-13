@@ -26,6 +26,8 @@
 					%span.tag.tag-shipping-info Status: Pending Shipment
 				%div.center
 					Waiting for shipment information to be received.
+				%div.center
+					=" Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
 			-elsif @transaction.shipped && !@transaction.delivered
 				%div.status
 					%span.tag.tag-part-shipped Status: Part en Route
@@ -55,7 +57,7 @@
 				%div
 					%strong Shipping Cost:
 					-if @transaction.shipping_account
-						= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
+						= "N/A"
 					-elsif @transaction.final_shipping_cost
 						= number_to_currency(@transaction.final_shipping_cost)
 					-else
@@ -86,12 +88,16 @@
 						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 						%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_transaction_url}"}
 							="Initiate Dispute"
-						-if @transaction.disputed
-							="You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
-							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-							%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
-								="Create Settlement Offer"
-
+					-elsif @transaction.disputed && !@transaction.dispute_settlement
+						="You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
+						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+						%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+							="Create Settlement Offer"
+					-elsif @transaction.dispute_settlement
+						= "A settlement offer has been made. Please review."
+						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+						%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
+							="Review Settlement Offer"
 
 
 
