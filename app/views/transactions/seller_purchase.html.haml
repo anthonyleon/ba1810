@@ -19,7 +19,7 @@
 						%span.tag.tag-pending-funds-in-escrow Status: Awaiting Funds to Be Sent to Escrow
 					%div.center
 						Please do not ship part until buyer has sent funds to escrow.
-				-elsif @transaction.paid && !@transaction.shipped
+				-elsif @transaction.paid && !@transaction.carrier_code
 					%div.status
 						%span.tag.tag-shipping-info Status: Pending Shipment
 					%div.center
