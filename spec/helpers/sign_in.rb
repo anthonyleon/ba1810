@@ -1,11 +1,12 @@
+require 'rails_helper'
 module SignInHelper 
 	def sign_in
-		@company = Company.create(name: "Hellooooo", email: 'bugger1@email.com', password: 'password1', user_phone: '305-878-3720')
+		# company = create(:company)
 		visit login_path
-		fill_in('login[email]', with: 'bugger1@email.com')
-		fill_in('login[password]', with: 'password1')
+		fill_in('login[email]', with: @company.email)
+		fill_in('login[password]', with: 'password')
 		click_button("Log In")
-		visit("/companies/#{@company.id}/confirm_email.#{@company.confirm_token}")
+		# visit("/companies/#{@company.id}/confirm_email.#{@company.confirm_token}")
 	end
 
 	

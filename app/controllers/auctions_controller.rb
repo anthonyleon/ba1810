@@ -25,23 +25,13 @@ class AuctionsController < ApplicationController
   def create
     @auction = Auction.new(auction_params)
     @part_match = Part.find_by(part_num: @auction.part_num)
-    @auction.condition_match
     @auction.resale_check
     respond_to do |format|
 
       if @part_match
-          @auction_part = AuctionPart.new(
-            part_num: @part_match.part_num,
-            init_price: @part_match.manufacturer_price,
-            description: @part_match.description,
-            manufacturer: @part_match.manufacturer
-          )
-          # @auction.save && @auction_part.save
-          @part_match.auction_parts << @auction_part
-          @auction.auction_part = @auction_part
-          current_user.auctions << @auction
-          @auction.save && @auction_part.save
-
+          AuctionPart.make(@part_match, @auction)
+          @auction.company = current_user
+          @auction.save
           notify_of_opportunities("You have a new opportunity to sell!")
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
@@ -53,9 +43,11 @@ class AuctionsController < ApplicationController
 
   def update
     respond_to do |format|
-      @transaction = Transaction.find(transaction_params[:id])
       if @auction.update(auction_params)
-        @transaction.update(transaction_params)
+        unless params[:commit] == "Update Auction"
+          @transaction = Transaction.find(transaction_params[:id])
+          @transaction.update(transaction_params)
+        end
         format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
         format.js { }
         format.json { render :show, status: :ok, location: @auction }
@@ -81,26 +73,7 @@ class AuctionsController < ApplicationController
       # p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
       # webhook saying full payment has been received for the below notification
       notify_of_sale("You have won an auction! Please proceed with shipment process.")
-    # end
-
-    ## get URL modal popup
-    @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction)
   end
-
-  # def purchase This is no longer being used.. Also delete the view TESTING
-  #   @transaction = @auction.tx
-  #   @transaction = Transaction.create_order(@bid) unless @auction.tx
-  #   @transaction.calculate_total_payment
-
-  #   @transaction.create_armor_order unless @transaction.order_id
-  #   @auction.update(active: false)
-
-
-  #   @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid
-  #   ## get URL modal popup
-  #   @url = ArmorPaymentsApi.get_payment_url(current_user, @transaction) unless @transaction.shipped
-  #   @url = ArmorPaymentsApi.release_payment(@bid, current_user) if @transaction.delivered
-  # end
 
   private
 
@@ -130,8 +103,7 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :condition, :destination_address, :destination_zip, :destination_city, 
-        :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no)
+      params.require(:auction).permit(:company_id, :part_num, :destination_company, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
     end
 
     def transaction_params

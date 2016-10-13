@@ -5,7 +5,6 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
-require 'helpers/sign_in'
 require 'helpers/auction_part'
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -36,7 +35,6 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-  config.include SignInHelper
   config.include AuctionPartMatchHelper
 
 

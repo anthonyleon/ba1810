@@ -90,7 +90,7 @@ include ActionView::Helpers::NumberHelper
       stroke_horizontal_rule
       move_down 5
 
-      text "Destination Shop"
+      text "Destination Company"
       text "#{@transaction.auction.destination_address}"
       text "#{@transaction.auction.destination_city}, #{@transaction.auction.destination_state} #{@transaction.auction.destination_zip}"
     end

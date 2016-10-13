@@ -1,4 +1,4 @@
-.tag_condition {
+.tag {
   padding: 3px 3px;
   border-radius: 3px;
   margin: 2px;
@@ -10,7 +10,7 @@
 }
 
 .tag_overhaul {
-  background-color: yellow;
+  background-color: #D45F29;
 }
 
 .tag_serviceable {
@@ -27,4 +27,51 @@
 
 .tag_scrap {
   background-color: red;
+}
+
+.tag_in_service {
+  background-color: green;
+}
+
+.tag_off_service {
+  background-color: red;
+}
+
+.tag-cell {
+  width: 100%;
+}
+
+.tag-pending-seller-confirmation {
+  background-color: orange;
+  font-size: 1.3em;
+}
+
+.tag-pending-funds-in-escrow {
+  background-color: #FBAF60;
+  font-size: 1.3em;
+}
+
+.tag-shipping-info {
+  background-color: #F06462;
+  font-size: 1.3em;
+}
+
+.tag-part-shipped {
+  background-color: #1794CF;
+  font-size: 1.3em;
+}
+
+.tag-part-delivered {
+  background-color: #1AAA9F;
+  font-size: 1.3em; 
+}
+
+.tag-complete {
+  background-color: $custom-green;
+  font-size: 1.3em;
+}
+
+.tag-disputed {
+  background-color: red;
+  font-size: 1.3em;
 }

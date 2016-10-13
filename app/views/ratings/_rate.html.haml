@@ -11,11 +11,11 @@
   .actions
     %a.waves-effect.waves-light.btn-large= f.submit "Submit"
 
-:javascript
-  ['timeliness', 'packaging', 'documentation', 'dependability', 'bid_aero'].forEach(function(somethingNess) {
-    $('#' + somethingNess + '-star-rating').raty({
-      scoreName: 'rating[' + somethingNess + ']',
-      starOff      : '#{image_path("star-off.png")}',
-      starOn       : '#{image_path("star-on.png")}',
+  :javascript
+    ['timeliness', 'packaging', 'documentation', 'dependability', 'bid_aero'].forEach(function(somethingNess) {
+      $('#' + somethingNess + '-star-rating').raty({
+        scoreName: 'rating[' + somethingNess + ']',
+        starOff      : '#{image_path("star-off.png")}',
+        starOn       : '#{image_path("star-on.png")}',
+      });
     });
-  });
