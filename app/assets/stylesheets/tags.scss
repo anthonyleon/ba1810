@@ -40,3 +40,38 @@
 .tag-cell {
   width: 100%;
 }
+
+.tag-pending-seller-confirmation {
+  background-color: #FF4800;
+  font-size: 1.3em;
+}
+
+.tag-pending-funds-in-escrow {
+  background-color: #FF485D;
+  font-size: 1.3em;
+}
+
+.tag-shipping-info {
+  background-color: #F06462;
+  font-size: 1.3em;
+}
+
+.tag-part-shipped {
+  background-color: #ffc800;
+  font-size: 1.3em;
+}
+
+.tag-part-delivered {
+  background-color: #3da3dc;
+  font-size: 1.3em; 
+}
+
+.tag-complete {
+  background-color: $custom-green;
+  font-size: 1.3em;
+}
+
+.tag-disputed {
+  background-color: red;
+  font-size: 1.3em;
+}

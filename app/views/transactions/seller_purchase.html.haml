@@ -1,91 +1,150 @@
 .row
 	.col.s12
-		.card
+		.card.seller_purchase
 			.card-content
-				%h1.center-align
+				%h3.custom-card-title.center
 					="Auction for #{@auction.part_num}"
-.card-row.display-flex-space-between
-	%div	
-		%strong Part Price:
-		= number_to_currency(@transaction.part_price)
-	%div	
-		%strong Shipping Cost:
-	-if @transaction.shipping_account
-		= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
-	-elsif @transaction.final_shipping_cost
-		= number_to_currency(@transaction.final_shipping_cost )
-	-else
-		= number_to_currency(@transaction.bid.est_shipping_cost)
-		%i
-			= "est"
-	%div	
-		%strong Tax:
-		= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
-	%div	
-		%strong Service Fee:
-		= number_to_currency(@transaction.total_fee)
-	%div{style: "width: 50%; margin: 0 auto;"}
-		%strong Total:
-		= number_to_currency(@transaction.total_amount)
--if @transaction.complete
-	="This transaction has been successfully completed!"
--elsif @transaction.shipped && !@transaction.delivered
-	="Part is en route. You will be notified when buyer has received shipment."
--elsif @transaction.delivered && !@transaction.complete
-	="Part has been delivered, awaiting release of funds."
--elsif @transaction.invoice_num && !@transaction.paid
-	="You're all set. We are awaiting payment in escrow from the buyer, at which point we will prompt you to ship the piece."
--elsif @transaction.paid && !@transaction.shipped
-	%h4
-	-if @transaction.shipping_account
-		="Buyer would like to use their shipping account number for shipping. Please ship product using #{@transaction.shipping_account}." 
-	-else
-		= "Please ship part and provide the relevant information below."
-		=render 'shipment' # need this to be an ajax post to UPDATE the @transaction carrier info (carrier, tracking number, etc.)
--elsif !@transaction.invoice_num
-	-if @auction.resale_no && @transaction.shipping_account
-		%h5
-		="Buyer will be using his shipping account for this transaction. Please use the following code: "
-		= @transaction.shipping_account
-		= "This transaction is taxable. Please enter correct tax rate (%) for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}."
-		.form-container
-			= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
-				.field.form-group
-					= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
-				.field.form-group
-					= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-				.actions{style: "margin-bottom: 20px;"}
-					= f.submit 'Submit', class: "btn custom-btn"
-	-elsif @auction.resale_yes && @transaction.shipping_account
-		%h5
-		= "Buyer has a resale ceritifcate applicable for this transaction"
-		= "Buyer will be using his shipping account for this transaction. Please use the following code: "
-		= @transaction.shipping_account
-	-elsif @auction.resale_yes && !@transaction.shipping_account
-		%h5
-		= "Buyer has a resale ceritifcate applicable for this transaction"
-		= "Confirm Final Shipping Cost for part to arrive by #{@auction.required_date}, to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
-		.form-container
-		= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
-			.field.form-group 
-				= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost"
-			.field.form-group
-				= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-			.actions{style: "margin-bottom: 20px;"}
-				= f.submit 'Submit', class: "btn custom-btn"
-	-elsif @auction.resale_no && !@transaction.shipping_account
-		%h5
-		= "Confirm Final Shipping Cost for part to arrive by #{@auction.required_date}, to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
-		= "This transaction is taxable. Please enter correct tax rate (%) for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}."	
-		.form-container
-			= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
-				.field.form-group
-					= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
-				.field.form-group 
-					= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
-				.field.form-group
-					= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-				.actions{style: "margin-bottom: 20px;"}
-					= f.submit 'Submit', class: "btn custom-btn"
+					%br
+					="#{@auction.auction_part.description}"
+				-if !@transaction.invoice_num
+					%div.center
+						/ make this an alert
+						%h5 Purchase Order generated.
+					%div.status
+						%span.tag.tag-pending-seller-confirmation Status: Pending Seller Confirmation
+					%div.center
+						Please confirm tax rate and shipping costs, as well as your company's invoice number..
+				-elsif @transaction.invoice_num && !@transaction.paid
+					%div.status
+						%span.tag.tag-pending-funds-in-escrow Status: Awaiting Funds to Be Sent to Escrow
+					%div.center
+						Please do not ship part until buyer has sent funds to escrow.
+				-elsif @transaction.paid && !@transaction.shipped
+					%div.status
+						%span.tag.tag-shipping-info Status: Pending Shipment
+					%div.center
+						Please proceed with shipment and enter shipping information.
+				-elsif @transaction.shipped && !@transaction.delivered
+					%div.status
+						%span.tag.tag-part-shipped Status: Part en Route
+					%div.center
+						Part en route, awaiting delivery and acceptance by buyer upon delivery.
+				-elsif @transaction.delivered && !@transaction.complete
+					%div.status
+						%span.tag.tag-part-delivered Status: Delivered
+					%div.center
+						Shipment has arrived. Awaiting buyer acceptance of the package.
+				-elsif @transaction.complete
+					%div.status
+						%span.tag.tag-complete Status: Complete
+					%div.center
+						Transaction has successfully been completed.
+				-elsif @transaction.disputed
+					%div.status
+						%span.tag.tag-disputed Status: Disputed
+					%div.center
+						Transaction has been disputed
+				%hr
+				.part-info
+					%div
+						%strong Part Price:
+						= number_to_currency(@transaction.part_price)
+					%div
+						%strong Shipping Cost:
+						-if @transaction.shipping_account
+							= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
+						-elsif @transaction.final_shipping_cost
+							= number_to_currency(@transaction.final_shipping_cost )
+						-else
+							= number_to_currency(@transaction.bid.est_shipping_cost)
+							%i
+								= "est"
+					%div
+						%strong Tax:
+						= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
+					%div
+						%strong Service Fee:
+						= number_to_currency(@transaction.total_fee)
+					%div{style: "width: 50%; margin: 0 auto;"}
+						%strong Total:
+						= number_to_currency(@transaction.total_amount)
+
+				.transaction-info
+					-if @transaction.complete
+						="This transaction has been successfully completed!"
+					-elsif @transaction.shipped && !@transaction.delivered
+						="Part is en route. You will be notified when buyer has received shipment."
+					-elsif @transaction.delivered && !@transaction.complete
+						="Part has been delivered, awaiting release of funds."
+					-elsif @transaction.invoice_num && !@transaction.paid
+						="You're all set. We are awaiting payment in escrow from the buyer, at which point we will prompt you to ship the piece."
+					-elsif @transaction.paid && !@transaction.shipped
+						%h4
+						-if @transaction.shipping_account
+							="Buyer would like to use their shipping account number for shipping. Please ship product using #{@transaction.shipping_account}."
+						-else
+							= "Please ship part and provide the relevant information below."
+							=render 'shipment' # need this to be an ajax post to UPDATE the @transaction carrier info (carrier, tracking number, etc.)
+					-elsif !@transaction.invoice_num
+						-if @auction.resale_no && @transaction.shipping_account
+							%h5
+							="Buyer will be using his shipping account for this transaction. Please use the following code: "
+							= @transaction.shipping_account
+							= "This transaction is taxable. Please enter correct tax rate (%) for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}."
+							.form-container
+								= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+									.field.form-group
+										%h5 Tax Rate
+										= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+									.field.form-group
+										%h5 Invoice No.
+										= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+									.actions{style: "margin-bottom: 20px;"}
+										= f.submit 'Submit', class: "btn custom-btn"
+						-elsif @auction.resale_yes && @transaction.shipping_account
+							%h5
+							= "Buyer has a resale ceritifcate applicable for this transaction"
+							%br
+							= "Buyer will be using his shipping account for this transaction. Please use the following code: "
+							= @transaction.shipping_account
+						-elsif @auction.resale_yes && !@transaction.shipping_account
+							%br
+							.shipping-confirmation
+								= "Confirm Final Shipping Cost for part to arrive by"
+								%strong #{@auction.required_date}
+								%br
+								= "to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
+							.form-container
+							= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+								.field.form-group
+									%h5 Final Shipping Cost
+									= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost"
+								.field.form-group
+									%h5 Invoice No.
+									= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+								.actions{style: "margin-bottom: 20px;"}
+									= f.submit 'Submit', class: "btn custom-btn"
+							= "Buyer has a resale ceritifcate applicable for this transaction"
+						-elsif @auction.resale_no && !@transaction.shipping_account
+							%h5
+							= "Confirm Final Shipping Cost for part to arrive by #{@auction.required_date}, to #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}."
+							= "This transaction is taxable. Please enter correct tax rate (%) for buyer in #{@bid.buyer.city}, #{@bid.buyer.state} #{@bid.buyer.zip}."
+							.form-container
+								= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+									.field.form-group
+										%h5 Tax Rate
+										= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+									.field.form-group
+										%h5 Final Shipping Cost
+										= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
+									.field.form-group
+										%h5 Invoice No.
+										= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+									.actions{style: "margin-bottom: 20px;"}
+										= f.submit 'Submit', class: "btn custom-btn"
 -if @transaction.disputed
 	="Transaction has been disputed by the the purchaser. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
+		%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+		%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+			="Create Settlement Offer"
+

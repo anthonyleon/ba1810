@@ -5,6 +5,7 @@ class ArmorPaymentsApi
   def self.get_account(account_id)
     p CLIENT.accounts.get(account_id)
   end
+
   def self.create_account(company)
     account_data = {
       company: company.name,
@@ -92,12 +93,20 @@ class ArmorPaymentsApi
     result[:body]["url"]
   end
 
+  def self.settle_dispute(company_creating_offer, transaction, company_receiving_offer)
+    account_id = company_creating_offer.armor_account_id
+    user_id = company_creating_offer.armor_user_id
+    # auth_data = { 'uri' => "/accounts/#{company_receiving_offer.armor_account_id}/orders/#{transaction.order_id}/disputes/#{??dispute_id}", 'action' => 'view' }
+    result = client.accounts.users(account_id).authentications(user_id).create(auth_data)
+  end
+
   def self.send_message(company_sending_message, transaction, company_receiving_message)
     account_id = company_sending_message.armor_account_id
     user_id = company_sending_message.armor_user_id
 
-    auth_data = { 'uri' => "/accounts/#{company_receiving_message.account_id}/orders/#{transaction.order_id}/disputes/#{??NEEDS TO BE DISPUTE NUMBER}", 'action' => 'view' }
+    # auth_data = { 'uri' => "/accounts/#{company_receiving_message.account_id}/orders/#{transaction.order_id}/disputes/#{??NEEDS TO BE DISPUTE NUMBER}", 'action' => 'view' }
     result = client.accounts.users(account_id).authentications(user_id).create(auth_data)
+    result[:body]["url"]
   end
 
   def self.create_shipment_record(transaction)
