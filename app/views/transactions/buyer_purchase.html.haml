@@ -33,21 +33,36 @@
 					%span.tag.tag-part-shipped Status: Part en Route
 				%div.center
 					Part is on the way, once part is accepted please release funds from escrow to seller.
-			-elsif @transaction.delivered && !@transaction.complete
+			-elsif @transaction.delivered && !@transaction.complete && !@transaction.disputed
 				%div.status
 					%span.tag.tag-part-delivered Status: Delivered
 				%div.center
 					Please Approve or Dispute the transaction.
-			-elsif @transaction.complete
+			-elsif @transaction.complete 
 				%div.status
 					%span.tag.tag-complete Status: Complete
 				%div.center
 					Transaction has successfully been completed.
-			-elsif @transaction.disputed
+			-elsif @transaction.disputed && !@transaction.dispute_settlement
 				%div.status
 					%span.tag.tag-disputed Status: Disputed
 				%div.center
 					Transaction has been disputed
+			-elsif @transaction.dispute_settlement && !@transaction.settlement_accepted || !@transaction.settlement_rejected
+				%div.status
+					%span.tag.tag-disputed Status: Settlement Offer
+				%div.center
+					A settlement offer has been made, please review.
+			-elsif @transaction.settlement_accepted
+				%div.status
+					%span.tag.tag-disputed Status: Settlement Offer Accepted
+				%div.center
+					Settlement offer has been accepted.
+			-elsif @transaction.settlement_rejected
+				%div.status
+					%span.tag.tag-disputed Status: Settlement Offer Rejected
+				%div.center
+					Settlement offer has been rejected.
 
 			%hr
 			%div.part-info
@@ -73,13 +88,14 @@
 				%div{style: "width: 50%; margin: 0 auto;"}
 					%strong Total:
 					= number_to_currency(@transaction.total_amount)
-				-if @payment_url || @release_payment_url
+				-if @payment_url || @release_payment_url || @transaction.disputed
 					-if @payment_url
 						%p
 						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url}"}
 							="Click Here to Send Funds to Escrow"
-					-elsif @release_payment_url
+							-p @payment_url
+					-elsif @release_payment_url && !@transaction.disputed
 						%div
 							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@release_payment_url}"}
@@ -89,14 +105,20 @@
 							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_transaction_url}"}
 								="Initiate Dispute"
 					-elsif @transaction.disputed && !@transaction.dispute_settlement
-						="You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
-						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
-							="Create Settlement Offer"
+						%br
+						%div.center{style: "text-align: center; width: 427px; margin: auto;"}
+							You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
+						%br
+						%div.center
+							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+								Create Settlement Offer
 					-elsif @transaction.dispute_settlement
-						= "A settlement offer has been made. Please review."
-						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
-							="Review Settlement Offer"
+						%br
+						%div.center{style: "text-align: center; margin: auto;"}
+							A settlement offer has been made, please review.
+							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
+								Review Settlement Offer
 
 

@@ -41,10 +41,21 @@ class TransactionsController < ApplicationController
           @transaction.completed
           # CREATE A REVIEW NOTIFICATION
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")
-        when 10
-          @transaction.update(dispute_settlement: true)
-          @company = Company.find_by(@data["event"]) #whos the disputer?
-          Notification.notify(@bid, @company, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")
+        when 10 #dispute settlement offer has been submitted by either buyer or seller
+          @transaction.settlement_offer_submitted
+          @company = Company.find_by(@data["event"]) #whos on the other side of the submitted settlement offer? Notify them
+          Notification.notify(@bid, @company, "A settlement offer has been submitted to you. Please review.")
+        when 11 #Offer to settle dispute on order accepted
+          @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
+          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been accepeted")
+        when 12 #Offer to settle dispute on order rejected. Use of this event is now deprecated. Offers will be countered, rather than rejected.
+          @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
+          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id}, has been rejected. You may submit a counter-offer.")
+        when 13 #Counter-offer made to settle dispute
+          @company = Company.find_by(@data["event"]) #who's on the other side of the counter offer? Notify them
+          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been countered. Please Review")
+          @transaction.clear_dispute_responses
+        when 26 #Goods inspection completed
         end
       end
     else
@@ -60,7 +71,7 @@ class TransactionsController < ApplicationController
       if @transaction.update(transaction_params)
         @transaction.calculate_total_payment
         #generate invoice here....
-        armor_order_id = ArmorPaymentsApi.create_order(@transaction)
+        p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
@@ -102,7 +113,7 @@ class TransactionsController < ApplicationController
 
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
-    Notification.notify(@bid, @bid.seller, "You have won an auction! Please proceed with shipment process.") unless Notification.exists?(@bid, "You have won an auction! Please proceed with shipment process.")
+    Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.") unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
@@ -112,7 +123,7 @@ class TransactionsController < ApplicationController
       p @release_payment_url = ArmorPaymentsApi.release_payment(@transaction)
       p @dispute_transaction_url = ArmorPaymentsApi.initiate_dispute(@transaction)
     elsif @transaction.disputed
-      @dispute_settlement_url = ArmorPaymentsApi.settle_dispute(current_user, @tansaction, @transaction.seller)
+      @dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.seller) if @transaction.disputed
       @settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
     end
   end
@@ -120,7 +131,7 @@ class TransactionsController < ApplicationController
   def seller_purchase
     redirect_to root_path unless @bid.seller == current_user
     @carriers = ArmorPaymentsApi.carriers_list if @transaction.paid && !@transaction.carrier_code
-    @dispute_settlement_url = ArmorPaymentsApi.settle_dispute(current_user, @tansaction, @transaction.buyer) if @transaction.disputed
+    @dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer) if @transaction.disputed
     @settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
   end
 

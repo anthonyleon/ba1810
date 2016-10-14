@@ -34,7 +34,7 @@
 						%span.tag.tag-part-shipped Status: Part en Route
 					%div.center
 						Part en route, awaiting delivery and acceptance by buyer upon delivery.
-				-elsif @transaction.delivered && !@transaction.complete
+				-elsif @transaction.delivered && !@transaction.complete && !@transaction.disputed
 					%div.status
 						%span.tag.tag-part-delivered Status: Delivered
 					%div.center
@@ -44,11 +44,28 @@
 						%span.tag.tag-complete Status: Complete
 					%div.center
 						Transaction has successfully been completed.
-				-elsif @transaction.disputed
+				-elsif @transaction.disputed && !@transaction.dispute_settlement
 					%div.status
 						%span.tag.tag-disputed Status: Disputed
 					%div.center
 						Transaction has been disputed
+				-elsif @transaction.dispute_settlement && !@transaction.settlement_accepted || !@transaction.settlement_rejected
+					%div.status
+						%span.tag.tag-disputed Status: Settlement Offer
+					%div.center
+						A settlement offer has been made, please review.
+				-elsif @transaction.settlement_accepted
+					%div.status
+						%span.tag.tag-disputed Status: Settlement Offer Accepted
+					%div.center
+						Settlement offer has been accepted.
+				-elsif @transaction.settlement_rejected
+					%div.status
+						%span.tag.tag-disputed Status: Settlement Offer Rejected
+					%div.center
+						Settlement offer has been rejected.
+
+
 				%hr
 				.part-info
 					%div
@@ -152,13 +169,21 @@
 									.actions{style: "margin-bottom: 20px;"}
 										= f.submit 'Submit', class: "btn custom-btn"
 				-if @transaction.disputed && !@transaction.dispute_settlement
-					="Transaction has been disputed by the the purchaser. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
-					%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-					%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
-						="Create Settlement Offer"
+					%br
+					%div.center{style: "text-align: center; width: 427px; margin: auto;"}
+						Transaction has been disputed by the the purchaser. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
+					%br
+					%div.center
+						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+							="Create Settlement Offer"
 				-elsif @transaction.dispute_settlement
-					= "A settlement offer has been made. Please review."
-					%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-					%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
-						="Review Settlement Offer"
+					%br
+					%div.center{style: "text-align: center; margin: auto;"}
+						A settlement offer has been made, please review.
+					%br
+					%div.center
+						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
+							Review Settlement Offer
 

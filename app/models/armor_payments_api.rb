@@ -43,6 +43,7 @@ class ArmorPaymentsApi
     p "***" * 80
     p result = CLIENT.orders(transaction.seller.armor_account_id).create(data)
     p result[:body]["order_id"]
+
   end
 
   def self.update_order(transaction, opts = {})
@@ -93,19 +94,19 @@ class ArmorPaymentsApi
     result[:body]["url"]
   end
 
-  def self.offer_settle_dispute(company_creating_offer, transaction, company_receiving_offer)
+  def self.offer_dispute_settlement(company_creating_offer, transaction, company_receiving_offer)
     account_id = company_creating_offer.armor_account_id
     user_id = company_creating_offer.armor_user_id
-    # auth_data = { 'uri' => "/accounts/#{company_receiving_offer.armor_account_id}/orders/#{transaction.order_id}/disputes/#{??dispute_id}", 'action' => 'view' }
-    result = client.accounts.users(account_id).authentications(user_id).create(auth_data)
+    auth_data = { 'uri' => "/accounts/#{company_receiving_offer.armor_account_id}/orders/#{transaction.order_id}/disputes/#{transaction.dispute_id}", 'action' => 'view' }
+    result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
     result[:body]["url"]
   end
 
   def self.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response)
     account_id = company_responding_to_offer.armor_account_id
     user_id = company_responding_to_offer.armor_user_id
-    # auth_data = { 'uri' => "/accounts/#{company_receiving_response.armor_account_id}/orders/#{transaction.order_id}/disputes/#{??dispute_id}", 'action' => 'view' }
-    result = client.accounts.users(account_id).authentications(user_id).create(auth_data)
+    auth_data = { 'uri' => "/accounts/#{company_receiving_response.armor_account_id}/orders/#{transaction.order_id}/disputes/#{transaction.dispute_id}", 'action' => 'view' }
+    result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
     result[:body]["url"]
   end
 
@@ -113,8 +114,8 @@ class ArmorPaymentsApi
     account_id = company_sending_message.armor_account_id
     user_id = company_sending_message.armor_user_id
 
-    # auth_data = { 'uri' => "/accounts/#{company_receiving_message.account_id}/orders/#{transaction.order_id}/disputes/#{??NEEDS TO BE DISPUTE NUMBER}", 'action' => 'view' }
-    result = client.accounts.users(account_id).authentications(user_id).create(auth_data)
+    auth_data = { 'uri' => "/accounts/#{company_receiving_message.account_id}/orders/#{transaction.order_id}/disputes/#{transaction.dispute_id}", 'action' => 'view' }
+    result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
     result[:body]["url"]
   end
 
