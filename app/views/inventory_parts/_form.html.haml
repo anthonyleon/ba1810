@@ -12,7 +12,13 @@
     %div.btn.custom-btn
       %i.fa.fa-check-square-o
       = f.submit 'Update Inventory Part'
-
+%div
+  = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+    = file_field_tag :file
+  .actions{style: 'margin: 5px 0'}
+  %div.btn.custom-btn
+    = submit_tag "Import"
+        
   :javascript
     $(document).ready(function() {
       $('select').material_select();
