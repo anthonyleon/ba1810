@@ -45,7 +45,7 @@ class InventoryPartsController < ApplicationController
   def import
     InventoryPart.import(params[:file], current_user)
 
-    redirect_to company_inventory_parts_path, notice: "Products imported."
+    redirect_to inventory_parts_path(current_user), notice: "Products imported."
   end
 
   def update
