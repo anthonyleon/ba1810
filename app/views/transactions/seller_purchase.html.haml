@@ -124,7 +124,8 @@
 										= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 									.actions{style: "margin-bottom: 20px;"}
 										= f.submit 'Submit', class: "btn custom-btn"
-						-elsif @auction.resale_yes && @transaction.shipping_account && !@transaction.carrier_code
+								/ fix this business logic ie. when seller chooses to use his shipping account
+						-elsif @transaction.paid && @auction.resale_yes && @transaction.shipping_account && !@transaction.carrier_code
 							%h5
 							= "Buyer has a resale ceritifcate applicable for this transaction"
 							%br

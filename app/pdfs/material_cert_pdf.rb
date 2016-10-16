@@ -34,7 +34,7 @@ class MaterialCertPdf < Prawn::Document
   end
 
   def reference
-    [["SELLER: #{@transaction.seller.name} \n#{@transaction.seller.address} \n#{@transaction.seller.city}, #{@transaction.seller.state} #{@transaction.seller.zip} \n\n e-mail: #{@transaction.seller.email}", "CUSTOMER PO ##{@transaction.po_num} \nCUSTOMER INVOICE ##{@transaction.invoice_num} \nPAYONEER ORDER ##{@transaction.order_id}"]]
+    [["SELLER: #{@transaction.seller.name} \n#{@transaction.seller.address} \n#{@transaction.seller.city}, #{@transaction.seller.state} #{@transaction.seller.zip} \n\n e-mail: #{@transaction.seller.email}", "CUSTOMER PO ##{@transaction.po_num} \nCUSTOMER INVOICE ##{@transaction.invoice_num} \nBID AERO ORDER ##{@transaction.order_id}"]]
   end
 
   def table_three
