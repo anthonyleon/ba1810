@@ -1,18 +1,22 @@
 .row
   .col.s12
-    .card
+    .card.info-card.inventory-part
       .card-content
-        %span.card-title
+        %h5.card-title.center
           = @inventory_part.description
-        %p
-          Serial Number:
-          = @inventory_part.serial_num
-        %p
-          Part number: #{@inventory_part.part_num}
-        %p
-          Condition: #{@inventory_part.condition_tag}
-        %p
-          Manufacturer: #{@inventory_part.manufacturer}
+        %div.container.info
+          %div.container
+            %strong Manufacturer:
+            #{@inventory_part.manufacturer}
+          %div.container
+            %p
+              Serial Number:
+              = @inventory_part.serial_num
+            %p
+              Part number: #{@inventory_part.part_num}
+        %div.container.condition
+          %p
+            Condition: #{@inventory_part.condition_tag}
         %br/
 
     = render 'documents/form', object: @inventory_part if @inventory_part.company == current_user

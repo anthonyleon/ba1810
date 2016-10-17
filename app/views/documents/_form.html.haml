@@ -9,7 +9,7 @@
         = f.text_field :name, class: "form-control", placeholder: "Title"
         = f.file_field :attachment
         .row
-          %strong Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
+          %strong Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
         .row
           %div.btn.custom-btn.doc-upload
             %i.fa.fa-upload
@@ -33,7 +33,7 @@
                 %td= link_to 'View/Download', document.attachment_url
               -else
                 %td= link_to 'Download', document.attachment_url
-              - if document.send(object.class.to_s.downcase.to_sym).company == current_user
+              - if document.send(object.class.to_s.underscore.to_sym).company == current_user
                 %td
                   %div.btn.custom-btn.doc-delete
                     %i.fa.fa-trash-o

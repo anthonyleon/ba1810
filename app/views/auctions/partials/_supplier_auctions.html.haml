@@ -17,7 +17,7 @@
             %tr
               %td= link_to auction.part_num, auction
               %td= auction.auction_part.description
-              %td= auction.condition_tag
+              %td= auction.index_condition_tag
               %td= auction.created_at.strftime("%m/%d/%Y")
               %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
               %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
@@ -25,5 +25,3 @@
               %td= number_to_currency Bid.where(company_id: current_user.id).find_by(auction_id: auction.id).part_price
               %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => auction.bids.find_by(company_id: current_user.id).id, :auction_id => auction.id }, :method => :get
               -# edit_auction_bid_path(auction, @bid)
-      %div{style: "text-align: left;"}
-        = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'

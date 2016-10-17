@@ -87,7 +87,7 @@ include ActionView::Helpers::NumberHelper
       stroke_horizontal_rule
       move_down 5
 
-      text "Destination Shop"
+      text "#{@transaction.auction.destination_company}"
       text "#{@transaction.auction.destination_address}"
       text "#{@transaction.auction.destination_city}, #{@transaction.auction.destination_state} #{@transaction.auction.destination_zip}"
     end
@@ -127,7 +127,7 @@ include ActionView::Helpers::NumberHelper
   end
 
   def product_rows
-    array = [['#', 'Name', 'Price']] +
+    array = [['Order #', 'Part Number', 'Price']] +
       # @transaction.map do |product|
       [[@transaction.order_id, @transaction.auction.part_num, number_to_currency(@transaction.part_price)]]
     # end

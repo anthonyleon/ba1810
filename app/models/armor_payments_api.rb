@@ -2,6 +2,9 @@ class ArmorPaymentsApi
   CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
 
 
+  def self.get_account(account_id)
+    p CLIENT.accounts.get(account_id)
+  end
   def self.create_account(company)
     account_data = {
       company: company.name,

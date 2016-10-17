@@ -1,18 +1,19 @@
 class TransactionsController < ApplicationController
   protect_from_forgery :except => [:receive_webhook]
   skip_before_action :require_logged_in, only: [:receive_webhook]
-  before_action :set_transaction, only: [:create_shipment, :update]
-  before_action :set_bid, only: [:receive_webhook]
+  before_action :set_transaction, only: [:update_tax_shipping, :create_shipment, :update]
   before_action :set_variables, only: [:buyer_purchase, :seller_purchase, :material_cert]
   ## or?
   # skip_before_filter :verify_authenticity_token
 
   def receive_webhook
     if request.headers['Content-Type'] == 'application/json'
-      data = JSON.parse(request.body.read)
-      if data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
-        case data["event"]["type"]
-        when 2  # payments received in full 
+      @data = JSON.parse(request.body.read)
+      @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
+      @bid = @transaction.bid
+      if @data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
+        case @data["event"]["type"]
+        when 2  # payments received in full
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
           @transaction.payment_received
           notify("Payment has been received in full please proceed to shipping procedure.", @bid, @bid.seller)
@@ -46,23 +47,24 @@ class TransactionsController < ApplicationController
   end
 
   def update_tax_shipping
-    p @transaction = Auction.find(params[:auction_id]).tx
     respond_to do |format|  ## Add this
       if @transaction.update(transaction_params)
         @transaction.calculate_total_payment
         #generate invoice here....
         armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
+        notify("Seller has finalized costs. Please send funds to escrow.", @transaction.bid, @transaction.buyer)
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :ok, location: @aircraft }
       end
-    end  
+    end
   end
 
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
         @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
+        @transaction.update(shipped: true) if params[:commit] == "Update Tracking Info"
         if @transaction.seller == current_user
           format.html { redirect_to seller_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
         elsif @transaction.buyer == current_user
@@ -90,13 +92,15 @@ class TransactionsController < ApplicationController
   end
 
   def buyer_purchase
-    redirect_to root_path unless @bid.buyer == current_user
+    redirect_to root_path unless @transaction.buyer == current_user
     @notification = notify("You have won an auction! Please proceed with shipment process.", @bid, @bid.seller) unless Notification.exists?(@bid, "You have won an auction! Please proceed with shipment process.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
+      response.headers.delete "X-Frame-Options"
       @payment_url = ArmorPaymentsApi.get_payment_url(@transaction.buyer, @transaction)
     elsif @transaction.delivered && @transaction.paid && !@transaction.complete
-      @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer) 
+      response.headers.delete "X-Frame-Options"
+      @release_payment_url = ArmorPaymentsApi.release_payment(@transaction, @transaction.buyer)
     end
   end
 
@@ -106,7 +110,6 @@ class TransactionsController < ApplicationController
   end
 
   def show
-    
     @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
@@ -152,15 +155,12 @@ class TransactionsController < ApplicationController
       @transaction = Transaction.find(params[:id])
     end
 
-    def set_bid_and_transaction
-      @transaction = Transaction.find_by(order_id: data["event"]["order_id"])
-      @bid = @transaction.bid
-    end
+
 
     def set_variables
       @transaction = Transaction.find(params[:id])
       @bid = @transaction.bid
       @auction = @transaction.auction
     end
-	    
+
 end
