@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005172703) do
+ActiveRecord::Schema.define(version: 20161011150955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,8 +26,6 @@ ActiveRecord::Schema.define(version: 20161005172703) do
     t.string   "engine_minor_variant"
     t.string   "apu_model"
     t.string   "cabin_config"
-    t.boolean  "in_service"
-    t.boolean  "off_service"
     t.string   "current_operator"
     t.string   "last_operator"
     t.string   "location"
@@ -38,7 +36,7 @@ ActiveRecord::Schema.define(version: 20161005172703) do
     t.integer  "company_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
-    t.string   "service_status"
+    t.integer  "service_status"
   end
 
   add_index "aircrafts", ["company_id"], name: "index_aircrafts_on_company_id", using: :btree
@@ -63,17 +61,18 @@ ActiveRecord::Schema.define(version: 20161005172703) do
     t.datetime "updated_at",                         null: false
     t.string   "part_num"
     t.boolean  "active",              default: true, null: false
-    t.integer  "condition"
+    t.text     "condition"
     t.string   "po_num"
     t.string   "destination_address"
     t.string   "destination_zip"
     t.string   "destination_city"
     t.string   "destination_country"
-    t.string   "required_date"
     t.string   "destination_state"
     t.boolean  "resale_yes"
     t.boolean  "resale_no",           default: true
     t.string   "resale_status"
+    t.date     "required_date"
+    t.string   "destination_company"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -150,9 +149,6 @@ ActiveRecord::Schema.define(version: 20161005172703) do
     t.string   "engine_minor_variant"
     t.string   "esn"
     t.integer  "condition"
-    t.string   "current_status"
-    t.boolean  "in_service"
-    t.boolean  "off_service"
     t.string   "current_operator"
     t.string   "last_operator"
     t.string   "location"
@@ -163,6 +159,7 @@ ActiveRecord::Schema.define(version: 20161005172703) do
     t.integer  "company_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.integer  "service_status"
   end
 
   add_index "engines", ["company_id"], name: "index_engines_on_company_id", using: :btree

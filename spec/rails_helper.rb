@@ -5,7 +5,7 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
-require 'helpers/sign_in'
+require 'helpers'
 require 'helpers/auction_part'
 require 'helpers/inventory_parts_helper_spec'
 
@@ -24,7 +24,7 @@ require 'helpers/inventory_parts_helper_spec'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -39,10 +39,12 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  config.include SignInHelper
+  config.include Helpers
   config.include AuctionPartMatchHelper
   config.include InventoryPartHelper
+  config.include FactoryGirl::Syntax::Methods
 
+  config.include WaitForAjax, type: :feature
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.

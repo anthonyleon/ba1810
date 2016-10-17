@@ -2,10 +2,11 @@ class AircraftsController < ApplicationController
   before_action :set_aircraft, only: [:show, :edit, :update, :destroy]
 
   def index
-    @aircrafts = Aircraft.all
+    @aircrafts = Aircraft.all.decorate
   end
 
   def show
+    @aircraft = @aircraft.decorate
     @document = Document.new
   end
 
@@ -58,6 +59,6 @@ class AircraftsController < ApplicationController
     end
 
     def aircraft_params
-      params.require(:aircraft).permit(:company_id, :aircraft_type, :msn, :tail_number, :yob, :mtow, :engine_major_variant, :engine_minor_variant, :apu_model, :cabin_config, :in_service, :off_service, :current_operator, :last_operator, :location, :maintenance_status, :available_date, :sale, :lease, :service_status, :document_id)
+      params.require(:aircraft).permit(:company_id, :aircraft_type, :msn, :tail_number, :yob, :mtow, :engine_major_variant, :engine_minor_variant, :apu_model, :cabin_config, :current_operator, :last_operator, :location, :maintenance_status, :available_date, :sale, :lease, :service_status, :document_id)
     end
 end
