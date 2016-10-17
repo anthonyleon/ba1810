@@ -37,6 +37,26 @@
     = f.label :zip
     = f.text_field :zip
   .input-field.col.s12.m6
+    = f.hidden_field :inc_country, value: params[:country] 
+    / = f.label :inc_country
+    / %br
+    / %br
+    / = f.input :inc_country, collection: CountryStateSelect.countries_collection
+  .input-field.col.s12.m6
+    / = f.label :inc_state
+    = f.hidden_field :inc_state, value: params[:state] 
+    / %br
+    / %br
+    / - options = { form: f, field_names: { :country => :inc_country, :state => :state } }
+    / = f.input :inc_state, CountryStateSelect.state_options(options)
+  .input-field.col.s12.m6
+    = f.label :company_type
+    %br
+    %br
+    = f.input :company_type, collection: Company.company_types
+  .input-field.col.s12.m6
+    = f.input :url
+  .input-field.col.s12.m6
     = f.label :password
     = f.password_field :password
   .input-field.col.s12.m6

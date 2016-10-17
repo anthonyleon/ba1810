@@ -39,6 +39,11 @@ class Company < ActiveRecord::Base
     end while Company.exists?(column => self[column])
   end
 
+  def self.company_types
+    [ "Public Corporation (Co/Corp)", "Private Corporation", "Sole Proprietorship", "Limited Liability Company (LLC)",
+      "Limited Liability Partnership (LLP)", "Limited Company (Ltd)", "Incorporation (Inc)"]  
+  end
+
   def owned_bids
     auctions = []
     self.bids.each do |bid|
