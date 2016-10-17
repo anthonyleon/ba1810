@@ -1,5 +1,7 @@
 class SessionController < ApplicationController
   skip_before_action :require_logged_in
+  layout 'landing', only: [:new]
+
 
   def new
     redirect_to home_path if current_user
