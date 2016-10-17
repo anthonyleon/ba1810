@@ -14,7 +14,7 @@ require "faker"
 #     t.string   "state"
 #     t.string   "zip"
 #     t.string   "country"
-#     t.string   "EIN"
+#     t.string   "ein"
 #     t.string   "armor_user_id"
 #     t.string   "representative"
 #     t.string   "password_reset_token"
@@ -34,6 +34,6 @@ FactoryGirl.define do
     zip                   Faker::Address.zip_code
     representative        Faker::Internet.user_name
     country               Faker::Address.country_code
-    EIN                   Faker::Company.ein
+    ein                   Faker::Company.ein
   end
 end
