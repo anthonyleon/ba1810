@@ -65,6 +65,17 @@ $(document).ready(function() {
     });
   };
 
+// card edit slide up and down functions on auction/destination
+  $('.card-edit').click(function(){
+    $('.card.destination-address').addClass('large');
+      //this method increases the height to 72px
+  });
+
+  $('.card-edit-remove').click(function(){
+    $('.card.destination-address.large').removeClass('large');
+      //this method increases the height to 72px
+  });
+
   dataBehavior("[data-inventory-behavior='delete']", "part");
   dataBehavior("[data-buyer-auctions-behavior='delete']", "auction");
   dataBehavior("[data-current-opportunities-behavior='delete']", "auction");
