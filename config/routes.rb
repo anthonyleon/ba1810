@@ -67,10 +67,9 @@ Rails.application.routes.draw do
     resources :inventory_parts do
       collection { post :import }
     end
-    member do
-      get :confirm_email
-    end
   end
+
+  get 'companies/confirm_email', to: 'companies#confirm_email', as: 'confirm_email'
 
 
   resources :company_docs
