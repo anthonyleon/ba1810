@@ -14,7 +14,7 @@ $(document).on('ready page:load', function() {
 		".armor-modal",
 		".freight_num",
 		".proceed",
-		".purhcase-order-confirmation"
+		".purchase-order-confirmation"
 	]
 	.forEach(function(f) {
 		$(f).hide();
@@ -53,12 +53,25 @@ $(document).on('ready page:load', function() {
 	// 	$(".destination").show(200);
 	// });
 
-	$(".submit_button").click(function(){
-		$(".destination").hide(200);
-		$(".purhcase-order-confirmation").show(100);
+	$(".submit_button, .card-edit-submit").click(function(){
+    $(".purchase-order-confirmation").show(100);
+		$(".destination-form").hide(200);
+    $(".card-edit-submit").hide(200);
+    $(".card-edit").hide(200);
 	});
 
-	$(".checkbox").click(function(){
+  $('button.btn.custom-btn.card-edit-submit').click(function(){
+    $('li.confirm-address-bubble.active').removeClass("active").addClass("visited");
+    $('li.generate-po-bubble.next').removeClass("next").addClass("active");
+    console.log("lkashglkhasgklsajlkjdaslgk");
+  });
+
+  $('Confirm Purchase Order').click(function(){
+    $('li.generate-po-bubble.next').removeClass("active").addClass("visited");
+    $('li.generate-invoice-bubble.next').removeClass("next").addClass("active");
+  });
+
+  $(".checkbox").click(function(){
 		$(".freight_num").toggle(200);
 	});
 
@@ -66,6 +79,7 @@ $(document).on('ready page:load', function() {
 	  $(".costs").hide(200);
 	});
 });
+
 
 // $(document).on('click', 'table tbody tr', function(){
 //   $(this).toggleClass('active');
@@ -85,4 +99,3 @@ $(document).on('ready page:load', function() {
 //   });
 
 // });
-

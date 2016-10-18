@@ -1,27 +1,34 @@
+%link{:href => "http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700", :rel => "stylesheet", :type => "text/css"}
 .row
 	.col.s12
 		.card
 			.card-content
-				%div.card-title.activator.grey-text.text-darken-4.center-align
+				%div.card-title.grey-text.text-darken-4.center-align
 					Purchase Confirmation
-				%hr/
 
-				.card-title.destination
-					= render 'destination'
+		%div.checkout-status-bar
+			.checkout-wrap
+				%ul.checkout-bar
+					%li.confirm-address-bubble.active Confirm Shipping Address
+					%li.generate-po-bubble.next Generate P.O.
+					%li.generate-invoice-bubble.next Awaiting Vendor Invoice
+					%li.review-payment-bubble.next Review  Payment
+					%li.track-shipping-bubble.next Track Shipping
 
-				.form-container.purhcase-order-confirmation
+		.card-title.destination
+			= render 'destination'
+
+		.card.purchase-order-confirmation
+			.card-content
+				.form-container
 					%h5.center-align
 						Please confirm purchase order number
 						%div.field
 							= text_field_tag :po_num, nil, class: "form-control", placeholder: "Purchase Order Number"
-						%div{style: "margin-bottom: 20px;"}
+						%div{style: "margin-bottom: 10px;"}
 							= button_tag 'Confirm Purchase Order', class: "btn custom-btn po-submit", "data-transaction-id" => "#{@transaction.id}"
 
 
 				/ NOT NECESSARY BUT, HENRY, DO NOT DELETE YET
 				/ %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 				/ %button.btn.custom-btn.waves-effect.waves-light#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small.armor-modal{"data-url" => "#{@url}"} Select Payment Method
-
-
-
-
