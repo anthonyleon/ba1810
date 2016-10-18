@@ -98,12 +98,14 @@
 					-elsif @release_payment_url && !@transaction.disputed
 						%div
 							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@release_payment_url}"}
+							%a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@release_payment_url}"}
 								="Release Payment From Escrow"
 						%div
 							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_transaction_url}"}
-								="Initiate Dispute"
+							%a.paymentInstructionsFrame-lightbox-preview.initiate-dispute-btn{"data-url" => "#{@dispute_transaction_url}"}
+								%i.material-icons.initiate-dispute-icon
+									error_outline
+								Initiate Dispute
 					-elsif @transaction.disputed && !@transaction.dispute_settlement
 						%br
 						%div.center{style: "text-align: center; width: 427px; margin: auto;"}

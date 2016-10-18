@@ -25,7 +25,7 @@ class InventoryPartsController < ApplicationController
 
     respond_to do |format|
       if @part_match
-        build_inv_part(@part_match, @inventory_part)
+        InventoryPart.build_inv_part(@part_match, @inventory_part)
 
         @inventory_part.part = @part_match
         @inventory_part.company = current_user
@@ -40,12 +40,16 @@ class InventoryPartsController < ApplicationController
     end
   end
 
-
   # import spreadsheet of parts inventory
   def import
-    InventoryPart.import(params[:file], current_user)
-
-    redirect_to inventory_parts_path(current_user), notice: "Products imported."
+    @import = InventoryPart.import(params[:file], current_user)
+    if @import.size == 2
+      redirect_to new_inventory_part_path, flash[:error] = "#{@import[1]} does not exist."
+    elsif @import[0] == 0
+      redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
+    elsif @import.size == 1
+      redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
+    end
   end
 
   def update
@@ -68,6 +72,12 @@ class InventoryPartsController < ApplicationController
     end
   end
 
+  def remove_all
+    current_user.inventory_parts.destroy_all
+    flash[:error] = "You have removed all Inventory Parts"
+    redirect_to inventory_parts_path
+  end
+
   private
 
     def set_inventory_part
@@ -76,11 +86,6 @@ class InventoryPartsController < ApplicationController
 
     def import_inventory
       params.require(:contact_import).permit(:file)
-    end
-
-    def build_inv_part part_match, inventory_part
-      inventory_part.description = part_match.description
-      inventory_part.manufacturer = part_match.manufacturer
     end
 
     def inventory_part_params
