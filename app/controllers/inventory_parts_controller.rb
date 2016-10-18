@@ -25,13 +25,14 @@ class InventoryPartsController < ApplicationController
 
     respond_to do |format|
       if @part_match
-        build_inv_part(@part_match, @inventory_part)
+        InventoryPart.build_inv_part(@part_match, @inventory_part)
 
         @inventory_part.part = @part_match
         @inventory_part.company = current_user
         unless @inventory_part.save
           format.html { render :new }
         end
+        binding.pry
         format.html { redirect_to @inventory_part, notice: 'Inventory part was successfully created.' }
         format.json { render :show, status: :created, location: @inventory_part }
       else
@@ -41,10 +42,11 @@ class InventoryPartsController < ApplicationController
   end
 
 
+
+
   # import spreadsheet of parts inventory
   def import
     InventoryPart.import(params[:file], current_user)
-
     redirect_to inventory_parts_path(current_user), notice: "Products imported."
   end
 
@@ -76,11 +78,6 @@ class InventoryPartsController < ApplicationController
 
     def import_inventory
       params.require(:contact_import).permit(:file)
-    end
-
-    def build_inv_part part_match, inventory_part
-      inventory_part.description = part_match.description
-      inventory_part.manufacturer = part_match.manufacturer
     end
 
     def inventory_part_params
