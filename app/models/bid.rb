@@ -3,7 +3,7 @@ class Bid < ActiveRecord::Base
   belongs_to :auction
   belongs_to :inventory_part
   has_one :tx, class_name: "Transaction"
-  has_many :notifications
+  has_many :notifications, dependent: :destroy
 
   def seller
     company
