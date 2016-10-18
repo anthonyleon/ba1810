@@ -16,7 +16,7 @@ class Transaction < ActiveRecord::Base
 			buyer_id: bid.buyer.id,
 			seller_id: bid.seller.id,
 			inventory_part: bid.inventory_part,
-			auction: bid.auction,
+			auction_id: bid.auction.id,
 			bid: bid,
       part_price: bid.part_price
 			)

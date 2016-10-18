@@ -67,7 +67,11 @@ class AuctionsController < ApplicationController
   end
 
   def purchase_confirmation
-      @transaction = Transaction.create_order(@bid) unless @bid.tx
+      @transaction = Transaction.create_order(@bid) unless @auction.tx
+      if @auction.tx
+        @auction.tx.destroy
+        @transaction = Transaction.create_order(@bid)
+      end
       ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT [testing purposes]
       # action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @transaction.total_amount }
       # p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
