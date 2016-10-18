@@ -32,7 +32,6 @@ class InventoryPartsController < ApplicationController
         unless @inventory_part.save
           format.html { render :new }
         end
-        binding.pry
         format.html { redirect_to @inventory_part, notice: 'Inventory part was successfully created.' }
         format.json { render :show, status: :created, location: @inventory_part }
       else
@@ -41,13 +40,16 @@ class InventoryPartsController < ApplicationController
     end
   end
 
-
-
-
   # import spreadsheet of parts inventory
   def import
-    InventoryPart.import(params[:file], current_user)
-    redirect_to inventory_parts_path(current_user), notice: "Products imported."
+    @import = InventoryPart.import(params[:file], current_user)
+    if @import.size == 2
+      redirect_to new_inventory_part_path, flash[:error] = "#{@import[1]} does not exist."
+    elsif @import[0] == 0
+      redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
+    elsif @import.size == 1
+      redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
+    end
   end
 
   def update
@@ -68,6 +70,12 @@ class InventoryPartsController < ApplicationController
       format.html { redirect_to inventory_parts_path, notice: 'Inventory part was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def remove_all
+    current_user.inventory_parts.destroy_all
+    flash[:error] = "You have removed all Inventory Parts"
+    redirect_to inventory_parts_path
   end
 
   private
