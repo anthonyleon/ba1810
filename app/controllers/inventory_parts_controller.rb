@@ -44,7 +44,8 @@ class InventoryPartsController < ApplicationController
   def import
     @import = InventoryPart.import(params[:file], current_user)
     if @import.size == 2
-      redirect_to new_inventory_part_path, flash[:error] = "#{@import[1]} does not exist."
+      flash[:error] = "#{@import[1]} does not exist."
+      redirect_to new_inventory_part_path
     elsif @import[0] == 0
       redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
     elsif @import.size == 1

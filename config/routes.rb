@@ -12,6 +12,12 @@ Rails.application.routes.draw do
     resources :documents, shallow: true
   end
 
+resources :inventory_parts do
+  collection do
+    get 'remove_all'
+  end
+end
+
   patch "/update_transaction/:id" => 'transactions#update', as: "transaction" 
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
   patch 'transactions/:id' => 'transactions#create_shipment', as: "create_shipment"
