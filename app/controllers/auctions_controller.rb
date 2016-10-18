@@ -32,7 +32,7 @@ class AuctionsController < ApplicationController
           AuctionPart.make(@part_match, @auction)
           @auction.company = current_user
           @auction.save
-          notify_of_opportunities("You have a new opportunity to sell!")
+          Notification.notify_of_opportunities(@auction, current_user, "You have a new opportunity to sell!")
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
@@ -67,12 +67,11 @@ class AuctionsController < ApplicationController
   end
 
   def purchase_confirmation
-      @transaction = Transaction.create_order(@bid)
+      @transaction = Transaction.create_order(@bid) unless @bid.tx # change to Transaction.new, and next action Transaction.new(transaction_params) then @transaction.save
       ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT [testing purposes]
       # action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @transaction.total_amount }
       # p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
       # webhook saying full payment has been received for the below notification
-      notify_of_sale("You have won an auction! Please proceed with shipment process.")
   end
 
   private
@@ -86,10 +85,6 @@ class AuctionsController < ApplicationController
       parts.each do |part|
         Notification.create(company: part.company, auction: @auction, message: message) unless part.company == current_user
       end
-    end
-
-    def notify_of_sale(message)
-      Notification.create(company: @bid.company, bid: @bid, auction: @auction, message: message)
     end
 
     def set_auction
