@@ -26,7 +26,7 @@
             %td.srchtbl= number_to_currency transaction.total_amount
             -if transaction.delivered && !transaction.paid
               %td= link_to 'Release Payment', buyer_purchase_path(transaction)
-            -elsif transaction.delivered && transaction.paid
+            -elsif transaction.complete
               %td= link_to 'Completed', buyer_purchase_path(transaction)
             -else
               %td= link_to 'Pending', buyer_purchase_path(transaction)

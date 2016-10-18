@@ -83,6 +83,19 @@ class Transaction < ActiveRecord::Base
     bid.seller
   end
 
+  def mark_as_disputed
+    self.update(disputed: true)
+  end
+
+  def settlement_offer_submitted
+    self.update(dispute_settlement: true)
+  end
+
+  def clear_dispute_responses
+    self.update(settlement_rejected: false)
+    self.update(settlement_accepted: false)
+  end
+
   def buyer
     self.bid.buyer
   end
