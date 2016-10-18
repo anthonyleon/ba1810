@@ -21,6 +21,11 @@ class Company < ActiveRecord::Base
   before_create :confirmation_token
   before_save :downcase_email
 
+  before_validation(:on => :create) do
+    self.inc_state = self.state
+    self.inc_country = self.country
+  end
+
   def email_activate
     self.email_confirmed = true
     self.confirm_token = nil

@@ -14,7 +14,7 @@ class TransactionsController < ApplicationController
       p "=-" * 120
       p @bid = @transaction.bid if @transaction
       p "==" * 120
-      if @data["api_key"]["api_key"] == "71634fba00bd805fba58cce92b394ee8"
+      if @data["api_key"]["api_key"] == ENV['ARMOR_PKEY']
         case @data["event"]["type"]
         when 0  # order created
         when 2  # payments received in full
@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
           Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.")
           # testing purposes. ALSO SEND AN EMAIL TO THE USER
         when 6 # order accepted (ie. funds released from buyer to seller)
-          @transaction.transfer_inventory #have to do something about this. Doesn't account for if a part is being sent to be put on an engine or aircraft.
+          @transaction.transfer_inventory 
           @transaction.completed
           # CREATE A REVIEW NOTIFICATION
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")

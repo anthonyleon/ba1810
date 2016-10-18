@@ -18,10 +18,21 @@ class InventoryPart < ActiveRecord::Base
   	  	row = Hash[[header, spreadsheet.row(i)].transpose]
   	  	part = find_by_id(row["id"]) || new
   	  	part.attributes = row.to_hash.slice(*row.to_hash.keys)
-      part.company = current_user
-    	part.save!
-
+        part.update(part.attributes)
+        @part_match = Part.find_by(part_num: part.part_num)
+        if @part_match
+          build_inv_part(@part_match, part)
+          part.company = current_user
+        	part.save! 
+        else
+          break
+        end
       end
+  end
+
+  def self.build_inv_part part_match, inventory_part
+    inventory_part.description = part_match.description
+    inventory_part.manufacturer = part_match.manufacturer
   end
 
   def self.get_file_type(file)
