@@ -3,7 +3,7 @@ class Notification < ActiveRecord::Base
 	belongs_to :bid
 	belongs_to :auction
   belongs_to :tx, class_name: "Transaction"
-  
+
 	def self.any_unread?(user)
 		notifications = user.notifications.map do |notify|
     	notify.read?
@@ -30,7 +30,8 @@ class Notification < ActiveRecord::Base
     end
   end
 
-  def self.notify(bid, company, message)
-    Notification.create(message: message, bid: bid, auction: bid.auction, company: company)
+  def self.notify(bid, company, message, opts = {})
+    transaction = opts[:transaction]
+    Notification.create(message: message, bid: bid, auction: bid.auction, company: company, transaction_id: transaction.id)
   end
 end
