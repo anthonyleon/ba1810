@@ -6,27 +6,48 @@
           %h5.custom-card-title.center
             Place Bid
           .card-title
-            = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}"
-        = render 'form'
-        #bid-inventory{style: "margin-top:15px;"}
-          %table#bidDT.table.table-hover.responsive-table
-            %thead
-              %tr
-                %th Part Number
-                %th Description
-                %th Serial Number
-                %th Condition
-                %th Manufacturer
-            %tbody
-              - @match_parts.each do |inventory|
-                %tr#cursor-row{ data: { "inventory-part-id": inventory.id , url: auction_bids_path(inventory) } }
-                  %td.srchtbl= inventory.part_num
-                  %td.srchtbl= inventory.description
-                  %td.srchtbl= inventory.serial_num
-                  %td.srchtbl= inventory.condition
-                  %td.srchtbl= inventory.manufacturer
+            = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}" 
+        = form_for([@auction, @bid]) do |f|
+          - if @bid.errors.any?
+            #error_explanation
+              %h2
+                = pluralize(@bid.errors.count, "error")
+                prohibited this bid from being saved:
+              %ul
+                - @bid.errors.full_messages.each do |message|
+                  %li= message
+          .field
+            = f.text_field :part_price, class: "form-control", id: "bid-field", placeholder: "Amount"
+          .field
+            = f.text_field :est_shipping_cost, class: "form-control", id: "bid-field", placeholder: "Shipping Cost"
+          .field
+            = f.hidden_field :inventory_part_id, :id => 'hiddeninv', class: "form-control"
+          #bid-inventory{style: "margin-top:15px;"}
+            %table.table.table-hover.responsive-table
+              %thead
+                %tr
+                  %th Part Number
+                  %th Description
+                  %th Serial Number
+                  %th Condition
+                  %th Manufacturer
+              %tbody
+                - @match_parts.each do |inventory|
+                  %tr#cursor-row.choose-inventory{ data: { "inventory-part-id": inventory.id , url: auction_bids_path(@auction) } }
+                    %td.srchtbl= inventory.part_num
+                    %td.srchtbl= inventory.description
+                    %td.srchtbl= inventory.serial_num
+                    %td.srchtbl= inventory.condition
+                    %td.srchtbl= inventory.manufacturer
+              %br
+          #place-bid.actions
+            = f.submit 'Place bid', class: 'btn custom-btn'
+
 
   :javascript
-    $(function(){
-      $("#bidDT").dataTable();
-    })
+    $( ".choose-inventory" ).click(function() {
+      id = $(this).closest("tr").data("inventory-part-id");
+      $(this).addClass("selected").siblings().removeClass("selected");
+      $('#hiddeninv').val(id);
+    });
+

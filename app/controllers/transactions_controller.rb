@@ -20,40 +20,40 @@ class TransactionsController < ApplicationController
         when 2  # payments received in full
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
           @transaction.payment_received
-          Notification.notify(@bid, @bid.seller, "Payment has been received in full please proceed to shipping procedure.")
+          Notification.notify(@bid, @bid.seller, "Payment has been received in full please proceed to shipping procedure.", transaction: @transaction)
         when 16 # order cancelled
-          Notification.notify(@bid, @bid.seller, "The order ##{@transaction.order_id} for part ##{@bid.auction.part_num} has been cancelled.")
+          Notification.notify(@bid, @bid.seller, "The order ##{@transaction.order_id} for part ##{@bid.auction.part_num} has been cancelled.", transaction: @transaction)
           Notification.notify(@bid, @bid.buyer, "You have cancelled your order ##{@transaction.order_id}")
         when 15 # shipment details added to order (testing purposes, not really but need to check later) this doesn't mean it was received does it?
-          Notification.notify(@bid, @bid.buyer, "Shipment information for order ##{@transaction.order_id} for #{@transaction.auction.part_num} has been received.")
+          Notification.notify(@bid, @bid.buyer, "Shipment information for order ##{@transaction.order_id} for #{@transaction.auction.part_num} has been received.", transaction: @transaction)
         when 3 #goods shipped to buyer
-          Notification.notify(@bid, @bid.buyer, "Your purchase for part ##{@bid.auction.part_num} (order ##{@transaction.order_id}) has been shipped.")
+          Notification.notify(@bid, @bid.buyer, "Your purchase for part ##{@bid.auction.part_num} (order ##{@transaction.order_id}) has been shipped.", transaction: @transaction)
           @transaction.update(shipped: true)
         when 4 # goods received by buyer
           @transaction.delivery_received
-          Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.")
+          Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: @transaction)
         when 5 # dispute initiated
           @transaction.mark_as_disputed
-          Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.")
+          Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", transaction: @transaction)
           # testing purposes. ALSO SEND AN EMAIL TO THE USER
         when 6 # order accepted (ie. funds released from buyer to seller)
           @transaction.transfer_inventory 
           @transaction.completed
           # CREATE A REVIEW NOTIFICATION
-          Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")
+          Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.", transaction: @transaction)
         when 10 #dispute settlement offer has been submitted by either buyer or seller
           @transaction.settlement_offer_submitted
           @company = Company.find_by(@data["event"]) #whos on the other side of the submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "A settlement offer has been submitted to you. Please review.")
+          Notification.notify(@bid, @company, "A settlement offer has been submitted to you. Please review.", transaction: @transaction)
         when 11 #Offer to settle dispute on order accepted
           @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been accepeted")
+          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been accepeted", transaction: @transaction)
         when 12 #Offer to settle dispute on order rejected. Use of this event is now deprecated. Offers will be countered, rather than rejected.
           @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id}, has been rejected. You may submit a counter-offer.")
+          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id}, has been rejected. You may submit a counter-offer.", transaction: @transaction)
         when 13 #Counter-offer made to settle dispute
           @company = Company.find_by(@data["event"]) #who's on the other side of the counter offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been countered. Please Review")
+          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been countered. Please Review", transaction: @transaction)
           @transaction.clear_dispute_responses
         when 26 #Goods inspection completed
         end
@@ -73,7 +73,7 @@ class TransactionsController < ApplicationController
         #generate invoice here....
         p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
-        Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
+        Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.", transaction: @transaction)
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :ok, location: @aircraft }
       end
@@ -113,7 +113,7 @@ class TransactionsController < ApplicationController
 
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
-    Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.") unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
+    Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.", transaction: @transaction) unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
@@ -135,7 +135,7 @@ class TransactionsController < ApplicationController
     @settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
   end
 
-  def show
+  def invoice_pdf
     @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
