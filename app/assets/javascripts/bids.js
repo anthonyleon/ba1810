@@ -67,22 +67,4 @@ $(document).on('ready page:load', function() {
 	});
 });
 
-// $(document).on('click', 'table tbody tr', function(){
-//   $(this).toggleClass('active');
-
-//   var self = $(this),
-//       hiddenField = $('#hiddeninv').val(),
-//       url = self.data('url');
-
-//   $.ajax({
-//     url: url,
-//     type: 'POST',
-//     dataType: 'JSON',
-//     data: { param1: 'value1' },
-//   })
-//   .done(function(data) {
-//     console.log("success");
-//   });
-
-// });
 

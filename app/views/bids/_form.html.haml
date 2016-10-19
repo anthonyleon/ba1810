@@ -12,6 +12,6 @@
   .field
     = f.text_field :est_shipping_cost, class: "form-control", id: "bid-field", placeholder: "Shipping Cost"
   .field
-    = f.hidden_field :inventory_part_id, :value => @match_parts.ids, :id => 'hiddeninv', class: "form-control"
+    = f.hidden_field :inventory_part_id, :id => 'hiddeninv', class: "form-control"
   #place-bid.actions
     = f.submit 'Place bid', class: 'btn custom-btn'

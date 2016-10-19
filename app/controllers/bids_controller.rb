@@ -22,8 +22,10 @@ class BidsController < ApplicationController
   def new
     @bid = Bid.new
     @parts = current_user.inventory_parts
-    @match_parts = @parts.where(part_num: @auction.part_num)
-    @inventory = @match_parts.ids
+    @match_parts = []
+    @parts.where(part_num: @auction.part_num).each do |part|
+      @match_parts << part if @auction.condition.include?(part.condition)
+    end
   end
 
   def edit
@@ -42,7 +44,8 @@ class BidsController < ApplicationController
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
-        format.html { render :new }
+        flash[:error] = @bid.errors.full_messages.to_sentence.gsub('.','')
+        format.html { redirect_to new_auction_bid_path(@auction) }
         format.json { render json: @bid.errors, status: :unprocessable_entity }
       end
     end
