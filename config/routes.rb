@@ -12,7 +12,13 @@ Rails.application.routes.draw do
     resources :documents, shallow: true
   end
 
-  patch "/update_transaction/:id" => 'transactions#update', as: "transaction"
+resources :inventory_parts do
+  collection do
+    get 'remove_all'
+  end
+end
+
+  patch "/update_transaction/:id" => 'transactions#update', as: "transaction" 
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
   patch 'transactions/:id' => 'transactions#create_shipment', as: "create_shipment"
   patch '/auctions/:id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
@@ -38,7 +44,6 @@ Rails.application.routes.draw do
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
   get 'auctions/:auction_id/bids/:id/purchase_confirmation' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
-  get 'auctions/:auction_id/bids/:id/purchase' => 'auctions#purchase', as: 'auction_purchase'
   
   get 'purchase/:id/buyer_purchase' => 'transactions#buyer_purchase', as: 'buyer_purchase'
   get 'purchase/:id/seller_purchase' => 'transactions#seller_purchase', as: 'seller_purchase'

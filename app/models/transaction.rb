@@ -16,7 +16,7 @@ class Transaction < ActiveRecord::Base
 			buyer_id: bid.buyer.id,
 			seller_id: bid.seller.id,
 			inventory_part: bid.inventory_part,
-			auction: bid.auction,
+			auction_id: bid.auction.id,
 			bid: bid,
       part_price: bid.part_price
 			)
@@ -81,6 +81,19 @@ class Transaction < ActiveRecord::Base
 
   def seller
     bid.seller
+  end
+
+  def mark_as_disputed
+    self.update(disputed: true)
+  end
+
+  def settlement_offer_submitted
+    self.update(dispute_settlement: true)
+  end
+
+  def clear_dispute_responses
+    self.update(settlement_rejected: false)
+    self.update(settlement_accepted: false)
   end
 
   def buyer

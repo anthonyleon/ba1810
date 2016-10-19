@@ -27,6 +27,8 @@
 %div.btn.custom-btn
   %i.fa.fa-upload
   = link_to 'Upload New Inventory', new_inventory_part_path
+%div.right.btn.custom-btn.destroy-all-button
+  =link_to 'Delete All Inventory', remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"}
 
 
 

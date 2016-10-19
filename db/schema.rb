@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161011150955) do
+ActiveRecord::Schema.define(version: 20161018202446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,10 @@ ActiveRecord::Schema.define(version: 20161011150955) do
     t.string   "representative"
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
+    t.string   "url"
+    t.string   "inc_country"
+    t.string   "inc_state"
+    t.string   "company_type"
   end
 
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree
@@ -236,6 +240,12 @@ ActiveRecord::Schema.define(version: 20161011150955) do
     t.decimal  "part_price"
     t.boolean  "shipped"
     t.integer  "bid_id"
+    t.boolean  "disputed"
+    t.string   "dispute_id"
+    t.boolean  "dispute_settlement"
+    t.boolean  "settlement_accepted"
+    t.boolean  "settlement_rejected"
+    t.integer  "auction_id"
   end
 
   add_foreign_key "aircrafts", "companies"
