@@ -11,15 +11,21 @@
   .actions{style: 'margin: 5px 0'}
     %div.btn.custom-btn
       %i.fa.fa-check-square-o
-      = f.submit 'Update Inventory Part'
+      = f.submit 'Submit'
+%br
+%br
 %div
   = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
     = file_field_tag :file
     .actions{style: 'margin: 5px 0'}
-      %div.btn.custom-btn
+      %div#import-btn.btn.custom-btn
         = submit_tag "Import"
         
   :javascript
     $(document).ready(function() {
+      $('#import-btn').hide();
       $('select').material_select();
+      $('#file').click(function(){
+        $('#import-btn').show(200);
+      });
     });

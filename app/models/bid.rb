@@ -5,6 +5,10 @@ class Bid < ActiveRecord::Base
   has_one :tx, class_name: "Transaction", dependent: :destroy
   has_many :notifications, dependent: :destroy
 
+  validates :inventory_part_id, presence: true
+  validates :part_price, presence: true
+  validates :est_shipping_cost, presence: true
+
   def seller
     company
   end
