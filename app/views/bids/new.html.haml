@@ -9,7 +9,7 @@
             = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}"
         = render 'form'
         #bid-inventory{style: "margin-top:15px;"}
-          %table#bidDT.table.table-hover.responsive-table
+          %table.table.table-hover.responsive-table
             %thead
               %tr
                 %th Part Number
@@ -27,6 +27,3 @@
                   %td.srchtbl= inventory.manufacturer
 
   :javascript
-    $(function(){
-      $("#bidDT").dataTable();
-    })

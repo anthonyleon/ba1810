@@ -2,6 +2,7 @@ class Notification < ActiveRecord::Base
 	belongs_to :company
 	belongs_to :bid
 	belongs_to :auction
+  belongs_to :transaction
 
 	def self.any_unread?(user)
 		notifications = user.notifications.map do |notify|
