@@ -5,6 +5,7 @@ class ArmorPaymentsApi
   def self.get_account(account_id)
     p CLIENT.accounts.get(account_id)
   end
+
   def self.create_account(company)
     account_data = {
       company: company.name,
@@ -17,7 +18,11 @@ class ArmorPaymentsApi
       zip: company.zip,
       country: company.country,
       email_confirmed: company.email_confirmed,
-      agreed_terms: true
+      agreed_terms: true,
+      url: company.url,
+      inc_country: company.inc_country, 
+      inc_state: company.inc_state,
+      company_type: company.company_type
     }
     p response = CLIENT.accounts.create(account_data)
     p armor_account_num = response.data[:body]["account_id"].to_s
@@ -28,68 +33,104 @@ class ArmorPaymentsApi
 
   def self.create_order(transaction)
     p data = {
-     "type" => 1,
-     "seller_id" => transaction.seller.armor_user_id,
-     "buyer_id" => transaction.buyer.armor_user_id,
-     "amount" => transaction.total_amount,
-     "summary" => transaction.auction.part_num,
-     "description" => transaction.part.condition,
-     "invoice_num" => transaction.invoice_num,
-     "purchase_order_num" => transaction.po_num,
-     "message" => "Order has been created. Awaiting buyer funds."
-   }
-   p transaction.total_amount
-   p "***" * 80
-   p result = CLIENT.orders(transaction.seller.armor_account_id).create(data)
-   p result[:body]["order_id"]
- end
+      "type" => 1,
+      "seller_id" => transaction.seller.armor_user_id,
+      "buyer_id" => transaction.buyer.armor_user_id,
+      "amount" => transaction.total_amount,
+      "summary" => transaction.auction.part_num,
+      "description" => transaction.part.condition,
+      "invoice_num" => transaction.invoice_num,
+      "purchase_order_num" => transaction.po_num,
+      "message" => "Order has been created. Awaiting buyer funds."
+    }
+    p transaction.total_amount
+    p "***" * 80
+    p result = CLIENT.orders(transaction.seller.armor_account_id).create(data)
+    p result[:body]["order_id"]
 
- def self.update_order(transaction, opts = {})
-  p data = {
-    "type" => 1,
-    "amount" => transaction.total_amount,
-    "invoice_num" => "123456",
-    "purchase_order_num" => "675890",
-    "message" => opts["message"]
-  }
-  order_id = transaction.order_id
-  p result = CLIENT.orders(transaction.seller.armor_account_id).update(order_id, data)
+  end
 
-end
+  def self.update_order(transaction, opts = {})
+    p data = {
+      "type" => 1,
+      "amount" => transaction.total_amount,
+      "invoice_num" => "123456",
+      "purchase_order_num" => "675890",
+      "message" => opts["message"]
+    }
+    order_id = transaction.order_id
+    p result = CLIENT.orders(transaction.seller.armor_account_id).update(order_id, data)
 
-def self.release_payment(transaction, company)
-  account_id = company.armor_account_id
-  user_id = company.armor_user_id
-  auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{transaction.order_id}", 'action' => 'release' }
-  url_result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
-  url_result.data[:body]["url"]
-end
+  end
 
-def self.get_payment_url(company, transaction)
-  auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/orders/#{transaction.order_id}/paymentinstructions", 'action' => 'view' }
-  p result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
-  result.data[:body]["url"]
-end
+  def self.release_payment(transaction)
+    account_id = transaction.buyer.armor_account_id
+    user_id = transaction.buyer.armor_user_id
+    auth_data = { 'uri' => "/accounts/#{account_id}/orders/#{transaction.order_id}", 'action' => 'release' }
+    url_result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
+    url_result.data[:body]["url"]
+  end
 
-def self.select_payout_preference(company)
-  auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
-  result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
-  result.data[:body]["url"]
-end
+  def self.get_payment_url(transaction)
+    auth_data = { 'uri' => "/accounts/#{transaction.buyer.armor_account_id}/orders/#{transaction.order_id}/paymentinstructions", 'action' => 'view' }
+    p result = CLIENT.accounts.users(transaction.buyer.armor_account_id).authentications(transaction.buyer.armor_user_id).create(auth_data)
+    result.data[:body]["url"]
+  end
 
-def self.carriers_list
-  CLIENT.shipmentcarriers.all
-end
 
-def self.create_shipment_record(transaction)
+  def self.select_payout_preference(company)
+    auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
+    result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
+    result.data[:body]["url"]
+  end
+
+  def self.carriers_list
+    CLIENT.shipmentcarriers.all
+  end
+
+  def self.initiate_dispute(transaction)
+    buyer_account_id = transaction.buyer.armor_account_id
+    seller_account_id = transaction.seller.armor_account_id
+    user_id = transaction.buyer.armor_user_id
+
+    auth_data = { 'uri' => "/accounts/#{seller_account_id}/orders/#{transaction.order_id}/disputes", 'action' => 'view' }
+    p result = CLIENT.accounts.users(buyer_account_id).authentications(user_id).create(auth_data)
+    result[:body]["url"]
+  end
+
+  def self.offer_dispute_settlement(company_creating_offer, transaction, company_receiving_offer)
+    account_id = company_creating_offer.armor_account_id
+    user_id = company_creating_offer.armor_user_id
+    auth_data = { 'uri' => "/accounts/#{company_receiving_offer.armor_account_id}/orders/#{transaction.order_id}/disputes/#{transaction.dispute_id}", 'action' => 'view' }
+    result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
+    result[:body]["url"]
+  end
+
+  def self.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response)
+    account_id = company_responding_to_offer.armor_account_id
+    user_id = company_responding_to_offer.armor_user_id
+    auth_data = { 'uri' => "/accounts/#{company_receiving_response.armor_account_id}/orders/#{transaction.order_id}/disputes/#{transaction.dispute_id}", 'action' => 'view' }
+    result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
+    result[:body]["url"]
+  end
+
+  def self.send_message(company_sending_message, transaction, company_receiving_message)
+    account_id = company_sending_message.armor_account_id
+    user_id = company_sending_message.armor_user_id
+
+    auth_data = { 'uri' => "/accounts/#{company_receiving_message.account_id}/orders/#{transaction.order_id}/disputes/#{transaction.dispute_id}", 'action' => 'view' }
+    result = CLIENT.accounts.users(account_id).authentications(user_id).create(auth_data)
+    result[:body]["url"]
+  end
+
+  def self.create_shipment_record(transaction)
     #testing purposes carrier name not being passed through form.. because of _shipment partial 'options_for_select'
     transaction.update_attribute('carrier', CLIENT.shipmentcarriers.all[:body][transaction.carrier_code.to_i - 1]["name"])
     user_id = transaction.seller.armor_user_id
     account_id = transaction.seller.armor_account_id
     order_id = transaction.order_id
-    action_data = { "user_id" => user_id, "carrier_id" => transaction.carrier_code, "tracking_id" => transaction.tracking_num,
-    "description" => transaction.shipment_desc }
+    action_data = { "user_id" => user_id, "carrier_id" => transaction.carrier_code, "tracking_id" => transaction.tracking_num, "description" => transaction.shipment_desc }
     result = CLIENT.orders(account_id).shipments(order_id).create(action_data)
-   end
+  end
 
- end
+end

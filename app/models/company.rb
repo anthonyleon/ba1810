@@ -21,6 +21,11 @@ class Company < ActiveRecord::Base
   before_create :confirmation_token
   before_save :downcase_email
 
+  before_validation(:on => :create) do
+    self.inc_state = self.state
+    self.inc_country = self.country
+  end
+
   def email_activate
     self.email_confirmed = true
     self.confirm_token = nil
@@ -37,6 +42,11 @@ class Company < ActiveRecord::Base
     begin
       self[column] = SecureRandom.urlsafe_base64
     end while Company.exists?(column => self[column])
+  end
+
+  def self.company_types
+    [ "Public Corporation (Co/Corp)", "Private Corporation", "Sole Proprietorship", "Limited Liability Company (LLC)",
+      "Limited Liability Partnership (LLP)", "Limited Company (Ltd)", "Incorporation (Inc)"]  
   end
 
   def owned_bids
