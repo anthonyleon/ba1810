@@ -24,7 +24,7 @@ end
   patch '/auctions/:id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
   get 'notifications/index'
 
-  get '/transactions/:id' => 'transactions#show', as: 'transaction_show'
+  get '/invoice/:id' => 'transactions#invoice_pdf', as: 'transaction_invoice'
   get 'purchase_order/:id' => 'transactions#po', as: 'transaction_po'
   get '/material_cert/:id' => 'transactions#material_cert', as: 'material_cert'
 

@@ -19,7 +19,7 @@
                 %th Manufacturer
             %tbody
               - @match_parts.each do |inventory|
-                %tr#cursor-row{ data: { "inventory-part-id": inventory.id , url: auction_bids_path(inventory) } }
+                %tr#cursor-row.choose-inventory{ data: { "inventory-part-id": inventory.id , url: auction_bids_path(inventory) } }
                   %td.srchtbl= inventory.part_num
                   %td.srchtbl= inventory.description
                   %td.srchtbl= inventory.serial_num
@@ -27,3 +27,7 @@
                   %td.srchtbl= inventory.manufacturer
 
   :javascript
+    $( ".vendor-link" ).click(function() {
+      id = $(this).closest("tr").data("id");
+      alert(id);
+    });
