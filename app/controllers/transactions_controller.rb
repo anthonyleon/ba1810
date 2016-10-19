@@ -135,7 +135,7 @@ class TransactionsController < ApplicationController
     @settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
   end
 
-  def show
+  def invoice_pdf
     @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
