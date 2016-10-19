@@ -105,6 +105,11 @@
             $(this).css("background-image", "url(" + $(this).data("background") + ")");
         }
     });
+
+    var z_index = 1000;
+    $('.shadow_section').each(function(indx){
+      $(this).css('z-index', z_index--);
+    });
     
     // Function for block height 100%
     function height_line(height_object, height_donor){
