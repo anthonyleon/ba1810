@@ -1,124 +1,220 @@
+%link{:href => "http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700", :rel => "stylesheet", :type => "text/css"}
 .row
 	.col.s12
-		.card.buyer_purchase
+		.card
 			.card-content
-			%h3.custom-card-title.center
-				="Auction for #{@auction.part_num}"
-				%br
-				="#{@auction.auction_part.description}"
-			-if !@transaction.invoice_num
-				%div.center
-					/ make this an alert
-					%h5 Purchase Order generated.
-				%div.status
-					%span.tag.tag-pending-seller-confirmation Status: Pending Seller Confirmation
-				%div.center
-					Pending seller confirmation of tax and shipping info.
-					%br
-					The next step will require you to send funds into escrow once the Invoice is generated.
-			-elsif @transaction.invoice_num && !@transaction.paid
-				%div.status
-					%span.tag.tag-pending-funds-in-escrow Status: Awaiting Funds to Be Sent to Escrow
-				%div.center
-					Please send funds to escrow.
-			-elsif @transaction.paid && !@transaction.shipped
-				%div.status
-					%span.tag.tag-shipping-info Status: Pending Shipment
-				%div.center
-					Waiting for shipment information to be received.
-			-elsif @transaction.shipped && !@transaction.delivered
-				%div.status
-					%span.tag.tag-part-shipped Status: Part en Route
-				%div.center
-					Part is on the way, once part is accepted please release funds from escrow to seller.
-			-elsif @transaction.delivered && !@transaction.complete
-				%div.status
-					%span.tag.tag-part-delivered Status: Delivered
-				%div.center
-					Please Approve or Dispute the transaction.
-			-elsif @transaction.complete
-				%div.status
-					%span.tag.tag-complete Status: Complete
-				%div.center
-					Transaction has successfully been completed.
-			-elsif @transaction.disputed
-				%div.status
-					%span.tag.tag-disputed Status: Disputed
-				%div.center
-					Transaction has been disputed
+				%div.card-title.grey-text.text-darken-4.center-align
+					Checkout -
+					= @auction.part_num
+					SN
+					= @bid.inventory_part.serial_num
+					Condition
+					= @bid.inventory_part.condition
 
-			%hr
-			%div.part-info
-				%div
-					%strong Part Price:
-					= number_to_currency(@transaction.part_price)
-				%div
-					%strong Shipping Cost:
-					-if @transaction.shipping_account
-						= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
-					-elsif @transaction.final_shipping_cost
-						= number_to_currency(@transaction.final_shipping_cost)
+		%div.checkout-status-bar
+			.checkout-wrap
+				%ul.checkout-bar
+					%li.confirm-address-bubble.visited Confirm Shipping Address
+					%li.generate-po-bubble.visited Generate P.O.
+					-if !@transaction.invoice_num
+						%li.generate-invoice-bubble.active Awaiting Vendor Invoice
+						%li.review-payment-bubble.next Review  Payment
+						%li.track-shipping-bubble.next Track Shipping
 					-else
-						= number_to_currency(@transaction.bid.est_shipping_cost)
-						%i
-							= "est"
-				%div
-					%strong Tax:
-					= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
-				%div
-					%strong Service Fee:
-					= number_to_currency(@transaction.total_fee)
-				%div{style: "width: 50%; margin: 0 auto;"}
-					%strong Total:
-					= number_to_currency(@transaction.total_amount)
-			-if @payment_url || @release_payment_url
-				%p
-				%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-				%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
-					-if @payment_url
-						="Click Here to Send Funds to Escrow"
-					-elsif @release_payment_url
-						="Release Payment From Escrow"
+						%li.generate-invoice-bubble.visited Review Vendor Invoice
+						%li.review-payment-bubble.active Submit  Payment
+						%li.track-shipping-bubble.next Track Shipping
 
-/ <<<<<<< HEAD
-/ .card-row.display-flex-space-between
-/ 	%div
-/ 		%strong Part Price:
-/ 		= number_to_currency(@transaction.part_price)
-/ 	%div
-/ 		%strong Shipping Cost:
-/ 	-if @transaction.shipping_account
-/ 		= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
-/ 	-elsif @transaction.final_shipping_cost
-/ 		= number_to_currency(@transaction.final_shipping_cost )
-/ 	-else
-/ 		= number_to_currency(@transaction.bid.est_shipping_cost)
-/ 		%i
-/ 			= "est"
-/ 	%div
-/ 		%strong Tax:
-/ 		= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
-/ 	%div
-/ 		%strong Service Fee:
-/ 		= number_to_currency(@transaction.total_fee)
-/ 	%div{style: "width: 50%; margin: 0 auto;"}
-/ 		%strong Total:
-/ 		= number_to_currency(@transaction.total_amount)
-/ -if @payment_url || @release_payment_url
-/ 	-if @payment_url
-/ 		%p
-/ 		%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-/ 		%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url}"}
-/ 			="Click Here to Send Funds to Escrow"
-/ 	-elsif @release_payment_url
-/ 		%p
-/ 		%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-/ 			%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@release_payment_url}"}
-/ 				="Release Payment From Escrow"
-/ 		%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_transaction_url}"}
-/ 			= "Initiate Dispute"
-/ -if @transaction.disputed
-/ 	="You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals)."
-/ =======
+		%ul
+			%li.card.checkout.destination-address.hoverable
+				.card-content.step1-2
+					%h6.left-align.collapsible-header
+						Step 1 & 2: Shipping Confirmation and P.O Generated
+					%br/
+					.row
+						%span.card-title.col.s6
+							%h5.center-align
+								Shipping To:
+							%h6#auction-full-address.center-align
+								%div
+									= @auction.destination_company
+								%div
+									= @auction.full_address
+							%h6.required_date.center-align
+								= "Required Date: "
+								= @auction.required_date
+						%h6.required_date.center-align
+							%div
+								To Download and View custom P.O. please click below.
+							%br/
+							%br/
+							=link_to (image_tag "BidaeroPO.jpg",  :class => "bidaeropo"), transaction_po_path(@transaction, :format => :pdf)
+
+		- if @transaction.invoice_num?
+			%ul
+				%li.card.checkout.destination-address.hoverable
+					.card-content.checkout.step3-1
+						%h6.left-align.collapsible-header
+							Step 3: Vendor Invoice
+						%br/
+						.row
+							%span.card-title.col.s6
+								%h6.required_date.center-align
+									To Download and View vendor Invoice please click below.
+									%br/
+									%br/
+									=link_to (image_tag "bidaeroinvoice.jpg",  :class => "bidaeropo"), transaction_show_path(@transaction, :format => :pdf)
+
+							%h5.center-align
+								Pricing Breakdown:
+							%h7.left-align.col.s4.push-s1
+								%ul.collection
+									%li.collection-item.left-align
+										Unit Price:
+										%a.secondary-content
+											= @transaction.part_price
+									%li.collection-item.left-align
+										Shipping (if applicable):
+										%a.secondary-content
+											= @transaction.final_shipping_cost
+									%li.collection-item.left-align
+										Tax:
+										%a.secondary-content
+											= @transaction.tax
+									%li.collection-item.left-align
+										Bid Aero Service Fee:
+										%a.secondary-content
+											= @transaction.total_fee
+									%li.collection-item.left-align
+										%div
+											Grand Total:
+											%a.secondary-content
+												= @transaction.total_amount
+
+				%li.card.checkout.destination-address.hoverable
+					.card-content.checkout.step4-1
+						%h6.left-align.collapsible-header
+							Step 4: Payment
+						.row
+							%span.card-title.col.s12
+								%h6.required_date.center-align
+									Vendor has invoiced and is awaiting payment to commence shipping, please proceed by clicking below.
+								%h6.required_date.center-align
+									-if @payment_url || @release_payment_url
+										%p
+										%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+										%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
+											-if @payment_url
+												=image_tag "paymentbutton.jpg",  :class => "paymentbutton"
+											-elsif @release_payment_url
+												="Release Payment From Escrow"
 
 
+		-else
+			%ul
+				.card.checkout.destination-address.grey.lighten-2
+					.card-content.checkout.step3
+						%h6.left-align.collapsible-header
+							Step 3: Vendor Invoice
+						%span.card-title
+						%h5.center-align
+							Awaiting on Vendor to generate Invoice, please standby and prepare to send funds.
+						%br/
+						%h6.required_date.center-align
+							To view Vendor Invoice please click below.
+							-# purchase_order/:id
+							need to finalize this portion!!!!!
+
+				.card.checkout.destination-address.grey.lighten-2
+					.card-content.checkout.step4
+						%h6.left-align.collapsible-header
+							Step 4: Payment
+						%span.card-title
+						%h5.center-align
+							Vendor has invoiced and is awaiting funds to be sent to escrow, please proceed by clicking below.
+						%br/
+						%h6.required_date.center-align
+							Button
+
+
+-# .row
+-# 	.col.s12
+-# 		.card.buyer_purchase
+-# 			.card-content
+-# 			%h3.custom-card-title.center
+-# 				="Auction for #{@auction.part_num}"
+-# 				%br
+-# 				="#{@auction.auction_part.description}"
+-# 			-if !@transaction.invoice_num
+-# 				%div.center
+-# 					/ make this an alert
+-# 					%h5 Purchase Order generated.
+-# 				%div.status
+-# 					%span.tag.tag-pending-seller-confirmation Status: Pending Seller Confirmation
+-# 				%div.center
+-# 					Pending seller confirmation of tax and shipping info.
+-# 					%br
+-# 					The next step will require you to send funds into escrow once the Invoice is generated.
+-# 			-elsif @transaction.invoice_num && !@transaction.paid
+-# 				%div.status
+-# 					%span.tag.tag-pending-funds-in-escrow Status: Awaiting Funds to Be Sent to Escrow
+-# 				%div.center
+-# 					Please send funds to escrow.
+-# 			-elsif @transaction.paid && !@transaction.shipped
+-# 				%div.status
+-# 					%span.tag.tag-shipping-info Status: Pending Shipment
+-# 				%div.center
+-# 					Waiting for shipment information to be received.
+-# 			-elsif @transaction.shipped && !@transaction.delivered
+-# 				%div.status
+-# 					%span.tag.tag-part-shipped Status: Part en Route
+-# 				%div.center
+-# 					Part is on the way, once part is accepted please release funds from escrow to seller.
+-# 			-elsif @transaction.delivered && !@transaction.complete
+-# 				%div.status
+-# 					%span.tag.tag-part-delivered Status: Delivered
+-# 				%div.center
+-# 					Please Approve or Dispute the transaction.
+-# 			-elsif @transaction.complete
+-# 				%div.status
+-# 					%span.tag.tag-complete Status: Complete
+-# 				%div.center
+-# 					Transaction has successfully been completed.
+-# 			-elsif @transaction.disputed
+-# 				%div.status
+-# 					%span.tag.tag-disputed Status: Disputed
+-# 				%div.center
+-# 					Transaction has been disputed
+-#
+-# 			%hr
+-# 			%div.part-info
+-# 				%div
+-# 					%strong Part Price:
+-# 					= number_to_currency(@transaction.part_price)
+-# 				%div
+-# 					%strong Shipping Cost:
+-# 					-if @transaction.shipping_account
+-# 						= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
+-# 					-elsif @transaction.final_shipping_cost
+-# 						= number_to_currency(@transaction.final_shipping_cost)
+-# 					-else
+-# 						= number_to_currency(@transaction.bid.est_shipping_cost)
+-# 						%i
+-# 							= "est"
+-# 				%div
+-# 					%strong Tax:
+-# 					= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
+-# 				%div
+-# 					%strong Service Fee:
+-# 					= number_to_currency(@transaction.total_fee)
+-# 				%div{style: "width: 50%; margin: 0 auto;"}
+-# 					%strong Total:
+-# 					= number_to_currency(@transaction.total_amount)
+-# 			-if @payment_url || @release_payment_url
+-# 				%p
+-# 				%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+-# 				%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
+-# 					-if @payment_url
+-# 						="Click Here to Send Funds to Escrow"
+-# 					-elsif @release_payment_url
+-# 						="Release Payment From Escrow"
