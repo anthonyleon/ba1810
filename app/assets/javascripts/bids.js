@@ -45,6 +45,11 @@ $(document).on('ready page:load', function() {
 		});
 	});
 
+  $('.collapsible').collapsible({
+    accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+  });
+
+
 
 	// $("#confirm-shipping").click(function(){
 	// 	$("#confirm-shipping").hide(100);
@@ -63,7 +68,6 @@ $(document).on('ready page:load', function() {
   $('button.btn.custom-btn.card-edit-submit').click(function(){
     $('li.confirm-address-bubble.active').removeClass("active").addClass("visited");
     $('li.generate-po-bubble.next').removeClass("next").addClass("active");
-    console.log("lkashglkhasgklsajlkjdaslgk");
   });
 
   $('Confirm Purchase Order').click(function(){

@@ -15,11 +15,12 @@ background-size: 35px 35px;
 background-color: #EcEcEc;
 background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .4) 25%, transparent 25%,transparent 50%, rgba(255, 255, 255, .4) 50%, rgba(255, 255, 255, .4) 75%,transparent 75%, transparent);
 background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .4) 25%, transparent 25%,transparent 50%, rgba(255, 255, 255, .4) 50%, rgba(255, 255, 255, .4) 75%,transparent 75%, transparent);
+z-index: 0;
 }
 
 @mixin blue-stripe {
 background-size: 35px 35px;
-background-color: #57aed1;
+background-color: #8bc53f;
 background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,transparent 75%, transparent);
 background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,transparent 75%, transparent);
 }
@@ -65,8 +66,8 @@ ul.checkout-bar {
   li {
     color: #ccc;
     display: block;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     padding: 14px 20px 14px 80px;
     position: relative;
     &:before {
@@ -88,20 +89,20 @@ ul.checkout-bar {
       z-index: 999;
     }
      &.active {
-      color: #8bc53f;
+      color: #283761;
       font-weight: bold;
       &:before {
-        background: #8bc53f;
-        z-index: 99999;
+        background: #283761;
+        z-index: 1;
       }
     }
     &.visited {
       background: #ECECEC;
-      color: #57aed1;
-      z-index: 99999;
+      color: #8bc53f;
+      z-index: 0;
       &:before {
-       background: #57aed1;
-        z-index: 99999;
+       background: #8bc53f;
+        z-index: 1;
       }
     }
     &:nth-child(1) {
@@ -198,7 +199,7 @@ ul.checkout-bar {
         position: absolute;
         top: -65px;
         width: 45px;
-        z-index: 99;
+        z-index: 0;
       }
       &.visited {
         background: none;
@@ -211,7 +212,7 @@ ul.checkout-bar {
           position: absolute;
           top: -50px;
           width: 100%;
-          z-index: 99;
+          z-index: 0;
         }
       }
     }

@@ -55,7 +55,7 @@ class TransactionsController < ApplicationController
         @transaction.update(order_id: armor_order_id)
         notify("Seller has finalized costs. Please send funds to escrow.", @transaction.bid, @transaction.buyer)
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
-        format.json { render :show, status: :ok, location: @aircraft }
+        format.json { render :show, status: :ok, location: @transaction }
       end
     end
   end
