@@ -65,6 +65,22 @@ $(document).on('ready page:load', function() {
 	$(".confirm_cost").click(function(){
 	  $(".costs").hide(200);
 	});
+
+	// format dollars on place new bid
+  $( ".choose-inventory" ).click(function() {
+    id = $(this).closest("tr").data("inventory-part-id");
+    $(this).addClass("selected").siblings().removeClass("selected");
+    $('#hiddeninv').val(id);
+  });
+
+  $(".dollars").maskMoney({prefix:'$ ', thousands:',', decimal:'.', affixesStay: true});
+  $(".dollars").maskMoney('mask', 0.00);
+  $(function(){
+      $("form").submit(function() {
+          $('#part-price').val($('#part-price').maskMoney('unmasked')[0]);
+          $('#est-shipping').val($('#est-shipping').maskMoney('unmasked')[0]);
+      });
+  });
 });
 
 
