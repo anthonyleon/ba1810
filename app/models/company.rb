@@ -49,12 +49,12 @@ class Company < ActiveRecord::Base
       "Limited Liability Partnership (LLP)" => 5, "Limited Company (Ltd)" => 6, "Incorporation (Inc)" => 7 }
   end
 
-  def owned_bids
+  def auctions_with_owned_bids
     auctions = []
     self.bids.each do |bid|
       auctions << bid.auction if bid.auction.active
     end
-    auctions
+    auctions.uniq! { |auction| [auction[:id]] }
   end
 
   def send_password_reset
