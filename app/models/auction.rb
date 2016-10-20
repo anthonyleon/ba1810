@@ -3,7 +3,7 @@ class Auction < ActiveRecord::Base
   has_one :tx, class_name: "Transaction"#, foreign_key: "transaction_id"
   has_one :auction_part, dependent: :destroy
   has_many :bids, dependent: :destroy
- 	has_many :notifications
+ 	has_many :notifications, dependent: :destroy
 
   serialize :condition, Array
 
