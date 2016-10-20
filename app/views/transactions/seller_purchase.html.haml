@@ -160,10 +160,10 @@
 								= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
 									.field.form-group
 										%h5 Tax Rate
-										= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+										= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
 									.field.form-group
 										%h5 Final Shipping Cost
-										= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
+										= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
 									.field.form-group
 										%h5 Invoice No.
 										= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."

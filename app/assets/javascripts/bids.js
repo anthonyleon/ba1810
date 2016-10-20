@@ -73,14 +73,23 @@ $(document).on('ready page:load', function() {
     $('#hiddeninv').val(id);
   });
 
+
   $(".dollars").maskMoney({prefix:'$ ', thousands:',', decimal:'.', affixesStay: true});
+  $(".percentage").maskMoney({suffix:'% ', decimal:'.', affixesStay: true});
   $(".dollars").maskMoney('mask', 0.00);
   $(function(){
       $("form").submit(function() {
+      	// in bid/new.html.haml
           $('#part-price').val($('#part-price').maskMoney('unmasked')[0]);
           $('#est-shipping').val($('#est-shipping').maskMoney('unmasked')[0]);
+        // in seller_purchase.html.haml
+        	$('#finalized-shipping').val($('#finalized-shipping').maskMoney('unmasked')[0]);
+        	$('#tax-rate').val($('#tax-rate').maskMoney('unmasked')[0]);
+
       });
   });
+
+
 });
 
 
