@@ -56,6 +56,8 @@ end
 
   post 'payment' => 'bids#release_payment', as: 'payment'
 
+  get 'current_opportunities' => 'auctions#current_opportunities', as: 'current_opportunities'
+  get 'bids' => 'bids#index', as: 'bids'
   resources :password_resets
 
   resources :inventory_parts do
@@ -64,7 +66,7 @@ end
 
   resources :auctions do
     resources :auction_parts, except: [:index]
-    resources :bids
+    resources :bids, except: [:index]
   end
 
   resources :companies, except: [:index, :show] do
