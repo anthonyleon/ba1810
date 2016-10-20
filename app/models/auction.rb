@@ -34,17 +34,19 @@ class Auction < ActiveRecord::Base
   def self.get_sales_opportunities(user)
       parts = user.inventory_parts
       parts.uniq! { |part| [part[:part_num], part[:condition]] }
+      p parts.count
+      p parts
       sales_opportunities = []
       parts.each do |part|
         #stick auction in sales opportunities
         #if the auction is not the user's, already contains a user bid,
         #or if the auction isn't asking for the part in-question's condition
         Auction.where(part_num: part.part_num, active: true).each do |auction|
-          insider_user = auction.company == user
+          user_created_auction = (auction.company == user)
           user_placed_bids = (auction.bids & user.bids).present?
           part_matches = auction.condition.include?(part.condition)
-          sales_opportunities << auction unless insider_user || user_placed_bids || !part_matches
-          sales_opportunities << auction if auction.condition == "All Conditions" && auction.company != user && !user_placed_bids
+          sales_opportunities << auction unless user_created_auction || user_placed_bids || !part_matches
+          sales_opportunities << auction if auction.condition == "All Conditions" && auction.company != user && !user_placed_bid
         end
       end
       sales_opportunities.uniq

@@ -1,27 +1,34 @@
-= form_for (@transaction) do |f|
-  - if @transaction.errors.any?
-    #error_explanation
-      %p
-        = pluralize(@transaction.errors.count, "error")
-        prohibited this shipment from being saved:
-      %ul
-        - @transaction.errors.full_messages.each do |message|
-          %li= message
-  .field.form-group
-    %h5 Select a Carrier
-    / = f.text_field :name, class: 'form-control', placeholder: "Company name"
-    - carrier_collection = @carriers[:body].collect{ |c| [c["name"], c["carrier_id"]] }
-    = f.select :carrier_code, options_for_select(carrier_collection), {}, { :class => "select" }
-    / # - f.select :carrier, options_for_select(carrier_collection), :value => carrier_collection({}, { :class => "select" }
-  
-    / # = f.hidden_field :carrier, :value => carrier_collection[:carrier_code - 1][0]
-    / # = cm.hidden_field :id, :value => @transaction.id
-    %br
-  .field.form-group
-    %h5 Tracking Number
-    = f.text_field :tracking_num, class: 'form-control', placeholder: "Tracking Number"
-  .field.input-field
-    %h5 Shipment Description
-    = f.text_area :shipment_desc, class: 'materialize-textarea', placeholder: "Description of Shipment"
-  %span.actions
-    = f.submit 'Submit Tracking Info', class: 'btn custom-btn'
+.form-container.destination-form
+  = form_for (@transaction) do |f|
+    - if @transaction.errors.any?
+      #error_explanation
+        %p
+          = pluralize(@transaction.errors.count, "error")
+          prohibited this shipment from being saved:
+        %ul
+          - @transaction.errors.full_messages.each do |message|
+            %li= message
+    .row
+      .input-field.col.s3.push-s1
+        .field.form-group
+          %h6 Select a Carrier
+          / = f.text_field :name, class: 'form-control', placeholder: "Company name"
+          - carrier_collection = @carriers[:body].collect{ |c| [c["name"], c["carrier_id"]] }
+          = f.select :carrier_code, options_for_select(carrier_collection), {}, { :class => "select" }
+          / # - f.select :carrier, options_for_select(carrier_collection), :value => carrier_collection({}, { :class => "select" }
+
+          / # = f.hidden_field :carrier, :value => carrier_collection[:carrier_code - 1][0]
+          / # = cm.hidden_field :id, :value => @transaction.id
+          %br
+      .input-field.col.s6.push-s2
+        .field.form-group
+          %h6 Please Enter Tracking Number for Order
+          = f.text_field :tracking_num, class: 'form-control', placeholder: "Tracking Number"
+    .row
+      .input-field.col.s6.push-s3
+        .field.form-group
+          %h6 Shipment Comments & Description
+          = f.text_area :shipment_desc, class: 'form-control', placeholder: "Description of Shipment"
+    .row
+      .actions.center-align
+        = f.submit 'Submit Tracking Info', class: 'btn custom-btn'
