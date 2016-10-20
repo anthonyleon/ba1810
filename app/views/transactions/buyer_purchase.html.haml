@@ -94,20 +94,60 @@
 				%li.card.checkout.destination-address.hoverable
 					.card-content.checkout.step4-1
 						%h6.left-align
-							Step 4: Payment
+							Step 4: Payment & Shipping Details
+						.row
+							%span.card-title.col.s12
+								%h6.required_date.center-align
+									-if !@transaction.paid
+										Vendor has invoiced and is awaiting payment to commence shipping, please proceed by clicking below.
+									-else
+								%h6.required_date.center-align
+									-if @payment_url
+										%div.center-align
+										%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+										%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
+											=image_tag "paymentbutton.jpg",  :class => "paymentbutton"
+									-else
+										-if @transaction.tracking_num
+											%h6.center-align Vendor has been notified of payment and will be providing details shortly
+											%br/
+										-elsif @transaction.shipped
+											%h6.center-align Awaiting carrier to confirm shipment (Carrier and Tracking Number are required for release of funds)
+											%br/
+										-else
+											%h6.center-align Carrier has confirmed Tracking Information
+											%h6.center-align You have 3 days after delivery to approve part and release funds
+											%br/
+										.row
+											%span.card-title.col.s6.push-s2
+												=image_tag "shipping-box-hi.png",  :class => "shipping-box-hi"
+											%span.card-title.col.s6
+											-if !@transaction.tracking_num
+												%h5.center-align Tracking Number:
+												%h6.center-align Carrier Currently Unavailable
+												%h6.center-align Tracking Number Currently Unavailable
+											-else
+												%h5.center-align Tracking Number:
+												%h6.center-align
+													= @transaction.carrier
+												%h6.center-align
+													= @transaction.tracking_num
+
+				%li.card.checkout.destination-address.hoverable
+					.card-content.checkout.step4-1
+						%h6.left-align
+							Step 5: Tracking Details & Release of Funds
 						.row
 							%span.card-title.col.s12
 								%h6.required_date.center-align
 									Vendor has invoiced and is awaiting payment to commence shipping, please proceed by clicking below.
 								%h6.required_date.center-align
-									-if @payment_url || @release_payment_url
-										%p
+									-if @release_payment_url
+										%div.center-align
 										%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-										%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
-											-if @payment_url
-												=image_tag "paymentbutton.jpg",  :class => "paymentbutton"
-											-elsif @release_payment_url
-												=image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
+										%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
+											=image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
+
 
 		-else
 			%ul
