@@ -1,3 +1,202 @@
+%link{:href => "http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700", :rel => "stylesheet", :type => "text/css"}
+.row
+	.col.s12
+		.card
+			.card-content
+				%div.card-title.grey-text.text-darken-4.center-align
+					Checkout -
+					= @auction.part_num
+					SN
+					= @bid.inventory_part.serial_num
+					Condition
+					= @bid.inventory_part.condition
+
+		%div.checkout-status-bar
+			.checkout-wrap
+				%ul.checkout-bar
+					%li.generate-po-bubble.visited Review Purchase Order
+					%li.confirm-sale-bubble.active Confirm Sale Details
+					%li.generate-invoice-bubble.next Generate Invoice
+					%li.review-payment-bubble.next Awaiting Payment
+					%li.track-shipping-bubble.next Commence Shipping
+
+		%ul
+			%li.card.checkout.destination-address.hoverable
+				.card-content.step1-2
+					%h6.left-align.collapsible-header
+						Step 1 & 2: Review Purchase Order and Shipping Details
+					%br/
+					.row
+						%span.card-title.col.s6
+							%h5.center-align
+								Shipping To:
+							%h6#auction-full-address.center-align
+								%div
+									= @auction.destination_company
+								%div
+									= @auction.full_address
+							%h6.required_date.center-align
+								= "Required Date: "
+								= @auction.required_date
+						%h6.required_date.center-align
+							%div
+								To Download and View custom P.O. please click below.
+							%br/
+							%br/
+							=link_to (image_tag "BidaeroPO.jpg",  :class => "bidaeropo"), transaction_po_path(@transaction, :format => :pdf)
+		- if @transaction.invoice_num?
+			%ul
+				%li.card.checkout.destination-address.hoverable
+					.card-content.checkout.step3-1
+						%h6.left-align.collapsible-header
+							Step 3: Sale Confirmation and Invoice Generated
+						%br/
+						.row
+							%span.card-title.col.s6
+								%h6.required_date.center-align
+									To Download and View vendor Invoice please click below.
+									%br/
+									%br/
+									=link_to (image_tag "bidaeroinvoice.jpg",  :class => "bidaeropo"), transaction_show_path(@transaction, :format => :pdf)
+
+							%h5.center-align
+								Sale Breakdown:
+							%h7.left-align.col.s4.push-s1
+								%ul.collection
+									%li.collection-item.left-align
+										Unit Price:
+										%a.secondary-content
+											= @transaction.part_price
+									%li.collection-item.left-align
+										Shipping (if applicable):
+										%a.secondary-content
+											= @transaction.final_shipping_cost
+									%li.collection-item.left-align
+										Tax:
+										%a.secondary-content
+											= @transaction.tax
+									%li.collection-item.left-align
+										Bid Aero Service Fee:
+										%a.secondary-content
+											= @transaction.total_fee
+									%li.collection-item.left-align
+										%div
+											Grand Total:
+											%a.secondary-content
+												= @transaction.total_amount
+		-else
+			%li.card.checkout.destination-address.hoverable
+				.card-content.step1-2
+					%h6.left-align.collapsible-header
+						Step 3: Confirm Sale Details
+					%br/
+					.row
+						%span.card-title.col.s12
+							%h5.center-align
+								Please enter Tax Rate, Company Invoice Number, and Shipping Charge (if applicable)
+							%h6.center-align
+								We will be generating a custom Invoice for your records.
+							.form-container.destination-form
+								= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+									-if !@transaction.shipping_account
+										.row
+											.input-field.col.s4
+												.field.form-group
+													= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
+											.input-field.col.s4
+												.field.form-group
+													= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+											.input-field.col.s4
+												.field.form-group
+													= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+										.actions{style: "margin-bottom: 20px;"}
+											= f.submit 'Submit', class: "btn custom-btn"
+									-else
+										.row
+											.input-field.col.s4.push-s1
+												.field.form-group
+													%h6.left-align Please enter Sales Tax (only if applicable)
+													= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+											.input-field.col.s4.push-s3
+												.field.form-group
+													%h6.left-align Please confirm Invoice Number
+													= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+										.actions.center-align
+											= f.submit 'Submit', class: "btn custom-btn"
+
+		%ul
+			%li.card.checkout.destination-address.hoverable
+				.card-content.step1-2
+					%h6.left-align.collapsible-header
+						Step 4 & 5: Payment Received in Escrow, Confirm Shipping details
+					%br/
+					- if !@transaction.tracking_num
+						%h6.center-align Please confirm shipping details below
+						%h6.center-align Carrier and tracking number are required for release of funds
+						= render 'shipment'
+					- else
+						-if !@transaction.shipped
+							%h6.center-align Awaiting carrier to confirm shipment
+							%h6.center-align Carrier and tracking number are required for release of funds
+							%br/
+						-else
+							%h6.center-align Carrier has confirmed shipment
+							%h6.center-align Please standby, Buyer has 3 days to approve part after delivery
+							%br/
+						.row
+							%span.card-title.col.s6.push-s2
+								=image_tag "shipping-box-hi.png",  :class => "shipping-box-hi"
+							%span.card-title.col.s6
+								%h5.center-align Tracking Number:
+								%h6.center-align
+									= @transaction.carrier
+								%h6.center-align
+									= @transaction.tracking_num
+
+			%li.card.checkout.destination-address.hoverable
+				.card-content.step1-2
+					%h6.left-align.collapsible-header
+						Step 6: Release of Payment
+					%br/
+					- if @transaction.complete
+						.row
+							%h6.center-align Awaiting Buyer to approve part and release funds
+							%h6.center-align Buyer has 3 days after delivery to approve part or file dispute
+					- else
+						- if !@transaction.disputed
+							.row
+								%span.card-title.col.s6
+									%h5.center-align Thank you for using Bid Aero!
+									%h6.center-align Buyer has released funds to your account
+									%h6.center-align Please verify funds have been received or contact us directly at admin.bid.aero
+								%h6.required_date.center-align
+									=image_tag "482483624.jpg",  :class => "shipping-box-hi1"
+						-else
+							.row
+								%span.card-title.col.s12.center-align
+									%h5.center-align Unfortunately the buyer has chosen to file a dispute
+									%h6.center-align We are trying our best to ensure both parties can come to an agreement
+									%h6.center-align Bid Aero will be performing an investigation to address the current dispute.
+									%h6.center-align Please contact us directly at admin@bid.aero for more information.
+							.row.valign-wrapper
+								%span.card-title.col.s6.center-align
+									%h7.center-align Reference number:
+									=@transaction.order_id
+								%span.card-title.col.s6.center-align
+									%h6.required_date.center-align
+									- if !@transaction.dispute_settlement
+										%div.center-align
+											%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+											%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+												=link_to (image_tag "settlementofferbutton.jpg",  :class => "paymentbutton")
+									-elsif @transaction.dispute_settlement
+										%h6.center-align A settlement offer has been made, please review.
+										%div.center
+											%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+											%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
+												=link_to (image_tag "reviewsettlementofferbutton.jpg",  :class => "paymentbutton")
+
+
 .row
 	.col.s12
 		.card.seller_purchase
@@ -187,4 +386,3 @@
 						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
 							Review Settlement Offer
-
