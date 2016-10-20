@@ -31,9 +31,4 @@ class CompanyMailer < ApplicationMailer
     mail to: @company.email, subject: "A New Bid Has Been Place on Your Auction for #{auction.part_num}"
   end
 
-  def auction_notification bid
-
-      mail to: "<#{bid.company.email}>", subject: "Bids are being placed in an auction you are participating in, find out how you rank!"
-
-  end
 end

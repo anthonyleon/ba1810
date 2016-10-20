@@ -19,14 +19,32 @@ class Notification < ActiveRecord::Base
 		arr.include?(msg)
 	end
 
-  def self.notify_of_opportunities(auction, user, message)
+  def self.notify_of_opportunities(auction, user, message, opts= {})
+    bid = opts[:bid]
     parts = []
     parts = InventoryPart.where(part_num: auction.part_num).each do |part|
       parts << part if auction.condition.include?(part.condition) || auction.condition == "All Conditions"
     end
     parts.uniq! { |p| p.company_id }
     parts.each do |part|
-      Notification.create(company: part.company, auction: auction, message: message) unless part.company == user
+      Notification.create(company: part.company, auction: auction, bid: bid, message: message) unless part.company == user
+    end
+  end
+
+  def self.notify_auctioner(auction, message)
+    Notification.create(company: auction.company, auction: auction, message: message)
+    CompanyMailer.notify_buyer(auction).deliver_now
+  end
+
+  def self.notify_other_bidders(auction, user, message)
+    bid_collection =[]
+    auction.bids.each do |bid|
+      bid_collection << bid
+    end
+    bid_collection.uniq! { |b| b.company_id }
+    bid_collection.each do |bid|
+      Notification.create(company_id: bid.company.id, auction_id: auction.id, bid_id: bid.id, message: message) unless bid.company == user
+      CompanyMailer.place_new_bid(bid).deliver_later(wait_until: 1.minute.from_now)
     end
   end
 
