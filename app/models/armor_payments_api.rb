@@ -18,11 +18,11 @@ class ArmorPaymentsApi
       zip: company.zip,
       country: company.country,
       email_confirmed: company.email_confirmed,
-      agreed_terms: true,
-      url: company.url,
-      inc_country: company.inc_country, 
-      inc_state: company.inc_state,
-      company_type: company.company_type
+      agreed_terms: true
+      # url: company.url,
+      # inc_country: company.inc_country, 
+      # inc_state: company.inc_state,
+      # company_type: company.company_type
     }
     p response = CLIENT.accounts.create(account_data)
     p armor_account_num = response.data[:body]["account_id"].to_s

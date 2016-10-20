@@ -21,17 +21,21 @@ class TransactionsController < ApplicationController
           #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
           @transaction.payment_received
           Notification.notify(@bid, @bid.seller, "Payment has been received in full please proceed to shipping procedure.")
+          CompanyMailer.ship_part(@bid, @bid.seller).deliver_now
         when 16 # order cancelled
           Notification.notify(@bid, @bid.seller, "The order ##{@transaction.order_id} for part ##{@bid.auction.part_num} has been cancelled.")
           Notification.notify(@bid, @bid.buyer, "You have cancelled your order ##{@transaction.order_id}")
-        when 15 # shipment details added to order (testing purposes, not really but need to check later) this doesn't mean it was received does it?
+          CompanyMailer.order_cancelled(@bid, @bid.seller, @bid.buyer)
+        when 15 # shipment details added to order 
           Notification.notify(@bid, @bid.buyer, "Shipment information for order ##{@transaction.order_id} for #{@transaction.auction.part_num} has been received.")
         when 3 #goods shipped to buyer
           Notification.notify(@bid, @bid.buyer, "Your purchase for part ##{@bid.auction.part_num} (order ##{@transaction.order_id}) has been shipped.")
           @transaction.update(shipped: true)
+          CompanyMailer.part_shipped(@bid, @bid.buyer, @bid.tx)
         when 4 # goods received by buyer
           @transaction.delivery_received
           Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.")
+          CompanyMailer.shipment_received(@bid, @bid.seller).deliver_now
         when 5 # dispute initiated
           @transaction.mark_as_disputed
           Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.")
@@ -41,6 +45,7 @@ class TransactionsController < ApplicationController
           @transaction.completed
           # CREATE A REVIEW NOTIFICATION
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")
+          CompanyMailer.funds_released(@bid, @bid.seller).deliver_now
         when 10 #dispute settlement offer has been submitted by either buyer or seller
           @transaction.settlement_offer_submitted
           @company = Company.find_by(@data["event"]) #whos on the other side of the submitted settlement offer? Notify them
@@ -74,6 +79,7 @@ class TransactionsController < ApplicationController
         p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
+        CompanyMailer.send_escrow_money(@transaction.bid, @transaction.buyer).deliver_now
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :ok, location: @aircraft }
       end
@@ -113,8 +119,7 @@ class TransactionsController < ApplicationController
 
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
-    Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.") unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
-    @auction.update(active: false) if @auction.active
+    Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.") && CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_now  unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
       @payment_url = ArmorPaymentsApi.get_payment_url(@transaction)
