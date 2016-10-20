@@ -17,9 +17,9 @@
                 - @bid.errors.full_messages.each do |message|
                   %li= message
           .field
-            = f.text_field :part_price, class: "form-control", id: "bid-field", placeholder: "Amount"
+            = f.text_field :part_price, class: "form-control dollars", id: "part-price", placeholder: "Amount"
           .field
-            = f.text_field :est_shipping_cost, class: "form-control", id: "bid-field", placeholder: "Shipping Cost"
+            = f.text_field :est_shipping_cost, class: "form-control dollars", id: "est-shipping", placeholder: "Shipping Cost"
           .field
             = f.hidden_field :inventory_part_id, :id => 'hiddeninv', class: "form-control"
           #bid-inventory{style: "margin-top:15px;"}
@@ -44,10 +44,5 @@
             = f.submit 'Place bid', class: 'btn custom-btn'
 
 
-  :javascript
-    $( ".choose-inventory" ).click(function() {
-      id = $(this).closest("tr").data("inventory-part-id");
-      $(this).addClass("selected").siblings().removeClass("selected");
-      $('#hiddeninv').val(id);
-    });
+
 

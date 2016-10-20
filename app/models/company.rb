@@ -19,7 +19,7 @@ class Company < ActiveRecord::Base
   # validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format, please input correct form: xxx-xxx-xxxx" }
 
   before_create :confirmation_token
-  before_save :downcase_email
+  before_save :downcase_email, :strip_whitespace
 
   before_validation(:on => :create) do
     self.inc_state = self.state
@@ -62,6 +62,12 @@ class Company < ActiveRecord::Base
     self.password_reset_sent_at = Time.zone.now
     save!(validate: false)
     CompanyMailer.password_reset(self).deliver_now
+  end
+
+  def strip_whitespace
+    self.attributes.each do |key, value|
+      self[key] = value.squish if value.respond_to?("squish")
+    end
   end
 
   private
