@@ -11,7 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161017175412) do
+
+ActiveRecord::Schema.define(version: 20161018202446) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -245,6 +247,7 @@ ActiveRecord::Schema.define(version: 20161017175412) do
     t.boolean  "dispute_settlement"
     t.boolean  "settlement_accepted"
     t.boolean  "settlement_rejected"
+    t.integer  "auction_id"
   end
 
   add_foreign_key "aircrafts", "companies"

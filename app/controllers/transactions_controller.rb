@@ -81,7 +81,7 @@ class TransactionsController < ApplicationController
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
         CompanyMailer.send_escrow_money(@transaction.bid, @transaction.buyer).deliver_now
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
-        format.json { render :show, status: :ok, location: @aircraft }
+        format.json { render :show, status: :ok, location: @transaction }
       end
     end
   end

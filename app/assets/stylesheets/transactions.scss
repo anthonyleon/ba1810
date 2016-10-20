@@ -1,3 +1,62 @@
 // Place all the styles related to the transactions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.card-content.step1-2 {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+.card-content.step3-1 {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+.card-content.step4-1 {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+.step3 {
+  filter: blur(1.5px);
+}
+.step3-1 {
+}
+.collection-item.secondary-content {
+    float: right;
+    color: #26a69a;
+}
+
+.step4 {
+  filter: blur(1.5px);
+}
+
+.step4-1 {
+}
+img.shipping-box-hi1 {
+    border: 0;
+    height: auto;
+    max-width: 200px;
+}
+img.shipping-box-hi {
+    border: 0;
+    height: auto;
+    max-width: 150px;
+}
+
+img.bidaeropo {
+    border: 0;
+    height: auto;
+    max-width: 150px;
+    box-shadow: 0px 0px 6px #888888;
+}
+
+img.paymentbutton {
+    border: 0;
+    height: auto;
+    max-width: 350px;
+    box-shadow: 0px 0px 2px #888888;
+}
+
+.collection .collection-item {
+    padding: 6px 12px !important;
+}
