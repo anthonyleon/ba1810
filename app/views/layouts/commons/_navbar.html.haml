@@ -15,8 +15,11 @@
             = link_to notifications_index_path, style: 'display: flex;', class: "bell" do
               %span.material-icons
                 notifications
+        / %li
+        /   = link_to 'Inventory', inventory_parts_path
         %li
-          = link_to 'Inventory', inventory_parts_path
+          = link_to bids_path do
+            %i.fa.fa-cog{style: 'font-size: 20px;'}
         %li
           = link_to "Log out", logout_path
       %span.company-logo
@@ -37,56 +40,62 @@
           %li
             = link_to 'Aircraft Listing', new_aircraft_path
     %ul#mobile-demo.side-nav.fixed{style: "z-index: 0;"}
-      %li{style: "padding-top: 65px;"}
-        = link_to home_path do
-          %i.material-icons.left
-            home
-          Dashboard
+      / %li{style: "padding-top: 65px;"}
+      /   = link_to home_path do
+      /     %i.material-icons.left
+      /       home
+      /     Dashboard
+      %li#buy-sell-section{style: "padding-top: 65px;"}
+        BUY
       %li
         = link_to auctions_path do
-          %i.material-icons.left
-            gavel
-          Current Auctions
+          %i.fa.fa-gavel
+          = "\tMy Auctions"
+      %li
+        = link_to purchases_path do
+          %i.fa.fa-cart-plus
+          Purchases
+      %li#buy-sell-section
+        SELL
+      %li
+        = link_to bids_path do
+          %i.fa.fa-tag
+          My Bids
+      %li
+        = link_to current_opportunities_path do
+          %i.fa.fa-usd
+          Sales Opportunities
+      %li
+        = link_to sales_path do
+          %i.fa.fa-line-chart
+          Sales
+      %li#buy-sell-section
+        MANAGE
       %li
         = link_to inventory_parts_path do
-          %i.material-icons.left
-            build
+          %i.fa.fa-cogs
           Inventory
       %li
         = link_to aircrafts_path do
-          %i.material-icons.left
-            airplanemode_active
-          Aircrafts
+          %i.fa.fa-plane
+          Aircraft Listings
       %li
         = link_to engines_path do
-          %i.material-icons.left
-            toys
-          Engines
-      %li
-        = link_to sales_path do
-          %i.material-icons.left
-            attach_money
-          Sales
-      %li
-        = link_to purchases_path do
-          %i.material-icons.left
-            add_shopping_cart
-          Purchases
+          %i.fa.fa-circle
+          Engine Listings
       %li
         = link_to company_docs_path do
-          %i.material-icons.left
-            folder
+          %i.fa.fa-folder-open-o
           Documents
-      %li
-        = link_to edit_company_path do
-          %i.material-icons.left
-            settings
-          Settings
-      %li
-        = link_to logout_path do
-          %i.material-icons.left
-            power_settings_new
-          Log out
+      / %li
+      /   = link_to edit_company_path do
+      /     %i.fa.fa-cog
+      /     Settings
+      / %li
+      /   = link_to logout_path do
+      /     %i.material-icons.left
+      /       power_settings_new
+      /     Log out
 
 
   :javascript

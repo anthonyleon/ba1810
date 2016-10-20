@@ -1,13 +1,13 @@
 .row
-  #currentAuctions.col.s12.right-align.active
+  #myBids.col.s12
     .row
       .card
         .card-content
           .card-title.center-align{style: 'margin-top: 20px;'}
-            %h5.custom-card-title.center Active RFQs
+            %h5.custom-card-title.center Quoted RFQs
           %hr/
           %br
-          %table.table.striped.responsive-table#buyerAuctionsDT.bordered
+          %table.table.striped.responsive-table#mybidsDT.bordered
             %thead
               %tr
                 %th Part Number
@@ -15,25 +15,19 @@
                 %th Conditions
                 %th Start Date
                 %th Days Active
-                %th Bid Count
                 %th Lowest Bid
+                %th My Bid Price
                 %th
             %tbody
-              - @owned_auctions.each do |auction|
+              - @supplier_auctions.each do |auction|
                 %tr
                   %td= link_to auction.part_num, auction
                   %td= auction.auction_part.description
                   %td= auction.index_condition_tag
                   %td= auction.created_at.strftime("%m/%d/%Y")
                   %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-                  %td= auction.bids.count
                   %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
-                  %td.clearfix
-                    = link_to edit_auction_path(auction) do
-                      %span.material-icons.amber-text.icon-34
-                        mode_edit
-                    - if auction.company == current_user
-                      = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-                        %span.material-icons.red-text.icon-34
-                          delete_forever
-    = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
+                  / This the current user's bid for this auction?
+                  %td= number_to_currency Bid.where(company_id: current_user.id).find_by(auction_id: auction.id).part_price
+                  %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => auction.bids.find_by(company_id: current_user.id).id, :auction_id => auction.id }, :method => :get
+                  -# edit_auction_bid_path(auction, @bid)

@@ -4,10 +4,10 @@ class AuctionsController < ApplicationController
 
   def index
     @owned_auctions = current_user.auctions.where(active: true).decorate
-    @supplier_auctions = AuctionDecorator.decorate_collection(current_user.auctions_with_owned_bids)
-    # above code should look like this but I need to work on auctions_with_owned_bids first
+    # @supplier_auctions = AuctionDecorator.decorate_collection(current_user.auctions_with_owned_bids)
+    # above code (@owned_auctions) should look like this but I need to work on auctions_with_owned_bids first
     # @supplier_auctions = current_user.auctions_with_owned_bids.decorate
-    @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
+    # @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
   end
 
   def show
@@ -76,6 +76,10 @@ class AuctionsController < ApplicationController
       # action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @transaction.total_amount }
       # p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
       # webhook saying full payment has been received for the below notification
+  end
+
+  def current_opportunities
+    @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
   end
 
   private
