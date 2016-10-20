@@ -93,7 +93,7 @@
 
 				%li.card.checkout.destination-address.hoverable
 					.card-content.checkout.step4-1
-						%h6.left-align.collapsible-header
+						%h6.left-align
 							Step 4: Payment
 						.row
 							%span.card-title.col.s12
@@ -107,12 +107,11 @@
 											-if @payment_url
 												=image_tag "paymentbutton.jpg",  :class => "paymentbutton"
 											-elsif @release_payment_url
-												="Release Payment From Escrow"
-
+												=image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
 
 		-else
 			%ul
-				.card.checkout.destination-address.grey.lighten-2
+				.card.checkout.destination-address
 					.card-content.checkout.step3
 						%h6.left-align.collapsible-header
 							Step 3: Vendor Invoice
@@ -125,7 +124,7 @@
 							-# purchase_order/:id
 							need to finalize this portion!!!!!
 
-				.card.checkout.destination-address.grey.lighten-2
+				.card.checkout.destination-address
 					.card-content.checkout.step4
 						%h6.left-align.collapsible-header
 							Step 4: Payment
