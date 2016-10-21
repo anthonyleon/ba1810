@@ -1,6 +1,6 @@
 class PoPdf < Prawn::Document
 include ActionView::Helpers::NumberHelper
- 
+
   def initialize(product)
     super()
     @transaction = product
@@ -20,11 +20,11 @@ include ActionView::Helpers::NumberHelper
 
   def header
     #This inserts an image in the pdf file and sets the size of the image
-    
+
     y_position = cursor + 7
     bounding_box([0, y_position], :width => 540, :height => 60) do
       image "#{Rails.root}/app/assets/images/bidaerologonavycaps.jpg", width: 178, height: 44.5, at: [0,cursor]
-      bounding_box([350, cursor], :width => 540, :height => 100) do 
+      bounding_box([350, cursor], :width => 540, :height => 100) do
         text "\n PURCHASE ORDER", size: 20, style: :bold, :color => "d3d3d3", align: :left, width: 100, fill_color: "FFFFFF"#, at: [450, cursor + 13]
       end
     end
@@ -107,9 +107,9 @@ include ActionView::Helpers::NumberHelper
   def shipping_info
     shipment = []
     if @transaction.shipping_account
-      shipment << ["#{@auction.requested_carrier}", "#{@transaction.requested_shipping}", "??", "@auction.required_date"]
-    else
       shipment << ["#{@transaction.carrier}", "#{@transaction.shipment_desc}", "N/A", "#{@transaction.auction.required_date}"]
+    else
+      shipment << ["N/A", "N/A", "N/A", "#{@transaction.auction.required_date}"]
     end
     array = [["Ship Via", "Requested Shipping Method", "Shipping Terms", "Delivery Date"]] + shipment
   end
@@ -166,6 +166,6 @@ include ActionView::Helpers::NumberHelper
   end
 
   def fee_rows
-    array = [["","Subtotal", number_to_currency(@transaction.part_price)]] #+ [["","Shipping", @transaction.final_shipping_cost]] + [["","Tax", @transaction.tax]] + [["","Service Fee", @transaction.total_fee]] + [["","Total Amount", @transaction.total_amount]]    
+    array = [["","Subtotal", number_to_currency(@transaction.part_price)]] #+ [["","Shipping", @transaction.final_shipping_cost]] + [["","Tax", @transaction.tax]] + [["","Service Fee", @transaction.total_fee]] + [["","Total Amount", @transaction.total_amount]]
   end
 end
