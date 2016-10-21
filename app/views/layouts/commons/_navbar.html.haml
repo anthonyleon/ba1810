@@ -1,6 +1,6 @@
 %header
   %nav
-    .nav-wrapper.top-nav.z-depth-2
+    .nav-wrapper.top-nav
       %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
         %i.material-icons menu
       %ul#nav-buttons.right.hide-on-med-and-down
@@ -18,7 +18,7 @@
         / %li
         /   = link_to 'Inventory', inventory_parts_path
         %li
-          = link_to bids_path do
+          = link_to edit_company_path do
             %i.fa.fa-cog{style: 'font-size: 20px;'}
         %li
           = link_to "Log out", logout_path
