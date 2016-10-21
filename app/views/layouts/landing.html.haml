@@ -24,29 +24,7 @@
     / Page Wrap
     #top.page
       / Home Section
-      %section#home.home-section.bg-dark-alfa-90{"data-background" => asset_path("full-width-images/slider1.png")}
-        .js-height-full
-          .col-md-8.col-md-offset-2.align-center
-            .col-md-8.col-md-offset-2.slide1
-              %form.form-inline.part_form
-                .form-group
-                  %input.newsletter-field.form-control.input-md.round.mb-xs-10{:pattern => ".{5,100}", :placeholder => "ENTER CRITERIA", :required => "", :type => "email"}/
-                .form-group
-                  %select.form-control.silver{"ng-model" => "discussionsSelect"}
-                    %option{:value => "PART NUMBER"} PART NO
-                    %option{:value => "+91"} +91
-                    %option{:value => "+910"} +910
-                    %option{:value => "+915"} +915
-                %button.btn.btn-mod.btn-medium.btn-round.round.mb-xs-1.silver{:type => "submit"}
-                  SEARCH
-              .newsletter-label.font-alt
-                .heading1
-                  %p LOCATE YOUR PART NOW
-          / Scroll Down
-          .local-scroll
-            %a{:href => "#about"}
-              %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
-          / End Scroll Down
+      / End Scroll Down
       / End Home Section
       / Navigation panel
       .container.relative
@@ -73,11 +51,11 @@
                       %li
                         %a{:href => "#contact"} CONTACT
                       %li
-                        %a{:href => "#key"} FEATURES
+                        %a{:href => "/features#key"} FEATURES
                       %li
-                        %a{:href => "#howitworks"} HOW IT WORKS
+                        %a{:href => "/#howitworks"} HOW IT WORKS
                       %li
-                        %a{:href => "#pricing"} PRICING
+                        %a{:href => "/pricing"} PRICING
                 .col-md-4
                   .row.login.login_landing_form
                     = form_for(:login, url: login_path, class: "formhead") do |f|
@@ -91,428 +69,15 @@
                         = f.password_field :password, class: "validate input-md round form-control"
                         = link_to 'Forgot Your Password?', new_password_reset_path, class: "reset_link"
                       .col-md-2                          
-                        %input#enterbutton.input-md.round.form-control{:required => "", :type => "submit", :value => "Enter", style: "margin-top: 16px;"}/
+                        %input#enterbutton.input-md.round.form-control{:required => "", :type => "submit", :value => "Enter", style: "margin-top: 16px; margin-left: -19px;"}/
       %hr.mt-0.mb-0/
-      / Call Action Section
-      %section#about.shadow_section.page-section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/section-bg-26.png")}
-        .container.relative
-          .row
-            .col-md-6
-            .col-sm-6
-              .mt-140.mt-lg-80.mb-140.mb-lg-80
-                .banner-content
-                  %h1.marginbo BID AERO IS...
-                  .banner-decription
-                    A sourcing and procurement platform that utilizes a reverse auction business model. Reverse auction flips the traditional roles of buyer and vendor to create healthy competition for your benefit. The buyer simply requests a part and allows the vendors to compete against each other to make the sale. ensuring fair marker value for the sourced item. By implementing a supply chain adopted from Fortune 100 companies that meets ISM standards. Bid Aero provides the most efficient and transparent way to source the parts you need.
-      / End Works Grid
-    / Features Section
-    %section#infographic.page-section.shadow_section
-      .container.relative
-        %h2.section-title.font-alt.mb-70.mb-sm-40
-        %p{:style => "color: #4881bd;"} HOW IT WORKS
-        / Features Grid
-        .row.multi-columns-row.alt-features-grid
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/4.png")}/
-              %h6.alt-features-title.font-alt SEARCH FOR YOUR PART
-          / End Features Item
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/1.png")}/
-              %h6.alt-features-title.font-alt FOUND RIGHT PART
-          / End Features Item
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/6.png")}/
-              %h6#margin.alt-features-title.font-alt SEND MONEY TO ESCROW ACCOUNT
-        / End Features Item
-        %h2.section-title.font-alt.mb-70.mb-sm-40
-          %span{:style => "color: #4881bd;"} WHEN YOU SELL
-        / Features Item
-        .col-sm-6.col-md-4.col-lg-4
-          .alt-features-item1.align-center
-            .alt-features-icon
-              %img.services{:src => asset_path("service/2.png")}/
-            %h6.alt-features-title.font-alt NEW SALES OPPORTUNITY
-        / End Features Item
-        / Features Item
-        .col-sm-6.col-md-4.col-lg-4
-          .alt-features-item1.align-center
-            .alt-features-icon
-              %img.services{:src => asset_path("service/3.png")}/
-            %h6.alt-features-title.font-alt SHIP YOUR PART
-        / End Features Item
-        / Features Item
-        .col-sm-6.col-md-4.col-lg-4
-          .alt-features-item1.align-center
-            .alt-features-icon
-              %img.services{:src => asset_path("service/5.png")}/
-            %h6.alt-features-title.font-alt RECIEVE PAYMENT
-        / End Features Item
-      / End Features Grid
-    / End Features Section
-    / Testimonials Section
-    %section.page-section.shadow_section.bg-dark.bg-dark-alfa-90.fullwidth-slider{"data-background" => asset_path("full-width-images/clouds.png"), :style => "padding: 50px 0px;"}
-      / Slide Item
-      #contact.container.relative
-        .row
-          .col-md-8.col-md-offset-2.align-center
-            .col-md-8.col-md-offset-2
-              .newsletter-label.font-alt
-                %p.signnews SIGN UP TO OUR NEWSLETTER
-              .col-md-11
-                %input#signupbox.newsletter-field.form-control.input-md.round.mb-xs-10{:pattern => ".{5,100}", :placeholder => "Enter Your Email", :required => "", :type => "email"}/
-              .col-md-1
-                %button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.green{:type => "submit"}
-                  Submit
-              #subscribe-result
-          / End Testimonials Section
-          / Newsletter Section
-    %section.small-section.shadow_section.bg-gray-lighter
-      %form#mailchimp.form.align-center
-        .row
-          .col-md-12
-            .newsletter-label.font-alt
-              .col-md-2.heading
-                %h4 NAVIGATION
-                %ul
-                  %li.footernav HOME
-                  %li.footernav FEATURES
-                  %li.footernav PRICING
-              .col-md-7.heading
-                %h4 PAYMENTS ACCEPTED
-                %p.paymentstyle We accept various payment methods to ensure quick and safe access to our global aircraft parts locating system.
-                .form-tip
-                  %ul.cnss-social-icon{:id => "", :style => "text-align:center;margin-right: 15px;"}
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/pricing_bid-Aero_03.png"), :style => " margin:0px;", :width => "200"}/
-                  #subscribe-result
-              .col-md-3.heading
-                %h4 FOLLOW
-                .form-tip
-                  %ul.cnss-social-icon{:id => "", :style => "text-align:center;margin-right: 15px;"}
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "fb"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/facebook.png"), :style => " margin:0px;", :width => "15"}/
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "twitter"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/twitter.png"), :style => " margin:0px;", :width => "35"}/
-                    %li.Instagram{:style => " display:inline-block;margin-right:5px;"}
-                      %a{:href => "#", :target => "_blank", :title => "youtube"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/YouTube.png"), :style => " margin:0px;", :width => "35"}/
-                    %li.Instagram{:style => " display:inline-block;margin-right:5px;"}
-                      %a{:href => "#", :target => "_blank", :title => "linked_in"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/icon_linkedin.png"), :style => " margin:0px;", :width => "15"}/
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/instagram.png"), :style => " margin:0px;", :width => "15"}/
-                  #subscribe-result
-    / End Newsletter Section
-    / Contact Section
-    %section.shadow_section.page-section.bg
-      %form#mailchimp.form.align-center
-        .row
-          .col-md-12
-            .newsletter-label.font-alt
-              .col-md-3.heading.white
-                %h4 CONTACT US
-                %ul
-                  %li.footernav Please fill the form or reach us directly at 1800.000.0000
-              .col-md-2.heading
-                .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Enter Name", :required => "", :type => "text"}/
-              .col-md-2.heading
-                .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Enter Email", :required => "", :type => "email"}/
-              .col-md-2.heading
-                .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Contact Number", :required => "", :type => "text"}/
-              .cf-right-col
-                / Message
-                .form-group
-                  %textarea#message.input-md.round.form-control{:name => "message", :placeholder => "Message", :style => "height: 84px;width: 103%;"}
-              .col-md-3.heading
-                %button.btn.btn-mod.btn-medium.btn-round.mb-xs-5{:type => "submit"}
-                  Submit
-        / End Contact Form
-    / End Contact Section
-    / KEY FEATURES
-    %section#key.shadow_section.page-section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/Features_bid-1.png"), :style => "background-attachment:initial;"}
-      .container.relative
-        .row
-          .col-md-6
-            %h1.title_0{:style => "margin: 245px 0px 0px 0px;"} KEY FEATURES
-          .col-sm-6
-            #key.mt-140.mt-lg-80.mb-140.mb-lg-80
-              .banner-content
-                .banner-decription{:style => "height:250px"}
-        / Scroll Down
-        .local-scroll
-          %a{:href => "#howitworks"}
-            %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
-        / End Scroll Down
-    / END KEY FEATURES
-    / KEY FEATURES 1
-    %section#key1.shadow_section.page-section.pt-0.pb-0.bg-dark{:style => "background-attachment:initial; background-color:#098d18;"}
-      .row
-        %ul.nav.nav-pills.nav-justified
-          %li.active
-            %a{"data-toggle" => "tab", :href => "#REVERSE"} REVERSE AUCTION
-          %li
-            %a{"data-toggle" => "tab", :href => "#POTENTIAL"} POTENTIAL SALE NOTIFICATION
-          %li
-            %a{"data-toggle" => "tab", :href => "#SECURE"} SECURE PAYMENT
-          %li
-            %a{"data-toggle" => "tab", :href => "#INVENTORY"} INVENTORY LISTING
-          %li
-            %a{"data-toggle" => "tab", :href => "#ASSET"} ASSET LISTING
-          %li
-            %a{"data-toggle" => "tab", :href => "#FINANCIAL"} FINANCIAL TRACKING
-        .col-md-6.banner-image.wow.fadeInUp{"data-wow-duration" => "1.2s"}
-          %img{:alt => "", :src => asset_path("full-width-images/pc.png"), :style => ""}/
-        .col-sm-6
-          .mt-140.mt-lg-80.mb-140.mb-lg-80
-            .tab-content
-              #REVERSE.tab-pane.fade.in.active
-                %h1.marginbo REVERSE AUCTION
-                %p.tit1 Ensure affordability and efficiency with our Reverse Auction approach. When the roles of buyer and seller are flipped. healthy competition ensures fair market value.
-              #POTENTIAL.tab-pane.fade
-                %h1.marginbo POTENTIAL SALE NOTIFICATION
-                %p.tit1 Ensure affordability and efficiency with our Reverse Auction approach. When the roles of buyer and seller are flipped. healthy competition ensures fair market value.
-              #SECURE.tab-pane.fade
-                %h1.marginbo SECURE PAYMENT
-                %p.tit1 Ensure affordability and efficiency with our Reverse Auction approach. When the roles of buyer and seller are flipped. healthy competition ensures fair market value.
-              #INVENTORY.tab-pane.fade
-                %h1.marginbo INVENTORY LISTING
-                %p.tit1 Ensure affordability and efficiency with our Reverse Auction approach. When the roles of buyer and seller are flipped. healthy competition ensures fair market value.
-              #ASSET.tab-pane.fade
-                %h1.marginbo ASSET LISTING
-                %p.tit1 Ensure affordability and efficiency with our Reverse Auction approach. When the roles of buyer and seller are flipped. healthy competition ensures fair market value.
-              #FINANCIAL.tab-pane.fade
-                %h1.marginbo FINANCIAL TRACKING
-                %p.tit1 Ensure affordability and efficiency with our Reverse Auction approach. When the roles of buyer and seller are flipped. healthy competition ensures fair market value.
-    / CONTACT
-    / Testimonials Section
+    = yield
+  
     %section.shadow_section.page-section.bg-dark.bg-dark-alfa-90.fullwidth-slider{"data-background" => asset_path("full-width-images/clouds.png"), :style => "padding: 50px 0px;"}
       / Slide Item
       #contact.container.relative
         .row
-          .col-md-8.col-md-offset-2.align-center
-            .col-md-8.col-md-offset-2
-              .newsletter-label.font-alt
-                %p.signnews SIGN UP TO OUR NEWSLETTER
-              .col-md-11
-                %input#signupbox.newsletter-field.form-control.input-md.round.mb-xs-10{:pattern => ".{5,100}", :placeholder => "Enter Your Email", :required => "", :type => "email"}/
-              .col-md-1
-                %button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.green{:type => "submit"}
-                  Submit
-              #subscribe-result
-          / End Testimonials Section
-          / Newsletter Section
-    %section.shadow_section.small-section.bg-gray-lighter
-      %form#mailchimp.form.align-center
-        .row
-          .col-md-12
-            .newsletter-label.font-alt
-              .col-md-2.heading
-                %h4 NAVIGATION
-                %ul
-                  %li.footernav HOME
-                  %li.footernav FEATURES
-                  %li.footernav PRICING
-              .col-md-7.heading
-                %h4 PAYMENTS ACCEPTED
-                %p.paymentstyle We accept various payment methods to ensure quick and safe access to our global aircraft parts locating system.
-                .form-tip
-                  %ul.cnss-social-icon{:id => "", :style => "text-align:center;margin-right: 15px;"}
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/pricing_bid-Aero_03.png"), :style => " margin:0px;", :width => "200"}/
-                  #subscribe-result
-              .col-md-3.heading
-                %h4 FOLLOW
-                .form-tip
-                  %ul.cnss-social-icon{:id => "", :style => "text-align:center;margin-right: 15px;"}
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "fb"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/facebook.png"), :style => " margin:0px;", :width => "15"}/
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "twitter"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/twitter.png"), :style => " margin:0px;", :width => "35"}/
-                    %li.Instagram{:style => " display:inline-block;margin-right:5px;"}
-                      %a{:href => "#", :target => "_blank", :title => "youtube"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/YouTube.png"), :style => " margin:0px;", :width => "35"}/
-                    %li.Instagram{:style => " display:inline-block;margin-right:5px;"}
-                      %a{:href => "#", :target => "_blank", :title => "linked_in"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/icon_linkedin.png"), :style => " margin:0px;", :width => "15"}/
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("socialmedia/instagram.png"), :style => " margin:0px;", :width => "15"}/
-                  #subscribe-result
-    / End Newsletter Section
-    / Contact Section
-    %section.shadow_section.page-section.bg
-      %form#mailchimp.form.align-center
-        .row
-          .col-md-12
-            .newsletter-label.font-alt
-              .col-md-3.heading.white
-                %h4 CONTACT US
-                %ul
-                  %li.footernav Please fill the form or reach us directly at 1800.000.0000
-              .col-md-2.heading
-                .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Enter Name", :required => "", :type => "text"}/
-              .col-md-2.heading
-                .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Enter Email", :required => "", :type => "email"}/
-              .col-md-2.heading
-                .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Contact Number", :required => "", :type => "text"}/
-              .cf-right-col
-                / Message
-                .form-group
-                  %textarea#message.input-md.round.form-control{:name => "message", :placeholder => "Message", :style => "height: 84px;width: 103%;"}
-              .col-md-3.heading
-                %button.btn.btn-mod.btn-medium.btn-round.mb-xs-5{:type => "submit"}
-                  Submit
-        / End Contact Form
-    / END CONTACT
-    / Features Section
-    %section#howitworks.page-section.shadow_section
-      .container.relative
-        %h2.section-title.font-alt.mb-70.mb-sm-40
-          HOW IT WORKS
-        / Features How It works Grid
-        .row.multi-columns-row.alt-features-grid
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/1.png")}/
-              %h6.alt-features-title.font-alt SEARCH FOR YOUR PART
-          / End Features Item
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/2.png")}/
-              %h6.alt-features-title.font-alt NEW SALES OPPORTUNITY
-          / End Features Item
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/3.png")}/
-              %h6.alt-features-title.font-alt FOUND THE RIGHT PART
-          / End Features Item
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/4.png")}/
-              %h6.alt-features-title.font-alt CHECKOUT, SHIPPING, INFO AND PO GENERATED
-          / End Features Item
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/5.png")}/
-              %h6.alt-features-title.font-alt PAYMENT IN ESCROW
-          / End Features Item
-          / Features Item
-          .col-sm-6.col-md-4.col-lg-4
-            .alt-features-item.align-center
-              .alt-features-icon
-                %img.services{:src => asset_path("service/6.png")}/
-              %h6.alt-features-title.font-alt PART APPROVAL & FUNDS DISBURSEMENT
-          / End Features Item
-        / End Features Grid
-    / End How It works Section
-    / END KEY FEATURES 1
-    / KEY FEATURES
-    %section#pricing.page-section.shadow_section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/Features_bid-3.png"), :style => "background-attachment:initial;"}
-      .container.relative
-        .row
-          .col-md-6
-            %h1.title_0{:style => "margin: 245px 0px 0px 0px;"} PRICING
-          .col-sm-6
-            #key.mt-140.mt-lg-80.mb-140.mb-lg-80
-              .banner-content
-                .banner-decription{:style => "height:250px"}
-        / Scroll Down
-        .local-scroll
-          %a{:href => "#footer"}
-            %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
-        / End Scroll Down
-    / END KEY FEATURES
-    / Pricing Section
-    %section.shadow_section.small-section.bg-gray-lighter.new
-      .container.relative
-        %form#mailchimp.form.align-center
-          .row
-            .col-md-12
-              #footer.newsletter-label.font-alt
-                .col-md-12
-                  %h4 NO MONTHLY SUBSCRIPTION + FREE AIRCRAFT AND ENGINE LISTINGS
-                  .banner-decription.center We apply a service fee to all transaction. However, as the sale price increases. we decrease our service fee. We offer free aircraft and engine listings in order to market any asset on our site. When it comes to part sales you will never incur a service fee greater than 4%. because we understand the value of this market.
-          .row.bg
-            .col-md-4
-              .bg
-                %h3.title AT LEAST
-                %hr.hr1/
-                %ul
-                  %li.footercenter $0.00
-                  %li.footercenter $5.000
-                  %li.footercenter $50.000
-                  %li.footercenter $500.000
-            .col-md-4
-              .bg
-                %h3.title UP TO
-                %hr.hr2/
-                %ul
-                  %li.footercenter $5.000
-                  %li.footercenter $50.000
-                  %li.footercenter $500.000
-                  %li.footercenter $1.000.000.00 +
-            .col-md-4.bg
-              .bg
-                %h3.title BID AERO SERVICE FEE
-                %hr.hr3/
-                %ul
-                  %li.footercenter 4% OF THE PAYMENT VALUE
-                  %li.footercenter $200+2.5% OF THE AMOUNT OVER $5.000
-                  %li.footercenter $1.325+2% OF THE AMOUNT OVER $50.000
-                  %li.footercenter $10.325 + 0.8% OF THE AMOUNT OVER $500.000
-          .gap{:style => "margin-bottom:50px;"}
-          .newsletter-label.font-alt
-            .col-md-12
-              %h4 ENTER AN AMOUNT IN U.S DOLLARS TO CALCULATE THE PAYMENTS FEE
-          .col-md-3{:style => "margin-top: 20px;"}
-            Order Amount:
-          .col-md-8
-            %input.form-control.input-md.round.mb-xs-10{:onkeyup => "getTransactionFee(parseFloat(this.value))", :placeholder => "Enter the amount of the order in USD", :type => "text"}/
-          .col-md-3.left{:style => "margin-top: 20px;"}
-            Transaction fee for this order:
-          #transactionFee.col-md-9{:style => "margin-top: 20px;"}
-            $0.00
-    / Footer
-    / Pricing1 Section
-    / CONTACT
-    / Testimonials Section
-    %section.shadow_section.page-section.bg-dark.bg-dark-alfa-90.fullwidth-slider{"data-background" => asset_path("full-width-images/clouds.png"), :style => "padding: 50px 0px;"}
-      / Slide Item
-      #contact.container.relative
-        .row
-          .col-md-8.col-md-offset-2.align-center
+          .col-md-8.col-md-offset-1.align-center
             .col-md-8.col-md-offset-2
               .newsletter-label.font-alt
                 %p.signnews SIGN UP TO OUR NEWSLETTER
@@ -542,16 +107,7 @@
                   %ul.cnss-social-icon{:id => "", :style => "text-align:center;margin-right: 15px;"}
                     %li.Instagram{:style => " display:inline-block;"}
                       %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/visa.png"), :style => " margin:0px;", :width => "50"}/
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/AmericanExpress.png"), :style => " margin:0px;", :width => "100"}/
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/paypal.png"), :style => " margin:0px;", :width => "50"}/
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/mastercard.png"), :style => " margin:0px;", :width => "50"}/
+                        %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/pricing_bid-Aero_03.png"), :style => " margin:0px;", :width => "200"}/
                   #subscribe-result
               .col-md-3.heading
                 %h4 FOLLOW
@@ -604,7 +160,7 @@
     / END CONTACT
     / End Pricing1 Section
     / Footer
-    %footer.page-section.bg-gray-lighter.footer.pb-60
+    %footer.page-section.bg-gray-lighter.footer.bg{style: "background-color: #2b3749;"}
       .container
         / Footer Logo
         .local-scroll.mb-30.wow.fadeInUp{"data-wow-duration" => "1.5s"}
