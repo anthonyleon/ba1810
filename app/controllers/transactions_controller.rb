@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
           Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.")
           # testing purposes. ALSO SEND AN EMAIL TO THE USER
         when 6 # order accepted (ie. funds released from buyer to seller)
-          @transaction.transfer_inventory 
+          @transaction.transfer_inventory
           @transaction.completed
           # CREATE A REVIEW NOTIFICATION
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")

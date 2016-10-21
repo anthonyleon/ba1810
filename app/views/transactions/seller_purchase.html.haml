@@ -85,117 +85,55 @@
 											%a.secondary-content
 												= @transaction.total_amount
 		-else
-			%li.card.checkout.destination-address.hoverable
-				.card-content.step1-2
-					%h6.left-align.collapsible-header
-						Step 3: Confirm Sale Details
-					%br/
-					.row
-						%span.card-title.col.s12
-							%h5.center-align
-								Please enter Tax Rate, Company Invoice Number, and Shipping Charge (if applicable)
-							%h6.center-align
-								We will be generating a custom Invoice for your records.
-							.form-container.destination-form
-								= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
-									-if !@transaction.shipping_account
-										.row
-											.input-field.col.s4
-												.field.form-group
-													= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
-											.input-field.col.s4
-												.field.form-group
-													= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
-											.input-field.col.s4
-												.field.form-group
-													= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-										.actions{style: "margin-bottom: 20px;"}
-											= f.submit 'Submit', class: "btn custom-btn"
-									-else
-										.row
-											.input-field.col.s4.push-s1
-												.field.form-group
-													%h6.left-align Please enter Sales Tax (only if applicable)
-													= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
-											.input-field.col.s4.push-s3
-												.field.form-group
-													%h6.left-align Please confirm Invoice Number
-													= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-										.actions.center-align
-											= f.submit 'Submit', class: "btn custom-btn"
-
-		%ul
-			%li.card.checkout.destination-address.hoverable
-				.card-content.step1-2
-					%h6.left-align.collapsible-header
-						Step 4 & 5: Payment Received in Escrow, Confirm Shipping details
-					%br/
-					- if !@transaction.tracking_num
-						%h6.center-align Please confirm shipping details below
-						%h6.center-align Carrier and tracking number are required for release of funds
-						= render 'shipment'
-					- else
-						-if !@transaction.shipped
-							%h6.center-align Awaiting carrier to confirm shipment
-							%h6.center-align Carrier and tracking number are required for release of funds
-							%br/
-						-else
-							%h6.center-align Carrier has confirmed shipment
-							%h6.center-align Please standby, Buyer has 3 days to approve part after delivery
-							%br/
+			%ul
+				%li.card.checkout.destination-address.hoverable
+					.card-content.step1-2
+						%h6.left-align.collapsible-header
+							Step 3: Confirm Sale Details
+						%br/
 						.row
-							%span.card-title.col.s6.push-s2
-								=image_tag "shipping-box-hi.png",  :class => "shipping-box-hi"
-							%span.card-title.col.s6
-								%h5.center-align Tracking Number:
+							%span.card-title.col.s12
+								%h5.center-align
+									Please enter Tax Rate, Company Invoice Number, and Shipping Charge (if applicable)
 								%h6.center-align
-									= @transaction.carrier
-								%h6.center-align
-									= @transaction.tracking_num
+									We will be generating a custom Invoice for your records.
+								.form-container.destination-form
+									= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+										-if !@transaction.shipping_account
+											.row
+												.input-field.col.s4
+													.field.form-group
+														= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
+												.input-field.col.s4
+													.field.form-group
+														= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+												.input-field.col.s4
+													.field.form-group
+														= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+											.actions{style: "margin-bottom: 20px;"}
+												= f.submit 'Submit', class: "btn custom-btn"
+										-else
+											.row
+												.input-field.col.s4.push-s1
+													.field.form-group
+														%h6.left-align Please enter Sales Tax (only if applicable)
+														= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+												.input-field.col.s4.push-s3
+													.field.form-group
+														%h6.left-align Please confirm Invoice Number
+														= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+											.actions.center-align
+												= f.submit 'Submit', class: "btn custom-btn"
 
-			%li.card.checkout.destination-address.hoverable
-				.card-content.step1-2
-					%h6.left-align.collapsible-header
-						Step 6: Release of Payment
-					%br/
-					- if @transaction.complete
-						.row
-							%h6.center-align Awaiting Buyer to approve part and release funds
-							%h6.center-align Buyer has 3 days after delivery to approve part or file dispute
-					- else
-						- if !@transaction.disputed
-							.row
-								%span.card-title.col.s6
-									%h5.center-align Thank you for using Bid Aero!
-									%h6.center-align Buyer has released funds to your account
-									%h6.center-align Please verify funds have been received or contact us directly at admin.bid.aero
-								%h6.required_date.center-align
-									=image_tag "482483624.jpg",  :class => "shipping-box-hi1"
-						-else
-							.row
-								%span.card-title.col.s12.center-align
-									%h5.center-align Unfortunately the buyer has chosen to file a dispute
-									%h6.center-align We are trying our best to ensure both parties can come to an agreement
-									%h6.center-align Bid Aero will be performing an investigation to address the current dispute.
-									%h6.center-align Please contact us directly at admin@bid.aero for more information.
-							.row.valign-wrapper
-								%span.card-title.col.s6.center-align
-									%h7.center-align Reference number:
-									=@transaction.order_id
-								%span.card-title.col.s6.center-align
-									%h6.required_date.center-align
-									- if !@transaction.dispute_settlement
-										%div.center-align
-											%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-											%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
-												=image_tag "settlementofferbutton.jpg",  :class => "paymentbutton"
-									-elsif @transaction.dispute_settlement
-										%h6.center-align A settlement offer has been made, please review.
-										%div.center
-											%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-											%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
-												=image_tag "reviewsettlementofferbutton.jpg",  :class => "paymentbutton"
+		-if !@transaction.paid
+			= render 'transactions/partials/seller4_5blur'
+		-else
+			= render 'transactions/partials/seller4_5'
 
+		- if !@transaction.complete
+			= render 'transactions/partials/seller6blur'
+		-else
+			= render 'transactions/partials/seller6'
 
 -# .row
 -# 	.col.s12

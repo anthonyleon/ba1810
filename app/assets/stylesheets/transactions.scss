@@ -30,6 +30,10 @@
   filter: blur(1.5px);
 }
 
+.blurred {
+  filter: blur(1.5px);
+  pointer-events: none;
+}
 .step4-1 {
 }
 img.shipping-box-hi1 {

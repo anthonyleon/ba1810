@@ -23,7 +23,7 @@ $(document).on('ready page:load', function() {
 	// Update PO Num, then 'proceed'
 	$('.po-submit').click(function() {
 		var transactionId = $(this).data().transactionId;
-		var poNum = $('.purhcase-order-confirmation #po_num').val();
+		var poNum = $('#po_num').val();
 		$.ajax({
 			url: '/update_transaction/' + transactionId,
 			method: 'PATCH',
@@ -65,7 +65,7 @@ $(document).on('ready page:load', function() {
     $(".card-edit").hide(200);
 	});
 
-  $('button.btn.custom-btn.card-edit-submit').click(function(){
+  $(".card-edit-submit, .submit_button").click(function(){
     $('li.confirm-address-bubble.active').removeClass("active").addClass("visited");
     $('li.generate-po-bubble.next').removeClass("next").addClass("active");
   });
