@@ -212,7 +212,7 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.silver{ margin-top: 15px;}
 	position: relative;
     overflow: hidden;
 	background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: scroll;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

@@ -1,0 +1,65 @@
+%section#pricing.page-section.shadow_section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/Features_bid-3.png"), :style => "background-attachment:initial;"}
+  .container.relative
+    .row
+      .col-md-6
+        %h1.title_0{:style => "margin: 245px 0px 0px 0px;"} PRICING
+      .col-sm-6
+        #key.mt-140.mt-lg-80.mb-140.mb-lg-80
+          .banner-content
+            .banner-decription{:style => "height:250px"}
+    / Scroll Down
+    .local-scroll
+      %a{:href => "#footer"}
+        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+    / End Scroll Down
+/ END KEY FEATURES
+/ Pricing Section
+%section.shadow_section.small-section.bg-gray-lighter.new
+  .container.relative
+    %form#mailchimp.form.align-center
+      .row
+        .col-md-12
+          #footer.newsletter-label.font-alt
+            .col-md-12
+              %h4 NO MONTHLY SUBSCRIPTION + FREE AIRCRAFT AND ENGINE LISTINGS
+              .banner-decription.center We apply a service fee to all transaction. However, as the sale price increases. we decrease our service fee. We offer free aircraft and engine listings in order to market any asset on our site. When it comes to part sales you will never incur a service fee greater than 4%. because we understand the value of this market.
+      .row.col-md-offset-1.col-md-10.bg{style: "background: linear-gradient(#fff, #eee);"}
+        .col-md-3
+          .bg1
+            %h4.title AT LEAST
+            %hr.hr1/
+            %ul
+              %li.footercenter $0.00
+              %li.footercenter $5.000
+              %li.footercenter $50.000
+              %li.footercenter $500.000
+        .col-md-3
+          .bg1
+            %h4.title UP TO
+            %hr.hr2/
+            %ul
+              %li.footercenter $5.000
+              %li.footercenter $50.000
+              %li.footercenter $500.000
+              %li.footercenter $1.000.000.00 +
+        .col-md-6.bg
+          .bg1
+            %h4.title BID AERO SERVICE FEE
+            %hr.hr3/
+            %ul
+              %li.footercenter 4% OF THE PAYMENT VALUE
+              %li.footercenter $200+2.5% OF THE AMOUNT OVER $5.000
+              %li.footercenter $1.325+2% OF THE AMOUNT OVER $50.000
+              %li.footercenter $10.325 + 0.8% OF THE AMOUNT OVER $500.000
+      .gap{:style => "margin-bottom:50px;"}
+      .newsletter-label.font-alt
+        .col-md-12
+          %h4 ENTER AN AMOUNT IN U.S DOLLARS TO CALCULATE THE PAYMENTS FEE
+      .col-md-3{:style => "margin-top: 20px;"}
+        Order Amount:
+      .col-md-8
+        %input.form-control.input-md.round.mb-xs-10{:onkeyup => "getTransactionFee(parseFloat(this.value))", :placeholder => "Enter the amount of the order in USD", :type => "text"}/
+      .col-md-3.left{:style => "margin-top: 20px;"}
+        Transaction fee for this order:
+      #transactionFee.col-md-9{:style => "margin-top: 20px;"}
+        $0.00
