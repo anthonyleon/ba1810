@@ -16,6 +16,44 @@ class AssetDecorator < Draper::Decorator
     h.content_tag(:span,  tag_name.to_s.split('_')[1..-1].join(' ').capitalize, class: "tag #{tag_name}")
   end
 
+  def self.rename(event, condition)
+    @conditions = []
+    if event.class == Bid
+      case condition
+      when "overhaul"
+        @conditions << "OH"
+      when "recent"
+        @conditions << "NE"
+      when "serviceable"
+        @conditions << "SV"
+      when "as_removed"
+        @conditions << "AR"
+      when "scrap"
+        @conditions << "SC"
+      when "non_serviceable"
+        @conditions << "NSV"
+      end
+    elsif event.class == Auction
+      condition.each do |condition|
+        case condition
+        when "overhaul"
+          @conditions << "OH"
+        when "recent"
+          @conditions << "NE"
+        when "serviceable"
+          @conditions << "SV"
+        when "as_removed"
+          @conditions << "AR"
+        when "scrap"
+          @conditions << "SC"
+        when "non_serviceable"
+          @conditions << "NSV"
+        end
+      end
+    end
+    @conditions.to_sentence
+  end
+
   def service_status_tag
     tag_name = {
       "in_service" => :tag_in_service,

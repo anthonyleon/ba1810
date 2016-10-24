@@ -10,34 +10,27 @@
           - @auction.errors.full_messages.each do |message|
             %li= message
     .field.form-group
-      %h5 Part Number
       = f.text_field :part_num, class: "form-control", placeholder: "Part number"
+    .field.form-group.auction-condition-form
+      = f.collection_check_boxes(:condition, Auction.conditions, :to_s, :humanize )
+    %br
     %div{style: "text-align: center;"}
       %h4 SHIP TO
-    .field.form-group
-      %h5 Company Name
-      = f.text_field :destination_company, class: "form-control", placeholder: "Destination Company"
-    .field.form-group
-      %h5 Street Address
-      = f.text_field :destination_address, class: "form-control", placeholder: "Destination Street Address"
-    .field.form-group
-      %h5 Zip
-      = f.text_field :destination_zip, class: "form-control", placeholder: "Destination Zip Code"
-    .field.form-group
-      %h5 City
-      = f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
-    .field.form-group
-      %h5 State
-      = f.text_field :destination_state, class: "form-control", placeholder: "Destination State/Region"
-    .field.form-group
-      %h5 Country
-      = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
-    .field.form-group
-      %h5 Date
+    .auction-destination
+      .field.form-group
+        = f.text_field :destination_company, value: current_user.name, class: "form-control", placeholder: "Destination Company"
+      .field.form-group
+        = f.text_field :destination_address, value: current_user.address, class: "form-control", placeholder: "Destination Street Address"
+      .field.form-group
+        = f.text_field :destination_city, value: current_user.city, class: "form-control", placeholder: "Destination City"
+      .field.form-group
+        = f.text_field :destination_state, value: current_user.state, class: "form-control", placeholder: "Destination State/Region"
+      .field.form-group
+        = f.text_field :destination_zip, value: current_user.zip, class: "form-control", placeholder: "Destination Zip Code"
+      .field.form-group
+        = f.text_field :destination_country, value: current_user.country, class: "form-control", placeholder: "Destination Country"
+      .field.form-group
       = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
-    .field.form-group.auction-condition-form
-      %h5 Condition
-      = f.collection_check_boxes(:condition, Auction.conditions, :to_s, :humanize )
     %br
     %div I am purchasing this part with the intention to resell and will provide a resale certificate.
     #form-group.radio_button

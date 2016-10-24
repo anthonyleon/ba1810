@@ -2,7 +2,7 @@ class AircraftsController < ApplicationController
   before_action :set_aircraft, only: [:show, :edit, :update, :destroy]
 
   def index
-    @aircrafts = Aircraft.all.decorate
+    @aircrafts = current_user.aircrafts.decorate
   end
 
   def show

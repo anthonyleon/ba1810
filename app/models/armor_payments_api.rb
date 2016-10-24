@@ -7,11 +7,12 @@ class ArmorPaymentsApi
   end
 
   def self.create_account(company)
+    company.inc_state = nil unless company.inc_country == 'US'
     account_data = {
       company: company.name,
       user_name: company.representative,
       user_email: company.email,
-      user_phone: "+1 #{company.phone.gsub('-', '')}",
+      user_phone: "+1 #{company.phone.gsub(/[ ()-]/, '')}",
       address: company.address,
       city: company.city,
       state: company.state,
@@ -19,10 +20,11 @@ class ArmorPaymentsApi
       country: company.country,
       email_confirmed: company.email_confirmed,
       agreed_terms: true,
+      account_type: 2,
       url: company.url,
       inc_country: company.inc_country, 
-      inc_state: company.inc_state,
-      company_type: company.company_type
+      business_type: company.business_type,
+      inc_state: company.inc_state
     }
     p response = CLIENT.accounts.create(account_data)
     p armor_account_num = response.data[:body]["account_id"].to_s
