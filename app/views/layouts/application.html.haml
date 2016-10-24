@@ -45,7 +45,7 @@
     var pgurl = window.location.pathname;
      $(".side-nav li a").each(function(){
         if( $(this).attr("href") == pgurl || $(this).attr("href") == '' ) {
-          $($(this)).parent().addClass("active");
+          $($(this)).parent().addClass("active-tab");
         };
       });
     });
