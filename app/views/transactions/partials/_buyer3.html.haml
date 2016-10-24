@@ -1,0 +1,39 @@
+%ul
+  %li.card.checkout.destination-address.hoverable
+    .card-content.checkout.step3-1
+      %h6.left-align.collapsible-header
+        Step 3: Vendor Invoice
+      %br/
+      .row
+        %span.card-title.col.s6
+          %h6.required_date.center-align
+            To Download and View vendor Invoice please click below.
+            %br/
+            %br/
+            =link_to (image_tag "bidaeroinvoice.jpg",  :class => "bidaeropo"), transaction_invoice_path(@transaction, :format => :pdf)
+
+        %h5.center-align
+          Pricing Breakdown:
+        %h7.left-align.col.s4.push-s1
+          %ul.collection
+            %li.collection-item.left-align
+              Unit Price:
+              %a.secondary-content
+                = number_to_currency(@transaction.part_price)
+            %li.collection-item.left-align
+              Shipping (if applicable):
+              %a.secondary-content
+                = number_to_currency(@transaction.final_shipping_cost)
+            %li.collection-item.left-align
+              Tax:
+              %a.secondary-content
+                = number_to_currency(@transaction.tax)
+            %li.collection-item.left-align
+              Bid Aero Service Fee:
+              %a.secondary-content
+                = number_to_currency(@transaction.total_fee)
+            %li.collection-item.left-align
+              %div
+                Grand Total:
+                %a.secondary-content
+                  = number_to_currency(@transaction.total_amount)
