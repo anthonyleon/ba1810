@@ -43,17 +43,17 @@ class TransactionsController < ApplicationController
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.", transaction: @transaction)
         when 10 #dispute settlement offer has been submitted by either buyer or seller
           @transaction.settlement_offer_submitted
-          @company = Company.find_by(@data["event"]) #whos on the other side of the submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "A settlement offer has been submitted to you. Please review.", transaction: @transaction)
+          # @company = Company.find_by(@data["event"]) #whos on the other side of the submitted settlement offer? Notify them
+          Notification.notify(@bid, @transaction.buyer, "A settlement offer has been submitted to you. Please review.", transaction: @transaction)
         when 11 #Offer to settle dispute on order accepted
-          @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been accepeted", transaction: @transaction)
+          # @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
+          Notification.notify(@bid, @transaction.seller, "Your settlement offer for order ##{@transaction.order_id} has been accepeted", transaction: @transaction)
         when 12 #Offer to settle dispute on order rejected. Use of this event is now deprecated. Offers will be countered, rather than rejected.
-          @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id}, has been rejected. You may submit a counter-offer.", transaction: @transaction)
+          # @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
+          Notification.notify(@bid, @transaction.seller, "Your settlement offer for order ##{@transaction.order_id}, has been rejected. You may submit a counter-offer.", transaction: @transaction)
         when 13 #Counter-offer made to settle dispute
-          @company = Company.find_by(@data["event"]) #who's on the other side of the counter offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been countered. Please Review", transaction: @transaction)
+          # @company = Company.find_by(@data["event"]) #who's on the other side of the counter offer? Notify them
+          Notification.notify(@bid, @transaction.seller, "Your settlement offer for order ##{@transaction.order_id} has been countered. Please Review", transaction: @transaction)
           @transaction.clear_dispute_responses
         when 26 #Goods inspection completed
         end
