@@ -43,3 +43,14 @@
     margin-right: 20px;
   }
 }
+
+
+#price_input::-moz-placeholder {
+    text-align: right;
+}
+#price_input:-ms-input-placeholder {
+    text-align: right;
+}
+#price_input::-webkit-input-placeholder {
+    text-align: right;
+}
