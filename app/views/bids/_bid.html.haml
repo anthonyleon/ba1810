@@ -6,7 +6,8 @@
 %td= number_to_currency bid.est_shipping_cost
 %td= bid.average_rating || "No Ratings for this User"
 - if @auction.company == current_user || bid.company == current_user
-  %td= link_to 'Part Documents', inventory_part_path(bid.inventory_part, bid_id: bid.id)
+  %td= link_to inventory_part_path(bid.inventory_part, bid_id: bid.id) do
+    %i.fa.fa-file-text-o
 - if bid.company == current_user
   / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
   %td
