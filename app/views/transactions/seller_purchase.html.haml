@@ -57,7 +57,7 @@
 									To Download and View vendor Invoice please click below.
 									%br/
 									%br/
-									=link_to (image_tag "bidaeroinvoice.jpg",  :class => "bidaeropo"), transaction_show_path(@transaction, :format => :pdf)
+									=link_to (image_tag "bidaeroinvoice.jpg",  :class => "bidaeropo"), transaction_invoice_path(@transaction, :format => :pdf)
 							%h5.center-align
 								Sale Breakdown:
 							%h7.left-align.col.s4.push-s1
@@ -65,24 +65,24 @@
 									%li.collection-item.left-align
 										Unit Price:
 										%a.secondary-content
-											= @transaction.part_price
+											= number_to_currency(@transaction.part_price)
 									%li.collection-item.left-align
 										Shipping (if applicable):
 										%a.secondary-content
-											= @transaction.final_shipping_cost
+											= number_to_currency(@transaction.final_shipping_cost)
 									%li.collection-item.left-align
 										Tax:
 										%a.secondary-content
-											= @transaction.tax
+											= number_to_currency(@transaction.tax)
 									%li.collection-item.left-align
 										Bid Aero Service Fee:
 										%a.secondary-content
-											= @transaction.total_fee
+											= number_to_currency(@transaction.total_fee)
 									%li.collection-item.left-align
 										%div
 											Grand Total:
 											%a.secondary-content
-												= @transaction.total_amount
+												= number_to_currency(@transaction.total_amount)
 		-else
 			%ul
 				%li.card.checkout.destination-address.hoverable
@@ -102,10 +102,10 @@
 											.row
 												.input-field.col.s4
 													.field.form-group
-														= f.text_field :final_shipping_cost, class: "form-control",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
+														= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
 												.input-field.col.s4
 													.field.form-group
-														= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
+														= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
 												.input-field.col.s4
 													.field.form-group
 														= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
@@ -128,7 +128,6 @@
 			= render 'transactions/partials/seller4_5blur'
 		-else
 			= render 'transactions/partials/seller4_5'
->>>>>>> 1168eb7132482dcc804bda88cddec321a0ea5a99
 
 		- if !@transaction.complete
 			= render 'transactions/partials/seller6blur'
