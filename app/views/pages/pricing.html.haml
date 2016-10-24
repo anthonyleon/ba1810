@@ -51,15 +51,17 @@
               %li.footercenter $200+2.5% OF THE AMOUNT OVER $5.000
               %li.footercenter $1.325+2% OF THE AMOUNT OVER $50.000
               %li.footercenter $10.325 + 0.8% OF THE AMOUNT OVER $500.000
-      .gap{:style => "margin-bottom:50px;"}
+      .gap.row{:style => "margin-bottom:50px;"}
       .newsletter-label.font-alt
         .col-md-12
           %h4 ENTER AN AMOUNT IN U.S DOLLARS TO CALCULATE THE PAYMENTS FEE
-      .col-md-3{:style => "margin-top: 20px;"}
-        Order Amount:
-      .col-md-8
-        %input.form-control.input-md.round.mb-xs-10{:onkeyup => "getTransactionFee(parseFloat(this.value))", :placeholder => "Enter the amount of the order in USD", :type => "text"}/
-      .col-md-3.left{:style => "margin-top: 20px;"}
-        Transaction fee for this order:
-      #transactionFee.col-md-9{:style => "margin-top: 20px;"}
-        $0.00
+      .row
+        .col-md-3.col-md-offset-1{:style => "margin-top: 20px;"}
+          Order Amount:
+        .col-md-6
+          %input#price_input.form-control.input-md.round.mb-xs-10{:onkeyup => "getTransactionFee(parseFloat(this.value))", :placeholder => "Enter the amount of the order in USD", :type => "text"}/
+      .row  
+        .col-md-3.col-md-offset-4.left{:style => "margin-top: 20px;"}
+          Transaction fee for this order:
+        #transactionFee.col-md-5{:style => "margin-top: 20px;"}
+          $0.00
