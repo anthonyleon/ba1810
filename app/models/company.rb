@@ -19,7 +19,7 @@ class Company < ActiveRecord::Base
   # validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format, please input correct form: xxx-xxx-xxxx" }
 
   before_create :confirmation_token
-  before_save :downcase_email
+  before_save :downcase_email, :strip_whitespace
 
   before_validation(:on => :create) do
     self.inc_state = self.state
@@ -45,16 +45,16 @@ class Company < ActiveRecord::Base
   end
 
   def self.company_types
-    [ "Public Corporation (Co/Corp)", "Private Corporation", "Sole Proprietorship", "Limited Liability Company (LLC)",
-      "Limited Liability Partnership (LLP)", "Limited Company (Ltd)", "Incorporation (Inc)"]  
+    {"Public Corporation (Co/Corp)" => 1, "Private Corporation" => 2, "Sole Proprietorship" => 3, "Limited Liability Company (LLC)" => 4,
+      "Limited Liability Partnership (LLP)" => 5, "Limited Company (Ltd)" => 6, "Incorporation (Inc)" => 7 }
   end
 
-  def owned_bids
+  def auctions_with_owned_bids
     auctions = []
     self.bids.each do |bid|
       auctions << bid.auction if bid.auction.active
     end
-    auctions
+    auctions.uniq! { |auction| [auction[:id]] }
   end
 
   def send_password_reset
@@ -62,6 +62,12 @@ class Company < ActiveRecord::Base
     self.password_reset_sent_at = Time.zone.now
     save!(validate: false)
     CompanyMailer.password_reset(self).deliver_now
+  end
+
+  def strip_whitespace
+    self.attributes.each do |key, value|
+      self[key] = value.squish if value.respond_to?("squish")
+    end
   end
 
   private
