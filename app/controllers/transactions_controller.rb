@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
           Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", transaction: @transaction)
           # testing purposes. ALSO SEND AN EMAIL TO THE USER
         when 6 # order accepted (ie. funds released from buyer to seller)
-          @transaction.transfer_inventory 
+          @transaction.transfer_inventory
           @transaction.completed
           # CREATE A REVIEW NOTIFICATION
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.", transaction: @transaction)
@@ -75,7 +75,7 @@ class TransactionsController < ApplicationController
         @transaction.update(order_id: armor_order_id)
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.", transaction: @transaction)
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
-        format.json { render :show, status: :ok, location: @aircraft }
+        format.json { render :show, status: :ok, location: @transaction }
       end
     end
   end

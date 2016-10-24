@@ -1,0 +1,28 @@
+%ul
+  %li.card.checkout.destination-address.hoverable.blurred
+    .card-content.step1-2
+      %h6.left-align.collapsible-header
+        Step 4 & 5: Payment Received in Escrow, Confirm Shipping details
+      %br/
+      - if !@transaction.tracking_num
+        %h6.center-align Please confirm shipping details below
+        %h6.center-align Carrier and tracking number are required for release of funds
+        = render 'shipment'
+      - else
+        -if !@transaction.shipped
+          %h6.center-align Awaiting carrier to confirm shipment
+          %h6.center-align Carrier and tracking number are required for release of funds
+          %br/
+        -else
+          %h6.center-align Carrier has confirmed shipment
+          %h6.center-align Please standby, Buyer has 3 days to approve part after delivery
+          %br/
+        .row
+          %span.card-title.col.s6.push-s2
+            =image_tag "shipping-box-hi.png",  :class => "shipping-box-hi"
+          %span.card-title.col.s6
+            %h5.center-align Tracking Number:
+            %h6.center-align
+              = @transaction.carrier
+            %h6.center-align
+              = @transaction.tracking_num
