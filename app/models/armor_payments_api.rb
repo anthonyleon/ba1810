@@ -79,13 +79,20 @@ class ArmorPaymentsApi
     result.data[:body]["url"]
   end
 
-  def self.trigger_payment(transaction)
+  def self.trigger_payment(transaction) #SANDBOX TRIGGER
     account_id = transaction.seller.armor_account_id
     action_data = { "action" => "add_payment",
                     "confirm" => true,
                     "source_account_id" => transaction.buyer.armor_account_id, # The account_id of the party making the payment
                     "amount" => transaction.total_amount }
     result = CLIENT.orders(account_id).update(transaction.order_id, action_data)
+  end
+
+  def self.trigger_delivered(transaction)
+    account_id = transaction.seller.armor_account_id # The account_id of the seller for the order 
+    order_id = transaction.order_id
+    action_data = { "action" => "delivered", "confirm" => true } 
+    result = CLIENT.orders(account_id).update(order_id, action_data)  
   end
 
   def self.select_payout_preference(company)
