@@ -15,30 +15,31 @@
 			.checkout-wrap
 				%ul.checkout-bar
 					%li.generate-po-bubble.visited Review Purchase Order
-				-if !@transaction.invoice_num
-					%li.confirm-sale-bubble.active Confirm Sale Details
-					%li.generate-invoice-bubble.next Generate Invoice
-					%li.review-payment-bubble.next Awaiting Payment
-					%li.track-shipping-bubble.next Commence Shipping
-					%li.track-shipping-bubble.next Release of Funds
-				-elsif @transaction.invoice_num && !@transaction.paid
-					%li.confirm-sale-bubble.visited Confirm Sale Details
-					%li.generate-invoice-bubble.visited Generate Invoice
-					%li.review-payment-bubble.active Awaiting Payment
-					%li.track-shipping-bubble.next Commence Shipping
-					%li.track-shipping-bubble.next Release of Funds
-				-elsif @transaction.paid
-					%li.confirm-sale-bubble.visited Confirm Sale Details
-					%li.generate-invoice-bubble.visited Generate Invoice
-					%li.review-payment-bubble.visited Awaiting Payment
-					%li.track-shipping-bubble.active Commence Shipping
-					%li.track-shipping-bubble.next Release of Funds
-				-elsif @transaction.complete
-					%li.confirm-sale-bubble.visited Confirm Sale Details
-					%li.generate-invoice-bubble.visited Generate Invoice
-					%li.review-payment-bubble.visited Awaiting Payment
-					%li.track-shipping-bubble.active Commence Shipping
-					%li.track-shipping-bubble.next Release of Funds
+					-if !@transaction.invoice_num
+						%li.confirm-sale-bubble.active Generate Invoice
+						%li.generate-invoice-bubble.next Awaiting Payment
+						%li.review-payment-bubble.next Commence Shipping
+						%li.track-shipping-bubble.next Release of Funds
+					-elsif @transaction.invoice_num && !@transaction.paid
+						%li.confirm-sale-bubble.visited Generate Invoice
+						%li.generate-invoice-bubble.active Awaiting Payment
+						%li.review-payment-bubble.next Commence Shipping
+						%li.track-shipping-bubble.next Release of Funds
+					-elsif @transaction.paid && !@transaction.delivered
+						%li.confirm-sale-bubble.visited Generate Invoice
+						%li.generate-invoice-bubble.visited Awaiting Payment
+						%li.review-payment-bubble.active Commence Shipping
+						%li.track-shipping-bubble.next Release of Funds
+					-elsif @transaction.delivered && !@transaction.complete
+						%li.confirm-sale-bubble.visited Generate Invoice
+						%li.generate-invoice-bubble.visited Awaiting Payment
+						%li.review-payment-bubble.visited Commence Shipping
+						%li.track-shipping-bubble.active Release of Funds
+					-elsif @transaction.complete
+						%li.confirm-sale-bubble.visited Generate Invoice
+						%li.generate-invoice-bubble.visited Awaiting Payment
+						%li.review-payment-bubble.visited Commence Shipping
+						%li.track-shipping-bubble.done Release of Funds
 
 		%ul
 			%li.card.checkout.destination-address.hoverable
