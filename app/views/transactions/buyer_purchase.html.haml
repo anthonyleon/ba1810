@@ -35,7 +35,7 @@
 						%span.card-title.col.s6
 							%h5.center-align
 								Shipping To:
-							%h6#auction-full-address.center-align
+							%h6.auction-full-address.center-align
 								%div
 									= @auction.destination_company
 								%div
@@ -43,12 +43,19 @@
 							%h6.required_date.center-align
 								= "Required Date: "
 								= @auction.required_date
+								%br/
+								%br/
+								%br/
+								-if @auction.resale_status
+									%h6.required_date.center-align
+										= "A copy of #{@transaction.buyer.name}'s Resale Certificate was provided to the Vendor."
 						%h6.required_date.center-align
 							%div
 								To Download and View custom P.O. please click below.
 							%br/
 							%br/
 							=link_to (image_tag "BidaeroPO.jpg",  :class => "bidaeropo"), transaction_po_path(@transaction, :format => :pdf)
+							
 		-if @transaction.invoice_num
 			= render 'transactions/partials/buyer3'
 		-else
@@ -63,7 +70,7 @@
 			= render 'transactions/partials/buyer5'
 		-else
 			= render 'transactions/partials/buyer5blur'
-				
+
 -# .row
 -# 	.col.s12
 -# 		.card.buyer_purchase

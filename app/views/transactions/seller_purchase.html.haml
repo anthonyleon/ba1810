@@ -29,7 +29,7 @@
 					.row
 						%span.card-title.col.s6
 							%h5.center-align
-								Shipping To:
+								Ship To:
 							%h6#auction-full-address.center-align
 								%div
 									= @auction.destination_company
@@ -38,13 +38,22 @@
 							%h6.required_date.center-align
 								= "Required Date: "
 								= @auction.required_date
-						%h6.required_date.center-align
-							%div
-								To Download and View custom P.O. please click below.
+								%br/
+								%br/
+								-if @auction.resale_yes
+									%h5.required_date.center-align
+										= "Resale Tax Certificate:"
+									%h6.required_date.center-align
+										= "To Download and View please click below."
+										%br/
+										%br/
+										=link_to (image_tag "Resale-Certificate.jpg",  :class => "Resale-Certificate"), transaction_po_path(@transaction, :format => :pdf)
+						%h6.required_date.center-align.col.s6
+							= "To Download and View Purchase Order please click below."
 							%br/
 							%br/
 							=link_to (image_tag "BidaeroPO.jpg",  :class => "bidaeropo"), transaction_po_path(@transaction, :format => :pdf)
-		- if @transaction.invoice_num?
+		-if @transaction.invoice_num?
 			%ul
 				%li.card.checkout.destination-address.hoverable
 					.card-content.checkout.step3-1
@@ -96,6 +105,9 @@
 									Please enter Tax Rate, Company Invoice Number, and Shipping Charge (if applicable)
 								%h6.center-align
 									We will be generating a custom Invoice for your records.
+								-if @auction.resale_yes
+									%h6.center-align
+										= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
 								.form-container.destination-form
 									= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
 										-if !@transaction.shipping_account
@@ -129,7 +141,7 @@
 		-else
 			= render 'transactions/partials/seller4_5'
 
-		- if !@transaction.complete
+		-if !@transaction.delivered
 			= render 'transactions/partials/seller6blur'
 		-else
 			= render 'transactions/partials/seller6'
