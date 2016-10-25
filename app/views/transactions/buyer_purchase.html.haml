@@ -35,7 +35,7 @@
 						%span.card-title.col.s6
 							%h5.center-align
 								Shipping To:
-							%h6#auction-full-address.center-align
+							%h6.auction-full-address.center-align
 								%div
 									= @auction.destination_company
 								%div
@@ -43,172 +43,32 @@
 							%h6.required_date.center-align
 								= "Required Date: "
 								= @auction.required_date
+								%br/
+								%br/
+								%br/
+								-if @auction.resale_status
+									%h6.required_date.center-align
+										= "A copy of #{@transaction.buyer.name}'s Resale Certificate was provided to the Vendor."
 						%h6.required_date.center-align
 							%div
 								To Download and View custom P.O. please click below.
 							%br/
 							%br/
 							=link_to (image_tag "BidaeroPO.jpg",  :class => "bidaeropo"), transaction_po_path(@transaction, :format => :pdf)
-
-		- if @transaction.invoice_num?
-			%ul
-				%li.card.checkout.destination-address.hoverable
-					.card-content.checkout.step3-1
-						%h6.left-align.collapsible-header
-							Step 3: Vendor Invoice
-						%br/
-						.row
-							%span.card-title.col.s6
-								%h6.required_date.center-align
-									To Download and View vendor Invoice please click below.
-									%br/
-									%br/
-									=link_to (image_tag "bidaeroinvoice.jpg",  :class => "bidaeropo"), transaction_invoice_path(@transaction, :format => :pdf)
-
-							%h5.center-align
-								Pricing Breakdown:
-							%h7.left-align.col.s4.push-s1
-								%ul.collection
-									%li.collection-item.left-align
-										Unit Price:
-										%a.secondary-content
-											= number_to_currency(@transaction.part_price)
-									%li.collection-item.left-align
-										Shipping (if applicable):
-										%a.secondary-content
-											= number_to_currency(@transaction.final_shipping_cost)
-									%li.collection-item.left-align
-										Tax:
-										%a.secondary-content
-											= number_to_currency(@transaction.tax)
-									%li.collection-item.left-align
-										Bid Aero Service Fee:
-										%a.secondary-content
-											= number_to_currency(@transaction.total_fee)
-									%li.collection-item.left-align
-										%div
-											Grand Total:
-											%a.secondary-content
-												= number_to_currency(@transaction.total_amount)
-
-				%li.card.checkout.destination-address.hoverable
-					.card-content.checkout.step4-1
-						%h6.left-align.collapsible-header
-							Step 4: Payment & Shipping Details
-						.row
-							%span.card-title.col.s12
-								%h6.required_date.center-align
-									-if !@transaction.paid
-										Vendor has invoiced and is awaiting payment to commence shipping, please proceed by clicking below.
-									-else
-								%h6.required_date.center-align
-									-if @payment_url
-										%div.left
-										%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-										%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
-											=image_tag "paymentbutton.jpg",  :class => "paymentbutton"
-									-else
-										-if !@transaction.tracking_num
-											%h6.center-align Vendor has been notified of payment and will be providing shipment details shortly.
-											%br/
-										-elsif !@transaction.shipped
-											%h6.center-align Awaiting carrier to confirm shipment (Carrier and Tracking Number are required for release of funds)
-											%br/
-										-else
-											%h6.center-align Carrier has confirmed Tracking Information
-											%h6.center-align You have 3 days after delivery to approve part and release funds
-											%br/
-										.row
-											%span.card-title.col.s6.push-s2
-												=image_tag "shipping-box-hi.png",  :class => "shipping-box-hi"
-											%span.card-title.col.s6
-											-if !@transaction.tracking_num
-												%h5.center-align Tracking Number:
-												%h6.center-align Carrier Currently Unavailable
-												%h6.center-align Tracking Number Currently Unavailable
-											-else
-												%h5.center-align Tracking Number:
-												%h6.center-align
-													= @transaction.carrier
-												%h6.center-align
-													= @transaction.tracking_num
-				-if @transaction.delivered
-					%li.card.checkout.destination-address.hoverable
-						.card-content.checkout.step4-1
-							%h6.left-align.collapsible-header
-								Step 5: Tracking Details & Release of Funds
-							.row
-								%span.card-title.col.s12
-									%h6.required_date.center-align Carrier has confirmed delivery
-									%h6.required_date.center-align You have 3 days to approve or file a dispute on the order
-									-if @release_payment_url
-										%span.right
-											%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-											%a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@release_payment_url}"}
-												/ # =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
-												Release Funds
-										%span.left
-											%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-											%a.paymentInstructionsFrame-lightbox-preview.initiate-dispute-btn{"data-url" => "#{@dispute_transaction_url}"}
-												%i.material-icons.initiate-dispute-icon
-													error_outline
-												Initiate Dispute
-									-elsif @transaction.disputed && !@transaction.dispute_settlement
-										%br
-										%div.center{style: "text-align: center; width: 427px; margin: auto;"}
-											You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
-										%br
-										%div.center
-											%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-											%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
-												Create Settlement Offer
-									-elsif @transaction.dispute_settlement
-										%br
-										%div.center{style: "text-align: center; margin: auto;"}
-											A settlement offer has been made, please review.
-											%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-											%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
-												Review Settlement Offer
-				-else
-					%li.card.checkout.destination-address.hoverable.blurred
-						.card-content.checkout.step4-1
-							%h6.left-align.collapsible-header
-								Step 5: Tracking Details & Release of Funds
-							.row
-								%span.card-title.col.s12
-									%h6.required_date.center-align Carrier has confirmed delivery
-									%h6.required_date.center-align You have 3 days to approve or file a dispute on the order
-									-if @release_payment_url
-										%div.center-align
-										%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-										%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
-											=image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
+		-if @transaction.invoice_num
+			= render 'transactions/partials/buyer3'
 		-else
-			%ul
-				.card.checkout.destination-address
-					.card-content.checkout.step3
-						%h6.left-align.collapsible-header
-							Step 3: Vendor Invoice
-						%span.card-title
-						%h5.center-align
-							Awaiting on Vendor to generate Invoice, please standby and prepare to send funds.
-						%br/
-						%h6.required_date.center-align
-							To view Vendor Invoice please click below.
-							-# purchase_order/:id
-							need to finalize this portion!!!!!
+			= render 'transactions/partials/buyer3blur'
 
-				.card.checkout.destination-address
-					.card-content.checkout.step4
-						%h6.left-align.collapsible-header
-							Step 4: Payment
-						%span.card-title
-						%h5.center-align
-							Vendor has invoiced and is awaiting funds to be sent to escrow, please proceed by clicking below.
-						%br/
-						%h6.required_date.center-align
-							Button
+		-if !@transaction.paid
+			= render 'transactions/partials/buyer4blur'
+		-else
+			= render 'transactions/partials/buyer4'
 
+		-if @transaction.delivered
+			= render 'transactions/partials/buyer5'
+		-else
+			= render 'transactions/partials/buyer5blur'
 
 -# .row
 -# 	.col.s12

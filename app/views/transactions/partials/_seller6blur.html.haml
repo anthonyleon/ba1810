@@ -4,7 +4,7 @@
       %h6.left-align.collapsible-header
         Step 6: Release of Payment
       %br/
-      - if !@transaction.complete
+      - if !@transaction.delivered
         .row
           %h6.center-align Awaiting Buyer to approve part and release funds
           %h6.center-align Buyer has 3 days after delivery to approve part or file dispute
