@@ -85,7 +85,7 @@ class ArmorPaymentsApi
                     "confirm" => true,
                     "source_account_id" => transaction.buyer.armor_account_id, # The account_id of the party making the payment
                     "amount" => transaction.total_amount }
-    result = CLIENT.accounts.update(transaction.order_id, action_data)
+    result = CLIENT.orders(account_id).update(transaction.order_id, action_data)
   end
 
   def self.select_payout_preference(company)
