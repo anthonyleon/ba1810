@@ -31,7 +31,8 @@ class TransactionsController < ApplicationController
           @transaction.update(shipped: true)
         when 4 # goods received by buyer
           @transaction.delivery_received
-          Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: @transaction)
+          Notification.notify(@bid, @transaction.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: @transaction)
+          Notification.notify(@bid, @transaction.buyer, "Order ##{@transaction.order_id}, has been marked as received. You have 3 days to approve part.", transaction: @transaction)
         when 5 # dispute initiated
           @transaction.mark_as_disputed
           Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", transaction: @transaction)
