@@ -54,7 +54,7 @@ class Company < ActiveRecord::Base
     self.bids.each do |bid|
       auctions << bid.auction if bid.auction.active
     end
-    auctions.uniq! { |auction| [auction[:id]] }
+    auctions.uniq { |auction| [auction[:id]] }
   end
 
   def send_password_reset
