@@ -97,8 +97,8 @@ class ArmorPaymentsApi
 
   def self.select_payout_preference(company)
     auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
-    result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
-    result.data[:body]["url"]
+    p result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
+    p result.data[:body]["url"]
   end
 
   def self.carriers_list
