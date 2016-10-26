@@ -6,7 +6,24 @@
 	border-style: solid;
 	border-width: 1px;
 	border-color: lightgrey;
-	display: flex;
+	display: block;
+	padding-bottom: 10%
+}
+
+.payout-preference-btn {
+	margin: 20px 0;
+	padding: 10px;
+  background-color: none;
+  border: 2px solid;
+  border-color: $custom-green;
+  width: 250px;
+  height: 45px;
+  color: $custom-green;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 10px;
 }
 
 .shield {
@@ -20,7 +37,17 @@
 }
 
 .bullet-container {
-	margin: 10% 0;
+	margin: 7% 0;
+}
+
+.tabs {
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: $custom-green;
+}
+
+.tab-box {
+	min-height: 300px;
 }
 
 // #form-page {
