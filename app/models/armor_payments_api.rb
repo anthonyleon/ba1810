@@ -38,7 +38,7 @@ class ArmorPaymentsApi
       "type" => 1,
       "seller_id" => transaction.seller.armor_user_id,
       "buyer_id" => transaction.buyer.armor_user_id,
-      "amount" => transaction.total_amount,
+      "amount" => transaction.total_amount.round(2),
       "summary" => transaction.auction.part_num,
       "description" => transaction.part.condition,
       "invoice_num" => transaction.invoice_num,
@@ -55,9 +55,9 @@ class ArmorPaymentsApi
   def self.update_order(transaction, opts = {})
     p data = {
       "type" => 1,
-      "amount" => transaction.total_amount,
-      "invoice_num" => "123456",
-      "purchase_order_num" => "675890",
+      "amount" => transaction.total_amount.round(2),
+      "invoice_num" => transaction.po_num,
+      "purchase_order_num" => transaction.invoice_num,
       "message" => opts["message"]
     }
     order_id = transaction.order_id

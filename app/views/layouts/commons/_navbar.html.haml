@@ -39,7 +39,7 @@
             = link_to 'Engine Listing', new_engine_path
           %li
             = link_to 'Aircraft Listing', new_aircraft_path
-    %ul#mobile-demo.side-nav.fixed{style: "z-index: 0;"}
+    %ul#mobile-demo.side-nav.fixed
       / %li{style: "padding-top: 65px;"}
       /   = link_to home_path do
       /     %i.material-icons.left
@@ -51,6 +51,10 @@
         = link_to auctions_path do
           %i.fa.fa-gavel
           = "\tMy Auctions"
+      %li
+        = link_to pending_purchases_path do
+          %i.fa.fa-clock-o
+          Pending Purchases
       %li
         = link_to purchases_path do
           %i.fa.fa-cart-plus
@@ -65,6 +69,10 @@
         = link_to current_opportunities_path do
           %i.fa.fa-usd
           Sales Opportunities
+      %li
+        = link_to pending_sales_path do
+          %i.fa.fa-clock-o
+          Pending Sales
       %li
         = link_to sales_path do
           %i.fa.fa-line-chart
@@ -83,10 +91,10 @@
         = link_to engines_path do
           %i.fa.fa-circle
           Engine Listings
-      %li
-        = link_to company_docs_path do
-          %i.fa.fa-folder-open-o
-          Documents
+      / %li
+      /   = link_to company_docs_path do
+      /     %i.fa.fa-folder-open-o
+      /     Documents
       / %li
       /   = link_to edit_company_path do
       /     %i.fa.fa-cog
