@@ -70,20 +70,24 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def choose_payout_preference
+    
+  end
+
   def sales
-    @sales = []
-    sales = Transaction.where(seller_id: current_user.id)
-    sales.each do |sale|
-      @sales << sale
-    end
+    @sales = Transaction.where(seller_id: current_user.id, complete: false)
+  end
+
+  def pending_sales
+    @sales = Transaction.where(seller_id: current_user.id, complete: true)
   end
 
   def purchases
-    @purchases = []
-    purchases = Transaction.where(buyer_id: current_user.id)
-    purchases.each do |auction|
-      @purchases << auction
-    end
+    @purchases = Transaction.where(buyer_id: current_user.id, complete: false)
+  end
+
+  def pending_purchases
+    @purchases = Transaction.where(buyer_id: current_user.id, complete: true)
   end
 
   private

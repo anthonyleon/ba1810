@@ -1,0 +1,25 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center Pending Sales
+    %hr/
+    %table#salesPartsDT.table.striped.responsive-table.bordered
+      %thead
+        %tr
+          %th Part Number
+          %th Description
+          %th Serial Number
+          %th Condition
+          %th Manufacturer
+          %th Price
+          %th
+      %tbody
+        - @sales.each do |transaction|
+          %tr
+            %td.srchtbl= transaction.bid.inventory_part.part_num
+            %td.srchtbl= transaction.bid.inventory_part.description
+            %td.srchtbl= transaction.bid.inventory_part.serial_num
+            %td.srchtbl= transaction.bid.inventory_part.condition
+            %td.srchtbl= transaction.bid.inventory_part.manufacturer
+            %td.srchtbl= number_to_currency transaction.total_amount
+            %td= link_to 'Show', seller_purchase_path(transaction)

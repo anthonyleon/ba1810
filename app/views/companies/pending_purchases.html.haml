@@ -1,7 +1,7 @@
 .card
   .card-content
     .card-title.center-align
-      %h5.custom-card-title.center Purchases
+      %h5.custom-card-title.center Pending Purchases
     %hr/
     %table#purchaseDT.table.striped.responsive-table.bordered
       %thead
@@ -31,5 +31,5 @@
             -else
               %td= link_to 'Pending', buyer_purchase_path(transaction)
             %td.srchtbl= link_to 'PO', transaction_po_path(transaction, :format => :pdf) 
-            %td.srchtbl= link_to 'Invoice', transaction_invoice_path(transaction, :format => :pdf)
+            %td.srchtbl= link_to 'Invoice', transaction_invoice_path(transaction, :format => :pdf) 
 
