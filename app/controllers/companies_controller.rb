@@ -20,8 +20,8 @@ class CompaniesController < ApplicationController
   end
 
   def edit
-    @company = current_user
     @url = ArmorPaymentsApi.select_payout_preference(current_user)
+    @company = current_user
   end
 
   def confirm_email
@@ -71,7 +71,7 @@ class CompaniesController < ApplicationController
   end
 
   def choose_payout_preference
-    
+    @url = ArmorPaymentsApi.select_payout_preference(current_user)
   end
 
   def sales

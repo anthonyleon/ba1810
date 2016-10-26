@@ -1,24 +1,27 @@
 .card-content
   .card-title.center-align
-    %h5.custom-card-title.center Escrow Setup
+    %h4.custom-card-title.center{style: 'font-weight: bold;'}
+      Escrow Setup
   %hr
   %div{style: "display: inline-block;"}
-    %div.left{style: "font-weight: bold; font-size: 24px;"}
-      Ensure that you receive payment with Payoneer Escrow
+    %div.left{style: "font-size: 20px;"}
+      Before placing a bid in an auction you must set up your payout preferernce with Payoneer Escrow to ensure you receive payment
+      %br
+      %br
     %div.left
       BID AERO has partnered with Payoneer Escrow to provide secure online escrow payment protection for buyers and sellers.
       %br
   .card.z-depth-0.payout-preference
-    %div{style: "float: left; height: 350px; width: 200px;"}
-      %div.center{style: "float: left;"}
-        =image_tag "escrowsecurity"
+    %div.valign-wrapper{style: "float: left; height: 350px; width: 200px;"}
+      %div.center.valign{style: "float: left;"}
+        =image_tag "escrowsecurity.png"
     %div.center
-      %div{style: 'font-weight: bold; font-size: 18px; margin-left: 265px; display: flex;'} 
+      %div{style: 'font-weight: bold; font-size: 18px; margin-left: 265px; margin-top: 3%; display: flex;'} 
         Payoneer Escrow offers
       %div.bullet-container
         %div.escrow-bullets
           %i.fa.fa-check-circle-o.custom-green-text{"aria-hidden" => "true"}
-          Reduce payment risk for both buyers and sellers
+          Reduced payment risk for both buyers and sellers
         %div.escrow-bullets
           %i.fa.fa-check-circle-o.custom-green-text{"aria-hidden" => "true"}
           Simple transaction flow
@@ -32,7 +35,7 @@
           Escrow service fees are applied to the total value of funds released to the seller
         %div.left
           %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-          %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@dispute_transaction_url}"}
+          %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
             %i.fa.fa-lock{"aria-hidden" => "true"}
             Setup Escrow
 .row.tab-box
@@ -51,15 +54,15 @@
     The Payoneer Escrow fee is based on the total value of the order, and will automatically be deducted from the funds held in escrow when they get released. The escrow fee schedule is calculated as follows: 
     %br
     %br
-    ● For an Order value up to $5,000: 1.5% or $10, whichever is higher. 
+    ● For an Order value up to $5,000: 
     %br
-    ● For an Order value from $5,000 to $50,000: $75 + 1% of order value over $5,000 
+    ● For an Order value from $5,000 to $50,000:
     %br
-    ● For an Order value from $50,000 to $500,000: $525 + 0.75% of order value over $50,000 
+    ● For an Order value from $50,000 to $500,000:
     %br
-    ● For an Order value over $500,000: $3,900 + 0.5% of order value over $500,000 
+    ● For an Order value over $500,000:
     %br
-    ● For an Order value over $1,000,000: $6,400 + 0.35% of order value over $1,000,000 
+    ● For an Order value over $1,000,000: $6,400 + 0.75% of order value over $1,000,000 
     %br
     %br
     Example: The fee for a $7,000 order is $95 ($75 + $20) [1.5% fee up to $5,000 = $75, plus 1% on $2000 = $20] 

@@ -79,6 +79,11 @@
           Sales
       %li#buy-sell-section
         MANAGE
+      -unless current_user.payout_selected?
+        %li
+          = link_to select_payout_preference_path do
+            %i.fa.fa-university
+            Setup Escrow
       %li
         = link_to inventory_parts_path do
           %i.fa.fa-cogs
@@ -91,10 +96,7 @@
         = link_to engines_path do
           %i.fa.fa-circle
           Engine Listings
-      / %li
-      /   = link_to company_docs_path do
-      /     %i.fa.fa-folder-open-o
-      /     Documents
+
       / %li
       /   = link_to edit_company_path do
       /     %i.fa.fa-cog

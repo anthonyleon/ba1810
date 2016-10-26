@@ -8,7 +8,8 @@
         %hr/
         = render 'form'
 
-%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 %div.center
-  %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"}
-    Select Payout Preference
+  %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+  %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
+    %i.fa.fa-lock{"aria-hidden" => "true"}
+    Setup Escrow
