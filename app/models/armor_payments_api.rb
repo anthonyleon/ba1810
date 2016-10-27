@@ -33,6 +33,12 @@ class ArmorPaymentsApi
     return { armor_user_number: user_id, armor_account_number: armor_account_num }
   end
 
+  def self.select_payout_preference(company)
+    auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
+    result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
+    result.data[:body]["url"]
+  end
+
   def self.create_order(transaction)
     p data = {
       "type" => 1,
@@ -93,12 +99,6 @@ class ArmorPaymentsApi
     order_id = transaction.order_id
     action_data = { "action" => "delivered", "confirm" => true } 
     result = CLIENT.orders(account_id).update(order_id, action_data)  
-  end
-
-  def self.select_payout_preference(company)
-    auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
-    p result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
-    p result.data[:body]["url"]
   end
 
   def self.carriers_list
