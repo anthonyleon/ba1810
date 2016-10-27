@@ -23,7 +23,7 @@
 
   %div.btn.custom-btn
     %i.fa.fa-arrow-left
-    = link_to "Back", inventory_parts_path, class:"waves-effect waves-light"
+    = link_to "Back", :back, class:"waves-effect waves-light"
   - if @inventory_part.company == current_user
     |
     %div.btn.custom-btn
