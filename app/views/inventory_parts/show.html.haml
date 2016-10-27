@@ -19,7 +19,7 @@
             Condition: #{@inventory_part.condition_tag}
         %br/
 
-    = render 'documents/form', object: @inventory_part if @inventory_part.company == current_user
+    = render 'documents/form', object: @inventory_part
 
   %div.btn.custom-btn
     %i.fa.fa-arrow-left
