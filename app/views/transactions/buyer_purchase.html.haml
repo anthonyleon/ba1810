@@ -58,13 +58,11 @@
 							
 		-if @transaction.invoice_num
 			= render 'transactions/partials/buyer3'
+			= render 'transactions/partials/buyer4'
 		-else
 			= render 'transactions/partials/buyer3blur'
-
-		-if !@transaction.paid
 			= render 'transactions/partials/buyer4blur'
-		-else
-			= render 'transactions/partials/buyer4'
+
 
 		-if @transaction.delivered
 			= render 'transactions/partials/buyer5'
