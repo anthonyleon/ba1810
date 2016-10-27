@@ -6,9 +6,7 @@
       .row
         %span.card-title.col.s12
           %h6.required_date.center-align
-            -if !@transaction.paid
               Vendor has invoiced and is awaiting payment to commence shipping, please proceed by clicking below.
-            -else
           %h6.required_date.center-align
             -if @payment_url
               %div.center-align
