@@ -1,58 +1,83 @@
 .card-panel.grey.lighten-5
   %h4.center.black-text.block.custom-card-title
     = current_user.name
-.row
-  .col.s12.m3.left{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0; margin-top: 4%;"}
-    .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
-      = @opportunity_count
-    .card-content.white-text.center
-      Current Number of Sales Opportunities
-  .col.s12.m3.right{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0; margin-top: 4%;"}
-    .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
-      = @bids_count
-    .card-content.white-text.center
-      Quotes on Active Auctions
-.row
-  .col.s12.m3.center{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0;"}
-    .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
-      = @inventory_count
-    .card-content.white-text.center-align
-      Inventory Parts Listed
-  .col.s12.m7.right{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0;"}
-    .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
-      = @inventory_count
-    .card-content.white-text.center-align
-      Inventory Parts Listed
+.card.dataTables_wrapper
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center
+        Today's Aviation Financial Data
+    %hr/
+    %table.table.bordered.highlight.responsive-table
+      %thead
+        %tr
+          %th Aviation Leasing Stocks
+          %th Currency
+          %th Price
+          %th Change
+          %th Mkt Cap
+      %tbody
+        - @data.each do |data|
+          %tr
+          %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
+          %td{style: "padding: 10px !important"} USD
+          -if data.ask != "N/A"
+            %td{style: "padding: 10px !important; color: #{data.ask.to_f < 0 ? 'red' : 'green'}"}= "$" + '%.2f' % data.ask
+          -else
+            %td{style: "padding: 10px !important"}= "N/A"
+          %td{style: "padding: 10px !important; color: #{data.change.to_f < 0 ? 'red' : 'green'}"}= data.change + " (" + data.change_in_percent + ")"
+          %td{style: "padding: 10px !important"}= data.market_capitalization
+/ .row
+/   .col.s12.m3.left{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0; margin-top: 4%;"}
+/     .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
+/       = @opportunity_count
+/     .card-content.white-text.center
+/       Current Number of Sales Opportunities
+/   .col.s12.m3.right{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0; margin-top: 4%;"}
+/     .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
+/       = @bids_count
+/     .card-content.white-text.center
+/       Quotes on Active Auctions
+/ .row
+/   .col.s12.m3.center{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0;"}
+/     .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
+/       = @inventory_count
+/     .card-content.white-text.center-align
+/       Inventory Parts Listed
+/   .col.s12.m7.right{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0;"}
+/     .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
+/       = @inventory_count
+/     .card-content.white-text.center-align
+/       Inventory Parts Listed
 
 
 
 
 
-/ .card.dataTables_wrapper
-/   .card-content
-/     .card-title.center-align
-/       %h5.custom-card-title.center
-/         Today's Aviation Financial Data
-/     %hr/
-/     %table.table.bordered.highlight.responsive-table
-/       %thead
-/         %tr
-/           %th Aviation Leasing Stocks
-/           %th Currency
-/           %th Price
-/           %th Change
-/           %th Mkt Cap
-/       %tbody
-/         - @data.each do |data|
-/           %tr
-/           %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
-/           %td{style: "padding: 10px !important"} USD
-/           -if data.ask != "N/A"
-/             %td{style: "padding: 10px !important; color: #{data.ask.to_f < 0 ? 'red' : 'green'}"}= "$" + '%.2f' % data.ask
-/           -else
-/             %td{style: "padding: 10px !important"}= "N/A"
-/           %td{style: "padding: 10px !important; color: #{data.change.to_f < 0 ? 'red' : 'green'}"}= data.change + " (" + data.change_in_percent + ")"
-/           %td{style: "padding: 10px !important"}= data.market_capitalization
+.card.dataTables_wrapper
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center
+        Today's Aviation Financial Data
+    %hr/
+    %table.table.bordered.highlight.responsive-table
+      %thead
+        %tr
+          %th Aviation Leasing Stocks
+          %th Currency
+          %th Price
+          %th Change
+          %th Mkt Cap
+      %tbody
+        - @data.each do |data|
+          %tr
+          %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
+          %td{style: "padding: 10px !important"} USD
+          -if data.ask != "N/A"
+            %td{style: "padding: 10px !important; color: #{data.ask.to_f < 0 ? 'red' : 'green'}"}= "$" + '%.2f' % data.ask
+          -else
+            %td{style: "padding: 10px !important"}= "N/A"
+          %td{style: "padding: 10px !important; color: #{data.change.to_f < 0 ? 'red' : 'green'}"}= data.change + " (" + data.change_in_percent + ")"
+          %td{style: "padding: 10px !important"}= data.market_capitalization
 
 
 
