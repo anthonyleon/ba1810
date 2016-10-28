@@ -10,6 +10,15 @@ class AssetDecorator < Draper::Decorator
     "non_serviceable" => :tag_non_serviceable
   }
 
+  @@abbreviated_condition_tags = {
+    "recent" => :tag_ne,
+    "overhaul" => :tag_oh,
+    "serviceable" => :tag_sv,
+    "as_removed" => :tag_ar,
+    "scrap" => :tag_sc,
+    "non_serviceable" => :tag_ns
+  }
+
   def condition_tag
     tag_name = @@condition_tags[condition.to_s.downcase]
 
