@@ -8,33 +8,39 @@
         - @company.errors.full_messages.each do |message|
           %li= message
   .input-field.col.s12.m6
-    = f.label :name
+    = f.label :name, 'Company Name'
     = f.text_field :name
   .input-field.col.s12.m6
-    = f.label :email
+    = f.label :email, 'Registered Email'
     = f.text_field :email
-  .input-field.col.s12.m6.phone
-    = f.label :phone
-    = f.text_field :phone
   .input-field.col.s12.m6
-    = f.label :representative
+    = f.label :phone
+    = f.text_field :phone, id: 'phone'
+  .input-field.col.s12.m6
+    = f.label :representative, 'Representative Full Name'
     = f.text_field :representative
   .input-field.col.s12.m6
     = f.label :ein
     = f.text_field :ein
   .input-field.col.s12.m6
-    = f.label :address
+    = f.label :address, 'Street Address'
     = f.text_field :address
-  .input-field.col.s12.m6
+  .input-field.col.s12.m6.form-selection-space
+    = f.label :country
+    %br
+    %br
     = f.input :country, collection: CountryStateSelect.countries_collection
-  .input-field.col.s12.m6
+  .input-field.col.s12.m6.form-selection-space
+    = f.label :state
+    %br
+    %br
     - options = { form: f, field_names: { :country => :country, :state => :state } }
     = f.input :state, CountryStateSelect.state_options(options)
   .input-field.col.s12.m6
     = f.label :city
     = f.text_field :city
   .input-field.col.s12.m6
-    = f.label :zip
+    = f.label :zip, 'Zip Code'
     = f.text_field :zip
   .input-field.col.s12.m6
     / = f.label :inc_country
@@ -48,10 +54,10 @@
     / - options = { form: f, field_names: { :country => :inc_country, :state => :state } }
     / = f.input :inc_state, CountryStateSelect.state_options(options)
   .input-field.col.s12.m6.form-selection-space
-    = f.label :company_type
+    = f.label :business_type
     %br
     %br
-    = f.input :company_type, collection: Company.company_types
+    = f.input :business_type, collection: Company.company_types
   .input-field.col.s12.m6
     = f.input :url
   .input-field.col.s12.m6
@@ -69,3 +75,7 @@
       Sign Up
 
 
+  :javascript
+    $(function($){
+      $("#phone").mask("(999) 999-9999");
+    });

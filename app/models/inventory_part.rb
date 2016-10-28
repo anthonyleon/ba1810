@@ -8,6 +8,7 @@ class InventoryPart < ActiveRecord::Base
   has_many :bids, dependent: :destroy
   has_many :documents, dependent: :destroy
 
+  before_save :strip_whitespace
   enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
 
   # class methods for importing xls, csv files using Roo
@@ -40,6 +41,13 @@ class InventoryPart < ActiveRecord::Base
       return array
   end
 
+
+  def strip_whitespace
+    self.attributes.each do |key, value|
+      self[key] = value.squish if value.respond_to?("squish")
+    end
+  end
+  
   def self.build_inv_part part_match, inventory_part
     inventory_part.description = part_match.description
     inventory_part.manufacturer = part_match.manufacturer

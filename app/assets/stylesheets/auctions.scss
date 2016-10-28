@@ -96,6 +96,13 @@ ul.checkout-bar {
         z-index: 1;
       }
     }
+    &.done {
+      color: #8bc53f;
+      &:before {
+       background: #8bc53f;
+     }
+
+    }
     &.visited {
       background: #ECECEC;
       color: #8bc53f;
