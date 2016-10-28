@@ -33,22 +33,15 @@ class TransactionsController < ApplicationController
           @transaction.delivery_received
           Notification.notify(@bid, @transaction.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: @transaction)
           Notification.notify(@bid, @transaction.buyer, "Order ##{@transaction.order_id}, has been marked as received. You have 3 days to approve part.", transaction: @transaction)
-        when 5 # dispute initiated
-          @transaction.mark_as_disputed
-          Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", transaction: @transaction)
-          # testing purposes. ALSO SEND AN EMAIL TO THE USER
         when 6 # order accepted (ie. funds released from buyer to seller)
           @transaction.transfer_inventory
           @transaction.completed
           # CREATE A REVIEW NOTIFICATION
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.", transaction: @transaction)
-        when 10 #dispute settlement offer has been submitted by either buyer or seller
+        when 10 # dispute settlement offer has been submitted by either buyer or seller
           @transaction.settlement_offer_submitted
           # @company = Company.find_by(@data["event"]) #whos on the other side of the submitted settlement offer? Notify them
           Notification.notify(@bid, @transaction.buyer, "A settlement offer has been submitted to you. Please review.", transaction: @transaction)
-        when 11 #Offer to settle dispute on order accepted
-          # @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
-          Notification.notify(@bid, @transaction.seller, "Your settlement offer for order ##{@transaction.order_id} has been accepeted", transaction: @transaction)
         when 12 #Offer to settle dispute on order rejected. Use of this event is now deprecated. Offers will be countered, rather than rejected.
           # @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
           Notification.notify(@bid, @transaction.seller, "Your settlement offer for order ##{@transaction.order_id}, has been rejected. You may submit a counter-offer.", transaction: @transaction)
@@ -57,6 +50,34 @@ class TransactionsController < ApplicationController
           Notification.notify(@bid, @transaction.seller, "Your settlement offer for order ##{@transaction.order_id} has been countered. Please Review", transaction: @transaction)
           @transaction.clear_dispute_responses
         when 26 #Goods inspection completed
+          # we already have a funds release event
+  #DISPUTES
+        when 3000 # Dispute created
+          @transaction.mark_as_disputed
+          Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", transaction: @transaction)
+          # testing purposes. ALSO SEND AN EMAIL TO THE USER
+        when 3003 # A counter-offer was made to this Offer
+          offerer = Company.find_by(armor_user_id: @data["event"]["user_id"])
+          if offerer == @transaction.seller
+            oferree = @transaction.buyer
+          else
+            offeree = @transaction.seller
+          end
+            Notification.notify(@bid, offeree, "A settlement offer has been created on dispute ##{@data["event"]["order_id"]}")
+        when 3004 # Offer to settle dispute on order accepted
+          company_accepting = Company.find_by(armor_user_id: @data["event"]["user_id"])
+          if company_accepting == @transaction.seller
+            company = @transaction.buyer
+          else
+            company = @transaction.seller
+          end
+          Notification.notify(@bid, company, "Your settlement offer for order ##{@transaction.order_id} has been accepeted", transaction: @transaction)
+  #ACCOUNT EVENTS
+        when 1001 # Bank Account details Added
+          
+        when 1002 # Bank Account Approved
+
+        when 1003 # Bank Account Declined
         end
       end
     else
