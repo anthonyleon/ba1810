@@ -6,20 +6,22 @@
     %table#salesPartsDT.table.striped.responsive-table.bordered
       %thead
         %tr
+          %th Order #
           %th Part Number
           %th Description
           %th Serial Number
           %th Condition
-          %th Manufacturer
-          %th Price
-          %th
+          %th Sale Price
+          %th PO
+          %th Invoice
       %tbody
         - @sales.each do |transaction|
           %tr
+            %td.srchtbl= link_to transaction.order_id || "N/A", seller_purchase_path(transaction)
             %td.srchtbl= transaction.bid.inventory_part.part_num
             %td.srchtbl= transaction.bid.inventory_part.description
             %td.srchtbl= transaction.bid.inventory_part.serial_num
-            %td.srchtbl= transaction.bid.inventory_part.condition
-            %td.srchtbl= transaction.bid.inventory_part.manufacturer
+            %td.srchtbl= AssetDecorator.rename(transaction.bid, transaction.bid.inventory_part.condition)
             %td.srchtbl= number_to_currency transaction.total_amount
-            %td= link_to 'Show', seller_purchase_path(transaction)
+            %td.srchtbl= link_to transaction.po_num || "N/A", transaction_po_path(transaction, :format => :pdf) 
+            %td.srchtbl= link_to transaction.invoice_num || "N/A", transaction_invoice_path(transaction, :format => :pdf) 
