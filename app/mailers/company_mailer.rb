@@ -86,7 +86,7 @@ class CompanyMailer < ApplicationMailer
     @seller = seller
     @buyer = buyer
 
-    mail to: seller.email , buyer.email, subject: "A transaction for a #{@bid.auction.part_num} has been cancelled"
+    mail to: seller.email, subject: "A transaction for a #{@bid.auction.part_num} has been cancelled"
   end   
 
   def auction_notification bid
