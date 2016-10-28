@@ -1,5 +1,6 @@
 class Transaction < ActiveRecord::Base
 	has_one :auction, through: :bid
+  has_many :notifications
 	belongs_to :bid
 	belongs_to :inventory_part
   has_many :companies

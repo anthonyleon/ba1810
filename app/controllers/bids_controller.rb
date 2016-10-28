@@ -4,7 +4,7 @@ class BidsController < ApplicationController
   before_action :set_transaction, only: [:show, :update, :funds_released]
 
   def index
-    @bids = Bid.all
+    @supplier_auctions = AuctionDecorator.decorate_collection(current_user.auctions_with_owned_bids)
   end
 
   def show
@@ -22,8 +22,10 @@ class BidsController < ApplicationController
   def new
     @bid = Bid.new
     @parts = current_user.inventory_parts
-    @match_parts = @parts.where(part_num: @auction.part_num)
-    @inventory = @match_parts.ids
+    @match_parts = []
+    @parts.where(part_num: @auction.part_num).each do |part|
+      @match_parts << part if @auction.condition.include?(part.condition)
+    end
   end
 
   def edit
@@ -37,12 +39,13 @@ class BidsController < ApplicationController
     @bid.company = current_user
     respond_to do |format|
       if @bid.save
-        notify_other_bidders("A bid has been placed on an auction you are participating in!")
-        notify_auctioner("A new bid was placed in your auction!")
+        Notification.notify_other_bidders(@auction, current_user, "A bid has been placed on an auction you are participating in!")
+        Notification.notify_auctioner(@auction, "A new bid was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
-        format.html { render :new }
+        flash[:error] = @bid.errors.full_messages.to_sentence.gsub('.','')
+        format.html { redirect_to new_auction_bid_path(@auction) }
         format.json { render json: @bid.errors, status: :unprocessable_entity }
       end
     end
@@ -53,8 +56,8 @@ class BidsController < ApplicationController
       @bid.assign_attributes(bid_params)
       ArmorPaymentsApi.update_order(@transaction) if @transaction.bid.changed?
       if @bid.update(bid_params)
-        # notify_other_bidders("A bid has been updated on an auction you're competing in!")
-        # notify_auctioner("A bid was updated in your auction!")
+        # Notification.notify_other_bidders(@auction, "A bid has been updated on an auction you're competing in!")
+        # Notification.notify_auctioner("A bid was updated in your auction!")
         format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
         if @transaction.tracking_num # POST shipping info to armor
@@ -90,24 +93,6 @@ class BidsController < ApplicationController
 
     def set_bid
       @bid = Bid.find(params[:id])
-    end
-
-    def notify_other_bidders(message)
-      bid_collection =[]
-      @auction.bids.each do |bid|
-        bid_collection << bid
-      end
-      bid_collection.uniq! { |b| b.company_id }
-      bid_collection.each do |bid|
-        Notification.create(company_id: bid.company.id, auction_id: @auction.id, bid_id: bid.id, message: message) unless bid.company == current_user
-        CompanyMailer.auction_notification(bid).deliver_later(wait: 1.minute)
-        CompanyMailer.place_new_bid(bid).deliver_later(wait_until: 1.minute.from_now)
-      end
-    end
-
-    def notify_auctioner(message)
-      Notification.create(company: @auction.company, auction: @auction, message: message)
-      CompanyMailer.notify_buyer(@bid.auction).deliver_now
     end
 
     def funds_released # for testing purposes only sandbox trigger

@@ -1,0 +1,43 @@
+%ul
+  %li.card.checkout.destination-address.hoverable.blurred
+    .card-content.step1-2
+      %h6.left-align.collapsible-header
+        Step 6: Release of Payment
+      %br/
+      - if !@transaction.delivered
+        .row
+          %h6.center-align Awaiting Buyer to approve part and release funds
+          %h6.center-align Buyer has 3 days after delivery to approve part or file dispute
+      - else
+        - if !@transaction.disputed
+          .row
+            %span.card-title.col.s6
+              %h5.center-align Thank you for using Bid Aero!
+              %h6.center-align Buyer has released funds to your account
+              %h6.center-align Please verify funds have been received or contact us directly at admin.bid.aero
+            %h6.required_date.center-align
+              =image_tag "482483624.jpg",  :class => "shipping-box-hi1"
+        -else
+          .row
+            %span.card-title.col.s12.center-align
+              %h5.center-align Unfortunately the buyer has chosen to file a dispute
+              %h6.center-align We are trying our best to ensure both parties can come to an agreement
+              %h6.center-align Bid Aero will be performing an investigation to address the current dispute.
+              %h6.center-align Please contact us directly at admin@bid.aero for more information.
+          .row.valign-wrapper
+            %span.card-title.col.s6.center-align
+              %h7.center-align Reference number:
+              =@transaction.order_id
+            %span.card-title.col.s6.center-align
+              %h6.required_date.center-align
+              - if !@transaction.dispute_settlement
+                %div.center-align
+                  %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+                  %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+                    =image_tag "settlementofferbutton.jpg",  :class => "paymentbutton"
+              -elsif @transaction.dispute_settlement
+                %h6.center-align A settlement offer has been made, please review.
+                %div.center
+                  %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+                  %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
+                    =image_tag "reviewsettlementofferbutton.jpg",  :class => "paymentbutton"

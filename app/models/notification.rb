@@ -2,6 +2,7 @@ class Notification < ActiveRecord::Base
 	belongs_to :company
 	belongs_to :bid
 	belongs_to :auction
+  belongs_to :tx, class_name: "Transaction"
 
 	def self.any_unread?(user)
 		notifications = user.notifications.map do |notify|
@@ -30,7 +31,25 @@ class Notification < ActiveRecord::Base
     end
   end
 
-  def self.notify(bid, company, message)
-    Notification.create(message: message, bid: bid, auction: bid.auction, company: company)
+  def self.notify_auctioner(auction, message)
+    Notification.create(company: auction.company, auction: auction, message: message)
+    CompanyMailer.notify_buyer(auction).deliver_now
+  end
+
+  def self.notify_other_bidders(auction, user, message)
+    bid_collection =[]
+    auction.bids.each do |bid|
+      bid_collection << bid
+    end
+    bid_collection.uniq! { |b| b.company_id }
+    bid_collection.each do |bid|
+      Notification.create(company_id: bid.company.id, auction_id: auction.id, bid_id: bid.id, message: message) unless bid.company == user
+      CompanyMailer.place_new_bid(bid).deliver_later(wait_until: 1.minute.from_now)
+    end
+  end
+
+  def self.notify(bid, company, message, opts = {})
+    transaction = opts[:transaction]
+    Notification.create(message: message, bid: bid, auction: bid.auction, company: company, transaction_id: transaction.id)
   end
 end

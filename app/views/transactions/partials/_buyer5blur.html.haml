@@ -1,0 +1,14 @@
+%ul
+  %li.card.checkout.destination-address.hoverable.blurred
+    .card-content.checkout.step4-1
+      %h6.left-align.collapsible-header
+        Step 5: Tracking Details & Release of Funds
+      .row
+        %span.card-title.col.s12
+          %h6.required_date.center-align Carrier has confirmed delivery
+          %h6.required_date.center-align You have 3 days to approve or file a dispute on the order
+          -if @release_payment_url
+            %div.center-align
+            %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+            %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
+              =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"

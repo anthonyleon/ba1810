@@ -5,6 +5,8 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
  	has_many :notifications, dependent: :destroy
 
+  before_save :strip_whitespace
+  
   serialize :condition, Array
 
   def self.conditions
@@ -24,6 +26,12 @@ class Auction < ActiveRecord::Base
     else
       self.resale_no = true
       self.resale_yes = false
+    end
+  end
+
+  def strip_whitespace
+    self.attributes.each do |key, value|
+      self[key] = value.squish if value.respond_to?("squish")
     end
   end
 

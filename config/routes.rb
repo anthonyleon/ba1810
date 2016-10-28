@@ -24,7 +24,7 @@ end
   patch '/auctions/:id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
   get 'notifications/index'
 
-  get '/transactions/:id' => 'transactions#show', as: 'transaction_show'
+  get '/invoice/:id' => 'transactions#invoice_pdf', as: 'transaction_invoice'
   get 'purchase_order/:id' => 'transactions#po', as: 'transaction_po'
   get '/material_cert/:id' => 'transactions#material_cert', as: 'material_cert'
 
@@ -56,6 +56,8 @@ end
 
   post 'payment' => 'bids#release_payment', as: 'payment'
 
+  get 'current_opportunities' => 'auctions#current_opportunities', as: 'current_opportunities'
+  get 'bids' => 'bids#index', as: 'bids'
   resources :password_resets
 
   resources :inventory_parts do
@@ -64,7 +66,7 @@ end
 
   resources :auctions do
     resources :auction_parts, except: [:index]
-    resources :bids
+    resources :bids, except: [:index]
   end
 
   resources :companies, except: [:index, :show] do
