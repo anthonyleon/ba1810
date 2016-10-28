@@ -13,6 +13,10 @@ class CompaniesController < ApplicationController
     @company = current_user
     yahoo_client = YahooFinance::Client.new
     @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY", "WLFC"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
+    @opportunity_count = Auction.get_sales_opportunities(current_user).count
+    @inventory_count = current_user.inventory_parts.count
+    @bids_count = current_user.bids.count
+    @notifications = current_user.notifications.order(created_at: :desc).limit(10)
   end
 
   def new
@@ -20,8 +24,8 @@ class CompaniesController < ApplicationController
   end
 
   def edit
-    @company = current_user
     @url = ArmorPaymentsApi.select_payout_preference(current_user)
+    @company = current_user
   end
 
   def confirm_email
@@ -70,20 +74,24 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def choose_payout_preference
+    @url = ArmorPaymentsApi.select_payout_preference(current_user)
+  end
+
   def sales
-    @sales = []
-    sales = Transaction.where(seller_id: current_user.id)
-    sales.each do |sale|
-      @sales << sale
-    end
+    @sales = Transaction.where(seller_id: current_user.id, complete: true)
+  end
+
+  def pending_sales
+    @sales = Transaction.where(seller_id: current_user.id, complete: false)
   end
 
   def purchases
-    @purchases = []
-    purchases = Transaction.where(buyer_id: current_user.id)
-    purchases.each do |auction|
-      @purchases << auction
-    end
+    @purchases = Transaction.where(buyer_id: current_user.id, complete: true)
+  end
+
+  def pending_purchases
+    @purchases = Transaction.where(buyer_id: current_user.id, complete: false)
   end
 
   private

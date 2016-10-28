@@ -33,12 +33,18 @@ class ArmorPaymentsApi
     return { armor_user_number: user_id, armor_account_number: armor_account_num }
   end
 
+  def self.select_payout_preference(company)
+    auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
+    result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
+    result.data[:body]["url"]
+  end
+
   def self.create_order(transaction)
     p data = {
       "type" => 1,
       "seller_id" => transaction.seller.armor_user_id,
       "buyer_id" => transaction.buyer.armor_user_id,
-      "amount" => transaction.total_amount,
+      "amount" => transaction.total_amount.round(2),
       "summary" => transaction.auction.part_num,
       "description" => transaction.part.condition,
       "invoice_num" => transaction.invoice_num,
@@ -55,9 +61,9 @@ class ArmorPaymentsApi
   def self.update_order(transaction, opts = {})
     p data = {
       "type" => 1,
-      "amount" => transaction.total_amount,
-      "invoice_num" => "123456",
-      "purchase_order_num" => "675890",
+      "amount" => transaction.total_amount.round(2),
+      "invoice_num" => transaction.po_num,
+      "purchase_order_num" => transaction.invoice_num,
       "message" => opts["message"]
     }
     order_id = transaction.order_id
@@ -79,11 +85,20 @@ class ArmorPaymentsApi
     result.data[:body]["url"]
   end
 
+  def self.trigger_payment(transaction) #SANDBOX TRIGGER
+    account_id = transaction.seller.armor_account_id
+    action_data = { "action" => "add_payment",
+                    "confirm" => true,
+                    "source_account_id" => transaction.buyer.armor_account_id, # The account_id of the party making the payment
+                    "amount" => transaction.total_amount }
+    result = CLIENT.orders(account_id).update(transaction.order_id, action_data)
+  end
 
-  def self.select_payout_preference(company)
-    auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
-    result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
-    result.data[:body]["url"]
+  def self.trigger_delivered(transaction)
+    account_id = transaction.seller.armor_account_id # The account_id of the seller for the order 
+    order_id = transaction.order_id
+    action_data = { "action" => "delivered", "confirm" => true } 
+    result = CLIENT.orders(account_id).update(order_id, action_data)  
   end
 
   def self.carriers_list

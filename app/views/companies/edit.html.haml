@@ -4,11 +4,12 @@
       .card-content
         .card-title.center-align
           %h5.custom-card-title.center
-            Edit Company
+            Company Settings
         %hr/
         = render 'form'
 
-%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
 %div.center
-  %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"}
-    = image_tag "/images/armor_payments_select_payout.jpg", height: 70, width: 250, style: "border-radius:10px"
+  %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+  %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
+    %i.fa.fa-lock{"aria-hidden" => "true"}
+    Escrow Setup

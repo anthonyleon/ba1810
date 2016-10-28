@@ -1,0 +1,76 @@
+.card-content
+  .card-title.center-align
+    %h4.custom-card-title.center{style: 'font-weight: bold;'}
+      Escrow Setup
+  %hr
+  %div{style: "display: inline-block;"}
+    %div.left{style: "font-size: 20px;"}
+      Before placing a bid in an auction you must set up your payout preferernce with Payoneer Escrow to ensure you receive payment
+      %br
+      %br
+    %div.left
+      BID AERO has partnered with Payoneer Escrow to provide secure online escrow payment protection for buyers and sellers.
+      %br
+  .card.z-depth-0.payout-preference
+    %div.valign-wrapper{style: "float: left; height: 350px; width: 200px;"}
+      %div.center.valign{style: "float: left;"}
+        =image_tag "escrowsecurity.png"
+    %div.center
+      %div{style: 'font-weight: bold; font-size: 18px; margin-left: 265px; margin-top: 3%; display: flex;'} 
+        Payoneer Escrow offers
+      %div.bullet-container
+        %div.escrow-bullets
+          %i.fa.fa-check-circle-o.custom-green-text{"aria-hidden" => "true"}
+          Reduced payment risk for both buyers and sellers
+        %div.escrow-bullets
+          %i.fa.fa-check-circle-o.custom-green-text{"aria-hidden" => "true"}
+          Simple transaction flow
+        %div.escrow-bullets
+          %i.fa.fa-check-circle-o.custom-green-text{"aria-hidden" => "true"}
+          Transaparent and fair dispute resolution platform
+        %div.escrow-bullets
+          %i.fa.fa-check-circle-o.custom-green-text{"aria-hidden" => "true"}
+          Faster payout through Payoneer account
+        %div.left
+          Escrow service fees are applied to the total value of funds released to the seller
+        %div.left
+          %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+          %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
+            %i.fa.fa-lock{"aria-hidden" => "true"}
+            Setup Escrow
+.row.tab-box
+  .col.s12
+    %ul.tabs
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#Escrow-Payment"} What is escrow?
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#Fees"} Fees
+      %li.tab.col.m3.s12
+        %a.custom-green-text{:href => "#About-Payoneer"} About Payoneer Escrow
+      .indicator.custom-green-color{:style => "z-index:1"}
+  #Escrow-Payment.col.s12.active{style: "margin-top: 15px;"}
+    Escrow payments reduce the risk for buyers and sellers through using a trusted third-party to hold funds from a buyer and seller until goods or services have been delivered. Sellers can ship goods or provide services with confidence, knowing the buyer has paid, and buyers are sure that the seller will not paid until they have received the deliverables as expected.
+  #Fees.col.s12{style: "margin-top: 15px;"}
+    The Payoneer Escrow fee is based on the total value of the order, and will automatically be deducted from the funds held in escrow when they get released. The escrow fee schedule is calculated as follows: 
+    %br
+    %br
+    ● For an Order value up to $5,000: 4% of the order value
+    %br
+    ● For an Order value from $5,000 to $50,000: $200 + 2.5% of the order value over $5,000
+    %br
+    ● For an Order value from $50,000 to $500,000: $1,325 + 2% of the order value over $50,000
+    %br
+    ● For an Order value over $500,000: $10,325 + 0.8% of the order value over $500,000
+    %br
+    ● For an Order value over $1,000,000: $6,400 + 0.75% of order value over $1,000,000 
+    %br
+    %br
+    Example: The fee for a $7,000 order is $250 [$200, plus 2.5% on ($7,000 - $5,000) = $50] 
+    %br
+    %br
+    %br
+    Notes: - The escrow fee is based on the total value of a completed order. The fee is payable at the time the funds are released from escrow, and will be automatically deducted. - If a transaction is cancelled by the seller, Payoneer will refund the full amount to the Buyer. 
+  #About-Payoneer.col.s12{style: "margin-top: 15px;"}
+    Payoneer powers global commerce by providing a highly secure online business-to-business escrow service through its licensed wholly-owned subsidiary Armor Escrow Inc. Armor Escrow Inc. is fully licensed by the California Department of Business Oversight as an Internet Escrow Agent (License #9635661). Millions of professionals and businesses use Payoneer to receive payments in over 200 countries and regions, in 150 currencies. Leading global companies such as Google, Airbnb, and Getty Images rely on Payoneer to process payments to payees worldwide.
+
+
