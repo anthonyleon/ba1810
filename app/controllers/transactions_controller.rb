@@ -71,7 +71,6 @@ class TransactionsController < ApplicationController
     respond_to do |format|  ## Add this
       if @transaction.update(transaction_params)
         @transaction.calculate_total_payment
-        #generate invoice here....
         p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.", transaction: @transaction)

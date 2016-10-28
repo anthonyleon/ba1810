@@ -79,19 +79,19 @@ class CompaniesController < ApplicationController
   end
 
   def sales
-    @sales = Transaction.where(seller_id: current_user.id, complete: false)
-  end
-
-  def pending_sales
     @sales = Transaction.where(seller_id: current_user.id, complete: true)
   end
 
+  def pending_sales
+    @sales = Transaction.where(seller_id: current_user.id, complete: false)
+  end
+
   def purchases
-    @purchases = Transaction.where(buyer_id: current_user.id, complete: false)
+    @purchases = Transaction.where(buyer_id: current_user.id, complete: true)
   end
 
   def pending_purchases
-    @purchases = Transaction.where(buyer_id: current_user.id, complete: true)
+    @purchases = Transaction.where(buyer_id: current_user.id, complete: false)
   end
 
   private
