@@ -7,7 +7,8 @@ class AssetDecorator < Draper::Decorator
     "serviceable" => :tag_serviceable,
     "as_removed" => :tag_as_removed,
     "scrap" => :tag_scrap,
-    "non_serviceable" => :tag_non_serviceable
+    "non_serviceable" => :tag_non_serviceable,
+    "" => :all_conditions
   }
 
   @@abbreviated_condition_tags = {
