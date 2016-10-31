@@ -51,10 +51,12 @@ class ArmorPaymentsApi
       "purchase_order_num" => transaction.po_num,
       "message" => "Order has been created. Awaiting buyer funds.",
       "pays_fees" => 'Buyer',
-      "fees[][amount]" => transaction.bid_aero_fee.round(2),
-      "fees[][account_id]" => 161028191330,
-      "fees[][paid_by]" => 'Buyer',
-      "fees[][description]" => 'Transaction'
+      "fees" => [ {
+        "amount" => transaction.bid_aero_fee.round(2),
+        "account_id" => "160429190641",
+        "paid_by" => 'Buyer',
+        "description" => 'Transaction'
+      } ]
     }
     p transaction.total_amount
     p "***" * 80

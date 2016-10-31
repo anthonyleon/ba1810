@@ -25,7 +25,7 @@ class BidsController < ApplicationController
     @parts = current_user.inventory_parts
     @match_parts = []
     @parts.where(part_num: @auction.part_num).each do |part|
-      @match_parts << part if @auction.condition.include?(part.condition) || @auction.condition == [""]
+      @match_parts << part if @auction.condition.include?(part.condition) || @auction.condition[0].blank?
     end
   end
 

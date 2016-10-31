@@ -57,6 +57,3 @@
                 - BidDecorator.decorate_collection(@auction.bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row
                     = render bid
-    %div.btn.custom-btn
-      %i.fa.fa-arrow-left
-      = link_to 'Back to Auctions', auctions_path

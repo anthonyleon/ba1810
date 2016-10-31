@@ -37,7 +37,7 @@
                     %td.srchtbl= inventory.part_num
                     %td.srchtbl= inventory.description
                     %td.srchtbl= inventory.serial_num
-                    %td.srchtbl= inventory.condition
+                    %td.srchtbl= AssetDecorator.rename(inventory, inventory.condition)
                     %td.srchtbl= inventory.manufacturer
               %br
           #place-bid.actions

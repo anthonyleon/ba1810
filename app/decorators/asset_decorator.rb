@@ -26,9 +26,9 @@ class AssetDecorator < Draper::Decorator
     h.content_tag(:span,  tag_name.to_s.split('_')[1..-1].join(' ').capitalize, class: "tag #{tag_name}")
   end
 
-  def self.rename(event, condition)
+  def self.rename(event, condition) #event or inventory part
     @conditions = []
-    if event.class == Bid
+    if event.class == Bid || event.class == InventoryPart
       case condition
       when "overhaul"
         @conditions << "OH"
