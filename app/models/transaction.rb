@@ -37,26 +37,27 @@ class Transaction < ActiveRecord::Base
     p "#{self.final_shipping_cost.to_f.to_s} + FINAL SHIPPPING COST"
     price_before_fees = part + self.tax + self.final_shipping_cost
     p "#{price_before_fees.to_f.to_s} + PRICE BEFORE FEES"
-    if price_before_fees < TIER1 #5,000
-      self.bid_aero_fee = price_before_fees * 0.025
-      self.armor_fee = price_before_fees * 0.015
-    elsif price_before_fees < TIER2 #50,000
-      self.bid_aero_fee = (price_before_fees - TIER1) * 0.015 + 125
-      self.armor_fee = (price_before_fees - TIER1) * 0.01 + 75
-    elsif price_before_fees < TIER3 #500,000
-      self.bid_aero_fee = (price_before_fees - TIER2) * 0.0125 + 800
-      self.armor_fee = (price_before_fees - TIER2) * 0.0075 + 525
-    elsif price_before_fees < TIER4 #1,000,000
-      self.bid_aero_fee = (price_before_fees - TIER3) * 0.0075 + 6425
-      self.armor_fee = (price_before_fees - TIER3) * 0.005 + 3900
-    else # anything over a million
-    	self.bid_aero_fee = (price_before_fees - TIER4) * 0.0075 + 10175
-    	self.armor_fee = (price_before_fees - TIER4) * 0.0035 + 6400
-    end
+    # if price_before_fees < TIER1 #5,000
+    #   self.bid_aero_fee = price_before_fees * 0.025
+    #   self.armor_fee = price_before_fees * 0.015
+    # elsif price_before_fees < TIER2 #50,000
+    #   self.bid_aero_fee = (price_before_fees - TIER1) * 0.015 + 125
+    #   self.armor_fee = (price_before_fees - TIER1) * 0.01 + 75
+    # elsif price_before_fees < TIER3 #500,000
+    #   self.bid_aero_fee = (price_before_fees - TIER2) * 0.0125 + 800
+    #   self.armor_fee = (price_before_fees - TIER2) * 0.0075 + 525
+    # elsif price_before_fees < TIER4 #1,000,000
+    #   self.bid_aero_fee = (price_before_fees - TIER3) * 0.0075 + 6425
+    #   self.armor_fee = (price_before_fees - TIER3) * 0.005 + 3900
+    # else # anything over a million
+    # 	self.bid_aero_fee = (price_before_fees - TIER4) * 0.0075 + 10175
+    # 	self.armor_fee = (price_before_fees - TIER4) * 0.0035 + 6400
+    # end
     p self.armor_fee.to_f.to_s
     self.armor_fee = 10 if self.armor_fee < 10
     
     self.total_fee = self.armor_fee + self.bid_aero_fee
+    self.price_before_fees = price_before_fees
     self.total_amount = price_before_fees + self.total_fee
     p "#{self.armor_fee.to_f.to_s} + ARMOR FEE"
     p "#{self.bid_aero_fee.to_f.to_s} + BID AERO FEE"
