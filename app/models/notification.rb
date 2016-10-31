@@ -49,7 +49,10 @@ class Notification < ActiveRecord::Base
   end
 
   def self.notify(bid, company, message, opts = {})
-    transaction = opts[:transaction]
-    Notification.create(message: message, bid: bid, auction: bid.auction, company: company, transaction_id: transaction.id)
+    if transaction = opts[:transaction]
+      Notification.create(message: message, bid: bid, auction: bid.auction, company: company, transaction_id: transaction.id)
+    else
+      Notification.create(message: message, bid: bid, auction: bid.auction, company: company)
+    end
   end
 end
