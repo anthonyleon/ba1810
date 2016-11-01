@@ -3,7 +3,7 @@
   right: 1px;
   height: auto !important;
   width: 100%;
-  z-index: 2;
+  z-index: 1100;
   background: #283761;
 }
 
@@ -12,6 +12,11 @@ li.active-tab{
   border-style: solid;
   border-width: 0 0 0 4px;
   background-color: white !important;
+}
+
+
+.top-nav-icons:hover{
+  background-color: #293860;
 }
 
 .company-logo {

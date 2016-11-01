@@ -20,11 +20,12 @@ class BidsController < ApplicationController
   end
 
   def new
+    redirect_to select_payout_preference_path unless current_user.payout_selected?
     @bid = Bid.new
     @parts = current_user.inventory_parts
     @match_parts = []
     @parts.where(part_num: @auction.part_num).each do |part|
-      @match_parts << part if @auction.condition.include?(part.condition)
+      @match_parts << part if @auction.condition.include?(part.condition) || @auction.condition[0].blank?
     end
   end
 

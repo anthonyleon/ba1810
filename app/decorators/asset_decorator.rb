@@ -7,7 +7,17 @@ class AssetDecorator < Draper::Decorator
     "serviceable" => :tag_serviceable,
     "as_removed" => :tag_as_removed,
     "scrap" => :tag_scrap,
-    "non_serviceable" => :tag_non_serviceable
+    "non_serviceable" => :tag_non_serviceable,
+    "" => :all_conditions
+  }
+
+  @@abbreviated_condition_tags = {
+    "recent" => :tag_ne,
+    "overhaul" => :tag_oh,
+    "serviceable" => :tag_sv,
+    "as_removed" => :tag_ar,
+    "scrap" => :tag_sc,
+    "non_serviceable" => :tag_ns
   }
 
   def condition_tag
@@ -16,9 +26,9 @@ class AssetDecorator < Draper::Decorator
     h.content_tag(:span,  tag_name.to_s.split('_')[1..-1].join(' ').capitalize, class: "tag #{tag_name}")
   end
 
-  def self.rename(event, condition)
+  def self.rename(event, condition) #event or inventory part
     @conditions = []
-    if event.class == Bid
+    if event.class == Bid || event.class == InventoryPart
       case condition
       when "overhaul"
         @conditions << "OH"
