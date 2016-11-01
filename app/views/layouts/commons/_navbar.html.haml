@@ -11,7 +11,7 @@
               dashboard     
         - if Notification.any_unread?(current_user)
           %li{style: 'height: 64px;display: flex;align-items:center;'}
-            = link_to notifications_index_path, style: 'display: flex;', class: 'bell' do
+            = link_to notifications_index_path, style: 'display: flex;', class: 'bell top-nav-icons' do
               %span.material-icons{class: "red-bell"}
                 notifications_active
         -else
