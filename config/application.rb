@@ -27,7 +27,8 @@ module BidAero
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.assets.paths << Rails.root.join("vendor","assets", "fonts")
-
+    config.exceptions_app = self.routes
+    
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.action_dispatch.default_headers = {'X-Frame-Options' => 'ALLOWALL'}
