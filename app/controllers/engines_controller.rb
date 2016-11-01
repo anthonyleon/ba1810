@@ -2,7 +2,7 @@ class EnginesController < ApplicationController
   before_action :set_engine, only: [:show, :edit, :update, :destroy]
 
   def index
-    @engines = Engine.all.decorate
+    @engines = current_user.engines.decorate
   end
 
   def show
