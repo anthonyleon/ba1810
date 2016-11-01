@@ -6,16 +6,27 @@
 %td= number_to_currency bid.est_shipping_cost
 %td= bid.average_rating || "No Ratings for this User"
 - if @auction.company == current_user || bid.company == current_user
-  %td= link_to 'Part Documents', inventory_part_path(bid.inventory_part, bid_id: bid.id)
+  %td
+    -if bid.inventory_part.documents.blank? && bid.company == current_user
+      =link_to 'Upload Docs', inventory_part_path(bid.inventory_part, bid_id: bid.id)
+    -elsif !bid.inventory_part.documents.blank?
+
+      = link_to inventory_part_path(bid.inventory_part, bid_id: bid.id) do
+        %i.fa.fa-file-text-o{style: "font-size: 24px;"}
+-elsif bid.company != current_user
+  %td
+    =""
 - if bid.company == current_user
   / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
   %td
     = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
-      %span.material-icons.red-text.icon-34
-        delete_forever
+      %span.fa.fa-trash.red-text{style: "font-size: 28px;"}
   / testing purposes
   ///////////// we need an edit bid button
 - elsif @auction.company == current_user
   %td= button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: 'btn custom-btn'
+-else
+  %td
+    =""
   / %td= link_to 'Buy Part', auction_purchase_path(@auction.id, bid.id)
 / We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??s

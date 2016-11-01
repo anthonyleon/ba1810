@@ -52,10 +52,17 @@
 							%h5.center-align
 								Ship To:
 							%h6#auction-full-address.center-align
-								%div
-									= @auction.destination_company
-								%div
-									= @auction.full_address
+								-if @transaction.invoice_num
+									%div
+										= @auction.destination_company
+									%div
+										= @auction.full_address
+								-else 
+									%div
+										= @auction.semi_address
+										%br
+										%br
+										Exact address will be given once you have issued the invoice.
 							%h6.required_date.center-align
 								= "Required Date: "
 								= @auction.required_date
@@ -136,9 +143,10 @@
 												.input-field.col.s4
 													.field.form-group
 														= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
-												.input-field.col.s4
-													.field.form-group
-														= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
+												-if @transaction.auction.resale_no
+													.input-field.col.s4
+														.field.form-group
+															= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
 												.input-field.col.s4
 													.field.form-group
 														= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."

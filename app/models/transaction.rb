@@ -4,7 +4,6 @@ class Transaction < ActiveRecord::Base
 	belongs_to :bid
 	belongs_to :inventory_part
   has_many :companies
-  
 	#armor payments $$ brackets/tiers
   TIER0 = 0
   TIER1 = 5_000
@@ -54,10 +53,13 @@ class Transaction < ActiveRecord::Base
     	self.bid_aero_fee = (price_before_fees - TIER4) * 0.0075 + 10175
     	self.armor_fee = (price_before_fees - TIER4) * 0.0035 + 6400
     end
+
+    
     p self.armor_fee.to_f.to_s
     self.armor_fee = 10 if self.armor_fee < 10
     
     self.total_fee = self.armor_fee + self.bid_aero_fee
+    self.price_before_fees = price_before_fees
     self.total_amount = price_before_fees + self.total_fee
     p "#{self.armor_fee.to_f.to_s} + ARMOR FEE"
     p "#{self.bid_aero_fee.to_f.to_s} + BID AERO FEE"

@@ -48,8 +48,10 @@ end
   get 'purchase/:id/buyer_purchase' => 'transactions#buyer_purchase', as: 'buyer_purchase'
   get 'purchase/:id/seller_purchase' => 'transactions#seller_purchase', as: 'seller_purchase'
 
-
+  get 'select_payout_preference' => 'companies#choose_payout_preference', as: 'select_payout_preference'
+  get 'pending_sales' => 'companies#pending_sales', as: 'pending_sales'
   get 'sales' => 'companies#sales', as: 'sales'
+  get 'pending_purchases' => 'companies#pending_purchases', as: 'pending_purchases'
   get 'purchases' => 'companies#purchases', as: 'purchases'
   get 'home' => 'companies#show', as: 'home'
   get 'company/edit' => 'companies#edit', as: 'edit_company'

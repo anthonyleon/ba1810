@@ -2,6 +2,53 @@
 // // They will automatically be included in application.css.
 // // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.payout-preference{
+	border-style: solid;
+	border-width: 1px;
+	border-color: lightgrey;
+	display: block;
+	padding-bottom: 10%
+}
+
+.payout-preference-btn {
+	margin: 20px 0;
+	padding: 10px;
+  background-color: none;
+  border: 2px solid;
+  border-color: $custom-green;
+  width: 250px;
+  height: 45px;
+  color: $custom-green;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.data-display {
+  font-size: 60px !important;
+}
+
+.escrow-bullets{
+	text-align: left;
+	margin: 20px 5px;
+	font-size: 16px;
+}
+
+.bullet-container {
+}
+
+.tabs {
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: $custom-green;
+}
+
+.tab-box {
+	min-height: 300px;
+}
+
 // #form-page {
 //   margin: none;
 //   padding: none;

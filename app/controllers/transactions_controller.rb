@@ -26,8 +26,6 @@ class TransactionsController < ApplicationController
           Notification.notify(@bid, @bid.seller, "The order ##{@transaction.order_id} for part ##{@bid.auction.part_num} has been cancelled.", transaction: @transaction)
           Notification.notify(@bid, @bid.buyer, "You have cancelled your order ##{@transaction.order_id}")
           CompanyMailer.order_cancelled(@bid, @bid.seller, @bid.buyer)
-        when 15 # shipment details added to order 
-          Notification.notify(@bid, @bid.buyer, "Shipment information for order ##{@transaction.order_id} for #{@transaction.auction.part_num} has been received.")
         when 15 # shipment details added to order (testing purposes, not really but need to check later) this doesn't mean it was received does it?
           Notification.notify(@bid, @bid.buyer, "Shipment information for order ##{@transaction.order_id} for #{@transaction.auction.part_num} has been received.", transaction: @transaction)
         when 3 #goods shipped to buyer
@@ -36,9 +34,9 @@ class TransactionsController < ApplicationController
           CompanyMailer.part_shipped(@bid, @bid.buyer, @bid.tx)
         when 4 # goods received by buyer
           @transaction.delivery_received
-          Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.")
           CompanyMailer.shipment_received(@bid, @bid.seller).deliver_now
-          Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: @transaction)
+          Notification.notify(@bid, @transaction.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: @transaction)
+          Notification.notify(@bid, @transaction.buyer, "Order ##{@transaction.order_id}, has been marked as received. You have 3 days to approve part.", transaction: @transaction)
         when 6 # order accepted (ie. funds released from buyer to seller)
           @transaction.transfer_inventory
           @transaction.completed
@@ -46,21 +44,42 @@ class TransactionsController < ApplicationController
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.")
           CompanyMailer.funds_released(@bid, @bid.seller).deliver_now
           Notification.notify(@bid, @bid.seller, "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference.", transaction: @transaction)
-        when 10 #dispute settlement offer has been submitted by either buyer or seller
+        when 10 # dispute settlement offer has been submitted by either buyer or seller
           @transaction.settlement_offer_submitted
-          @company = Company.find_by(@data["event"]) #whos on the other side of the submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "A settlement offer has been submitted to you. Please review.", transaction: @transaction)
-        when 11 #Offer to settle dispute on order accepted
-          @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been accepeted", transaction: @transaction)
-        when 12 #Offer to settle dispute on order rejected. Use of this event is now deprecated. Offers will be countered, rather than rejected.
-          @company = Company.find_by(@data["event"]) #who submitted settlement offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id}, has been rejected. You may submit a counter-offer.", transaction: @transaction)
-        when 13 #Counter-offer made to settle dispute
-          @company = Company.find_by(@data["event"]) #who's on the other side of the counter offer? Notify them
-          Notification.notify(@bid, @company, "Your settlement offer for order ##{@transaction.order_id} has been countered. Please Review", transaction: @transaction)
-          @transaction.clear_dispute_responses
+          Notification.notify(@bid, @transaction.buyer, "A settlement offer has been submitted to you. Please review.", transaction: @transaction)
         when 26 #Goods inspection completed
+          # we already have a funds release event
+  #DISPUTES
+        when 3000 # Dispute created
+          @transaction.mark_as_disputed
+          Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", transaction: @transaction)
+          # testing purposes. ALSO SEND AN EMAIL TO THE USER
+        when 3003 # A counter-offer was made to this Offer
+          offerer = Company.find_by(armor_user_id: @data["event"]["user_id"])
+          if offerer == @transaction.seller
+            oferree = @transaction.buyer
+          else
+            offeree = @transaction.seller
+          end
+          Notification.notify(@bid, offeree, "A settlement offer has been created on dispute ##{@data["event"]["order_id"]}")
+          @transaction.clear_dispute_responses
+        when 3004 # Offer to settle dispute on order accepted
+          company_accepting = Company.find_by(armor_user_id: @data["event"]["user_id"])
+          if company_accepting == @transaction.seller
+            company = @transaction.buyer
+          else
+            company = @transaction.seller
+          end
+          Notification.notify(@bid, company, "Your settlement offer for order ##{@transaction.order_id} has been accepeted", transaction: @transaction)
+        when 2005 #dispute escalated to arbitration
+          Notification.notify(@bid, @bid.seller, "Disputed Order ##{@transaction.order_num} has been escalated to arbitration.")
+          Notification.notify(@bid, @bid.buyer, "Disputed Order ##{@transaction.order_num} has been escalated to arbitration.")
+  #ACCOUNT EVENTS
+        when 1001 # Bank Account details Added
+          
+        when 1002 # Bank Account Approved
+
+        when 1003 # Bank Account Declined
         end
       end
     else
@@ -75,7 +94,6 @@ class TransactionsController < ApplicationController
     respond_to do |format|  ## Add this
       if @transaction.update(transaction_params)
         @transaction.calculate_total_payment
-        #generate invoice here....
         p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
@@ -179,7 +197,7 @@ class TransactionsController < ApplicationController
   private
 
     def transaction_params
-      params.require(:transaction).permit(:carrier_code, :tracking_num, :carrier, :shipment_desc, :part_price, :delivered, :shipping_account, :tax_rate, :final_shipping_cost, :po_num, :invoice_num, :order_id)
+      params.require(:transaction).permit(:carrier_code, :price_before_fees, :tracking_num, :carrier, :shipment_desc, :part_price, :delivered, :shipping_account, :tax_rate, :final_shipping_cost, :po_num, :invoice_num, :order_id)
     end
 
     def set_transaction

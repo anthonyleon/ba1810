@@ -39,6 +39,10 @@ class Auction < ActiveRecord::Base
     return "#{self.destination_address}, #{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
   end
 
+  def semi_address
+    return "#{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
+  end
+
   def self.get_sales_opportunities(user)
       parts = user.inventory_parts
       parts.uniq! { |part| [part[:part_num], part[:condition]] }
@@ -51,10 +55,12 @@ class Auction < ActiveRecord::Base
         #or if the auction isn't asking for the part in-question's condition
         Auction.where(part_num: part.part_num, active: true).each do |auction|
           user_created_auction = (auction.company == user)
-          user_placed_bids = (auction.bids & user.bids).present?
+          user_has_placed_bids = (auction.bids & user.bids).present?
           part_matches = auction.condition.include?(part.condition)
-          sales_opportunities << auction unless user_created_auction || user_placed_bids || !part_matches
-          sales_opportunities << auction if auction.condition == "All Conditions" && auction.company != user && !user_placed_bid
+          all_conditions = true if auction.condition[0].blank?
+
+          sales_opportunities << auction unless user_created_auction || user_has_placed_bids || !part_matches
+          sales_opportunities << auction if all_conditions && auction.company != user && !user_has_placed_bids
         end
       end
       sales_opportunities.uniq

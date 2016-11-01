@@ -9,23 +9,47 @@
   background-color: green;
 }
 
+.tag_ne {
+  background-color: #green;
+}
+
 .tag_overhaul {
-  background-color: #D45F29;
+  background-color: #90caf9;
+}
+
+.tag_oh {
+  background-color: #90caf9;
 }
 
 .tag_serviceable {
-  background-color: darkorange;
+  background-color: #ffeb3b;
+}
+
+.tag_sv {
+  background-color: #ffeb3b;
 }
 
 .tag_as_removed {
-  background-color: orange;
+  background-color: #ff9800;
+}
+
+.tag_ar {
+  background-color: #ff9800;
 }
 
 .tag_non_serviceable {
   background-color: red;
 }
 
+.tag_ns {
+  background-color: red;
+}
+
 .tag_scrap {
+  background-color: red;
+}
+
+.tag_sc {
   background-color: red;
 }
 
@@ -63,7 +87,7 @@
 
 .tag-part-delivered {
   background-color: #3da3dc;
-  font-size: 1.3em; 
+  font-size: 1.3em;
 }
 
 .tag-complete {

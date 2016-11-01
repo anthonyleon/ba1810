@@ -58,19 +58,67 @@
 							
 		-if @transaction.invoice_num
 			= render 'transactions/partials/buyer3'
+			= render 'transactions/partials/buyer4'
 		-else
 			= render 'transactions/partials/buyer3blur'
-
-		-if !@transaction.paid
 			= render 'transactions/partials/buyer4blur'
-		-else
-			= render 'transactions/partials/buyer4'
+
 
 		-if @transaction.delivered
 			= render 'transactions/partials/buyer5'
 		-else
 			= render 'transactions/partials/buyer5blur'
-
+/ -if @transaction.delivered
+/ 	%li.card.checkout.destination-address.hoverable
+/ 		.card-content.checkout.step4-1
+/ 			%h6.left-align.collapsible-header
+/ 				Step 5: Tracking Details & Release of Funds
+/ 			.row
+/ 				%span.card-title.col.s12
+/ 					%h6.required_date.center-align Carrier has confirmed delivery
+/ 					%h6.required_date.center-align You have 3 days to approve or file a dispute on the order
+/ 					-if @release_payment_url
+/ 						%span.right
+/ 							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+/ 							%a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@release_payment_url}"}
+/ 								/ # =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
+/ 								Release Funds
+/ 						%span.left
+/ 							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+/ 							%a.paymentInstructionsFrame-lightbox-preview.initiate-dispute-btn{"data-url" => "#{@dispute_transaction_url}"}
+/ 								%i.material-icons.initiate-dispute-icon
+/ 									error_outline
+/ 								Initiate Dispute
+/ 					-elsif @transaction.disputed && !@transaction.dispute_settlement
+/ 						%br
+/ 						%div.center{style: "text-align: center; width: 427px; margin: auto;"}
+/ 							You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
+/ 						%br
+/ 						%div.center
+/ 							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+/ 							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
+/ 								Create Settlement Offer
+/ 					-elsif @transaction.dispute_settlement
+/ 						%br
+/ 						%div.center{style: "text-align: center; margin: auto;"}
+/ 							A settlement offer has been made, please review.
+/ 							%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+/ 							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
+/ 								Review Settlement Offer
+/ -else
+/ 	%li.card.checkout.destination-address.hoverable.blurred
+/ 		.card-content.checkout.step4-1
+/ 			%h6.left-align.collapsible-header
+/ 				Step 5: Tracking Details & Release of Funds
+/ 			.row
+/ 				%span.card-title.col.s12
+/ 					%h6.required_date.center-align Carrier has confirmed delivery
+/ 					%h6.required_date.center-align You have 3 days to approve or file a dispute on the order
+/ 					-if @release_payment_url
+/ 						%div.center-align
+/ 						%script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+/ 						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
+/ 							=image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
 -# .row
 -# 	.col.s12
 -# 		.card.buyer_purchase
