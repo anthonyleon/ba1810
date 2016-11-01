@@ -27,13 +27,13 @@ class Notification < ActiveRecord::Base
     parts.uniq! { |p| p.company_id }
     parts.each do |part|
       Notification.create(company: part.company, auction: auction, message: message) unless part.company == auction_creator
-      CompanyMailer.notify_of_opportunity(part.company, auction).deliver_later(wait: 5.minutes) unless part.company == auction_creator
+      CompanyMailer.notify_of_opportunity(part.company, auction).deliver_now unless part.company == auction_creator
     end
   end
 
   def self.notify_auctioner(auction, message)
     Notification.create(company: auction.company, auction: auction, message: message)
-    CompanyMailer.notify_buyer(auction).deliver_now
+    CompanyMailer.notify_buyer(auction.company, auction).deliver_now
   end
 
   def self.notify_other_bidders(auction, user, message)
