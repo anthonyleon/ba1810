@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Welcome to Bid Aero</title>
+  <title>Welcome to Bid Aero <%="#{@company.name}"%></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body style="margin: 0; padding: 0;">
@@ -12,7 +12,7 @@
      <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: 1px solid #cccccc; ">
        <tr>
          <td align="center" bgcolor="#ffffff" style="padding: 20px 0 30px 0;">
-         <img src="headerforemail.jpg" width="600" height="230" style="display: block;" />
+         <%= image_tag("headerforemail.jpg", :alt => "header") %>
          </td>
        </tr>
        <tr>
@@ -20,12 +20,17 @@
            <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
              <td style="color: #153643; font-family: Arial, sans-serif; font-size: 18px;">
-              Lorem ipsum dolor sit amet!
+              Welcome to Bid Aero <%="#{@company.name}"%>
              </td>
             </tr>
             <tr>
              <td style="padding: 20px 0 30px 0; font-family: Arial, sans-serif; font-size: 14px;">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat.
+             Please click this link to complete your registration:
+             <br>
+              <%= "#{confirm_email_url(@company, @company.confirm_token, host: "bid-aero.herokuapp.com")}" %>
+             <br>
+             <br>
+              Congratulations on joining Bid Aero, a truly revolitionary tool built for the aviation industry!
              </td>
             </tr>
             <tr>
@@ -36,7 +41,7 @@
                   <table border="0" cellpadding="0" cellspacing="0" width="100%">
                    <tr>
                     <td>
-          <img src="Screen Shot 2016-10-22 at 11.31.22 AM.png" width="250" height="250" />
+                    <%= image_tag("buyinfographicemail.jpg", :alt => "Buyer Info Graphic") %>
                     </td>
                    </tr>
                    <tr>
@@ -53,8 +58,7 @@
                   <table border="0" cellpadding="0" cellspacing="0" width="100%">
                    <tr>
                     <td>
-                <img src="Screen Shot 2016-10-22 at 11.31.22 AM.png" width="250" height="250" />
-
+                    <%= image_tag("buyinfographicemail.jpg", :alt => "Buyer Info Graphic") %>
                     </td>
                    </tr>
                    <tr>
@@ -73,7 +77,7 @@
        </tr>
        <tr>
          <td style="padding: 30px 30px 30px 30px;">
-         <img src="Footernotification.jpg" width="600" height="100" />
+         <%= image_tag("bidaerofooter.jpg", :alt => "footer") %>
          </td>
        </tr>
      </table>

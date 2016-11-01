@@ -39,10 +39,6 @@ class TransactionsController < ApplicationController
           Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.")
           CompanyMailer.shipment_received(@bid, @bid.seller).deliver_now
           Notification.notify(@bid, @bid.seller, "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: @transaction)
-        when 5 # dispute initiated
-          @transaction.mark_as_disputed
-          Notification.notify(@bid, @bid.seller, "Buyer for #{@bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction.", transaction: @transaction)
-          # testing purposes. ALSO SEND AN EMAIL TO THE USER
         when 6 # order accepted (ie. funds released from buyer to seller)
           @transaction.transfer_inventory
           @transaction.completed
@@ -126,6 +122,7 @@ class TransactionsController < ApplicationController
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
     Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.", transaction: @transaction) unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
+    CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_now 
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
