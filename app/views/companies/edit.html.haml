@@ -12,15 +12,15 @@
               %li.tab.col.m3.s12
                 %a.custom-green-text{:href => "#Account"} Account
               %li.tab.col.m3.s12
-                %a.custom-green-text{:href => "#Documents"} Documents
+                %a.custom-green-text{:href => "#companyDocuments"} Documents
               %li.tab.col.m3.s12
                 %a.custom-green-text{:href => "#Edit"} Edit Profile Info
               .indicator.custom-green-color{:style => "z-index:1"}
               
           #Account.col.s12.active{style: "margin-top: 15px;"}
 
-          #Documents.col.s12.active{style: "margin-top: 15px;"}
-
+          #companyDocuments.col.s12.active{style: "margin-top: 15px;"}
+            = render 'company_docs/index'
           #Edit.col.s12.active{style: "margin-top: 15px;"}
             = render 'form'
 
