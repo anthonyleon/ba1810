@@ -6,11 +6,13 @@ class AdminMailer < ApplicationMailer
   #   en.company_mailer.registration_confirm.subject
   #
 
-  def resale_uploaded
+  def resale_uploaded(company, document)
+    @company = company
+    @document = document
     mail to: 'support@bid.aero', subject: "Somebudy uploaded a resale certificate."
   end
 
-  def registration_confirm company
+  def registration_confirm(company)
     @company = company
 
     mail to: @company.email, subject: "BID.AERO Registration Confirmation"
