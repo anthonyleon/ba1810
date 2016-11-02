@@ -1,23 +1,22 @@
 .card.destination-address
   .card-content.shipping-card
-    %span.card-title
-      %span.card-title
-      %h5.center-align
-        Please Confirm Shipping Address
-      %h6#auction-full-address.center-align
-        = @auction.full_address
-      %h6.required_date.center-align
-        = "Required Date: "
-        = @auction.required_date
-      %h5.center-align
-        %button.btn.custom-btn.card-edit-submit.center-align Use this Address
-        %button.btn.custom-btn.card-edit.activator.center-align Edit
+    / %span.card-title
+    /   %span.card-title
+    /   %h5.center-align
+    /     Confirm Shipping Details
+    /   %h6#auction-full-address.center-align
+    /     = @auction.full_address
+    /   %h6.required_date.center-align
+    /     = "Required Date: "
+    /     = @auction.required_date
+    /   %h5.center-align
+    /     %button.btn.custom-btn.card-edit-submit.center-align Use this Address
+    /     %button.btn.custom-btn.card-edit.activator.center-align Edit
 
-  .card-reveal
+
     %span.card-title
       %h5.center-align
-        Edit Shipping Address
-      %i.material-icons.card-edit-remove.right close
+        Confirm Shipping Details
       .row
         .form-container.destination-form
           %p#alert= alert
@@ -56,26 +55,27 @@
                 .field.form-group
                   %h6 Country
                   = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
-            .row
-              .field.col.s3
+            .row.center
+              .field.col.s6.push-s3
                 %h6 Required Delivery Date:
                 = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
-              .shipping_account.col.s3
+            .row.center
+              .shipping_account.col.s6.push-s3
                 %h6 Have a shipping account?
                 %input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
                 %label{:for => "filled-in-box"} Use your shipping / freight account?
-              .row
-                .form-container
-                  = f.fields_for :transactions, remote: true do |cm|
-                    .field.form-group.col.s3.freight_num
-                      %h6 Carrier Name
-                      = cm.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"
-                    .field.form-group.col.s3.freight_num
-                      %h6 Shipping Account Number
-                      = cm.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
-                      = cm.hidden_field :id, :value => @transaction.id
+            .row
+              .form-container
+                = f.fields_for :transactions, remote: true do |cm|
+                  .field.form-group.col.s3.freight_num.push-s3
+                    %h6 Carrier Name
+                    = cm.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"
+                  .field.form-group.col.s3.freight_num.push-s3
+                    %h6 Shipping Account Number
+                    = cm.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
+                    = cm.hidden_field :id, :value => @transaction.id
 
-            .actions.submit_button
+            .actions.submit_button.center
               = f.submit 'Submit', class: "btn custom-btn"
 
 

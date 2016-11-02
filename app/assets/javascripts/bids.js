@@ -13,6 +13,7 @@ $(document).on('ready page:load', function() {
 	[
 	".armor-modal",
 	".freight_num",
+	".shipping-acct-btn",
 	".proceed",
 	".purchase-order-confirmation"
 	]
@@ -50,14 +51,6 @@ $(document).on('ready page:load', function() {
   });
 
 
-
-	// $("#confirm-shipping").click(function(){
-	// 	$("#confirm-shipping").hide(100);
-	// 	$(".shipping_account").show(100);
-	// 	$("#this-address").hide(100);
-	// 	$(".destination").show(200);
-	// });
-
 	$(".submit_button, .card-edit-submit").click(function(){
 		$(".purchase-order-confirmation").show(100);
 		$(".destination-form").hide(200);
@@ -75,16 +68,21 @@ $(document).on('ready page:load', function() {
 		$('li.generate-invoice-bubble.next').removeClass("next").addClass("active");
 	});
 
+//START shipping account option in step 4 after seller invoices
 	$(".checkbox").click(function(){
 		$(".freight_num").toggle(200);
+		$(".shipping-acct-btn").toggle(200);
 	});
 
 	$(".confirm_cost").click(function(){
 		$(".costs").hide(200);
 	});
+	$(".shipping-acct-btn").click(function(){
+		$(".freight_num, .shipping-acct-btn, .shipping_account").hide(200);
+	})
+//END
 
-
-	// format dollars on place new bid
+	// choosing inventory in bid
 	$( ".choose-inventory" ).click(function() {
 		id = $(this).closest("tr").data("inventory-part-id");
 		$(this).addClass("selected").siblings().removeClass("selected");
@@ -92,6 +90,8 @@ $(document).on('ready page:load', function() {
 	});
 
 
+
+  //format dollars
 	$(".dollars").maskMoney({prefix:'$ ', thousands:',', decimal:'.', affixesStay: true});
 	$(".percentage").maskMoney({suffix:'% ', decimal:'.', affixesStay: true});
   // $(".dollars").maskMoney('mask', 0.00);
