@@ -4,9 +4,25 @@
       .card-content
         .card-title.center-align
           %h5.custom-card-title.center
-            Company Settings
+            Company Profile
         %hr/
-        = render 'form'
+        .row.tab-box
+          .col.s12
+            %ul.tabs
+              %li.tab.col.m3.s12
+                %a.custom-green-text{:href => "#Account"} Account
+              %li.tab.col.m3.s12
+                %a.custom-green-text{:href => "#companyDocuments"} Documents
+              %li.tab.col.m3.s12
+                %a.custom-green-text{:href => "#Edit"} Edit Profile Info
+              .indicator.custom-green-color{:style => "z-index:1"}
+              
+          #Account.col.s12.active{style: "margin-top: 15px;"}
+
+          #companyDocuments.col.s12.active{style: "margin-top: 15px;"}
+            = render 'company_docs/index'
+          #Edit.col.s12.active{style: "margin-top: 15px;"}
+            = render 'form'
 
 %div.center
   %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
