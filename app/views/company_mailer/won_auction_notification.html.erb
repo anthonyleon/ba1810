@@ -2,8 +2,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Auction Won</title>
+<title>Send Funds to Escrow</title>
+<!--
 
+    An email present from your friends at Litmus (@litmusapp)
+
+    Email is surprisingly hard. While this has been thoroughly tested, your mileage may vary.
+    It's highly recommended that you test using a service like Litmus (http://litmus.com) and your own devices.
+
+    Enjoy!
+
+ -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -120,7 +129,7 @@
                 <tr>
                     <td align="center" valign="top" style="padding: 15px 0;" class="logo">
                         <a href="http://litmus.com" target="_blank">
-                          <%= image_tag("bidaerologonavycaps.jpg", :alt => "Bid Aero Logo") %>
+                          <img src="bidaerologonavycaps.jpg" width="300" height="300" style="display: block"/>
                         </a>
                     </td>
                 </tr>
@@ -145,7 +154,7 @@
                         <!-- COPY -->
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">You won the Auction!  Sold item: <strong><%= "#{@bid.auction.part_num}" %></strong></td>
+                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">Seller has finalized Shipping info</td>
                             </tr>
                             <tr>
                                 <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius, leo a ullamcorper feugiat, ante purus sodales justo, a faucibus libero lacus a est. Aenean at mollis ipsum.</td>
@@ -181,7 +190,7 @@
                                             <td style="padding: 0 0 10px 0;">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                     <tr>
-                                                        <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">Sold Part</td>
+                                                        <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">Purchased Part</td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -193,7 +202,7 @@
                                             <td style="padding: 0 0 10px 0;">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;"><%= number_to_currency @bid.part_price %></td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;"><%= number_to_currency @transaction.bid.part_price %></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -228,7 +237,7 @@
                                             <td style="padding: 0 0 10px 0;">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">$X.XX</td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">$X.XX
                                                     </tr>
                                                 </table>
                                             </td>
@@ -263,7 +272,9 @@
                                             <td style="padding: 0 0 10px 0;">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">$X.XX</td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                                        $X.XX
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -298,7 +309,7 @@
                                             <td>
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #7ca230; font-size: 16px; font-weight: bold;">$XX.XX</td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #7ca230; font-size: 16px; font-weight: bold;">$X.XX</td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -357,11 +368,26 @@
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <!-- COPY -->
-                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy"><a href= "www.bid.aero">Please Confirm your Shipping Costs</a>
-                                </td>
+                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">Please Finalize your shipping cost</td>
                             </tr>
                             <tr>
                                 <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius, leo a ullamcorper feugiat, ante purus sodales justo, a faucibus libero lacus a est. Aenean at mollis ipsum.</td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <!-- BULLETPROOF BUTTON -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center" style="padding-top: 25px;" class="padding">
+                                                <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                    <tr>
+                                                        <td align="center" style="border-radius: 3px;" bgcolor="#256F9C"><a href="www.bid.aero" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;" class="mobile-button">Finalize your Shipping Cost</a></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
                             </tr>
                         </table>
                     </td>
@@ -399,3 +425,4 @@
 
 </body>
 </html>
+
