@@ -15,10 +15,11 @@ class CompanyDocsController < ApplicationController
     @company_doc = CompanyDoc.new(company_doc_params)
     @company_doc.company = current_user
     if @company_doc.save
-      redirect_to company_docs_url
+      AdminMailer.resale_uploaded.deliver_now if @company_doc.resale_license
+      redirect_to edit_company_path #company_docs_url
       flash.now[:notice] = "The document #{@company_doc.name} has been uploaded."
     else
-      redirect_to @company_doc, notice: "The document #{@company_doc.name} failed to uploaded."
+      redirect_to @company_doc, notice: "The document #{@company_doc.name} failed to upload."
     end
   end
 
