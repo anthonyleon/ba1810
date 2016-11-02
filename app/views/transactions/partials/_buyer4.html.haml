@@ -3,10 +3,11 @@
     .card-content.checkout.step4-1
       %h6.left-align.collapsible-header
         Step 4: Payment & Shipping Details
+      %h6.required_date.center-align{style: "font-size: 16px;"}
+        Vendor has invoiced and is awaiting payment to commence shipping, please proceed by clicking below.
+      %br
       .row
         %span.card-title.col.s12
-          %h6.required_date.center-align
-            Vendor has invoiced and is awaiting payment to commence shipping, please proceed by clicking below.
           %h6.required_date.center-align
             -if @payment_url
               %div.center-align

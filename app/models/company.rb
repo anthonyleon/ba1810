@@ -10,13 +10,12 @@ class Company < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :documents, dependent: :destroy
   has_many :company_docs
-  # validates :password, presence: true, length: { minimum: 6 }
-  # validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
+  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, uniqueness: true
-  # validates :ein, uniqueness: true
-  # validates :address, :city, :state, :zip, :country, presence: true
-  # validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format, please input correct form: xxx-xxx-xxxx" }
+  validates :ein, uniqueness: true
+  validates :address, :city, :state, :zip, :country, presence: true
 
   before_create :confirmation_token
   before_save :downcase_email, :strip_whitespace

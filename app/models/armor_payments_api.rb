@@ -66,12 +66,18 @@ class ArmorPaymentsApi
   end
 
   def self.update_order(transaction, opts = {})
+    # make sure that this is updating correctly
     p data = {
       "type" => 1,
-      "amount" => transaction.total_amount.round(2),
-      "invoice_num" => transaction.po_num,
-      "purchase_order_num" => transaction.invoice_num,
-      "message" => opts["message"]
+      "amount" => transaction.price_before_fees.round(2),
+      "message" => opts["message"],
+      "pays_fees" => 'Buyer',
+      "fees" => [ {
+        "amount" => transaction.bid_aero_fee.round(2),
+        "account_id" => "160429190641",
+        "paid_by" => 'Buyer',
+        "description" => 'Transaction'
+      } ]
     }
     order_id = transaction.order_id
     p result = CLIENT.orders(transaction.seller.armor_account_id).update(order_id, data)
