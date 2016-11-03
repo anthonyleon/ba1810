@@ -16,6 +16,18 @@
   padding-bottom: 2px !important;
 }
 
+.collapsible-header:hover{
+  cursor: default;
+}
+
+.track-shipping-bubble.active{
+  width: 159px !important;
+
+  &:after{
+    background-color: #8bc53f; 
+  }
+}
+
 .step3 {
   filter: blur(1.5px);
 }

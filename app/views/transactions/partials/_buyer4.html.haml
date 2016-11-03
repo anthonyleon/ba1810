@@ -3,24 +3,30 @@
     .card-content.checkout.step4-1
       %h6.left-align.collapsible-header
         Step 4: Payment & Shipping Details
-      %h6.required_date.center-align{style: "font-size: 16px;"}
-        Vendor has invoiced and is awaiting payment to commence shipping, please proceed by clicking below.
       %br
       .row
         %span.card-title.col.s12
           %h6.required_date.center-align
             -if @payment_url
+              .row
+                .col.s10.push-s1.required_date.center-align{style: "font-size: 16px;"}
+                  Vendor has invoiced and is awaiting payment to commence shipping, please click below for payment instructions.
               %div.center-align
               %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
               %a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@payment_url}"}
                 Submit Payment
             -else
               -if !@transaction.tracking_num
-                %h6.center-align Vendor has been notified of payment and will be providing shipment details shortly.
+                .row
+                  .col.s10.push-s1.required_date.center-align{style: "font-size: 16px;"}
+                  Vendor has been notified of payment and will be providing shipment details shortly.
                 %br/
               -elsif !@transaction.shipped
-                %h6.center-align Awaiting carrier to confirm shipment (Carrier and Tracking Number are required for release of funds)
+                %h6.center-align Awaiting carrier to confirm shipment details (Carrier and Tracking Number are required for release of funds)
                 %br/
+              -elsif @transaction.delivered
+                %h6.center-align{style: "color: green; font-weight: bold;"}
+                  DELIVERED
               -else
                 %h6.center-align Carrier has confirmed Tracking Information
                 %h6.center-align You have 3 days after delivery to approve part and release funds
