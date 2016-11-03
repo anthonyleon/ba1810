@@ -511,6 +511,7 @@ DEPENDENCIES
   pry-rails
   quiet_assets
   rails (= 4.2.5.1)
+  rails-erd
   rails_12factor
   roo
   rspec-rails
