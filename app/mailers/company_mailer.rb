@@ -17,9 +17,9 @@ class CompanyMailer < ApplicationMailer
   end
 
   def notify_of_opportunity company , auction
-    company 
+    @company = part.company
     @auction = auction
-    mail to: company.email, subject: "Opportunity to Sell #{auction.part_num}"
+    mail to: @company.email, subject: "Opportunity to Sell #{auction.part_num}"
   end
 
   def place_new_bid bid
