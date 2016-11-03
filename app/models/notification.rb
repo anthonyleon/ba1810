@@ -24,11 +24,14 @@ class Notification < ActiveRecord::Base
     parts = InventoryPart.where(part_num: auction.part_num).each do |part|
       parts << part if auction.condition.include?(part.condition) || auction.condition == "All Conditions"
     end
-    parts.uniq! { |p| p.company_id }
-    parts.each do |part|
+    matches = parts.uniq { |p| p.company_id }
+    
+    matches.each do |part|
       Notification.create(company: part.company, auction: auction, message: message) unless part.company == auction_creator
       CompanyMailer.notify_of_opportunity(part.company, auction).deliver_later(wait: 5.minutes) unless part.company == auction_creator
     end
+    
+    AdminMailer.no_matches_for_auction(auction_creator, auction) if matches.count == 0
   end
 
   def self.notify_auctioner(auction, message)
