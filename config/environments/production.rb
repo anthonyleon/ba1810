@@ -79,4 +79,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # use this database for all heroku servers (i.e. live and staging)
+  ENV["DATABASE_URL"] = "postgres://fgedboaiwqoauo:bKDc34pLy-zRg-saxRG8ZgbKrk@ec2-54-243-249-56.compute-1.amazonaws.com:5432/dd383nftfiqrc9"
 end
