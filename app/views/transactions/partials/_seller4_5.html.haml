@@ -7,12 +7,25 @@
       - if !@transaction.tracking_num
         %h6.center-align Please confirm shipping details below
         %h6.center-align Carrier and tracking number are required for release of funds
+        -if @transaction.shipping_account
+          %br
+          %h6.center-align{style: "font-weight: bold; font-size: 20px;"}
+            Buyer would like to use their freight account.
+          .row
+            .col.s4.push-s4.left-align{style: "font-style: italic; font-size: 16px;"}
+              = "Carrier: #{@transaction.carrier}"
+            %br
+            .col.s4.left-align{style: "font-style: italic; font-size: 16px;"}
+              = "Account ##{@transaction.shipping_account}"
         = render 'shipment'
       - else
         -if !@transaction.shipped
           %h6.center-align Awaiting carrier to confirm shipment
           %h6.center-align Carrier and tracking number are required for release of funds
           %br/
+        -elsif @transaction.delivered
+          %h6.center-align{style: "color: green; font-weight: bold;"}
+            DELIVERED
         -else
           %h6.center-align Carrier has confirmed shipment
           %h6.center-align Please standby, Buyer has 3 days to approve part after delivery

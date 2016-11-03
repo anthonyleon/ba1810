@@ -63,7 +63,7 @@
               .shipping_account.col.s6.push-s3
                 %h6 Have a shipping account?
                 %input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
-                %label{:for => "filled-in-box"} Use your shipping / freight account?
+                %label{:for => "filled-in-box"} Use your shipping / freight account
             .row
               .form-container
                 = f.fields_for :transactions, remote: true do |cm|
