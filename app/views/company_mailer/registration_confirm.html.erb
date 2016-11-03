@@ -27,7 +27,8 @@
              <td style="padding: 20px 0 30px 0; font-family: Arial, sans-serif; font-size: 14px;">
              Please click this link to complete your registration:
              <br>
-              <%= "#{confirm_email_url(@company, @company.confirm_token, host: "bid-aero.herokuapp.com")}" %>
+             <br>
+             <a href = "https://bid-aero.herokuapp.com/companies/confirm_token.<%="#{@company.confirm_token}" %>">Company Registration Link</a>
              <br>
              <br>
               Congratulations on joining Bid Aero, a truly revolitionary tool built for the aviation industry!
