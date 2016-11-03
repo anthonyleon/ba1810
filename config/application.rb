@@ -37,7 +37,7 @@ module BidAero
     # set host for production email
     # config.action_mailer.default_url_options = { host: "http://bid-aero.herokuapp.com/" }
   #development
-    config.action_mailer.default_url_options = { host: "localhost:3000" }
+    # config.action_mailer.default_url_options = { host: "localhost:3000" }
     config.active_job.queue_adapter = :sidekiq
 
     # secret keys
