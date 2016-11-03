@@ -35,9 +35,9 @@ module BidAero
     config.active_record.raise_in_transactional_callbacks = true
     config.action_dispatch.default_headers = {'X-Frame-Options' => 'ALLOWALL'}
     # set host for production email
-    config.action_mailer.default_url_options = { host: "http://bid-aero.herokuapp.com/" }
+    # config.action_mailer.default_url_options = { host: "http://bid-aero.herokuapp.com/" }
   #development
-    # config.action_mailer.default_url_options = { host: "localhost:3000" }
+    config.action_mailer.default_url_options = { host: "localhost:3000" }
     config.active_job.queue_adapter = :sidekiq
 
     # secret keys
