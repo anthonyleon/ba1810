@@ -57,7 +57,7 @@ end
 
 
 group :development do
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'spring'
