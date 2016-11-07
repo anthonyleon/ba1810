@@ -29,6 +29,10 @@
   .shadow_section {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
+
+  .form-control {
+    height: 24px;
+  }
 }
 
 .part_form {
@@ -38,4 +42,15 @@
   .form-control {
     margin-right: 20px;
   }
+}
+
+
+#price_input::-moz-placeholder {
+    text-align: right;
+}
+#price_input:-ms-input-placeholder {
+    text-align: right;
+}
+#price_input::-webkit-input-placeholder {
+    text-align: right;
 }
