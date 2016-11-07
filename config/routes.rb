@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   get 'documents/create'
 
-  root 'session#new'
+  root 'pages#show'
 
   get 'signup' => 'company#new'
   get 'login' => 'session#new'
@@ -75,6 +75,9 @@ Rails.application.routes.draw do
 
   resources :company_docs
 
+  resource :pages, only: [:show]
+  get 'pricing', to: 'pages#pricing', as: 'pricing'
+  get 'features', to: 'pages#features', as: 'features'
 
 
   # resources :companies do
