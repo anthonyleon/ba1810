@@ -5,20 +5,22 @@
         Step 5: Tracking Details & Release of Funds
       .row
         %span.card-title.col.s12
-          %h6.required_date.center-align Carrier has confirmed delivery
+          %h5.required_date.center-align Carrier has confirmed delivery!
           %h6.required_date.center-align You have 3 days to approve or file a dispute on the order
           -if @release_payment_url
-            %span.right
-              %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-              %a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@release_payment_url}"}
-                / # =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
-                Release Funds
-            %span.left
-              %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-              %a.paymentInstructionsFrame-lightbox-preview.initiate-dispute-btn{"data-url" => "#{@dispute_transaction_url}"}
-                %i.material-icons.initiate-dispute-icon
-                  error_outline
-                Initiate Dispute
+            %br
+            .row
+              .col.s4.pull-s1.right
+                %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+                %a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@release_payment_url}"}
+                  / # =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
+                  Release Funds
+              .col.s4.push-s2.left
+                %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+                %a.paymentInstructionsFrame-lightbox-preview.initiate-dispute-btn{"data-url" => "#{@dispute_transaction_url}"}
+                  %i.material-icons.initiate-dispute-icon
+                    error_outline
+                  Initiate Dispute
           -elsif @transaction.disputed && !@transaction.dispute_settlement
             %br
             %div.center{style: "text-align: center; width: 427px; margin: auto;"}

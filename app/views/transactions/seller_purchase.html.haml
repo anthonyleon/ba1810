@@ -13,29 +13,38 @@
 
 		%div.checkout-status-bar
 			.checkout-wrap
-				%ul.checkout-bar
-					%li.generate-po-bubble.visited Review Purchase Order
-					-if !@transaction.invoice_num
+				
+				-if !@transaction.invoice_num
+					%ul.checkout-bar
+						%li.generate-po-bubble.visited Review Purchase Order
 						%li.confirm-sale-bubble.active Generate Invoice
 						%li.generate-invoice-bubble.next Awaiting Payment
 						%li.review-payment-bubble.next Commence Shipping
 						%li.track-shipping-bubble.next Release of Funds
-					-elsif @transaction.invoice_num && !@transaction.paid
+				-elsif @transaction.invoice_num && !@transaction.paid
+					%ul.checkout-bar
+						%li.generate-po-bubble.visited Review Purchase Order
 						%li.confirm-sale-bubble.visited Generate Invoice
 						%li.generate-invoice-bubble.active Awaiting Payment
 						%li.review-payment-bubble.next Commence Shipping
 						%li.track-shipping-bubble.next Release of Funds
-					-elsif @transaction.paid && !@transaction.delivered
+				-elsif @transaction.paid && !@transaction.delivered
+					%ul.checkout-bar
+						%li.generate-po-bubble.visited Review Purchase Order
 						%li.confirm-sale-bubble.visited Generate Invoice
 						%li.generate-invoice-bubble.visited Awaiting Payment
 						%li.review-payment-bubble.active Commence Shipping
 						%li.track-shipping-bubble.next Release of Funds
-					-elsif @transaction.delivered && !@transaction.complete
+				-elsif @transaction.delivered && !@transaction.complete
+					%ul.checkout-bar
+						%li.generate-po-bubble.visited Review Purchase Order
 						%li.confirm-sale-bubble.visited Generate Invoice
 						%li.generate-invoice-bubble.visited Awaiting Payment
 						%li.review-payment-bubble.visited Commence Shipping
 						%li.track-shipping-bubble.active Release of Funds
-					-elsif @transaction.complete
+				-elsif @transaction.complete
+					%ul.checkout-bar.done
+						%li.generate-po-bubble.visited Review Purchase Order
 						%li.confirm-sale-bubble.visited Generate Invoice
 						%li.generate-invoice-bubble.visited Awaiting Payment
 						%li.review-payment-bubble.visited Commence Shipping
@@ -138,32 +147,21 @@
 										= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
 								.form-container.destination-form
 									= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
-										-if !@transaction.shipping_account
-											.row
+										.row
+											-if !@transaction.shipping_account
 												.input-field.col.s4
 													.field.form-group
 														= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost" unless @transaction.shipping_account
-												-if @transaction.auction.resale_no
-													.input-field.col.s4
-														.field.form-group
-															= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
+											-if @transaction.auction.resale_no
 												.input-field.col.s4
 													.field.form-group
-														= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-											.actions{style: "margin-bottom: 20px;"}
-												= f.submit 'Submit', class: "btn custom-btn"
-										-else
-											.row
-												.input-field.col.s4.push-s1
-													.field.form-group
-														%h6.left-align Please enter Sales Tax (only if applicable)
-														= f.text_field :tax_rate, class: "form-control", :value => nil, placeholder: "Tax Rate (%)"
-												.input-field.col.s4.push-s3
-													.field.form-group
-														%h6.left-align Please confirm Invoice Number
-														= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-											.actions.center-align
-												= f.submit 'Submit', class: "btn custom-btn"
+														= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
+											.input-field.col.s4
+												.field.form-group
+													= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+										.actions{style: "margin-bottom: 20px;"}
+											= f.submit 'Submit', class: "btn custom-btn"
+										
 
 		-if !@transaction.paid
 			= render 'transactions/partials/seller4_5blur'
