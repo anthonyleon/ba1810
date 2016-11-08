@@ -4,12 +4,12 @@ class AuctionPart < ActiveRecord::Base
 
   def self.make(part, auction)
 	  self.create(
-	            part_num: 			part.part_num,
-	            init_price: 		part.manufacturer_price,
-	            description: 		part.description,
-	            manufacturer: 	part.manufacturer,
-	            auction:   			auction,
-	            part: 					part
+	            part_num: 			part[:part_num],
+	            init_price: 		part[:manufacturer_price],
+	            description: 		part[:description],
+	            manufacturer: 		part[:manufacturer],
+	            auction:   			auction
+	            # part: 				part
 	          )
 	end
 end
