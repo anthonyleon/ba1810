@@ -63,7 +63,6 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = false
-  # config.action_mailer.default_url_options = { :host => "shrouded-bastion-88554.herokuapp.com" }
   config.action_mailer.default_url_options = { :host => "bid-aero.herokuapp.com" }
 
 
@@ -80,4 +79,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # use this database for all heroku servers (i.e. live and staging)
+  ENV["DATABASE_URL"] = "postgres://fgedboaiwqoauo:bKDc34pLy-zRg-saxRG8ZgbKrk@ec2-54-243-249-56.compute-1.amazonaws.com:5432/dd383nftfiqrc9"
 end

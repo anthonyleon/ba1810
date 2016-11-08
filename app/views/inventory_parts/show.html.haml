@@ -20,18 +20,17 @@
         %br/
 
     = render 'documents/form', object: @inventory_part
-
-  %div.btn.custom-btn
-    %i.fa.fa-arrow-left
-    = link_to "Back", :back, class:"waves-effect waves-light"
-  - if @inventory_part.company == current_user
-    |
-    %div.btn.custom-btn
-      %i.fa.fa-pencil
-      = link_to 'Edit this inventory part', edit_inventory_part_path(@inventory_part)
-      / #{link_to 'Back to Inventory', inventory_parts_path} |
-      / #{link_to 'Back to Auction',auction_path(@bid.auction)}
-    -# else
-      / = link_to 'Back to Auction',auction_path(@bid.auction)
+  .row
+    %div.btn.custom-btn.left{style: "margin-left: 10px;"}
+      %i.fa.fa-arrow-left
+      = link_to "Back", :back, class:"waves-effect waves-light"
+    - if @inventory_part.company == current_user
+      %div.btn.custom-btn.right{style: "margin-right: 10px;"}
+        %i.fa.fa-pencil
+        = link_to 'Edit this inventory part', edit_inventory_part_path(@inventory_part)
+        / #{link_to 'Back to Inventory', inventory_parts_path} |
+        / #{link_to 'Back to Auction',auction_path(@bid.auction)}
+      -# else
+        / = link_to 'Back to Auction',auction_path(@bid.auction)
 
 

@@ -12,9 +12,18 @@ class AdminMailer < ApplicationMailer
     mail to: 'support@bid.aero', subject: "Somebudy uploaded a resale certificate."
   end
 
-  def registration_confirm(company)
+  def new_register(company)
     @company = company
 
-    mail to: @company.email, subject: "BID.AERO Registration Confirmation"
+    mail to: 'support@bid.aero', subject: "New Client Registration"
   end
+
+  def no_matches_for_auction(company, auction)
+    #company who created the auction
+    @company = company
+    @auction = auction
+
+    mail to: 'support@bid.aero', subject: "No Matches To A New Auction"
+  end
+
 end

@@ -48,6 +48,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'launchy'
   gem 'factory_girl_rails'
+  gem 'rails-erd'
 end
 
 group :production do
