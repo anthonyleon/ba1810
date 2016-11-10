@@ -7,11 +7,9 @@ class AvRefApi
 		request_type = 'partnum'
 		search_value = part_number
 		if part = Part.find_by(part_num: part_number.upcase)
-			p "***"*80
 			return part_match_found = { part_num: part.part_num, description: part.description, 
 				manufacturer: part.manufacturer, manufacturer_price: part.manufacturer_price }
 		else
-			p "+++"*80
 			response = HTTParty.get("http://www.avrefweb.com/Service/#{ENV['AV_REF_KEY']}/#{request_type}/#{search_value}")
 			# I don't know if this is the best check
 			## bad response response.empty? == true
@@ -32,6 +30,13 @@ class AvRefApi
 		        )
 			end	
 		end
+	end
+
+
+	def self.check_for_alternates(part_number)
+		request_type = 'alternates'
+		search_value = part_number
+		response = HTTParty.get("http://www.avrefweb.com/Service/#{ENV['AV_REF_KEY']}/#{request_type}/#{search_value}")
 	end
 
 end
