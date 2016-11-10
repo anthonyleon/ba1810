@@ -53,7 +53,7 @@ class ArmorPaymentsApi
       "pays_fees" => 'Buyer',
       "fees" => [ {
         "amount" => transaction.bid_aero_fee.round(2),
-        "account_id" => "160429190641",
+        "account_id" => ENV["PAYONEER_ACCOUNT_ID"],
         "paid_by" => 'Buyer',
         "description" => 'Transaction'
       } ]
