@@ -21,20 +21,20 @@ class InventoryPartsController < ApplicationController
 
   def create
     @inventory_part = InventoryPart.new(inventory_part_params)
-    @part_match = Part.find_by(part_num: @inventory_part.part_num)
+
+    part_match = AvRefApi.part_num_check(@inventory_part.part_num)
 
     respond_to do |format|
-      if @part_match
-        InventoryPart.build_inv_part(@part_match, @inventory_part)
+      if part_match
+        @inventory_part.add_part_details(part_match, current_user)
 
-        @inventory_part.part = @part_match
-        @inventory_part.company = current_user
         unless @inventory_part.save
           format.html { render :new }
         end
         format.html { redirect_to @inventory_part, notice: 'Inventory part was successfully created.' }
         format.json { render :show, status: :created, location: @inventory_part }
       else
+        flash[:error] = "Part number is not valid"
         format.html { redirect_to new_inventory_part_path, alert: 'Part Number was not valid.' }
       end
     end
