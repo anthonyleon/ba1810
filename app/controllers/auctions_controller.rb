@@ -24,18 +24,21 @@ class AuctionsController < ApplicationController
 
   def create
     @auction = Auction.new(auction_params)
-    @part_match = Part.find_by(part_num: @auction.part_num)
+    # @part_match = Part.find_by(part_num: @auction.part_num)
+    part_match = AvRefApi.part_num_check(@auction.part_num)
     @auction.resale_check
     respond_to do |format|
 
-      if @part_match
-          AuctionPart.make(@part_match, @auction)
+      if part_match
+          AuctionPart.make(part_match, @auction)
           @auction.company = current_user
+          @auction.part_num.upcase!
           @auction.save
           Notification.notify_of_opportunities(@auction, current_user, "You have a new opportunity to sell!")
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
+        flash[:error] = "Part number is not valid"
         format.html { redirect_to new_auction_path, alert: 'That part does not exist in our database.' }
       end
     end
