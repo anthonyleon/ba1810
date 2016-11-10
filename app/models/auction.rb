@@ -9,6 +9,9 @@ class Auction < ActiveRecord::Base
   
   serialize :condition, Array
 
+  accepts_nested_attributes_for :tx
+
+  
   def self.conditions
     %w(recent overhaul as_removed serviceable non_serviceable scrap)
   end
@@ -17,7 +20,7 @@ class Auction < ActiveRecord::Base
     condition.to_a
   end
 
-  accepts_nested_attributes_for :tx
+  
 
   def resale_check
     if self.resale_status == "Yes"

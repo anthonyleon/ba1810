@@ -44,9 +44,9 @@ class InventoryPartsController < ApplicationController
   def import
     @import = InventoryPart.import(params[:file], current_user)
     if @import.size == 2
-      flash[:error] = "#{@import[1]} does not exist."
-      redirect_to new_inventory_part_path
-    elsif @import[0] == 0
+      flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
+      redirect_to new_inventory_part_path(current_user)
+    elsif @import.empty?
       redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
     elsif @import.size == 1
       redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
