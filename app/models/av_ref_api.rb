@@ -32,7 +32,6 @@ class AvRefApi
 		end
 	end
 
-
 	def self.check_for_alternates(part_number)
 		request_type = 'alternates'
 		search_value = part_number
