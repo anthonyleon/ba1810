@@ -97,7 +97,7 @@ class TransactionsController < ApplicationController
         p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
-        CompanyMailer.send_escrow_money(@transaction.bid, @transaction.buyer).deliver_now
+        CompanyMailer.send_escrow_money(@transaction, @transaction.buyer).deliver_now
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.", transaction: @transaction)
 
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
@@ -139,7 +139,7 @@ class TransactionsController < ApplicationController
 
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
-    Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.", transaction: @transaction) unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
+    CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_now && Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.", transaction: @transaction) unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
