@@ -1,9 +1,6 @@
 //= require ./landing/jquery-1.11.2.min
 //= require ./landing/jquery.easing.1.3
 //= require ./landing/bootstrap.min
-//= require ./landing/SmoothScroll
-//= require ./landing/jquery.scrollTo.min
-//= require ./landing/jquery.localScroll.min
 //= require ./landing/jquery.viewport.mini
 //= require ./landing/jquery.countTo
 //= require ./landing/jquery.appear
