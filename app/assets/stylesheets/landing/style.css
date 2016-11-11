@@ -190,6 +190,7 @@ nav.main-nav.stick-fixed.js-transparent.small-height {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	width:100%;
 }
+
 .container-fluid{
     max-width: 1170px;
     margin: 0 auto;
@@ -219,7 +220,7 @@ html, body{
     margin-left: -24px;
 }
 
-.col-md-7.heading {
+.col-md-6.heading {
     border-right: 1px solid green;
     border-left: 1px solid green;
 }
@@ -447,12 +448,21 @@ body{
 }
 
 a{
-	color: #111;
-	text-decoration: underline;
+	color: #999;
 }
 a:hover{
+  cursor: pointer;
 	color: #888;
-	text-decoration: underline;
+  text-decoration: none;
+}
+
+ul.footernav.navigation{
+  padding-left: 0 !important;
+  text-align: center;
+}
+
+.footernav.center{
+  text-align: center;
 }
 
 h1,h2,h3,h4,h5,h6{

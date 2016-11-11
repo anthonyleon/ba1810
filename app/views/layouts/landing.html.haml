@@ -41,19 +41,19 @@
                 / Main Menu
                 .col-md-8.responsive
                   .inner-nav.desktop-nav
-                    %ul.clearlist.scroll-nav.local-scroll
+                    %ul.clearlist.scroll-nav
                       %li.active
-                        %a{:href => "#top"} HOME
-                      %li
-                        %a{:href => "#about"} ABOUT
-                      %li
-                        %a{:href => "#infographic"} INFO GRAPHIC
-                      %li
-                        %a{:href => "#contact"} CONTACT
+                        %a{:href => root_path} HOME
+                      / %li
+                      /   %a{:href => "#about"} ABOUT
+                      / %li
+                      /   %a{:href => "#infographic"} INFO GRAPHIC
+                      / %li
+                      /   %a{:href => "#contact"} CONTACT
                       %li
                         %a{:href => "/features#key"} FEATURES
-                      %li
-                        %a{:href => "/#howitworks"} HOW IT WORKS
+                      / %li
+                      /   %a{:href => "/#howitworks"} HOW IT WORKS
                       %li
                         %a{:href => "/pricing"} PRICING
                 .col-md-4
@@ -94,13 +94,18 @@
         .row
           .col-md-12
             .newsletter-label.font-alt
-              .col-md-2.heading
-                %h4 NAVIGATION
-                %ul
-                  %li.footernav HOME
-                  %li.footernav FEATURES
-                  %li.footernav PRICING
-              .col-md-7.heading
+              .col-md-3.heading
+                %ul.footernav.navigation
+                  %li.footernav.center
+                    %h4{style: "color: white;"}
+                      NAVIGATION                    
+                  %li.footernav.center 
+                    %a{:href => root_path} HOME
+                  %li.footernav.center
+                    %a{:href => "/features#key"} FEATURES
+                  %li.footernav.center 
+                    %a{:href => "/pricing"} PRICING
+              .col-md-6.heading
                 %h4 PAYMENTS ACCEPTED
                 %p.paymentstyle We accept various payment methods to ensure quick and safe access to our global aircraft parts locating system.
                 .form-tip
