@@ -4,7 +4,7 @@ class SessionController < ApplicationController
 
 
   def new
-    redirect_to home_path if current_user
+    redirect_to dashboard_path if current_user
   end
 
   def create
@@ -15,7 +15,7 @@ class SessionController < ApplicationController
       session[:company_id] = @company.id
       #flash.now[:notice] = "Welcome #{@company.name}"
       #flash.keep
-      redirect_to home_path, flash: { success: "Successfully logging in #{@company.name}" }
+      redirect_to dashboard_path, flash: { success: "Successfully logging in #{@company.name}" }
       # if !@company.armor_account_id
       #   @company.update(company_params)
       #   set_armor_client

@@ -30,7 +30,7 @@
           %ul#nav-buttons.right.hide-on-med-and-down
             - notification = Notification.any_unread?(current_user)
             %li
-              = link_to root_path, style: 'display: flex;',  class: "top-nav-icons" do
+              = link_to dashboard_path, style: 'display: flex;',  class: "top-nav-icons" do
                 %i.material-icons{style: 'font-size: 24px'}
                   dashboard     
             - if Notification.any_unread?(current_user)
@@ -49,7 +49,7 @@
             %li
               = link_to "Log out", logout_path, style: 'display: flex;', class: "top-nav-icons"
           %span.company-logo
-            %a{:href => root_path}
+            %a{:href => dashboard_path}
               = image_tag("/images/bid_aero_logo.png")
           %span#button.right.hide-on-med-and-down{style: "margin-right: 15px;"}
             %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
