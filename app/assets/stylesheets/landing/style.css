@@ -253,8 +253,8 @@ img.fooger {
 }
 button.btn.btn-mod.btn-medium.btn-round.mb-xs-5 {
 		background: green;
-	    padding: 55px 11px;
-		margin-top:-45px;
+	    padding: 32px 11px;
+		margin-top:10px;
 }
 .pb-60 {
     padding: 34px 0px !important;
