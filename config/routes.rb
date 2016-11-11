@@ -39,7 +39,7 @@ end
 
   get 'documents/create'
 
-  root 'session#new'
+  root 'pages#show'
 
   get 'signup' => 'company#new'
   get 'login' => 'session#new'
@@ -91,6 +91,9 @@ end
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
 
+  resource :pages, only: [:show]
+  get 'pricing', to: 'pages#pricing', as: 'pricing'
+  get 'features', to: 'pages#features', as: 'features'
 
 
   # resources :companies do

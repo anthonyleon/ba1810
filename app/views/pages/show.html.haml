@@ -1,0 +1,80 @@
+%section#home.home-section.bg-dark-alfa-90{"data-background" => asset_path("full-width-images/slider1.png")}
+  .js-height-full
+    .col-md-8.col-md-offset-2.align-center
+      .col-md-8.col-md-offset-2.slide1
+        %form.form-inline.part_form
+          .form-group
+            %input.newsletter-field.form-control.input-md.round.mb-xs-10{:pattern => ".{5,100}", :placeholder => "ENTER CRITERIA", :required => "", :type => "email"}/
+          .form-group
+            %select.form-control.silver{"ng-model" => "discussionsSelect"}
+              %option{:value => "PART NUMBER"} PART NO
+              %option{:value => "+91"} +91
+              %option{:value => "+910"} +910
+              %option{:value => "+915"} +915
+          %button.btn.btn-mod.btn-medium.btn-round.round.mb-xs-1.silver{:type => "submit"}
+            SEARCH
+        .newsletter-label.font-alt
+          .heading1
+            %p LOCATE YOUR PART NOW
+    .local-scroll
+      %a{:href => "#about"}
+        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+%section#about.shadow_section.page-section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/section-bg-26.png")}
+  .container.relative
+    .row
+      .col-md-6
+      .col-sm-6
+        .mt-140.mt-lg-80.mb-140.mb-lg-80
+          .banner-content
+            %h1.marginbo BID AERO IS...
+            .banner-decription
+              A sourcing and procurement platform that utilizes a reverse auction business model. Reverse auction flips the traditional roles of buyer and vendor to create healthy competition for your benefit. The buyer simply requests a part and allows the vendors to compete against each other to make the sale. ensuring fair marker value for the sourced item. By implementing a supply chain adopted from Fortune 100 companies that meets ISM standards. Bid Aero provides the most efficient and transparent way to source the parts you need.
+%section#infographic.page-section.shadow_section
+  .container.relative
+    %h2.section-title.font-alt.mb-70.mb-sm-40
+    %p{:style => "color: #4881bd;"} HOW IT WORKS
+    / Features Grid
+    .row.multi-columns-row.alt-features-grid
+      / Features Item
+      .col-sm-6.col-md-4.col-lg-4
+        .alt-features-item.align-center
+          .alt-features-icon
+            %img.services{:src => asset_path("service/4.png")}/
+          %h6.alt-features-title.font-alt SEARCH FOR YOUR PART
+      / End Features Item
+      / Features Item
+      .col-sm-6.col-md-4.col-lg-4
+        .alt-features-item.align-center
+          .alt-features-icon
+            %img.services{:src => asset_path("service/1.png")}/
+          %h6.alt-features-title.font-alt FOUND RIGHT PART
+      / End Features Item
+      / Features Item
+      .col-sm-6.col-md-4.col-lg-4
+        .alt-features-item.align-center
+          .alt-features-icon
+            %img.services{:src => asset_path("service/6.png")}/
+          %h6#margin.alt-features-title.font-alt SEND MONEY TO ESCROW ACCOUNT
+    / End Features Item
+    %h2.section-title.font-alt.mb-70.mb-sm-40
+      %span{:style => "color: #4881bd;"} WHEN YOU SELL
+    / Features Item
+    .col-sm-6.col-md-4.col-lg-4
+      .alt-features-item1.align-center
+        .alt-features-icon
+          %img.services{:src => asset_path("service/2.png")}/
+        %h6.alt-features-title.font-alt NEW SALES OPPORTUNITY
+    / End Features Item
+    / Features Item
+    .col-sm-6.col-md-4.col-lg-4
+      .alt-features-item1.align-center
+        .alt-features-icon
+          %img.services{:src => asset_path("service/3.png")}/
+        %h6.alt-features-title.font-alt SHIP YOUR PART
+    / End Features Item
+    / Features Item
+    .col-sm-6.col-md-4.col-lg-4
+      .alt-features-item1.align-center
+        .alt-features-icon
+          %img.services{:src => asset_path("service/5.png")}/
+        %h6.alt-features-title.font-alt RECIEVE PAYMENT
