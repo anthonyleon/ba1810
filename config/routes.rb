@@ -57,7 +57,7 @@ end
   get 'sales' => 'companies#sales', as: 'sales'
   get 'pending_purchases' => 'companies#pending_purchases', as: 'pending_purchases'
   get 'purchases' => 'companies#purchases', as: 'purchases'
-  get 'dashboard' => 'companies#show', as: 'home'
+  get 'dashboard' => 'companies#show', as: 'dashboard'
   get 'company/edit' => 'companies#edit', as: 'edit_company'
 
   post 'payment' => 'bids#release_payment', as: 'payment'

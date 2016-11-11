@@ -11,7 +11,7 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 
-Rails.application.config.assets.precompile += %w( auctions.js errors.css )
+Rails.application.config.assets.precompile += %w( auctions.js errors.css erd/cancel.png erd/background.png )
 Rails.application.config.assets.precompile += %w( landing.js )
 Rails.application.config.assets.precompile += %w( landing.css )
 

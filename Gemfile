@@ -41,6 +41,7 @@ gem 'sweetalert-rails'
 gem 'httparty'
 gem 'nokogiri'
 gem 'useragent'
+gem 'sprockets'
 
 group :development, :test do
   gem "erb2haml", :group => :development
