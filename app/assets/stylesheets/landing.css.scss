@@ -1,0 +1,56 @@
+@import "landing/bootstrap.min";
+@import "landing/YTPlayer";
+@import "landing/animate.min";
+@import "landing/et-line";
+@import "landing/font-awesome.min";
+@import "landing/magnific-popup";
+@import "landing/owl.carousel";
+@import "landing/owl.transitions";
+@import "landing/rev-slider";
+@import "landing/simpletextrotator";
+@import "landing/style-responsive";
+@import "landing/style";
+@import "landing/vertical-rhythm.min";
+
+.login_landing_form {
+	input {
+    margin-top: 0px;
+  }
+  label {
+    margin-bottom: 0px;
+  }
+
+  .reset_link {
+    color: white; 
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .shadow_section {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .form-control {
+    height: 24px;
+  }
+}
+
+.part_form {
+  .newsletter-field {
+    width: 100%;
+  }
+  .form-control {
+    margin-right: 20px;
+  }
+}
+
+
+#price_input::-moz-placeholder {
+    text-align: right;
+}
+#price_input:-ms-input-placeholder {
+    text-align: right;
+}
+#price_input::-webkit-input-placeholder {
+    text-align: right;
+}
