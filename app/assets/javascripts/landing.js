@@ -7,6 +7,8 @@
 //= require ./landing/jquery.sticky
 //= require ./landing/jquery.parallax-1.1.3
 //= require ./landing/jquery.fitvids
+//= require ./landing/jquery.scrollTo.min
+//= require ./landing/jquery.localScroll.min
 //= require ./landing/owl.carousel.min
 //= require ./landing/isotope.pkgd.min
 //= require ./landing/imagesloaded.pkgd.min
