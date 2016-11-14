@@ -26,6 +26,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 gem 'maskedinput-rails'
 gem 'maskmoney-rails'
+gem 'httparty'
 
 gem 'simple_form', '~> 3.2'
 # Utilities

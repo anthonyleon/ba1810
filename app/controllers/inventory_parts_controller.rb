@@ -21,20 +21,20 @@ class InventoryPartsController < ApplicationController
 
   def create
     @inventory_part = InventoryPart.new(inventory_part_params)
-    @part_match = Part.find_by(part_num: @inventory_part.part_num)
+
+    part_match = AvRefApi.part_num_check(@inventory_part.part_num)
 
     respond_to do |format|
-      if @part_match
-        InventoryPart.build_inv_part(@part_match, @inventory_part)
+      if part_match
+        @inventory_part.add_part_details(part_match, current_user)
 
-        @inventory_part.part = @part_match
-        @inventory_part.company = current_user
         unless @inventory_part.save
           format.html { render :new }
         end
         format.html { redirect_to @inventory_part, notice: 'Inventory part was successfully created.' }
         format.json { render :show, status: :created, location: @inventory_part }
       else
+        flash[:error] = "Part number is not valid"
         format.html { redirect_to new_inventory_part_path, alert: 'Part Number was not valid.' }
       end
     end
@@ -44,9 +44,9 @@ class InventoryPartsController < ApplicationController
   def import
     @import = InventoryPart.import(params[:file], current_user)
     if @import.size == 2
-      flash[:error] = "#{@import[1]} does not exist."
-      redirect_to new_inventory_part_path
-    elsif @import[0] == 0
+      flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
+      redirect_to new_inventory_part_path(current_user)
+    elsif @import.empty?
       redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
     elsif @import.size == 1
       redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
