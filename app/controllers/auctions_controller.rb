@@ -34,7 +34,7 @@ class AuctionsController < ApplicationController
           @auction.company = current_user
           @auction.part_num.upcase!
           @auction.save
-          Notification.notify_of_opportunities(@auction, current_user, "You have a new opportunity to sell!")
+          Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
           format.json { render :show, status: :created, location: @auction }
       else
