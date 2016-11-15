@@ -27,6 +27,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'maskedinput-rails'
 gem 'maskmoney-rails'
 gem 'httparty'
+gem 'bootstrap-sass'
 
 gem 'simple_form', '~> 3.2'
 # Utilities
