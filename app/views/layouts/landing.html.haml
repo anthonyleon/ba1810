@@ -63,9 +63,9 @@
                     = form_for(:login, url: login_path, class: "formhead") do |f|
                       .col-md-5.color-white
                         %label.username{:for => "name"} User Name
-                        = f.text_field :email, class: "validate input-md round form-control", id: 'email'
-                        %input.Remember{:type => "checkbox"}/
-                        Remember Me
+                        = f.text_field :email, class: "validate", id: 'email', class: "input-md round form-control"
+                        -# %input.Remember{:type => "checkbox"}/
+                        -# Remember Me
                       .col-md-5.color-white
                         %label.password{:for => "pass"} Password
                         = f.password_field :password, class: "validate input-md round form-control"
@@ -113,8 +113,7 @@
                 .form-tip
                   %ul.cnss-social-icon{:id => "", :style => "text-align:center;margin-right: 40px;"}
                     %li.Instagram{:style => " display:inline-block;"}
-                      %a{:href => "#", :target => "_blank", :title => "Instagram"}
-                        %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/pricing_bid-Aero_03.png"), :style => " margin:0px;max-width: 118px;", :width => "200"}/
+                      %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/pricing_bid-Aero_03.png"), :style => " margin:0px;max-width: 118px;", :width => "200"}/
                   #subscribe-result
               .col-md-3.heading
                 %h4 FOLLOW
@@ -146,7 +145,7 @@
               .col-md-3.heading.white
                 %h4 CONTACT US
                 %ul
-                  %li.footernav Please fill the form or reach us directly at +1 305.726.8867
+                  %li.footernav Please fill the form or reach us directly at support@bid.aero
               .col-md-2.heading
                 .form-group
                   %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Enter Name", :required => "", :type => "text"}/
@@ -174,7 +173,7 @@
           %a{:href => "#top"}
             %img.fooger{:src => asset_path("bid/logo_bid1.png")}/
         .footer-copy.font-alt
-          %a{:href => "#", :target => "_blank"}> © Bid Aero INC 2016  |  Terms | contact us 1800.000.0000
+          %a{:href => "#", :target => "_blank"}> © Bid Aero INC 2016  |  Terms | contact us support@bid.aero
           \.
         / End Copyright
       / End Footer Text

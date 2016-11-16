@@ -81,5 +81,4 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # use this database for all heroku servers (i.e. live and staging)
-  
 end
