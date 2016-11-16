@@ -21,7 +21,7 @@
   }
 
   .reset_link {
-    color: white; 
+    color: white;
     white-space: nowrap;
     text-decoration: none;
   }
@@ -44,6 +44,19 @@
   }
 }
 
+img.featurespc {
+	margin-left: 90px;
+	margin-top: 0px;
+	margin-bottom: 40px;
+}
+
+h4.title {
+  text-align: left;
+  color: black;
+  margin-left: 2.3em;
+  white-space: nowrap;
+  margin-bottom: -9px !important;
+}
 
 #price_input::-moz-placeholder {
     text-align: right;
