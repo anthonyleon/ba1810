@@ -1,4 +1,3 @@
-//= stub "landing"
 //= require jquery
 //= require jquery_ujs
 //= require sweetalert
@@ -8,7 +7,7 @@
 //= require maskedinput
 //= require maskmoney
 //= require_tree .
-
+//= stub "landing"
 
 
 $(document).ready(function() {
