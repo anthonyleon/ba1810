@@ -233,12 +233,12 @@
 
           price.total_fee = price.armor_fee + price.bid_aero_fee;
 
-          var totalAmount = part_price + price.total_fee;
-          var totalAmountFixedVal = parseFloat(totalAmount).toFixed(2);
-          var totalAmoutVal = toFixedNumber(totalAmountFixedVal);
+          var totalFee = price.total_fee;
+          var totalFeeFixedVal = parseFloat(totalFee).toFixed(2);
+          var totalFeeVal = toFixedNumber(totalFeeFixedVal);
 
 
-          document.getElementById("transactionFee").innerHTML = '$'+totalAmoutVal;
+          document.getElementById("transactionFee").innerHTML = '$'+totalFeeVal;
       } else {
           document.getElementById("transactionFee").innerHTML = '$0.00';
       }
