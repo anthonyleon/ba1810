@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Welcome to Bid Aero</title>
+  <title>Welcome to Bid Aero <%="#{@company.name}"%></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body style="margin: 0; padding: 0;">
@@ -12,7 +12,7 @@
      <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: 1px solid #cccccc; ">
        <tr>
          <td align="center" bgcolor="#ffffff" style="padding: 20px 0 30px 0;">
-         <img src="headerforemail.jpg" width="600" height="230" style="display: block;" />
+         <%= email_image_tag("headerforemail.jpg") %>
          </td>
        </tr>
        <tr>
@@ -20,12 +20,18 @@
            <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
              <td style="color: #153643; font-family: Arial, sans-serif; font-size: 18px;">
-              Lorem ipsum dolor sit amet!
+              Welcome to Bid Aero <b><%="#{@company.name}"%></b>
              </td>
             </tr>
             <tr>
              <td style="padding: 20px 0 30px 0; font-family: Arial, sans-serif; font-size: 14px;">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat.
+             Please click this link to complete your registration:
+             <br>
+             <br>
+             <a href = "https://bid-aero.herokuapp.com/companies/confirm_email.<%="#{@company.confirm_token}" %>">Company Registration Link</a>
+             <br>
+             <br>
+              Congratulations on joining Bid Aero, a truly revolitionary tool built for simplifying the buying and selling procees in the aviation industry.
              </td>
             </tr>
             <tr>
@@ -36,12 +42,12 @@
                   <table border="0" cellpadding="0" cellspacing="0" width="100%">
                    <tr>
                     <td>
-          <img src="Screen Shot 2016-10-22 at 11.31.22 AM.png" width="250" height="250" />
+                    <%= email_image_tag("buyinfographicemail.jpg") %>
                     </td>
                    </tr>
                    <tr>
                     <td style="padding: 25px 0 0 0; font-family: Arial, sans-serif; font-size: 14px">
-                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat.
+                     In this industry time is money.  You don't have time to sit around and send emails to receive quotes from multiple suppliers.  Using Bid Aero, you can simply search for any part that you need, and suppliers will compete against each other to give you the best possible deal.  Once you find the right part at the right price, your funds will be sent to our escrow account and will only be disbursed if you are completely happy with the part you received.
                     </td>
                    </tr>
                   </table>
@@ -53,13 +59,12 @@
                   <table border="0" cellpadding="0" cellspacing="0" width="100%">
                    <tr>
                     <td>
-                <img src="Screen Shot 2016-10-22 at 11.31.22 AM.png" width="250" height="250" />
-
+                    <%= email_image_tag("buyinfographicemail.jpg") %>
                     </td>
                    </tr>
                    <tr>
                     <td style="padding: 25px 0 0 0; font-family: Arial, sans-serif; font-size: 14px">
-                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat.
+                     As a seller, Bid Aero gives you a global reach and possibilities are endless.  You can now host your inventory completely free of charge and receive notifications when someone is searching for a part that you have in inventory.  You no longer have to worry about selling to customers who may not pay you.  Every time you make a sale, the buyer's funds will be held in an escrow account.  Once the verification is made, then you will prompted to ship the part.  
                     </td>
                    </tr>
                   </table>
@@ -73,7 +78,7 @@
        </tr>
        <tr>
          <td style="padding: 30px 30px 30px 30px;">
-         <img src="Footernotification.jpg" width="600" height="100" />
+         <%= email_image_tag("bidaerofooter.jpg") %>
          </td>
        </tr>
      </table>
