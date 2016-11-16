@@ -28,8 +28,8 @@ Rails.application.configure do
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  # Fallback to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = true
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
@@ -81,5 +81,4 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # use this database for all heroku servers (i.e. live and staging)
-  ENV["DATABASE_URL"] = "postgres://fgedboaiwqoauo:bKDc34pLy-zRg-saxRG8ZgbKrk@ec2-54-243-249-56.compute-1.amazonaws.com:5432/dd383nftfiqrc9"
 end

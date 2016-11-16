@@ -15,7 +15,8 @@ $(document).on('ready page:load', function() {
 	".freight_num",
 	".shipping-acct-btn",
 	".proceed",
-	".purchase-order-confirmation"
+	".purchase-order-confirmation",
+	"#import-btn"
 	]
 	.forEach(function(f) {
 		$(f).hide();
@@ -108,7 +109,11 @@ $(document).on('ready page:load', function() {
       });
   });
 
-
+// inventory part new page
+  $('select').material_select();
+  $('#file').click(function(){
+    $('#import-btn').show(200);
+  });
 
 });
 

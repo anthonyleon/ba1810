@@ -26,6 +26,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 gem 'maskedinput-rails'
 gem 'maskmoney-rails'
+gem 'httparty'
+gem 'bootstrap-sass'
 
 gem 'simple_form', '~> 3.2'
 # Utilities
@@ -40,6 +42,7 @@ gem 'sweetalert-rails'
 gem 'httparty'
 gem 'nokogiri'
 gem 'useragent'
+gem 'sprockets'
 
 group :development, :test do
   gem "erb2haml", :group => :development
