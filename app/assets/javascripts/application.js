@@ -7,7 +7,6 @@
 //= require maskedinput
 //= require maskmoney
 //= require_tree .
-//= stub "landing"
 
 
 $(document).ready(function() {
