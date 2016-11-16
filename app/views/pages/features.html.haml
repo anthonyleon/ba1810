@@ -29,26 +29,36 @@
         %a{"data-toggle" => "tab", :href => "#ASSET"} ASSET LISTING
       %li
         %a{"data-toggle" => "tab", :href => "#FINANCIAL"} FINANCIAL TRACKING
-    .col-md-6.banner-image.wow.fadeInUp{"data-wow-duration" => "1.2s"}
-      %img{:alt => "", :src => asset_path("full-width-images/pc.png"), :style => ""}/
-    .col-sm-6
-      .mt-140.mt-lg-80.mb-140.mb-lg-80
+    .col-sm-12
+      .mt-40.mt-lg-80.mb-140.mb-lg-80
         .tab-content
           #REVERSE.tab-pane.fade.in.active
+            .col-md-6.banner-image.wow.fadeInUp{"data-wow-duration" => "1.2s"}
+              %img.featurespc{:alt => "", :src => asset_path("full-width-images/pc1.png"), :style => ""}/
             %h1.marginbo REVERSE AUCTION
             %p.tit1 Ensure affordability and efficiency with our Reverse Auction approach. When the roles of buyer and seller are flipped, healthy competition ensures fair market value.
           #POTENTIAL.tab-pane.fade
+            .col-md-6.banner-image
+              %img.featurespc{:alt => "", :src => asset_path("full-width-images/pc2.png"), :style => ""}/
             %h1.marginbo POTENTIAL SALE NOTIFICATION
             %p.tit1 As users search for parts, vendors with the required part are notified of the sale opportunity. This reduces time spent searching for leads and provides vendors with a larger reach of customers.
           #SECURE.tab-pane.fade
+            .col-md-6.banner-image
+              %img.featurespc{:alt => "", :src => asset_path("full-width-images/pc3.png"), :style => ""}/
             %h1.marginbo SECURE PAYMENT
             %p.tit1 Protecting both buyers and vendors is our #1 priority. Every payment is transferred into escrow prior to shipment to ensure that the seller will receive payment. This safeguard also protects the buyer since they must approve the part after delivery so funds can be released from the escrow account. All disputes are handled by Bid Aero, Inc. & NetNeutrals.com.
           #INVENTORY.tab-pane.fade
+            .col-md-6.banner-image
+              %img.featurespc{:alt => "", :src => asset_path("full-width-images/pc4.png"), :style => ""}/
             %h1.marginbo INVENTORY LISTING
             %p.tit1 Bid Aero allows you to list all your parts by CSV, excel, or simply send us an email at support@bid.aero. Once the parts are uploaded, users can manage inventory and attach traceability documents to each part to accelerate the bidding process.
           #ASSET.tab-pane.fade
+            .col-md-6.banner-image
+              %img.featurespc{:alt => "", :src => asset_path("full-width-images/pc5.png"), :style => ""}/
             %h1.marginbo ASSET LISTING
             %p.tit1 Listing an Aircraft or Engine for sale or lease has never been easier. Market any available asset for free on Bid Aero. Users can manage their listings directly in their account and upload documents on each individual aircraft or engine available giving them a greater reach.
           #FINANCIAL.tab-pane.fade
+            .col-md-6.banner-image
+              %img.featurespc{:alt => "", :src => asset_path("full-width-images/pc6.png"), :style => ""}/
             %h1.marginbo FINANCIAL TRACKING
             %p.tit1 We understand the importance of visually understanding your company’s cash flow patterns, which is why we provide the ability to easily review past purchases and sales with an organized view.
