@@ -66,7 +66,17 @@ class InventoryPart < ActiveRecord::Base
     end
   end
   
+#for an individually uploaded part
+  def add_part_details part_match, user
+    part = Part.find_by(part_num: part_match[:part_num].upcase)
 
+    self.description = part_match[:description]
+    self.part = part
+    self.part_num.upcase!
+    self.company = user
+  end
+
+#for an imported file
   def self.build_inv_part part_match, inventory_part
     inventory_part.description = part_match[:description]
     inventory_part.manufacturer.upcase!

@@ -16,7 +16,10 @@ class AvRefApi
 			## good response response.empty? == false
 			part_match_found = !response.empty?		
 			if part_match_found 
+				p response
+				p "*****" * 80
 				response[0]["MfgPrice"].slice!("$")
+				
 
 				part_match_found = {part_num: response[0]["PartNum"], description: response[0]["Description"], 
 					manufacturer: response[0]["Manufacturer"], manufacturer_price: response[0]["MfgPrice"].to_d }
