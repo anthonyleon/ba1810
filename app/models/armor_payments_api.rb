@@ -1,5 +1,9 @@
 class ArmorPaymentsApi
-  CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
+  if ENV['ARMOR_SANDBOX_BOOLEAN'] == "true"
+    CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
+  else
+    CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'])
+  end
 
 
   def self.get_account(account_id)
@@ -53,7 +57,7 @@ class ArmorPaymentsApi
       "pays_fees" => 'Buyer',
       "fees" => [ {
         "amount" => transaction.bid_aero_fee.round(2),
-        "account_id" => "160429190641",
+        "account_id" => ENV["PAYONEER_ACCOUNT_ID"],
         "paid_by" => 'Buyer',
         "description" => 'Transaction'
       } ]

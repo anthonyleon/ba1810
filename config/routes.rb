@@ -39,7 +39,7 @@ end
 
   get 'documents/create'
 
-  root 'session#new'
+  root 'pages#show'
 
   get 'signup' => 'company#new'
   get 'login' => 'session#new'
@@ -57,7 +57,7 @@ end
   get 'sales' => 'companies#sales', as: 'sales'
   get 'pending_purchases' => 'companies#pending_purchases', as: 'pending_purchases'
   get 'purchases' => 'companies#purchases', as: 'purchases'
-  get 'home' => 'companies#show', as: 'home'
+  get 'dashboard' => 'companies#show', as: 'dashboard'
   get 'company/edit' => 'companies#edit', as: 'edit_company'
 
   post 'payment' => 'bids#release_payment', as: 'payment'
@@ -91,6 +91,9 @@ end
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
 
+  resource :pages, only: [:show]
+  get 'pricing', to: 'pages#pricing', as: 'pricing'
+  get 'features', to: 'pages#features', as: 'features'
 
 
   # resources :companies do
