@@ -155,7 +155,7 @@ class TransactionsController < ApplicationController
   end
 
   def seller_purchase
-    redirect_to root_path unless @bid.seller == current_user
+    redirect_to dashboard_path unless @bid.seller == current_user
     @carriers = ArmorPaymentsApi.carriers_list
     @dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer) if @transaction.disputed
     @settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement

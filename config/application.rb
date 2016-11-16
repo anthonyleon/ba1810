@@ -34,7 +34,7 @@ module BidAero
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.action_dispatch.default_headers = {'X-Frame-Options' => 'ALLOWALL'}
-
+    config.serve_static_assets = true
 
     config.active_job.queue_adapter = :sidekiq
 
