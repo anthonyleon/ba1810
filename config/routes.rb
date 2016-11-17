@@ -41,7 +41,7 @@ end
 
   root 'pages#show'
 
-  get 'signup' => 'company#new'
+  get 'signup' => 'companies#new'
   get 'login' => 'session#new'
   post 'login' => 'session#create'
   get 'logout' => 'session#destroy'
