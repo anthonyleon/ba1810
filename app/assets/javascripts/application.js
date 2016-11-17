@@ -6,6 +6,7 @@
 //= require country_state_select
 //= require maskedinput
 //= require maskmoney
+//= require bootstrap.min
 //= require_tree .
 //= stub landing
 
