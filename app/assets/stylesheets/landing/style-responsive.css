@@ -51,7 +51,9 @@ input#enterbutton {
     border-radius: 2px;
     margin-top: 9px;
 }
-
+.input-md.round.form-control{
+    width: 104%;
+}
 img.nav {
   width: 200px !important;
 }
@@ -206,6 +208,10 @@ img.nav {
 
 img.nav {
   width: 200px !important;
+}
+
+.input-md.round.form-control{
+    width: 207%;
 }
 
 button.btn.btn-mod.btn-medium.btn-round.mb-xs-5 {
@@ -472,6 +478,7 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.silver{ margin-top: 15px;}
     width: 75px;
     margin-top: -76px;
 }
+
 .alt-features-icon {
     margin-bottom: 21px;
     font-size: 14px;

@@ -7,7 +7,7 @@
 //= require maskedinput
 //= require maskmoney
 //= require bootstrap.min
-//= require_tree .
+//= require_directory .
 //= stub landing
 
 
