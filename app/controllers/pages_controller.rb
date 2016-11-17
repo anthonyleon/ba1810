@@ -5,7 +5,7 @@ class PagesController < ApplicationController
 
   def show
   	redirect_to dashboard_path if current_user
-    AdminMailer.new_contact(params[:name], params[:phone], params[:email], params[:message]).deliver_now
+    AdminMailer.new_contact(params[:name], params[:phone], params[:email], params[:message]).deliver_now if params[:name]
   end
 
   def pricing

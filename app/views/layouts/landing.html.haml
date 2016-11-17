@@ -34,14 +34,14 @@
           .full-wrapper.relative.clearfix
             / Logo ( * your text or image into link tag *)
             .col-md-12
-              .col-md-2
+              .col-md-4
                 %a.logo{:href => "/"}
                   %img.nav{:alt => "", :src => asset_path("bid/logo_bid2.png")}/
-              .col-md-10
-                .mobile-nav
+              .col-md-8
+                .mobile-nav.right
                   %i.fa.fa-bars
                     / Main Menu
-                .col-md-7.responsive
+                .col-md-6.responsive
                   .inner-nav.desktop-nav
                     %ul.clearlist.scroll-nav
                       %li.active
@@ -58,7 +58,7 @@
                       /   %a{:href => "/#howitworks"} HOW IT WORKS
                       %li
                         %a{:href => "/pricing"} PRICING
-                .col-md-5.responsive
+                .col-md-6.responsive
                   .row.login.login_landing_form
                     = form_for(:login, url: login_path, class: "formhead") do |f|
                       .col-md-5.color-white
