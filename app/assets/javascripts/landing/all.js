@@ -1,7 +1,9 @@
 (function($){
     "use strict"; // Start of use strict
     
-    
+    $(document).ready(function() {
+
+    });
     /* ---------------------------------------------
      Scripts initialization
      --------------------------------------------- */
@@ -14,8 +16,7 @@
             $(".page-loader div").fadeOut();
             $(".page-loader").delay(200).fadeOut("slow");
         });
-        
-        
+
         initWorkFilter();
         init_scroll_navigate();
         
@@ -48,6 +49,7 @@
         init_map();
         init_wow();
         init_masonry();
+        
     });
     
     $(window).resize(function(){
