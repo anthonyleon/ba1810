@@ -18,7 +18,6 @@
         });
 
         initWorkFilter();
-        init_scroll_navigate();
         
         $(window).trigger("scroll");
         $(window).trigger("resize");
@@ -172,10 +171,6 @@
         
         // Navbar sticky
         
-        $(".js-stick").sticky({
-            topSpacing: 0
-        });
-        
         
         height_line($(".inner-nav > ul > li > a"), $(".main-nav"));
         height_line(mobile_nav, $(".main-nav"));
@@ -288,31 +283,7 @@
     /* ---------------------------------------------
      Scroll navigation
      --------------------------------------------- */
-    
-    function init_scroll_navigate(){
-        
-        $(".local-scroll").localScroll({
-            target: "body",
-            duration: 1500,
-            offset: 0,
-            easing: "easeInOutExpo"
-        });
-        
-        var sections = $(".home-section, .split-section, .page-section");
-        var menu_links = $(".scroll-nav li a");
-        
-        $(window).scroll(function(){
-        
-            sections.filter(":in-viewport:first").each(function(){
-                var active_section = $(this);
-                var active_link = $('.scroll-nav li a[href="#' + active_section.attr("id") + '"]');
-                menu_links.removeClass("active");
-                active_link.addClass("active");
-            });
-            
-        });
-        
-    }
+  
     
     
     

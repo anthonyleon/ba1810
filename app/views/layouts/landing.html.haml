@@ -7,7 +7,7 @@
     %meta{:charset => "utf-8"}/
     %meta{:content => "Praveen Rk ", :name => "author"}/
     = stylesheet_link_tag    'landing', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag 'landing', 'data-turbolinks-track' => true
 
 
     /[if IE] <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -38,7 +38,7 @@
                 %a.logo{:href => "/"}
                   %img.nav{:alt => "", :src => asset_path("bid/logo_bid2.png")}/
               .col-md-8
-                .mobile-nav.right
+                .mobile-nav
                   %i.fa.fa-bars
                     / Main Menu
                 .col-md-6.responsive
@@ -155,10 +155,11 @@
               .col-md-2.heading
                 .form-group
                   %input#name.input-md.round.form-control{:name => "phone", :pattern => ".{3,100}", :placeholder => "Contact Number", :required => "", :type => "text"}/
-              .cf-right-col
+              / .cf-right-col
+              .col-md-2.heading
                 / Message
                 .form-group
-                  %textarea#message.input-md.round.form-control{:name => "message", :placeholder => "Message", :style => "height: 84px;width: 103%;"}
+                  %textarea#message.input-md.round.form-control{:name => "message", :placeholder => "Message", :style => "height: 84px; margin-top: 20px;"}
               .col-md-3.heading
                 %button.btn.btn-mod.btn-medium.btn-round.mb-xs-5{:type => "submit"}
                   Submit
