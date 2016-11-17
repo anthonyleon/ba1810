@@ -41,8 +41,8 @@ end
 
   root 'pages#show'
 
-  get 'signup' => 'company#new'
-  get 'login' => 'session#new'
+  get 'signup' => 'companies#new'
+  get 'login' => 'session#new', as: 'login'
   post 'login' => 'session#create'
   get 'logout' => 'session#destroy'
 #
