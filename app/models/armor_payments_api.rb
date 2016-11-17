@@ -1,5 +1,9 @@
 class ArmorPaymentsApi
-  CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], ENV['ARMOR_SANDBOX_BOOLEAN'])
+  if ENV['ARMOR_SANDBOX_BOOLEAN'] == "true"
+    CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
+  else
+    CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'])
+  end
 
 
   def self.get_account(account_id)
