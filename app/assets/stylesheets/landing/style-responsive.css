@@ -52,9 +52,12 @@ input#enterbutton {
     margin-top: 9px;
 }
 .input-md.round.form-control{
-    width: 104%;
+    width: 100%;
 }
 
+.label-field{
+    width: 17.1% !important;
+}
 
 @media only screen and (max-width: 1200px) {
 
@@ -164,7 +167,10 @@ input#enterbutton {
     .hs-line-10 > span {
         margin: 0 1px;
     }
-
+    .contact-us-label {
+        width: 16.25% !important;
+        margin-right: 12px !important;
+    }
     .benefit-item {
         width: 300px;
         padding: 15px 32px;
@@ -205,9 +211,12 @@ input#enterbutton {
 }
 
 #message.input-md.round.form-control{
-    width: 207%;
+    width: 188.5%;
+    margin: 20px 10.5%;
 }
-
+.label-field{
+    width: 103% !important;
+}
 .contact-label {
     width: 90% !important;
 }
@@ -215,7 +224,7 @@ input#enterbutton {
 button.btn.btn-mod.btn-medium.btn-round.mb-xs-5 {
 		background: green;
 	    padding: 12px 37px;
-		margin-top:20px;
+		margin: 143px 17% -11px -31%;
 }
 h3.title{    text-align: center;
     color: black;
@@ -368,6 +377,9 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.silver{ margin-top: 15px;}
 .form-control {
     display: block;
     margin-top: 10px;
+}
+p.signnews {
+    font-size: 20px !important;
 }
 .nav-justified{
 	width:97%;
@@ -728,6 +740,9 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.silver{ margin-top: 15px;}
         padding: 8px 15px;
         font-size: 13px;
     }
+    p.signnews {
+        font-size: 16px !important;
+    }
     .form input[type="text"].input-lg,
     .form input[type="email"].input-lg,
     .form input[type="number"].input-lg,
@@ -739,6 +754,9 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.silver{ margin-top: 15px;}
     .form input[type="color"].input-lg,
     .form select.input-lg{
         height: 38px;
+    }
+    .mobile-nav{
+        margin-right: -30px;
     }
 	.hs-line-1 {
         font-size: 20px;

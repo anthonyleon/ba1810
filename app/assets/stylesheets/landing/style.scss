@@ -213,7 +213,8 @@ html, body{
 }
 .footernav{
 	list-style-type: none;
-	text-align: left;
+	text-align: center;
+  padding-left: 0px;
     margin-left: 0px;
 	margin-bottom: 15px;
 	color:#999;
@@ -256,7 +257,6 @@ img.fooger {
 button.btn.btn-mod.btn-medium.btn-round.mb-xs-5 {
 		background: green;
 	    padding: 10px 35px;
-		margin-top:10px;
 }
 .pb-60 {
     padding: 34px 0px !important;
@@ -474,6 +474,7 @@ h1,h2,h3,h4,h5,h6{
 }
 h1.marginbo {
     margin-bottom: 5px;
+    text-align: center;
 }
 h1{
 	font-size: 32px;
@@ -1067,6 +1068,7 @@ a.btn-mod:focus{
 
 .form .form-group{
 	margin-bottom: 10px;
+  margin-right: 12px;
 }
 
 .form input.error{
@@ -1627,7 +1629,8 @@ ul.nav.nav-pills.nav-justified {
 .paymentstyle{color:#999;letter-spacing:1.5px;text-transform:none;}
 p.tit1 {
     color: #c4d2c9;
-    padding-right: 40px;
+    padding: 0 10px;
+    text-align: center;
 }
 .nav-pills>li>a:hover {
 	background: #098d18;
@@ -1669,7 +1672,7 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-5.silver {
 
 
 .small-height{
-    height: 75px !important;
+    height: 74px !important;
 }
 .small-height .inner-nav ul li a{
 	height: 55px !important;
@@ -1796,7 +1799,7 @@ p.signnews {
 
 #howitworks{padding:0px;}
 #mailchimp .col-md-2 ,#mailchimp .col-md-3 {
-    padding: 0px 1px;
+    padding: 0px 0px;
 }
 
 .mn-sub li ul{
@@ -4161,7 +4164,7 @@ font-family: 'Montserrat', sans-serif;
     margin-right: 1.2%;
 }
 .cf-right-col{
-      width: 48.5%;
+      width: 50%;
     float: left;
 }
 .contact-form .form-group{
