@@ -205,7 +205,7 @@
         
             if (desktop_nav.hasClass("js-opened")) {
                 desktop_nav.slideUp("slow", "easeOutExpo").removeClass("js-opened");
-                $(this).removeClass("active");
+                $(this).removeClass("active, js-opened");
             }
             else {
                 desktop_nav.slideDown("slow", "easeOutQuart").addClass("js-opened");

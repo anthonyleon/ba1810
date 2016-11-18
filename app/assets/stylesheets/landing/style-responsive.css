@@ -29,6 +29,7 @@ Primary use:    MultiPurpose Template
     .inner-nav ul li {
         margin-left: 25px;
     }
+
 	.row.login {
     background: green;
     padding: 5px 0px;
@@ -39,6 +40,7 @@ Primary use:    MultiPurpose Template
     color: #111;
     margin-top: 8px;
 }
+
 input#enterbutton {
     font-size: 11px;
     padding: 0px;
@@ -126,7 +128,6 @@ input#enterbutton {
 .row.login {
   display: visible;
 }
- .hr2{box-shadow: 10px -16px 6px black;width:100%;}
 }
 
 /* ==============================
@@ -209,7 +210,15 @@ input#enterbutton {
 @media only screen and (max-width: 992px) {
 	.col-md-4.menulogin {
 }
-
+.col-md-3.col-md-offset-4.left {
+    padding-left: 20% !important;
+}
+.hr2 {
+    width: 100% !important;
+}
+.col-md-6.heading {
+    border: none !important;
+}
 #message.input-md.round.form-control{
     width: 188.5%;
     margin: 20px 10.5%;
