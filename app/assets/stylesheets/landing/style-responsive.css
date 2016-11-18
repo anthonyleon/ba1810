@@ -54,9 +54,7 @@ input#enterbutton {
 .input-md.round.form-control{
     width: 104%;
 }
-img.nav {
-  width: 200px !important;
-}
+
 
 @media only screen and (max-width: 1200px) {
 
@@ -204,10 +202,6 @@ img.nav {
 
 @media only screen and (max-width: 992px) {
 	.col-md-4.menulogin {
-}
-
-img.nav {
-  width: 200px !important;
 }
 
 #message.input-md.round.form-control{
