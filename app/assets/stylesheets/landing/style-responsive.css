@@ -210,8 +210,12 @@ img.nav {
   width: 200px !important;
 }
 
-.input-md.round.form-control{
+#message.input-md.round.form-control{
     width: 207%;
+}
+
+.contact-label {
+    width: 90% !important;
 }
 
 button.btn.btn-mod.btn-medium.btn-round.mb-xs-5 {
