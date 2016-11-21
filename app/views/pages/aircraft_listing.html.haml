@@ -1,0 +1,54 @@
+%section#pricing.page-section.shadow_section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/aircraftlisting.png"), :style => "background-attachment:initial;"}
+  .container.relative
+    .row
+      .col-md-6
+        %h1.title_0{:style => "margin: 245px 0px 0px 0px;"} AIRCRAFT LISTINGS
+      .col-sm-6
+        #key.mt-140.mt-lg-80.mb-140.mb-lg-80
+          .banner-content
+            .banner-decription{:style => "height:250px"}
+    / Scroll Down
+    .local-scroll
+      %a{:href => "#footer"}
+        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+    / End Scroll Down
+/ END KEY FEATURES
+/ Pricing Section
+%section.shadow_section.small-section.bg-gray-lighter.new
+  .container.relative
+    %form#mailchimp.form.align-center
+      .row
+        .col-md-12
+          #footer.newsletter-label.font-alt
+            .col-md-12
+              %h4 AIRCRAFT LISTING
+              .banner-decription.center Listing aviation assets on our site is easy and completely free of charge. Sign up to Bid Aero and manage your fleet for sale or lease, upload Aircraft Detail Sheets and Mini-Packs to inform potential buyers or lessors.
+        .row
+          .col-xs-12
+            .table-responsive.aircraftlisting.gradient
+              %table.table
+                %thead
+                  %tr
+                    %th.aircraftlisting AIRCRAFT TYPE
+                    %th.aircraftlisting MSN
+                    %th.aircraftlisting Y.O.B.
+                    %th.aircraftlisting ENGINE TYPE
+                    %th.aircraftlisting APU
+                    %th.aircraftlisting AVAILABLE FOR
+                    %th.aircraftlisting OWNER/REP
+                    %th.aircraftlisting CONTACT
+                %tbody
+                  - @aircrafts.each do |aircraft|
+                    %tr
+                      %td= aircraft.aircraft_type.upcase
+                      %td= link_to aircraft.msn.upcase, aircraft
+                      %td= aircraft.yob.upcase
+                      %td= aircraft.engine_major_variant.upcase + "-" + aircraft.engine_minor_variant.upcase
+                      %td= aircraft.apu_model.upcase
+                      - if aircraft.sale? && aircraft.lease?
+                        %td= "Sale or Lease"
+                      - elsif aircraft.lease?
+                        %td=  "Lease"
+                      -else
+                        %td= "Contact Rep"
+                      %td= @aircraft.representative
