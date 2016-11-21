@@ -12,6 +12,10 @@
 @import "landing/style";
 @import "landing/vertical-rhythm.min";
 
+li.navbarlist {
+	margin-left: 15px !important;
+}
+
 .login_landing_form {
 	input {
     margin-top: 0px;
@@ -47,6 +51,20 @@
   .form-control {
     margin-right: 20px;
   }
+}
+
+.table-responsive.aircraftlisting {
+  border-radius: 10px !important;
+	background-color: white;
+	padding-left: 15px;
+	padding-right: 15px;
+	text-align: left;
+  margin-bottom: 15px;
+  color: #111;
+}
+
+th.aircraftlisting {
+	border-bottom: 1px solid #ddd !important;
 }
 
 img.featurespc {

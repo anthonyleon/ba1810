@@ -34,30 +34,30 @@
           .full-wrapper.relative.clearfix
             / Logo ( * your text or image into link tag *)
             .col-md-12
-              .col-md-4
+              .col-md-3
                 %a.logo{:href => "/"}
                   %img.nav{:alt => "", :src => asset_path("bid/logo_bid2.png")}/
-              .col-md-8
+              .col-md-9
                 .mobile-nav
                   %i.fa.fa-bars
                     / Main Menu
                 .col-md-6.responsive
                   .inner-nav.desktop-nav
                     %ul.clearlist.scroll-nav
-                      %li.active
+                      %li.navbarlist.active
                         %a{:href => root_path} HOME
                       / %li
                       /   %a{:href => "#about"} ABOUT
                       / %li
                       /   %a{:href => "#infographic"} INFO GRAPHIC
-                      / %li
-                      /   %a{:href => "#contact"} CONTACT
-                      %li
+                      %li.navbarlist
                         %a{:href => "/features#key"} FEATURES
-                      / %li
-                      /   %a{:href => "/#howitworks"} HOW IT WORKS
-                      %li
+                      %li.navbarlist
                         %a{:href => "/pricing"} PRICING
+                      %li.navbarlist
+                        %a{:href => "#contact"} ENGINES
+                      %li.navbarlist
+                        %a{:href => "/aircraft_listing"} AIRCRAFTS
                 .col-md-6.responsive
                   .row.login.login_landing_form
                     = form_for(:login, url: login_path, class: "formhead") do |f|
