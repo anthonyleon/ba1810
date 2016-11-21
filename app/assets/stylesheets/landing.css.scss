@@ -35,6 +35,53 @@
   }
 }
 
+.boxit {
+  height: 180px;
+}
+
+.buyer-benefits {
+  background-color: #F3F3F3;  
+  border-top: 1px solid #e5e5e5;
+  padding-bottom: 20px !important;
+}
+
+
+
+.section-decorator {
+  display: block;
+  width: 115px;
+  height: 2px;
+  margin: 0 auto;
+  background-color: #189B4C;  
+  margin-top: 35px;
+  margin-bottom: -10px;
+}
+.benefits.font-alt-small {
+  padding: 0 100px;
+}
+.buyer-benefits-title {
+  font-size: 15px;
+  letter-spacing: 0.2em;
+}
+
+.buyer-benefits-subtitle{
+  font-size: 23px;
+  letter-spacing: 0.2em;
+}
+
+.alt-features-icon.benefits {
+  color: #293860;
+  margin: 0 auto;
+}
+.alt-features-title.font-alt {
+  font-size: 1.15em;
+}
+.font-alt-small {
+  font-size: 12px;
+  padding: 0 13px;
+  color: grey;
+}
+
 .logo img {
   max-width: 200px;
   height: auto;
