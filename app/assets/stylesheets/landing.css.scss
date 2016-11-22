@@ -64,11 +64,21 @@ li.navbarlist {
 }
 
 th.aircraftlisting {
-	border-bottom: 1px solid #ddd !important;
+	border-bottom: 2px solid #ddd !important;
 }
 
 img.featurespc {
 	margin: 0 16.25% 30px 16.25%;
+}
+h5.title {
+  text-align: left;
+  color: black;
+  white-space: nowrap;
+  margin-bottom: 5px !important;
+}
+
+td.input {
+	font-size: 12px;
 }
 
 h4.title {
