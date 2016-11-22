@@ -80,13 +80,20 @@ h5.title {
 td.input {
 	font-size: 12px;
 }
+td.input.pricing {
+	font-size: 14px;
+	padding-left: 26px !important;
+	padding-bottom: 5px !important;
+	padding-top: 15px !important;
+  border-top: 0px !important;
+}
 
-h4.title {
-  text-align: left;
+h4.pricingtitle {
+	margin-left: 1em !important;
+  text-align: left ;
   color: black;
-  margin-left: 2.3em;
   white-space: nowrap;
-  margin-bottom: -9px !important;
+  margin-bottom: 5px !important;
 }
 
 #price_input::-moz-placeholder {
