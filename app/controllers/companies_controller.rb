@@ -78,7 +78,7 @@ class CompaniesController < ApplicationController
   end
 
   def choose_payout_preference
-    @url = ArmorPaymentsApi.select_payout_preference(current_user)
+    p @url = ArmorPaymentsApi.select_payout_preference(current_user)
   end
 
   def sales
