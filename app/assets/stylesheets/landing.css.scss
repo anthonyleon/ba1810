@@ -42,10 +42,18 @@
 .buyer-benefits {
   background-color: #F3F3F3;  
   border-top: 1px solid #e5e5e5;
-  padding-bottom: 20px !important;
+  padding-bottom: 25px !important;
 }
 
+.seller-benefits {
+  background-color: white;  
+  border-top: 1px solid #e5e5e5;
+  padding-bottom: 25px !important;
+}
 
+.benefits-first-row{
+  margin-bottom: 25px;
+}
 
 .section-decorator {
   display: block;
@@ -59,12 +67,12 @@
 .benefits.font-alt-small {
   padding: 0 100px;
 }
-.buyer-benefits-title {
+.benefits-title {
   font-size: 15px;
   letter-spacing: 0.2em;
 }
 
-.buyer-benefits-subtitle{
+.benefits-subtitle{
   font-size: 23px;
   letter-spacing: 0.2em;
 }
