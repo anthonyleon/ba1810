@@ -1,0 +1,63 @@
+%section#pricing.page-section.shadow_section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/enginelisting.png"), :style => "background-attachment:initial;"}
+  .container.relative
+    .row
+      .col-md-6
+        %h1.title_0{:style => "margin: 245px 0px 0px 0px;"} ENGINE LISTINGS
+      .col-sm-6
+        #key.mt-140.mt-lg-80.mb-140.mb-lg-80
+          .banner-content
+            .banner-decription{:style => "height:250px"}
+    / Scroll Down
+    .local-scroll
+      %a{:href => "#footer"}
+        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+    / End Scroll Down
+/ END KEY FEATURES
+/ Pricing Section
+%section.shadow_section.small-section.bg-gray-lighter.new
+  .container.relative
+    %form#mailchimp.form.align-center
+      .row
+        .col-md-12
+          #footer.newsletter-label.font-alt
+            .col-md-12
+              %h4 ENGINE LISTING
+              .banner-decription.center Listing aviation assets on our site is easy and completely free of charge. Sign up to Bid Aero and manage your fleet for sale or lease, upload Aircraft Detail Sheets and Mini-Packs to inform potential buyers or lessors.
+        .row
+          .col-xs-12
+            .table-responsive.aircraftlisting.gradient
+              %table.table.table-striped
+                %thead
+                  %tr
+                    %th.aircraftlisting
+                      %h5.title ENGINE MODEL
+                    %th.aircraftlisting
+                      %h5.title ESN
+                    %th.aircraftlisting
+                      %h5.title CONDITION
+                    %th.aircraftlisting
+                      %h5.title LIMITER
+                    %th.aircraftlisting
+                      %h5.title AVAILABLE DATE
+                    %th.aircraftlisting
+                      %h5.title AVAILABLE FOR
+                    %th.aircraftlisting
+                      %h5.title OWNER/REP
+                    %th.aircraftlisting
+                      %h5.title CONTACT
+                %tbody
+                  - @engines.each do |engine|
+                    %tr
+                      %td.input= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
+                      %td.input= link_to engine.esn, engine
+                      %td.input= engine.condition
+                      %td.input= engine.cycles_remaining
+                      %td.input= engine.available_date
+                      - if engine.sale? && engine.lease?
+                        %td.input= "Sale or Lease"
+                      - elsif engine.lease?
+                        %td.input= "Lease"
+                      -else
+                        %td.input= "Contact Rep"
+                      %td= engine.company.name
+                      %td.input= engine.company.representative

@@ -105,6 +105,6 @@ while (i < 29)
 		cycles_remaining: Faker::Number.number(5), available_date: Faker::Date.forward(230), lease: true, company_id: i)
 end
 
-Company.where(id: 1..10).each do |company|
-  company.email_activate unless !company.state
-end
+# Company.where(id: 1..10).each do |company|
+#   company.email_activate unless !company.state
+# end
