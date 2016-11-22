@@ -16,6 +16,14 @@ class PagesController < ApplicationController
   	redirect_to dashboard_path if current_user
   end
 
+  def aircraft_listing
+    @aircrafts = Aircraft.all
+  end
+
+  def engine_listing
+    @engines = Engine.all
+  end
+
 
 
 end

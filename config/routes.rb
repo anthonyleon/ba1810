@@ -22,7 +22,7 @@ resources :inventory_parts do
   end
 end
 
-  patch "/update_transaction/:id" => 'transactions#update', as: "transaction" 
+  patch "/update_transaction/:id" => 'transactions#update', as: "transaction"
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
   patch 'transactions/:id' => 'transactions#create_shipment', as: "create_shipment"
   patch '/auctions/:id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
@@ -48,7 +48,7 @@ end
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
   get 'auctions/:auction_id/bids/:id/purchase_confirmation' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
-  
+
   get 'purchase/:id/buyer_purchase' => 'transactions#buyer_purchase', as: 'buyer_purchase'
   get 'purchase/:id/seller_purchase' => 'transactions#seller_purchase', as: 'seller_purchase'
 
@@ -94,7 +94,8 @@ end
   resource :pages, only: [:show]
   get 'pricing', to: 'pages#pricing', as: 'pricing'
   get 'features', to: 'pages#features', as: 'features'
-
+  get 'aircraft_listing', to: 'pages#aircraft_listing', as: 'aircraft_listing'
+  get 'engine_listing', to:'pages#engine_listing', as: 'engine_listing'
 
   # resources :companies do
   #   member do
