@@ -20,6 +20,10 @@ class PagesController < ApplicationController
     @aircrafts = Aircraft.all
   end
 
+  def engine_listing
+    @engines = Engine.all
+  end
+
 
 
 end

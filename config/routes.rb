@@ -95,6 +95,7 @@ end
   get 'pricing', to: 'pages#pricing', as: 'pricing'
   get 'features', to: 'pages#features', as: 'features'
   get 'aircraft_listing', to: 'pages#aircraft_listing', as: 'aircraft_listing'
+  get 'engine_listing', to:'pages#engine_listing', as: 'engine_listing'
 
   # resources :companies do
   #   member do
