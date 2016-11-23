@@ -30,6 +30,18 @@ Primary use:    MultiPurpose Template
         margin-left: 25px;
     }
 
+    .benefits.font-alt-small {
+      padding: 0 100px;
+    }   
+
+    .buyer-benefits {
+      padding-bottom: 65px !important;
+    }
+
+    .seller-benefits {
+        padding-bottom: 45px !important;
+    }
+
 	.row.login {
     background: green;
     padding: 5px 0px;
@@ -129,7 +141,15 @@ input#enterbutton {
   display: visible;
 }
 }
-
+/* ==============================
+   Make navbar fit
+   ============================== */
+/*@media only screen and (max-width: 1140px) {
+    .navbarlist {
+      line-height: 100px;
+      font-size: 10px;  
+    }
+}*/
 /* ==============================
    Tablet landskape
    ============================== */
@@ -212,6 +232,15 @@ input#enterbutton {
 }
 .col-md-3.col-md-offset-4.left {
     padding-left: 20% !important;
+}
+
+.banner-description {
+  color: white !important;
+  font-weight: bold;
+}
+
+.banner-box {
+    float: right !important;
 }
 .hr2 {
     width: 100% !important;
@@ -974,6 +1003,15 @@ p.signnews {
     .fm-menu-links a{
         font-size: 14px;
     }
+
+    .benefits.font-alt-small {
+      padding: 0 55px;
+    }   
+
+    .buyer-benefits, .seller-benefits {
+        padding-bottom: 65px !important;
+    }
+
 }
 
 
@@ -981,11 +1019,19 @@ p.signnews {
    Small Phone
    ============================== */
 
-@media only screen and (max-width: 319px) {
+@media only screen and (max-width: 320px) {
 
   	.nav-social-links{
   		display: none;
   	}
+
+    .buyer-benefits, .seller-benefits {
+        padding-bottom: 95px !important;
+    }
+
+    .benefits.font-alt-small {
+        padding: 0 10px;
+    }
 }
 
 
