@@ -39,10 +39,8 @@
         init_fullscreen_menu();
         init_side_panel();
         init_lightbox();
-        init_parallax();
         init_shortcodes();
         init_tooltips();
-        init_counters();
         init_team();
         initPageSliders();
         init_map();
@@ -325,31 +323,6 @@
     
     
     
-    /* -------------------------------------------
-     Parallax
-     --------------------------------------------- */
-    
-    function init_parallax(){
-    
-        // Parallax        
-        if (($(window).width() >= 1024) && (mobileTest == false)) {
-            $(".parallax-1").parallax("50%", 0.1);
-            $(".parallax-2").parallax("50%", 0.2);
-            $(".parallax-3").parallax("50%", 0.3);
-            $(".parallax-4").parallax("50%", 0.4);
-            $(".parallax-5").parallax("50%", 0.5);
-            $(".parallax-6").parallax("50%", 0.6);
-            $(".parallax-7").parallax("50%", 0.7);
-            $(".parallax-8").parallax("50%", 0.5);
-            $(".parallax-9").parallax("50%", 0.5);
-            $(".parallax-10").parallax("50%", 0.5);
-            $(".parallax-11").parallax("50%", 0.05);
-        }
-        
-    }
-    
-    
-    
     /* ---------------------------------------------
      Shortcodes
      --------------------------------------------- */
@@ -408,9 +381,6 @@
             return false;
         });
         
-        // Responsive video
-        $(".video, .resp-media, .blog-media").fitVids();
-        $(".work-full-media").fitVids(); 
                
     }
     
@@ -430,25 +400,6 @@
             placement: "top"
         });
         
-    }
-    
-    
-    
-    /* ---------------------------------------------
-     Some facts section
-     --------------------------------------------- */
-    
-     function init_counters(){
-        $(".count-number").appear(function(){
-            var count = $(this);
-            count.countTo({
-                from: 0,
-                to: count.html(),
-                speed: 1300,
-                refreshInterval: 60,
-            });
-            
-        });
     }
     
     
