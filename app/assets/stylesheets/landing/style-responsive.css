@@ -35,11 +35,11 @@ Primary use:    MultiPurpose Template
     }   
 
     .buyer-benefits {
-      padding-bottom: 25px !important;
+      padding-bottom: 65px !important;
     }
 
     .seller-benefits {
-        padding-bottom: 45px;
+        padding-bottom: 45px !important;
     }
 
 	.row.login {
