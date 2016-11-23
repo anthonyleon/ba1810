@@ -20,9 +20,14 @@ class PagesController < ApplicationController
     @aircrafts = Aircraft.all
   end
 
+  def aircraft_show
+    @aircraft = Aircraft.find(params[:id])
+  end
+
   def engine_listing
     @engines = Engine.all
   end
+
 
 
 
