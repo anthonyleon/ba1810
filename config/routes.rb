@@ -159,4 +159,8 @@ end
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+=======
+  get 'engine_show/:id' => 'pages#engine_show', as: "engine_show"
+
+>>>>>>> 52b9bb2b4ae88b37cd2d740c008369e15ce3f994
 end

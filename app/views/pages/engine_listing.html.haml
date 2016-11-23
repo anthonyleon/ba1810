@@ -6,7 +6,7 @@
       .col-sm-6
         #key.mt-140.mt-lg-80.mb-140.mb-lg-80
           .banner-content
-            .banner-decription{:style => "height:250px"}
+            .banner-description{:style => "height:250px"}
     / Scroll Down
     .local-scroll
       %a{:href => "#footer"}
@@ -22,7 +22,7 @@
           #footer.newsletter-label.font-alt
             .col-md-12
               %h4 ENGINE LISTING
-              .banner-decription.center Listing aviation assets on our site is easy and completely free of charge. Sign up to Bid Aero and manage your fleet for sale or lease, upload Aircraft Detail Sheets and Mini-Packs to inform potential buyers or lessors.
+              .banner-description.center Listing aviation assets on our site is easy and completely free of charge. Sign up to Bid Aero and manage your fleet for sale or lease, upload Aircraft Detail Sheets and Mini-Packs to inform potential buyers or lessors.
         .row
           .col-xs-12
             .table-responsive.aircraftlisting.gradient
@@ -49,7 +49,7 @@
                   - @engines.each do |engine|
                     %tr
                       %td.input= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
-                      %td.input= link_to engine.esn, engine
+                      %td.input= link_to engine.esn, engine_show_path(engine.id)
                       %td.input= engine.condition
                       %td.input= engine.cycles_remaining
                       %td.input= engine.available_date

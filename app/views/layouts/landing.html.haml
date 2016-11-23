@@ -41,7 +41,7 @@
                 .mobile-nav
                   %i.fa.fa-bars
                     / Main Menu
-                .col-md-6.responsive
+                .col-md-7.responsive
                   .inner-nav.desktop-nav
                     %ul.clearlist.scroll-nav
                       %li.navbarlist.active
@@ -54,15 +54,11 @@
                         %a{:href => "/features#key"} FEATURES
                       %li.navbarlist
                         %a{:href => "/pricing"} PRICING
-                      %li.navbarlist
-                        %a{:href => "/engine_listing"} ENGINES
-                      %li.navbarlist
-                        %a{:href => "/aircraft_listing"} AIRCRAFTS
-                .col-md-6.responsive
+                .col-md-5.responsive.login-section
                   .row.login.login_landing_form
                     = form_for(:login, url: login_path, class: "formhead") do |f|
                       .col-md-5.color-white
-                        %label.username{:for => "name"} User Name
+                        %label.username{:for => "name"} E-mail
                         = f.text_field :email, class: "validate", id: 'email', class: "input-md round form-control"
                         -# %input.Remember{:type => "checkbox"}/
                         -# Remember Me
