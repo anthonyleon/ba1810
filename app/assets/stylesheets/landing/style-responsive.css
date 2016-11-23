@@ -129,7 +129,15 @@ input#enterbutton {
   display: visible;
 }
 }
-
+/* ==============================
+   Make navbar fit
+   ============================== */
+/*@media only screen and (max-width: 1140px) {
+    .navbarlist {
+      line-height: 100px;
+      font-size: 10px;  
+    }
+}*/
 /* ==============================
    Tablet landskape
    ============================== */

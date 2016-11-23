@@ -24,6 +24,8 @@ class PagesController < ApplicationController
     @engines = Engine.all
   end
 
-
+  def engine_show
+    @engine = Engine.find(params[:id])
+  end
 
 end
