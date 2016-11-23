@@ -495,7 +495,10 @@ h6{
     font-weight: 700;
 }
 p{
-	margin: 0 0 2em 0;
+	margin: -70px 0 2em 0;
+}
+p.paymentstyle{
+  margin: 0 0 2em 0;
 }
 ul, ol{
     margin: 0 0 1.5em 0;
@@ -1641,7 +1644,7 @@ p.tit1 {
     color: #fff;
 }
 .col-md-8.col-md-offset-2.slide1 {
-    margin: 250px 16%;
+    margin: 350px 16% 250px 16%;
 }
 button.btn.btn-mod.btn-medium.btn-round.mb-xs-5.silver {
     background: #f3f3f3;
