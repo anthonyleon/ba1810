@@ -40,8 +40,13 @@
                         %td.aicraft_input= @aircraft.available_date
                       %tr
                         %td.align-left SALE OR LEASE:
-                        %td.aicraft_input= @aircraft.sale
-                        %td.aicraft_input= @aircraft.lease
+                        -if @aircraft.sale? && @aircraft.lease?
+                          %td.aicraft_input Sale or Lease
+                        -elsif @aircraft.sale?
+                          %td.aicraft_input Sale
+                        -else @aircraft.lease?
+                          %td.aicraft_input Lease
+
 
                 %h4 AIRCRAFT DESCRIPTION
                 .table-responsive

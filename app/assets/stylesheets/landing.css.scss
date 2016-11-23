@@ -24,6 +24,7 @@ body {
   text-align: right;
   display: block;
   margin-top: 60px;
+	margin-bottom: 60px;
 }
 .box-icon {
   background-color: #243c78;
@@ -107,12 +108,12 @@ li.navbarlist {
 }
 
 .buyer-benefits {
-  background-color: #F3F3F3;  
+  background-color: #F3F3F3;
   border-top: 1px solid #e5e5e5;
 }
 
 .seller-benefits {
-  background-color: white;  
+  background-color: white;
   border-top: 1px solid #e5e5e5;
 }
 
@@ -126,7 +127,7 @@ li.navbarlist {
   width: 115px;
   height: 2px;
   margin: 0 auto;
-  background-color: #189B4C;  
+  background-color: #189B4C;
   margin-top: 35px;
   margin-bottom: -10px;
 }
@@ -213,7 +214,7 @@ h4.pricingtitle {
 
 
 .inner-nav {
-  margin-left: -45px !important;  
+  margin-left: -45px !important;
 }
 
 #price_input::-moz-placeholder {
