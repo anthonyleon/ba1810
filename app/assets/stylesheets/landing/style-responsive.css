@@ -233,6 +233,15 @@ input#enterbutton {
 .col-md-3.col-md-offset-4.left {
     padding-left: 20% !important;
 }
+
+.banner-description {
+  color: white !important;
+  font-weight: bold;
+}
+
+.banner-box {
+    float: right !important;
+}
 .hr2 {
     width: 100% !important;
 }
