@@ -30,6 +30,18 @@ Primary use:    MultiPurpose Template
         margin-left: 25px;
     }
 
+    .benefits.font-alt-small {
+      padding: 0 100px;
+    }   
+
+    .buyer-benefits {
+      padding-bottom: 25px !important;
+    }
+
+    .seller-benefits {
+        padding-bottom: 45px;
+    }
+
 	.row.login {
     background: green;
     padding: 5px 0px;
@@ -982,6 +994,15 @@ p.signnews {
     .fm-menu-links a{
         font-size: 14px;
     }
+
+    .benefits.font-alt-small {
+      padding: 0 55px;
+    }   
+
+    .buyer-benefits, .seller-benefits {
+        padding-bottom: 65px !important;
+    }
+
 }
 
 
@@ -989,11 +1010,19 @@ p.signnews {
    Small Phone
    ============================== */
 
-@media only screen and (max-width: 319px) {
+@media only screen and (max-width: 320px) {
 
   	.nav-social-links{
   		display: none;
   	}
+
+    .buyer-benefits, .seller-benefits {
+        padding-bottom: 95px !important;
+    }
+
+    .benefits.font-alt-small {
+        padding: 0 10px;
+    }
 }
 
 
