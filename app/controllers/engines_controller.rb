@@ -23,7 +23,7 @@ class EnginesController < ApplicationController
 
     respond_to do |format|
       if @engine.save
-        format.html { redirect_to @engine, notice: 'Engine was successfully created.' }
+        format.html { redirect_to engines_path, notice: 'Engine was successfully created.' }
         format.json { render :show, status: :created, location: @engine }
       else
         format.html { render :new }

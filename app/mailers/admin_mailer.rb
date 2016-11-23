@@ -26,4 +26,13 @@ class AdminMailer < ApplicationMailer
     mail to: 'support@bid.aero', subject: "No Matches To A New Auction"
   end
 
+  def new_contact(company, phone, email, message)
+    @company = company
+    @phone = phone
+    @email = email
+    @message = message
+
+    mail to: 'support@bid.aero', subject: "Someone filled out the contact form"
+  end
+
 end

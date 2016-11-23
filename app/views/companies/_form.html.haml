@@ -58,8 +58,9 @@
     %br
     %br
     = f.input :business_type, collection: Company.company_types
-  .input-field.col.s12.m6
-    = f.input :url
+  .input-field.col.s12.m6.url-field
+    = f.label :url, "Company Website"
+    = f.text_field :url
   .input-field.col.s12.m6
     = f.label :password
     = f.password_field :password
