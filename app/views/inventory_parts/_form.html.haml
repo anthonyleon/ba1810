@@ -21,11 +21,3 @@
       %div#import-btn.btn.custom-btn
         = submit_tag "Import"
         
-  :javascript
-    $(document).ready(function() {
-      $('#import-btn').hide();
-      $('select').material_select();
-      $('#file').click(function(){
-        $('#import-btn').show(200);
-      });
-    });

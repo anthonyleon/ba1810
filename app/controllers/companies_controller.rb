@@ -60,7 +60,7 @@ class CompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @company.update(company_params)
-        format.html { redirect_to home_path, notice: 'Company was successfully updated.' }
+        format.html { redirect_to dashboard_path, notice: 'Company was successfully updated.' }
         format.json { render :show, status: :ok, location: @company }
       else
         format.html { render :edit }
@@ -78,7 +78,7 @@ class CompaniesController < ApplicationController
   end
 
   def choose_payout_preference
-    @url = ArmorPaymentsApi.select_payout_preference(current_user)
+    p @url = ArmorPaymentsApi.select_payout_preference(current_user)
   end
 
   def sales

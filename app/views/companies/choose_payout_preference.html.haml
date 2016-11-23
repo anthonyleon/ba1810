@@ -32,12 +32,14 @@
           %i.fa.fa-check-circle-o.custom-green-text{"aria-hidden" => "true"}
           Faster payout through Payoneer account
         %div.left
-          Escrow service fees are applied to the total value of funds released to the seller
-        %div.left
-          %script{:src => "https://sandbox.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-          %div.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
-            %i.fa.fa-lock{"aria-hidden" => "true"}
-            Setup Escrow
+          Escrow service fees are applied to the total value of funds released to the seller  
+    %br
+    %br
+    %div{style: "padding-left: 37%;"}
+      %script{:src => "https://app.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+      %div.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
+        %i.fa.fa-lock{"aria-hidden" => "true"}
+        Setup Escrow
 .row.tab-box
   .col.s12
     %ul.tabs

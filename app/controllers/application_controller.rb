@@ -5,7 +5,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   before_action :require_logged_in, except: [:find_states]
   # before_action :check_browser
+  force_ssl if: :ssl_configured?
 
+  def ssl_configured?
+    !Rails.env.development?
+  end
+  
   def current_user
     @current_user ||= Company.find_by(id: session[:company_id])
   end

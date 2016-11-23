@@ -1,0 +1,170 @@
+@import "landing/bootstrap.min";
+@import "landing/YTPlayer";
+@import "landing/animate.min";
+@import "landing/et-line";
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import "landing/magnific-popup";
+@import "landing/owl.carousel";
+@import "landing/owl.transitions";
+@import "landing/rev-slider";
+@import "landing/simpletextrotator";
+@import "landing/style-responsive";
+@import "landing/style";
+@import "landing/vertical-rhythm.min";
+
+li.navbarlist {
+	margin-left: 15px !important;
+}
+
+.heading2 {
+  font-size: 2em;  
+}
+
+.login_landing_form {
+	input {
+    margin-top: 0px;
+  }
+  label {
+    margin-bottom: 0px;
+  }
+
+  .reset_link {
+    color: white;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .shadow_section {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .form-control {
+    height: 24px;
+  }
+}
+
+.boxit {
+  height: 180px;
+}
+
+.buyer-benefits {
+  background-color: #F3F3F3;  
+  border-top: 1px solid #e5e5e5;
+}
+
+.seller-benefits {
+  background-color: white;  
+  border-top: 1px solid #e5e5e5;
+}
+.scroll-nav {
+  left: 9% !important;
+}
+
+.benefits-first-row{
+  margin-bottom: 25px;
+}
+
+.section-decorator {
+  display: block;
+  width: 115px;
+  height: 2px;
+  margin: 0 auto;
+  background-color: #189B4C;  
+  margin-top: 35px;
+  margin-bottom: -10px;
+}
+
+.benefits-title {
+  font-size: 15px;
+  letter-spacing: 0.2em;
+}
+
+.benefits-subtitle{
+  font-size: 23px;
+  letter-spacing: 0.2em;
+}
+
+.alt-features-icon.benefits {
+  color: #293860;
+  margin: 0 auto;
+}
+.alt-features-title.font-alt {
+  font-size: 1.15em;
+}
+.font-alt-small {
+  font-size: 12px;
+  padding: 0 13px;
+  color: grey;
+}
+
+.logo img {
+  max-width: 200px;
+  height: auto;
+}
+
+.part_form {
+  .newsletter-field {
+    width: 100%;
+  }
+  .form-control {
+    margin-right: 20px;
+  }
+}
+
+.table-responsive.aircraftlisting {
+  border-radius: 10px !important;
+	background-color: white;
+	padding-left: 15px;
+	padding-right: 15px;
+	text-align: left;
+  margin-bottom: 15px;
+  color: #111;
+}
+
+th.aircraftlisting {
+	border-bottom: 2px solid #ddd !important;
+}
+
+img.featurespc {
+	margin: 0 16.25% 30px 16.25%;
+}
+h5.title {
+  text-align: left;
+  color: black;
+  white-space: nowrap;
+  margin-bottom: 5px !important;
+}
+
+td.input {
+	font-size: 12px;
+}
+td.input.pricing {
+	font-size: 14px;
+	padding-left: 26px !important;
+	padding-bottom: 5px !important;
+	padding-top: 15px !important;
+  border-top: 0px !important;
+}
+
+h4.pricingtitle {
+	margin-left: 1em !important;
+  text-align: left ;
+  color: black;
+  white-space: nowrap;
+  margin-bottom: 5px !important;
+}
+
+
+.inner-nav {
+  margin-left: -45px !important;  
+}
+
+#price_input::-moz-placeholder {
+    text-align: right;
+}
+#price_input:-ms-input-placeholder {
+    text-align: right;
+}
+#price_input::-webkit-input-placeholder {
+    text-align: right;
+}
