@@ -24,7 +24,7 @@ class CompaniesController < ApplicationController
   end
 
   def edit
-    @url = ArmorPaymentsApi.select_payout_preference(current_user)
+    p @url = ArmorPaymentsApi.select_payout_preference(current_user)
     @company = current_user
     @company_doc = CompanyDoc.new 
     @company_docs = current_user.company_docs
