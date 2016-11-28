@@ -155,16 +155,27 @@ input#enterbutton {
    ============================== */
 
 @media only screen and (max-width: 1024px) {
-.col-md-9.left {
-    margin-left: 0px;
-}
+    .col-md-9.left {
+        margin-left: 0px;
+    }
 
-.logo img {
-  max-width: 20px;
-  height: auto;
-}
+    .logo img {
+      max-width: 20px;
+      height: auto;
+    }
 
-.row.login {display:none;}
+    .heading1 p {
+        margin-top: 40px !important;
+        font-size: 36px !important;
+    }
+
+    p.heading2 {
+        margin-top: 20px !important;
+        font-size: 22px !important;
+    }
+
+    .row.login {display:none;}
+
 	.hs-wrap {
     max-width: 480px;
 		padding-top: 37px;
@@ -525,20 +536,20 @@ p.signnews {
     line-height: 75px;
     width: 75px;
     margin-top: -76px;
-}
+    }
 
-.alt-features-icon {
-    margin-bottom: 21px;
-    font-size: 14px;
-    font-weight: 400;
-    text-transform: uppercase;
-    color: green;
-	margin:0 auto;
-}
-.form-control {
-    display: block;
-    margin-top: 10px;
-}
+    .alt-features-icon {
+        margin-bottom: 21px;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: green;
+    	margin:0 auto;
+    }
+    .form-control {
+        display: block;
+        margin-top: 10px;
+    }
 	.hs-wrap {
         max-width: 320px;
 		padding-top: 27px;
@@ -773,6 +784,16 @@ p.signnews {
    ============================== */
 
 @media only screen and (max-width: 480px) {
+    
+    .heading1 p {
+        margin-top: 40px !important;
+        font-size: 33px !important;
+    }
+    
+    p.heading2 {
+        margin-top: 20px !important;
+        font-size: 26px !important;
+    }
 
     .btn-mod.btn-large {
         padding: 8px 15px;
@@ -1024,7 +1045,14 @@ p.signnews {
   	.nav-social-links{
   		display: none;
   	}
-
+    .heading1 p {
+        margin-top: 40px !important;
+        font-size: 1.5em !important;
+    }
+    p.heading2 {
+        margin-top: 20px !important;
+        font-size: 20px !important;
+    }
     .buyer-benefits, .seller-benefits {
         padding-bottom: 95px !important;
     }
