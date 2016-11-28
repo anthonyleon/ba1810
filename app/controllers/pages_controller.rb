@@ -20,6 +20,10 @@ class PagesController < ApplicationController
     @aircrafts = Aircraft.all
   end
 
+  def aircraft_show
+    @aircraft = Aircraft.find(params[:id])
+  end
+
   def engine_listing
     @engines = Engine.all
   end
@@ -33,5 +37,6 @@ class PagesController < ApplicationController
   def send_mail
     AdminMailer.new_contact(params[:name], params[:phone], params[:email], params[:message]).deliver_now if params[:name]    
   end
+
 
 end

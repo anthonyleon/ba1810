@@ -49,8 +49,8 @@
                   - @engines.each do |engine|
                     %tr
                       %td.input= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
-                      %td.input= engine.esn
-                      / %td.input= link_to engine.esn, engine_show_path(engine.id)
+                      -# %td.input= engine.esn
+                      %td.input= link_to engine.esn, engine_show_path(engine.id)
                       %td.input= engine.condition
                       %td.input= engine.cycles_remaining
                       %td.input= engine.available_date
@@ -61,4 +61,4 @@
                       -else
                         %td.input= "Contact Rep"
                       %td= engine.company.name
-                      %td.input= engine.company.representative
+                      %td= engine.company.representative
