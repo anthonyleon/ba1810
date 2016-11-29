@@ -3,7 +3,7 @@ class InventoryPartsController < ApplicationController
 
 
   def index
-    @inventory_parts = current_user.inventory_parts.decorate
+    @inventory_parts = current_user.inventory_parts
   end
 
   def show

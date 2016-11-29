@@ -3,7 +3,7 @@
     .card-title.center-align
       %h5.custom-card-title.center Inventory Parts
     %hr/
-    %table#invetoryPartsDT.table.striped.responsive-table.bordered
+    %table#inventoryPartsDT.table.striped.responsive-table.bordered
       %thead
         %tr
           %th Part Number
@@ -18,7 +18,7 @@
             %td.srchtbl= link_to inventory.part_num, inventory
             %td.srchtbl= inventory.description
             %td.srchtbl= inventory.serial_num
-            %td.srchtbl= inventory.condition_tag
+            %td.srchtbl= inventory.condition
             %td.srchtbl= inventory.manufacturer
             %td
               = link_to inventory_part_path(inventory), data: { inventory_behavior: 'delete' }  do
