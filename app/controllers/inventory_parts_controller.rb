@@ -3,7 +3,11 @@ class InventoryPartsController < ApplicationController
 
 
   def index
-    @inventory_parts = current_user.inventory_parts
+    # @inventory_parts = current_user.inventory_parts
+    respond_to do |format|
+      format.html
+      format.json { render json: InventoryPartsDatatable.new(view_context) }
+    end
   end
 
   def show

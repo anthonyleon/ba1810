@@ -119,6 +119,8 @@ $('#engineDTDashBoard').dataTable({
 
   $('#inventoryPartsDT').dataTable({
     "processing": true,
+    "serverSide": true,
+    "ajax": $('#inventoryPartsDT').data('source'),
     "pageLength": 10,
     "aoColumns": [
       { "bSortable": true },
