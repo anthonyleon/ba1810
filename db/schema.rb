@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102162120) do
+ActiveRecord::Schema.define(version: 20161128225401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,8 +178,8 @@ ActiveRecord::Schema.define(version: 20161102162120) do
     t.integer  "part_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "serial_num",   null: false
     t.integer  "condition"
+    t.string   "serial_num"
   end
 
   add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id", using: :btree
@@ -204,6 +204,8 @@ ActiveRecord::Schema.define(version: 20161102162120) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
+
+  add_index "parts", ["part_num"], name: "index_parts_on_part_num", unique: true, using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "packaging"
