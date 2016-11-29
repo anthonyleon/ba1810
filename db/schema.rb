@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128225401) do
+ActiveRecord::Schema.define(version: 20161129162342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,12 +197,15 @@ ActiveRecord::Schema.define(version: 20161128225401) do
   end
 
   create_table "parts", force: :cascade do |t|
-    t.string   "description",        null: false
-    t.string   "part_num",           null: false
-    t.string   "manufacturer",       null: false
-    t.integer  "manufacturer_price", null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.string   "description",  null: false
+    t.string   "part_num",     null: false
+    t.string   "manufacturer", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "cage_code"
+    t.string   "model"
+    t.string   "nsn"
+    t.boolean  "flagged"
   end
 
   add_index "parts", ["part_num"], name: "index_parts_on_part_num", unique: true, using: :btree
