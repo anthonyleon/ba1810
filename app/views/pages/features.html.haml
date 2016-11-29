@@ -8,13 +8,14 @@
           .banner-content
             .banner-description{:style => "height:250px"}
     / Scroll Down
-    .local-scroll
-      %a{:href => "#key1"}
-        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+  .row
+    %a.discover-btn{:href => "#features"}
+      %img.key-features-scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
     / End Scroll Down
 / END KEY FEATURES
 / KEY FEATURES 1
-%section#key1.shadow_section.page-section.pt-0.pb-0.bg-dark{:style => "background-attachment:initial; background-color:#098d18;"}
+%section#features
+%section.shadow_section.page-section.pt-0.pb-0.bg-dark{:style => "background-attachment:initial; background-color:#098d18;"}
   .row
     %ul.nav.nav-pills.nav-justified
       %li.active

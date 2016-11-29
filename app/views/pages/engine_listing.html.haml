@@ -8,18 +8,23 @@
           .banner-content
             .banner-description{:style => "height:250px"}
     / Scroll Down
-    .local-scroll
-      %a{:href => "#footer"}
-        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+  .row
+    %a.discover-btn{:href => "#listings"}
+      %img.key-features-scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+    / .local-scroll
+    /   %a{:href => "#footer"}
+    /     %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
     / End Scroll Down
 / END KEY FEATURES
 / Pricing Section
-%section.shadow_section.small-section.bg-gray-lighter.new
+%section#listings.shadow_section.small-section.bg-gray-lighter.new
+  %br
+  %br
   .container.relative
     %form#mailchimp.form.align-center
       .row
         .col-md-12
-          #footer.newsletter-label.font-alt
+          .newsletter-label.font-alt
             .col-md-12
               %h4 ENGINE LISTING
               .banner-description.center Listing aviation assets on our site is easy and completely free of charge. Sign up to Bid Aero and manage your fleet for sale or lease, upload Aircraft Detail Sheets and Mini-Packs to inform potential buyers or lessors.
