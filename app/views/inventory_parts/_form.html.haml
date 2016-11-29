@@ -14,10 +14,26 @@
       = f.submit 'Submit'
 %br
 %br
+%div{style: "font-size: 20px;"}
+  OR
+%br
+%div.card-title
+  Upload an Inventory File
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th Please use the following template to format your excel sheet.*
+      %th= link_to "Template", Document.find_by(name: "Bid_Aero_Parts_Template").attachment_url
+%br
 %div
   = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
     = file_field_tag :file
-    .actions{style: 'margin: 5px 0'}
+    .actions{style: 'margin: 10px 0;'}
       %div#import-btn.btn.custom-btn
         = submit_tag "Import"
+%br
+%div{style: "font-size: 14px; font-style: italic;"}
+  *If you do not have the information for one of the columns, you may leave that column blank
+%div{style: "font-size: 14px; font-style: italic;"}
+  **If you experience any issues when uploading inventory please contact us at support@bid.aero
         
