@@ -19,6 +19,7 @@ class InventoryPart < ActiveRecord::Base
     header = spreadsheet.row(1)
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
+      row.delete(nil)
       if row["part_num"] != nil #account for empty lines in spreadsheet
         quantity = row["quantity"]
         part = find_by_id(row["id"]) || new
@@ -26,17 +27,15 @@ class InventoryPart < ActiveRecord::Base
         
         row.delete("quantity")
         part.attributes = row.to_hash.slice(*row.to_hash.keys)
-        # part.update(part.attributes)
-        # @part_match = AvRefApi.part_num_check(part.part_num)
         @part_match = Part.find_by(part_num: part.part_num)
-        if @part_match 
-          quantity.times do
-            inv_part = InventoryPart.new(part.attributes)
-            build_inv_part(@part_match, inv_part, company)
-          end
-        else
-          array[1] = part.part_num #invalid part number
-          return array
+        if !@part_match 
+          @part_match = build_new_part(part)
+          # array[1] = part.part_num #invalid part number
+          # return array
+        end
+        quantity.times do
+          inv_part = InventoryPart.new(part.attributes)
+          build_inv_part(@part_match, inv_part, company)
         end
       end
     end
@@ -74,12 +73,14 @@ class InventoryPart < ActiveRecord::Base
   
 #for an individually uploaded part
   def add_part_details part_match, user
-    part = Part.find_by(part_num: part_match[:part_num].upcase)
-
     self.description = part_match[:description]
-    self.part = part
+    self.part = part_match
     self.part_num.upcase!
     self.company = user
+  end
+
+  def self.build_new_part(part)
+    new_part = Part.create(part_num: part.part_num, description: part.description, flagged: true, manufacturer: "")
   end
 
 #for an imported file

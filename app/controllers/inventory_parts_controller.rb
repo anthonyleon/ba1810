@@ -23,7 +23,7 @@ class InventoryPartsController < ApplicationController
     @inventory_part = InventoryPart.new(inventory_part_params)
 
     # part_match = AvRefApi.part_num_check(@inventory_part.part_num)
-    part_match = Part.find_by(part_num: @inventory_part.part_num)
+    part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
     respond_to do |format|
       if part_match
         @inventory_part.add_part_details(part_match, current_user)
