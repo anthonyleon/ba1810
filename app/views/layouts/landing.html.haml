@@ -8,7 +8,7 @@
     %meta{:content => "Praveen Rk ", :name => "author"}/
     = stylesheet_link_tag    'landing', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'landing', 'data-turbolinks-track' => true
-
+    = favicon_link_tag 'favicon.ico'
 
     /[if IE] <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
     %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0", :name => "viewport"}/
@@ -176,9 +176,6 @@
         / End Copyright
       / End Footer Text
   / Top Link
-  .local-scroll
-    %a.link-to-top{:href => "#top"}
-      %i.fa.fa-caret-up
   = javascript_include_tag 'landing', 'data-turbolinks-track' => true
   / End Top Link
   / End Foter
