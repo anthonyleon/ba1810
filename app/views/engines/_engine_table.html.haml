@@ -17,7 +17,7 @@
     - @engines.each do |engine|
       %tr
         %td= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
-        %td= engine.esn, engine
+        %td= engine.esn
         %td= engine.condition_tag
         %td.tag-cell= engine.service_status_tag
         %td= engine.last_operator.capitalize
