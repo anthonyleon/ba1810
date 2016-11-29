@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
 
 
+  get 'parts/new'
+
   get 'errors/not_found'
 
   get 'errors/internal_server_error'
 
   get 'password_resets/new'
+
+  resources :documents, only: [:new, :index, :create]
 
   resources :engines do
     resources :documents, shallow: true
@@ -33,11 +37,7 @@ end
   get '/material_cert/:id' => 'transactions#material_cert', as: 'material_cert'
 
   resources :ratings
-  get 'documents/index'
 
-  get 'documents/new'
-
-  get 'documents/create'
 
   root 'pages#show'
 
@@ -80,6 +80,10 @@ end
     resources :inventory_parts do
       collection { post :import }
     end
+  end
+
+  resources :parts, only: [:new, :index] do
+    collection { post :import }
   end
 
   get 'companies/confirm_email', to: 'companies#confirm_email', as: 'confirm_email'

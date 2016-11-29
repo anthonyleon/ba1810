@@ -1,8 +1,11 @@
 class DocumentsController < ApplicationController
-  before_action :set_inventory_part, :set_engine, :set_aircraft,  only: [:show, :edit, :update, :create]
+  before_action :set_inventory_part, :set_engine, :set_aircraft,  only: [:edit, :update, :create]
 
   def index
-    @documents = Document.all
+    #our documents
+    redirect_to dashboard_path unless current_user.email != "support@bid.aero" || current_user.email != "general@gaylord.io"
+    # binding.pry
+    @documents = Document.where(engine_id: nil, aircraft_id: nil, company_doc_id: nil)
   end
 
   def new
@@ -17,10 +20,10 @@ class DocumentsController < ApplicationController
     @document.company_doc = @company_doc
 
     if @document.save
-      redirect_to @inventory_part || @engine || @aircraft || @company_doc
+      redirect_to @inventory_part || @engine || @aircraft || @company_doc || documents_path
       flash.now[:notice] = "The document #{@document.name} has been uploaded."
     else
-      redirect_to @inventory_part || @engine || @aircraft || @company_doc, notice: "The document #{@document.name} failed to uploaded."
+      redirect_to @inventory_part || @engine || @aircraft || @company_doc, notice: "The document #{@document.name} failed to upload."
     end
   end
 
@@ -31,7 +34,7 @@ class DocumentsController < ApplicationController
     @aircraft = @document.aircraft
     @company_doc = @document.company_doc
     @document.destroy
-    redirect_to @inventory_part || @engine || @aircraft, notice:  "The document #{@document.name} has been deleted."
+    redirect_to @inventory_part || @engine || @aircraft || documents_path, notice:  "The document #{@document.name} has been deleted."
   end
 
   private
