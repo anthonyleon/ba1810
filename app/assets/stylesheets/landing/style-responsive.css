@@ -21,6 +21,7 @@ Primary use:    MultiPurpose Template
 -------------------------------------------------------------------*/
 
 
+
 /* ==============================
    Small desktop
    ============================== */
@@ -29,7 +30,6 @@ Primary use:    MultiPurpose Template
     .inner-nav ul li {
         margin-left: 25px;
     }
-
     .benefits.font-alt-small {
       padding: 0 100px;
     }   
@@ -544,7 +544,6 @@ p.signnews {
         font-weight: 400;
         text-transform: uppercase;
         color: green;
-    	margin:0 auto;
     }
     .form-control {
         display: block;
@@ -1082,9 +1081,10 @@ p.signnews {
         padding-bottom: 10px;
         position: static;
         width: auto;
-    }.alt-features-icon {
-    margin: 0 auto;
-}
+    }
+    .alt-features-icon {
+        margin: 0 auto;
+    }
 }
 
 
