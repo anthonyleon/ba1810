@@ -21,7 +21,7 @@ class InventoryPart < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       row.delete(nil)
       if row["part_num"] != nil #account for empty lines in spreadsheet
-        quantity = row["quantity"]
+        quantity = row["quantity"].to_i
         part = find_by_id(row["id"]) || new
         row = self.match_condition(row)
         
