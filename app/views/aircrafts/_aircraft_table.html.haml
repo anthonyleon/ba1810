@@ -16,7 +16,7 @@
     - @aircrafts.each do |aircraft|
       %tr
         %td= aircraft.aircraft_type.upcase
-        %td= link_to aircraft.msn.upcase, aircraft
+        %td= aircraft.msn.upcase
         %td= aircraft.yob.upcase
         %td= aircraft.tail_number.upcase
         %td= aircraft.engine_major_variant.upcase + "-" + aircraft.engine_minor_variant.upcase
