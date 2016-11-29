@@ -117,7 +117,7 @@ $('#engineDTDashBoard').dataTable({
   //   ]
   // });
 
-  $('#invetoryPartsDT').dataTable({
+  $('#inventoryPartsDT').dataTable({
     "processing": true,
     "pageLength": 10,
     "aoColumns": [
