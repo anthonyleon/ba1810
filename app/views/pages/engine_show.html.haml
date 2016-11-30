@@ -62,7 +62,7 @@
                         %td= @engine.esn
                       %tr
                         %td.align-left CONDITION:
-                        %td= @engine.condition
+                        %td.input= AssetDecorator.rename(engine, engine.condition)
                       -# %tr
                       -#   %td.align-left ENGINE STATUS:
                       -#   %td= @engine.id

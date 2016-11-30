@@ -28,7 +28,7 @@ class AssetDecorator < Draper::Decorator
 
   def self.rename(event, condition) #event or inventory part
     @conditions = []
-    if event.class == Bid || event.class == InventoryPart
+    if event.class == Bid || event.class == InventoryPart || event.class == Engine
       case condition
       when "overhaul"
         @conditions << "OH"
