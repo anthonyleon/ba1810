@@ -63,7 +63,9 @@
                         %td.input= "Sale or Lease"
                       - elsif engine.lease?
                         %td.input= "Lease"
-                      -else
+                      - elsif  engine.sale?
+                        %td.input= "Sale"
+                      - else
                         %td.input= "Contact Rep"
                       %td= engine.company.name
                       %td= engine.company.representative
