@@ -28,7 +28,7 @@
   .field
     = f.text_field :cycles_remaining, placeholder: "Disk Limiter"
   .field
-    = f.text_field :available_date, placeholder: "Available Date, DD/MM/YY"
+    = f.text_field :available_date, class: "form-control datepicker", placeholder: "Engine Availability Date"
   #form-group.checkbox
     = f.check_box :sale
     = f.label :sale, "For Sale"
@@ -43,4 +43,7 @@
   :javascript
     $(document).ready(function() {
       $('select').material_select();
+      $('.datepicker').pickadate({
+        selectMonths: true
+      });
     });
