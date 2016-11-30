@@ -57,6 +57,8 @@
                         %td.input= "Sale or Lease"
                       - elsif aircraft.lease?
                         %td.input= "Lease"
+                      - elsif aircraft.sale?
+                        %td.input= "Sale"
                       -else
                         %td.input= "Contact Rep"
                       %td.input= aircraft.company.representative
