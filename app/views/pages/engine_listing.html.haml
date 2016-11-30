@@ -56,7 +56,7 @@
                       %td.input= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
                       -# %td.input= engine.esn
                       %td.input= link_to engine.esn, engine_show_path(engine.id)
-                      %td.input= AssetDecorator.rename(engine, engine.condition)
+                      %td.input.align-center= AssetDecorator.rename(engine, engine.condition)
                       %td.input= engine.cycles_remaining
                       %td.input= engine.available_date
                       - if engine.sale? && engine.lease?
