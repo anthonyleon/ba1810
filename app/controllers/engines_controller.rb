@@ -35,7 +35,7 @@ class EnginesController < ApplicationController
   def update
     respond_to do |format|
       if @engine.update(engine_params)
-        format.html { redirect_to @engine, notice: 'Engine was successfully updated.' }
+        format.html { redirect_to engines_path, notice: 'Engine was successfully updated.' }
         format.json { render :show, status: :ok, location: @engine }
       else
         format.html { render :edit }
