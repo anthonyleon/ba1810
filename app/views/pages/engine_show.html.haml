@@ -88,7 +88,19 @@
               = image_tag 'aircraft-engine.png', size: '300x200', alt: 'Engine'
             %br
             %h4 Documents
-          - if @engine.documents.empty?
-            %h5.align-center No Documents Available
-          - else
-            = render @engine.documents
+            - if @engine.documents.empty?
+              %p There are no documents associated with this engine.
+            - else
+              %table.table
+                %thead
+                  %tr
+                    %th.align-center Name
+                    %th.align-center Download Link
+                  %tbody
+                    - @engine.documents.each do |document|
+                      %tr
+                        %td.align-center= document.name
+                        -if document.attachment.url.downcase.include? "pdf"
+                          %td.align-center= link_to 'View/Download', document.attachment_url
+                        -else
+                          %td.align-center= link_to 'Download', document.attachment_url
