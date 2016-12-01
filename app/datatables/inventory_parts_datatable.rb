@@ -1,17 +1,19 @@
 class InventoryPartsDatatable
   delegate :params, :h, :link_to, :number_to_currency, to: :@view
 
-  def initialize(view)
+  def initialize(view, company)
     @view = view
+    @company = company
   end
 
   def as_json(options = {})
     {
       sEcho: params[:sEcho].to_i,
-      iTotalRecords: InventoryPart.count,
-      iTotalDisplayRecords: inventory_parts.total_entries,
+      iTotalRecords: @company.inventory_parts.count,
+      iTotalDisplayRecords: @company.inventory_parts.count,
       data: data
     }
+
   end
 
 private
@@ -19,9 +21,9 @@ private
   def data
     inventory_parts.map do |part|
       [
-        link_to(part.name, part),
-        h(part.condition.decorate),
-        h(part.created_at.strftime("%B %e, %Y")),
+        link_to(part.part_num, part),
+        (part.condition),
+        (part.created_at.strftime("%B %e, %Y")),
         part.manufacturer
       ]
     end
@@ -32,10 +34,10 @@ private
   end
 
   def fetch_inventory_parts
-    inventory_parts = InventoryPart.order("#{sort_column} #{sort_direction}")
+    inventory_parts = @company.inventory_parts.order("#{sort_column} #{sort_direction}")
     inventory_parts = inventory_parts.page(page).per_page(per_page)
     if params[:sSearch].present?
-      inventory_parts = inventory_parts.where("name like :search or category like :search", search: "%#{params[:sSearch]}%")
+      inventory_parts = inventory_parts.where("part_num like :search or category like :search", search: "%#{params[:sSearch]}%")
     end
     inventory_parts
   end
@@ -49,7 +51,7 @@ private
   end
 
   def sort_column
-    columns = %w[name category released_on price]
+    columns = %w[part_num category released_on price]
     columns[params[:iSortCol_0].to_i]
   end
 
