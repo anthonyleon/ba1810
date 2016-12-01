@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'will_filter'
+gem 'will_paginate'
 gem 'draper'
 gem 'sidekiq'
 gem 'country_state_select', '3.0.0'

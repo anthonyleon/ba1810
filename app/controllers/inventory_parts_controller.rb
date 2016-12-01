@@ -6,7 +6,7 @@ class InventoryPartsController < ApplicationController
     # @inventory_parts = current_user.inventory_parts
     respond_to do |format|
       format.html
-      format.json { render json: InventoryPartsDatatable.new(view_context) }
+      format.json { render json: InventoryPartsDatatable.new(view_context, current_user) }
     end
   end
 

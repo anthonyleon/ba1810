@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  get 'inventory_parts/datatable_ajax', to: 'inventory_parts#datatable_ajax' 
+
   get 'parts/new'
 
   get 'errors/not_found'

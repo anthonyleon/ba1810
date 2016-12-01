@@ -121,7 +121,7 @@ $('#engineDTDashBoard').dataTable({
     "processing": true,
     "serverSide": true,
     "ajax": $('#inventoryPartsDT').data('source'),
-    "pageLength": 10,
+    "pageLength": 25,
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },
@@ -131,6 +131,8 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": false }
     ]
   });
+
+
 
   $('#buyerAuctionsDT').dataTable({
     "aoColumns": [
