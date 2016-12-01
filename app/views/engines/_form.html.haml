@@ -37,7 +37,7 @@
     = f.label :lease, "For Lease"
   %br
   .well
-    = f.fields_for :documents, html: { multipart: true } do |cm|
+    = f.fields_for :documents, Document.new, html: { multipart: true } do |cm|
       = cm.label :name
       = cm.text_field :name
       = cm.label :attachment
@@ -60,12 +60,12 @@
                 %td= link_to 'View/Download', document.attachment_url
               -else
                 %td= link_to 'Download', document.attachment_url
-              - if document.company_doc.company == current_user
+              - if document.company == current_user
                 %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn custom-btn'
 
   %div.btn.custom-btn
     %i.fa.fa-check-square-o
-    = f.submit 'Update Engine'
+    = f.submit 'submit'
 
   :javascript
     $(document).ready(function() {
