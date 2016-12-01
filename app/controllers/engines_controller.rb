@@ -12,6 +12,7 @@ class EnginesController < ApplicationController
 
   def new
     @engine = Engine.new
+    @document = Document.new
   end
 
   def edit
@@ -35,6 +36,11 @@ class EnginesController < ApplicationController
   def update
     respond_to do |format|
       if @engine.update(engine_params)
+        binding.pry
+        unless params[:commit] == "Update Engine"
+          @document = Document.find(document_params[:id])
+          @document.update(document_params)
+        end
         format.html { redirect_to engines_path, notice: 'Engine was successfully updated.' }
         format.json { render :show, status: :ok, location: @engine }
       else
@@ -60,5 +66,9 @@ class EnginesController < ApplicationController
 
     def engine_params
       params.require(:engine).permit(:company_id, :engine_major_variant, :engine_minor_variant, :esn, :condition, :service_status, :current_operator, :last_operator, :location, :cycles_remaining, :available_date, :sale, :lease, :document_id)
+    end
+
+    def document_params
+      params.require(:engine).permit(documents: [:id, :name, :attachment]) [:documents]
     end
 end
