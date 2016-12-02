@@ -8,26 +8,33 @@ class InventoryPartsDatatable
 
   def as_json(options = {})
     {
-      sEcho: params[:sEcho].to_i,
+      sEcho: params[:draw].to_i,
       iTotalRecords: @company.inventory_parts.count,
       iTotalDisplayRecords: @company.inventory_parts.count,
-      data: data
+      aaData: data,
+      yolo: yolo
     }
 
   end
 
 private
 
+def yolo
+  binding.pry
+end
   def data
+
     inventory_parts.map do |part|
       [
         link_to(part.part_num, part),
         (part.description),
         (part.serial_num || "N/A"),
         (AssetDecorator.rename(part, part.condition)),
-        ((part.manufacturer) || "N/A")
+        ((part.manufacturer) || "N/A"),
       ]
+
     end
+    
   end
 
   def inventory_parts
