@@ -10,9 +10,8 @@ class InventoryPartsDatatable
     {
       sEcho: params[:draw].to_i,
       iTotalRecords: @company.inventory_parts.count,
-      iTotalDisplayRecords: @company.inventory_parts.count,
-      aaData: data.as_json,
-      yolo: yolo
+      iTotalDisplayRecords: inventory_parts.count,
+      aaData: data.as_json
     }
 
   end

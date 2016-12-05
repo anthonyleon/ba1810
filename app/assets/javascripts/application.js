@@ -127,8 +127,7 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": false }
+      { "bSortable": true }
     ]
   });
 
