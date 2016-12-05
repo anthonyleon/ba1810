@@ -65,25 +65,7 @@ class InventoryPart < ActiveRecord::Base
     part
   end
 
-  def strip_whitespace
-    self.attributes.each do |key, value|
-      self[key] = value.squish if value.respond_to?("squish")
-    end
-  end
-  
-#for an individually uploaded part
-  def add_part_details part_match, user
-    self.description = part_match[:description]
-    self.part = part_match
-    self.part_num.upcase!
-    self.company = user
-  end
-
-  def self.build_new_part(part)
-    new_part = Part.create(part_num: part.part_num, description: part.description, flagged: true, manufacturer: "")
-  end
-
-#for an imported file
+##for an imported file
   def self.build_inv_part part_match, inventory_part, company
     inventory_part.description = part_match[:description]
     inventory_part.manufacturer.upcase! if inventory_part.manufacturer
@@ -105,4 +87,28 @@ class InventoryPart < ActiveRecord::Base
       raise "Unknown file type: #{file.original_filename}"
     end
   end
+  def strip_whitespace
+    self.attributes.each do |key, value|
+      self[key] = value.squish if value.respond_to?("squish")
+    end
+  end
+# end import file methods
+
+#==============================================================  
+
+#for an individually uploaded part
+  def add_part_details part_match, user
+    self.description = part_match[:description]
+    self.part = part_match
+    self.part_num.upcase!
+    self.company = user
+  end
+
+  def self.build_new_part(part)
+    new_part = Part.create(part_num: part.part_num, description: part.description, flagged: true, manufacturer: "")
+  end
+
+
+
+
 end
