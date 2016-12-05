@@ -119,16 +119,19 @@ $('#engineDTDashBoard').dataTable({
 
   $('#inventoryPartsDT').dataTable({
     "processing": true,
-    "pageLength": 10,
+    "serverSide": true,
+    "ajax": $('#inventoryPartsDT').data('source'),
+    "pageLength": 25,
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": false }
+      { "bSortable": true }
     ]
   });
+
+
 
   $('#buyerAuctionsDT').dataTable({
     "aoColumns": [
