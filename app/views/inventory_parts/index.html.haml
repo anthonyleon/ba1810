@@ -4,7 +4,7 @@
       %h5.custom-card-title.center Inventory Parts
     %hr/
     / %table#inventoryPartsDT.table.striped.responsive-table.bordered
-    %table#inventoryPartsDT.table.striped.responsive-table.bordered{"data-source" => "#{inventory_parts_url(format: "json")}"}
+    %table#inventoryPartsDT.table.striped.responsive-table.bordered{"data-source" => "#{inventory_parts_path(format: "json")}"}
       %thead
         %tr
           %th Part Number
