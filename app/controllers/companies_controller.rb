@@ -8,18 +8,13 @@ class CompaniesController < ApplicationController
   # before_action :set_armor_client, only: [:create, :edit, :update, :sales, :purchases]
 
   def show
-    @engines = Engine.all.decorate
-    @aircrafts = Aircraft.all
     @company = current_user
     yahoo_client = YahooFinance::Client.new
     @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY", "WLFC"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
-    @opportunity_count = Auction.get_sales_opportunities(current_user).count
-    @inventory_count = current_user.inventory_parts.count
-    @bids_count = current_user.bids.count
-    @notifications = current_user.notifications.order(created_at: :desc).limit(10)
   end
 
   def new
+    redirect_to dashboard_path if current_user
     @company = Company.new
   end
 
