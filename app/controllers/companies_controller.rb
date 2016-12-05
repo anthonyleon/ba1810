@@ -8,7 +8,6 @@ class CompaniesController < ApplicationController
   # before_action :set_armor_client, only: [:create, :edit, :update, :sales, :purchases]
 
   def show
-    @company = current_user
     yahoo_client = YahooFinance::Client.new
     @data = yahoo_client.quotes(["AER", "AYR", "FLY", "AL", "ACY", "WLFC"], [:symbol, :name, :ask, :change, :change_in_percent, :market_capitalization])
   end

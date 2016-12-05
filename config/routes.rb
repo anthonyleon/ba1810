@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   get 'parts/new'
 
   get 'errors/not_found'
