@@ -45,15 +45,16 @@ class InventoryPartsController < ApplicationController
 
   # import spreadsheet of parts inventory
   def import
-    @import = InventoryPart.import(params[:file], current_user)
-    if @import.size == 2
-      flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
-      redirect_to new_inventory_part_path(current_user)
-    elsif @import.empty?
-      redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
-    elsif @import.size == 1
-      redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
-    end
+    @import = CsvImport.csv_import(params[:file].path, Company.find(params[:inventory_company_id]))
+    # if @import.size == 2
+    #   flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
+    #   redirect_to new_inventory_part_path(current_user)
+    # elsif @import.empty?
+    #   redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
+    # elsif @import.size == 1
+    #   redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
+    # end
+    redirect_to admin_inventory_upload_path
   end
 
   def update
@@ -89,7 +90,7 @@ class InventoryPartsController < ApplicationController
     end
 
     def import_inventory
-      params.require(:contact_import).permit(:file)
+      params.require(:contact_import).permit(:file, :company_id, :inventory_company_id)
     end
 
     def inventory_part_params

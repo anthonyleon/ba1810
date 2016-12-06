@@ -1,0 +1,23 @@
+%div{style: "font-size: 20px;"}
+  OR
+%br
+%div.card-title
+  Upload an Inventory File
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th Please use the following template to format your excel sheet.*
+      / # %th= link_to "Template", Document.find_by(name: "Bid_Aero_Parts_Template").attachment_url
+%br
+%div
+  = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+    = file_field_tag :file
+    .input-field
+      = text_field_tag :inventory_company_id, params[:inventory_company_id], placeholder: 'Enter Companies company_id'
+    = submit_tag "Import Company Inventory"
+%br
+%div{style: "font-size: 14px; font-style: italic;"}
+  *If you do not have the information for one of the columns, you may leave that column blank. It is important that the headers have the same name as those of our templates, and that no additional columns are used.
+%br
+%div{style: "font-size: 14px; font-style: italic;"}
+  **If you experience any issues when uploading inventory please contact us at support@bid.aero

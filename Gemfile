@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'activerecord-import'
 gem 'will_paginate'
 gem 'draper'
 gem 'sidekiq'
