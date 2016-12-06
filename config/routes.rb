@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'admin_inventory_upload' => 'companies#admin_inventory_upload', as: 'admin_inventory_upload'
   get 'parts/new'
 
   get 'errors/not_found'

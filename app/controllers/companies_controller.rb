@@ -91,6 +91,10 @@ class CompaniesController < ApplicationController
     @purchases = Transaction.where(buyer_id: current_user.id, complete: false)
   end
 
+  def admin_inventory_upload
+    redirect_to dashboard_path unless current_user.email == 'support@bid.aero' || 'general@gaylord.io'  
+  end
+
   private
 
     def set_company

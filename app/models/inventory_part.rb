@@ -12,7 +12,7 @@ class InventoryPart < ActiveRecord::Base
   enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
 
   # class methods for importing xls, csv files using Roo
-  def self.import(file, company)
+  def self.roo_import(file, company)
     array = []
     counter = 0
     spreadsheet = open_spreadsheet(file)
