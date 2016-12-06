@@ -45,6 +45,7 @@ class InventoryPartsController < ApplicationController
 
   # import spreadsheet of parts inventory
   def import
+    redirect_to dashboard_path if current_user.email != 'support@bid.aero' || 'general@gaylord.io'
     @import = CsvImport.csv_import(params[:file].path, Company.find(params[:inventory_company_id]))
     # if @import.size == 2
     #   flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
@@ -54,6 +55,7 @@ class InventoryPartsController < ApplicationController
     # elsif @import.size == 1
     #   redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
     # end
+    
     redirect_to admin_inventory_upload_path
   end
 
