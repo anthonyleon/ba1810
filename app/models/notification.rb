@@ -28,7 +28,6 @@ class Notification < ActiveRecord::Base
     
     matches.each do |part|
       Notification.create(company: part.company, auction: auction, message: message) unless part.company == auction_creator
-      raise if part.company == nil
       CompanyMailer.notify_of_opportunity(part.company, auction).deliver_later(wait_until: 1.minute.from_now) unless part.company == auction_creator
     end
     
