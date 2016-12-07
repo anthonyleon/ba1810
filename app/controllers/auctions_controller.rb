@@ -109,7 +109,7 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :destination_company, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
+      params.require(:auction).permit(:company_id, :part_num, :cycles, :destination_company, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
     end
 
     def transaction_params
