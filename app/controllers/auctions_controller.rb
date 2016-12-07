@@ -28,8 +28,8 @@ class AuctionsController < ApplicationController
     # part_match = AvRefApi.part_num_check(@auction.part_num)
     @auction.resale_check
     respond_to do |format|
-
       if part_match
+          AdminMailer.new_auction(@auction)
           AuctionPart.make(part_match, @auction)
           @auction.company = current_user
           @auction.part_num.upcase!
