@@ -5,92 +5,67 @@ class CsvImport
 	def self.csv_import(file, company)
 
 
-## SECOND GO AT ACTIVE RECORD IMPORT
-				# CSV.parse(body, col_sep: "|", headers:true) do |row|
-				# 	row_hash = row.to_hash
-				# 	binding.pry
-				# 	part = InventoryPart.new(
-				# 		part_num: row[:part_num], 
-				# 		description: row[:description], 
-				# 		condition: row[:condition].
-				# 		part_id: row[part_id
-				# 		)
-				# 	inv_parts << part
-					
-				# end
-				# InventoryPart.import inv_parts
-
-
-#FIRST GO AT ACTIVE RECORD IMPORT
-				# p imported_parts = CSV.read("#{Rails.root}/tmp/faster_csv_import.csv")
-				# counter = 0
-				# stuff = []
-				# imported_parts.each do |p|
-				# 	self.match_condition(p)
-
-				# 	part_num = p[0]
-				# 	quantity = p[1].to_i
-				# 	desc = p[2]
-				# 	cond = p[3]
-
-
-				# 	part_match = Part.find_by(part_num: part_num)
-				# 	p[2] = part_match.description if part_match
-	   #      part_match = build_new_part(part_num, desc) if !part_match
-	   #      part_id = part_match.id
-
-	   #      p[1] = part_id.to_i
-
-    #     	quantity.times do
-    #     		stuff << p
-    #     	end
-
-	   #    end
-
-
-
-    # 		columns = [:part_num, :part_id, :description, :condition]
- 			# 	tmp = stuff
- 			# 	binding.pry
-    # 		InventoryPart.import columns, tmp, :validate => false
-			
+# SECOND GO AT ACTIVE RECORD IMPORT
 		time = Benchmark.measure do
-			InventoryPart.transaction do
-				inv_parts = []
-				CSV.foreach(file) do |p|
+			inv_parts = []
+			parts_db = []
+			CSV.parse(File.read(file), headers: true) do |row|
+
+				row_hash = row.to_hash
+				row_hash["condition"] = match_condition(row_hash)
+				quantity = row_hash["quantity"].to_i
+
+				part_match = Part.find_by(part_num: row_hash["part_num"])
+				new_part = build_new_part(row_hash["part_num"], row_hash["description"]) if !part_match
+				quantity.times do 
+					part = InventoryPart.new(
+						part_num: row_hash["part_num"], 
+						description: row_hash["description"], 
+						condition: row_hash["condition"],
+						serial_num: row_hash["serial_num"],
+						company_id: company.id,
+						part_id: part_match.id
+						)
+					inv_parts << part 
+				end
+					parts_db << new_part if new_part
 					
-					p[3] = self.match_condition(p)
+			end
 
-					part_num = p[0]
-					quantity = p[1].to_i
-					desc = p[2]
-					cond = p[3]
-					serial_num = p[4]
-					part_hash = {part_num: part_num, description: desc}
+			InventoryPart.import inv_parts
+			Part.import parts_db
+		end
+		puts time
+	end
 
-					#check if part exists in database.. If not create it and flag it.
-					@part_match = Part.find_by(part_num: part_num)
-	        @part_match = build_new_part(part_hash[:part_num], part_hash[:description]) if !@part_match
+	def self.import_parts_db(file)
+		time = Benchmark.measure do
+			Part.transaction do 
+				parts_db = []
+					CSV.parse(File.read(file), headers: true) do |row|
+						row_hash = row.to_hash
+						# part_already_in_db = Part.find_by(part_num: row_hash["part_num"], manufacturer: row_hash["manufacturer"])
 
-	        #create quantity number of inventory parts
-					quantity.times do 
-						inv_part = InventoryPart.new(
-							part_num: part_num, 
-							description: desc, 
-							condition: cond, 
-							part_id: @part_match.id, 
-							serial_num: serial_num
-							)
-						build_inv_part(@part_match, inv_part, company)
+						# if !part_already_in_db
+							part = Part.new(
+								part_num: row_hash["part_num"], 
+								description: row_hash["description"], 
+								manufacturer: row_hash["manufacturer"],
+								model: row_hash["model"],
+								cage_code: row_hash["cage_code"],
+								nsn: row_hash["nsn"]
+								)
+							parts_db << part
+						# end
 					end
-				end	
+				Part.import parts_db
 			end
 		end
-
+		puts time
 	end
 
   def self.match_condition(part)
-    case part[3].squish.upcase
+    case part["condition"].squish.upcase
     when "OH"
       return 1
     when "OVERHAUL" 
@@ -127,7 +102,7 @@ class CsvImport
   end
 
   def self.build_new_part(part_number, desc)
-    Part.create(part_num: part_number, description: desc, flagged: true, manufacturer: "")
+    Part.new(part_num: part_number, description: desc, flagged: true, manufacturer: "")
   end
 
   def self.build_inv_part part_match, inventory_part, company

@@ -3,7 +3,7 @@ class Part < ActiveRecord::Base
   has_many :auction_parts
 
   # class methods for importing xls, csv files using Roo
-  def self.import(file)
+  def self.part_import(file)
     array = []
     counter = 0
     spreadsheet = open_spreadsheet(file)
@@ -27,11 +27,11 @@ class Part < ActiveRecord::Base
     part.save!
   end
 
-  def self.get_file_type(file)
+  def self.import_get_file_type(file)
     File.extname(file.original_filename).gsub('.','')
   end
 
-  def self.open_spreadsheet(file)
+  def self.import_open_spreadsheet(file)
     extension = get_file_type(file)
     if extension.in?(%w(csv xls xlsx))
       Roo::Spreadsheet.open(file.path, extension: extension)
