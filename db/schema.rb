@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161129162342) do
+ActiveRecord::Schema.define(version: 20161207203359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20161129162342) do
     t.string   "resale_status"
     t.date     "required_date"
     t.string   "destination_company"
+    t.string   "cycles"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -208,7 +209,7 @@ ActiveRecord::Schema.define(version: 20161129162342) do
     t.boolean  "flagged"
   end
 
-  add_index "parts", ["part_num"], name: "index_parts_on_part_num", unique: true, using: :btree
+  add_index "parts", ["part_num"], name: "index_parts_on_part_num", using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "packaging"
