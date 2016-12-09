@@ -107,11 +107,11 @@
                     %a{:href => "/pricing"} PRICING
               .col-md-6.heading
                 %h4 PAYMENTS ACCEPTED
-                %p.paymentstyle We accept various payment methods to ensure quick and safe access to our global aircraft parts locating system.
+                %p.paymentstyle We have partnered with Payoneer as our escrow service provider in order to enable secure and speedy transactions
                 .form-tip
                   %ul.cnss-social-icon{:id => "", :style => "text-align:center;margin-right: 40px;"}
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/pricing_bid-Aero_03.png"), :style => " margin:0px;max-width: 118px;", :width => "200"}/
+                    %li.Instagram{:style => " display:inline-block; max-width: 118px;"}
+                      =link_to image_tag("footer/pricing_bid-Aero_03.png"), 'https://www.payoneer.com/escrow'
                   #subscribe-result
               .col-md-3.heading
                 %h4 FOLLOW

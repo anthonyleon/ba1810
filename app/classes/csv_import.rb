@@ -56,7 +56,7 @@ class CsvImport
 								nsn: row_hash["nsn"]
 								)
 							parts_db << part
-							binding.pry if row_hash["description"] == ""
+							p self.eof?
 						# end
 					end
 				Part.import parts_db
