@@ -24,12 +24,12 @@ class AuctionsController < ApplicationController
 
   def create
     @auction = Auction.new(auction_params)
-    # @part_match = Part.find_by(part_num: @auction.part_num)
-    part_match = AvRefApi.part_num_check(@auction.part_num)
+    part_match = Part.find_by(part_num: @auction.part_num)
+    # part_match = AvRefApi.part_num_check(@auction.part_num)
     @auction.resale_check
     respond_to do |format|
-
       if part_match
+          AdminMailer.new_auction(@auction)
           AuctionPart.make(part_match, @auction)
           @auction.company = current_user
           @auction.part_num.upcase!
@@ -109,7 +109,7 @@ class AuctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :destination_company, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
+      params.require(:auction).permit(:company_id, :part_num, :cycles, :destination_company, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
     end
 
     def transaction_params

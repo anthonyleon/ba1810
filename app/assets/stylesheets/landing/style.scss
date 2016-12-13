@@ -8,7 +8,7 @@ Version:    0.1
 
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import "landing/et-line";
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700); 
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 
 
@@ -203,6 +203,10 @@ nav.main-nav.stick-fixed.js-transparent.small-height {
     box-sizing: border-box;
 }
 
+.hr2 {
+    width: 130%;
+}
+
 html{overflow-x: hidden;
 	overflow-y: scroll;
     -ms-overflow-style: scrollbar;
@@ -213,7 +217,8 @@ html, body{
 }
 .footernav{
 	list-style-type: none;
-	text-align: left;
+	text-align: center;
+  padding-left: 0px;
     margin-left: 0px;
 	margin-bottom: 15px;
 	color:#999;
@@ -255,8 +260,7 @@ img.fooger {
 }
 button.btn.btn-mod.btn-medium.btn-round.mb-xs-5 {
 		background: green;
-	    padding: 32px 11px;
-		margin-top:10px;
+	    padding: 10px 35px;
 }
 .pb-60 {
     padding: 34px 0px !important;
@@ -305,7 +309,7 @@ img:not([draggable]), embed, object, video{
 {
        height: 90px !important;
        width: 71px !important;
-       margin-left: 135px;
+       margin: 0 auto;
 
 }
 
@@ -474,6 +478,7 @@ h1,h2,h3,h4,h5,h6{
 }
 h1.marginbo {
     margin-bottom: 5px;
+    text-align: center;
 }
 h1{
 	font-size: 32px;
@@ -490,7 +495,10 @@ h6{
     font-weight: 700;
 }
 p{
-	margin: 0 0 2em 0;
+	margin: -70px 0 2em 0;
+}
+p.paymentstyle{
+  margin: 0 0 2em 0;
 }
 ul, ol{
     margin: 0 0 1.5em 0;
@@ -546,7 +554,8 @@ hr.black{
 .font-alt{
 font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
+    font-size: 1.1em;
 }
 .serif{
 font-family: 'Montserrat', sans-serif;
@@ -1067,6 +1076,7 @@ a.btn-mod:focus{
 
 .form .form-group{
 	margin-bottom: 10px;
+  margin-right: 12px;
 }
 
 .form input.error{
@@ -1587,10 +1597,9 @@ a.btn-mod:focus{
 }
 .row.login {
     background: green;
-    padding: 9px 8px;
+    padding: 10px 8px;
     margin: 0;
-	  width:100%;
-    margin-left: 45px;
+	  width:117%;
     max-height: 75px;
 }
 	input#enterbutton {
@@ -1627,20 +1636,22 @@ ul.nav.nav-pills.nav-justified {
 .paymentstyle{color:#999;letter-spacing:1.5px;text-transform:none;}
 p.tit1 {
     color: #c4d2c9;
-    padding-right: 40px;
+    padding: 0 10px;
+    text-align: center;
 }
 .nav-pills>li>a:hover {
 	background: #098d18;
     color: #fff;
 }
 .col-md-8.col-md-offset-2.slide1 {
-    margin: 250px 16%;
+    margin: 26% 16% 0% 16%;
 }
 button.btn.btn-mod.btn-medium.btn-round.mb-xs-5.silver {
     background: #f3f3f3;
     color: #111;
 
 }
+
 /*
  * Desktop nav
  */
@@ -1669,7 +1680,7 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-5.silver {
 
 
 .small-height{
-    height: 109px !important;
+    height: 74px !important;
 }
 .small-height .inner-nav ul li a{
 	height: 55px !important;
@@ -1682,8 +1693,8 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-5.silver {
 }
 .inner-nav ul{
 	float: right;
-	margin: auto;
-	font-size: 10px;
+	margin: -10px;
+	font-size: 12px;
 	font-weight: 800;
 	letter-spacing: 1px;
 	text-transform: uppercase;
@@ -1784,10 +1795,7 @@ button.btn.btn-mod.btn-medium.btn-round.mb-xs-5.silver {
 	background: rgba(255,255,255, .09);
 	color: #f5f5f5 !important;
 }
-.newsletter-label .heading1 p {
-    padding: 20px 0px;
-	    font-size: 37px;
-}
+
 p.signnews {
 	font-size: 38px;
   white-space: nowrap;
@@ -1796,7 +1804,7 @@ p.signnews {
 
 #howitworks{padding:0px;}
 #mailchimp .col-md-2 ,#mailchimp .col-md-3 {
-    padding: 0px 1px;
+    padding: 0px 2px;
 }
 
 .mn-sub li ul{
@@ -3886,14 +3894,14 @@ section.page-section.bg{ background-color: #2b3749;   box-shadow: 0 4px 8px 0 rg
 	color: rgba(255,255,255, 0.9);
 }
 
-.banner-decription{
+.banner-description{
     margin-bottom: 35px;
 	font-size: 15px;
     font-weight: 300;
 	color: rgba(255,255,255, .7);
 	letter-spacing: normal;
 }
-.banner-decription.center{text-transform:none;}
+.banner-description.center{text-transform:none;}
 .banner-image{
     margin: -2px 0 0 0;
 	text-align: right;
@@ -4161,7 +4169,7 @@ font-family: 'Montserrat', sans-serif;
     margin-right: 1.2%;
 }
 .cf-right-col{
-      width: 48.5%;
+      width: 50%;
     float: left;
 }
 .contact-form .form-group{

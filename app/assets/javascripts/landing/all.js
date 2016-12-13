@@ -1,7 +1,9 @@
 (function($){
     "use strict"; // Start of use strict
     
-    
+    $(document).ready(function() {
+
+    });
     /* ---------------------------------------------
      Scripts initialization
      --------------------------------------------- */
@@ -14,12 +16,9 @@
             $(".page-loader div").fadeOut();
             $(".page-loader").delay(200).fadeOut("slow");
         });
-        
-        
+
         initWorkFilter();
-        init_scroll_navigate();
         
-        $(window).trigger("scroll");
         $(window).trigger("resize");
         
         // Hash menu forwarding
@@ -33,21 +32,20 @@
     });
     
     $(document).ready(function(){
-        
+        $(window).scrollTop(0);
         $(window).trigger("resize");            
         init_classic_menu();
         init_fullscreen_menu();
         init_side_panel();
         init_lightbox();
-        init_parallax();
         init_shortcodes();
         init_tooltips();
-        init_counters();
         init_team();
         initPageSliders();
         init_map();
         init_wow();
         init_masonry();
+        
     });
     
     $(window).resize(function(){
@@ -170,10 +168,6 @@
         
         // Navbar sticky
         
-        $(".js-stick").sticky({
-            topSpacing: 0
-        });
-        
         
         height_line($(".inner-nav > ul > li > a"), $(".main-nav"));
         height_line(mobile_nav, $(".main-nav"));
@@ -208,7 +202,7 @@
         
             if (desktop_nav.hasClass("js-opened")) {
                 desktop_nav.slideUp("slow", "easeOutExpo").removeClass("js-opened");
-                $(this).removeClass("active");
+                $(this).removeClass("active, js-opened");
             }
             else {
                 desktop_nav.slideDown("slow", "easeOutQuart").addClass("js-opened");
@@ -286,31 +280,7 @@
     /* ---------------------------------------------
      Scroll navigation
      --------------------------------------------- */
-    
-    function init_scroll_navigate(){
-        
-        $(".local-scroll").localScroll({
-            target: "body",
-            duration: 1500,
-            offset: 0,
-            easing: "easeInOutExpo"
-        });
-        
-        var sections = $(".home-section, .split-section, .page-section");
-        var menu_links = $(".scroll-nav li a");
-        
-        $(window).scroll(function(){
-        
-            sections.filter(":in-viewport:first").each(function(){
-                var active_section = $(this);
-                var active_link = $('.scroll-nav li a[href="#' + active_section.attr("id") + '"]');
-                menu_links.removeClass("active");
-                active_link.addClass("active");
-            });
-            
-        });
-        
-    }
+  
     
     
     
@@ -347,31 +317,6 @@
             }
         });
         $(".lightbox").magnificPopup();
-        
-    }
-    
-    
-    
-    /* -------------------------------------------
-     Parallax
-     --------------------------------------------- */
-    
-    function init_parallax(){
-    
-        // Parallax        
-        if (($(window).width() >= 1024) && (mobileTest == false)) {
-            $(".parallax-1").parallax("50%", 0.1);
-            $(".parallax-2").parallax("50%", 0.2);
-            $(".parallax-3").parallax("50%", 0.3);
-            $(".parallax-4").parallax("50%", 0.4);
-            $(".parallax-5").parallax("50%", 0.5);
-            $(".parallax-6").parallax("50%", 0.6);
-            $(".parallax-7").parallax("50%", 0.7);
-            $(".parallax-8").parallax("50%", 0.5);
-            $(".parallax-9").parallax("50%", 0.5);
-            $(".parallax-10").parallax("50%", 0.5);
-            $(".parallax-11").parallax("50%", 0.05);
-        }
         
     }
     
@@ -435,9 +380,6 @@
             return false;
         });
         
-        // Responsive video
-        $(".video, .resp-media, .blog-media").fitVids();
-        $(".work-full-media").fitVids(); 
                
     }
     
@@ -457,25 +399,6 @@
             placement: "top"
         });
         
-    }
-    
-    
-    
-    /* ---------------------------------------------
-     Some facts section
-     --------------------------------------------- */
-    
-     function init_counters(){
-        $(".count-number").appear(function(){
-            var count = $(this);
-            count.countTo({
-                from: 0,
-                to: count.html(),
-                speed: 1300,
-                refreshInterval: 60,
-            });
-            
-        });
     }
     
     

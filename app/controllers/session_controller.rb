@@ -1,6 +1,5 @@
 class SessionController < ApplicationController
   skip_before_action :require_logged_in
-  layout 'landing', only: [:new]
 
 
   def new
@@ -10,7 +9,7 @@ class SessionController < ApplicationController
   def create
     @company = Company.find_by_email(params[:login][:email].downcase).try(:authenticate, params[:login][:password])
     if !@company
-      redirect_to root_path, flash: { error: "Wrong credentials" }
+      redirect_to login_path, flash: { error: "Username or Password is invalid" }
     elsif @company.email_confirmed
       session[:company_id] = @company.id
       #flash.now[:notice] = "Welcome #{@company.name}"
@@ -36,7 +35,7 @@ class SessionController < ApplicationController
       #   render :new
       # end
     else !@company.email_confirmed
-      redirect_to root_path, flash: {warning: "Please check your e-mail for a confirmation link"}
+      redirect_to login_path, flash: {warning: "Please check your e-mail for a confirmation link"}
     end
   end
 

@@ -1,2 +1,12 @@
-
-//= require_tree ./landing
+//= require ./landing/jquery-1.11.2.min
+//= require ./landing/jquery.easing.1.3
+//= require ./landing/bootstrap.min
+//= require ./landing/jquery.viewport.mini
+//= require ./landing/owl.carousel.min
+//= require ./landing/isotope.pkgd.min
+//= require ./landing/imagesloaded.pkgd.min
+//= require ./landing/jquery.magnific-popup.min
+//= require ./landing/wow.min
+//= require ./landing/masonry.pkgd.min
+//= require ./landing/all
+//= require ./landing/jquery.ajaxchimp.min

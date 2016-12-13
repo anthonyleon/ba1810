@@ -7,6 +7,9 @@
             = @auction.auction_part.description
           %h6
             = @auction.part_num
+          -if @auction.cycles
+            %h6
+              = "Required Cycles Remaining: #{number_with_delimiter(@auction.cycles, :delimiter => ',')}"
 
         - if @auction.company == current_user
           %div.btn.custom-btn.right
@@ -32,10 +35,6 @@
               %strong
                 = @auction.required_date
         %hr/
-        %p.flow-text
-          New List Price:
-          %strong
-            = number_to_currency @msrp
         - if @auction.bids.empty?
           .nobid.center-align
             %p.flow-text There are no bids on this auction yet.

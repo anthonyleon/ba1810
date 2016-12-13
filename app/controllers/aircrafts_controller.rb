@@ -23,7 +23,7 @@ class AircraftsController < ApplicationController
 
     respond_to do |format|
       if @aircraft.save
-        format.html { redirect_to @aircraft, notice: 'Aircraft was successfully created.' }
+        format.html { redirect_to aircrafts_path, notice: 'Aircraft was successfully created.' }
         format.json { render :show, status: :created, location: @aircraft }
       else
         format.html { render :new }
@@ -35,7 +35,7 @@ class AircraftsController < ApplicationController
   def update
     respond_to do |format|
       if @aircraft.update(aircraft_params)
-        format.html { redirect_to @aircraft, notice: 'Aircraft was successfully updated.' }
+        format.html { redirect_to aircrafts_path, notice: 'Aircraft was successfully updated.' }
         format.json { render :show, status: :ok, location: @aircraft }
       else
         format.html { render :edit }

@@ -1,4 +1,4 @@
-%section#pricing.page-section.shadow_section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/Features_bid-3.png"), :style => "background-attachment:initial;"}
+%section#pricing.page-section.shadow_section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/Features_bid-3.jpg"), :style => "background-attachment:initial;"}
   .container.relative
     .row
       .col-md-6
@@ -6,51 +6,57 @@
       .col-sm-6
         #key.mt-140.mt-lg-80.mb-140.mb-lg-80
           .banner-content
-            .banner-decription{:style => "height:250px"}
+            .banner-description{:style => "height:250px"}
     / Scroll Down
-    .local-scroll
-      %a{:href => "#footer"}
-        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+  .row
+    %a.discover-btn{:href => "#pricing-breakdown"}
+      %img.key-features-scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+    / .local-scroll
+    /   %a{:href => "#footer"}
+    /     %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
     / End Scroll Down
 / END KEY FEATURES
 / Pricing Section
-%section.shadow_section.small-section.bg-gray-lighter.new
+%section#pricing-breakdown.shadow_section.small-section.bg-gray-lighter.new
+  %br
+  %br
   .container.relative
     %form#mailchimp.form.align-center
       .row
         .col-md-12
-          #footer.newsletter-label.font-alt
+          .newsletter-label.font-alt
             .col-md-12
               %h4 NO MONTHLY SUBSCRIPTION + FREE AIRCRAFT AND ENGINE LISTINGS
-              .banner-decription.center We apply a service fee to all transaction. However, as the sale price increases. we decrease our service fee. We offer free aircraft and engine listings in order to market any asset on our site. When it comes to part sales you will never incur a service fee greater than 4%. because we understand the value of this market.
-      .row.col-md-offset-1.col-md-10.bg
-        .col-md-3
-          .bg1
-            %h4.title.gradient AT LEAST
-            %hr.hr1/
-            %ul
-              %li.footercenter $0.00
-              %li.footercenter $5,000.00
-              %li.footercenter $50,000.00
-              %li.footercenter $500,000.00
-        .col-md-3
-          .bg1
-            %h4.title.gradient UP TO
-            %hr.hr2/
-            %ul
-              %li.footercenter $5,000.00
-              %li.footercenter $50,000.00
-              %li.footercenter $500,000.00
-              %li.footercenter $1,000,000.00 +
-        .col-md-6.bg
-          .bg1
-            %h4.title.gradient BID AERO SERVICE FEE
-            %hr.hr3/
-            %ul
-              %li.footercenter 4% OF THE PAYMENT VALUE
-              %li.footercenter $200 + 2.5% OF THE AMOUNT OVER $5,000.00
-              %li.footercenter $1,325 + 2% OF THE AMOUNT OVER $50,000.00
-              %li.footercenter $10,325 + 0.8% OF THE AMOUNT OVER $500,000.00
+              .banner-description.center Listing assets on our site is completely free of charge, this allows for automated sales leads without any incurred costs. We offer free aircraft and engine listings in order to market any asset on our site. Service fees are only incurred when a sale is completed. However, as the sale price increases we decrease our service fee. When it comes to part sales you will never incur a service fee greater than 4%.
+      .row
+        .col-md-10.col-md-offset-1
+          .table-responsive.aircraftlisting.gradient
+            %table.table
+              %thead
+                %tr
+                  %th.aircraftlisting
+                    %h4.pricingtitle AT LEAST
+                  %th.aircraftlisting
+                    %h4.pricingtitle UP TO
+                  %th.aircraftlisting
+                    %h4.pricingtitle BID AERO SERVICE FEE
+              %tbody
+                %tr
+                  %td.input.pricing $0.00
+                  %td.input.pricing $5,000.00
+                  %td.input.pricing 4% OF THE PAYMENT VALUE
+                %tr
+                  %td.input.pricing $5,000.00
+                  %td.input.pricing $50,000.00
+                  %td.input.pricing $200 + 2.5% OF THE AMOUNT OVER $5,000.00
+                %tr
+                  %td.input.pricing $50,000.00
+                  %td.input.pricing $500,000.00
+                  %td.input.pricing $1,325 + 2% OF THE AMOUNT OVER $50,000.00
+                %tr
+                  %td.input.pricing $500,000.00
+                  %td.input.pricing $1,000,000.00 +
+                  %td.input.pricing $10,325 + 0.8% OF THE AMOUNT OVER $500,000.00
       .gap.row{:style => "margin-bottom:50px;"}
       .newsletter-label.font-alt
         .col-md-12
