@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102162120) do
+ActiveRecord::Schema.define(version: 20161207203359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20161102162120) do
     t.string   "resale_status"
     t.date     "required_date"
     t.string   "destination_company"
+    t.string   "cycles"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -178,8 +179,8 @@ ActiveRecord::Schema.define(version: 20161102162120) do
     t.integer  "part_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "serial_num",   null: false
     t.integer  "condition"
+    t.string   "serial_num"
   end
 
   add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id", using: :btree
@@ -197,13 +198,18 @@ ActiveRecord::Schema.define(version: 20161102162120) do
   end
 
   create_table "parts", force: :cascade do |t|
-    t.string   "description",        null: false
-    t.string   "part_num",           null: false
-    t.string   "manufacturer",       null: false
-    t.integer  "manufacturer_price", null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.string   "description",  null: false
+    t.string   "part_num",     null: false
+    t.string   "manufacturer", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "cage_code"
+    t.string   "model"
+    t.string   "nsn"
+    t.boolean  "flagged"
   end
+
+  add_index "parts", ["part_num"], name: "index_parts_on_part_num", using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "packaging"

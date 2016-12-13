@@ -3,7 +3,10 @@ class InventoryPartsController < ApplicationController
 
 
   def index
-    @inventory_parts = current_user.inventory_parts.decorate
+    respond_to do |format|
+      format.html
+      format.json { render json: InventoryPartsDatatable.new(view_context, current_user) }
+    end
   end
 
   def show
@@ -22,8 +25,8 @@ class InventoryPartsController < ApplicationController
   def create
     @inventory_part = InventoryPart.new(inventory_part_params)
 
-    part_match = AvRefApi.part_num_check(@inventory_part.part_num)
-
+    # part_match = AvRefApi.part_num_check(@inventory_part.part_num)
+    part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
     respond_to do |format|
       if part_match
         @inventory_part.add_part_details(part_match, current_user)
@@ -42,15 +45,18 @@ class InventoryPartsController < ApplicationController
 
   # import spreadsheet of parts inventory
   def import
-    @import = InventoryPart.import(params[:file], current_user)
-    if @import.size == 2
-      flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
-      redirect_to new_inventory_part_path(current_user)
-    elsif @import.empty?
-      redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
-    elsif @import.size == 1
-      redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
-    end
+    redirect_to dashboard_path if current_user.email != 'support@bid.aero' || 'general@gaylord.io'
+    @import = CsvImport.csv_import(params[:file].path, Company.find(params[:inventory_company_id]))
+    # if @import.size == 2
+    #   flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
+    #   redirect_to new_inventory_part_path(current_user)
+    # elsif @import.empty?
+    #   redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
+    # elsif @import.size == 1
+    #   redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
+    # end
+    
+    redirect_to admin_inventory_upload_path
   end
 
   def update
@@ -86,7 +92,7 @@ class InventoryPartsController < ApplicationController
     end
 
     def import_inventory
-      params.require(:contact_import).permit(:file)
+      params.require(:contact_import).permit(:file, :company_id, :inventory_company_id)
     end
 
     def inventory_part_params

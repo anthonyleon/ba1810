@@ -86,10 +86,16 @@
           = link_to select_payout_preference_path do
             %i.fa.fa-university
             Setup Escrow
-      %li
-        = link_to inventory_parts_path do
-          %i.fa.fa-cogs
-          Inventory
+      -if current_user.email == 'support@bid.aero' || 'general@gaylord.io'
+        %li
+          = link_to admin_inventory_upload_path do
+            %i.fa.fa-cogs
+            Manage Inventories
+      -else
+        %li
+          = link_to inventory_parts_path do
+            %i.fa.fa-cogs
+            Inventory
       %li
         = link_to aircrafts_path do
           %i.fa.fa-plane
@@ -98,10 +104,6 @@
         = link_to engines_path do
           %i.fa.fa-circle
           Engine Listings
-      %li
-        = link_to company_docs_path, {class: "sidenav-button"} do
-          %i.fa.fa-folder-o
-          Documents
 
       / %li
       /   = link_to edit_company_path do

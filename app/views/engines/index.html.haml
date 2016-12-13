@@ -1,10 +1,11 @@
-%div.btn.custom-btn
-  %i.fa.fa-upload
-  = link_to 'New Engine', new_engine_path
+
 
 .card
   .card-content
     .card-title.center-align
-      %h5.custom-card-title.center Engines Availability
+      %h5.custom-card-title.center My Engine Listings on Bid Aero
     %hr/
     = render partial: 'engine_table'
+%div.btn.custom-btn
+  %i.fa.fa-upload
+  = link_to ' Add New Engine', new_engine_path

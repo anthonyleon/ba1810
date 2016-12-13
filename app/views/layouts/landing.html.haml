@@ -7,8 +7,8 @@
     %meta{:charset => "utf-8"}/
     %meta{:content => "Praveen Rk ", :name => "author"}/
     = stylesheet_link_tag    'landing', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
-
+    = javascript_include_tag 'landing', 'data-turbolinks-track' => true
+    = favicon_link_tag 'favicon.ico'
 
     /[if IE] <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
     %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0", :name => "viewport"}/
@@ -30,39 +30,37 @@
       / End Home Section
       / Navigation panel
       .container.relative
-        %nav.main-nav.transparent.stick-fixed
+        %nav.main-nav.transparent.stick-fixed.z-depth-5
           .full-wrapper.relative.clearfix
             / Logo ( * your text or image into link tag *)
             .col-md-12
-              .col-md-2
+              .col-md-3
                 %a.logo{:href => "/"}
-                  %img{:alt => "", :src => asset_path("bid/logo_bid2.png")}/
-              .col-md-10
+                  %img.nav{:alt => "", :src => asset_path("bid/logo_bid2.png")}/
+              .col-md-9
                 .mobile-nav
                   %i.fa.fa-bars
-                / Main Menu
-                .col-md-8.responsive
+                    / Main Menu
+                .col-md-7.responsive
                   .inner-nav.desktop-nav
                     %ul.clearlist.scroll-nav
-                      %li.active
+                      %li.navbarlist.active
                         %a{:href => root_path} HOME
                       / %li
                       /   %a{:href => "#about"} ABOUT
                       / %li
                       /   %a{:href => "#infographic"} INFO GRAPHIC
-                      / %li
-                      /   %a{:href => "#contact"} CONTACT
-                      %li
+                      %li.navbarlist
                         %a{:href => "/features#key"} FEATURES
-                      / %li
-                      /   %a{:href => "/#howitworks"} HOW IT WORKS
-                      %li
+                      %li.navbarlist
                         %a{:href => "/pricing"} PRICING
-                .col-md-4
+                      %li.navbarlist
+                        %a{:href => "/engine_listing"} ENGINES
+                .col-md-5.responsive.login-section
                   .row.login.login_landing_form
                     = form_for(:login, url: login_path, class: "formhead") do |f|
                       .col-md-5.color-white
-                        %label.username{:for => "name"} User Name
+                        %label.username{:for => "name"} E-mail
                         = f.text_field :email, class: "validate", id: 'email', class: "input-md round form-control"
                         -# %input.Remember{:type => "checkbox"}/
                         -# Remember Me
@@ -109,11 +107,11 @@
                     %a{:href => "/pricing"} PRICING
               .col-md-6.heading
                 %h4 PAYMENTS ACCEPTED
-                %p.paymentstyle We accept various payment methods to ensure quick and safe access to our global aircraft parts locating system.
+                %p.paymentstyle We have partnered with Payoneer as our escrow service provider in order to enable secure and speedy transactions
                 .form-tip
                   %ul.cnss-social-icon{:id => "", :style => "text-align:center;margin-right: 40px;"}
-                    %li.Instagram{:style => " display:inline-block;"}
-                      %img{:alt => "Instagram", :border => "0", :src => asset_path("footer/pricing_bid-Aero_03.png"), :style => " margin:0px;max-width: 118px;", :width => "200"}/
+                    %li.Instagram{:style => " display:inline-block; max-width: 118px;"}
+                      =link_to image_tag("footer/pricing_bid-Aero_03.png"), 'https://www.payoneer.com/escrow'
                   #subscribe-result
               .col-md-3.heading
                 %h4 FOLLOW
@@ -144,21 +142,22 @@
             .newsletter-label.font-alt
               .col-md-3.heading.white
                 %h4 CONTACT US
-                %ul
+                %ul.footernav
                   %li.footernav Please fill the form or reach us directly at support@bid.aero
-              .col-md-2.heading
+              .col-md-2.heading.label-field
                 .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Enter Name", :required => "", :type => "text"}/
-              .col-md-2.heading
+                  %input#name.input-md.round.form-control.contact-label{:name => "name", :pattern => ".{3,100}", :placeholder => "Enter Name", :required => "", :type => "text"}/
+              .col-md-2.heading.label-field
                 .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Enter Email", :required => "", :type => "email"}/
-              .col-md-2.heading
+                  %input#name.input-md.round.form-control.contact-label{:name => "email", :pattern => ".{3,100}", :placeholder => "Enter Email", :required => "", :type => "email"}/
+              .col-md-2.heading.label-field
                 .form-group
-                  %input#name.input-md.round.form-control{:name => "name", :pattern => ".{3,100}", :placeholder => "Contact Number", :required => "", :type => "text"}/
-              .cf-right-col
+                  %input#name.input-md.round.form-control.contact-label{:name => "phone", :pattern => ".{3,100}", :placeholder => "Contact Number", :required => "", :type => "text"}/
+              / .cf-right-col
+              .col-md-2.heading.cf-right-col.center
                 / Message
                 .form-group
-                  %textarea#message.input-md.round.form-control{:name => "message", :placeholder => "Message", :style => "height: 84px;width: 103%;"}
+                  %textarea#message.input-md.round.form-control{:name => "message", :placeholder => "Message", :style => "height: 84px; margin-top: 20px;"}
               .col-md-3.heading
                 %button.btn.btn-mod.btn-medium.btn-round.mb-xs-5{:type => "submit"}
                   Submit
@@ -174,13 +173,9 @@
             %img.fooger{:src => asset_path("bid/logo_bid1.png")}/
         .footer-copy.font-alt
           %a{:href => "#", :target => "_blank"}> © Bid Aero INC 2016  |  Terms | contact us support@bid.aero
-          \.
         / End Copyright
       / End Footer Text
   / Top Link
-  .local-scroll
-    %a.link-to-top{:href => "#top"}
-      %i.fa.fa-caret-up
   = javascript_include_tag 'landing', 'data-turbolinks-track' => true
   / End Top Link
   / End Foter
@@ -188,6 +183,16 @@
 / JS
 /[if lt IE 10] <script type="text/javascript" src="js/placeholder.js"></script>
 :javascript
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })
+
+  (window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-87583274-1', 'auto');
+  ga('send', 'pageview');
+
   function getTransactionFee(part_price){
       if( part_price && !isNaN(part_price) ){
           var tier0 = 0;

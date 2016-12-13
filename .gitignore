@@ -21,6 +21,8 @@
 
 /config/local_env.yml
 
+bidaero.csv
+
 dump.rdb
 
 .DS_Store

@@ -10,22 +10,22 @@
           .col.s12
             %ul.tabs
               %li.tab.col.m3.s12
-                %a.custom-green-text{:href => "#Account"} Account
+                %a.custom-green-text{:href => "#Account"} Escrow
               %li.tab.col.m3.s12
                 %a.custom-green-text{:href => "#companyDocuments"} Documents
               %li.tab.col.m3.s12
                 %a.custom-green-text{:href => "#Edit"} Edit Profile Info
               .indicator.custom-green-color{:style => "z-index:1"}
               
-          #Account.col.s12.active{style: "margin-top: 15px;"}
-
+          #Account.col.s12.active{style: "margin-top: 90px;"}
+            .center
+              %script{:src => "https://app.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+              %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
+                %i.fa.fa-lock{"aria-hidden" => "true"}
+                Manage Escrow Settings
           #companyDocuments.col.s12.active{style: "margin-top: 15px;"}
             = render 'company_docs/index'
           #Edit.col.s12.active{style: "margin-top: 15px;"}
             = render 'form'
 
-%div.center
-  %script{:src => "https://armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-  %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
-    %i.fa.fa-lock{"aria-hidden" => "true"}
-    Escrow Setup
+

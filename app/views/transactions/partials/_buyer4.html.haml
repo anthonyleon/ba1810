@@ -12,7 +12,7 @@
                 .col.s10.push-s1.required_date.center-align{style: "font-size: 16px;"}
                   Vendor has invoiced and is awaiting payment to commence shipping, please click below for payment instructions.
               %div.center-align
-              %script{:src => "https://armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+              %script{:src => "https://app.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
               %a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@payment_url}"}
                 Submit Payment
             -else

@@ -1,0 +1,23 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center Parts
+    %hr/
+    %table#inventoryPartsDT.table.striped.responsive-table.bordered
+      %thead
+        %tr
+          %th Part Number
+          %th Manufacturer
+          %th Description
+          %th Cage Code
+          %th Model
+          %th NSN
+      %tbody
+        - @parts.each do |part|
+          %tr
+            %td.srchtbl= part.part_num
+            %td.srchtbl= part.manufacturer
+            %td.srchtbl= part.description
+            %td.srchtbl= part.cage_code
+            %td.srchtbl= part.model
+            %td.srchtbl= part.nsn

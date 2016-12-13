@@ -1,0 +1,107 @@
+.col-md-12.mt-40
+  .row
+    .col-md-6
+      .container
+        .row
+          .col-xs-12.col-sm-6.col-md-6.col-lg-6
+            .box
+              .box-icon
+                %span.fa.fa-4x.fa-superpowers
+              .info.aircraftshow
+                %h4 OWNER INFO
+                .table-responsive
+                  %table.table
+                    %tbody
+                      %tr
+                        %td.align-left OWNER:
+                        %td= @engine.company.name
+                      %tr
+                        %td.align-left  LISTING DATE:
+                        %td= @engine.created_at
+                      %tr
+                        %td.align-left  REPRESENTATIVE:
+                        %td= @engine.company.representative
+                      %tr
+                        %td.align-left  PHONE NUMBER:
+                        %td= @engine.company.phone
+                      %tr
+                        %td.align-left  E-MAIL:
+                        %td= @engine.company.email
+
+                %h4 ENGINE CONDITIONS
+                .table-responsive
+                  %table.table
+                    %tbody
+                      %tr
+                        %td.align-left ENGINE LOCATION:
+                        %td.aicraft_input= @engine.location
+                      %tr
+                        %td.align-left AVAILABLE AFTER:
+                        %td.aicraft_input= @engine.available_date
+                      %tr
+                        %td.align-left SALE OR LEASE:
+                        -if @engine.sale? && @engine.lease?
+                          %td.aicraft_input Sale or Lease
+                        -elsif @engine.sale?
+                          %td.aicraft_input Sale
+                        -else @engine.lease?
+                          %td.aicraft_input Lease
+
+                %h4 ENGINE DESCRIPTION
+                .table-responsive
+                  %table.table
+                    %tbody
+                      %tr
+                        %td.align-left ENGINE MAJOR VARIANT:
+                        %td= @engine.engine_major_variant
+                      %tr
+                        %td.align-left ENGINE MINOR VARIANT:
+                        %td= @engine.engine_minor_variant
+                      %tr
+                        %td.align-left ESN:
+                        %td= @engine.esn
+                      %tr
+                        %td.align-left CONDITION:
+                        %td.input= AssetDecorator.rename(@engine, @engine.condition)
+                      -# %tr
+                      -#   %td.align-left ENGINE STATUS:
+                      -#   %td= @engine.id
+                      %tr
+                        %td.align-left CYCLES REMAINING:
+                        %td= @engine.cycles_remaining
+                      %tr
+                        %td.align-left SERVICE STATUS:
+                        %td= @engine.service_status
+                      %tr
+                        %td.align-left CURRENT OPERATOR:
+                        %td= @engine.current_operator
+                      %tr
+                        %td.align-left LAST OPERATOR:
+                        %td= @engine.last_operator
+
+    .col-md-6
+      .col-xs-12.col-sm-6.col-md-12.col-lg-12
+        .box
+          .info.aircraftshow
+            %h4 ENGINE GALLERY
+            %div.profile-image.align-center
+              = image_tag 'aircraft-engine.png', size: '300x200', alt: 'Engine'
+            %br
+            %h4 Documents
+            - if @engine.documents.empty?
+              %br
+              %p.align-center There are no documents associated with this engine.
+            - else
+              %table.table
+                %thead
+                  %tr
+                    %th.align-center Name
+                    %th.align-center Download Link
+                  %tbody
+                    - @engine.documents.each do |document|
+                      %tr
+                        %td.align-center= document.name
+                        -if document.attachment.url.downcase.include? "pdf"
+                          %td.align-center= link_to 'View/Download', document.attachment_url
+                        -else
+                          %td.align-center= link_to 'Download', document.attachment_url

@@ -28,7 +28,7 @@
   .field
     = f.text_field :cycles_remaining, placeholder: "Disk Limiter"
   .field
-    = f.text_field :available_date, placeholder: "Available Date, DD/MM/YY"
+    = f.text_field :available_date, class: "form-control datepicker", placeholder: "Engine Availability Date"
   #form-group.checkbox
     = f.check_box :sale
     = f.label :sale, "For Sale"
@@ -36,11 +36,41 @@
     = f.check_box(:lease)
     = f.label :lease, "For Lease"
   %br
+  .well
+    = f.fields_for :documents, Document.new, html: { multipart: true } do |cm|
+      = cm.label :name
+      = cm.text_field :name
+      = cm.label :attachment
+      = cm.file_field :attachment
+  %br
+  - if @engine.documents.empty?
+    %p There are no documents associated with this engine.
+  - else
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Name
+          %th Download Link
+          %th  
+        %tbody
+          - @engine.documents.each do |document|
+            %tr
+              %td= document.name
+              -if document.attachment.url.downcase.include? "pdf"
+                %td= link_to 'View/Download', document.attachment_url
+              -else
+                %td= link_to 'Download', document.attachment_url
+              - if document.company == current_user
+                %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn custom-btn'
+
   %div.btn.custom-btn
     %i.fa.fa-check-square-o
-    = f.submit 'Update Engine'
+    = f.submit 'submit'
 
   :javascript
     $(document).ready(function() {
       $('select').material_select();
+      $('.datepicker').pickadate({
+        selectMonths: true
+      });
     });

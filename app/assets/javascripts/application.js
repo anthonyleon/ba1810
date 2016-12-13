@@ -6,11 +6,14 @@
 //= require country_state_select
 //= require maskedinput
 //= require maskmoney
-//= require_tree .
+//= require bootstrap.min
+//= require_directory .
 //= stub landing
 
 
 $(document).ready(function() {
+
+
   var $flashTransition = $('.flash-transition');
   if (!!$flashTransition.length > 0) {
     $('.flash-transition').css({
@@ -114,18 +117,21 @@ $('#engineDTDashBoard').dataTable({
   //   ]
   // });
 
-  $('#invetoryPartsDT').dataTable({
+  $('#inventoryPartsDT').dataTable({
     "processing": true,
-    "pageLength": 10,
+    "serverSide": true,
+    "ajax": $('#inventoryPartsDT').data('source'),
+    "pageLength": 25,
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": false }
+      { "bSortable": true }
     ]
   });
+
+
 
   $('#buyerAuctionsDT').dataTable({
     "aoColumns": [

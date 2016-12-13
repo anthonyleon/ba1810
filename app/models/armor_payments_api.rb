@@ -1,9 +1,9 @@
 class ArmorPaymentsApi
-  if ENV['ARMOR_SANDBOX_BOOLEAN'] == "true"
-    CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
-  else
-    CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'])
-  end
+  # if ENV['ARMOR_SANDBOX_BOOLEAN'] == "true"
+  #   CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
+  # else
+  CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], false)
+  # end
 
 
   def self.get_account(account_id)
@@ -39,7 +39,7 @@ class ArmorPaymentsApi
 
   def self.select_payout_preference(company)
     auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
-    result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
+    p result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
     result.data[:body]["url"]
   end
 
