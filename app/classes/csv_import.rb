@@ -3,32 +3,6 @@ class CsvImport
 	require 'csv'
 
 	def self.csv_import(filename, company)
-		# CSV.parse(File.read(file), headers: true) do |row|
-
-		# 	row_hash = row.to_hash
-		# 	row_hash["condition"] = match_condition(row_hash)
-		# 	quantity = row_hash["quantity"].to_i
-
-		# 	part_match = Part.find_by(part_num: row_hash["part_num"])
-		# 	new_part = build_new_part(row_hash["part_num"], row_hash["description"]) if !part_match
-		# 	quantity.times do 
-		# 		part = InventoryPart.new(
-		# 			part_num: row_hash["part_num"], 
-		# 			description: row_hash["description"], 
-		# 			condition: row_hash["condition"],
-		# 			serial_num: row_hash["serial_num"],
-		# 			company_id: company.id,
-		# 			part_id: part_match.id
-		# 			)
-		# 		inv_parts << part 
-		# 	end
-		# 	parts_db << new_part if new_part
-
-		# end
-
-		# InventoryPart.import inv_parts
-		# Part.import parts_db
-
 		time = Benchmark.measure do
 			File.open(filename) do |file|
 				headers = file.first
@@ -130,15 +104,6 @@ class CsvImport
 
 	def self.build_new_part(part_number, desc)
 		Part.create(part_num: part_number, description: desc, flagged: true, manufacturer: "")
-	end
-
-	def self.build_inv_part part_match, inventory_part, company
-		inventory_part.description = part_match[:description]
-		inventory_part.manufacturer.upcase! if inventory_part.manufacturer
-		inventory_part.company = company
-		inventory_part.part = part_match
-		inventory_part.part_num.upcase!
-		inventory_part.save!
 	end
 
 end
