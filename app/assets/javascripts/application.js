@@ -142,10 +142,11 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true },
       { "bSortable": true },
       { "bSortable": true },
-      { "bSortable": false },
+      { "bSortable": false }
     ],
     "columnDefs": [{ "width": "80px", "targets": 7 }]
   });
+  
   $('#mybidsDT').dataTable({
     "aoColumns": [
       { "bSortable": true },
@@ -158,7 +159,12 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": false}
     ]
   });
+
   $('#currentOpportunitiesDT').dataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#currentOpportunitiesDT').data('source'),
+    "pageLength": 10,
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },

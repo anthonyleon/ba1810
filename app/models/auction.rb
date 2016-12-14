@@ -51,19 +51,19 @@ class Auction < ActiveRecord::Base
       parts.uniq! { |part| [part[:part_num], part[:condition]] }
       p parts.count
       p parts
-      sales_opportunities = []
       parts.each do |part|
         #stick auction in sales opportunities
         #if the auction is not the user's, already contains a user bid,
         #or if the auction isn't asking for the part in-question's condition
-        Auction.where(part_num: part.part_num, active: true).each do |auction|
+        auctions = Auction.where(part_num: part.part_num, active: true)
+
+        auctions.each do |auction|
           user_created_auction = (auction.company == user)
           user_has_placed_bids = (auction.bids & user.bids).present?
           part_matches = auction.condition.include?(part.condition)
           all_conditions = true if auction.condition[0].blank?
-
-          sales_opportunities << auction unless user_created_auction || user_has_placed_bids || !part_matches
-          sales_opportunities << auction if all_conditions && auction.company != user && !user_has_placed_bids
+          auction.remove if user_created_auction || user_has_placed_bids || !part_matches
+          auction.remove unless all_conditions && auction.company != user && !user_has_placed_bids
         end
       end
       sales_opportunities.uniq

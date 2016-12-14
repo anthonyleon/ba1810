@@ -82,7 +82,11 @@ class AuctionsController < ApplicationController
   end
 
   def current_opportunities
-    @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
+    # @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
+    respond_to do |format|
+      format.html
+      format.json { render json: CurrentOpportunitiesDatatable.new(view_context, current_user) }
+    end
   end
 
   private
