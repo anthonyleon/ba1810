@@ -8,7 +8,7 @@ class Company < ActiveRecord::Base
   has_many :ratings, dependent: :destroy
   has_many :transactions
   has_many :notifications, dependent: :destroy
-  has_many :documents, dependent: :destroy
+  has_many :documents
   has_many :company_docs
   validates :password, presence: true, length: { minimum: 6 }
   # validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
