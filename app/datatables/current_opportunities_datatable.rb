@@ -17,10 +17,6 @@ class CurrentOpportunitiesDatatable
   end
 
 private
-
-  def yolo
-    binding.pry
-  end
   
   def data
 
@@ -33,7 +29,6 @@ private
         ((Time.zone.now - auction.created_at) / 1.day).to_i,
         auction.bids.count,
       	auction.bids ? number_to_currency(auction.bids.minimum(:part_price)) : "N/A"
-
       ]
 
     end
