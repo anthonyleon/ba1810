@@ -13,26 +13,23 @@ class CurrentOpportunitiesDatatable
       iTotalDisplayRecords: current_opportunities.count,
       aaData: data.as_json
     }
-
   end
 
 private
   
   def data
-
     current_opportunities.map do |auction|
       [
-        link_to(auction.part_num, part),
+        link_to(auction.part_num, auction),
         auction.auction_part.description,
-        auction.condition[0].blank? ? "All Conditions" : auction.abbreviated_index_tags,
+        # auction.condition[0].blank? ? "All Conditions" : auction.abbreviated_index_tags,
+        "All Conditions",
         auction.created_at.strftime("%m/%d/%Y"),
         ((Time.zone.now - auction.created_at) / 1.day).to_i,
         auction.bids.count,
       	auction.bids ? number_to_currency(auction.bids.minimum(:part_price)) : "N/A"
       ]
-
     end
-    
   end
 
   def current_opportunities
