@@ -4,8 +4,7 @@ FactoryGirl.define do
     description   "TCAS COMPUTER"
     manufacturer  "ACSS"
     serial_num    "191223"
-    condition     2
+    condition     :as_removed
     company
-    part
   end
 end
