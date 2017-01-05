@@ -5,7 +5,7 @@
         %h5.custom-card-title.center Current Opportunities
       %hr/
       %br
-      %table#currentOpportunitiesDT.table.striped.responsive-table.bordered{"data-source" => "#{current_opportunities_path(format: "json")}"}
+      %table#currentOpportunitiesDT.table.striped.responsive-table.bordered
         %thead
           %tr
             %th Part Number
@@ -16,21 +16,20 @@
             %th Amount of Bids
             %th Lowest Bid
         %tbody
-
-          / - @sales_opportunities.each do |auction|
-          /   %tr
-          /     %td= link_to auction.part_num, auction
-          /     %td= auction.auction_part.description
-          /     -if auction.condition[0].blank?
-          /       %td All Conditions
-          /     -else
-          /       %td= auction.abbreviated_index_tags
-          /     %td= auction.created_at.strftime("%m/%d/%Y")
-          /     %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-          /     %td= auction.bids.count
-          /     -if auction.bids.empty?
-          /       %td= "N/A"
-          /     -else
-          /       %td= number_to_currency auction.bids.minimum(:part_price)
-          /     -# %td= link_to 'Edit', edit_auction_path(auction)
-          /     -# %td= link_to 'Delete', auction, data: { current_opportunities_behavior: 'delete' }
+          - @sales_opportunities.each do |auction|
+            %tr
+              %td= link_to auction.part_num, auction
+              %td= auction.auction_part.description
+              -if auction.condition[0].blank?
+                %td All Conditions
+              -else
+                %td= auction.abbreviated_index_tags
+              %td= auction.created_at.strftime("%m/%d/%Y")
+              %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+              %td= auction.bids.count
+              -if auction.bids.empty?
+                %td= "N/A"
+              -else
+                %td= number_to_currency auction.bids.minimum(:part_price)
+              -# %td= link_to 'Edit', edit_auction_path(auction)
+              -# %td= link_to 'Delete', auction, data: { current_opportunities_behavior: 'delete' }
