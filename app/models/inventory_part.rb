@@ -11,6 +11,20 @@ class InventoryPart < ActiveRecord::Base
   before_save :strip_whitespace
   enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
 
+  @@condition_abbreviations = {
+    "overhaul" => "OH",
+    "recent" => "NE",
+    "serviceable" => "SV",
+    "as_removed" => "AR",
+    "scrap" => "SC",
+    "non_serviceable" => "NSV"
+  }
+
+  def abbreviated_condition
+    @@condition_abbreviations[condition]
+  end
+
+
   def strip_whitespace
     self.attributes.each do |key, value|
       self[key] = value.squish if value.respond_to?("squish")

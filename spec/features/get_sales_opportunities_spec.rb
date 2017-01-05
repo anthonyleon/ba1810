@@ -1,69 +1,104 @@
 require 'rails_helper'
 
-feature "Getting Sales Opportunities" do
-
-	scenario "sales opportunities w/ NO bids available in user's sales opportunities view" do
-		db_part = create(:part)
-
-		auction = create(:auction)
-		auction_part = auction.auction_part
-		auction_part.update(part: db_part)
-
-		buyer = auction.company
-
-		inventory_part = create(:inventory_part)
-		inventory_part.update(part: db_part)
-		potential_seller = inventory_part.company
-		parts = potential_seller.inventory_parts
-
-
- 		sign_in potential_seller
-		visit current_opportunities_path
-
-		expect(page).to have_content("9000000-20004")
-		expect(page).to have_content("AR")
-		expect(auction).to eql(buyer.auctions.last)
+feature "Sales Opportunities" do
+	let(:part) do
+		create(:part)
 	end
 
-	scenario "sales opportunities w/ bids (including one posted by current_user) shouldn't be showing on current opportunities" do
-
-		random_bid = create(:bid)
-		auction = create(:auction)
-		random_bid.update(auction: auction)
-
-		buyer = auction.company
-
-		inventory_part = create(:inventory_part)
-		current_user = inventory_part.company
-
-		current_user_bid = create(:bid)
-		current_user_bid.update(company: current_user)
-		current_user_bid.update(auction: auction)
-
-		sign_in current_user
-
-		visit current_opportunities_path
-
-		expect(page).to have_no_content("9000000-20004")
-		expect(auction).to eql(buyer.auctions.last)
+	let(:selling_company) do
+		company = create(:company)
+		create(:inventory_part, company: company, part: part)
+		company
 	end
 
-	scenario "sales opportunities w/ bids not posted by current user should appear in Current Opportuntities" do
-		first_bid = create(:bid)
-		auction = create(:auction)
-		first_bid.update(auction: auction)
-		
-		second_bid = create(:bid)
-		second_bid = create(:bid)
+	let!(:buying_company) do
+		company = create(:company)
+		auction = create(:auction, company: company, auction_part: create(:auction_part, part: part))
+		company
+	end
 
-		inventory_part = create(:inventory_part)
-		current_user = inventory_part.company
+	let(:auction) do
+		buying_company.auctions.first
+	end
 
-		sign_in current_user
-
+	def sign_in_and_visit
+		sign_in selling_company
 		visit current_opportunities_path
+	end
 
-		expect(page).to have_content("9000000-20004")
-		expect(page).to have_content("AR")
+	def sales_opportunity_exists?
+		expect(page).to have_content(part.part_num)
+		expect(page).to have_content(selling_company.inventory_parts.first.abbreviated_condition)
+	end
+
+	def sales_opportunity_not_duplicated?
+		expect(page).to have_content(part.part_num, count: 1)
+		expect(page).to have_content(selling_company.inventory_parts.first.abbreviated_condition, count: 1)
+	end
+
+	context "valid sales opportunities" do
+		context "1 seller, 1 buyer, 1 part, no bids" do
+			it "auction is a sales opportunity" do
+				sign_in_and_visit
+				sales_opportunity_exists?
+			end
+		end		
+
+		context "1 seller, 1 buyer, 1 part, 2 random bids" do
+			it "auction is a sales opportunity" do
+				2.times { create(:bid, auction: auction) } # 2 random bids
+				
+				sign_in_and_visit
+				sales_opportunity_exists?
+			end
+		end
+
+		context "multiple auctions, no bids" do
+			it "every unbid auction is a sales opportunity" do
+				# 2nd auction
+				create(:auction, company: buying_company, auction_part: create(:auction_part, part: part))
+
+				sign_in_and_visit
+				expect(page).to have_content(part.part_num, count: 2)
+				expect(page).to have_content(selling_company.inventory_parts.first.abbreviated_condition, count: 2)
+			end
+		end
+
+	end
+
+	context "invalid sales opportunities" do 
+		context "1 seller, 1 buyer, 1 part, 1 seller bid" do
+			it "auction isn't a sales opportunity" do 
+				create(:bid, company: selling_company, auction: auction) # seller's bid
+
+				sign_in_and_visit
+				expect(page).to have_no_content(part.part_num)
+			end
+		end
+
+		context "multiple auctions, some bids" do
+			it "only unbid auctions are sales opportunities" do
+				# 2nd auction
+				second_auction = create(:auction, company: buying_company, auction_part: create(:auction_part, part: part))
+				expect(part.auctions.count).to eq(2)
+
+				# seller's bid
+				create(:bid, company: selling_company, auction: second_auction)
+
+				sign_in_and_visit
+				sales_opportunity_not_duplicated?
+			end
+		end
+
+		context "mutiple copies of an inventory part" do
+			it "auction should only appear once" do
+				create(:inventory_part, company: selling_company, part: part)
+				expect(selling_company.inventory_parts.count).to eq(2)
+				expect(part.auctions.count).to eq(1)
+
+				sign_in_and_visit
+				sales_opportunity_not_duplicated?
+			end
+		end
 	end
 end
