@@ -6,6 +6,5 @@ FactoryGirl.define do
     serial_num    "191223"
     condition     2
     company
-    part
   end
 end

@@ -9,5 +9,6 @@ FactoryGirl.define do
     destination_country   Faker::Address.country
     required_date         Faker::Date.forward(23)
     company
+    auction_part
   end
 end
