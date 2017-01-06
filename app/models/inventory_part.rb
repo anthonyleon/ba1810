@@ -4,6 +4,7 @@ class InventoryPart < ActiveRecord::Base
   validates :condition, presence: true
   belongs_to :company
   belongs_to :part
+  has_many :auctions, through: :part
   has_one :tx, class_name: "Transaction", foreign_key: "transaction_id"
   has_many :bids, dependent: :destroy
   has_many :documents, dependent: :destroy

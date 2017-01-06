@@ -13,7 +13,10 @@ feature "Sales Opportunities" do
 
 	let!(:buying_company) do
 		company = create(:company)
-		auction = create(:auction, company: company, auction_part: create(:auction_part, part: part))
+
+		auction = create(:auction, company: company)
+		create(:auction_part, auction: auction, part: part)
+
 		company
 	end
 
@@ -56,7 +59,8 @@ feature "Sales Opportunities" do
 		context "multiple auctions, no bids" do
 			it "every unbid auction is a sales opportunity" do
 				# 2nd auction
-				create(:auction, company: buying_company, auction_part: create(:auction_part, part: part))
+				second_auction = create(:auction, company: buying_company)
+				create(:auction_part, part: part, auction: second_auction)
 
 				sign_in_and_visit
 				expect(page).to have_content(part.part_num, count: 2)
@@ -69,7 +73,7 @@ feature "Sales Opportunities" do
 	context "invalid sales opportunities" do 
 		context "1 seller, 1 buyer, 1 part, 1 seller bid" do
 			it "auction isn't a sales opportunity" do 
-				create(:bid, company: selling_company, auction: auction) # seller's bid
+				create(:bid, company: selling_company, auction: auction, inventory_part: selling_company.inventory_parts.first)
 
 				sign_in_and_visit
 				expect(page).to have_no_content(part.part_num)
@@ -79,11 +83,12 @@ feature "Sales Opportunities" do
 		context "multiple auctions, some bids" do
 			it "only unbid auctions are sales opportunities" do
 				# 2nd auction
-				second_auction = create(:auction, company: buying_company, auction_part: create(:auction_part, part: part))
+				second_auction = create(:auction, company: buying_company)
+				create(:auction_part, part: part, auction: second_auction)
 				expect(part.auctions.count).to eq(2)
 
 				# seller's bid
-				create(:bid, company: selling_company, auction: second_auction)
+				create(:bid, company: selling_company, auction: second_auction, inventory_part: selling_company.inventory_parts.first)
 
 				sign_in_and_visit
 				sales_opportunity_not_duplicated?

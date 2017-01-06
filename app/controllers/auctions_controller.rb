@@ -82,7 +82,7 @@ class AuctionsController < ApplicationController
   end
 
   def current_opportunities
-    @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
+    @sales_opportunities = AuctionDecorator.decorate_collection(current_user.sales_opportunities)
     
     # respond_to do |format|
     #   format.html
