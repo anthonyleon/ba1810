@@ -26,6 +26,23 @@ class AssetDecorator < Draper::Decorator
     h.content_tag(:span,  tag_name.to_s.split('_')[1..-1].join(' ').capitalize, class: "tag #{tag_name}")
   end
 
+  def abbreviated_condition
+    case condition
+    when :overhaul
+      "OH"
+    when :recent
+      "NE"
+    when :serviceable
+      "SV"
+    when :as_removed
+      "AR"
+    when :scrap
+      "SC"
+    when :non_serviceable
+      "NSV"
+    end
+  end
+
 
   def self.rename(event, condition) #event or inventory part
     @conditions = []

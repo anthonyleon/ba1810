@@ -3,6 +3,10 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{name: "viewport", content: "initial-scale=1, maximum-scale=1"}
+    /[if IE 7] 
+      %script
+        window.location = "http://www.google.com/";
+
 
     %title BidAero
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true

@@ -172,7 +172,13 @@
           %a{:href => "#top"}
             %img.fooger{:src => asset_path("bid/logo_bid1.png")}/
         .footer-copy.font-alt
-          %a{:href => "#", :target => "_blank"}> © Bid Aero INC 2016  |  Terms | contact us support@bid.aero
+          %a{:href => "#", :target => "_blank"}> © Bid Aero INC 2016
+          = "  |"
+          = link_to "  Terms", "https://s3-us-west-2.amazonaws.com/publicpdfs/Privacy_Policy.pdf"
+          = "  |"
+          = link_to "  Privacy Policy"
+          = "  |"
+          = link_to " Contact support@bid.aero"
         / End Copyright
       / End Footer Text
   / Top Link

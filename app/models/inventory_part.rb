@@ -4,12 +4,27 @@ class InventoryPart < ActiveRecord::Base
   validates :condition, presence: true
   belongs_to :company
   belongs_to :part
+  has_many :auctions, through: :part
   has_one :tx, class_name: "Transaction", foreign_key: "transaction_id"
   has_many :bids, dependent: :destroy
   has_many :documents, dependent: :destroy
 
   before_save :strip_whitespace
   enum condition: [:recent, :overhaul, :as_removed, :serviceable, :non_serviceable, :scrap]
+
+  @@condition_abbreviations = {
+    "overhaul" => "OH",
+    "recent" => "NE",
+    "serviceable" => "SV",
+    "as_removed" => "AR",
+    "scrap" => "SC",
+    "non_serviceable" => "NSV"
+  }
+
+  def abbreviated_condition
+    @@condition_abbreviations[condition]
+  end
+
 
   def strip_whitespace
     self.attributes.each do |key, value|

@@ -5,6 +5,6 @@ FactoryGirl.define do
     manufacturer  "ACSS"
     serial_num    "191223"
     condition     :as_removed
-    company
+    # company
   end
 end

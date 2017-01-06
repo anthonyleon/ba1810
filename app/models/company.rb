@@ -1,14 +1,15 @@
 class Company < ActiveRecord::Base
   has_secure_password
   has_many :auctions, dependent: :destroy
-  has_many :bids, dependent: :destroy
+  # has_many :bids, dependent: :destroy
+  has_many :bids, through: :inventory_parts
   has_many :inventory_parts, dependent: :destroy
   has_many :aircrafts
   has_many :engines
   has_many :ratings, dependent: :destroy
   has_many :transactions
   has_many :notifications, dependent: :destroy
-  has_many :documents, dependent: :destroy
+  has_many :documents
   has_many :company_docs
   validates :password, presence: true, length: { minimum: 6 }
   # validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
@@ -67,6 +68,34 @@ class Company < ActiveRecord::Base
     self.attributes.each do |key, value|
       self[key] = value.squish if value.respond_to?("squish")
     end
+  end
+
+  def sales_opportunities
+    sales_opportunities = [] #make activerecord relation
+    user_bids = bids
+
+    inventory_parts.
+      includes(part: :auctions).
+      joins(part: {auctions: [:company]}).
+      joins("LEFT OUTER JOIN bids ON bids.auction_id = auctions.id").
+      joins("LEFT OUTER JOIN inventory_parts inventory_company_parts ON bids.inventory_part_id = inventory_company_parts.id").
+      joins("LEFT OUTER JOIN companies companies_bids ON inventory_company_parts.company_id = companies_bids.id").
+      where.not("auctions.company" => self). # user didn't create the auction
+      where("companies_bids.id IS NULL or companies_bids.id != ? ", id). # user didn't make a bid
+      distinct.
+      each do |inventory_part|
+        inventory_part.auctions.includes(:bids).each do |auction|
+          conditions = auction.conditions
+          part_matches = conditions.include?(inventory_part.condition.to_sym)
+          user_has_placed_bids = (auction.bids & user_bids).present?
+          any_condition = conditions[0].blank?
+
+          if (part_matches || any_condition) && !user_has_placed_bids
+            sales_opportunities << auction
+          end
+        end
+    end
+    sales_opportunities.uniq
   end
 
   private
