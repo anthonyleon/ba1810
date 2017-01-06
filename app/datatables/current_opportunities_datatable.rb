@@ -9,7 +9,7 @@
 #   def as_json(options = {})
 #     {
 #       sEcho: params[:draw].to_i,
-#       iTotalRecords: Auction.get_sales_opportunities(@company).count,
+#       iTotalRecords: @company.sales_opportunities.count,
 #       iTotalDisplayRecords: current_opportunities.count,
 #       aaData: data.as_json
 #     }
@@ -37,7 +37,7 @@
 #   end
 
 #   def fetch_current_opportunities
-#     current_opportunities = Auction.get_sales_opportunities(@company).order("#{sort_column} #{sort_direction}")
+#     current_opportunities = @company.sales_opportunities.order("#{sort_column} #{sort_direction}")
 #     current_opportunities = current_opportunities.page(page).per_page(per_page)
 #     if params[:search].present?
 #       current_opportunities = current_opportunities.where("part_num LIKE ?", "%#{params[:search][:value]}%")

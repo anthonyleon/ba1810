@@ -19,9 +19,7 @@ class Auction < ActiveRecord::Base
 
   def conditions # patch until column is renamed
     condition.to_a
-  end
-
-  
+  end  
 
   def resale_check
     if self.resale_status == "Yes"
@@ -47,32 +45,4 @@ class Auction < ActiveRecord::Base
     return "#{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
   end
 
-  def self.get_sales_opportunities(user)
-    sales_opportunities = [] #make activerecord relation
-    user_bids = user.bids
-
-    user.inventory_parts.
-      includes(part: :auctions).
-      joins(part: {auctions: [:company]}).
-      joins("LEFT OUTER JOIN bids ON bids.auction_id = auctions.id").
-      joins("LEFT OUTER JOIN inventory_parts inventory_company_parts ON bids.inventory_part_id = inventory_company_parts.id").
-      joins("LEFT OUTER JOIN companies companies_bids ON inventory_company_parts.company_id = companies_bids.id").
-      where.not("auctions.company" => user). # user didn't create the auction
-      where("companies_bids.id IS NULL or companies_bids.id != ? ", user.id). # user didn't make a bid
-      distinct.
-      each do |inventory_part|
-        inventory_part.auctions.includes(:bids).each do |auction|
-          conditions = auction.conditions
-          part_matches = conditions.include?(inventory_part.condition.to_sym)
-          user_has_placed_bids = (auction.bids & user_bids).present?
-          any_condition = conditions[0].blank?
-
-          if (part_matches || any_condition) && !user_has_placed_bids
-            sales_opportunities << auction
-          end
-        end
-    end
-    sales_opportunities.uniq
-  end
-
-  end
+end
