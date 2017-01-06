@@ -4,10 +4,6 @@ class AuctionsController < ApplicationController
 
   def index
     @owned_auctions = current_user.auctions.where(active: true).decorate
-    # @supplier_auctions = AuctionDecorator.decorate_collection(current_user.auctions_with_owned_bids)
-    # above code (@owned_auctions) should look like this but I need to work on auctions_with_owned_bids first
-    # @supplier_auctions = current_user.auctions_with_owned_bids.decorate
-    # @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
   end
 
   def show
@@ -82,7 +78,12 @@ class AuctionsController < ApplicationController
   end
 
   def current_opportunities
-    @sales_opportunities = AuctionDecorator.decorate_collection(Auction.get_sales_opportunities(current_user))
+    @sales_opportunities = AuctionDecorator.decorate_collection(current_user.sales_opportunities)
+    
+    # respond_to do |format|
+    #   format.html
+    #   format.json { render json: CurrentOpportunitiesDatatable.new(view_context, current_user) }
+    # end
   end
 
   private
