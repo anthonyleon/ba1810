@@ -19,17 +19,17 @@ class AuctionDecorator < AssetDecorator
   def abbreviated_conditions
     conditions.map do |condition|
       case condition
-      when :overhaul
+      when "overhaul"
         "OH"
-      when :recent
+      when "recent"
         "NE"
-      when :serviceable
+      when "serviceable"
         "SV"
-      when :as_removed
+      when "as_removed"
         "AR"
-      when :scrap
+      when "scrap"
         "SC"
-      when :non_serviceable
+      when "non_serviceable"
         "NSV"
       end
     end
@@ -51,7 +51,7 @@ class AuctionDecorator < AssetDecorator
     # else
     #   abbreviated_condition_tag(condition.first)
     # end
-    abbreviated_conditions.map do |abbrev_cond|
+    abbreviated_conditions.reject(&:blank?).map do |abbrev_cond|
       h.content_tag(:span, abbrev_cond, class: "tag tag_#{abbrev_cond.downcase}")
     end.to_sentence.html_safe
   end

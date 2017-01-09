@@ -17,7 +17,7 @@
                 %th Days Active
                 %th Lowest Bid
                 %th My Bid Price
-                %th
+                / %th
             %tbody
               - @supplier_auctions.each do |auction|
                 %tr
@@ -31,6 +31,6 @@
                   %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
                   %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
                   / This the current user's bid for this auction?
-                  %td= number_to_currency Bid.where(company_id: current_user.id).find_by(auction_id: auction.id).part_price
-                  %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => auction.bids.find_by(company_id: current_user.id).id, :auction_id => auction.id }, :method => :get
+                  %td= number_to_currency current_user.bids.find_by(auction: auction).part_price
+                  / %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => current_user.bids.find_by(auction: auction).id, :auction_id => auction.id }, :method => :get
                   -# edit_auction_bid_path(auction, @bid)
