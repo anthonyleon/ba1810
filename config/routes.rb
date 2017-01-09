@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get 'password_resets/new'
 
+  get '/privacy_policy' => 'pages#privacy_policy', as: 'privacy_policy'
+
   resources :documents, only: [:new, :index, :create]
 
   resources :engines do

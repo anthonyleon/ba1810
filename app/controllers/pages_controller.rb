@@ -32,6 +32,10 @@ class PagesController < ApplicationController
     @engine = Engine.find(params[:id])
   end
 
+  def privacy_policy
+    
+  end
+
   private 
 
   def send_mail
