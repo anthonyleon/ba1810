@@ -41,6 +41,12 @@ Primary use:    MultiPurpose Template
     .seller-benefits {
         padding-bottom: 45px !important;
     }
+    .dashboard-return {
+        display: inline-block;
+        line-height: 75px;
+        height: 75px;
+        margin-left: 30%;
+    }
 
 	.row.login {
     background: green;
@@ -237,103 +243,108 @@ input#enterbutton {
         font-size: 13px;
     }
 }
+@media only screen and (max-width: 997px) {
+    .dashboard-return {
+        display: none;
+    }
+}
 
 @media only screen and (max-width: 992px) {
 	.col-md-4.menulogin {
-}
-.col-md-3.col-md-offset-4.left {
-    padding-left: 20% !important;
-}
+    }
+    .col-md-3.col-md-offset-4.left {
+        padding-left: 20% !important;
+    }
 
-.banner-description {
-  color: white !important;
-  font-weight: bold;
-}
+    .banner-description {
+      color: white !important;
+      font-weight: bold;
+    }
 
-.banner-box {
-    float: right !important;
-}
-.hr2 {
-    width: 100% !important;
-}
-.col-md-6.heading {
-    border: none !important;
-}
-#message.input-md.round.form-control{
-    width: 188.5%;
-    margin: 20px 10.5%;
-}
-.label-field{
-    width: 103% !important;
-}
-.contact-label {
-    width: 90% !important;
-}
+    .banner-box {
+        float: right !important;
+    }
+    .hr2 {
+        width: 100% !important;
+    }
+    .col-md-6.heading {
+        border: none !important;
+    }
+    #message.input-md.round.form-control{
+        width: 188.5%;
+        margin: 20px 10.5%;
+    }
+    .label-field{
+        width: 103% !important;
+    }
+    .contact-label {
+        width: 90% !important;
+    }
 
-button.btn.btn-mod.btn-medium.btn-round.mb-xs-5 {
-		background: green;
-	    padding: 12px 37px;
-		margin: 143px 17% -11px -31%;
-}
-h3.title{    text-align: center;
-    color: black;
-}
-button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.silver{ margin-top: 15px;}
-.btn-mod.btn-round {
-    margin-top: 10px;
-}
+    button.btn.btn-mod.btn-medium.btn-round.mb-xs-5 {
+    		background: green;
+    	    padding: 12px 37px;
+    		margin: 143px 17% -11px -31%;
+    }
+    h3.title{    text-align: center;
+        color: black;
+    }
+    button.btn.btn-mod.btn-medium.btn-round.mb-xs-1.silver{ margin-top: 15px;}
+    .btn-mod.btn-round {
+        margin-top: 10px;
+    }
 
-.home-section{
-	width: 100%;
-	display: block;
-	position: relative;
-    overflow: hidden;
-	background-repeat: no-repeat;
-    background-attachment: scroll;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-}
-.footercenter{
-	list-style-type: none;
-	text-align: center;
-	margin-bottom: 15px;
-	background-color:#fff;
-	color:#111;
-}
-.col-md-9.left {
-    margin-left: 0px;
-}
-.col-md-7.heading{
-	border-right:0px ;
-    border-left: 0px;
-	}
+    .home-section{
+    	width: 100%;
+    	display: block;
+    	position: relative;
+        overflow: hidden;
+    	background-repeat: no-repeat;
+        background-attachment: scroll;
+    	-webkit-background-size: cover;
+    	-moz-background-size: cover;
+    	-o-background-size: cover;
+    	background-size: cover;
+    }
+    .footercenter{
+    	list-style-type: none;
+    	text-align: center;
+    	margin-bottom: 15px;
+    	background-color:#fff;
+    	color:#111;
+    }
+    .col-md-9.left {
+        margin-left: 0px;
+    }
+    .col-md-7.heading{
+    	border-right:0px ;
+        border-left: 0px;
+    	}
 
-	h1.title_0 {
-    margin: 245px 0px 0px 0px;
-}
-.mobile-nav {
-	height: 75px;
-    line-height: 75px;
-    width: 75px;
-    /*margin-top: -95px;*/
-	background: #001452;
-    color: #fff;
-	margin-top: -80px;
-	position: relative;
-    margin-top: -76px;
-}
-	.mobile-nav.small-height {
-    width: 34%;
-    margin-top: -75px;
-}
-	.footernav{
-	list-style-type: none;
-	text-align: center;
-    margin-left: -20px;
-	margin-bottom: 15px;
-}
+    	h1.title_0 {
+        margin: 245px 0px 0px 0px;
+    }
+    .mobile-nav {
+    	height: 75px;
+        line-height: 75px;
+        width: 75px;
+        /*margin-top: -95px;*/
+    	background: #001452;
+        color: #fff;
+    	margin-top: -80px;
+    	position: relative;
+        margin-top: -76px;
+    }
+    	.mobile-nav.small-height {
+        width: 34%;
+        margin-top: -75px;
+    }
+    	.footernav{
+    	list-style-type: none;
+    	text-align: center;
+        margin-left: -20px;
+    	margin-bottom: 15px;
+    }
     .hs-line-1 {
         letter-spacing: 23px;
     }

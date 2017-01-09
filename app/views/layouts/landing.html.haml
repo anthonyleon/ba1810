@@ -56,20 +56,32 @@
                         %a{:href => "/pricing"} PRICING
                       %li.navbarlist
                         %a{:href => "/engine_listing"} ENGINES
+                      / -if current_user
+                      /   %li.navbarlist
+                      /     %a{:href => "/dashboard"}
+                      /       %em
+                      /         RETURN TO DASHBOARD
+                / -if !current_user
                 .col-md-5.responsive.login-section
-                  .row.login.login_landing_form
-                    = form_for(:login, url: login_path, class: "formhead") do |f|
-                      .col-md-5.color-white
-                        %label.username{:for => "name"} E-mail
-                        = f.text_field :email, class: "validate", id: 'email', class: "input-md round form-control"
-                        -# %input.Remember{:type => "checkbox"}/
-                        -# Remember Me
-                      .col-md-5.color-white
-                        %label.password{:for => "pass"} Password
-                        = f.password_field :password, class: "validate input-md round form-control"
-                        = link_to 'Forgot Your Password?', new_password_reset_path, class: "reset_link"
-                      .col-md-2
-                        %input#enterbutton.input-md.round.form-control{:required => "", :type => "submit", :value => "Enter", style: "margin-top: 16px; margin-left: -19px;"}/
+                  -if current_user
+                    %li.dashboard-return
+                      %a{:href => "/dashboard"}
+                        %em
+                          RETURN TO DASHBOARD
+                  -if !current_user
+                    .row.login.login_landing_form
+                      = form_for(:login, url: login_path, class: "formhead") do |f|
+                        .col-md-5.color-white
+                          %label.username{:for => "name"} E-mail
+                          = f.text_field :email, class: "validate", id: 'email', class: "input-md round form-control"
+                          -# %input.Remember{:type => "checkbox"}/
+                          -# Remember Me
+                        .col-md-5.color-white
+                          %label.password{:for => "pass"} Password
+                          = f.password_field :password, class: "validate input-md round form-control"
+                          = link_to 'Forgot Your Password?', new_password_reset_path, class: "reset_link"
+                        .col-md-2
+                          %input#enterbutton.input-md.round.form-control{:required => "", :type => "submit", :value => "Enter", style: "margin-top: 16px; margin-left: -19px;"}/
       %hr.mt-0.mb-0/
     = yield
 
