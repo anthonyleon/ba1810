@@ -103,7 +103,7 @@ end
   get 'pricing', to: 'pages#pricing', as: 'pricing'
   get 'features', to: 'pages#features', as: 'features'
   get 'aircraft_listing', to: 'pages#aircraft_listing', as: 'aircraft_listing'
-  get 'engine_listing', to:'pages#engine_listing', as: 'engine_listing'
+  get 'engine_listings', to:'pages#engine_listings', as: 'engine_listings'
   get 'aircraft_show/:id', to: 'pages#aircraft_show', as: 'aircraft_show'
   get 'engine_show/:id' => 'pages#engine_show', as: "engine_show"
 
