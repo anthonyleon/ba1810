@@ -7,6 +7,7 @@ class Auction < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
 
   before_save :strip_whitespace
+  before_save :upcase_part_num
   
   serialize :condition, Array # rename auctions.condition to auctions.condition
 
@@ -22,27 +23,31 @@ class Auction < ActiveRecord::Base
   end  
 
   def resale_check
-    if self.resale_status == "Yes"
-      self.resale_yes = true
-      self.resale_no = false
+    if resale_status == "Yes"
+      resale_yes = true
+      resale_no = false
     else
-      self.resale_no = true
-      self.resale_yes = false
+      resale_no = true
+      resale_yes = false
     end
   end
 
+  def upcase_part_num
+    part_num.upcase!
+  end
+
   def strip_whitespace
-    self.attributes.each do |key, value|
+    attributes.each do |key, value|
       self[key] = value.squish if value.respond_to?("squish")
     end
   end
 
   def full_address
-    return "#{self.destination_address}, #{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
+    "#{destination_address}, #{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
   end
 
   def semi_address
-    return "#{self.destination_city} #{self.destination_state} #{self.destination_zip} #{self.destination_country}"
+    "#{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
   end
 
 end

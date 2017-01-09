@@ -8,7 +8,6 @@ class AuctionsController < ApplicationController
 
   def show
     @auction = @auction.decorate
-    @msrp = @auction.auction_part.init_price
   end
 
   def new
@@ -20,7 +19,7 @@ class AuctionsController < ApplicationController
 
   def create
     @auction = Auction.new(auction_params)
-    part_match = Part.find_by(part_num: @auction.part_num)
+    part_match = Part.find_by(part_num: @auction.part_num.upcase)
     # part_match = AvRefApi.part_num_check(@auction.part_num)
     @auction.resale_check
     respond_to do |format|
@@ -28,7 +27,6 @@ class AuctionsController < ApplicationController
           AdminMailer.new_auction(@auction)
           AuctionPart.make(part_match, @auction)
           @auction.company = current_user
-          @auction.part_num.upcase!
           @auction.save
           Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
           format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
