@@ -175,21 +175,7 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true }
     ]
   });
-  // $('#currentOpportunitiesDT').dataTable({
-  //   "processing": true,
-  //   "serverSide": true,
-  //   "ajax": $('#currentOpportunitiesDT').data('source'),
-  //   "pageLength": 10,
-  //   "aoColumns": [
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true }
-  //   ]
-  // });
+
 
 });
 
