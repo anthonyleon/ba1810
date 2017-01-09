@@ -6,10 +6,11 @@ module Helpers
     click_button "Log In"
   end
 
-  def find_auction_form(opts = {})
+  def find_and_fill_auction_form(opts = {})
     part_num = opts[:part_num] || "9000000-20004"
 
     fill_in 'auction[part_num]', with: part_num
+    fill_in 'auction[cycles]' , with: '9999'    
     fill_in 'auction[destination_company]', with: 'ABC Inc.'
     fill_in 'auction[destination_address]', with: '1234 Main Street'
     fill_in 'auction[destination_zip]', with: '12345'
