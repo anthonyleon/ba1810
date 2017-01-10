@@ -23,18 +23,28 @@ class AuctionsController < ApplicationController
     # part_match = AvRefApi.part_num_check(@auction.part_num)
     @auction.resale_check
     respond_to do |format|
+      @auction.company = current_user
+      @auction.save
+
       if part_match
-          AdminMailer.new_auction(@auction)
-          AuctionPart.make(part_match, @auction)
-          @auction.company = current_user
-          @auction.save
-          Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
-          format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
-          format.json { render :show, status: :created, location: @auction }
-      else
-        flash[:error] = "Part number is not valid"
-        format.html { redirect_to new_auction_path, alert: 'That part does not exist in our database.' }
+        AdminMailer.new_auction(@auction).deliver_now
+        AuctionPart.make(part_match, @auction)
       end
+        
+    #if the part for the RFQ doesn't match a part in our parts_db
+      if !part_match
+        AdminMailer.no_part_match(@auction).deliver_now
+        AuctionPart.temporary_make(@auction)
+      end
+
+      
+      Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
+      format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
+      format.json { render :show, status: :created, location: @auction }
+      # else
+      #   flash[:error] = "Part number is not valid"
+      #   format.html { redirect_to new_auction_path, alert: 'That part does not exist in our database.' }
+      # end
     end
   end
 
@@ -101,7 +111,6 @@ class AuctionsController < ApplicationController
       @bid = Bid.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def auction_params
       params.require(:auction).permit(:company_id, :part_num, :cycles, :destination_company, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
     end

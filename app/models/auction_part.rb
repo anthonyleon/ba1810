@@ -14,6 +14,16 @@ class AuctionPart < ActiveRecord::Base
 	          )
 	end
 
+	def self.temporary_make(auction)
+		part = Part.create(part_num: auction.part_num, description: "", manufacturer: "", flagged: true)
+
+		create(
+		        part_num: 			part[:part_num], # this should be delegated to self.part
+		        auction:   			auction,
+		        part: 				part
+		      )
+	end
+
 	def part_num
 		part.part_num
 	end

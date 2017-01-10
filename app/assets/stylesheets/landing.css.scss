@@ -1,3 +1,4 @@
+@import "landing/sign_up_form";
 @import "landing/bootstrap.min";
 @import "landing/YTPlayer";
 @import "landing/animate.min";
@@ -29,6 +30,15 @@ body {
 
 p.tit1 {
   margin-top: 5%;
+}
+
+.custom-btn {
+  background-color: green;
+  color: white !important;
+  height: 60px;
+  width: 240px;
+  font-size: larger;
+  line-height: 47px;
 }
 
 .key-features-scroll-down{
@@ -101,10 +111,6 @@ td.aircraft_input {
 
 li.navbarlist {
 	margin-left: 15px !important;
-}
-.newsletter-label .heading1 p {
-    padding: 20px 0px;
-        font-size: 45px;
 }
 
 .heading2 {

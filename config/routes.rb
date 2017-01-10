@@ -13,7 +13,11 @@ Rails.application.routes.draw do
 
   get '/terms_and_conditions' => 'pages#terms_and_conditions', as: 'terms_and_conditions'
 
+  get '/contact_us' => 'pages#sign_up_form', as: 'sign_up_form'
+
   resources :documents, only: [:new, :index, :create]
+
+  post '/contact_us' => 'pages#new_lead', as: 'new_lead'
 
   resources :engines do
     resources :documents, shallow: true

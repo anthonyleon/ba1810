@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :require_logged_in
-  before_action :send_mail
+  before_action :send_mail, except: [:new_lead, :sign_up_form]
 
   layout 'landing'
 
@@ -38,7 +38,17 @@ class PagesController < ApplicationController
   def terms_and_conditions
   end
 
+  def sign_up_form
+    # not the best way to do this, must refactor at a later time
+    new_lead_mail if params[:contact]
+  end
+
+
   private 
+
+  def new_lead_mail
+    AdminMailer.new_lead(params[:contact], params[:company], params[:phone], params[:email], params[:message]).deliver_now
+  end
 
   def send_mail
     AdminMailer.new_contact(params[:name], params[:phone], params[:email], params[:message]).deliver_now if params[:name]    

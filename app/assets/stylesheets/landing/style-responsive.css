@@ -19,9 +19,12 @@ Primary use:    MultiPurpose Template
 5. Small Phone
 6. Max Height 768
 -------------------------------------------------------------------*/
-
-
-
+@media only screen and (max-width: 2400px) {
+    .newsletter-label .heading1 p {
+        padding: 20px 0px;
+            font-size: 45px;
+    }
+}
 /* ==============================
    Small desktop
    ============================== */
@@ -30,10 +33,14 @@ Primary use:    MultiPurpose Template
     .inner-nav ul li {
         margin-left: 25px;
     }
+
     .benefits.font-alt-small {
       padding: 0 100px;
     }   
-
+    .newsletter-label .heading1 p {
+        padding: 20px 0px;
+            font-size: 45px;
+    }
     .buyer-benefits {
       padding-bottom: 65px !important;
     }
@@ -798,10 +805,18 @@ p.signnews {
         margin-left: -10%;
     }
 
+    .newsletter-label .heading1 p {
+        padding: 0px;
+            font-size: 45px;
+    }
     .fill-screen-mobile {
         position: inherit;
         width: auto;
         height: auto;
+    }
+
+    .call-to-action {
+        margin-left: -20px;
     }
 
     .heading1 p {
@@ -1053,8 +1068,14 @@ p.signnews {
     }
 
 }
-
-
+/* ==============================
+   iPhone 6
+   ============================== */
+@media only screen and (max-width: 375px) {
+    .call-to-action {
+        margin-left: -31px;
+    }
+}
 /* ==============================
    Small Phone
    ============================== */
@@ -1078,6 +1099,11 @@ p.signnews {
 
     .benefits.font-alt-small {
         padding: 0 10px;
+    }
+
+    .call-to-action {
+        margin-top: -20px;
+        margin-left: -50px;
     }
 }
 

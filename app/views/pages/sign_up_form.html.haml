@@ -1,0 +1,19 @@
+%section
+  %header.sign-up-form INTERESTED IN LEARNING MORE?
+  .contact-sub-text
+    Contact us today, and get reply with in 24 hours!
+  %form#form.topBefore
+    = form_tag new_lead_url, method: :post do
+      .contact-field
+        = text_field_tag :contact, nil, placeholder: "NAME", id: "name"
+        = text_field_tag :company, nil, placeholder: "COMPANY", id: "NAME"
+        = text_field_tag :phone, nil, placeholder: "PHONE NUMBER", id: "name"
+        = text_field_tag :email, nil, placeholder: "E-MAIL", id: "email"
+        = text_area_tag :message, nil, placeholder: "MESSAGE", id: "message"
+        = submit_tag :submit, value: "SUBMIT!", id: 'submit'
+    / %input#name{:placeholder => "NAME", :type => "text"}/
+    / %input#name{:placeholder => "COMPANY", :type => "text"}/
+    / %input#email{:placeholder => "E-MAIL", :type => "text"}/
+    / %input#email{:placeholder => "PHONE NUMBER", :type => "text"}/
+    / %textarea#message{:placeholder => "MESSAGE", :type => "text"}
+    / %input#submit{:type => "submit", :value => "SUBMIT!"}/
