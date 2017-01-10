@@ -43,6 +43,12 @@ class PagesController < ApplicationController
     new_lead_mail if params[:contact]
   end
 
+  def sitemap
+    respond_to do |format|
+      format.xml
+    end
+  end
+
 
   private 
 
