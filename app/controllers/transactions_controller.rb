@@ -139,7 +139,7 @@ class TransactionsController < ApplicationController
 
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
-    CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_now && Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.", transaction: @transaction) unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
+    CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) && Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.", transaction: @transaction) unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"
