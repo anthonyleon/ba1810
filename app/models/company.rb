@@ -71,7 +71,7 @@ class Company < ActiveRecord::Base
   end
 
   def sales_opportunities
-    sales_opportunities = [] #make activerecord relation
+    sales_opportunities = []
     user_bids = bids
 
     inventory_parts.
