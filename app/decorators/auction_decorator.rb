@@ -19,17 +19,17 @@ class AuctionDecorator < AssetDecorator
   def abbreviated_conditions
     conditions.map do |condition|
       case condition
-      when "overhaul"
+      when :overhaul
         "OH"
-      when "recent"
+      when :recent
         "NE"
-      when "serviceable"
+      when :serviceable
         "SV"
-      when "as_removed"
+      when :as_removed
         "AR"
-      when "scrap"
+      when :scrap
         "SC"
-      when "non_serviceable"
+      when :non_serviceable
         "NSV"
       end
     end
