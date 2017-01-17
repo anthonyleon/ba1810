@@ -8,6 +8,9 @@ class PagesController < ApplicationController
   	redirect_to dashboard_path if current_user
   end
 
+  def about    
+  end
+
   def pricing
   	redirect_to dashboard_path if current_user
   end

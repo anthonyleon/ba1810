@@ -1,0 +1,53 @@
+$custom-green: #189B4C;
+$light-grey: #9E9E9E;
+$custom-blue: #293860;
+
+.about-us.first-section {
+  margin: 0;
+
+}
+.first-section {
+  color: grey;
+  margin: 26% 16% 0% 16%;
+}
+
+p.first-section-title {
+  margin: -90px 0 1em 0;
+
+}
+.top-buffer {
+  margin-top: 20px;
+}
+
+.second-section {
+  color: $custom-blue;
+}
+
+
+section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+section::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 80%;
+}
+
+section h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font : normal 300 64px/1 'Josefin Sans', sans-serif;
+  text-align: center;
+  white-space: nowrap;
+}

@@ -1,42 +1,25 @@
 %div.break{style: "height: 75px; position: fixed;"}
-%section#home.home-section.bg-dark-alfa-90.fill-screen{"data-background" => asset_path("full-width-images/slider1.jpg")}
-  .js-height-full
-    .col-md-8.col-md-offset-2.align-center
-      .col-md-8.col-md-offset-2.slide1
-        %form.form-inline.part_form
-          .form-group
-            / %input.newsletter-field.form-control.input-md.round.mb-xs-10{:pattern => ".{5,100}", :placeholder => "ENTER CRITERIA", :required => "", :type => "email"}/
-          / .form-group
-          /   %select.form-control.silver{"ng-model" => "discussionsSelect"}
-          /     %option{:value => "PART NUMBER"} PART NO
-          /     %option{:value => "+91"} +91
-          /     %option{:value => "+910"} +910
-          /     %option{:value => "+915"} +915
-          / %button.btn.btn-mod.btn-medium.btn-round.round.mb-xs-1.silver{:type => "submit"}
-          /   SEARCH
-        .newsletter-label.font-alt
-          .heading1
-            %p LOCATE YOUR PART NOW
-          / .heading2
-          /   %p.heading2 Over 160,000 Parts Listed
-        .col-md-12
-          .btn.custom-btn.call-to-action
-            = link_to "GET STARTED FOR FREE!", sign_up_form_path
-    / .local-scroll
-    /   %a{:href => "#about"}
-    /     %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
-%section#about.shadow_section.page-section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/section-bg-26.png")}
+%section#about-us.bg-dark-alfa-90.about-us.first-section
+  .col-md-9.align-center
+    .first-section.col-md-12
+      .font-alt
+        .h1
+          %p.first-section-title Who are we?
+          .section-decorator
+      .col-md-12
+        .top-buffer
+          BID AERO IS A TECH COMPANY, WHOSE SOLE PURPOSE IS TO BRING TECHNOLOGY TO AFTERMARKET AVIATION. IT BEGINS WITH BRINGING SOURCING & PROCUREMENT BEST PRACTICES INTO THIS INDUSTRY SEGMENT. BID AERO ALLOWS FOR AIRCRAFT AND ENGINE PART SALES TO BE DONE IN A SAFE AND EFFICIENT MANNER.
+%section#about.page-section.pt-0.pb-0.second-section
   %br
   %br
   .container.relative
     .row
-      .col-md-6
-      .col-sm-6.banner-box
+      .col-md-offset-2.col-md-8
         .mt-140.mt-lg-80.mb-140.mb-lg-80
           .banner-content
-            %h1.marginbo BID AERO IS...
-            .banner-description
-              A sourcing and procurement platform that utilizes a reverse auction business model.  Reverse auction flips the traditional roles of buyer and vendor to create healthy competition for your benefit. The buyer simply requests a part and allows the vendors to compete against each other to make the sale, ensuring fair market value for the sourced item. By implementing a supply chain adopted from Fortune 100 companies that meets ISM standards, Bid Aero provides the most efficient and transparent way to source the parts you need.
+            %h1 WHO WE SERVE
+            .clients-subtext
+              ANY BUSINESS WITH PART REQUIREMENTS. WE BUILT BID AERO FROM EXPERIENCING FIRST HAND ALL THE PAIN POINTS IN THE INDUSTRY.
 %section#infographic.page-section.shadow_section.buyer-benefits
   %span.section-decorator
   %h6.section-title.font-alt.mb-35.mb-sm-40.benefits-title

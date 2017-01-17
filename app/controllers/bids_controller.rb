@@ -37,7 +37,6 @@ class BidsController < ApplicationController
 
   def create
     @bid = @auction.bids.new(bid_params)
-    @bid.company = current_user
     respond_to do |format|
       if @bid.save
         Notification.notify_other_bidders(@auction, current_user, "A bid has been placed on an auction you are participating in!")

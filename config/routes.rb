@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   post '/contact_us' => 'pages#new_lead', as: 'new_lead'
 
-  get "/sitemap.xml" => "pages#sitemap", :format => "xml", :as => :sitemap
+  get "/sitemap.xml" => "pages#sitemap", format: "xml", :as => :sitemap
+
+  get '/about' => 'pages#about', as: 'about_us'
 
   resources :engines do
     resources :documents, shallow: true
