@@ -11,15 +11,9 @@ feature "Creating a bid on an auction" do
 		company
 	end
 
-	let(:buying_company) do
-		company = create(:company, resale_cert: true)
-		create(:inventory_part, company: company, part: part)
-		company
-	end
-
 	let(:selling_company) do
 		company = create(:company)
-		create(:inventory_part, company: company, part: part)
+		create(:inventory_part, company: company, part: part, condition: 1)
 		company
 	end
 
@@ -44,9 +38,14 @@ feature "Creating a bid on an auction" do
 			sign_in_and_visit_and_create_auction
 			sign_out
 			sign_in_and_visit
-			p Auction.all
-
 			sales_opportunity_exists?
+
+			click_link part.part_num
+			click_link 'New Bid'
+
+			find_and_fill_bid_form
+			p page.body
+			save_and_open_page
 		end
 	end
 end

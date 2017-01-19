@@ -15,7 +15,7 @@
     .field.form-group
       = f.text_field :cycles, class: "form-control", placeholder: "Required Cycles Remaining (if applicable)"
     .field.form-group.auction-condition-form
-      = f.collection_check_boxes(:condition, Auction.conditions, :to_s, :humanize )
+      = f.collection_check_boxes(:condition, Auction.conditions, :to_s, :humanize)
     %br
     %div{style: "text-align: center;"}
       %h4 SHIP TO
