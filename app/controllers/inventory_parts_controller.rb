@@ -30,7 +30,6 @@ class InventoryPartsController < ApplicationController
     respond_to do |format|
       if part_match
         @inventory_part.add_part_details(part_match, current_user)
-
         unless @inventory_part.save
           format.html { render :new }
         end
