@@ -6,6 +6,10 @@ module Helpers
     click_button "Log In"
   end
 
+  def sign_out
+    click_link 'Log out'
+  end
+
   def find_and_fill_auction_form(opts = {})
     part_num = opts[:part_num] || "9000000-20004"
 
