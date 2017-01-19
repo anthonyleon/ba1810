@@ -15,7 +15,7 @@ class Auction < ActiveRecord::Base
 
   
   def self.conditions
-    %w(recent overhaul as_removed serviceable non_serviceable scrap)
+    %i(recent overhaul as_removed serviceable non_serviceable scrap)
   end
 
   def conditions # patch until column is renamed

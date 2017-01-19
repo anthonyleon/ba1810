@@ -16,7 +16,7 @@ class ArmorPaymentsApi
       company: company.name,
       user_name: company.representative,
       user_email: company.email,
-      user_phone: "+1 #{company.phone.gsub(/[ ()-]/, '')}",
+      user_phone: "#{company.phone.gsub(/[ ()-]/, '')}",
       address: company.address,
       city: company.city,
       state: company.state,
