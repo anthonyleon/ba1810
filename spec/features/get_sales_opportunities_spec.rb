@@ -106,6 +106,16 @@ feature "Sales Opportunities" do
 			end
 		end
 
+		context "Creator of Auction" do
+			it "shouldn't see it as a sales opportunity" do 
+				create(:inventory_part, company: buying_company, part: part)
+
+				sign_in buying_company
+				visit current_opportunities_path
+				expect(page).to have_no_content(part.part_num)
+			end
+		end
+
 		context "multiple auctions, some bids" do
 			it "only unbid auctions are sales opportunities" do
 				# 2nd auction
