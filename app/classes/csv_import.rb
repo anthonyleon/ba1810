@@ -17,7 +17,6 @@ class CsvImport
 							quantity = row['quantity'].to_i
 							row.delete('quantity')
 							row["condition"] = match_condition(row)
-							raise
 							quantity.times do 
 								part = InventoryPart.new(
 									part_num: row["part_num"], 
