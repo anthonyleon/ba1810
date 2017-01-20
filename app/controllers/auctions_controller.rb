@@ -24,6 +24,7 @@ class AuctionsController < ApplicationController
     @auction.resale_check
     respond_to do |format|
       @auction.company = current_user
+      @auction.condition.map!{ |x| x.to_sym }
       @auction.save
 
       if part_match

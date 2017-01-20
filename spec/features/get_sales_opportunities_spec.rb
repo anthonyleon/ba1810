@@ -84,8 +84,8 @@ feature "Sales Opportunities" do
 			it "show auctions for two different parts as sales opportunities" do
 				second_auction = create(:auction, company: buying_company, part_num: second_part.part_num)
 				create(:auction_part, part: second_part, auction: second_auction)
-				p second_part
-				p second_auction
+				second_part
+				second_auction
 
 				sign_in_and_visit
 				expect(page).to have_content(part.part_num, count: 1)
@@ -102,6 +102,16 @@ feature "Sales Opportunities" do
 				create(:bid, company: selling_company, auction: auction, inventory_part: selling_company.inventory_parts.first)
 
 				sign_in_and_visit
+				expect(page).to have_no_content(part.part_num)
+			end
+		end
+
+		context "Creator of Auction" do
+			it "shouldn't see it as a sales opportunity" do 
+				create(:inventory_part, company: buying_company, part: part)
+
+				sign_in buying_company
+				visit current_opportunities_path
 				expect(page).to have_no_content(part.part_num)
 			end
 		end
@@ -124,7 +134,7 @@ feature "Sales Opportunities" do
 		context "mutiple copies of an inventory part" do
 			it "auction should only appear once" do
 				create(:inventory_part, company: selling_company, part: part)
-				expect(selling_company.inventory_parts.count).to eq(2)
+				expect(selling_company.inventory_parts.count).to eq(3)
 				expect(part.auctions.count).to eq(1)
 
 				sign_in_and_visit
@@ -145,50 +155,42 @@ feature "Sales Opportunities" do
 		end
 		it "Auction for OVERHAUL part should show for part in OVERHAUL condition" do
 			oh_part = create(:inventory_part, part_num: "A07D32", condition: 1, company: selling_company, part: third_part)
-			oh_auction = create(:auction, part_num: oh_part.part_num, condition: [:overhaul, :""], company: buying_company)
+			oh_auction = create(:auction, part_num: oh_part.part_num, company: buying_company, condition: [:overhaul, :""])
 			create(:auction_part, auction: oh_auction, part: third_part)
-
-			# #criteria for part to show up
-			# p condition_match?(oh_auction, oh_part)
-			# p oh_auction.part_num 
-			# p oh_part.part_num
-			# p oh_auction.company != oh_part.company
-			# p !(oh_auction.bids & selling_company.bids).present?
-
-			# p "++" * 80
-			# p selling_company.inventory_parts
-
-			# p "()" *80
-			# p buying_company.auctions
 
 			sign_in_and_visit
 			expect(page).to have_content(oh_part.part_num, count: 1)
-
 			# should show OH condition twice because first auction of selling company is asking for part in OH condition 
 				# that is also in this selling_company's inventory
 			expect(page).to have_content(selling_company.inventory_parts.last.abbreviated_condition, count: 2)
 		end
+
+		it "Auction for AS REMOVED part should show for part in AS REMOVED condition" do
+			ar_part = create(:inventory_part, part_num: "A07D32", condition: 2, company: selling_company, part: third_part)
+			ar_auction = create(:auction, part_num: ar_part.part_num, company: buying_company, condition: [:as_removed, :""])
+			create(:auction_part, auction: ar_auction, part: third_part)
+
+			sign_in_and_visit
+			# should show AR condition twice because first auction of selling company is asking for part in AR condition 
+				# that is also in this selling_company's inventory
+			expect(page).to have_content(ar_part.part_num, count: 1)
+			expect(page).to have_content(selling_company.inventory_parts.last.abbreviated_condition, count: 2)
+				
+		end
+
 		it "Auction for SERVICEABLE part should show for part in SERVICEABLE condition" do
-			sv_part = create(:inventory_part, part_num: "A07D32", condition: 2, company: selling_company, part: third_part)
-			sv_auction = create(:auction, condition: [:serviceable, :""])
+			sv_part = create(:inventory_part, part_num: "A07D32", condition: 3, company: selling_company, part: third_part)
+			sv_auction = create(:auction, part_num: sv_part.part_num, condition: [:serviceable, :""], company: buying_company)
 			create(:auction_part, auction: sv_auction, part: third_part)
 
 			sign_in_and_visit
 			expect(page).to have_content(sv_part.part_num, count: 1)
 			expect(page).to have_content(selling_company.inventory_parts.last.abbreviated_condition, count: 1)
 		end
-		it "Auction for AS REMOVED part should show for part in AS REMOVED condition" do
-			ar_part = create(:inventory_part, part_num: "A07D32", condition: 3, company: selling_company, part: third_part)
-			ar_auction = create(:auction, condition: [:as_removed, :""])
-			create(:auction_part, auction: ar_auction, part: third_part)
 
-			sign_in_and_visit
-			expect(page).to have_content(ar_part.part_num, count: 1)
-			expect(page).to have_content(selling_company.inventory_parts.last.abbreviated_condition, count: 1)			
-		end
 		it "Auction for NON SERVICEABLE part should show for part in NON SERVICEABLE condition" do
 			nsv_part = create(:inventory_part, part_num: "A07D32", condition: 4, company: selling_company, part: third_part)
-			nsv_auction = create(:auction, condition: [:non_serviceable, :""])
+			nsv_auction = create(:auction, part_num: nsv_part.part_num, company: buying_company, condition: [:non_serviceable, :""])
 			create(:auction_part, auction: nsv_auction, part: third_part)
 
 			sign_in_and_visit
@@ -197,7 +199,7 @@ feature "Sales Opportunities" do
 		end
 		it "Auction for SCRAP part should show for part in SCRAP condition" do
 			sc_part = create(:inventory_part, part_num: "A07D32", condition: 5, company: selling_company, part: third_part)
-			sc_auction = create(:auction, condition: [:scrap, :""])
+			sc_auction = create(:auction, part_num: sc_part.part_num, company: buying_company, condition: [:scrap, :""])
 			create(:auction_part, auction: sc_auction, part: third_part)
 
 			sign_in_and_visit

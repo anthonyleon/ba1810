@@ -1,35 +1,21 @@
 .card
-  .card-content
-    .card-title.center-align
-      %h5.custom-card-title.center Inventory Parts
-    %hr/
-    / %table#inventoryPartsDT.table.striped.responsive-table.bordered
-    %table#inventoryPartsDT.table.striped.responsive-table.bordered{"data-source" => "#{inventory_parts_path(format: "json")}"}
-      %thead
-        %tr
-          %th Part Number
-          %th Description
-          %th Serial Number
-          %th Condition
-          %th Manufacturer
-      %tbody
+	.card-content
+		.card-title.center-align
+			%h5.custom-card-title.center Inventory Parts
+		%hr/
+		/ %table#inventoryPartsDT.table.striped.responsive-table.bordered
+		%table#inventoryPartsDT.table.striped.responsive-table.bordered{"data-source" => "#{inventory_parts_path(format: "json")}"}
+			%thead
+				%tr
+					%th Part Number
+					%th Description
+					%th Serial Number
+					%th Condition
+					%th Manufacturer
+			%tbody
 
-        / - @inventory_parts.each do |inventory|
-        /   %tr
-        /     %td.srchtbl= link_to inventory.part_num, inventory
-        /     %td.srchtbl= inventory.description
-        /     %td.srchtbl= inventory.serial_num
-        /     %td.srchtbl= inventory.condition
-        /     %td.srchtbl= inventory.manufacturer
-        /     %td
-        /       = link_to inventory_part_path(inventory), data: { inventory_behavior: 'delete' }  do
-        /         %span.material-icons.red-text.icon-34
-        /           delete_forever
 %div.btn.custom-btn
-  %i.fa.fa-upload
-  = link_to 'Upload New Inventory', new_inventory_part_path
+	%i.fa.fa-upload
+	= link_to 'Upload New Inventory', new_inventory_part_path
 %div.right.btn.custom-btn.destroy-all-button
-  =link_to 'Delete All Inventory', remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"}
-
-
-
+	=link_to 'Delete All Inventory', remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"}

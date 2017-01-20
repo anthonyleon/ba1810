@@ -6,6 +6,10 @@ module Helpers
     click_button "Log In"
   end
 
+  def sign_out
+    click_link 'Log out'
+  end
+
   def find_and_fill_auction_form(opts = {})
     part_num = opts[:part_num] || "9000000-20004"
 
@@ -37,11 +41,10 @@ module Helpers
     click_button 'Update Inventory Part' if opts[:submit]
   end
 
-  def find_and_fill_bid_form(opts={})
-    part_num = opts[:part_num] || "9000000-20004"
-
+  def find_and_fill_bid_form
     fill_in 'bid[part_price]', with: 2_000
     fill_in 'bid[est_shipping_cost]', with: 123
+    page.find(:css, '#cursor-row').click()
     click_button 'Place bid'
   end
 

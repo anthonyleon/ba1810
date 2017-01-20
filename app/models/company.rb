@@ -94,7 +94,7 @@ class Company < ActiveRecord::Base
             sales_opportunities << auction
           end
         end
-    end
+      end
     sales_opportunities.uniq
   end
 
