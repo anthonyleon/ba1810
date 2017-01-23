@@ -132,6 +132,7 @@ Responsive stlyes
       color: grey;
       margin: 20% auto 8% auto;
     }
+
 }
 
 @media only screen and (max-width: 400px) {
@@ -139,7 +140,7 @@ Responsive stlyes
       font-size: 2.5em;
     }
     .top-buffer {
-      text-align: justify;
+      text-align: justify !important;
     }
 
     .mb-lg-80 {
@@ -155,4 +156,17 @@ Responsive stlyes
     .fourth-title {
       font-size: 1.5em;
     }
+}
+
+@media only screen and (max-width: 350px) {
+  .about-us-title {
+    font-size: 2em;
+  }
+  .first-section {
+    margin-bottom: 50px !important;
+  }
+
+  .alt-features-item.align-center.boxit {
+    margin-top: 110px;
+  }
 }
