@@ -8,7 +8,8 @@ class PagesController < ApplicationController
   	redirect_to dashboard_path if current_user
   end
 
-  def about    
+  def about
+    @about = true
   end
 
   def pricing

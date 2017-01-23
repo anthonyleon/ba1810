@@ -26,7 +26,7 @@ class CsvImport
 									company_id: company.id,
 									part_id: part_match ? part_match.id : new_part.id
 									)			
-								inventory << part							
+								inventory << part					
 							end
 						end
 						InventoryPart.import inventory

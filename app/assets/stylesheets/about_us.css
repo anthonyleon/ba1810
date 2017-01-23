@@ -2,32 +2,92 @@ $custom-green: #189B4C;
 $light-grey: #9E9E9E;
 $custom-blue: #293860;
 
-.about-us.first-section {
-  margin: 0;
-
+.appear-animate.about_us {
+  padding-top: 50px;
 }
+
+.background {
+  background-image: url('full-width-images/world.png');
+  background-size:     cover;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center; 
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+
+.about-us.first-section{
+  margin: 0;
+  height: 400px;
+}
+
+.second-section {
+  margin: 0;
+  height: 345px;
+}
+
+.section-decorator.about-us.third-section{
+  display: flex;
+}
+
+.top-buffer {
+  color: white;
+  font-size: 16px;
+}
+
+.alt-features-title.font-alt.larger-font {
+  font-size: 1.65em;
+}
+
 .first-section {
   color: grey;
-  margin: 26% 16% 0% 16%;
+  margin: 20% 16% 15% 16%;
 }
 
-p.first-section-title {
-  margin: -90px 0 1em 0;
-
+.third-title, .fourth-title {
+  position: relative;
+  margin-bottom: 0.3em;
+  font : normal 300 2.8em/1 'Josefin Sans', sans-serif;
 }
+
+.fourth-section {
+  display: inline;
+}
+
 .top-buffer {
   margin-top: 20px;
 }
 
-.second-section {
-  color: $custom-blue;
+.section-decorator.about-us {
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
 
+.second-section {
+  color: #293860;
+  text-align: center;
+}
 
-section {
+ul.assets-list {
+  list-style: none;
+  display: inline;
+  text-align: center;
+  font-size: 1.4em;
+  color: white;
+}
+
+ul.assets-list.equipment {
+  color: lightgrey;
+}
+
+h1.about-us-title {
+  position: relative;
+  margin-bottom: 0.3em;
+}
+
+section.about-us {
   position: relative;
   width: 100%;
-  height: 100%;
 }
 
 section::after {
@@ -47,7 +107,65 @@ section h1 {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   color: #fff;
-  font : normal 300 64px/1 'Josefin Sans', sans-serif;
+  font : normal 300 4em/1 'Josefin Sans', sans-serif;
   text-align: center;
   white-space: nowrap;
+}
+/*
+Responsive stlyes
+*/
+@media only screen and (max-width: 620px) {
+    .about-us-title {
+      font-size: 3em;
+    }
+
+    .mb-lg-80 {
+      margin-bottom: 20px;
+    }
+
+    .third-title {
+      font-size: 1.8em;
+    }
+
+    .first-section {
+      color: grey;
+      margin: 20% auto 8% auto;
+    }
+
+}
+
+@media only screen and (max-width: 400px) {
+    .about-us-title {
+      font-size: 2.5em;
+    }
+    .top-buffer {
+      text-align: justify !important;
+    }
+
+    .mb-lg-80 {
+      margin-bottom: 20px;
+    }
+
+    .third-title {
+      font-size: 1.8em;
+    }
+    .third-title.line-2 {
+      font-size: 1.2em;
+    }
+    .fourth-title {
+      font-size: 1.5em;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+  .about-us-title {
+    font-size: 2em;
+  }
+  .first-section {
+    margin-bottom: 50px !important;
+  }
+
+  .alt-features-item.align-center.boxit {
+    margin-top: 110px;
+  }
 }
