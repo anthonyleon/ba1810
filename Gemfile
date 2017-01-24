@@ -29,7 +29,6 @@ gem 'maskedinput-rails'
 gem 'maskmoney-rails'
 gem 'httparty'
 gem 'bootstrap-sass'
-gem 'actionpack-page_caching'
 
 gem 'simple_form', '~> 3.2'
 # Utilities

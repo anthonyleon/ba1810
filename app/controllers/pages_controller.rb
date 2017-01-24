@@ -1,8 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :require_logged_in
   before_action :send_mail, except: [:new_lead, :sign_up_form]
-  caches_page :show
-  expire_page action: 'show'
   layout 'landing'
 
   def show
