@@ -45,7 +45,7 @@ private
     inventory_parts = @company.inventory_parts.order("#{sort_column} #{sort_direction}")
     inventory_parts = inventory_parts.page(page).per_page(per_page)
     if params[:search].present?
-      inventory_parts = inventory_parts.where("part_num LIKE ?", "%#{params[:search][:value]}%")
+      inventory_parts = inventory_parts.where("part_num LIKE ?", "%#{params[:search][:value].upcase}%")
     end
     inventory_parts
   end
