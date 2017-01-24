@@ -30,7 +30,7 @@ module BidAero
 
     config.exceptions_app = self.routes
     
-
+    config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/deploy"
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.action_dispatch.default_headers = {'X-Frame-Options' => 'ALLOWALL'}
