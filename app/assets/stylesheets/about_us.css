@@ -146,6 +146,10 @@ Responsive stlyes
       margin-bottom: 20px;
     }
 
+    .list-of-parts {
+      margin-top: 50%;
+    }
+
     .third-title {
       font-size: 1.8em;
     }
