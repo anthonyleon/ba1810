@@ -11,7 +11,7 @@
             %th Part Number
             %th Description
             %th Conditions
-            %th Start Date
+            %th Quantity
             %th Days Active
             %th Amount of Bids
             %th Lowest Bid
@@ -24,7 +24,7 @@
                 %td All Conditions
               -else
                 %td= auction.abbreviated_index_tags
-              %td= auction.created_at.strftime("%m/%d/%Y")
+              %td= auction.quantity
               %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
               %td= auction.bids.count
               -if auction.bids.empty?

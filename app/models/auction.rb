@@ -6,6 +6,8 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
+  validates :quantity, presence: true
+
   before_save :strip_whitespace
   before_save :upcase_part_num
   
