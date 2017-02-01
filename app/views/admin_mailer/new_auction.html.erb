@@ -1,8 +1,22 @@
 <h2>New Auction has been created</h2>
 
-<div>Company: <%= @company.name %></div>
-<div>Company ID: <%= @company.id %></div>
+<div>Company: <%= @auction_company.name %></div>
+<div>Company ID: <%= @auction_company.id %></div>
 <div>E-Mail: <%= @email %></div>
 <div>Auction ID: <%= @auction.id %></div>
 <div>Part: <%= @auction.part_num %></div>
 <div>Condition: <%= @auction.condition %></div>
+
+<%- if @match_count %>
+	<br>
+	<h1>MATCH INFO</h1>
+	<br>
+	<div>We have <%=@match_count%> matches in our inventory.</div>
+	<div>The companies who have these parts are </div>
+		<%- @companies.uniq.each do |co| %>
+			<div><em><%= co.name %></em></div>
+		<%-	end %> 
+<%- else %>
+	<br>
+	<h2>There aren't any matches to this parts. Get to work.</h2>
+<%- end%>

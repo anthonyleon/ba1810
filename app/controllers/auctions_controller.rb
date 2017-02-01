@@ -26,17 +26,7 @@ class AuctionsController < ApplicationController
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }
       @auction.save
-
-      if part_match
-        AdminMailer.new_auction(@auction).deliver_now
-        AuctionPart.make(part_match, @auction)
-      end
-        
-    #if the part for the RFQ doesn't match a part in our parts_db
-      if !part_match
-        AdminMailer.no_part_match(@auction).deliver_now
-        AuctionPart.temporary_make(@auction)
-      end
+      Notification.part_match_actions(part_match, @auction)
 
       
       Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")

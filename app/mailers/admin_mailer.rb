@@ -18,11 +18,15 @@ class AdminMailer < ApplicationMailer
     mail to: 'support@bid.aero', subject: "New Client Registration"
   end
 
-  def new_auction(auction)
+  def new_auction(auction, opts = {})
     @auction = auction
-    @company = auction.company
+    @auction_company = auction.company
+    if opts[:matches]
+      @match_count = opts[:match_count]
+      @companies = opts[:suppliers]
+    end
 
-    mail to: 'support@bid.aero', subject: 'SOMEONE JUST CREATED AN AUCTION' 
+    mail to: 'support@bid.aero', subject: "#{@auction_company.name.upcase} JUST CREATED AN AUCTION" 
   end
 
   def new_lead(contact, company, phone, email, message)
