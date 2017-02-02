@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :auction do
     part_num              "1475M35P01"
     active                true
+    quantity              1
     condition             [:as_removed, :overhaul]
     destination_address   Faker::Address.street_address
     destination_zip       Faker::Address.zip
