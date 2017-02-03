@@ -2,6 +2,7 @@ class CsvImport
 	require "benchmark"
 	require 'csv'
 
+
 	def self.csv_import(filename, company)
 		time = Benchmark.measure do
 			File.open(filename) do |file|

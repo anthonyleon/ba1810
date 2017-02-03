@@ -96,7 +96,7 @@ class TransactionsController < ApplicationController
         @transaction.calculate_total_payment
         p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
-        Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
+        # Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
         CompanyMailer.send_escrow_money(@transaction, @transaction.buyer).deliver_now
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.", transaction: @transaction)
 
