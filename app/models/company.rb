@@ -98,6 +98,12 @@ class Company < ActiveRecord::Base
     sales_opportunities.uniq
   end
 
+  def self.spit
+    Company.all.each do |co|
+      puts co.id.to_s + "\t -- \t" + co.name
+    end
+  end
+
   private
 
   def downcase_email

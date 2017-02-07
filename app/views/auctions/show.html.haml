@@ -9,9 +9,9 @@
             = @auction.part_num
           -if @auction.cycles
             %h6
-              = "Required Cycles Remaining: #{number_with_delimiter(@auction.cycles, :delimiter => ',')}"
+              = "Required Cycles Remaining: #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
           %h6
-            = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',')}"
+            = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
 
         - if @auction.company == current_user
           %div.btn.custom-btn.right
