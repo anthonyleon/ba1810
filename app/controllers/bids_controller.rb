@@ -20,7 +20,7 @@ class BidsController < ApplicationController
   end
 
   def new
-    redirect_to select_payout_preference_path unless current_user.payout_selected?
+    
     @bid = Bid.new
     @parts = current_user.inventory_parts
     @match_parts = []
