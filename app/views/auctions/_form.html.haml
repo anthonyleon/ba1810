@@ -14,9 +14,9 @@
     .field.form-group
       = f.number_field :quantity, min: 1, class: "form-control", placeholder: "Quantity"
     .field.form-group
-      = f.text_field :cycles, class: "form-control", placeholder: "Required Cycles Remaining (if applicable)"
+      = f.text_field :target_price, class: "form-control dollars", placeholder: "Target Price"    
     .field.form-group
-      = f.text_field :target_price, class: "form-control dollars", placeholder: "Target Price"
+      = f.text_field :cycles, class: "form-control", placeholder: "Required Cycles Remaining (if applicable)"
 
     .field.form-group.auction-condition-form
       = f.collection_check_boxes(:condition, Auction.conditions, :to_s, :humanize)

@@ -7,7 +7,7 @@
             %h5.left
               = @auction.auction_part.description
             %h6.right
-              = "Target Price: #{number_to_currency(@auction.target_price) || "N/A"}"
+              = "Target Price: #{@auction.target_price || "N/A"}"
           .col.s12
             %h6
               = @auction.part_num
@@ -20,7 +20,7 @@
               = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
         - if @auction.company == current_user
           .col.s12
-            .col.s5
+            .col.s5.target-price-form
               = form_tag "/auctions/#{@auction.id}", method: 'PATCH' do
                 .col.s5
                   = text_field_tag 'target_price', nil, placeholder: 'Update Target Price', class: "dollars"
@@ -29,7 +29,7 @@
                   %i.fa.fa-lg.fa-plus
 
 
-            .col.s7
+            .col.s7.edit-auction-btn
               %div.btn.custom-btn.right{style: 'margin-top: 10px;'}
                 %i.fa.fa-pencil
                 = link_to 'Edit this Auction', edit_auction_path(@auction)
