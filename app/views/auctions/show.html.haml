@@ -14,11 +14,10 @@
           -if @auction.cycles
             .col.s12
               %h6
-                = "Required Cycles Remaining: #{number_with_delimiter(@auction.cycles, :delimiter => ',')}"
+                = "Required Cycles Remaining: #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
           .col.s12
             %h6
-              = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',')}"
-
+              = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
         - if @auction.company == current_user
           .col.s12
             .col.s5
