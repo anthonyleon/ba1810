@@ -37,7 +37,6 @@ class BidsController < ApplicationController
 
   def create
     @bid = @auction.bids.new(bid_params)
-    params[:bid][:inventory_part_id] = params[:bid][:inventory_part_id].split(",")
     respond_to do |format|
       if @bid.save
         Notification.notify_other_bidders(@auction, current_user, "A bid has been placed on an auction you are participating in!")

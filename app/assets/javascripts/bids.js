@@ -86,31 +86,9 @@ $(document).on('ready page:load', function() {
 	// choosing inventory in bid
 	$( ".choose-inventory" ).click(function() {
 		id = $(this).closest("tr").data("inventory-part-id");
-		$(this).toggleClass("selected");
+		$(this).addClass("selected").siblings().removeClass("selected");
+		$('#hiddeninv').val(id);
 	});
-
-	// collect all the selected table rows into an array
-	var tableRow = document.getElementsByClassName("choose-inventory");
-	var ids = [];
-
-	function toggleArrayItem(arr, item) {
-	    var i = arr.indexOf(item);
-	    if (i === -1)
-	        arr.push(item);
-
-	    else
-	        arr.splice(i,1);
-	    
-	   	$('#hiddeninv').val(ids);
-	}
-
-	for (var i = 0; tableRow; i++) {
-		tableRow[i].addEventListener('click', function() { 
-			toggleArrayItem(ids, id);
-
-			
-		}, false);
-	};
 
 
 
