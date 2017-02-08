@@ -14,9 +14,20 @@
             = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',')}"
 
         - if @auction.company == current_user
-          %div.btn.custom-btn.right
-            %i.fa.fa-pencil
-            = link_to 'Edit this Auction', edit_auction_path(@auction)
+          .col.s12
+            .col.s5
+              = form_tag edit_auction_path do
+                .col.s5
+                  = text_field_tag 'search', nil, placeholder: 'Add Target Price'
+                / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
+                = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color") do
+                  %i.fa.fa-lg.fa-plus
+
+
+            .col.s7
+              %div.btn.custom-btn.right{style: 'margin-top: 10px;'}
+                %i.fa.fa-pencil
+                = link_to 'Edit this Auction', edit_auction_path(@auction)
         - else
           = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
         %hr{style: "clear:both;margin-top: 60px;"}/
