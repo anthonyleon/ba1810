@@ -51,18 +51,20 @@ class AuctionsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @auction.update(auction_params)
+      if params[:target_price]
+        @auction.update(target_price: params[:target_price])
+      elsif @auction.update(auction_params)
         unless params[:commit] == "Update Auction"
           @transaction = Transaction.find(transaction_params[:id])
           @transaction.update(transaction_params)
         end
-        format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
-        format.js { }
-        format.json { render :show, status: :ok, location: @auction }
       else
         format.html { render :edit }
         format.json { render json: @auction.errors, status: :unprocessable_entity }
       end
+      format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
+      format.js { }
+      format.json { render :show, status: :ok, location: @auction }
     end
   end
 
@@ -113,7 +115,7 @@ class AuctionsController < ApplicationController
     end
 
     def auction_params
-      params.require(:auction).permit(:company_id, :part_num, :cycles, :quantity, :destination_company, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
+      params.require(:auction).permit(:company_id, :part_num, :target_price, :cycles, :quantity, :destination_company, :destination_address, :destination_zip, :destination_city, :destination_state, :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, condition: [])
     end
 
     def transaction_params

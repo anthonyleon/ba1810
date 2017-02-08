@@ -2,23 +2,29 @@
   .col.s12
     .card
       .card-content
-        %span.card-title.activator.grey-text.text-darken-4
-          %h5
-            = @auction.auction_part.description
-          %h6
-            = @auction.part_num
-          -if @auction.cycles
+        %span.card-title.grey-text.text-darken-4
+          .col.s12
+            %h5.left
+              = @auction.auction_part.description
+            %h6.right
+              = "Target Price: #{number_to_currency(@auction.target_price) || "N/A"}"
+          .col.s12
             %h6
-              = "Required Cycles Remaining: #{number_with_delimiter(@auction.cycles, :delimiter => ',')}"
-          %h6
-            = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',')}"
+              = @auction.part_num
+          -if @auction.cycles
+            .col.s12
+              %h6
+                = "Required Cycles Remaining: #{number_with_delimiter(@auction.cycles, :delimiter => ',')}"
+          .col.s12
+            %h6
+              = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',')}"
 
         - if @auction.company == current_user
           .col.s12
             .col.s5
-              = form_tag edit_auction_path do
+              = form_tag "/auctions/#{@auction.id}", method: 'PATCH' do
                 .col.s5
-                  = text_field_tag 'search', nil, placeholder: 'Add Target Price'
+                  = text_field_tag 'target_price', nil, placeholder: 'Update Target Price', class: "dollars"
                 / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
                 = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color") do
                   %i.fa.fa-lg.fa-plus
