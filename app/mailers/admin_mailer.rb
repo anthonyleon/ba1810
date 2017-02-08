@@ -22,7 +22,7 @@ class AdminMailer < ApplicationMailer
     @auction = auction
     @company = auction.company
 
-    mail to: 'support@bid.aero', subject: 'SOMEONE JUST CREATED AN AUCTION' 
+    mail to: 'support@bid.aero', subject: "#{@company.name.upcase} JUST CREATED AN AUCTION"
   end
 
   def new_lead(contact, company, phone, email, message)
