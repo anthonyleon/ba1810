@@ -182,7 +182,8 @@
           %a{:href => "#top"}
             %img.fooger{:src => asset_path("bid/logo_bid1.png")}/
         .footer-copy.font-alt
-          %a{:href => "#", :target => "_blank"}> © Bid Aero INC 2016
+          %a{:href => "#", :target => "_blank"}> 
+            = "© Bid Aero INC #{Date.current.year}"
           = "  |"
           = link_to "  Terms", terms_and_conditions_path
           = "  |"
