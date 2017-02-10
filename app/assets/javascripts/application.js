@@ -131,6 +131,19 @@ $('#engineDTDashBoard').dataTable({
     ]
   });
 
+  $('#allInventoryDT').dataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#allInventoryDT').data('source'),
+    "pageLength": 50,
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
 
 
   $('#buyerAuctionsDT').dataTable({

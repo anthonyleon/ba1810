@@ -9,6 +9,13 @@ class InventoryPartsController < ApplicationController
     end
   end
 
+  def super_index
+    respond_to do |format|
+      format.html
+      format.json { render json: AllInventoryDatatable.new(view_context) }
+    end
+  end
+
   def show
     @inventory_part = @inventory_part.decorate
     @bid = Bid.find(params[:bid_id]) unless params[:bid_id].nil?

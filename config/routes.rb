@@ -78,6 +78,9 @@ end
   get 'bids' => 'bids#index', as: 'bids'
   resources :password_resets
 
+  get 'super_index' => 'inventory_parts#super_index', as: 'super_index'
+
+  
   resources :inventory_parts do
     resources :documents, shallow: true
   end
