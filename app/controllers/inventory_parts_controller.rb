@@ -10,9 +10,12 @@ class InventoryPartsController < ApplicationController
   end
 
   def super_index
-    respond_to do |format|
-      format.html
-      format.json { render json: AllInventoryDatatable.new(view_context) }
+    redirect_to dashboard_path unless current_user.system_admin?
+    if current_user.system_admin
+      respond_to do |format|
+        format.html
+        format.json { render json: AllInventoryDatatable.new(view_context) }
+      end
     end
   end
 
