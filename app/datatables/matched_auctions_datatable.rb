@@ -1,4 +1,4 @@
-class ActiveAuctionsDatatable
+class MatchedAuctionsDatatable
   delegate :params, :h, :link_to, :number_to_currency, to: :@view
 
   def initialize(view)
@@ -8,7 +8,7 @@ class ActiveAuctionsDatatable
   def as_json(options = {})
     {
       sEcho: params[:draw].to_i,
-      iTotalRecords: Auction.with_inventory_matches.count,
+      iTotalRecords: Auction.where(matched: true).count,
       iTotalDisplayRecords: auctions.count,
       aaData: data.as_json
     }
@@ -25,9 +25,9 @@ private
       [
       	auct.company.name,
         link_to(auct.part_num, auct),
-        AssetDecorator.rename(auct, auct.condition),
-        auct.required_date,
-        auct.target_price,
+        (AssetDecorator.rename(auct, auct.condition)),
+        auct.required_date || "N/A",
+        auct.target_price || "N/A",
         auct.created_at.in_time_zone('Eastern Time (US & Canada)').strftime("%m/%d/%y")
       ]
     end
@@ -38,7 +38,7 @@ private
   end
 
   def fetch_auctions
-    auctions = Auction.with_inventory_matches.order("#{sort_column} #{sort_direction}")
+    auctions = Auction.where(matched: true).order("#{sort_column} #{sort_direction}")
     auctions = auctions.page(page).per_page(per_page)
     if params[:search].present?
       auctions = auctions.where("part_num LIKE ?", "%#{params[:search][:value].upcase}%")
@@ -55,7 +55,7 @@ private
   end
 
   def sort_column
-    columns = %w[company.name part_num condition required_date target_price created_at]
+    columns = %w[id part_num condition required_date target_price created_at]
     columns[params[:order]["0"][:column].to_i]
   end
 

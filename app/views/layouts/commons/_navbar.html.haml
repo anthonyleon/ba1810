@@ -91,6 +91,10 @@
           = link_to super_index_path do
             %i.fa.fa-cogs
             Locate Inventory
+        %li
+          = link_to matched_auctions_path do
+            %i.fa.fa-cogs
+            Auctions w Matches
       -else
         %li
           = link_to inventory_parts_path do

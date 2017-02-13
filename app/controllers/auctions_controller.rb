@@ -20,23 +20,13 @@ class AuctionsController < ApplicationController
   def create
     @auction = Auction.new(auction_params)
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
-    # part_match = AvRefApi.part_num_check(@auction.part_num)
     @auction.resale_check
+
     respond_to do |format|
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }
       @auction.save
-
-      if part_match
-        AdminMailer.new_auction(@auction).deliver_now
-        AuctionPart.make(part_match, @auction)
-      end
-        
-    #if the part for the RFQ doesn't match a part in our parts_db
-      if !part_match
-        AdminMailer.no_part_match(@auction).deliver_now
-        AuctionPart.temporary_make(@auction)
-      end
+      Auction.part_match_or_not_actions(@auction, part_match)
 
       
       Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
@@ -98,7 +88,7 @@ class AuctionsController < ApplicationController
     if current_user.system_admin?
       respond_to do |format|
         format.html
-        format.json { render json: ActiveAuctionsDatatable.new(view_context) }
+        format.json { render json: MatchedAuctionsDatatable.new(view_context) }
       end
     end
   end

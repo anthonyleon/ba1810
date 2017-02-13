@@ -64,20 +64,21 @@ class AssetDecorator < Draper::Decorator
     elsif event.class == Auction
       condition.each do |condition|
         case condition
-        when "overhaul"
+        when :overhaul
           @conditions << "OH"
-        when "recent"
+        when :recent
           @conditions << "NE"
-        when "serviceable"
+        when :serviceable
           @conditions << "SV"
-        when "as_removed"
+        when :as_removed
           @conditions << "AR"
-        when "scrap"
+        when :scrap
           @conditions << "SC"
-        when "non_serviceable"
+        when :non_serviceable
           @conditions << "NSV"
         end
       end
+      @conditions << "All Conditions" if condition == [:""]
     elsif event.class == Engine
       case condition
       when "overhaul"
