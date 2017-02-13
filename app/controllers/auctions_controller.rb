@@ -92,6 +92,17 @@ class AuctionsController < ApplicationController
     @sales_opportunities = AuctionDecorator.decorate_collection(current_user.sales_opportunities)
   end
 
+  # for admin =========================>
+  def matched_auctions
+    redirect_to dashboard_path unless current_user.system_admin?
+    if current_user.system_admin?
+      respond_to do |format|
+        format.html
+        format.json { render json: ActiveAuctionsDatatable.new(view_context) }
+      end
+    end
+  end
+
   private
 
     def notify_of_opportunities(message)

@@ -145,6 +145,20 @@ $('#engineDTDashBoard').dataTable({
     ]
   });
 
+  $('#matchedAuctionsDT').dataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#matchedAuctionsDT').data('source'),
+    "pageLength": 50,
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
 
   $('#buyerAuctionsDT').dataTable({
     "aoColumns": [
@@ -159,6 +173,8 @@ $('#engineDTDashBoard').dataTable({
     ],
     "columnDefs": [{ "width": "80px", "targets": 7 }]
   });
+
+
   
   $('#mybidsDT').dataTable({
     "aoColumns": [
