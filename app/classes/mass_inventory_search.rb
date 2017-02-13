@@ -9,14 +9,14 @@ class MassInventorySearch
 	def self.check_database(file_name)
 		parts = []
 		puts "*" * 800
-		all_parts = InventoryPart.where.not(company_id: 17)
+		all_parts = InventoryPart.all
 		puts all_parts.count
 
-		File.readlines(file_name).each do |line|
-			part = line.gsub(/\n/, '')
-			parts << part if all_parts.find_by(part_num: part)
+		File.readlines(file_name)[10..41].each do |line|
+			part = line.gsub(/\t/, '')
+			parts << part #if all_parts.find_by(part_num: part)
 		end
-		File.open("Parts In Inventory.txt", 'w') {|file|
+		File.open("JW Partss.txt", 'w') {|file|
 			file.write("Total Parts Count: " + parts.count.to_s + " \n \n")
 			parts.each do |x|
 				file.write(x + "\n")

@@ -44,6 +44,17 @@ class Auction < ActiveRecord::Base
     end
   end
 
+  def self.with_inventory_matches
+    @auctions = Auction.where(active: true)
+    @counter = 0
+    @auctions.each do |auc|
+      # auctions.where.not(id: auc.id) unless InventoryPart.find_by(part_num: auc.part_num)
+      @counter += 1 unless InventoryPart.find_by(part_num: auc.part_num)
+      @auctions = @auctions.reject{|auct| auct == auc} unless InventoryPart.find_by(part_num: auc.part_num)
+    end
+    binding.pry
+  end
+
   def full_address
     "#{destination_address}, #{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
   end
