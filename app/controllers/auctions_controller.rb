@@ -93,6 +93,29 @@ class AuctionsController < ApplicationController
     end
   end
 
+  def unmatched_auctions
+    redirect_to dashboard_path unless current_user.system_admin?
+    if current_user.system_admin?
+      respond_to do |format|
+        format.html
+        format.json { render json: UnmatchedAuctionsDatatable.new(view_context) }
+      end
+    end
+  end
+
+  def all_auctions
+    redirect_to dashboard_path unless current_user.system_admin?
+    # #companies who have auctions FOR Select Dropdown Filter.. To be completed later
+    # @companies = Company.joins(:auctions).select("DISTINCT companies.*")
+
+    if current_user.system_admin?
+      respond_to do |format|
+        format.html
+        format.json { render json: AllAuctionsDatatable.new(view_context) }
+      end
+    end
+  end
+
   private
 
     def notify_of_opportunities(message)

@@ -160,6 +160,36 @@ $('#engineDTDashBoard').dataTable({
     ]
   });
 
+  $('#allAuctionsDT').dataTable({
+    "pageLength": 50,
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#allAuctionsDT').data('source'),
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
+
+  $('#unmatchedAuctionsDT').dataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#unmatchedAuctionsDT').data('source'),
+    "pageLength": 50,
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
+
   $('#buyerAuctionsDT').dataTable({
     "aoColumns": [
       { "bSortable": true },
