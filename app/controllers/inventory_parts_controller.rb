@@ -9,16 +9,6 @@ class InventoryPartsController < ApplicationController
     end
   end
 
-  def super_index
-    redirect_to dashboard_path unless current_user.system_admin?
-    if current_user.system_admin
-      respond_to do |format|
-        format.html
-        format.json { render json: AllInventoryDatatable.new(view_context) }
-      end
-    end
-  end
-
   def show
     @inventory_part = @inventory_part.decorate
     @bid = Bid.find(params[:bid_id]) unless params[:bid_id].nil?

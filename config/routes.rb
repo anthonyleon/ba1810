@@ -119,9 +119,9 @@ end
 
 
 # admin views
-  get 'super_index' => 'inventory_parts#super_index', as: 'super_index'
-  get 'matched_auctions' => 'auctions#matched_auctions', as: 'matched_auctions'
-  get 'unmatched_auctions' => 'auctions#unmatched_auctions', as: 'unmatched_auctions'
-  get 'all_auctions' => 'auctions#all_auctions', as: 'all_auctions'
+  get 'super_index' => 'admin#super_index', as: 'super_index'
+  get 'matched_auctions' => 'admin#matched_auctions', as: 'matched_auctions'
+  get 'unmatched_auctions' => 'admin#unmatched_auctions', as: 'unmatched_auctions'
+  get 'all_auctions' => 'admin#all_auctions', as: 'all_auctions'
 
 end

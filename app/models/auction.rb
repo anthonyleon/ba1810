@@ -24,6 +24,14 @@ class Auction < ActiveRecord::Base
     condition.to_a
   end  
 
+  def self.active
+    where(active: true)
+  end
+
+  def self.companies_w_auctions
+    Company.joins(:auctions).where(auctions: {active: true}).select("DISTINCT companies.*")
+  end
+
   def resale_check
     if resale_status == "Yes"
       resale_yes = true
