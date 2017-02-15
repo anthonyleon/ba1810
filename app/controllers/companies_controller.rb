@@ -92,7 +92,7 @@ class CompaniesController < ApplicationController
   end
 
   def admin_inventory_upload
-    redirect_to dashboard_path unless current_user.email == 'support@bid.aero' || 'general@gaylord.io'  
+    redirect_to dashboard_path unless current_user.system_admin? 
   end
 
   private
