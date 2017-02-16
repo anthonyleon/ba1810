@@ -67,7 +67,13 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { :host => "bid-aero.herokuapp.com" }
 
+  Sidekiq.configure_server do |config|
+    config.redis = { url: ENV["REDISTOGO_URL"], network_timeout: 5 }
+  end
 
+  Sidekiq.configure_client do |config|
+    config.redis = { url: ENV["REDISTOGO_URL"], network_timeout: 5 }
+  end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
