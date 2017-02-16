@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+
+gem 'bugsnag'
 gem 'activerecord-import'
 gem 'will_paginate'
 gem 'draper'

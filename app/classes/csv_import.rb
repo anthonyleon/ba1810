@@ -1,7 +1,7 @@
-class CsvImport
-	require "benchmark"
-	require 'csv'
+require 'benchmark'
+require 'csv'
 
+class CsvImport
 
 	def self.csv_import(filename, company)
 		time = Benchmark.measure do
