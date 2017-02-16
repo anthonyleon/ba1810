@@ -131,7 +131,64 @@ $('#engineDTDashBoard').dataTable({
     ]
   });
 
+  $('#allInventoryDT').dataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#allInventoryDT').data('source'),
+    "pageLength": 50,
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
 
+  $('#matchedAuctionsDT').dataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#matchedAuctionsDT').data('source'),
+    "pageLength": 50,
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
+
+  $('#allAuctionsDT').dataTable({
+    "pageLength": 50,
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#allAuctionsDT').data('source'),
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
+
+  $('#unmatchedAuctionsDT').dataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": $('#unmatchedAuctionsDT').data('source'),
+    "pageLength": 50,
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
 
   $('#buyerAuctionsDT').dataTable({
     "aoColumns": [
@@ -146,6 +203,8 @@ $('#engineDTDashBoard').dataTable({
     ],
     "columnDefs": [{ "width": "80px", "targets": 7 }]
   });
+
+
   
   $('#mybidsDT').dataTable({
     "aoColumns": [

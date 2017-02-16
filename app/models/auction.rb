@@ -24,6 +24,14 @@ class Auction < ActiveRecord::Base
     condition.to_a
   end  
 
+  def self.active
+    where(active: true)
+  end
+
+  def self.companies_w_auctions
+    Company.joins(:auctions).where(auctions: {active: true}).select("DISTINCT companies.*")
+  end
+
   def resale_check
     if resale_status == "Yes"
       resale_yes = true
@@ -44,6 +52,37 @@ class Auction < ActiveRecord::Base
     end
   end
 
+
+  def self.part_match_or_not_actions(auction, part_match)
+    #part_match is for Parts Table
+    if part_match
+      AdminMailer.new_auction(auction).deliver_now
+      AuctionPart.make(part_match, auction)
+    end
+      
+  #if the part for the RFQ doesn't match a part in our parts_db
+    if !part_match
+      AdminMailer.no_part_match(auction).deliver_now
+      AuctionPart.temporary_make(auction)
+    end
+
+  # For InventoryPart check if auction matches one
+    part = InventoryPart.where.not(company: auction.company).where(part_num: auction.part_num)
+    if !part.empty?
+      auction.update_attribute('matched', true)
+    else
+      auction.update_attribute('matched', false)
+    end
+  end
+
+def self.define_matched_auctions(auction)
+      part = InventoryPart.where.not(company: auction.company).where(part_num: auction.part_num)
+    if !part.empty?
+      auction.update_attribute('matched', true)
+    else
+      auction.update_attribute('matched', false)
+    end
+end
   def full_address
     "#{destination_address}, #{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
   end

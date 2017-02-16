@@ -45,8 +45,14 @@ class Company < ActiveRecord::Base
   end
 
   def self.company_types
-    {"Public Corporation (Co/Corp)" => 1, "Private Corporation" => 2, "Sole Proprietorship" => 3, "Limited Liability Company (LLC)" => 4,
-      "Limited Liability Partnership (LLP)" => 5, "Limited Company (Ltd)" => 6, "Incorporation (Inc)" => 7 }
+    { "Public Corporation (Co/Corp)" => 1,
+      "Private Corporation" => 2,
+      "Sole Proprietorship" => 3,
+      "Limited Liability Company (LLC)" => 4,
+      "Limited Liability Partnership (LLP)" => 5,
+      "Limited Company (Ltd)" => 6,
+      "Incorporation (Inc)" => 7 
+    }
   end
 
   def auctions_with_owned_bids

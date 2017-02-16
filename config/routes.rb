@@ -76,8 +76,9 @@ end
 
   get 'current_opportunities' => 'auctions#current_opportunities', as: 'current_opportunities'
   get 'bids' => 'bids#index', as: 'bids'
+  
   resources :password_resets
-
+  
   resources :inventory_parts do
     resources :documents, shallow: true
   end
@@ -107,6 +108,7 @@ end
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
 
+  #landing page stuff
   resource :pages, only: [:show]
   get 'pricing', to: 'pages#pricing', as: 'pricing'
   get 'features', to: 'pages#features', as: 'features'
@@ -114,5 +116,12 @@ end
   get 'engine_listings', to:'pages#engine_listings', as: 'engine_listings'
   get 'aircraft_show/:id', to: 'pages#aircraft_show', as: 'aircraft_show'
   get 'engine_show/:id' => 'pages#engine_show', as: "engine_show"
+
+
+# admin views
+  get 'super_index' => 'admin#super_index', as: 'super_index'
+  get 'matched_auctions' => 'admin#matched_auctions', as: 'matched_auctions'
+  get 'unmatched_auctions' => 'admin#unmatched_auctions', as: 'unmatched_auctions'
+  get 'all_auctions' => 'admin#all_auctions', as: 'all_auctions'
 
 end

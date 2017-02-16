@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170208175940) do
+ActiveRecord::Schema.define(version: 20170213191236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20170208175940) do
     t.string   "cycles"
     t.integer  "quantity"
     t.string   "target_price"
+    t.boolean  "matched"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 20170208175940) do
     t.integer  "business_type"
     t.boolean  "payout_selected"
     t.boolean  "resale_cert",            default: false
+    t.boolean  "system_admin",           default: false
   end
 
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree

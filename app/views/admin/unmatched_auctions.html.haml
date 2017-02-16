@@ -1,0 +1,15 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h6.custom-card-title.center Auctions for Which We Have No Inventory
+    %hr/
+    %table#unmatchedAuctionsDT.table.striped.responsive-table.bordered{"data-source" => "#{unmatched_auctions_path(format: "json")}"}
+      %thead
+        %tr
+          %th Auctioner
+          %th Part Number
+          %th Conditions
+          %th Delivery Date
+          %th Target Price
+          %th Created On
+      %tbody

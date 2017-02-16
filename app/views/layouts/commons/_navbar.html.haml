@@ -86,10 +86,28 @@
           = link_to select_payout_preference_path do
             %i.fa.fa-university
             Setup Escrow
-      %li
-        = link_to inventory_parts_path do
-          %i.fa.fa-cogs
-          Inventory
+      -if current_user.system_admin?
+        %li
+          = link_to super_index_path do
+            %i.fa.fa-cogs
+            Locate Inventory
+        %li
+          = link_to matched_auctions_path do
+            %i.fa.fa-cogs
+            matchedAuctions
+        %li
+          = link_to unmatched_auctions_path do
+            %i.fa.fa-cogs
+            unmatchedAuc
+        %li
+          = link_to all_auctions_path do
+            %i.fa.fa-cogs
+            Active Auctions
+      -else
+        %li
+          = link_to inventory_parts_path do
+            %i.fa.fa-cogs
+            Inventory
       %li
         = link_to aircrafts_path do
           %i.fa.fa-plane

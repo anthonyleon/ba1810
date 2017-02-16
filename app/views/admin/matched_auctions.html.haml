@@ -1,0 +1,15 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center Auctions with Inventory Matches
+    %hr/
+    %table#matchedAuctionsDT.table.striped.responsive-table.bordered{"data-source" => "#{matched_auctions_path(format: "json")}"}
+      %thead
+        %tr
+          %th Auctioner
+          %th Part Number
+          %th Conditions
+          %th Delivery Date
+          %th Target Price
+          %th Created On
+      %tbody
