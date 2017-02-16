@@ -1,4 +1,4 @@
-require "benchmark"
+require 'benchmark'
 require 'csv'
 
 class CsvImport
