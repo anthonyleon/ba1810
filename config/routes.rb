@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   get 'admin_inventory_upload' => 'companies#admin_inventory_upload', as: 'admin_inventory_upload'
@@ -123,5 +125,8 @@ end
   get 'matched_auctions' => 'admin#matched_auctions', as: 'matched_auctions'
   get 'unmatched_auctions' => 'admin#unmatched_auctions', as: 'unmatched_auctions'
   get 'all_auctions' => 'admin#all_auctions', as: 'all_auctions'
+
+# sidekiq web UI
+  mount Sidekiq::Web, at: '/sidekiq'
 
 end
