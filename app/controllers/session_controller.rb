@@ -40,7 +40,7 @@ class SessionController < ApplicationController
   end
 
   def destroy
-    session[:company_id] = nil
+    reset_session
     redirect_to root_path
   end
 end

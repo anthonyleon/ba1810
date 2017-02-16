@@ -40,8 +40,6 @@ class CompaniesController < ApplicationController
       if @company.save
           ## need to make validations so that errors are not received from armor payments (testing purposes)
         AdminMailer.new_register(@company).deliver
-        # CompanyMailer.registration_confirm(@company).deliver
-        # session[:company_id] = @company.id
         format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
         format.json { render :show, status: :created, location: @company }
       else
