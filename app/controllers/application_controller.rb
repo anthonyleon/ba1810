@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
   end
   
   def current_user
-    p session
     @current_user ||= Company.find_by(id: session[:company_id])
   end
 
