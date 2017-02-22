@@ -3,9 +3,9 @@ require 'csv'
 
 class CsvImport
 
-	def self.csv_import(filename, company)
+	def self.csv_import(whole_file, company)
 		time = Benchmark.measure do
-			File.open(filename) do |file|
+			File.open(whole_file.path) do |file|
 				headers = file.first
 				file.lazy.each_slice(150) do |lines|
 					Part.transaction do 
