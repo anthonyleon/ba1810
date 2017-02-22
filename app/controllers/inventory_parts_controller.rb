@@ -44,8 +44,8 @@ class InventoryPartsController < ApplicationController
 
   # import spreadsheet of parts inventory
   def import
-    @import = InventoryUploadWorker.perform_async(params[:file], (params[:inventory_company_id] || params[:company_id].to_i))
-    # @import = CsvImport.csv_import(params[:file], Company.find(params[:inventory_company_id]))
+    # @import = InventoryUploadWorker.perform_async(params[:file], (params[:inventory_company_id] || params[:company_id].to_i))
+    @import = CsvImport.csv_import(params[:file], Company.find(params[:inventory_company_id]))
     # if @import.size == 2
     #   flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
     #   redirect_to new_inventory_part_path(current_user)
