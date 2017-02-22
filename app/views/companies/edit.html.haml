@@ -10,14 +10,16 @@
           .col.s12
             %ul.tabs
               %li.tab.col.m3.s12
-                %a.custom-green-text{:href => "#Account"} Escrow
+                %a.custom-green-text{:href => "#account"} Escrow
               %li.tab.col.m3.s12
                 %a.custom-green-text{:href => "#companyDocuments"} Documents
               %li.tab.col.m3.s12
-                %a.custom-green-text{:href => "#Edit"} Edit Profile Info
+                %a.custom-green-text{:href => "#edit"} Edit Profile Info
+              %li.tab.col.m3.s12
+                %a.custom-green-text{:href => "#changePassword"} Change Password
               .indicator.custom-green-color{:style => "z-index:1"}
               
-          #Account.col.s12.active{style: "margin-top: 90px;"}
+          #account.col.s12.active{style: "margin-top: 90px;"}
             .center
               %script{:src => "https://app.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
               %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
@@ -25,7 +27,29 @@
                 Manage Escrow Settings
           #companyDocuments.col.s12.active{style: "margin-top: 15px;"}
             = render 'company_docs/index'
-          #Edit.col.s12.active{style: "margin-top: 15px;"}
-            = render 'form'
+          #edit.col.s12.active{style: "margin-top: 15px;"}
+            = render 'edit_form'
+          #changePassword.col.s12.active
+            = simple_form_for(@company) do |f|
+              - if @company.errors.any?
+                #error_explanation
+                  %p
+                    = pluralize(@company.errors.count, "error")
+                    prohibited this company from being saved:
+                  %ul
+                    - @company.errors.full_messages.each do |message|
+                      %li= message
+              .input-field.col.s12.m6
+                = f.label :password
+                = f.password_field :password
+              .input-field.col.s12.m6
+                = f.label :password_confirmation
+                = f.password_field :password_confirmation
+              %span.actions
+                = f.submit 'Update Password', class: 'btn custom-btn'
 
 
+              :javascript
+                $(function($){
+                  $("#phone").mask("(999) 999-9999");
+                });

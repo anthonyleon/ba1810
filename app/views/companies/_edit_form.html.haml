@@ -1,0 +1,68 @@
+= simple_form_for(@company) do |f|
+  - if @company.errors.any?
+    #error_explanation
+      %p
+        = pluralize(@company.errors.count, "error")
+        prohibited this company from being saved:
+      %ul
+        - @company.errors.full_messages.each do |message|
+          %li= message
+  .input-field.col.s12.m6
+    = f.label :name, 'Company Name'
+    = f.text_field :name
+  .input-field.col.s12.m6
+    = f.label :email, 'Registered Email'
+    = f.text_field :email
+  .input-field.col.s12.m6
+    = f.label :phone
+    = f.text_field :phone, id: 'phone'
+  .input-field.col.s12.m6
+    = f.label :representative, 'Representative Full Name'
+    = f.text_field :representative
+  .input-field.col.s12.m6
+    = f.label :ein
+    = f.text_field :ein
+  .input-field.col.s12.m6
+    = f.label :address, 'Street Address'
+    = f.text_field :address
+  .input-field.col.s12.m6.form-selection-space
+    = f.label :country
+    %br
+    %br
+    = f.input :country, collection: CountryStateSelect.countries_collection
+  .input-field.col.s12.m6.form-selection-space
+    = f.label :state
+    %br
+    %br
+    - options = { form: f, field_names: { :country => :country, :state => :state } }
+    = f.input :state, CountryStateSelect.state_options(options)
+  .input-field.col.s12.m6
+    = f.label :city
+    = f.text_field :city
+  .input-field.col.s12.m6
+    = f.label :zip, 'Zip Code'
+    = f.text_field :zip
+  .input-field.col.s12.m6.form-selection-space
+    = f.label :business_type
+    %br
+    %br
+    = f.input :business_type, collection: Company.company_types
+  .input-field.col.s12.m6.url-field
+    = f.label :url, "Company Website"
+    = f.text_field :url
+  %span.actions
+  -if current_user
+    = f.submit 'Update', class: 'btn custom-btn'
+  -else
+    %button.btn.custom-btn.waves-effect.waves-light{:name => "action", :type => "submit"}
+      %i.material-icons.right lock_open
+      Sign Up
+
+
+  :javascript
+    $(function($){
+      $("#phone").mask("(999) 999-9999");
+    });
+
+
+
