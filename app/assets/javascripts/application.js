@@ -150,6 +150,7 @@ $('#engineDTDashBoard').dataTable({
     "serverSide": true,
     "ajax": $('#matchedAuctionsDT').data('source'),
     "pageLength": 50,
+    "order": [[5, "desc"]],
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },
@@ -164,6 +165,7 @@ $('#engineDTDashBoard').dataTable({
     "pageLength": 50,
     "processing": true,
     "serverSide": true,
+    "order": [[5, "desc"]],
     "ajax": $('#allAuctionsDT').data('source'),
     "aoColumns": [
       { "bSortable": true },
@@ -180,6 +182,7 @@ $('#engineDTDashBoard').dataTable({
     "serverSide": true,
     "ajax": $('#unmatchedAuctionsDT').data('source'),
     "pageLength": 50,
+    "order": [[5, "desc"]],
     "aoColumns": [
       { "bSortable": true },
       { "bSortable": true },
