@@ -67,8 +67,8 @@ class Auction < ActiveRecord::Base
     end
 
   # For InventoryPart check if auction matches one
-    part = InventoryPart.where.not(company: auction.company).where(part_num: auction.part_num)
-    if !part.empty?
+    part = InventoryPart.where.not(company: auction.company).find_by(part_num: auction.part_num)
+    if part
       auction.update_attribute('matched', true)
     else
       auction.update_attribute('matched', false)
