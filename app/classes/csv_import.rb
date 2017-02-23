@@ -7,7 +7,7 @@ class CsvImport
 		time = Benchmark.measure do
 			File.open(whole_file.path) do |file|
 				headers = file.first
-				file.lazy.each_slice(150) do |lines|
+				file.lazy.each_slice(50) do |lines|
 					Part.transaction do 
 						inventory = []
 						insert_to_parts_db = []
