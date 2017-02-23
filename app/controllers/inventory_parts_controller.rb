@@ -48,8 +48,8 @@ class InventoryPartsController < ApplicationController
     @import = CsvImport.csv_import(params[:file], Company.find(params[:inventory_company_id]))
 
   # run match check 
+  #### PUT THIS ON A WORKER WHEN YOU START ALLOWING USERS TO UPLOAD THEIR OWN INVENTORY
     Auction.check_new_inventory_for_auction_matches
-
     # if @import.size == 2
     #   flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
     #   redirect_to new_inventory_part_path(current_user)
