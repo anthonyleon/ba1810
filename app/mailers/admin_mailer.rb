@@ -21,6 +21,7 @@ class AdminMailer < ApplicationMailer
   def new_auction(auction)
     @auction = auction
     @company = auction.company
+    @auction_id = auction.id
 
     mail to: 'support@bid.aero', subject: "#{@company.name.upcase} JUST CREATED AN AUCTION"
   end
