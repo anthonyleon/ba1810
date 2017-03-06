@@ -52,7 +52,6 @@ class CompaniesController < ApplicationController
   end
 
   def update
-
     respond_to do |format|
       if @company.update(company_params) || @company.edit_attrs(company_params)
         format.html { redirect_to dashboard_path, notice: 'Company was successfully updated.' }

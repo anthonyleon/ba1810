@@ -21,7 +21,7 @@ class Company < ActiveRecord::Base
   before_create :confirmation_token
   before_save :downcase_email, :strip_whitespace
 
-  before_validation(:on => :create) do
+  before_validation(:on => [:create, :update]) do
     self.inc_state = self.state
     self.inc_country = self.country
   end
