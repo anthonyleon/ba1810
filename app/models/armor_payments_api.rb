@@ -1,9 +1,15 @@
 class ArmorPaymentsApi
-  # if ENV['ARMOR_SANDBOX_BOOLEAN'] == "true"
-  #   CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
-  # else
-  CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], false)
-  # end
+  
+  def self.sandbox?
+    if Rails.env == "development"
+      return true
+    elsif Rails.env == "production"
+      return false
+    end
+  end
+
+  CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], sandbox?)
+
 
 
   def self.get_account(account_id)
