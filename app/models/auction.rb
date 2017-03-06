@@ -89,7 +89,7 @@ class Auction < ActiveRecord::Base
     part_match = InventoryPart.where(part_num: auction.part_num)  
     not_owned = (part_match.size == 1 && part_match[0].company != auction.company) ? true : false  
     if part_match && not_owned
-      auc.update_attribute('matched', true) 
+      auction.update_attribute('matched', true) 
     else
       auction.update_attribute('matched', false)
     end
