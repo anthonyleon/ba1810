@@ -132,12 +132,14 @@ class Transaction < ActiveRecord::Base
     if data["api_key"]["api_key"] == ENV['ARMOR_PKEY']
       case data["event"]["type"]
       when 0  # order created
+        AdminMailer.yee
       when 2  # payments received in full
         #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
         self.payment_received
         Notification.notify(bid, bid.seller, "Payment has been received in full please proceed to shipping procedure.")
         CompanyMailer.ship_part(bid, bid.seller).deliver_now
       when 16 # order cancelled
+        AdminMailer.yee
         Notification.notify(bid, bid.seller, "The order ##{self.order_id} for part ##{bid.auction.part_num} has been cancelled.", transaction: self)
         Notification.notify(bid, bid.buyer, "You have cancelled your order ##{self.order_id}")
         CompanyMailer.order_cancelled(bid, bid.seller, bid.buyer)
