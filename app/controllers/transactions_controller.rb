@@ -110,6 +110,13 @@ class TransactionsController < ApplicationController
     respond_to do |format|
       if @transaction.update(transaction_params)
         @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
+
+        #hotfix.. the shipment dropdown box should send carrier name as a param as well
+        if carrier_code = transaction_params[:carrier_code]
+          @carriers = ArmorPaymentsApi.carriers_list
+          @transaction.update(carrier: @carriers[:body][carrier_code.to_i - 1]["name"])
+
+        end
         @transaction.update(shipped: true) if params[:commit] == "Update Tracking Info"
         if @transaction.seller == current_user
           format.html { redirect_to seller_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
@@ -139,6 +146,7 @@ class TransactionsController < ApplicationController
 
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
+
     CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) && Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.", transaction: @transaction) unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
