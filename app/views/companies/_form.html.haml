@@ -42,17 +42,6 @@
   .input-field.col.s12.m6
     = f.label :zip, 'Zip Code'
     = f.text_field :zip
-  .input-field.col.s12.m6
-    / = f.label :inc_country
-    / %br
-    / %br
-    / = f.input :inc_country, collection: CountryStateSelect.countries_collection
-  .input-field.col.s12.m6
-    / = f.label :inc_state
-    / %br
-    / %br
-    / - options = { form: f, field_names: { :country => :inc_country, :state => :state } }
-    / = f.input :inc_state, CountryStateSelect.state_options(options)
   .input-field.col.s12.m6.form-selection-space
     = f.label :business_type
     %br
@@ -68,12 +57,9 @@
     = f.label :password_confirmation
     = f.password_field :password_confirmation
   %span.actions
-  -if current_user
-    = f.submit 'Update', class: 'btn custom-btn'
-  -else
-    %button.btn.custom-btn.waves-effect.waves-light{:name => "action", :type => "submit"}
-      %i.material-icons.right lock_open
-      Sign Up
+  %button.btn.custom-btn.waves-effect.waves-light{:name => "action", :type => "submit"}
+    %i.material-icons.right lock_open
+    Sign Up
 
 
   :javascript
