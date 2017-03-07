@@ -37,7 +37,7 @@
     %br
     -if current_user.armor_user_id?
       %div{style: "padding-left: 37%;"}
-        %script{:src => "https://app.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+        %script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
         %div.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
           %i.fa.fa-lock{"aria-hidden" => "true"}
           Setup Escrow
