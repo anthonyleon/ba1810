@@ -54,9 +54,9 @@ class ArmorPaymentsApi
       "type" => 1,
       "seller_id" => transaction.seller.armor_user_id,
       "buyer_id" => transaction.buyer.armor_user_id,
-      "amount" => transaction.price_before_fees.round(2),
+      "amount" => transaction.total_amount.round(2),
       "summary" => transaction.auction.part_num,
-      "description" => transaction.part.condition,
+      "description" => transaction.part.condition.capitalize,
       "invoice_num" => transaction.invoice_num,
       "purchase_order_num" => transaction.po_num,
       "message" => "Order has been created. Awaiting buyer funds.",
@@ -65,7 +65,8 @@ class ArmorPaymentsApi
         "amount" => transaction.bid_aero_fee.round(2),
         "account_id" => ENV["PAYONEER_ACCOUNT_ID"],
         "paid_by" => 'Buyer',
-        "description" => 'Transaction'
+        "description" => 'Transaction',
+        "cc_accept" => true
       } ]
     }
     p transaction.total_amount
