@@ -15,7 +15,7 @@
                 %a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@release_payment_url}"}
                   / # =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
                   Release Funds
-              .col.s4.push-s2.left
+              .col.s4.push-s1.left
                 %script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
                 %a.paymentInstructionsFrame-lightbox-preview.initiate-dispute-btn{"data-url" => "#{@dispute_transaction_url}"}
                   %i.material-icons.initiate-dispute-icon
