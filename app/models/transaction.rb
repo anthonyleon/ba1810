@@ -115,4 +115,16 @@ class Transaction < ActiveRecord::Base
 	def transfer_inventory
 		self.inventory_part.update_attribute('company_id', nil)
 	end
+
+  def check_pricing_in_floats
+    puts "Part Price \t\t -- \t" + part_price.to_f.to_s
+    puts "Shipping \t\t -- \t" + final_shipping_cost.to_f.to_s
+    puts "Tax \t\t\t -- \t" + tax.to_f.to_s
+    puts "Price Before Fees \t -- \t" + price_before_fees.to_f.to_s
+    puts "Armor Fee \t\t -- \t" + armor_fee.to_f.to_s
+    puts "Bid Aero \t\t -- \t" + bid_aero_fee.to_f.to_s
+    puts "Part Price \t\t -- \t" + part_price.to_f.to_s
+    puts "Total Fee \t\t -- \t" + total_fee.to_f.to_s
+    puts "Total Amount \t\t -- \t" + total_amount.to_f.to_s
+  end
 end
