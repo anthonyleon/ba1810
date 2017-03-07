@@ -2,6 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// this is the double dropdown on carriers list for _seller4_5 step
+.select.initialized {
+  display: none;
+}
+
 .card-content.step1-2 {
   padding-top: 2px !important;
   padding-bottom: 2px !important;
