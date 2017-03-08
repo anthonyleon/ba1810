@@ -47,7 +47,7 @@
       
       - if current_user == @auction.company && !@transaction.paid # Add this when out of Testing Purposes && @transaction.delivered
         %p
-          %script{:src => "https://app.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+          %script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
           %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"} Release Payment
       - elsif @transaction.paid ## add association to bid to know if rating has been made
         = render :partial => "ratings/rate", :locals => {:rating => @rating}

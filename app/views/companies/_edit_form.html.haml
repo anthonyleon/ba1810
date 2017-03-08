@@ -51,12 +51,8 @@
     = f.label :url, "Company Website"
     = f.text_field :url
   %span.actions
-  -if current_user
-    = f.submit 'Update', class: 'btn custom-btn'
-  -else
-    %button.btn.custom-btn.waves-effect.waves-light{:name => "action", :type => "submit"}
-      %i.material-icons.right lock_open
-      Sign Up
+  = f.submit 'Update', class: 'btn custom-btn'
+
 
 
   :javascript

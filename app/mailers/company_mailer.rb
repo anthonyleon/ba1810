@@ -25,7 +25,6 @@ class CompanyMailer < ApplicationMailer
   def place_new_bid bid
     @bid = bid
     email = @bid.company.email
-
     mail to: "<#{email}>", subject: "You Successfully Placed Bid in an Auction for #{@bid.auction.part_num}!"
   end
 

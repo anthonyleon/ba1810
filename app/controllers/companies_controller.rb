@@ -1,10 +1,12 @@
+require 'httparty'
+require 'nokogiri'
+require 'yahoo-finance'
+
 class CompaniesController < ApplicationController
-  require 'httparty'
-  require 'nokogiri'
-  require 'yahoo-finance'
 
   before_action :set_company, only: [:update, :destroy]
-  skip_before_action :require_logged_in, only: [:new, :create, :confirm_email, :update]
+  skip_before_action :require_logged_in, only: [:new, :create, :confirm_email]
+
   # before_action :set_armor_client, only: [:create, :edit, :update, :sales, :purchases]
 
   def show
@@ -51,7 +53,7 @@ class CompaniesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @company.update(company_params)
+      if @company.update(company_params) || @company.edit_attrs(company_params)
         format.html { redirect_to dashboard_path, notice: 'Company was successfully updated.' }
         format.json { render :show, status: :ok, location: @company }
       else
