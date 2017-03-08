@@ -130,10 +130,10 @@ class Transaction < ActiveRecord::Base
 
   def parse_webhook(data, bid) 
     if data["api_key"]["api_key"] == ENV['ARMOR_PKEY']
-      AdminMailer.yee
+      AdminMailer.yee.deliver_now
       case data["event"]["type"]
       when 0  # order created
-        AdminMailer.yee
+        AdminMailer.yee.deliver_now
       when 2  # payments received in full
         #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
         self.payment_received
@@ -197,6 +197,9 @@ class Transaction < ActiveRecord::Base
       when 1002 # Bank Account Approved
 
       when 1003 # Bank Account Declined
+
+      when 1005 # not sure what this is but it's hitting the site and I'm gonna use it for testing
+        AdminMailer.yee.deliver_now
       end
     end
   end
