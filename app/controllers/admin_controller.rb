@@ -8,7 +8,7 @@ class AdminController < ApplicationController
 	def matched_auctions
 		render_view(MatchedAuctionsDatatable.new(view_context))
 	end
-
+	 
 	def unmatched_auctions
 		render_view(UnmatchedAuctionsDatatable.new(view_context))
 	end

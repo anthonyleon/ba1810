@@ -3,21 +3,22 @@ require 'csv'
 
 class CsvImport
 
-	def self.csv_import(filename, company)
+	def self.csv_import(whole_file, company)
 		time = Benchmark.measure do
-			File.open(filename) do |file|
+			File.open(whole_file.path) do |file|
 				headers = file.first
-				file.lazy.each_slice(150) do |lines|
+				file.lazy.each_slice(75) do |lines|
 					Part.transaction do 
 						inventory = []
 						insert_to_parts_db = []
-						rows = CSV.parse(lines.join, write_headers: true, headers: headers)
+						rows = CSV.parse(lines.join.scrub, write_headers: true, headers: headers)
 						rows.map do |row|
 							part_match = Part.find_by(part_num: row['part_num'])
 							new_part = build_new_part(row['part_num'], row['description']) unless part_match
 							quantity = row['quantity'].to_i
 							row.delete('quantity')
 							row["condition"] = match_condition(row)
+
 							quantity.times do 
 								part = InventoryPart.new(
 									part_num: row["part_num"], 

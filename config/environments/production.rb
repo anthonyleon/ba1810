@@ -37,7 +37,7 @@ Rails.application.configure do
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
-
+  config.armor_modal_url = "https://app.armorpayments.com/assets/js/modal.min.js"
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
@@ -66,8 +66,6 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { :host => "bid-aero.herokuapp.com" }
-
-
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

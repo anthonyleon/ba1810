@@ -21,7 +21,7 @@ class Company < ActiveRecord::Base
   before_create :confirmation_token
   before_save :downcase_email, :strip_whitespace
 
-  before_validation(:on => :create) do
+  before_validation(:on => [:create, :update]) do
     self.inc_state = self.state
     self.inc_country = self.country
   end
@@ -94,7 +94,7 @@ class Company < ActiveRecord::Base
           conditions = auction.conditions
           part_matches = conditions.include?(inventory_part.condition.to_sym)
           user_has_placed_bids = (auction.bids & user_bids).present?
-          any_condition = conditions[0].blank?
+          any_condition = auction.any_condition?
 
           if (part_matches || any_condition) && !user_has_placed_bids
             sales_opportunities << auction
@@ -108,6 +108,11 @@ class Company < ActiveRecord::Base
     Company.all.each do |co|
       puts co.id.to_s + "\t -- \t" + co.name
     end
+  end
+
+  ## hot fix, since I can't find a way to allow a user to edit account without inputing the password
+  def edit_attrs(params)
+    params.each { |key, val| self.update_attribute(key.to_s, val.to_s)}
   end
 
   private

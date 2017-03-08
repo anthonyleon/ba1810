@@ -115,4 +115,87 @@ class Transaction < ActiveRecord::Base
 	def transfer_inventory
 		self.inventory_part.update_attribute('company_id', nil)
 	end
+
+  def check_pricing_in_floats
+    puts "Part Price \t\t -- \t" + part_price.to_f.to_s
+    puts "Shipping \t\t -- \t" + final_shipping_cost.to_f.to_s
+    puts "Tax \t\t\t -- \t" + tax.to_f.to_s
+    puts "Price Before Fees \t -- \t" + price_before_fees.to_f.to_s
+    puts "Armor Fee \t\t -- \t" + armor_fee.to_f.to_s
+    puts "Bid Aero \t\t -- \t" + bid_aero_fee.to_f.to_s
+    puts "Part Price \t\t -- \t" + part_price.to_f.to_s
+    puts "Total Fee \t\t -- \t" + total_fee.to_f.to_s
+    puts "Total Amount \t\t -- \t" + total_amount.to_f.to_s
+  end
+
+  def parse_webhook(data, bid) 
+    if data["api_key"]["api_key"] == ENV['ARMOR_PKEY']
+      case data["event"]["type"]
+      when 0  # order created
+      when 2  # payments received in full
+        #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
+        self.payment_received
+        Notification.notify(bid, bid.seller, "Payment has been received in full please proceed to shipping procedure.")
+        CompanyMailer.ship_part(bid, bid.seller).deliver_now
+      when 16 # order cancelled
+        Notification.notify(bid, bid.seller, "The order ##{self.order_id} for part ##{bid.auction.part_num} has been cancelled.", transaction: self)
+        Notification.notify(bid, bid.buyer, "You have cancelled your order ##{self.order_id}")
+        CompanyMailer.order_cancelled(bid, bid.seller, bid.buyer)
+      when 15 # shipment details added to order (testing purposes, not really but need to check later) this doesn't mean it was received does it?
+        Notification.notify(bid, bid.buyer, "Shipment information for order ##{self.order_id} for #{self.auction.part_num} has been received.", transaction: self)
+      when 3 #goods shipped to buyer
+        Notification.notify(bid, bid.buyer, "Your purchase for part ##{bid.auction.part_num} (order ##{self.order_id}) has been shipped.", transaction: self)
+        self.update(shipped: true)
+        CompanyMailer.part_shipped(bid, bid.buyer, bid.tx)
+      when 4 # goods received by buyer
+        self.delivery_received
+        CompanyMailer.shipment_received(bid, bid.seller).deliver_now
+        Notification.notify(bid, self.seller, "Buyer for order ##{self.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: self)
+        Notification.notify(bid, self.buyer, "Order ##{self.order_id}, has been marked as received. You have 3 days to approve part.", transaction: self)
+      when 6 # order accepted (ie. funds released from buyer to seller)
+        self.transfer_inventory
+        self.completed
+        # CREATE A REVIEW NOTIFICATION
+        Notification.notify(bid, bid.seller, "The funds for order ##{self.order_id} have been released from escrow in accordance with your payout preference.")
+        CompanyMailer.funds_released(bid, bid.seller).deliver_now
+        Notification.notify(bid, bid.seller, "The funds for order ##{self.order_id} have been released from escrow in accordance with your payout preference.", transaction: self)
+      when 10 # dispute settlement offer has been submitted by either buyer or seller
+        self.settlement_offer_submitted
+        Notification.notify(bid, self.buyer, "A settlement offer has been submitted to you. Please review.", transaction: self)
+      when 26 #Goods inspection completed
+        # we already have a funds release event
+  #DISPUTES
+      when 3000 # Dispute created
+        self.mark_as_disputed
+        Notification.notify(bid, bid.seller, "Buyer for #{bid.auction.part_num}, order ##{self.order_id}, has disputed the transaction.", transaction: self)
+        # testing purposes. ALSO SEND AN EMAIL TO THE USER
+      when 3003 # A counter-offer was made to this Offer
+        offerer = Company.find_by(armor_user_id: data["event"]["user_id"])
+        if offerer == self.seller
+          oferree = self.buyer
+        else
+          offeree = self.seller
+        end
+        Notification.notify(bid, offeree, "A settlement offer has been created on dispute ##{data["event"]["order_id"]}")
+        self.clear_dispute_responses
+      when 3004 # Offer to settle dispute on order accepted
+        company_accepting = Company.find_by(armor_user_id: data["event"]["user_id"])
+        if company_accepting == self.seller
+          company = self.buyer
+        else
+          company = self.seller
+        end
+        Notification.notify(bid, company, "Your settlement offer for order ##{self.order_id} has been accepeted", transaction: self)
+      when 2005 #dispute escalated to arbitration
+        Notification.notify(bid, bid.seller, "Disputed Order ##{self.order_num} has been escalated to arbitration.")
+        Notification.notify(bid, bid.buyer, "Disputed Order ##{self.order_num} has been escalated to arbitration.")
+  #ACCOUNT EVENTS
+      when 1001 # Bank Account details Added
+
+      when 1002 # Bank Account Approved
+
+      when 1003 # Bank Account Declined
+      end
+    end
+  end
 end

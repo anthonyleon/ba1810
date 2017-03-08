@@ -7,7 +7,7 @@ class SessionController < ApplicationController
   end
 
   def create
-    @company = Company.find_by_email(params[:login][:email].downcase).try(:authenticate, params[:login][:password])
+    @company = Company.find_by_email(params[:login][:email].downcase.squish).try(:authenticate, params[:login][:password])
     if !@company
       redirect_to login_path, flash: { error: "Username or Password is invalid" }
     elsif @company.email_confirmed
@@ -40,7 +40,7 @@ class SessionController < ApplicationController
   end
 
   def destroy
-    session[:company_id] = nil
+    reset_session
     redirect_to root_path
   end
 end

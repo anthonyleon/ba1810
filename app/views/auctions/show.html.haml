@@ -7,7 +7,7 @@
             %h5.left
               = @auction.auction_part.description
             %h6.right
-              = "Target Price: #{number_to_currency(@auction.target_price) || "N/A"}"
+              = "Target Price: #{@auction.target_price || "N/A"}"
           .col.s12
             %h6
               = @auction.part_num

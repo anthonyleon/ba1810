@@ -9,6 +9,6 @@
           %h6.required_date.center-align You have 3 days to approve or file a dispute on the order
           -if @release_payment_url
             %div.center-align
-            %script{:src => "https://app.armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
+            %script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
             %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
               =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"

@@ -53,6 +53,24 @@ class Auction < ActiveRecord::Base
   end
 
 
+  def any_condition?
+    conditions[0].blank?    
+  end
+
+  def self.check_new_inventory_for_auction_matches
+    where(matched: false).each do |auc|
+      part_matches = InventoryPart.where(part_num: auc.part_num).where.not(company: auc.company)
+
+      if !part_matches.empty?
+        part_matches.each do |part|
+          @its_a_match = (auc.conditions.include?(part.condition.to_sym) || auc.any_condition?) ? true : false
+          break if @its_a_match
+        end
+      end
+      auc.update_attribute('matched', true) if @its_a_match
+    end 
+  end
+
   def self.part_match_or_not_actions(auction, part_match)
     #part_match is for Parts Table
     if part_match
@@ -66,23 +84,25 @@ class Auction < ActiveRecord::Base
       AuctionPart.temporary_make(auction)
     end
 
-  # For InventoryPart check if auction matches one
-    part = InventoryPart.where.not(company: auction.company).where(part_num: auction.part_num)
-    if !part.empty?
-      auction.update_attribute('matched', true)
+  # For InventoryPart check if auction matches one DOESN"T TAKE INTO ACCOUNT WHEN NEW INVENTORY IS UPLOADED
+  ##  This is only for system_admin to check what auctions are matching
+    part_match = InventoryPart.where(part_num: auction.part_num)  
+    not_owned = (part_match.size == 1 && part_match[0].company != auction.company) ? true : false  
+    if part_match && not_owned
+      auction.update_attribute('matched', true) 
     else
       auction.update_attribute('matched', false)
     end
   end
 
-def self.define_matched_auctions(auction)
-      part = InventoryPart.where.not(company: auction.company).where(part_num: auction.part_num)
-    if !part.empty?
-      auction.update_attribute('matched', true)
-    else
-      auction.update_attribute('matched', false)
-    end
-end
+  def self.define_matched_auctions(auction)
+        part = InventoryPart.where.not(company: auction.company).where(part_num: auction.part_num)
+      if !part.empty?
+        auction.update_attribute('matched', true)
+      else
+        auction.update_attribute('matched', false)
+      end
+  end
   def full_address
     "#{destination_address}, #{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
   end
