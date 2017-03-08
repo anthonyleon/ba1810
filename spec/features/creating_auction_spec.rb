@@ -25,10 +25,10 @@ feature "Creating an auction" do
 
 		context "once created" do
 			it "should show up in My Auction page" do
+
 				sign_in_and_visit_and_create_auction
-				
 				expect(page).to have_content(buying_company.auctions.last.part_num)
-				expect(page).to have_content(buying_company.auctions.last.condition.first.humanize)
+				expect(page).to have_content(buying_company.auctions.last.condition.first.to_s.capitalize)
 			end
 		end
 	end
