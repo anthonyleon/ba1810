@@ -12,6 +12,7 @@ class Auction < ActiveRecord::Base
   before_save :upcase_part_num
   
   serialize :condition, Array # rename auctions.condition to auctions.condition
+  serialize :req_forms, Array
 
   accepts_nested_attributes_for :tx
 
