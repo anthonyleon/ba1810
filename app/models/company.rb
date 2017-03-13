@@ -110,6 +110,7 @@ class Company < ActiveRecord::Base
     end
   end
 
+
   ## hot fix, since I can't find a way to allow a user to edit account without inputing the password
   def edit_attrs(params)
     params.each { |key, val| self.update_attribute(key.to_s, val.to_s)}
