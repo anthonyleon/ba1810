@@ -23,7 +23,12 @@ class Auction < ActiveRecord::Base
 
   def conditions # patch until column is renamed
     condition.to_a
-  end  
+  end
+
+  def self.forms
+    %w(FAA EASA JAA CAAC SEGVOO TC)
+  end
+
 
   def self.active
     where(active: true)
@@ -104,6 +109,7 @@ class Auction < ActiveRecord::Base
         auction.update_attribute('matched', false)
       end
   end
+
   def full_address
     "#{destination_address}, #{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
   end
