@@ -41,6 +41,11 @@
             %h5= @auction.condition_header
             - @auction.conditions.each do |condition|
               = @auction.condition_tag(condition)
+        -if !@auction.req_forms.empty?
+          %ul
+            %li.center-align
+              %h5 Required Certifications
+              = @auction.req_forms.to_sentence
         %ul
           %li.center-align
             %h5= "Shipping Instructions"

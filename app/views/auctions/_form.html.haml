@@ -20,6 +20,10 @@
 
     .field.form-group.auction-condition-form
       = f.collection_check_boxes(:condition, Auction.conditions, :to_s, :humanize)
+    %div.req-forms-title{style: "text-align: center;"}
+      %h5 Required Certifications
+    .field.form-group.auction-req-forms
+      = f.collection_check_boxes(:req_forms, Auction.forms, :to_s, :humanize)
     %br
     %div{style: "text-align: center;"}
       %h4 SHIP TO

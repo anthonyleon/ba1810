@@ -3,8 +3,30 @@ select#auction_condition {
 }
 
 .auction-condition-form {
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
   input[type="checkbox"]+label {
-    padding-right: 35px;
+    text-align:justify;
+  }
+}
+
+.req-forms-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: darkgrey;
+  h5 {
+    font-size: 1.5rem;
+  }
+}
+
+.auction-req-forms {
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  input[type="checkbox"]+label {
+    text-align:justify;
+    text-transform: uppercase;
   }
 }
 
