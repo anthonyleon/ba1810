@@ -87,7 +87,7 @@ class Auction < ActiveRecord::Base
   # For InventoryPart check if auction matches one DOESN"T TAKE INTO ACCOUNT WHEN NEW INVENTORY IS UPLOADED
   ##  This is only for system_admin to check what auctions are matching
     part_match = InventoryPart.where(part_num: auction.part_num)  
-    not_owned = (part_match.size == 1 && part_match[0].company != auction.company) ? true : false  
+    not_owned = (part_match.size == 1 && part_match[0].company != auction.company)
     if part_match && not_owned
       auction.update_attribute('matched', true) 
     else
