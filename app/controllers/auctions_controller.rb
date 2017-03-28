@@ -26,7 +26,7 @@ class AuctionsController < ApplicationController
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }
       @auction.save
-      CompanyMailer.invite_to_bid(params[:invitees], current_user).deliver_now
+      Company.check_invitees(params[:invitees], current_user)
       @auction.req_forms.reject! { |c| c.empty? }
       Auction.part_match_or_not_actions(@auction, part_match)
 
