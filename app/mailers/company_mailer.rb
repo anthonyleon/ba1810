@@ -16,6 +16,12 @@ class CompanyMailer < ApplicationMailer
     mail to: company.email, subject: "Password Reset"
   end
 
+  def invite_to_bid(companies, auctioner)
+    companies.each do |co|
+      mail to: co, subject: "#{auctioner.name} has invited you to participate in an RFQ"
+    end
+  end
+
   def notify_of_opportunity company , auction
     @company = company 
     @auction = auction
