@@ -26,6 +26,16 @@ class Company < ActiveRecord::Base
     self.inc_country = self.country
   end
 
+  def self.check_invitees(companies, auctioner)
+    companies.each do |co|
+      if Company.find_by(email: co)
+        #someone is inviting you to bid go login
+        companies.delete(co)
+      end
+    end
+    CompanyMailer.invite_to_bid(companies, current_user).deliver_now
+  end
+
   def email_activate
     self.email_confirmed = true
     self.confirm_token = nil
