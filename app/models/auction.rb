@@ -13,7 +13,7 @@ class Auction < ActiveRecord::Base
   
   serialize :condition, Array # rename auctions.condition to auctions.condition
   serialize :req_forms, Array
-  serialize :invitees, Hash
+  serialize :invitees, Array
 
   accepts_nested_attributes_for :tx
 
