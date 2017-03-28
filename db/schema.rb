@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328163013) do
+ActiveRecord::Schema.define(version: 20170328200813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170328163013) do
     t.boolean  "payout_selected"
     t.boolean  "resale_cert",            default: false
     t.boolean  "system_admin",           default: false
+    t.boolean  "temp",                   default: false
   end
 
   add_index "companies", ["email"], name: "index_companies_on_email", unique: true, using: :btree
