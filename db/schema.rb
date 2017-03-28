@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313164051) do
+ActiveRecord::Schema.define(version: 20170328163013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20170313164051) do
     t.string   "target_price"
     t.boolean  "matched"
     t.text     "req_forms"
+    t.text     "invitees"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -151,12 +152,10 @@ ActiveRecord::Schema.define(version: 20170313164051) do
     t.integer  "engine_id"
     t.integer  "aircraft_id"
     t.integer  "company_doc_id"
-    t.integer  "company_id"
   end
 
   add_index "documents", ["aircraft_id"], name: "index_documents_on_aircraft_id", using: :btree
   add_index "documents", ["company_doc_id"], name: "index_documents_on_company_doc_id", using: :btree
-  add_index "documents", ["company_id"], name: "index_documents_on_company_id", using: :btree
   add_index "documents", ["engine_id"], name: "index_documents_on_engine_id", using: :btree
   add_index "documents", ["inventory_part_id"], name: "index_documents_on_inventory_part_id", using: :btree
 
@@ -288,7 +287,6 @@ ActiveRecord::Schema.define(version: 20170313164051) do
   add_foreign_key "bids", "transactions"
   add_foreign_key "company_docs", "companies"
   add_foreign_key "documents", "aircrafts"
-  add_foreign_key "documents", "companies"
   add_foreign_key "documents", "company_docs"
   add_foreign_key "documents", "engines"
   add_foreign_key "documents", "inventory_parts"
