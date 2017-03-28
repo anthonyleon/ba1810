@@ -18,7 +18,6 @@ class AuctionsController < ApplicationController
   end
 
   def create
-
     @auction = Auction.new(auction_params)
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
     @auction.resale_check
@@ -27,6 +26,7 @@ class AuctionsController < ApplicationController
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }
       @auction.save
+      CompanyMailer.invite_to_bid(params[:invitees], current_user).deliver_now
       @auction.req_forms.reject! { |c| c.empty? }
       Auction.part_match_or_not_actions(@auction, part_match)
 
@@ -111,7 +111,7 @@ class AuctionsController < ApplicationController
       params.require(:auction).permit(:company_id, :part_num, :target_price, :cycles, :quantity, :destination_company, 
                                       :destination_address, :destination_zip, :destination_city, :destination_state, 
                                       :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, 
-                                      condition: [], req_forms: [])
+                                      condition: [], req_forms: [], invitees: [])
     end
 
     def transaction_params
