@@ -3,27 +3,78 @@ select#auction_condition {
 }
 
 .auction-condition-form {
-  padding: 20px 40px;
+  /*padding: 20px 40px;*/
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+
   input[type="checkbox"]+label {
     text-align:justify;
   }
 }
 
-.req-forms-title {
-  text-align: center;
+#auction-checkboxes {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.edit-address {
+  color: #03A0E9;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.edit-shipping{
+  display:none;
+}
+#add-new-supplier {
+  display:flex;
+  flex-direction: column;
+}
+.remove-supplier{
+  color: red;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+#invitees{
+  margin-bottom: 40px;
+}
+
+#addNewSupplier {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#add-supplier-circle {
+  margin: 3px 0 0 5px;
+  height:12px;
+  width:12px;
+  border-radius:50%;
+  background-color:#03A0E9;
+  color:white;
+  font-size: 9px;
+  &:hover{
+    cursor: pointer;
+  }
+}
+.auc-checkbox-titles {
   margin-bottom: 20px;
   color: darkgrey;
+  min-width: 152px;
   h5 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 
 .auction-req-forms {
-  padding: 0 20px;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   input[type="checkbox"]+label {
     text-align:justify;
     text-transform: uppercase;

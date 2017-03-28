@@ -1,0 +1,7 @@
+.col-sm-1
+  .supplierField
+    = label_tag "Supplier E-mail"
+    %br/
+  = text_field_tag "invitees[]"
+  %a.remove-supplier{ :onclick => "removeSupplier($(this))"} X
+  %br/
