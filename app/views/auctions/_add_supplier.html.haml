@@ -1,7 +1,14 @@
-.col-sm-1
-  .supplierField
-    = label_tag "Supplier E-mail"
-    %br/
-  = text_field_tag "invitees[]"
-  %a.remove-supplier{ :onclick => "removeSupplier($(this))"} X
+.col-lg-2.add-supplier-partial
+  .col-lg-1.supplier-field
+    .supplierField
+      = label_tag "Company Name"
+      %br/
+    = text_field_tag "invitees[]"
+  .col-lg-1.supplier-field
+    .supplierField
+      = label_tag "Company E-mail"
+      %br/
+    = text_field_tag "invitees[]"
+  %a.remove-supplier{:onclick => "removeSupplier($(this))"}
+    %i.fa.fa-close
   %br/
