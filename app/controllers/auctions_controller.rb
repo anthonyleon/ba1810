@@ -19,6 +19,7 @@ class AuctionsController < ApplicationController
 
   def create
     @auction = Auction.new(auction_params)
+    @auction.set_invitees(params[:invitees])
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
     @auction.resale_check
 
@@ -26,7 +27,8 @@ class AuctionsController < ApplicationController
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }
       @auction.save
-      Company.check_invitees(params[:invitees], current_user)
+      @auction.invite_and_setup_suppliers
+
       @auction.req_forms.reject! { |c| c.empty? }
       Auction.part_match_or_not_actions(@auction, part_match)
 
