@@ -13,6 +13,21 @@ select#auction_condition {
   }
 }
 
+.add-supplier-partial {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.supplier-field {
+  width: 40% !important;
+}
+
+
+#add-new-supplier {
+  width: 100% !important;
+}
+
 #auction-checkboxes {
   display: flex;
   justify-content: space-between;
@@ -34,7 +49,9 @@ select#auction_condition {
   flex-direction: column;
 }
 .remove-supplier{
-  color: red;
+  display: flex;
+  align-items: center;
+  color: #ea4848;
   &:hover{
     cursor: pointer;
   }
@@ -50,18 +67,6 @@ select#auction_condition {
   }
 }
 
-#add-supplier-circle {
-  margin: 3px 0 0 5px;
-  height:12px;
-  width:12px;
-  border-radius:50%;
-  background-color:#03A0E9;
-  color:white;
-  font-size: 9px;
-  &:hover{
-    cursor: pointer;
-  }
-}
 .auc-checkbox-titles {
   margin-bottom: 20px;
   color: darkgrey;

@@ -5,6 +5,8 @@ $(document).on('ready page:load', function() {
 	// 	$('.auction-destination').trigger("reset");
 	// });
 
+
+
 	$('.card-edit-submit').click(function(){
 		$('.confirm-address-bubble').removeClass('active');
 		$('.confirm-address-bubble').addClass('visited');
@@ -19,15 +21,15 @@ $(document).on('ready page:load', function() {
   		$('.edit-shipping').show(350);
   	});
 
-  	$('#add-supplier-circle').click(function(){
-  		$('.supplier-field').append($('.container.add-new-supplier').html);
-  	});
 
+  	var addSupplier = document.getElementById("addNewSupplier");
 	$("#addNewSupplier").on("click", function() {
-	  $("#add-new-supplier").append($("#new-supplier-partial").html());
+		addSupplier.innerHTML = "Add Another Supplier";
+		$("#add-new-supplier").append($("#new-supplier-partial").html());
 	});
 
 	this.removeSupplier = function(element) {
+		counter--;
   		return element.parent().remove();
 	};
 });
