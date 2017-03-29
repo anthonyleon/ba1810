@@ -13,7 +13,7 @@ class Auction < ActiveRecord::Base
   
   serialize :condition, Array # rename auctions.condition to auctions.condition
   serialize :req_forms, Array
-  serialize :invitees, Array
+  # serialize :invitees, Array
 
   accepts_nested_attributes_for :tx
 
@@ -62,6 +62,28 @@ class Auction < ActiveRecord::Base
 
   def any_condition?
     conditions[0].blank?    
+  end
+
+  def set_invitees(invited)
+    hashy = Hash.new
+    invited.each_slice(2) do |a, b|
+      hashy.merge!({a => b})
+    end
+    self.invitees = hashy
+  end
+
+  def invite_and_setup_suppliers
+    invitees.each do |k, v|
+      # Once I've addeed multiple logins for a company (i.e. roles) then I have to change this conditional
+      ## to be if Company.find_by(name: k) || User.find_by(email: v)
+      if Company.find_by(email: v)
+        CompanyMailer.invite_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
+      else
+        secret = SecureRandom.urlsafe_base64
+        co = Company.create(name: k, email: v, email_confirmed: true, temp: true, password: secret) #user will come and create a password
+        CompanyMailer.invite_to_bid(v, self, password: secret).deliver_later(wait_until: 1.minute.from_now)
+      end
+    end
   end
 
   def self.check_new_inventory_for_auction_matches
