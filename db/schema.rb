@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328200813) do
+ActiveRecord::Schema.define(version: 20170329142850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,10 +78,11 @@ ActiveRecord::Schema.define(version: 20170328200813) do
     t.string   "target_price"
     t.boolean  "matched"
     t.text     "req_forms"
-    t.text     "invitees"
+    t.jsonb    "invitees",            default: {},   null: false
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
+  add_index "auctions", ["invitees"], name: "index_auctions_on_invitees", using: :gin
 
   create_table "bids", force: :cascade do |t|
     t.integer  "auction_id"
