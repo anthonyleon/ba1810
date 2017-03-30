@@ -34,6 +34,14 @@ class Bid < ActiveRecord::Base
     (arr.sum / arr.count.to_f) unless arr.empty?
   end
 
+  def self.matched_parts(auction, user)
+    match_parts = []
+    parts = user.inventory_parts
+    parts.where(part_num: auction.part_num).each do |part|
+      match_parts << part if auction.condition.include?(part.condition.to_sym) || auction.condition[0].blank?
+    end
+  end
+
   def strip_whitespace
     self.attributes.each do |key, value|
       self[key] = value.squish if value.respond_to?("squish")

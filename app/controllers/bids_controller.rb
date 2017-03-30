@@ -1,6 +1,6 @@
 class BidsController < ApplicationController
   before_action :set_bid, only: [:show, :edit, :update, :destroy, :release_payment]
-  before_action :set_auction, only: [:new, :edit, :create, :destroy, :show, :update]
+  before_action :set_auction, only: [:new, :temp_user_new_bid, :edit, :create, :destroy, :show, :update]
   before_action :set_transaction, only: [:show, :update, :funds_released]
 
   def index
@@ -20,13 +20,13 @@ class BidsController < ApplicationController
   end
 
   def new
-    
+    redirect_to temp_user_new_bid_path if current_user.temp?    
     @bid = Bid.new
-    @parts = current_user.inventory_parts
-    @match_parts = []
-    @parts.where(part_num: @auction.part_num).each do |part|
-      @match_parts << part if @auction.condition.include?(part.condition.to_sym) || @auction.condition[0].blank?
-    end
+    @match_parts = Bid.matched_parts(@auction, current_user)
+  end
+
+  def temp_user_new_bid
+    @bid = Bid.new
   end
 
   def edit
