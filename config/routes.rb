@@ -57,8 +57,13 @@ end
 
   get 'signup' => 'companies#new'
   get 'login' => 'session#new', as: 'login'
+
   post 'login' => 'session#create'
   get 'logout' => 'session#destroy'
+
+
+  get 'auction/:auction_id/supplier_invite', to: 'session#invited_supplier_setup', as: 'invited_supplier_setup'
+  post 'temp_login', to: 'session#temp_login', as: 'temp_login'
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
   get 'auctions/:auction_id/bids/:id/purchase_confirmation' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
@@ -78,6 +83,7 @@ end
 
   get 'current_opportunities' => 'auctions#current_opportunities', as: 'current_opportunities'
   get 'bids' => 'bids#index', as: 'bids'
+  get 'supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
   
   resources :password_resets
   
@@ -102,7 +108,6 @@ end
   end
 
   get 'companies/confirm_email', to: 'companies#confirm_email', as: 'confirm_email'
-
 
   resources :company_docs
 
