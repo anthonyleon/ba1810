@@ -34,7 +34,10 @@
                 %i.fa.fa-pencil
                 = link_to 'Edit this Auction', edit_auction_path(@auction)
         - else
-          = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
+          - if current_user.temp?
+            = link_to 'New Quote', temp_user_new_bid_path(@auction), class: 'btn custom-btn right' 
+          - else
+            = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
         %hr{style: "clear:both;margin-top: 60px;"}/
         %ul
           %li.center-align
