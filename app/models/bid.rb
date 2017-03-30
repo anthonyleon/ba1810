@@ -47,10 +47,11 @@ class Bid < ActiveRecord::Base
       self[key] = value.squish if value.respond_to?("squish")
     end
   end
-  private
 
-  # def strip_symbols
-  #   self.part_price.gsub!(/[ $,]/, '').to_d
-  #   self.est_shipping_cost.gsub(/[ $,]/, '')
-  # end
+  def self.strip_symbols(params)
+    params[:part_price].gsub!(/[ $,]/, '').to_d
+    params[:est_shipping_cost].gsub!(/[ $,]/, '').to_d
+  end
+
+
 end
