@@ -1,6 +1,6 @@
 class BidsController < ApplicationController
   before_action :set_bid, only: [:show, :edit, :update, :destroy, :release_payment]
-  before_action :set_auction, only: [:new, :temp_user_new_bid, :edit, :create, :destroy, :show, :update]
+  before_action :set_auction, only: [:new, :temp_user_new_bid, :temp_user_create_bid, :edit, :create, :destroy, :show, :update]
   before_action :set_transaction, only: [:show, :update, :funds_released]
 
   def index
@@ -27,6 +27,36 @@ class BidsController < ApplicationController
 
   def temp_user_new_bid
     @bid = Bid.new
+  end
+
+
+  def temp_user_create_bid
+    Bid.strip_symbols(bid_params)
+    @bid = @auction.bids.new(bid_params)
+    @inventory_part = InventoryPart.new(inventory_part_params)
+    
+
+    part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
+
+    respond_to do |format|
+      if part_match 
+        @bid.inventory_part = @inventory_part
+        if @bid.save
+          @inventory_part.add_part_details(part_match, current_user)
+          unless @inventory_part.save
+            format.html { render :temp_user_new_bid }
+          end
+          format.html { redirect_to @bid.auction, notice: 'Your Quote has been Saved' }
+        elsif !part_match
+          flash[:error] = "Part number is not valid"
+          format.html { redirect_to temp_user_new_bid(@bid.auction), alert: 'Part Number was not valid.' }
+        else
+          flash[:error] = @bid.errors.full_messages.to_sentence.gsub('.','')
+          format.html { redirect_to new_auction_bid_path(@auction) }
+          format.json { render json: @bid.errors, status: :unprocessable_entity }
+        end
+      end
+    end
   end
 
   def edit
@@ -104,7 +134,12 @@ class BidsController < ApplicationController
     end
 
     def bid_params
-      params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
+      params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, 
+                                  :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
+    end
+
+    def inventory_part_params
+      params.require(:bid).permit(inventory_part: [:part_num, :condition, :serial_num])[:inventory_part]
     end
 
     def set_transaction
