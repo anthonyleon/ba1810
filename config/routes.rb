@@ -83,7 +83,8 @@ end
 
   get 'current_opportunities' => 'auctions#current_opportunities', as: 'current_opportunities'
   get 'bids' => 'bids#index', as: 'bids'
-  get 'supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
+  get 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
+  post 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_create_bid', as: 'temp_user_create_bid'
   
   resources :password_resets
   
