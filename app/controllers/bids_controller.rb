@@ -139,7 +139,7 @@ class BidsController < ApplicationController
     end
 
     def inventory_part_params
-      params.require(:bid).permit(inventory_part: [:part_num, :condition, :serial_num])[:inventory_part]
+      params.require(:bid).permit(inventory_part: [:part_num, :condition, :serial_num, :manufacturer])[:inventory_part]
     end
 
     def set_transaction

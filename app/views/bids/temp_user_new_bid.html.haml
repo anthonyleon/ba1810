@@ -30,6 +30,7 @@
                     .part-details.sub-title.left
                       Part Details
                     = cm.text_field :part_num, value: @auction.part_num, placeholder: "Part Number"
+                    = cm.text_field :manufacturer, placeholder: "Manufacturer"
                     = cm.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
                     = cm.text_field :serial_num, placeholder: "Serial number"
               .field
