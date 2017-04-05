@@ -3,43 +3,61 @@
     .card
       .card-content
         %span.card-title.grey-text.text-darken-4
-          .col-lg-2.auction-top-title
+          .col-lg-3.auction-top-title
             .col-lg-1
-              %h5
-                = @auction.auction_part.description
-              %h6
-                = @auction.part_num
-              -if @auction.cycles
-                %h6
-                  = "Required Cycles Remaining: #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
-              %h6
+              %h5.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Part Number
+                .col-sm-1
+                = ": #{@auction.part_num}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Description
+                .col-sm-1
+                = ": #{@auction.auction_part.description}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Target Price
+                .col-sm-1
+                = ": #{@auction.target_price || "N/A"}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Quantity
+                .col-sm-1
+                = ": #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
                 = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
-              %h6
-                = "Conditions: #{AssetDecorator.rename(@auction.object, @auction.object.condition)}"
-              %h6
-                = "Target Price: #{@auction.target_price || "N/A"}"
-            .col-lg-1
-              - if @auction.company == current_user
-                .col.s12
-                  .col.s5
-                    = form_tag "/auctions/#{@auction.id}", method: 'PATCH' do
-                      .col.s5
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Conditions
+                .col-sm-1
+                = ": #{AssetDecorator.rename(@auction.object, @auction.object.condition)}"
+              -if @auction.cycles
+                %h6.col-sm-2.part-details
+                  .col-sm-1.font-bold
+                    Conditions
+                  .col-sm-1
+                    = ": #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
+              -if @auction.company == current_user
+                %h6
+                  = link_to 'Edit', edit_auction_path(@auction)
+            .col-lg-2
+              .col-lg-1
+                - if @auction.company == current_user
+                  .col-md-3
+                    .col-md-2
+                      = form_tag "/auctions/#{@auction.id}", class: "update-target-price", method: 'PATCH' do
                         = text_field_tag 'target_price', nil, placeholder: 'Update Target Price', class: "dollars"
-                      / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
-                      = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color") do
-                        %i.fa.fa-lg.fa-plus
-
-
-                  .col.s7
-                    %div.btn.custom-btn.right{style: 'margin-top: 10px;'}
-                      %i.fa.fa-pencil
-                      = link_to 'Edit this Auction', edit_auction_path(@auction)
-              - else
-                - if current_user.temp?
-                  = link_to 'New Quote', temp_user_new_bid_path(@auction), class: 'btn custom-btn right' 
+                        / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
+                        = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color plus-button") do
+                          %i.fa.fa-lg.fa-plus
+                    
                 - else
-                  = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
-              .col-lg-1{style: "margin-top: 46px;"}
+                  - if current_user.temp?
+                    = link_to 'New Quote', temp_user_new_bid_path(@auction), class: 'btn custom-btn right' 
+                  - else
+                    = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
+
+              .col-lg-1
                 %h6
                   %ul
                     %li

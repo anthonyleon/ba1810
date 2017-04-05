@@ -14,17 +14,37 @@ select#auction_condition {
   }
 }
 
+.user-auction-edit {
+  display: flex;
+}
+
+.part-details {
+  display: flex;
+}
+
+.plus-button {
+  width: 41px !important;
+}
+
 .add-supplier-partial {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
+.update-target-price {
+  display: flex;
+}
+
+.fa-plus {
+  vertical-align: middle;
+  width: initial !important;
+}
+
 .auction-top-title {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-left: 3%;
 
 }
 
@@ -255,6 +275,10 @@ ul.checkout-bar {
   margin-top: -25px !important;
 }
 
+.auction-title-section {
+  display: flex;
+  flex-direction: column;
+}
 
 
 @media all and (min-width: 800px) {
