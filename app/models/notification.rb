@@ -44,7 +44,7 @@ class Notification < ActiveRecord::Base
     auction.bids.each do |bid|
       bid_collection << bid
     end
-    bid_collection.uniq! { |b| b.company_id }
+    bid_collection.uniq! { |b| b.company }
     bid_collection.each do |bid|
       Notification.create(company_id: bid.company.id, auction_id: auction.id, bid_id: bid.id, message: message) unless bid.company == user
       ## This e-mail isn't really necessary, it just tells a user they just 
