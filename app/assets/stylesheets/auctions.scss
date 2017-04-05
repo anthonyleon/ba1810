@@ -20,7 +20,18 @@ select#auction_condition {
   justify-content: space-between;
 }
 
+.auction-top-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-left: 3%;
 
+}
+
+.auction-title {
+  display: flex;
+  justify-content: space-between;
+}
 
 .supplier-field {
   width: 40% !important;
