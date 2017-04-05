@@ -8,6 +8,11 @@ class AuctionsController < ApplicationController
 
   def show
     @auction = @auction.decorate
+
+    ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
+
+    @invited_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: true))
+    @bid_aero_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: false))
   end
 
   def new
