@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20170329142850) do
   add_index "auctions", ["invitees"], name: "index_auctions_on_invitees", using: :gin
 
   create_table "bids", force: :cascade do |t|
+    t.integer  "company_id"
     t.integer  "auction_id"
     t.integer  "inventory_part_id"
     t.datetime "created_at",        null: false
@@ -92,14 +93,11 @@ ActiveRecord::Schema.define(version: 20170329142850) do
     t.string   "invoice_num"
     t.decimal  "part_price"
     t.decimal  "est_shipping_cost"
-    t.integer  "shopping_cart_id"
-    t.integer  "transaction_id"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
+  add_index "bids", ["company_id"], name: "index_bids_on_company_id", using: :btree
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
-  add_index "bids", ["shopping_cart_id"], name: "index_bids_on_shopping_cart_id", using: :btree
-  add_index "bids", ["transaction_id"], name: "index_bids_on_transaction_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "name",                                   null: false
@@ -232,15 +230,6 @@ ActiveRecord::Schema.define(version: 20170329142850) do
     t.integer  "company_id"
   end
 
-  create_table "shopping_carts", force: :cascade do |t|
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.boolean  "active",     default: true
-    t.integer  "company_id"
-  end
-
-  add_index "shopping_carts", ["company_id"], name: "index_shopping_carts_on_company_id", using: :btree
-
   create_table "transactions", force: :cascade do |t|
     t.string   "order_id"
     t.integer  "inventory_part_id"
@@ -267,6 +256,7 @@ ActiveRecord::Schema.define(version: 20170329142850) do
     t.boolean  "complete",            default: false
     t.decimal  "part_price"
     t.boolean  "shipped"
+    t.integer  "bid_id"
     t.boolean  "disputed"
     t.string   "dispute_id"
     t.boolean  "dispute_settlement"
@@ -274,19 +264,15 @@ ActiveRecord::Schema.define(version: 20170329142850) do
     t.boolean  "settlement_rejected"
     t.integer  "auction_id"
     t.decimal  "price_before_fees"
-    t.integer  "shopping_cart_id"
   end
-
-  add_index "transactions", ["shopping_cart_id"], name: "index_transactions_on_shopping_cart_id", using: :btree
 
   add_foreign_key "aircrafts", "companies"
   add_foreign_key "auction_parts", "auctions"
   add_foreign_key "auction_parts", "parts"
   add_foreign_key "auctions", "companies"
   add_foreign_key "bids", "auctions"
+  add_foreign_key "bids", "companies"
   add_foreign_key "bids", "inventory_parts"
-  add_foreign_key "bids", "shopping_carts"
-  add_foreign_key "bids", "transactions"
   add_foreign_key "company_docs", "companies"
   add_foreign_key "documents", "aircrafts"
   add_foreign_key "documents", "company_docs"
@@ -295,6 +281,4 @@ ActiveRecord::Schema.define(version: 20170329142850) do
   add_foreign_key "engines", "companies"
   add_foreign_key "inventory_parts", "companies"
   add_foreign_key "inventory_parts", "parts"
-  add_foreign_key "shopping_carts", "companies"
-  add_foreign_key "transactions", "shopping_carts"
 end

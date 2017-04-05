@@ -23,8 +23,9 @@ class AuctionsController < ApplicationController
   end
 
   def create
+    auction_params[:target_price].gsub!(' ', '')
     @auction = Auction.new(auction_params)
-    @auction.set_invitees(params[:invitees])
+    @auction.set_invitees(params[:invitees]) if params[:invitees]
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
     @auction.resale_check
 
@@ -41,17 +42,13 @@ class AuctionsController < ApplicationController
       Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
       format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
       format.json { render :show, status: :created, location: @auction }
-      # else
-      #   flash[:error] = "Part number is not valid"
-      #   format.html { redirect_to new_auction_path, alert: 'That part does not exist in our database.' }
-      # end
     end
   end
 
   def update
     respond_to do |format|
       if params[:target_price]
-        @auction.update(target_price: params[:target_price])
+        @auction.update(target_price: params[:target_price].gsub(' ', ''))
       elsif @auction.update(auction_params)
         unless params[:commit] == "Update Auction"
           @transaction = Transaction.find(transaction_params[:id])
