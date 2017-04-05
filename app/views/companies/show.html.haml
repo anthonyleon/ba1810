@@ -17,6 +17,9 @@
           %th Mkt Cap
       %tbody
         - @data.each do |data|
+          - percent = data.change_in_percent.to_f
+          - change = data.change.to_f
+          - data.ask = (change / (percent / 100)) + change
           %tr
           %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
           %td{style: "padding: 10px !important"} USD

@@ -3,74 +3,117 @@
     .card
       .card-content
         %span.card-title.grey-text.text-darken-4
-          .col.s12
-            %h5.left
-              = @auction.auction_part.description
-            %h6.right
-              = "Target Price: #{@auction.target_price || "N/A"}"
-          .col.s12
-            %h6
-              = @auction.part_num
-          -if @auction.cycles
-            .col.s12
-              %h6
-                = "Required Cycles Remaining: #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
-          .col.s12
-            %h6
-              = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
-        - if @auction.company == current_user
-          .col.s12
-            .col.s5
-              = form_tag "/auctions/#{@auction.id}", method: 'PATCH' do
-                .col.s5
-                  = text_field_tag 'target_price', nil, placeholder: 'Update Target Price', class: "dollars"
-                / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
-                = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color") do
-                  %i.fa.fa-lg.fa-plus
+          .col-lg-3.auction-top-title
+            .col-lg-1
+              %h5.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Part Number
+                .col-sm-1
+                = ": #{@auction.part_num}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Description
+                .col-sm-1
+                = ": #{@auction.auction_part.description}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Target Price
+                .col-sm-1
+                = ": #{@auction.target_price || "N/A"}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Quantity
+                .col-sm-1
+                = ": #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
+                = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Conditions
+                .col-sm-1
+                = ": #{AssetDecorator.rename(@auction.object, @auction.object.condition)}"
+              -if @auction.cycles
+                %h6.col-sm-2.part-details
+                  .col-sm-1.font-bold
+                    Conditions
+                  .col-sm-1
+                    = ": #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
+              -if @auction.company == current_user
+                %h6
+                  = link_to 'Edit', edit_auction_path(@auction)
+            .col-lg-2
+              .col-lg-1
+                - if @auction.company == current_user
+                  .col-md-3
+                    .col-md-2
+                      = form_tag "/auctions/#{@auction.id}", class: "update-target-price", method: 'PATCH' do
+                        = text_field_tag 'target_price', nil, placeholder: 'Update Target Price', class: "dollars"
+                        / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
+                        = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color plus-button") do
+                          %i.fa.fa-lg.fa-plus
+                    
+                - else
+                  - if current_user.temp?
+                    = link_to 'New Quote', temp_user_new_bid_path(@auction), class: 'btn custom-btn right' 
+                  - else
+                    = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
 
+              .col-lg-1
+                %h6
+                  %ul
+                    %li
+                      %strong
+                        Shipping To
+                      %div
+                        = @auction.destination_zip + ", "
+                        = @auction.destination_city
+                      %div
+                        = @auction.destination_country
+                      %div{ style: "margin-top: 12px !important;"}
+                        %strong
+                          ="Delivery Date"
+                        %div
+                          = @auction.required_date
 
-            .col.s7
-              %div.btn.custom-btn.right{style: 'margin-top: 10px;'}
-                %i.fa.fa-pencil
-                = link_to 'Edit this Auction', edit_auction_path(@auction)
-        - else
-          = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
-        %hr{style: "clear:both;margin-top: 60px;"}/
-        %ul
-          %li.center-align
-            %h5= @auction.condition_header
-            - @auction.conditions.each do |condition|
-              = @auction.condition_tag(condition)
-        %ul
-          %li.center-align
-            %h5= "Shipping Instructions"
-            %div{style: "text-align: center; margin-top: 10px;"}
-              = @auction.destination_zip + ", "
-              = @auction.destination_city + ", "
-              = @auction.destination_country
-            %div{style: "text-align: center;"}
-              ="Must be received by "
-              %strong
-                = @auction.required_date
+          .col-lg-2.auction-title
+            .col-lg-1
+              
+            .col-lg-1
+              
         %hr/
         - if @auction.bids.empty?
           .nobid.center-align
             %p.flow-text There are no bids on this auction yet.
-        - else
-          #bids-container
-            %h4.custom-card-title.center
-              Bids
+        #bids-container
+          - if !@invited_suppliers_bids.empty?
+            %h4.custom-card-title
+              Invited Suppliers
             %table.table.responsive-table.bordered
               %thead
                 %tr
-                  %th Part #
+                  %th Manufacturer
                   %th Serial Number
                   %th Condition
-                  %th Manufacturer
                   %th Amount
                   %th Est. Shipping
                   %th Avg Rating
               %tbody
-                - BidDecorator.decorate_collection(@auction.bids.order(part_price: :asc)).each do |bid|
+                - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
+                  %tr#cursor-row
+                    = render bid
+          - if !@bid_aero_suppliers_bids.empty?
+            %br
+            %h4.custom-card-title
+              Bid Aero Suppliers
+            %table.table.responsive-table.bordered
+              %thead
+                %tr
+                  %th Manufacturer
+                  %th Serial Number
+                  %th Condition
+                  %th Amount
+                  %th Est. Shipping
+                  %th Avg Rating
+              %tbody
+                - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row
                     = render bid

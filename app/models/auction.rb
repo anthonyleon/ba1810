@@ -12,6 +12,8 @@ class Auction < ActiveRecord::Base
   before_save :upcase_part_num
   
   serialize :condition, Array # rename auctions.condition to auctions.condition
+  serialize :req_forms, Array
+  # serialize :invitees, Array
 
   accepts_nested_attributes_for :tx
 
@@ -22,7 +24,12 @@ class Auction < ActiveRecord::Base
 
   def conditions # patch until column is renamed
     condition.to_a
-  end  
+  end
+
+  def self.forms
+    %w(FAA EASA JAA CAAC SEGVOO TC)
+  end
+
 
   def self.active
     where(active: true)
@@ -57,6 +64,28 @@ class Auction < ActiveRecord::Base
     conditions[0].blank?    
   end
 
+  def set_invitees(invited)
+    hashy = Hash.new
+    invited.each_slice(2) do |a, b|
+      hashy.merge!({a => b})
+    end
+    self.invitees = hashy
+  end
+
+  def invite_and_setup_suppliers
+    invitees.each do |k, v|
+      # Once I've addeed multiple logins for a company (i.e. roles) then I have to change this conditional
+      ## to be if Company.find_by(name: k) || User.find_by(email: v)
+      if Company.find_by(email: v)
+        CompanyMailer.invite_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
+      else
+        secret = SecureRandom.urlsafe_base64
+        co = Company.create(name: k, email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
+        CompanyMailer.invite_to_bid(v, self, password: secret).deliver_later(wait_until: 1.minute.from_now)
+      end
+    end
+  end
+
   def self.check_new_inventory_for_auction_matches
     where(matched: false).each do |auc|
       part_matches = InventoryPart.where(part_num: auc.part_num).where.not(company: auc.company)
@@ -87,7 +116,7 @@ class Auction < ActiveRecord::Base
   # For InventoryPart check if auction matches one DOESN"T TAKE INTO ACCOUNT WHEN NEW INVENTORY IS UPLOADED
   ##  This is only for system_admin to check what auctions are matching
     part_match = InventoryPart.where(part_num: auction.part_num)  
-    not_owned = (part_match.size == 1 && part_match[0].company != auction.company) ? true : false  
+    not_owned = (part_match.size == 1 && part_match[0].company != auction.company)
     if part_match && not_owned
       auction.update_attribute('matched', true) 
     else
@@ -103,6 +132,7 @@ class Auction < ActiveRecord::Base
         auction.update_attribute('matched', false)
       end
   end
+
   def full_address
     "#{destination_address}, #{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
   end

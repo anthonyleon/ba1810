@@ -1,0 +1,31 @@
+.row
+  .col.s12
+    .card
+      .card-content
+        .card-title.center-align
+          .company-logo
+            %a{:href => root_path}
+              = image_tag("bid-areo-white.png", class: 'responsive-img')
+          %h5.custom-card-title.center Welcome!
+      %hr.clearfix/
+      .container{style: "width: 40%;"}
+        = form_for(:company, url: temp_login_path) do |f|
+          .row
+            .input-field
+              .label.center-align{style: "color: darkgrey;"}
+                E-Mail
+              = f.text_field :email, class: "validate center", id: 'email', value: @company.email
+              = f.hidden_field :token, value: @token
+              = f.hidden_field :auction_id, value: @auction_id
+          .row
+            .input-field
+              .label.center-align{style: "color: darkgrey;"}
+                Create Password
+              = f.password_field :password, class: "validate center"
+              .label.center-align{style: "color: darkgrey;"}
+                Confirm Password
+              = f.password_field :password_confirmation, class: "validate center"
+          .container.center-align
+            %button.btn.custom-btn.waves-effect.waves-light#continueButton{:name => "action", :type => "submit", style: "margin: 5px 0px 25px 0;", auction_id: @auction_id}
+              %i.fa.fa-angle-right.right
+              Continue

@@ -2,9 +2,121 @@ select#auction_condition {
   display: block;
 }
 
+
 .auction-condition-form {
+  /*padding: 20px 40px;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   input[type="checkbox"]+label {
-    padding-right: 35px;
+    text-align:justify;
+  }
+}
+
+.user-auction-edit {
+  display: flex;
+}
+
+.part-details {
+  display: flex;
+}
+
+.plus-button {
+  width: 41px !important;
+}
+
+.add-supplier-partial {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.update-target-price {
+  display: flex;
+}
+
+.fa-plus {
+  vertical-align: middle;
+  width: initial !important;
+}
+
+.auction-top-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+}
+
+.auction-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.supplier-field {
+  width: 40% !important;
+}
+
+
+#add-new-supplier {
+  width: 100% !important;
+}
+
+#auction-checkboxes {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.edit-address {
+  color: #03A0E9;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.edit-shipping{
+  display:none;
+}
+#add-new-supplier {
+  display:flex;
+  flex-direction: column;
+}
+.remove-supplier{
+  display: flex;
+  align-items: center;
+  color: #ea4848;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+#invitees{
+  margin-bottom: 40px;
+}
+
+#addNewSupplier {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.auc-checkbox-titles {
+  margin-bottom: 20px;
+  color: darkgrey;
+  min-width: 152px;
+  h5 {
+    font-size: 1.2rem;
+  }
+}
+
+.auction-req-forms {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  input[type="checkbox"]+label {
+    text-align:justify;
+    text-transform: uppercase;
   }
 }
 
@@ -163,6 +275,10 @@ ul.checkout-bar {
   margin-top: -25px !important;
 }
 
+.auction-title-section {
+  display: flex;
+  flex-direction: column;
+}
 
 
 @media all and (min-width: 800px) {
