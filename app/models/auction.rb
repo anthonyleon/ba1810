@@ -78,11 +78,11 @@ class Auction < ActiveRecord::Base
       ## to be if Company.find_by(name: k) || User.find_by(email: v)
       co = Company.find_by(email: v)
       if co
-        CompanyMailer.invite_to_bid(co, self).deliver_now #deliver_later(wait_until: 1.minute.from_now)
+        CompanyMailer.invite_to_bid(v, self).deliver_now #deliver_later(wait_until: 1.minute.from_now)
       else
         secret = SecureRandom.urlsafe_base64
         co = Company.create(name: k, email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
-        CompanyMailer.invite_to_bid(v, self, password: secret).deliver_later(wait_until: 1.minute.from_now)
+        CompanyMailer.invite_to_bid(v, self).deliver_now#deliver_later(wait_until: 1.minute.from_now)
       end
     end
   end
