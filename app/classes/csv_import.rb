@@ -14,7 +14,7 @@ class CsvImport
 						rows = CSV.parse(lines.join.scrub, write_headers: true, headers: headers)
 						rows.map do |row|
 							part_match = Part.find_by(part_num: row['part_num'])
-							new_part = build_new_part(row['part_num'], row['description']) unless part_match
+							new_part = build_new_part(row['part_num'], (row['description'] || "") unless part_match
 							quantity = row['quantity'].to_i
 							row.delete('quantity')
 							row["condition"] = match_condition(row)
