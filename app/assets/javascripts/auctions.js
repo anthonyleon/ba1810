@@ -5,8 +5,6 @@ $(document).on('ready page:load', function() {
 	// 	$('.auction-destination').trigger("reset");
 	// });
 
-
-
 	$('.card-edit-submit').click(function(){
 		$('.confirm-address-bubble').removeClass('active');
 		$('.confirm-address-bubble').addClass('visited');

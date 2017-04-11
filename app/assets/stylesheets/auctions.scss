@@ -14,6 +14,24 @@ select#auction_condition {
   }
 }
 
+.record-btn form{
+    background-color: white !important;
+    border: 1.8px solid $custom-green;
+    color: $custom-green;
+    border-radius: 3px !important;
+}
+
+.payment-btn {
+  margin-top: 4%;
+  border-radius: 3px !important;
+  width: 85px;
+  font-size: 12px;
+  padding: 0 !important;
+}
+
+.checkout-column-title {
+  padding-left: 5%;
+}
 .user-auction-edit {
   display: flex;
 }
