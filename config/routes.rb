@@ -86,6 +86,8 @@ end
   get 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
   post 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_create_bid', as: 'temp_user_create_bid'
   
+  post 'record_purchase' => 'transactions#record', as: 'record_transaction'
+
   resources :password_resets
   
   resources :inventory_parts do

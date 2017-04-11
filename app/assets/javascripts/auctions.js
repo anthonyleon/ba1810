@@ -4,6 +4,11 @@ $(document).on('ready page:load', function() {
 	// $('#shipping-destination-box').click(function() {
 	// 	$('.auction-destination').trigger("reset");
 	// });
+	$('.bought').click( function(){
+  		var row = event.target.parentElement.parentElement;
+  		row.deleteCell(-1);
+
+	});
 
 	$('.card-edit-submit').click(function(){
 		$('.confirm-address-bubble').removeClass('active');

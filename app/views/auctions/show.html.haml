@@ -86,7 +86,7 @@
           - if !@invited_suppliers_bids.empty?
             %h4.custom-card-title
               Invited Suppliers
-            %table.table.responsive-table.bordered
+            %table#invited-suppliers.table.responsive-table.bordered
               %thead
                 %tr
                   %th
@@ -96,7 +96,7 @@
                   %th Amount
                   %th Est. Shipping
                   %th Avg Rating
-                  %th.checkout-column-title Checkout
+                  %th
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row
@@ -105,7 +105,7 @@
             %br
             %h4.custom-card-title
               Bid Aero Suppliers
-            %table.table.responsive-table.bordered
+            %table#bid-aero-suppliers.table.responsive-table.bordered
               %thead
                 %tr
                   %th
@@ -115,7 +115,7 @@
                   %th Amount
                   %th Est. Shipping
                   %th Avg Rating
-                  %th.checkout-column-title Checkout
+                  %th
               %tbody
                 - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row

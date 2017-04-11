@@ -21,6 +21,14 @@ select#auction_condition {
     border-radius: 3px !important;
 }
 
+.bought{
+  background-color: dodgerblue;
+  border-radius: 2px;
+  color: white;
+  padding: 3px 0px;
+  text-align: center;
+}
+
 .payment-btn {
   margin-top: 4%;
   border-radius: 3px !important;
@@ -29,9 +37,7 @@ select#auction_condition {
   padding: 0 !important;
 }
 
-.checkout-column-title {
-  padding-left: 5%;
-}
+
 .user-auction-edit {
   display: flex;
 }

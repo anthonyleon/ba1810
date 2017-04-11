@@ -20,15 +20,16 @@
   %td
     = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
       %span.fa.fa-trash.red-text{style: "font-size: 28px;"}
-  / testing purposes
-  ///////////// we need an edit bid button
-- elsif @auction.company == current_user
-  %td.btn.custom-btn.payment-btn.tooltipped.pull-left{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
-    = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
-  %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
-    = button_to "Record", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
+- if @auction.company == current_user 
+  - if !bid.tx
+    %td.btn.custom-btn.payment-btn.tooltipped.pull-left{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
+      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
+    %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
+      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true
+  -elsif bid.tx
+    %td 
+      .bought
+        Purchase Has Been Recorded
 -else
   %td
     =""
-  / %td= link_to 'Buy Part', auction_purchase_path(@auction.id, bid.id)
-/ We should put an ARE YOU SURE YOU WANT TO PURCHASE PART_NUM FOR $$ IN CONDITION ??s
