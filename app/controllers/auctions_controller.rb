@@ -50,6 +50,8 @@ class AuctionsController < ApplicationController
       if params[:target_price]
         @auction.update(target_price: params[:target_price].gsub(' ', ''))
       elsif @auction.update(auction_params)
+        @auction.set_invitees(params[:invitees]) if params[:invitees]
+        @auction.invite_and_setup_suppliers
         unless params[:commit] == "Update Auction"
           @transaction = Transaction.find(transaction_params[:id])
           @transaction.update(transaction_params)
