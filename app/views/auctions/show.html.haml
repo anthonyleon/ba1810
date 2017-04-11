@@ -25,18 +25,17 @@
                   Quantity
                 .col-sm-1
                 = ": #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
-                = "Quantity: #{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
               %h6.col-sm-2.part-details
                 .col-sm-1.font-bold
                   Conditions
                 .col-sm-1
                 = ": #{AssetDecorator.rename(@auction.object, @auction.object.condition)}"
-              -if @auction.cycles
-                %h6.col-sm-2.part-details
-                  .col-sm-1.font-bold
-                    Conditions
-                  .col-sm-1
-                    = ": #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
+
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Min Cycles
+                .col-sm-1
+                  = ": #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
               -if @auction.company == current_user
                 %h6
                   = link_to 'Edit', edit_auction_path(@auction)
@@ -90,12 +89,14 @@
             %table.table.responsive-table.bordered
               %thead
                 %tr
+                  %th
                   %th Manufacturer
                   %th Serial Number
                   %th Condition
                   %th Amount
                   %th Est. Shipping
                   %th Avg Rating
+                  %th.checkout-column-title Checkout
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row
@@ -107,12 +108,14 @@
             %table.table.responsive-table.bordered
               %thead
                 %tr
+                  %th
                   %th Manufacturer
                   %th Serial Number
                   %th Condition
                   %th Amount
                   %th Est. Shipping
                   %th Avg Rating
+                  %th.checkout-column-title Checkout
               %tbody
                 - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row

@@ -1,20 +1,20 @@
-%td= bid.inventory_part.manufacturer || "--"
-%td= bid.inventory_part.serial_num || "--"
-%td= bid.inventory_part.condition_tag
-%td= number_to_currency bid.part_price
-%td= number_to_currency bid.est_shipping_cost
-%td= bid.average_rating || "No Ratings for this User"
 - if @auction.company == current_user || bid.company == current_user
   %td
     -if bid.inventory_part.documents.blank? && bid.company == current_user
       =link_to 'Upload Docs', inventory_part_path(bid.inventory_part, bid_id: bid.id)
     -elsif !bid.inventory_part.documents.blank?
-
       = link_to inventory_part_path(bid.inventory_part, bid_id: bid.id) do
         %i.fa.fa-file-text-o{style: "font-size: 24px;"}
 -elsif bid.company != current_user
   %td
     =""
+%td= bid.inventory_part.manufacturer || "--"
+%td= bid.inventory_part.serial_num || "--"
+%td= bid.inventory_part.condition_tag
+%td= number_to_currency bid.part_price
+%td= number_to_currency bid.est_shipping_cost
+%td= bid.average_rating || "N/A"
+
 - if bid.company == current_user
   / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
   %td
@@ -23,7 +23,10 @@
   / testing purposes
   ///////////// we need an edit bid button
 - elsif @auction.company == current_user
-  %td= button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: 'btn custom-btn'
+  %td.btn.custom-btn.payment-btn.tooltipped.pull-left{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
+    = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
+  %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
+    = button_to "Record", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
 -else
   %td
     =""
