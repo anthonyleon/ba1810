@@ -78,7 +78,7 @@ class AssetDecorator < Draper::Decorator
           @conditions << "NSV"
         end
       end
-      @conditions << "All Conditions" if condition == [:""]
+      @conditions << "All Conditions" if condition == [:""] || condition == [""]
     elsif event.class == Engine
       case condition
       when "overhaul"
@@ -95,7 +95,7 @@ class AssetDecorator < Draper::Decorator
         @conditions << "Non Serviceable"
       end
     end
-    @conditions.to_sentence
+    @conditions.to_sentence    
   end
 
   def service_status_tag
