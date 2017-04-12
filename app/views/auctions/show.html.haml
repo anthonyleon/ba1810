@@ -78,11 +78,11 @@
             .col-lg-1
               
         %hr/
-        - if @auction.bids.empty? && !@auction.invitees
+        - if @auction.bids.empty? && @auction.invitees.empty?
           .nobid.center-align
             %p.flow-text There are no bids on this auction yet.
         #bids-container
-          - if @auction.invitees
+          - if !@auction.invitees.empty?
             %h4.custom-card-title
               Invited Suppliers
             %table#invited-suppliers.table.responsive-table.bordered
@@ -95,7 +95,7 @@
                   %th Price
                   %th Est. Shipping
                   %th Docs
-                  %th Avg Rating
+                  %th Qty
                   %th
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
@@ -127,7 +127,7 @@
                   %th Price
                   %th Est. Shipping
                   %th Docs
-                  %th Avg Rating
+                  %th Qty
                   %th
               %tbody
                 - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
