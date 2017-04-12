@@ -40,8 +40,10 @@
             = "#{current_user.city}, #{current_user.state} #{current_user.zip}"
           .address
             = current_user.country
+          .address
+            = @auction.required_date || "No Delivery Date Specified"
           %span.edit-address
-            edit
+            change
 
 
     %br
@@ -76,7 +78,9 @@
     .container#add-new-supplier
       
     .container#invitees
+    %br
       %a#addNewSupplier Add your preferred suppliers
+      %br
     .container.col-md-1.center-align
       .btn.custom-btn
         %i.fa.fa-check-square-o
