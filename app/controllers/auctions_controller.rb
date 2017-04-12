@@ -7,7 +7,7 @@ class AuctionsController < ApplicationController
   end
 
   def show
-    @auction = @auction.decorate
+    @auction = @auction
 
     ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
 
