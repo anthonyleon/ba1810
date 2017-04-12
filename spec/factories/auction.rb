@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :auction do
-    part_num              "1475M35P01"
+    part_num              "007-00210-0000"
     active                true
     quantity              1
     condition             [:as_removed, :overhaul]

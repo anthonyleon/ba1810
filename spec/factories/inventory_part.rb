@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :inventory_part do
-    part_num      "1475M35P01"
+    part_num      "007-00210-0000"
     description   "TCAS COMPUTER"
     manufacturer  "ACSS"
     serial_num    "191223"
