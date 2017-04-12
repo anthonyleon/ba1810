@@ -4,11 +4,45 @@ $(document).on('ready page:load', function() {
 	// $('#shipping-destination-box').click(function() {
 	// 	$('.auction-destination').trigger("reset");
 	// });
-	$('.bought').click( function(){
-  		var row = event.target.parentElement.parentElement;
-  		row.deleteCell(-1);
+	$('.responsive-remove-btn').hide();
+	$('.record-btn').click( function(){
+  		var row = event.target.parentElement.parentElement.parentElement;
+  		var num_columns = row.cells.length;
+  		console.log(row);
+  		row.deleteCell(num_columns-1);
+  		num_columns = row.cells.length;
+  		row.deleteCell(num_columns-1);
+
+  		num_columns = row.cells.length;
+  		var newRow = row.insertCell(num_columns);
+  		newRow.innerHTML = "HTLM"
+
+  		// $('.responsive-remove-btn').show()
+
+  		console.log("happening")
 
 	});
+
+	
+
+	// $('.responsive-remove-btn').hide();
+	// $('#b-div').hide();
+	// $('.record-btn').click(function(){
+	//     $('.record-btn').toggle(500);
+	//     if($('.responsive-remove-btn').is(":visible"))
+	//         $('.responsive-remove-btn').hide();
+
+	// });
+	// $('#b').click(function(){
+	//     $('.responsive-remove-btn').toggle(500);
+	//     if($('.record-btn').is(":visible"))
+	//         $('.record-btn').hide();
+	// });
+
+
+
+
+
 
 	$('.card-edit-submit').click(function(){
 		$('.confirm-address-bubble').removeClass('active');
