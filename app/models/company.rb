@@ -26,6 +26,11 @@ class Company < ActiveRecord::Base
     self.inc_country = self.country
   end
 
+  def self.find_invitees(invitees_hash)
+    co_array = []
+    invitees_hash.each { |k, v| co_array << v}
+    where(email: co_array)
+  end
 
   def email_activate
     self.email_confirmed = true

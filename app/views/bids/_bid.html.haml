@@ -1,3 +1,10 @@
+%td= bid.company.name
+%td= bid.inventory_part.manufacturer || "--"
+%td= bid.inventory_part.serial_num || "--"
+
+%td= bid.inventory_part.condition_tag
+%td= number_to_currency bid.part_price
+%td= number_to_currency bid.est_shipping_cost
 - if @auction.company == current_user || bid.company == current_user
   %td
     -if bid.inventory_part.documents.blank? && bid.company == current_user
@@ -8,11 +15,6 @@
 -elsif bid.company != current_user
   %td
     =""
-%td= bid.inventory_part.manufacturer || "--"
-%td= bid.inventory_part.serial_num || "--"
-%td= bid.inventory_part.condition_tag
-%td= number_to_currency bid.part_price
-%td= number_to_currency bid.est_shipping_cost
 %td= bid.average_rating || "N/A"
 
 - if bid.company == current_user
