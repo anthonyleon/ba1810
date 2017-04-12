@@ -38,7 +38,7 @@
                   = ": #{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
               -if @auction.company == current_user
                 %h6
-                  = link_to 'Edit or Invite Suppliers', edit_auction_path(@auction)
+                  = link_to 'Edit/Invite Suppliers', edit_auction_path(@auction)
             .col-lg-2
               .col-lg-1
                 - if @auction.company == current_user
@@ -71,8 +71,7 @@
                         %strong
                           ="Delivery Date"
                         %div
-                          = @auction.required_date || "Not Specified"
-
+                          = @auction.required_date ? @auction.required_date.to_formatted_s(:rfc822) : "N/A"
           .col-lg-2.auction-title
             .col-lg-1
               
