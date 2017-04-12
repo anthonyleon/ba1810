@@ -5,21 +5,38 @@ $(document).on('ready page:load', function() {
 	// 	$('.auction-destination').trigger("reset");
 	// });
 	$('.responsive-remove-btn').hide();
+	$('.purchase-btns').hide();
+
+	$('.remove-btn').click( function(){
+		
+		var row = event.target.parentElement.parentElement.parentElement.parentElement;
+  		// var num_columns = row.cells.length;
+  		// row.cells
+  		console.log(row);
+  		row.cells[7].style.display = '';
+  		row.cells[8].style.display = '';
+  		row.cells[9].style.display = 'none';
+	});
+	
 	$('.record-btn').click( function(){
   		var row = event.target.parentElement.parentElement.parentElement;
   		var num_columns = row.cells.length;
+  		row.cells
   		console.log(row);
-  		row.deleteCell(num_columns-1);
-  		num_columns = row.cells.length;
-  		row.deleteCell(num_columns-1);
+  		row.cells[7].style.display = 'none';
+  		row.cells[8].style.display = 'none';
+  		row.cells[9].style.display = "";
+  		// row.deleteCell(num_columns-1);
+  		// num_columns = row.cells.length;
+  		// row.deleteCell(num_columns-1);
 
-  		num_columns = row.cells.length;
-  		var newRow = row.insertCell(num_columns);
-  		newRow.innerHTML = "HTLM"
+  		// num_columns = row.cells.length;
+  		// var newRow = row.insertCell(num_columns);
+  		// newRow.innerHTML = "HTLM"
 
-  		// $('.responsive-remove-btn').show()
+  		// // $('.responsive-remove-btn').show()
 
-  		console.log("happening")
+  		// console.log("happening")
 
 	});
 
