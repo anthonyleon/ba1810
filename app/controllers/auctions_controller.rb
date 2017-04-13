@@ -28,7 +28,6 @@ class AuctionsController < ApplicationController
     @auction.set_invitees(params[:invitees]) if params[:invitees]
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
     @auction.resale_check
-
     respond_to do |format|
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }
