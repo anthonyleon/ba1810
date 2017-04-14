@@ -23,4 +23,6 @@
 
 dump.rdb
 
+/config/environment.rb
+
 .DS_Store
