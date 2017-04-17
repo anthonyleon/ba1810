@@ -162,7 +162,7 @@
 	@section Header Container Style
 	*/
 		#templateHeader{
-			/*@editable*/background-color:#030064;
+			/*@editable*/background-color:#00165f;
 			/*@editable*/background-image:url("https://gallery.mailchimp.com/01ec374b2b3efde75749d67be/images/8216d05a-8623-4076-86f6-4dd031dc42e8.jpg");
 			/*@editable*/background-repeat:no-repeat;
 			/*@editable*/background-position:center;
@@ -549,15 +549,13 @@
 
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-                            <h2><%= @company.name %>,&nbsp;</h2>
+                            <h2><%= @auction.company.name %> has invited you to quote the following:</h2>
 
-<p style="font-size:18px !important;">You have received an eRFQ for the following part:<br>
-<br>
-<strong>Part Number:</strong> <%= @auction.part_num %> <br>
-<strong>Acceptable Conditions:</strong> <%= @conditions %> </p>
+<p style="font-size:18px !important;">Part Number: <%= @auction.part_num %> <br>
+Acceptable Conditions: <%= @conditions %> </p>
 
 <p style="font-size: 18px !important; text-align: center;"><br>
-Please login to Bid Aero to submit your quote!</p>
+We see your not registered on Bid Aero. Please login to set your password &amp;&nbsp;submit your quote!</p>
 
                         </td>
                     </tr>
@@ -581,8 +579,8 @@ Please login to Bid Aero to submit your quote!</p>
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Helvetica; font-size: 18px; padding: 18px;">
-                                <!-- <a class="mcnButton " title="Submit Quote" href="http://" target="_self" style="font-weight: bold;letter-spacing: -0.5px;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Submit Quote</a> -->
-                                <%= link_to 'Submit Quote', "https://www.bid.aero/auctions/#{@auction.id}", class: "mcnButton ", title: "Submit Quote", target: "_self", style: "font-weight: bold;letter-spacing: -0.5px;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;" %>
+                                <!-- <a class="mcnButton " title="Create Account and Submit Quote" href="http://" target="_self" style="font-weight: bold;letter-spacing: -0.5px;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Create Account and Submit Quote</a> -->
+                                <%= link_to 'Create Account and Submit Quote', "https://www.bid.aero/auction/#{@auction.id}/supplier_invite.#{@confirmation_token}", class: "mcnButton ", title: "Create Account and Submit Quote", target: "_self", style: "font-weight: bold;letter-spacing: -0.5px;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;" %>
                             </td>
                         </tr>
                     </tbody>
@@ -590,41 +588,78 @@ Please login to Bid Aero to submit your quote!</p>
             </td>
         </tr>
     </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
-    <tbody class="mcnTextBlockOuter">
+</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnImageCardBlock">
+    <tbody class="mcnImageCardBlockOuter">
         <tr>
-            <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-              	<!--[if mso]>
-				<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-				<tr>
-				<![endif]-->
+            <td class="mcnImageCardBlockInner" valign="top" style="padding-top:9px; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-				<!--[if mso]>
-				<td valign="top" width="600" style="width:600px;">
+<table align="right" border="0" cellpadding="0" cellspacing="0" class="mcnImageCardBottomContent" width="100%" style="background-color: #404040;">
+    <tbody><tr>
+        <td class="mcnImageCardBottomImageContent" align="left" valign="top" style="padding-top:0px; padding-right:0px; padding-bottom:0; padding-left:0px;">
+
+
+            <a href="https://www.youtube.com/watch?v=8V2PHJIUFxY" title="" class="" target="">
+
+
+            <img alt="" src="https://gallery.mailchimp.com/video_thumbnails_new/6fcfd9d9d7a74a2563e698bb6f36e7c2.png" width="564" style="max-width:640px;" class="mcnImage">
+            </a>
+
+        </td>
+    </tr>
+    <tr>
+        <td class="mcnTextContent" valign="top" style="padding: 9px 18px;color: #F2F2F2;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: center;" width="546">
+            Changing sourcing and procurement for aviation feature by feature.
+        </td>
+    </tr>
+</tbody></table>
+
+
+
+
+            </td>
+        </tr>
+    </tbody>
+</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
+    <!--[if gte mso 9]>
+	<table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
+	<![endif]-->
+	<tbody class="mcnBoxedTextBlockOuter">
+        <tr>
+            <td valign="top" class="mcnBoxedTextBlockInner">
+
+				<!--[if gte mso 9]>
+				<td align="center" valign="top" ">
 				<![endif]-->
-                <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
+                <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnBoxedTextContentContainer">
                     <tbody><tr>
 
-                        <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
+                        <td style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:18px;">
 
-                            <h3><span style="color:#000000">Quoting made simple!</span></h3>
-<span style="color:#808080"><span style="font-size:15px"><span style="font-family:roboto,helvetica neue,helvetica,arial,sans-serif">Specify unit price, estimate shipping costs, and even upload documentation(tags, 8130, trace, etc..) for free!<br>
+                            <table border="0" cellpadding="18" cellspacing="0" class="mcnTextContentContainer" width="100%" style="min-width:100% !important;">
+                                <tbody><tr>
+                                    <td valign="top" class="mcnTextContent" style="color: #F2F2F2;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: center;">
+                                        <div style="text-align: left;"><span style="color:#000000"><span style="font-size:24px"><strong><span style="font-family:roboto,helvetica neue,helvetica,arial,sans-serif">Quoting made simple!</span></strong></span></span></div>
+
+<div style="text-align: left;"><span style="color:#808080"><span style="font-size:15px"><span style="font-family:roboto,helvetica neue,helvetica,arial,sans-serif">Specify unit price, estimate shipping costs, and even upload documentation(tags, 8130, trace, etc..) for free!<br>
 <br>
-Need access to our secure escrow service? Set up takes seconds and ensures your part or money is never at risk.</span></span></span>
+Need access to our secure escrow service? Set up takes minutes and ensures your part or money is never at risk.</span></span></span><br>
+&nbsp;</div>
 
-<div style="text-align: center;"><br>
-<span style="color:#808080"><span style="font-size:15px"><span style="font-family:roboto,helvetica neue,helvetica,arial,sans-serif">Contact us at <u>support@bid.aero</u></span></span></span></div>
+<div style="text-align: center;"><span style="color:#808080"><span style="font-size:15px"><span style="font-family:roboto,helvetica neue,helvetica,arial,sans-serif">Contact us at support@bid.aero</span></span></span></div>
 
+                                    </td>
+                                </tr>
+                            </tbody></table>
                         </td>
                     </tr>
                 </tbody></table>
-				<!--[if mso]>
+				<!--[if gte mso 9]>
 				</td>
 				<![endif]-->
 
-				<!--[if mso]>
-				</tr>
-				</table>
+				<!--[if gte mso 9]>
+                </tr>
+                </table>
 				<![endif]-->
             </td>
         </tr>
@@ -855,4 +890,4 @@ Need access to our secure escrow service? Set up takes seconds and ensures your 
             </table>
         </center>
     </body>
-</html>
+</html>You've been invited to participate in a bid

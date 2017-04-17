@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 	<head>
@@ -549,12 +550,10 @@
 
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-                            <h2><%= @company.name %>,&nbsp;</h2>
+                            <h2><%= @auction.company.name %> has invited you to quote the following:</h2>
 
-<p style="font-size:18px !important;">You have received an eRFQ for the following part:<br>
-<br>
-<strong>Part Number:</strong> <%= @auction.part_num %> <br>
-<strong>Acceptable Conditions:</strong> <%= @conditions %> </p>
+<p style="font-size:18px !important;">Part Number: <%= @auction.part_num %> <br>
+Acceptable Conditions: <%= @conditions %> </p>
 
 <p style="font-size: 18px !important; text-align: center;"><br>
 Please login to Bid Aero to submit your quote!</p>
@@ -590,24 +589,26 @@ Please login to Bid Aero to submit your quote!</p>
             </td>
         </tr>
     </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
-    <tbody class="mcnTextBlockOuter">
+</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnCaptionBlock">
+    <tbody class="mcnCaptionBlockOuter">
         <tr>
-            <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-              	<!--[if mso]>
-				<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-				<tr>
-				<![endif]-->
+            <td class="mcnCaptionBlockInner" valign="top" style="padding:9px;">
 
-				<!--[if mso]>
-				<td valign="top" width="600" style="width:600px;">
-				<![endif]-->
-                <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
-                    <tbody><tr>
 
-                        <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
+<table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnCaptionBottomContent" width="false">
+    <tbody><tr>
+        <td class="mcnCaptionBottomImageContent" align="center" valign="top" style="padding:0 9px 9px 9px;">
 
-                            <h3><span style="color:#000000">Quoting made simple!</span></h3>
+
+
+            <img alt="" src="https://gallery.mailchimp.com/01ec374b2b3efde75749d67be/images/d03f0c84-dd1a-4e33-98e2-dd54137776af.png" width="564" style="max-width:1024px;" class="mcnImage">
+
+
+        </td>
+    </tr>
+    <tr>
+        <td class="mcnTextContent" valign="top" style="padding:0 9px 0 9px;" width="564">
+            <h3><span style="color:#000000">Quoting made simple!</span></h3>
 <span style="color:#808080"><span style="font-size:15px"><span style="font-family:roboto,helvetica neue,helvetica,arial,sans-serif">Specify unit price, estimate shipping costs, and even upload documentation(tags, 8130, trace, etc..) for free!<br>
 <br>
 Need access to our secure escrow service? Set up takes seconds and ensures your part or money is never at risk.</span></span></span>
@@ -615,17 +616,14 @@ Need access to our secure escrow service? Set up takes seconds and ensures your 
 <div style="text-align: center;"><br>
 <span style="color:#808080"><span style="font-size:15px"><span style="font-family:roboto,helvetica neue,helvetica,arial,sans-serif">Contact us at <u>support@bid.aero</u></span></span></span></div>
 
-                        </td>
-                    </tr>
-                </tbody></table>
-				<!--[if mso]>
-				</td>
-				<![endif]-->
+        </td>
+    </tr>
+</tbody></table>
 
-				<!--[if mso]>
-				</tr>
-				</table>
-				<![endif]-->
+
+
+
+
             </td>
         </tr>
     </tbody>
