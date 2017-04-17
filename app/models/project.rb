@@ -3,5 +3,4 @@ class Project < ActiveRecord::Base
 	has_many :auctions
 	has_many :bids, through :auctions
 
-	
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412194012) do
+ActiveRecord::Schema.define(version: 20170414162223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,16 @@ ActiveRecord::Schema.define(version: 20170412194012) do
   end
 
   add_index "parts", ["part_num"], name: "index_parts_on_part_num", using: :btree
+
+  create_table "projects", force: :cascade do |t|
+    t.string   "reference_num"
+    t.text     "description"
+    t.boolean  "active"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "projects", ["reference_num"], name: "index_projects_on_reference_num", using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "packaging"
