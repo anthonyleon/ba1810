@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   get 'errors/internal_server_error'
 
   get 'password_resets/new'
-
   get '/privacy_policy' => 'pages#privacy_policy', as: 'privacy_policy'
 
   get '/terms_and_conditions' => 'pages#terms_and_conditions', as: 'terms_and_conditions'
@@ -85,11 +84,11 @@ end
   get 'bids' => 'bids#index', as: 'bids'
   get 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
   post 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_create_bid', as: 'temp_user_create_bid'
-  
+
   post 'record_purchase' => 'transactions#record', as: 'record_transaction'
 
   resources :password_resets
-  
+
   resources :inventory_parts do
     resources :documents, shallow: true
   end
