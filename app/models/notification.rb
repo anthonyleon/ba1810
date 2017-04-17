@@ -47,9 +47,6 @@ class Notification < ActiveRecord::Base
     bid_collection.uniq! { |b| b.company }
     bid_collection.each do |bid|
       Notification.create(company_id: bid.company.id, auction_id: auction.id, bid_id: bid.id, message: message) unless bid.company == user
-      ## This e-mail isn't really necessary, it just tells a user they just 
-      ## made a bid. And it's ugly.
-      # CompanyMailer.place_new_bid(bid).deliver_later(wait_until: 1.minute.from_now)
     end
   end
 
