@@ -21,7 +21,7 @@ Rails.application.configure do
   # config.action_mailer.default_url_options = { :host => "localhost:3000" }
   # config.action_mailer.asset_host = 'http://localhost:3000'
  ## ignore emails in development
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

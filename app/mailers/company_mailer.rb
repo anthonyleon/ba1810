@@ -16,6 +16,13 @@ class CompanyMailer < ApplicationMailer
     mail to: company.email, subject: "Password Reset"
   end
 
+  def invite_to_bid(email, auction, opts = {})
+    @invitee = Company.find_by(email: email)
+    @confirmation_token = @invitee.confirm_token
+    @auction = auction
+    mail to: @invitee.email, subject: "#{auction.company.name} has invited you to participate in an RFQ"
+  end
+
   def notify_of_opportunity company , auction
     @company = company 
     @auction = auction

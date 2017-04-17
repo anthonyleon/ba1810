@@ -1,0 +1,43 @@
+.row
+  .col.s12
+    .card
+      .card-content
+        .card-title.center-align
+          %h5.custom-card-title.center
+            Place Quote
+          = form_for(:bid, url: temp_user_create_bid_path(@auction)) do |f|
+            - if @bid.errors.any?
+              #error_explanation
+                %h2
+                  = pluralize(@bid.errors.count, "error")
+                  prohibited this bid from being saved:
+                %ul
+                  - @bid.errors.full_messages.each do |message|
+                    %li= message
+            .container.temp-bid.col-md-2
+              .col-md-1.field-section
+                .bid-info.sub-title.left
+                  Quote Details
+                .field
+                  = f.text_field :part_price, class: "dollars", placeholder: "Amount"
+                .field
+                  = f.text_field :est_shipping_cost, class: "dollars", placeholder: "Shipping Cost"
+                .sub-title.destination
+                  = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}" 
+              .col-md-1.field-section
+                .well
+                  = f.fields_for :inventory_part, InventoryPart.new do |cm|
+                    .part-details.sub-title.left
+                      Part Details
+                    = cm.text_field :part_num, value: @auction.part_num, placeholder: "Part Number"
+                    = cm.text_field :manufacturer, placeholder: "Manufacturer"
+                    = cm.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
+                    = cm.text_field :serial_num, placeholder: "Serial number"
+              .field
+              
+            #place-bid.actions
+              = f.submit 'Place bid', class: 'btn custom-btn'
+
+
+
+

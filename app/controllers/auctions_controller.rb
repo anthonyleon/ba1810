@@ -8,6 +8,11 @@ class AuctionsController < ApplicationController
 
   def show
     @auction = @auction.decorate
+
+    ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
+
+    @invited_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: true))
+    @bid_aero_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: false))
   end
 
   def new
@@ -18,8 +23,9 @@ class AuctionsController < ApplicationController
   end
 
   def create
-
+    auction_params[:target_price].gsub!(' ', '')
     @auction = Auction.new(auction_params)
+    @auction.set_invitees(params[:invitees]) if params[:invitees]
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
     @auction.resale_check
 
@@ -27,6 +33,8 @@ class AuctionsController < ApplicationController
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }
       @auction.save
+      @auction.invite_and_setup_suppliers
+
       @auction.req_forms.reject! { |c| c.empty? }
       Auction.part_match_or_not_actions(@auction, part_match)
 
@@ -34,17 +42,13 @@ class AuctionsController < ApplicationController
       Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
       format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
       format.json { render :show, status: :created, location: @auction }
-      # else
-      #   flash[:error] = "Part number is not valid"
-      #   format.html { redirect_to new_auction_path, alert: 'That part does not exist in our database.' }
-      # end
     end
   end
 
   def update
     respond_to do |format|
       if params[:target_price]
-        @auction.update(target_price: params[:target_price])
+        @auction.update(target_price: params[:target_price].gsub(' ', ''))
       elsif @auction.update(auction_params)
         unless params[:commit] == "Update Auction"
           @transaction = Transaction.find(transaction_params[:id])
@@ -74,10 +78,6 @@ class AuctionsController < ApplicationController
         @auction.tx.destroy
         @transaction = Transaction.create_order(@bid)
       end
-      ## triggering payment being made ONLY FOR SANDBOX ENVIRONMENT [testing purposes]
-      # action_data = { "action" => "add_payment", "confirm" => true, "source_account_id" => current_user.armor_account_id, "amount" => @transaction.total_amount }
-      # p result = ArmorPaymentsApi::CLIENT.orders(current_user.armor_account_id).update(@transaction.order_id, action_data)
-      # webhook saying full payment has been received for the below notification
   end
 
   def current_opportunities
@@ -111,7 +111,7 @@ class AuctionsController < ApplicationController
       params.require(:auction).permit(:company_id, :part_num, :target_price, :cycles, :quantity, :destination_company, 
                                       :destination_address, :destination_zip, :destination_city, :destination_state, 
                                       :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, 
-                                      condition: [], req_forms: [])
+                                      condition: [], req_forms: [], invitees: [])
     end
 
     def transaction_params
