@@ -29,16 +29,16 @@
                 .col-sm-1.font-bold
                   Conditions
                 .col-sm-1
-                = ": #{AssetDecorator.rename(@auction.object, @auction.object.condition)}"
+                = ": #{AssetDecorator.rename(@auction, @auction.condition)}"
 
               %h6.col-sm-2.part-details
                 .col-sm-1.font-bold
                   Min Cycles
                 .col-sm-1
-                  = ": #{@auction.cycles.empty? ? "N/A" : number_with_delimiter(@auction.cycles, :delimiter => ',')}"
+                  = ": #{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
               -if @auction.company == current_user
                 %h6
-                  = link_to 'Edit', edit_auction_path(@auction)
+                  = link_to 'Edit/Invite Suppliers', edit_auction_path(@auction)
             .col-lg-2
               .col-lg-1
                 - if @auction.company == current_user
@@ -71,36 +71,48 @@
                         %strong
                           ="Delivery Date"
                         %div
-                          = @auction.required_date
-
+                          = @auction.required_date ? @auction.required_date.to_formatted_s(:rfc822) : "N/A"
           .col-lg-2.auction-title
             .col-lg-1
               
             .col-lg-1
               
         %hr/
-        - if @auction.bids.empty?
+        - if @auction.bids.empty? && @auction.invitees.empty?
           .nobid.center-align
             %p.flow-text There are no bids on this auction yet.
         #bids-container
-          - if !@invited_suppliers_bids.empty?
+          - if !@auction.invitees.empty?
             %h4.custom-card-title
               Invited Suppliers
             %table#invited-suppliers.table.responsive-table.bordered
               %thead
                 %tr
-                  %th
+                  %th Company
                   %th Manufacturer
                   %th Serial Number
                   %th Condition
-                  %th Amount
+                  %th Price
                   %th Est. Shipping
-                  %th Avg Rating
+                  %th Docs
+                  %th Qty
                   %th
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row
                     = render bid
+                - @auction_invitees.each do |co|
+                  %tr
+                    %td
+                      =co.name
+                    %td --
+                    %td --
+                    %td --
+                    %td --
+                    %td --
+                    %td --
+                    %td --
+                    %td
           - if !@bid_aero_suppliers_bids.empty?
             %br
             %h4.custom-card-title
@@ -108,13 +120,14 @@
             %table#bid-aero-suppliers.table.responsive-table.bordered
               %thead
                 %tr
-                  %th
+                  %th Company
                   %th Manufacturer
                   %th Serial Number
                   %th Condition
-                  %th Amount
+                  %th Price
                   %th Est. Shipping
-                  %th Avg Rating
+                  %th Docs
+                  %th Qty
                   %th
               %tbody
                 - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|

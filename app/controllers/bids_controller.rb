@@ -46,7 +46,9 @@ class BidsController < ApplicationController
           unless @inventory_part.save
             format.html { render :temp_user_new_bid }
           end
-          format.html { redirect_to @bid.auction, notice: 'Your Quote has been Saved' }
+          Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
+          Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
+          format.html { redirect_to @bid.auction, notice: 'Your quote has been saved' }
         elsif !part_match
           flash[:error] = "Part number is not valid"
           format.html { redirect_to temp_user_new_bid(@bid.auction), alert: 'Part Number was not valid.' }
@@ -69,9 +71,9 @@ class BidsController < ApplicationController
     @bid = @auction.bids.new(bid_params)
     respond_to do |format|
       if @bid.save
-        Notification.notify_other_bidders(@auction, current_user, "A bid has been placed on an auction you are participating in!")
-        Notification.notify_auctioner(@auction, "A new bid was placed in your auction!")
-        format.html { redirect_to @auction, notice: 'Bid was successfully created.' }
+        Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
+        Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
+        format.html { redirect_to @auction, notice: 'Quote was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
         flash[:error] = @bid.errors.full_messages.to_sentence.gsub('.','')
@@ -88,7 +90,7 @@ class BidsController < ApplicationController
       if @bid.update(bid_params)
         # Notification.notify_other_bidders(@auction, "A bid has been updated on an auction you're competing in!")
         # Notification.notify_auctioner("A bid was updated in your auction!")
-        format.html { redirect_to @auction, notice: 'Bid was successfully updated.' }
+        format.html { redirect_to @auction, notice: 'Quote was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
         if @transaction.tracking_num # POST shipping info to armor
           set_armor_client
@@ -114,7 +116,7 @@ class BidsController < ApplicationController
   def destroy
     @bid.destroy
     respond_to do |format|
-      format.html { redirect_to @auction, notice: 'Bid was successfully destroyed.' }
+      format.html { redirect_to @auction, notice: 'Quote was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -134,8 +136,7 @@ class BidsController < ApplicationController
     end
 
     def bid_params
-      params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, 
-                                  :delivered, :carrier, :carrier_code, :tracking_num, :shipment_desc)
+      params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, :quantity)
     end
 
     def inventory_part_params

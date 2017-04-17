@@ -75,7 +75,6 @@ class Transaction < ActiveRecord::Base
   def self.record(auction, bid)
     create(inventory_part: bid.inventory_part, seller_id: bid.company.id, buyer_id: auction.company.id, 
            total_amount: bid.part_price, complete: true, part_price: bid.part_price, bid: bid, auction: auction)
-    bid.update(invoice_num: 'recorded')  
   end
 
   def payment_received

@@ -90,8 +90,12 @@
 ## Making auctions with bids for ARMOR PAYMENTS TESTING
 
 seller = Company.find(28)
+seller2 = Company.find(46)
+seller3 = Company.find(47)
 buyer = Company.find(33)
 parts = seller.inventory_parts
+parts2 = seller2.inventory_parts
+parts3 = seller3.inventory_parts
 auctions = []
 
 i = 0
@@ -116,9 +120,11 @@ end
 
 i = 0
 while (i < parts.count)
-  3.times do
-    Bid.create( part_price: Faker::Commerce.price, est_shipping_cost: Faker::Commerce.price, 
-                auction: auctions[i], inventory_part: parts[i])
-  end
+  Bid.create( part_price: Faker::Commerce.price, est_shipping_cost: Faker::Commerce.price, 
+              auction: auctions[i], inventory_part: parts[i])
+  Bid.create( part_price: Faker::Commerce.price, est_shipping_cost: Faker::Commerce.price, 
+              auction: auctions[i], inventory_part: parts2[i])
+  Bid.create( part_price: Faker::Commerce.price, est_shipping_cost: Faker::Commerce.price, 
+              auction: auctions[i], inventory_part: parts3[i])
   i+=1
 end

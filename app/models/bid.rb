@@ -6,7 +6,7 @@ class Bid < ActiveRecord::Base
   has_one :tx, class_name: "Transaction", dependent: :destroy
   has_many :notifications, dependent: :destroy
 
-  validates :inventory_part, presence: true
+  # validates :inventory_part, presence: true
   validates :part_price, presence: true
   validates :est_shipping_cost, presence: true
   # before_save :strip_symbols
@@ -49,8 +49,8 @@ class Bid < ActiveRecord::Base
   end
 
   def self.strip_symbols(params)
-    params[:part_price].gsub!(/[ $,]/, '').to_d
-    params[:est_shipping_cost].gsub!(/[ $,]/, '').to_d
+    params[:part_price].gsub!(/[ $,]/, '').to_d if !params[:est_shipping_cost].empty?
+    params[:est_shipping_cost].gsub!(/[ $,]/, '').to_d if !params[:est_shipping_cost].empty?
   end
 
 

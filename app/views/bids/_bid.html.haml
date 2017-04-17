@@ -1,3 +1,10 @@
+%td= bid.company.name
+%td= bid.inventory_part.manufacturer || "--"
+%td= bid.inventory_part.serial_num || "--"
+
+%td= bid.inventory_part.condition_tag
+%td= number_to_currency bid.part_price
+%td= number_to_currency bid.est_shipping_cost
 - if @auction.company == current_user || bid.company == current_user
   %td
     -if bid.inventory_part.documents.blank? && bid.company == current_user
@@ -8,12 +15,7 @@
 -elsif bid.company != current_user
   %td
     =""
-%td= bid.inventory_part.manufacturer || "--"
-%td= bid.inventory_part.serial_num || "--"
-%td= bid.inventory_part.condition_tag
-%td= number_to_currency bid.part_price
-%td= number_to_currency bid.est_shipping_cost
-%td= bid.average_rating || "N/A"
+%td= bid.quantity
 
 - if bid.company == current_user
   / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
@@ -25,11 +27,21 @@
     %td.btn.custom-btn.payment-btn.tooltipped.pull-left{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
       = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
     %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
-      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true
+      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "real-btn"
+    %td.recorded.center-align.responsive-remove-btn
+      .btn.custom-btn.remove-btn
+        =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "real-btn"
   -elsif bid.tx
-    %td 
-      .bought
-        Purchase Has Been Recorded
+    %td.btn.custom-btn.payment-btn.tooltipped.pull-left.purchase-btns{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
+      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
+    %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right.purchase-btns{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
+      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "real-btn"
+    %td.recorded.center-align
+      .btn.custom-btn.remove-btn.std-remove-btn
+        =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "real-btn"
+    
+    
+
 -else
   %td
     =""

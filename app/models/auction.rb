@@ -76,6 +76,7 @@ class Auction < ActiveRecord::Base
     invitees.each do |k, v|
       # Once I've addeed multiple logins for a company (i.e. roles) then I have to change this conditional
       ## to be if Company.find_by(name: k) || User.find_by(email: v)
+      v.downcase!
       co = Company.find_by(email: v)
       if co
         CompanyMailer.invite_existing_user_to_bid(v, self).deliver_now #deliver_later(wait_until: 1.minute.from_now)

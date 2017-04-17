@@ -7,10 +7,10 @@ class AuctionsController < ApplicationController
   end
 
   def show
-    @auction = @auction.decorate
+    @auction = @auction
 
     ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
-
+    @auction_invitees = Company.find_invitees(@auction.invitees)
     @invited_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: true))
     @bid_aero_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: false))
   end
@@ -28,7 +28,6 @@ class AuctionsController < ApplicationController
     @auction.set_invitees(params[:invitees]) if params[:invitees]
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
     @auction.resale_check
-
     respond_to do |format|
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }

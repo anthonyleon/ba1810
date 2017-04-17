@@ -86,6 +86,7 @@ end
   post 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_create_bid', as: 'temp_user_create_bid'
 
   post 'record_purchase' => 'transactions#record', as: 'record_transaction'
+  delete 'remove_transaction' => 'transactions#remove_from_purchase_history', as: 'remove_transaction'
 
   resources :password_resets
 
