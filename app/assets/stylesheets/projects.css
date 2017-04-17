@@ -1,0 +1,28 @@
+
+.project-form {
+	display: flex;
+	flex-direction: row;
+	height: 300px;
+	justify-content: space-between;
+
+}
+
+.reference-number-field {
+	width: 22%;
+	margin: 0 5%;
+}
+
+.description-field {
+	width: 88%;
+	height: auto;
+	margin: 0 5%;
+	padding: 0;
+}
+
+.description-field textarea {
+	height: 300px;
+}
+
+.project-submit {
+	align-self: center;
+}

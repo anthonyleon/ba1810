@@ -1,0 +1,19 @@
+= form_for(projects_new_path) do |f|
+  - if @project.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@project.errors.count, "error")
+        prohibited this project from being saved:
+      %ul
+        - @project.errors.full_messages.each do |message|
+          %li= message
+
+  .field.reference-number-field
+    = f.text_field :reference_num, placeholder: "Project Reference No."
+  .col-2.project-form
+    .field.col-1.description-field
+      = f.text_area :description, placeholder: "Description of project..."
+    .actions.col-1.center-align.project-submit
+      %div.btn.custom-btn.submit-btn
+        %i.fa.fa-check-square-o
+        = f.submit

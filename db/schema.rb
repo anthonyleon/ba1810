@@ -223,9 +223,9 @@ ActiveRecord::Schema.define(version: 20170414162223) do
   create_table "projects", force: :cascade do |t|
     t.string   "reference_num"
     t.text     "description"
-    t.boolean  "active"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.boolean  "active",        default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "projects", ["reference_num"], name: "index_projects_on_reference_num", using: :btree

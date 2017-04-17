@@ -3,7 +3,7 @@ class CreateProjects < ActiveRecord::Migration
     create_table :projects do |t|
       t.string :reference_num
       t.text :description
-      t.boolean :active
+      t.boolean :active, default: false
 
       t.timestamps null: false
     end
