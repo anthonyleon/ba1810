@@ -15,28 +15,36 @@ class SessionController < ApplicationController
       #flash.now[:notice] = "Welcome #{@company.name}"
       #flash.keep
       redirect_to dashboard_path, flash: { success: "Successfully logging in #{@company.name}" }
-      # if !@company.armor_account_id
-      #   @company.update(company_params)
-      #   set_armor_client
-      #   armor_create
-      #   p result = @client.accounts.create(@account_data)
-      #   p armor_account_num = result.data[:body]["account_id"]
-
-      #   ## Company armor_user_id
-      #   p users = @client.accounts.users(armor_account_num).all
-      #   @company.update(armor_account_id: armor_account_num, armor_user_id: users.data[:body][0]["user_id"])
-      # end
-
-      # if @company.email_confirmed
-      #   session[:company_id] = @company.id
-      #   redirect_to @company
-      # else
-      #   flash.now[:error] = "Please confirm your email by clicking the link sent to your email address"
-      #   render :new
-      # end
     else !@company.email_confirmed
       redirect_to login_path, flash: {warning: "Please check your e-mail for a confirmation link"}
     end
+  end
+
+  def temp_login
+    token = params[:company][:token]
+    password = params[:company][:password]
+    password_confirm = params[:company][:password_confirmation]
+    @auction_id = params[:company][:auction_id]
+
+    if params[:company][:password].length < 8
+      redirect_to invited_supplier_setup_path(@auction_id, format: token), flash: { error: "Password must be at least 8 characters long" }
+    elsif password != password_confirm
+      redirect_to invited_supplier_setup_path(@auction_id, format: token), flash: { error: "Password Confirmation does not match Password" }
+    elsif !(Company.find_by_email(params[:company][:email].downcase.squish).try(:authenticate, token))
+      redirect_to invited_supplier_setup_path(@auction_id, format: token), flash: { error: "Invalid E-mail" }
+    else
+      @company = Company.find_by_email(params[:company][:email].downcase.squish).try(:authenticate, token)
+      session[:company_id] = @company.id
+      redirect_to auction_path(@auction_id), flash: { success: "Welcome #{@company.name}!" }
+    end
+  end
+
+  def invited_supplier_setup
+    redirect_to dashboard_path if current_user
+    @auction_id = params[:auction_id]
+    @token = params[:format]
+    @company = Company.find_by(confirm_token: @token)
+
   end
 
   def destroy

@@ -1,0 +1,67 @@
+.row
+  .col.s12
+    .card
+      .card-content
+        .card-title.center-align
+          %h5.custom-card-title.center
+            New Quote
+          = form_for(:bid, url: temp_user_create_bid_path(@auction)) do |f|
+            - if @bid.errors.any?
+              #error_explanation
+                %h2
+                  = pluralize(@bid.errors.count, "error")
+                  prohibited this bid from being saved:
+                %ul
+                  - @bid.errors.full_messages.each do |message|
+                    %li= message
+            .container.temp-bid.col-md-2
+              .col-md-1.field-section
+                .bid-info.sub-title.left-align
+                  Quote Details
+                .col-sm-2
+                  .field.pull-left.field-title.col-sm-1
+                    Quantity
+                  .field.quote-detail-field.col-sm-1
+                    = f.number_field :quantity, class: "input-field"
+                .col-sm-2
+                  .field.pull-left.field-title.col-sm-1
+                    Part Total  
+                  .field.quote-detail-field.col-sm-1
+                    = f.text_field :part_price, class: "dollars input-field"
+                .col-sm-2
+                  .field.pull-left.field-title.col-sm-1
+                    Shipping Cost
+                  .field.quote-detail-field.col-sm-1
+                    = f.text_field :est_shipping_cost, class: "dollars input-field"
+                .sub-title.destination
+                  = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}" 
+              .col-md-1.field-section
+                .well
+                  = f.fields_for :inventory_part, InventoryPart.new do |cm|
+                    .part-details.sub-title.left
+                      Part Details
+                    .field.pull-left.field-title
+                      Part Number
+                    .field.quote-detail-field.col-sm-1  
+                      = cm.text_field :part_num, value: @auction.part_num
+                    .field.pull-left.field-title
+                      Manufacturer  
+                    .field.quote-detail-field.col-sm-1  
+                      = cm.text_field :manufacturer
+                    .field.pull-left.field-title
+                      Serial Number  
+                    .field.quote-detail-field.col-sm-1  
+                      = cm.text_field :serial_num
+                    .field.pull-left.field-title
+                      Condition  
+                    .field.quote-detail-field.col-sm-1 
+                      = cm.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
+                    
+              .field
+              
+            #place-bid.actions
+              = f.submit 'Submit', class: 'btn custom-btn'
+
+
+
+

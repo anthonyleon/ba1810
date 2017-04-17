@@ -26,6 +26,12 @@ class Company < ActiveRecord::Base
     self.inc_country = self.country
   end
 
+  def self.find_invitees(invitees_hash)
+    co_array = []
+    invitees_hash.each { |k, v| co_array << v}
+    where(email: co_array)
+  end
+
   def email_activate
     self.email_confirmed = true
     self.confirm_token = nil
@@ -65,7 +71,7 @@ class Company < ActiveRecord::Base
 
   def send_password_reset
     generate_token(:password_reset_token)
-    self.password_reset_sent_at = Time.zone.now
+    password_reset_sent_at = Time.zone.now
     save!(validate: false)
     CompanyMailer.password_reset(self).deliver_now
   end
@@ -125,6 +131,8 @@ class Company < ActiveRecord::Base
   def confirmation_token
     if self.confirm_token.blank?
       self.confirm_token = SecureRandom.urlsafe_base64.to_s
+      #make the password the confirmation token if the user is a new temp user
+      self.password = confirm_token if self.temp?
     end
   end
 end

@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   get 'errors/internal_server_error'
 
   get 'password_resets/new'
-
   get '/privacy_policy' => 'pages#privacy_policy', as: 'privacy_policy'
 
   get '/terms_and_conditions' => 'pages#terms_and_conditions', as: 'terms_and_conditions'
@@ -57,8 +56,13 @@ end
 
   get 'signup' => 'companies#new'
   get 'login' => 'session#new', as: 'login'
+
   post 'login' => 'session#create'
   get 'logout' => 'session#destroy'
+
+
+  get 'auction/:auction_id/supplier_invite', to: 'session#invited_supplier_setup', as: 'invited_supplier_setup'
+  post 'temp_login', to: 'session#temp_login', as: 'temp_login'
 #
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
   get 'auctions/:auction_id/bids/:id/purchase_confirmation' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
@@ -78,9 +82,14 @@ end
 
   get 'current_opportunities' => 'auctions#current_opportunities', as: 'current_opportunities'
   get 'bids' => 'bids#index', as: 'bids'
-  
+  get 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
+  post 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_create_bid', as: 'temp_user_create_bid'
+
+  post 'record_purchase' => 'transactions#record', as: 'record_transaction'
+  delete 'remove_transaction' => 'transactions#remove_from_purchase_history', as: 'remove_transaction'
+
   resources :password_resets
-  
+
   resources :inventory_parts do
     resources :documents, shallow: true
   end
@@ -102,7 +111,6 @@ end
   end
 
   get 'companies/confirm_email', to: 'companies#confirm_email', as: 'confirm_email'
-
 
   resources :company_docs
 

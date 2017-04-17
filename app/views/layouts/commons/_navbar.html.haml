@@ -53,7 +53,7 @@
       %li
         = link_to auctions_path do
           %i.fa.fa-gavel
-          = "\tMy Auctions"
+          My RFQs
       %li
         = link_to pending_purchases_path do
           %i.fa.fa-clock-o
@@ -61,13 +61,13 @@
       %li
         = link_to purchases_path do
           %i.fa.fa-cart-plus
-          Purchases
+          Purchase History
       %li#buy-sell-section
         SELL
       %li
         = link_to bids_path do
           %i.fa.fa-tag
-          My Bids
+          My Quotes
       %li
         = link_to current_opportunities_path do
           %i.fa.fa-usd
@@ -79,7 +79,7 @@
       %li
         = link_to sales_path do
           %i.fa.fa-line-chart
-          Sales
+          Sales History
       %li#buy-sell-section
         MANAGE
       -unless current_user.payout_selected?

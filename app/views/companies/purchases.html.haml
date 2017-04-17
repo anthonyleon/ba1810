@@ -17,12 +17,19 @@
       %tbody
         - @purchases.each do |transaction|
           %tr
-            %td.srchtbl= link_to transaction.order_id, buyer_purchase_path(transaction)
+            -if transaction.order_id
+              %td.srchtbl= link_to transaction.order_id, buyer_purchase_path(transaction)
+            -else
+              %td.srchtbl= link_to "N/A", transaction.auction
             %td.srchtbl= transaction.bid.inventory_part.part_num
             %td.srchtbl= transaction.bid.inventory_part.description
             %td.srchtbl= transaction.bid.inventory_part.serial_num
             %td.srchtbl= AssetDecorator.rename(transaction.bid, transaction.bid.inventory_part.condition)
             %td.srchtbl= number_to_currency transaction.total_amount
-            %td.srchtbl= link_to transaction.po_num || "N/A", transaction_po_path(transaction, :format => :pdf) 
-            %td.srchtbl= link_to transaction.invoice_num || "N/A", transaction_invoice_path(transaction, :format => :pdf)
+            -if transaction.order_id
+              %td.srchtbl= link_to transaction.po_num || "N/A", transaction_po_path(transaction, :format => :pdf) 
+              %td.srchtbl= link_to transaction.invoice_num || "N/A", transaction_invoice_path(transaction, :format => :pdf)
+            -else
+              %td.srchtbl= "N/A"
+              %td.srchtbl= "N/A"
 

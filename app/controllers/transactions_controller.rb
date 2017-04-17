@@ -39,6 +39,21 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def record
+    @bid = Bid.find(params[:bid_id])
+    @auction = Auction.find(params[:auction_id])
+    @transaction = Transaction.record(@auction, @bid)
+
+    render nothing: true
+  end
+
+  def remove_from_purchase_history
+    @bid = Bid.find(params[:bid_id])
+    @bid.tx.destroy
+
+    render nothing: true
+  end
+
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
