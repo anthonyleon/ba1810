@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(version: 20170329142850) do
     t.boolean  "flagged"
   end
 
-  add_index "parts", ["part_num"], name: "index_parts_on_part_num", using: :btree
+  add_index "parts", ["part_num"], name: "index_parts_on_part_num", unique: true, using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "packaging"
