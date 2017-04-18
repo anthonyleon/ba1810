@@ -102,17 +102,18 @@
                   %tr#cursor-row
                     = render bid
                 - @auction_invitees.each do |co|
-                  %tr
-                    %td
-                      =co.name
-                    %td --
-                    %td --
-                    %td --
-                    %td --
-                    %td --
-                    %td --
-                    %td --
-                    %td
+                  -if !@auction.bidders.include?(co)
+                    %tr
+                      %td
+                        =co.name
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td
           - if !@bid_aero_suppliers_bids.empty?
             %br
             %h4.custom-card-title

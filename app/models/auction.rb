@@ -5,6 +5,7 @@ class Auction < ActiveRecord::Base
   has_one :part, through: :auction_part
   has_many :bids, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :bidders, through: :bids, source: :company
 
   validates :quantity, presence: true
 
