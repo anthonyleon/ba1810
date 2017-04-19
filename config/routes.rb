@@ -94,9 +94,13 @@ end
     resources :documents, shallow: true
   end
 
+  resources :bids do
+    resources :documents, shallow: true
+  end
+
   resources :auctions do
     resources :auction_parts, except: [:index]
-    resources :bids, except: [:index]
+    resources :bids, except: [:index] 
   end
 
   resources :companies, except: [:index, :show] do
