@@ -8,26 +8,25 @@
           %div.container
             %p
               Serial Number:
-              = @inventory_part.serial_num
+              = @inventory_part.serial_num.empty? ? "N/A" : @inventory_part.serial_num
             %p
-              Part number: #{@inventory_part.part_num}
-        %div.container.condition
-          %p
-            Condition: #{@inventory_part.condition_tag}
+              Part No. #{@inventory_part.part_num}
+            %p
+              Condition: #{AssetDecorator.rename(@inventory_part, @inventory_part.condition)}
         %br/
-
-    = render 'documents/form', object: @inventory_part
-  .row
-    %div.btn.custom-btn.left{style: "margin-left: 10px;"}
-      %i.fa.fa-arrow-left
-      = link_to "Back", :back, class:"waves-effect waves-light"
-    - if @inventory_part.company == current_user
-      %div.btn.custom-btn.right{style: "margin-right: 10px;"}
-        %i.fa.fa-pencil
-        = link_to 'Edit this inventory part', edit_inventory_part_path(@inventory_part)
-        / #{link_to 'Back to Inventory', inventory_parts_path} |
-        / #{link_to 'Back to Auction',auction_path(@bid.auction)}
-      -# else
-        / = link_to 'Back to Auction',auction_path(@bid.auction)
+        .document-form-inv-part
+          = render 'documents/form', object: @inventory_part
+.row.bottom-inv-part
+  %div.btn.custom-btn.left{style: "margin-left: 10px;"}
+    %i.fa.fa-arrow-left
+    = link_to "Back", inventory_parts_path, class:"waves-effect waves-light"
+  - if @inventory_part.company == current_user
+    %div.btn.custom-btn.right{style: "margin-right: 10px;"}
+      %i.fa.fa-pencil
+      = link_to 'Edit this inventory part', edit_inventory_part_path(@inventory_part)
+      / #{link_to 'Back to Inventory', inventory_parts_path} |
+      / #{link_to 'Back to Auction',auction_path(@bid.auction)}
+    -# else
+      / = link_to 'Back to Auction',auction_path(@bid.auction)
 
 
