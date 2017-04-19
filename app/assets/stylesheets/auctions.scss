@@ -150,9 +150,11 @@ select#auction_condition {
 }
 
 #addNewSupplier {
-  &:hover {
-    cursor: pointer;
-  }
+  background-color: dodgerblue !important;
+}
+
+.auction-create-btn {
+  margin-top: 10% !important;
 }
 
 .auc-checkbox-titles {
