@@ -32,11 +32,8 @@
                   %td= auction.bids.count
                   %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
                   %td.clearfix
-                    = link_to edit_auction_path(auction) do
-                      %span.material-icons.amber-text.icon-34
-                        mode_edit
-                    - if auction.company == current_user
-                      = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-                        %span.material-icons.red-text.icon-34
-                          delete_forever
+                    = link_to "edit", edit_auction_path(auction)
+                  %td
+                    = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
+                      %i.fa.fa-close
     = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
