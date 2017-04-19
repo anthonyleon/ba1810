@@ -1,6 +1,6 @@
 class BidsController < ApplicationController
   before_action :set_bid, only: [:show, :edit, :update, :destroy, :release_payment]
-  before_action :set_auction, only: [:new, :temp_user_new_bid, :temp_user_create_bid, :edit, :create, :destroy, :show, :update]
+  before_action :set_auction, only: [:new, :temp_user_new_bid, :temp_user_create_bid, :edit, :create, :destroy, :update]
   before_action :set_transaction, only: [:show, :update, :funds_released]
 
   def index
@@ -8,15 +8,9 @@ class BidsController < ApplicationController
   end
 
   def show
-    @carriers = ArmorPaymentsApi.carriers_list
-    ## uncomment to see modal when shipment info not set delete out of testing purposes
-    @url = ArmorPaymentsApi.release_payment(@bid, current_user)
-    # if @transaction.carrier_code
-    #   @url = ArmorPaymentsApi.release_payment(@bid, current_user)
-    #   # funds_released
-    # end
     @company = @bid.company
-    @rating = Rating.new
+    @auction = @bid.auction
+    @document = Document.new
   end
 
   def new
@@ -34,8 +28,6 @@ class BidsController < ApplicationController
     Bid.strip_symbols(bid_params)
     @bid = @auction.bids.new(bid_params)
     @inventory_part = InventoryPart.new(inventory_part_params)
-    
-
     part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
 
     respond_to do |format|
@@ -43,12 +35,14 @@ class BidsController < ApplicationController
         @bid.inventory_part = @inventory_part
         if @bid.save
           @inventory_part.add_part_details(part_match, current_user)
-          unless @inventory_part.save
+          if @inventory_part.save
+            document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)}
+            Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
+            Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
+            format.html { redirect_to @bid.auction, notice: 'Your quote has been saved' }
+          else
             format.html { render :temp_user_new_bid }
           end
-          Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
-          Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
-          format.html { redirect_to @bid.auction, notice: 'Your quote has been saved' }
         elsif !part_match
           flash[:error] = "Part number is not valid"
           format.html { redirect_to temp_user_new_bid(@bid.auction), alert: 'Part Number was not valid.' }
@@ -71,6 +65,7 @@ class BidsController < ApplicationController
     @bid = @auction.bids.new(bid_params)
     respond_to do |format|
       if @bid.save
+        document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)}
         Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
         Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Quote was successfully created.' }
@@ -141,6 +136,10 @@ class BidsController < ApplicationController
 
     def inventory_part_params
       params.require(:bid).permit(inventory_part: [:part_num, :condition, :serial_num, :manufacturer])[:inventory_part]
+    end
+
+    def document_params
+      params.require(:bid).permit![:document]
     end
 
     def set_transaction

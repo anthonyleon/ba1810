@@ -15,7 +15,7 @@
             %h6
               = "Quantity: " + @auction.quantity.to_s
             %h6
-              = "Min Cycles: " + @auction.cycles
+              = "Min Cycles: " + @auction.cycles ? @auction.cycles : "N/A"
 
         
           = form_for([@auction, @bid], html: {class: 'col-lg-1'})do |f|
@@ -34,8 +34,16 @@
               .field
                 = f.text_field :est_shipping_cost, class: "form-control dollars center-align", id: "est-shipping", placeholder: "Shipping Cost"
               .field
+                .left-align.quantity-label
+                  = f.label :quantity
                 = f.text_field :quantity, class: "form-control center-align", id: "quantity", placeholder: "Quantity"
                 = f.hidden_field :inventory_part_id, value: InventoryPart.find_by(company: current_user, part_num: @auction.part_num).id
+              .field.document-fields
+                = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
+                  .field.pull-left.field-title
+                    Upload Files
+                  .files
+                    = cm.file_field :attachment, multiple: true
               
               / this shit is commented out because we are allowing people to quote quantity.
               / .field

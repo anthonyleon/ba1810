@@ -7,10 +7,10 @@
 %td= number_to_currency bid.est_shipping_cost
 - if @auction.company == current_user || bid.company == current_user
   %td
-    -if bid.inventory_part.documents.blank? && bid.company == current_user
-      =link_to 'Upload Docs', inventory_part_path(bid.inventory_part, bid_id: bid.id)
-    -elsif !bid.inventory_part.documents.blank?
-      = link_to inventory_part_path(bid.inventory_part, bid_id: bid.id) do
+    -if bid.documents.blank? && bid.company == current_user
+      = link_to 'Upload Docs', bid
+    -elsif !bid.documents.blank?
+      = link_to bid do
         %i.fa.fa-file-text-o{style: "font-size: 24px;"}
 -elsif bid.company != current_user
   %td

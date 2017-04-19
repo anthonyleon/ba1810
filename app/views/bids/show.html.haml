@@ -1,87 +1,86 @@
-/ Are we even using this view anymore??
-%main
-  #banner.clearfix
-    %h1
-      Review your order
-  #main-container
-    #checkout-container.container.clearfix
-      .col-md-5#bid-buy
-      %p
-        %h2 Amount:
-        = number_to_currency @bid.part_price
-      %p
-        %h2 Company:
-        = @bid.company.name
-        
-.col-md-6
-  .container
-    = "Destination: " + @auction.destination_address + ", " + @auction.destination_city + ", " + @auction.destination_state + @auction.destination_zip 
-  .container
-    -if !@shipping_account
-      = "Confirm shipping costs for part to arrive by #{@auction.required_date}"
-  .form-container
-    = form_for([@auction, @bid], html: { class: "inline-form costs" }, remote: true) do |f|
-      .field.form-group.cost
-        = f.text_field :shipping_cost, class: "form-control", placeholder: "#{@bid.est_shipping_cost}"
-      .actions.confirm_cost{style: "margin-bottom: 20px;"}
-        = f.submit 'Submit', class: "btn custom-btn"
-        
-  .container
-    %h3
-      Shipment Carrier
+.row
+  .card.info-card.bid-show
+    .card-content
+      .col-2
+        .col-1.card-title.quote-title
+          %h5.col-1
+            = "Quote Reference No. " + (@bid.quote_num || "")
+          .bid-condition.col-1
+            = number_to_currency(@bid.part_price)
+      .col-2.bid-show-details
+        .col-1.col-3
+          .bid-part-num.col-1
+            %strong
+              Part number:
+            = @bid.inventory_part.part_num
+          .bid-serial-num.col-1
+            %strong
+              Serial Number:
+            = @bid.inventory_part.serial_num
+          .bid-condition.col-1
+            %strong
+              Condition: 
+            = AssetDecorator.rename(@bid.inventory_part, @bid.inventory_part.condition)
+          
+        .col-1.upload-docs
+          - if @bid.company == current_user
+            %h6 Add Document(s)
+            = form_for ([@bid, @document]), html: { multipart: true, class: "form-inline" } do |f|
+              .col-2.upload-lower
+                .col-1  
+                  = f.file_field :attachment, multiple: true
+                  .formats
+                    Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
+                .col-1
+                  %div.btn.custom-btn.doc-upload 
+                    = f.submit "Upload"
+          -else
+            .container.existing-documents
+              - if @bid.documents.empty?
+                %p.center There are no documents associated with this part.
+              - else
+                %table.table.table-hover
+                  %thead
+                    %tr
+                      %th Documentation
+                  %tbody
+                    - @bid.documents.each do |document|
+                      %tr
+                        %td= document.name
+                        -if document.attachment.url.to_s.downcase.include? "pdf"
+                          %td.view-doc= link_to 'View/Download', document.attachment_url
+                        -else
+                          %td.view-doc= link_to 'Download', document.attachment_url
+      -if @bid.company == current_user
+        .col-1.bid-documents.container
+          .container.existing-documents
+            - if @bid.documents.empty?
+              %p.center There are no documents associated with this part.
+            - else
+              %table.table.table-hover
+                %thead
+                  %tr
+                    %th Name
+                    %th Download Link
+                    %th  
+                %tbody
+                  - @bid.documents.each do |document|
+                    %tr
+                      %td= document.name
+                      -if document.attachment.url.to_s.downcase.include? "pdf"
+                        %td= link_to 'View/Download', document.attachment_url
+                      -else
+                        %td= link_to 'Download', document.attachment_url
+                      - if document.send(@bid.class.to_s.underscore.to_sym).company == current_user
+                        %td
+                          %div.delete-doc-btn
+                            = link_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}
+  .row
+    %div.btn.custom-btn.go-to-auction
+      = link_to "Go To Auction", @auction, class:"custom-btn"
 
-    .container
-      - if @transaction.carrier_code && @transaction.tracking_num
-        %h4
-          Shipment has been sent:
-        %h5
-          Carrier: #{@transaction.carrier}
-        %h5
-          Tracking Number: #{@transaction.tracking_num}
-        %h5
-          Description: #{@transaction.shipment_desc}
-      - elsif current_user == @bid.company
-        = render 'shipment'
-      - elsif current_user == @auction.company && !@transaction.carrier_code
-        Part has not been shipped yet.
-      
-      - if current_user == @auction.company && !@transaction.paid # Add this when out of Testing Purposes && @transaction.delivered
-        %p
-          %script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-          %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"} Release Payment
-      - elsif @transaction.paid ## add association to bid to know if rating has been made
-        = render :partial => "ratings/rate", :locals => {:rating => @rating}
 
-    %h4
-      Part: #{@bid.inventory_part.description}
-    %h4
-      Part number: #{@bid.inventory_part.part_num}
-    %h4
-      Serial number: #{@bid.inventory_part.serial_num}
-    %h4
-      Condition: #{@bid.inventory_part.condition}
-    %h4
-      Manufacturer: #{@bid.inventory_part.manufacturer}
-    
-    %br
 
-  #documents.col-md-12
-    - if @bid.inventory_part.documents.empty?
-      %p There are no documents associated with this part.
-    - else
-      %table.table.table-hover
-        %thead
-          %tr
-            %th Name
-            %th Download Link
-            %th
-        %tbody
-          - @bid.inventory_part.documents.each do |document|
-            %tr
-              %td= document.name
-              %td= link_to 'Download', document.attachment_url
-              - if document.inventory_part.company == current_user
-                %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn'
 
 
 

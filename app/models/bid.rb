@@ -5,6 +5,7 @@ class Bid < ActiveRecord::Base
   belongs_to :inventory_part
   has_one :tx, class_name: "Transaction", dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :documents, dependent: :destroy
 
   # validates :inventory_part, presence: true
   validates :part_price, presence: true
