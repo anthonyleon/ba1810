@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419194352) do
+ActiveRecord::Schema.define(version: 20170419202158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,10 +79,12 @@ ActiveRecord::Schema.define(version: 20170419194352) do
     t.boolean  "matched"
     t.text     "req_forms"
     t.jsonb    "invitees",            default: {},   null: false
+    t.integer  "project_id"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
   add_index "auctions", ["invitees"], name: "index_auctions_on_invitees", using: :gin
+  add_index "auctions", ["project_id"], name: "index_auctions_on_project_id", using: :btree
 
   create_table "bids", force: :cascade do |t|
     t.integer  "company_id"
@@ -227,9 +229,9 @@ ActiveRecord::Schema.define(version: 20170419194352) do
   create_table "projects", force: :cascade do |t|
     t.string   "reference_num"
     t.text     "description"
-    t.boolean  "active",        default: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.boolean  "active",        default: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "company_id"
   end
 
@@ -287,6 +289,7 @@ ActiveRecord::Schema.define(version: 20170419194352) do
   add_foreign_key "auction_parts", "auctions"
   add_foreign_key "auction_parts", "parts"
   add_foreign_key "auctions", "companies"
+  add_foreign_key "auctions", "projects"
   add_foreign_key "bids", "auctions"
   add_foreign_key "bids", "companies"
   add_foreign_key "bids", "inventory_parts"
