@@ -10,6 +10,8 @@
           - @auction.errors.full_messages.each do |message|
             %li= message
     .field.form-group
+      = f.select(:project_id, @projects.collect {|p| [ p.reference_num, p.id ] }, { selected: @project, include_blank: "Select a Project" })
+    .field.form-group
       = f.text_field :part_num, class: "form-control", placeholder: "Part number"
     .field.form-group
       = f.number_field :quantity, min: 1, class: "form-control", placeholder: "Quantity"
