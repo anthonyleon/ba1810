@@ -72,6 +72,8 @@ class CsvImport
 			return 1
 		when "OVERHAUL" 
 			return 1
+		when "RD"
+			return 1
 		when "AR" 
 			return 2
 		when "AS REMOVED"
@@ -80,6 +82,8 @@ class CsvImport
 			return 3
 		when "SERVICEABLE"
 			return 3
+		when "RP"
+			return 4
 		when "SC"
 			return 4
 		when "SCRAP"
