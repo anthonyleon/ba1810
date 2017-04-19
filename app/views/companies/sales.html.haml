@@ -17,7 +17,10 @@
       %tbody
         - @sales.each do |transaction|
           %tr
-            %td.srchtbl= link_to transaction.order_id, seller_purchase_path(transaction)
+            -if transaction.order_id
+              %td.srchtbl= link_to transaction.order_id, seller_purchase_path(transaction)
+            -else
+              %td.srchtbl= link_to "N/A", transaction.bid
             %td.srchtbl= transaction.bid.inventory_part.part_num
             %td.srchtbl= transaction.bid.inventory_part.description
             %td.srchtbl= transaction.bid.inventory_part.serial_num
