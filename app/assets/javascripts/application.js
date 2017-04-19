@@ -104,6 +104,18 @@ $('#engineDTDashBoard').dataTable({
   });
 
 
+  $('#projectDT').dataTable({
+      "aoColumns": [
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": false }
+      ]
+    });
   // $('#aircraftDT').dataTable({
   //   "aoColumns": [
   //     { "bSortable": true },

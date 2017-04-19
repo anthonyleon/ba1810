@@ -1,10 +1,23 @@
+.container.projects-index-title
+  PROJECTS
 .container
   .col-3
     - @projects.each do |project|
+      %hr
+      .col-2.project-header
+        .col-1.project-title
+          %strong
+            Project: 
+          = link_to project.reference_num, project
+        .col-1.project-status
+          Status: #{project.active ? "Active" : "Closed"}
+
       .col-1
-        = project.reference_num
-      .col-1
+        .project-description
+          Description
         =project.description
+      
+      %hr
   
 
 .container

@@ -26,3 +26,37 @@
 .project-submit {
 	align-self: center;
 }
+
+.project-title {
+	font-size: 20px;
+}
+
+.project-description {
+	text-decoration: underline;
+}
+
+.project-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+
+.projects-index-title {
+	font-size: 30px;
+	text-align: center;
+}
+
+.dataTables_length {
+	float: left;
+}
+
+#projectDT td{
+	font-size: 14px;
+}
+
+.fa-close {
+	color: red;
+	margin: auto;
+}
