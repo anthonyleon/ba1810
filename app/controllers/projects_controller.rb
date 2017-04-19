@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_aircraft, only: [:show, :edit, :update, :archive]
+  before_action :set_project, only: [:show, :edit, :update, :archive]
 
   def new
     @project = Project.new
