@@ -5,6 +5,10 @@ class ProjectsController < ApplicationController
     @project = Project.new
   end
 
+  def index
+    
+  end
+
   def edit
   end
 
