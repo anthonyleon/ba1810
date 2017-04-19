@@ -40,22 +40,6 @@ $(document).on('ready page:load', function() {
 
 	});
 
-	
-
-	// $('.responsive-remove-btn').hide();
-	// $('#b-div').hide();
-	// $('.record-btn').click(function(){
-	//     $('.record-btn').toggle(500);
-	//     if($('.responsive-remove-btn').is(":visible"))
-	//         $('.responsive-remove-btn').hide();
-
-	// });
-	// $('#b').click(function(){
-	//     $('.responsive-remove-btn').toggle(500);
-	//     if($('.record-btn').is(":visible"))
-	//         $('.record-btn').hide();
-	// });
-
 
 
 
@@ -83,7 +67,6 @@ $(document).on('ready page:load', function() {
 	});
 
 	this.removeSupplier = function(element) {
-		counter--;
   		return element.parent().remove();
 	};
 });
