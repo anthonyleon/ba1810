@@ -1,4 +1,4 @@
-= form_for(projects_new_path) do |f|
+= form_for(@project) do |f|
   - if @project.errors.any?
     #error_explanation
       %h2
@@ -14,6 +14,5 @@
     .field.col-1.description-field
       = f.text_area :description, placeholder: "Description of project..."
     .actions.col-1.center-align.project-submit
-      %div.btn.custom-btn.submit-btn
-        %i.fa.fa-check-square-o
-        = f.submit
+      %div.submit-btn
+        = f.submit "Create", class: 'custom-btn btn'

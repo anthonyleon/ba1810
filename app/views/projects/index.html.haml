@@ -1,0 +1,12 @@
+.container
+  .col-3
+    - @projects.each do |project|
+      .col-1
+        = project.reference_num
+      .col-1
+        =project.description
+  
+
+.container
+  .col-1.custom-btn.btn
+    =link_to "New Project", new_project_path

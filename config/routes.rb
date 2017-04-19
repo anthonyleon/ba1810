@@ -2,19 +2,11 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  get 'projects/new'
-
-  get 'projects/edit'
-
-  get 'projects/create'
-
-  get 'projects/update'
-
-  get 'projects/show'
+ 
 
   get 'projects/archive'
 
-  get 'projects' => 'projects#index', as: 'projects'
+  resources :projects
 
   get 'admin_inventory_upload' => 'companies#admin_inventory_upload', as: 'admin_inventory_upload'
   get 'parts/new'

@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    
+    @projects = Project.where(company: current_user)
   end
 
   def edit
