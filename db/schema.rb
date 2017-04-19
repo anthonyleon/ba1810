@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412194012) do
+ActiveRecord::Schema.define(version: 20170418191722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,11 +94,13 @@ ActiveRecord::Schema.define(version: 20170412194012) do
     t.decimal  "part_price"
     t.decimal  "est_shipping_cost"
     t.integer  "quantity",          default: 1
+    t.string   "quote_num"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
   add_index "bids", ["company_id"], name: "index_bids_on_company_id", using: :btree
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
+  add_index "bids", ["quote_num"], name: "index_bids_on_quote_num", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "name",                                   null: false
@@ -153,9 +155,11 @@ ActiveRecord::Schema.define(version: 20170412194012) do
     t.integer  "engine_id"
     t.integer  "aircraft_id"
     t.integer  "company_doc_id"
+    t.integer  "bid_id"
   end
 
   add_index "documents", ["aircraft_id"], name: "index_documents_on_aircraft_id", using: :btree
+  add_index "documents", ["bid_id"], name: "index_documents_on_bid_id", using: :btree
   add_index "documents", ["company_doc_id"], name: "index_documents_on_company_doc_id", using: :btree
   add_index "documents", ["engine_id"], name: "index_documents_on_engine_id", using: :btree
   add_index "documents", ["inventory_part_id"], name: "index_documents_on_inventory_part_id", using: :btree
@@ -218,7 +222,17 @@ ActiveRecord::Schema.define(version: 20170412194012) do
     t.boolean  "flagged"
   end
 
-  add_index "parts", ["part_num"], name: "index_parts_on_part_num", unique: true, using: :btree
+  add_index "parts", ["part_num"], name: "index_parts_on_part_num", using: :btree
+
+  create_table "projects", force: :cascade do |t|
+    t.string   "reference_num"
+    t.text     "description"
+    t.boolean  "active",        default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "projects", ["reference_num"], name: "index_projects_on_reference_num", using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "packaging"
@@ -276,6 +290,7 @@ ActiveRecord::Schema.define(version: 20170412194012) do
   add_foreign_key "bids", "inventory_parts"
   add_foreign_key "company_docs", "companies"
   add_foreign_key "documents", "aircrafts"
+  add_foreign_key "documents", "bids"
   add_foreign_key "documents", "company_docs"
   add_foreign_key "documents", "engines"
   add_foreign_key "documents", "inventory_parts"

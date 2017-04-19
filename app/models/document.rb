@@ -7,4 +7,19 @@ class Document < ActiveRecord::Base
   belongs_to :aircraft
   belongs_to :engine
   belongs_to :company_doc
+  belongs_to :bid
+	def self.check_object(bid, inventory_part, engine, aircraft, company_doc, attachment)
+
+		if bid
+		  bid.documents.build(name: attachment.original_filename, attachment: attachment)
+		elsif inventory_part
+		  inventory_part.documents.build(name: attachment.original_filename, attachment: attachment)
+		elsif engine
+		  engine.documents.build(name: attachment.original_filename, attachment: attachment)
+		elsif aircraft
+		  aircraft.documents.build(name: attachment.original_filename, attachment: attachment)
+		elsif company_doc
+		  company_doc.documents.build(name: attachment.original_filename, attachment: attachment)
+		end
+	end
 end

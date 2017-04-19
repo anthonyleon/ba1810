@@ -83,7 +83,6 @@ $(document).on('ready page:load', function() {
 	});
 
 	this.removeSupplier = function(element) {
-		counter--;
   		return element.parent().remove();
 	};
 });
