@@ -20,7 +20,7 @@
             -if transaction.order_id
               %td.srchtbl= link_to transaction.order_id, buyer_purchase_path(transaction)
             -else
-              %td.srchtbl= link_to "N/A", transaction.auction
+              %td.srchtbl= link_to "N/A", transaction.bid
             %td.srchtbl= transaction.bid.inventory_part.part_num
             %td.srchtbl= transaction.bid.inventory_part.description
             %td.srchtbl= transaction.bid.inventory_part.serial_num
