@@ -6,19 +6,20 @@ class Auction < ActiveRecord::Base
   has_one :part, through: :auction_part
   has_many :bids, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :bidders, through: :bids, source: :company
 
   validates :quantity, presence: true
 
   before_save :strip_whitespace
   before_save :upcase_part_num
-  
+
   serialize :condition, Array # rename auctions.condition to auctions.condition
   serialize :req_forms, Array
   # serialize :invitees, Array
 
   accepts_nested_attributes_for :tx
 
-  
+
   def self.conditions
     %w(recent overhaul as_removed serviceable non_serviceable scrap)
   end
@@ -62,7 +63,7 @@ class Auction < ActiveRecord::Base
 
 
   def any_condition?
-    conditions[0].blank?    
+    conditions[0].blank?
   end
 
   def set_invitees(invited)
@@ -100,7 +101,7 @@ class Auction < ActiveRecord::Base
         end
       end
       auc.update_attribute('matched', true) if @its_a_match
-    end 
+    end
   end
 
   def self.part_match_or_not_actions(auction, part_match)
@@ -109,7 +110,7 @@ class Auction < ActiveRecord::Base
       AdminMailer.new_auction(auction).deliver_now
       AuctionPart.make(part_match, auction)
     end
-      
+
   #if the part for the RFQ doesn't match a part in our parts_db
     if !part_match
       AdminMailer.no_part_match(auction).deliver_now
@@ -118,10 +119,10 @@ class Auction < ActiveRecord::Base
 
   # For InventoryPart check if auction matches one DOESN"T TAKE INTO ACCOUNT WHEN NEW INVENTORY IS UPLOADED
   ##  This is only for system_admin to check what auctions are matching
-    part_match = InventoryPart.where(part_num: auction.part_num)  
+    part_match = InventoryPart.where(part_num: auction.part_num)
     not_owned = (part_match.size == 1 && part_match[0].company != auction.company)
     if part_match && not_owned
-      auction.update_attribute('matched', true) 
+      auction.update_attribute('matched', true)
     else
       auction.update_attribute('matched', false)
     end

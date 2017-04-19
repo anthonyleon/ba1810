@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   get 'errors/internal_server_error'
 
   get 'password_resets/new'
-
   get '/privacy_policy' => 'pages#privacy_policy', as: 'privacy_policy'
 
   get '/terms_and_conditions' => 'pages#terms_and_conditions', as: 'terms_and_conditions'
@@ -97,19 +96,23 @@ end
   get 'bids' => 'bids#index', as: 'bids'
   get 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
   post 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_create_bid', as: 'temp_user_create_bid'
-  
+
   post 'record_purchase' => 'transactions#record', as: 'record_transaction'
   delete 'remove_transaction' => 'transactions#remove_from_purchase_history', as: 'remove_transaction'
 
   resources :password_resets
-  
+
   resources :inventory_parts do
+    resources :documents, shallow: true
+  end
+
+  resources :bids do
     resources :documents, shallow: true
   end
 
   resources :auctions do
     resources :auction_parts, except: [:index]
-    resources :bids, except: [:index]
+    resources :bids, except: [:index] 
   end
 
   resources :companies, except: [:index, :show] do

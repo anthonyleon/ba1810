@@ -55,6 +55,7 @@ select#auction_condition {
 
 .payment-btn {
   margin-top: 4%;
+  margin-bottom: 4%;
   border-radius: 3px !important;
   width: 85px;
   font-size: 12px;
@@ -126,6 +127,11 @@ select#auction_condition {
 .edit-shipping{
   display:none;
 }
+
+.new-quote-btn {
+  margin-bottom: 8%;
+}
+
 #add-new-supplier {
   display:flex;
   flex-direction: column;
