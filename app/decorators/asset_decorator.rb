@@ -48,18 +48,19 @@ class AssetDecorator < Draper::Decorator
     @conditions = []
     if event.class == Bid || event.class == InventoryPart
       case condition
-      when "overhaul"
-        @conditions << "OH"
-      when "recent"
+
+      when "recent" || 0
         @conditions << "NE"
-      when "serviceable"
-        @conditions << "SV"
-      when "as_removed"
+      when "overhaul" || 1
+        @conditions << "OH"
+      when "as_removed" || 2
         @conditions << "AR"
-      when "scrap"
-        @conditions << "SC"
-      when "non_serviceable"
+      when "serviceable" || 3
+        @conditions << "SV"
+      when "non_serviceable" || 4
         @conditions << "NSV"
+      when "scrap" || 5
+        @conditions << "SC"
       end
     elsif event.class == Auction
       condition.each do |condition|
