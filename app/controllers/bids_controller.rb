@@ -4,6 +4,7 @@ class BidsController < ApplicationController
   before_action :set_transaction, only: [:show, :update, :funds_released]
 
   def index
+    @bids = current_user.bids.to_a.uniq { |b| b.auction_id }
     @supplier_auctions = AuctionDecorator.decorate_collection(current_user.auctions_with_owned_bids)
   end
 
@@ -36,7 +37,7 @@ class BidsController < ApplicationController
         if @bid.save
           @inventory_part.add_part_details(part_match, current_user)
           if @inventory_part.save
-            document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params[:attachment]
+            document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
             Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
             Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
             format.html { redirect_to @bid.auction, notice: 'Your quote has been saved' }
@@ -65,7 +66,7 @@ class BidsController < ApplicationController
     @bid = @auction.bids.new(bid_params)
     respond_to do |format|
       if @bid.save
-        document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params[:attachment]
+        document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
         Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
         Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Quote was successfully created.' }

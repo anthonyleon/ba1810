@@ -10,6 +10,7 @@
           %table.table.striped.responsive-table#mybidsDT.bordered
             %thead
               %tr
+                %th Quote No.
                 %th Part Number
                 %th Description
                 %th Conditions
@@ -19,18 +20,19 @@
                 %th My Bid Price
                 / %th
             %tbody
-              - @supplier_auctions.each do |auction|
+              - @bids.each do |bid|
                 %tr
-                  %td= link_to auction.part_num, auction
-                  %td= auction.auction_part.description
-                  -if auction.condition[0].blank?
+                  %td= link_to (bid.quote_num || "N/A"), bid.auction
+                  %td= bid.auction.part_num
+                  %td= bid.auction.auction_part.description
+                  -if bid.auction.condition[0].blank?
                     %td All Conditions
                   -else
-                    %td= auction.abbreviated_index_tags
-                  %td= auction.created_at.strftime("%m/%d/%Y")
-                  %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-                  %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
+                    %td= bid.auction.decorate.abbreviated_index_tags
+                  %td= bid.auction.created_at.strftime("%m/%d/%Y")
+                  %td= ((Time.zone.now - bid.auction.created_at) / 1.day).to_i
+                  %td= number_to_currency bid.auction.bids.minimum(:part_price)
                   / This the current user's bid for this auction?
-                  %td= number_to_currency current_user.bids.find_by(auction: auction).part_price
+                  %td= number_to_currency bid.part_price
                   / %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => current_user.bids.find_by(auction: auction).id, :auction_id => auction.id }, :method => :get
                   -# edit_auction_bid_path(auction, @bid)
