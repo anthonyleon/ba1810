@@ -36,7 +36,7 @@ class BidsController < ApplicationController
         if @bid.save
           @inventory_part.add_part_details(part_match, current_user)
           if @inventory_part.save
-            document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)}
+            document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params[:attachment]
             Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
             Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
             format.html { redirect_to @bid.auction, notice: 'Your quote has been saved' }
@@ -65,7 +65,7 @@ class BidsController < ApplicationController
     @bid = @auction.bids.new(bid_params)
     respond_to do |format|
       if @bid.save
-        document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)}
+        document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params[:attachment]
         Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
         Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
         format.html { redirect_to @auction, notice: 'Quote was successfully created.' }
@@ -131,7 +131,7 @@ class BidsController < ApplicationController
     end
 
     def bid_params
-      params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, :quantity)
+      params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, :quantity, :quote_num)
     end
 
     def inventory_part_params
