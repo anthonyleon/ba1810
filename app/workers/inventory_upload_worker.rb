@@ -10,7 +10,7 @@ class InventoryUploadWorker
     config.redis = { url: ENV["REDISTOGO_URL"], network_timeout: 5 }
   end
 
-  def perform(file_path, company_id)
-    CsvImport.csv_import(file_path, Company.find(company_id))
+  def perform(data, company_id)
+    CsvImport.import_inventory(data, Company.find(company_id))
   end
 end
