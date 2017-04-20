@@ -41,6 +41,11 @@
                   Quote Details
                 .col-lg-2
                   .field.pull-left.field-title.col-lg-1
+                    Quote Reference No.
+                  .field.quote-detail-field.col-lg-1
+                    = f.text_field :quote_num
+                .col-lg-2
+                  .field.pull-left.field-title.col-lg-1
                     Quantity
                   .field.quote-detail-field.col-lg-1
                     = f.number_field :quantity, class: "input-field"
@@ -56,12 +61,11 @@
                       = "(Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country})"
                   .field.quote-detail-field.col-lg-1
                     = f.text_field :est_shipping_cost, class: "dollars input-field"
-                .field.document-fields
-                  = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
-                    .field.pull-left.field-title
-                      Upload Files
-                    .files
-                      = cm.file_field :attachment, multiple: true
+            .field.document-fields.container
+              = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
+                .field.field-title.center-align
+                  Upload Files #{"    |"}
+                  = cm.file_field :attachment, multiple: true
               
             
               

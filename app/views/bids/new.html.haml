@@ -44,6 +44,9 @@
                     Upload Files
                   .files
                     = cm.file_field :attachment, multiple: true
+            #quote-num.left-align
+              .field
+                = f.text_field :quote_num, placeholder: "Quote Reference No. (optional)"
               
               / this shit is commented out because we are allowing people to quote quantity.
               / .field
