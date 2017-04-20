@@ -23,7 +23,7 @@ $custom-blue: #293860;
 
 .second-section {
   margin: 0;
-  height: 345px;
+  height: 100%;
 }
 
 .section-decorator.about-us.third-section{
@@ -114,6 +114,12 @@ section h1 {
 /*
 Responsive stlyes
 */
+@media only screen and (max-width: 736px) {
+  .list-of-parts {
+    margin-top: 125px;
+  }
+}
+
 @media only screen and (max-width: 620px) {
     .about-us-title {
       font-size: 3em;

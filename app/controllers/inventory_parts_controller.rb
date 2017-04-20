@@ -44,8 +44,8 @@ class InventoryPartsController < ApplicationController
 
   # import spreadsheet of parts inventory
   def import
-    # @import = InventoryUploadWorker.perform_async(params[:file], (params[:inventory_company_id] || params[:company_id].to_i))
-    @import = CsvImport.csv_import(params[:file], Company.find(params[:inventory_company_id]))
+    json_data = CsvImport.jsonize_csv(params[:file])
+    @import = InventoryUploadWorker.perform_async(json_data, (params[:inventory_company_id] || params[:company_id].to_i))
 
   # run match check 
   #### PUT THIS ON A WORKER WHEN YOU START ALLOWING USERS TO UPLOAD THEIR OWN INVENTORY

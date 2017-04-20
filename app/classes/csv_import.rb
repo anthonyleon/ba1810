@@ -72,6 +72,8 @@ class CsvImport
 			return 1
 		when "OVERHAUL" 
 			return 1
+		when "RD"
+			return 1
 		when "AR" 
 			return 2
 		when "AS REMOVED"
@@ -80,6 +82,8 @@ class CsvImport
 			return 3
 		when "SERVICEABLE"
 			return 3
+		when "RP"
+			return 4
 		when "SC"
 			return 4
 		when "SCRAP"
@@ -101,6 +105,53 @@ class CsvImport
 		when "FACTORY NEW"
 			return 0
 		end
+	end
+
+	def self.jsonize_csv(file)
+		json = CSV.read(file.path).to_json
+		nj = JSON.parse(json)
+	end
+
+	def self.import_inventory(file, company)
+		time = Benchmark.measure do
+			headers = file.lazy.first
+			file.lazy.first.delete(headers)
+			count = 0
+			file.lazy.each_slice(75) do |lines|
+				# count += 1
+				# binding.pry if count ==2
+				Part.transaction do 
+					parts_array = lines.map do |line|
+						line.each { |l| l.scrub! }
+						Hash[headers.zip(line)]
+					end
+
+					inventory = []
+					parts_array.map do |row|
+						part_match = Part.find_by(part_num: row['part_num'])
+						new_part = build_new_part(row['part_num'], (row['description'] || "")) unless part_match
+						quantity = row['quantity'].to_i
+						row.delete('quantity')
+						row["condition"] = match_condition(row)
+						quantity.times do 
+							part = InventoryPart.new(
+								part_num: row["part_num"], 
+								description: row["description"], 
+								condition: row["condition"],
+								serial_num: row["serial_num"],
+								company: company,
+								part_id: part_match ? part_match.id : new_part.id
+								)
+							inventory << part			
+						end
+					end
+					
+					InventoryPart.import inventory
+
+				end
+			end		
+		end
+		puts time
 	end
 
 
