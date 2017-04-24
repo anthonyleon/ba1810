@@ -39,7 +39,7 @@ class AuctionsController < ApplicationController
 
       
       Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
-      format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
+      format.html { redirect_to @auction, notice: 'RFQ was successfully created.' }
       format.json { render :show, status: :created, location: @auction }
     end
   end
@@ -51,7 +51,7 @@ class AuctionsController < ApplicationController
       elsif @auction.update(auction_params)
         @auction.set_invitees(params[:invitees]) if params[:invitees]
         @auction.invite_and_setup_suppliers
-        unless params[:commit] == "Update Auction"
+        unless params[:commit] == "Update RFQ"
           @transaction = Transaction.find(transaction_params[:id])
           @transaction.update(transaction_params)
         end
@@ -59,7 +59,7 @@ class AuctionsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @auction.errors, status: :unprocessable_entity }
       end
-      format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
+      format.html { redirect_to @auction, notice: 'RFQ was successfully updated.' }
       format.js { }
       format.json { render :show, status: :ok, location: @auction }
     end
@@ -68,7 +68,7 @@ class AuctionsController < ApplicationController
   def destroy
     @auction.destroy
     respond_to do |format|
-      format.html { redirect_to current_user, notice: 'Auction was successfully destroyed.' }
+      format.html { redirect_to current_user, notice: 'RFQ was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

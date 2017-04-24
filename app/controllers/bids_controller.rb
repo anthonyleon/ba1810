@@ -38,8 +38,8 @@ class BidsController < ApplicationController
           @inventory_part.add_part_details(part_match, current_user)
           if @inventory_part.save
             document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
-            Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
-            Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
+            Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an RFQ you are participating in!")
+            Notification.notify_auctioner(@auction, "A new quote was placed in your RFQ!")
             format.html { redirect_to @bid.auction, notice: 'Your quote has been saved' }
           else
             format.html { render :temp_user_new_bid }
@@ -67,8 +67,8 @@ class BidsController < ApplicationController
     respond_to do |format|
       if @bid.save
         document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
-        Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an auction you are participating in!")
-        Notification.notify_auctioner(@auction, "A new quote was placed in your auction!")
+        Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an RFQ you are participating in!")
+        Notification.notify_auctioner(@auction, "A new quote was placed in your RFQ!")
         format.html { redirect_to @auction, notice: 'Quote was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
@@ -84,8 +84,6 @@ class BidsController < ApplicationController
       @bid.assign_attributes(bid_params)
       ArmorPaymentsApi.update_order(@transaction) if @transaction.bid.changed?
       if @bid.update(bid_params)
-        # Notification.notify_other_bidders(@auction, "A bid has been updated on an auction you're competing in!")
-        # Notification.notify_auctioner("A bid was updated in your auction!")
         format.html { redirect_to @auction, notice: 'Quote was successfully updated.' }
         format.json { render :show, status: :ok, location: @bid }
         if @transaction.tracking_num # POST shipping info to armor
