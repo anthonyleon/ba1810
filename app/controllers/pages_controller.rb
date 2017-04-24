@@ -56,7 +56,7 @@ class PagesController < ApplicationController
   private 
 
   def new_lead_mail
-    AdminMailer.new_lead(params[:contact], params[:company], params[:phone], params[:email], params[:message]).deliver_now
+    AdminMailer.new_lead(params[:contact], params[:company], params[:phone], params[:email], params[:message], params[:subject]).deliver_now
   end
 
   def send_mail

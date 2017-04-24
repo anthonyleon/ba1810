@@ -29,14 +29,14 @@ class AdminMailer < ApplicationMailer
     mail to: 'support@bid.aero', subject: "#{@company.name.upcase} JUST CREATED AN AUCTION"
   end
 
-  def new_lead(contact, company, phone, email, message)
+  def new_lead(contact, company, phone, email, message, subject)
     @name = contact
     @company = company
     @phone = phone
     @email = email
     @message = message
 
-    mail to: 'support@bid.aero', subject: 'NEW LEAD!'
+    mail to: 'support@bid.aero', subject: "#{subject} => MRO ORLANDO 2017"
     
   end
 
