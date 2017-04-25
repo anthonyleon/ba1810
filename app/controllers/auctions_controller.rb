@@ -51,10 +51,10 @@ class AuctionsController < ApplicationController
       elsif @auction.update(auction_params)
         @auction.set_invitees(params[:invitees]) if params[:invitees]
         @auction.invite_and_setup_suppliers
-        unless params[:commit] == "Update RFQ"
-          @transaction = Transaction.find(transaction_params[:id])
-          @transaction.update(transaction_params)
-        end
+        # unless params[:commit] == "Update RFQ"
+        #   @transaction = Transaction.find(transaction_params[:id])
+        #   @transaction.update(transaction_params)
+        # end
       else
         format.html { render :edit }
         format.json { render json: @auction.errors, status: :unprocessable_entity }
