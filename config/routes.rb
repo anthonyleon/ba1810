@@ -6,7 +6,11 @@ Rails.application.routes.draw do
 
   get 'projects/archive'
 
-  resources :projects
+  resources :projects do
+    resources :auctions, only: [:import] do
+      collection { post :import }
+    end
+  end
 
   get 'admin_inventory_upload' => 'companies#admin_inventory_upload', as: 'admin_inventory_upload'
   get 'parts/new'

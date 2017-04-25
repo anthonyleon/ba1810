@@ -21,6 +21,10 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        if attachment_params
+          json_data = CsvImport.jsonize_csv(attachment_params[:attachment])
+          PartRequirementsUploadWorker.perform_async(json_data, current_user.id, @project.id)
+        end
         format.html { redirect_to projects_path, notice: 'Project was successfully created.' }
         format.json { render :show, status: :created, location: @project }
       else
@@ -28,6 +32,12 @@ class ProjectsController < ApplicationController
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def import_part_reqs
+    raise
+    json_data = CsvImport.jsonize_csv(params[:file])
+    InventoryUploadWorker.perform_async(json_data, (params[:inventory_company_id] || params[:company_id].to_i), params[:project_id])
   end
 
   def update
@@ -53,5 +63,9 @@ class ProjectsController < ApplicationController
 
     def project_params
       params.require(:project).permit(:reference_num, :description)
+    end
+
+    def attachment_params
+      params.require(:project).permit(:attachment)
     end
 end

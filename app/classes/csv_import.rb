@@ -2,42 +2,6 @@ require 'benchmark'
 require 'csv'
 
 class CsvImport
-	## commented out on 4/20/17 because I don't believe we need this anymore
-	# def self.csv_import(whole_file, company)
-	# 	time = Benchmark.measure do
-	# 		File.open(whole_file.path) do |file|
-	# 			headers = file.first
-	# 			file.lazy.each_slice(75) do |lines|
-	# 				Part.transaction do 
-	# 					inventory = []
-	# 					insert_to_parts_db = []
-	# 					rows = CSV.parse(lines.join.scrub, write_headers: true, headers: headers)
-	# 					rows.map do |row|
-	# 						part_match = Part.find_by(part_num: row['part_num'])
-	# 						new_part = build_new_part(row['part_num'], (row['description'] || "")) unless part_match
-	# 						quantity = row['quantity'].to_i
-	# 						row.delete('quantity')
-	# 						row["condition"] = match_condition(row)
-
-	# 						quantity.times do 
-	# 							part = InventoryPart.new(
-	# 								part_num: row["part_num"], 
-	# 								description: row["description"], 
-	# 								condition: row["condition"],
-	# 								serial_num: row["serial_num"],
-	# 								company_id: company.id,
-	# 								part_id: part_match ? part_match.id : new_part.id
-	# 								)			
-	# 							inventory << part					
-	# 						end
-	# 					end
-	# 					InventoryPart.import inventory
-	# 				end
-	# 			end
-	# 		end			
-	# 	end
-	# 	puts time
-	# end
 
 	def self.jsonize_csv(file)
 		json = CSV.read(file.path).to_json
@@ -109,47 +73,54 @@ class CsvImport
 		end
 	end
 
-	def self.mass_rfq(data, company)
-		headers = data.lazy.first
-		data.lazy.first.delete(headers)
-
+	def self.mass_rfq(data, company_id, project_id)
+		headers = data.first
+		data.delete(headers)
+		project = Project.find(project_id)
 		data.lazy.each_slice(75) do |lines|
 			Auction.transaction do 
 				part_requests = lines.map do |line|
-					line.each { |l| l.scrub! }
-					Hash[headers.zip(line)]
+					if line[0] != nil && line[1] != nil
+						line.each { |l| l.scrub! unless l == nil}
+						Hash[headers.zip(line)]
+					end
 				end
-
 				rfqs = []
 				part_requests.map do |row|
-					part_match = Part.find_by(part_num: row['part_num'])
-					new_part = build_new_part(row['part_num'], (row['description'] || "")) unless part_match
-					row["condition"] = match_condition(row)
+					unless row == nil
+						part_match = Part.find_by(part_num: row['part number'])
+						new_part = build_new_part(row['part number'], (row['description'] || "")) unless part_match
+						row["condition"] = match_condition(row)
+						auction = Auction.new(
+							company: Company.find(company_id),
+							part_num: row["part number"],
+							condition: [row["condition"]],
+							# destination_address: nil,
+							# destination_zip: nil,
+							# destination_city: nil,
+							# destination_country: nil,
+							# destination_state: nil,
+							# required_date: nil,
+							# destination_company: nil,
+							cycles: row["cycles"],
+							quantity: row["quantity"],
+							target_price: row["target price"],
+							# req_forms: [],
+							# invitees: {},
+							project: project
+							)
 
-					auction = Auction.new(
-						company: company,
-						part_num: row["part_num",
-						condition: row["condition"],
-						destination_address: nil,
-						destination_zip: nil,
-						destination_city: nil,
-						destination_country: nil,
-						destination_state: nil,
-						required_date: nil,
-						destination_company: nil,
-						cycles: nil,
-						quantity: nil,
-						target_price: nil,
-						req_forms: [],
-						invitees: {},
-						project_id: nil
-						)
-					rfqs << auction
+						rfqs << auction
+					end
 				end
 				Auction.import rfqs
 
 			end
 		end		
+		project.auctions.each do |auc|
+			part_match = Part.find_by(part_num: auc.part_num)
+			AuctionPart.make(part_match, auc)
+		end
 	end
 
 	#Match part condition with enum
@@ -199,3 +170,40 @@ class CsvImport
 	end
 
 end
+
+	## commented out on 4/20/17 because I don't believe we need this anymore
+	# def self.csv_import(whole_file, company)
+	# 	time = Benchmark.measure do
+	# 		File.open(whole_file.path) do |file|
+	# 			headers = file.first
+	# 			file.lazy.each_slice(75) do |lines|
+	# 				Part.transaction do 
+	# 					inventory = []
+	# 					insert_to_parts_db = []
+	# 					rows = CSV.parse(lines.join.scrub, write_headers: true, headers: headers)
+	# 					rows.map do |row|
+	# 						part_match = Part.find_by(part_num: row['part_num'])
+	# 						new_part = build_new_part(row['part_num'], (row['description'] || "")) unless part_match
+	# 						quantity = row['quantity'].to_i
+	# 						row.delete('quantity')
+	# 						row["condition"] = match_condition(row)
+
+	# 						quantity.times do 
+	# 							part = InventoryPart.new(
+	# 								part_num: row["part_num"], 
+	# 								description: row["description"], 
+	# 								condition: row["condition"],
+	# 								serial_num: row["serial_num"],
+	# 								company_id: company.id,
+	# 								part_id: part_match ? part_match.id : new_part.id
+	# 								)			
+	# 							inventory << part					
+	# 						end
+	# 					end
+	# 					InventoryPart.import inventory
+	# 				end
+	# 			end
+	# 		end			
+	# 	end
+	# 	puts time
+	# end

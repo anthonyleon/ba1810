@@ -13,6 +13,8 @@
   .col-2.project-form
     .field.col-1.description-field
       = f.text_area :description, placeholder: "Description of project..."
-    .actions.col-1.center-align.project-submit
-      %div.submit-btn
-        = f.submit "Create", class: 'custom-btn btn'
+  .col-1.container.left-align.part-req-sheet
+    = f.file_field :attachment
+  .actions.col-1.center-align.project-submit
+    %div.submit-btn
+      = f.submit "Create", class: 'custom-btn btn'

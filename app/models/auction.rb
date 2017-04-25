@@ -104,16 +104,18 @@ class Auction < ActiveRecord::Base
     end
   end
 
+
+
   def self.part_match_or_not_actions(auction, part_match)
     #part_match is for Parts Table
     if part_match
-      AdminMailer.new_auction(auction).deliver_now
+      AdminMailer.new_auction(auction).deliver_later(wait_until: 1.minute.from_now)
       AuctionPart.make(part_match, auction)
     end
 
   #if the part for the RFQ doesn't match a part in our parts_db
     if !part_match
-      AdminMailer.no_part_match(auction).deliver_now
+      AdminMailer.no_part_match(auction).deliver_later(wait_until: 1.minute.from_now)
       AuctionPart.temporary_make(auction)
     end
 
