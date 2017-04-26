@@ -15,6 +15,7 @@
 -elsif bid.company != current_user
   %td
     =""
+%td= bid.tag_date || "N/A"
 %td= bid.quantity
 
 - if bid.company == current_user
