@@ -59,6 +59,7 @@ class AuctionsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @auction.errors, status: :unprocessable_entity }
       end
+      @auction.save
       format.html { redirect_to @auction, notice: 'RFQ was successfully updated.' }
       format.js { }
       format.json { render :show, status: :ok, location: @auction }
