@@ -30,6 +30,11 @@
                   Conditions
                 .col-sm-1
                 = ": #{AssetDecorator.rename(@auction, @auction.condition)}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Required Certs
+                .col-sm-1
+                = ": #{@auction.req_forms.reject(&:blank?).to_sentence}"
 
               %h6.col-sm-2.part-details
                 .col-sm-1.font-bold
