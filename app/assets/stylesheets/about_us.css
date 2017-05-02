@@ -80,9 +80,30 @@ ul.assets-list.equipment {
   color: lightgrey;
 }
 
+.about-us-first {
+  margin: 16% 16% 16% 16%;
+  display: flex;
+  flex-direction: column;
+}
+
 h1.about-us-title {
   position: relative;
   margin-bottom: 0.3em;
+  font: normal 300 4em/1 'Josefin Sans', sans-serif;
+  text-transform: uppercase; 
+}
+
+.asset-companies {
+  display: flex;
+  justify-content: space-around;
+}
+
+.parts-list {
+  display: flex;
+}
+
+.col-1.parts {
+  width: 300px;
 }
 
 section.about-us {
@@ -122,9 +143,21 @@ Responsive stlyes
 
 @media only screen and (max-width: 620px) {
     .about-us-title {
-      font-size: 3em;
+      font-size: 2.5em !important;
     }
 
+    .all-assets {
+      flex-direction: column;
+      width: 280px;
+    }
+
+    .parts {
+      width: 280px;
+      font-size: 12px;
+    }
+    .long-part {
+      font-size: 7px;
+    }
     .mb-lg-80 {
       margin-bottom: 20px;
     }
