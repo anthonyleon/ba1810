@@ -94,7 +94,8 @@
             %table#invited-suppliers.table.responsive-table.bordered
               %thead
                 %tr
-                  %th Co
+                  -if current_user == @auction.company
+                    %th Co
                   %th Mfg
                   %th SN
                   %th Condition
@@ -111,8 +112,9 @@
                 - @auction_invitees.each do |co|
                   -if !@auction.bidders.include?(co)
                     %tr
-                      %td
-                        =co.name
+                      -if current_user == @auction.company
+                        %td
+                          =co.name
                       %td --
                       %td --
                       %td --
@@ -129,7 +131,8 @@
             %table#bid-aero-suppliers.table.responsive-table.bordered
               %thead
                 %tr
-                  %th Co
+                  -if current_user == @auction.company
+                    %th Co
                   %th Mfg
                   %th SN
                   %th Condition

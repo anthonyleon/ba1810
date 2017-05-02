@@ -1,4 +1,5 @@
-%td= bid.company.name
+-if current_user == @auction.company
+  %td= bid.company.name
 %td= bid.inventory_part.manufacturer || "--"
 %td= bid.inventory_part.serial_num || "--"
 
