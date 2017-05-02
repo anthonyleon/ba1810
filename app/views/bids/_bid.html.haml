@@ -26,7 +26,7 @@
 - if @auction.company == current_user 
   - if !bid.tx
     %td.btn.custom-btn.payment-btn.tooltipped.pull-left{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
-      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
+      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "real-btn"
     %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
       = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "real-btn"
     %td.recorded.center-align.responsive-remove-btn
@@ -34,7 +34,7 @@
         =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "real-btn"
   -elsif bid.tx
     %td.btn.custom-btn.payment-btn.tooltipped.pull-left.purchase-btns{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
-      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get
+      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "real-btn"
     %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right.purchase-btns{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
       = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "real-btn"
     %td.recorded.center-align

@@ -24,6 +24,7 @@ select#auction_condition {
 .real-btn {
   width: 100%;
   padding: 11px 0;
+  font-size: 10px;
 }
 
 .remove-btn form{
@@ -403,6 +404,14 @@ ul.checkout-bar {
       }
     }
   }
+}
+
+#invited-suppliers {
+  font-size: 12px;
+}
+
+#bid-aero-suppliers {
+  font-size: 12px;
 }
 
 .card.large.destination-address {
