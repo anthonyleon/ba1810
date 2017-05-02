@@ -100,7 +100,7 @@ class Company < ActiveRecord::Base
           conditions = auction.conditions
           ##have to check how InventoryPart is saving the condition, there are some opportunities that show up with .to_sym
           ## and some that only show up without the .to_sym method
-          part_matches = (conditions.include?(inventory_part.condition) || conditions.include?(inventory_part.condition.to_sym))
+          part_matches = conditions.include?(inventory_part.condition.to_sym)
           user_has_placed_bids = (auction.bids & user_bids).present?
           any_condition = auction.any_condition?
 

@@ -22,7 +22,7 @@
         .auc-checkbox-titles
           %h5 Conditions
         .field.form-group.auction-condition-form
-          = f.collection_check_boxes(:condition, Auction.conditions, :to_s, :humanize)
+          = f.collection_check_boxes(:condition, Auction.conditions, :to_sym, :humanize)
       #certifications.col-sm-1
         .auc-checkbox-titles
           %h5 Required Certifications

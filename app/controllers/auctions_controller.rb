@@ -49,6 +49,7 @@ class AuctionsController < ApplicationController
       if params[:target_price]
         @auction.update(target_price: params[:target_price].gsub(' ', ''))
       elsif @auction.update(auction_params)
+        @auction.update(condition: auction_params[:condition].map!{ |x| x.to_sym })
         @auction.set_invitees(params[:invitees]) if params[:invitees]
         @auction.invite_and_setup_suppliers
         # unless params[:commit] == "Update RFQ"
