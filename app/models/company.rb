@@ -98,7 +98,7 @@ class Company < ActiveRecord::Base
       each do |inventory_part|
         inventory_part.auctions.includes(:bids).each do |auction|
           conditions = auction.conditions
-          part_matches = conditions.include?(inventory_part.condition.to_sym)
+          part_matches = conditions.include?(inventory_part.condition)
           user_has_placed_bids = (auction.bids & user_bids).present?
           any_condition = auction.any_condition?
 
