@@ -103,9 +103,9 @@ class Company < ActiveRecord::Base
           part_matches = conditions.include?(inventory_part.condition.to_sym)
           user_has_placed_bids = (auction.bids & user_bids).present?
           any_condition = auction.any_condition?
-
           if (part_matches || any_condition) && !user_has_placed_bids
-            sales_opportunities << auction
+            sales_opportunities << auction if auction.company != self
+
           end
         end
       end
