@@ -40,6 +40,8 @@
                 = f.hidden_field :inventory_part_id, value: InventoryPart.find_by(company: current_user, part_num: @auction.part_num).id
             .col-1
               .field
+                .left-align.quantity-label
+                  = f.label :tag_date, "Tag Date"
                 = f.date_field :tag_date, class: "form-control", id: "bid-field", placeholder: "Tag Date"
               .field.document-fields
                 = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
