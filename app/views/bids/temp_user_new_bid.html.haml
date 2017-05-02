@@ -36,6 +36,9 @@
                       Condition  
                     .field.quote-detail-field.col-lg-1 
                       = cm.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
+                .col-lg-2
+                  .field.quote-detail-field.col-lg-1
+                    = f.date_field :tag_date, class: "form-control datepicker", placeholder: "Tag Date"
               .col-md-1.field-section
                 .bid-info.sub-title.left-align
                   Quote Details
@@ -49,11 +52,6 @@
                     Quantity
                   .field.quote-detail-field.col-lg-1
                     = f.number_field :quantity, class: "input-field"
-                .col-lg-2
-                  .field.pull-left.field-title.col-lg-1
-                    Tag Date  
-                  .field.quote-detail-field.col-lg-1
-                    = f.date_field :tag_date, class: "input-field"
                 .col-lg-2
                   .field.pull-left.field-title.col-lg-1
                     Part Total  
@@ -77,6 +75,9 @@
             #place-bid.actions
               = f.submit 'Submit', class: 'btn custom-btn'
 
-
+  :javascript
+    $('.datepicker').pickadate({
+      selectMonths: true
+    });
 
 

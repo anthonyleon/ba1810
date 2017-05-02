@@ -41,8 +41,7 @@
             .col-1
               .field
                 .left-align.quantity-label
-                  = f.label :tag_date, "Tag Date"
-                = f.date_field :tag_date, class: "form-control", id: "bid-field", placeholder: "Tag Date"
+                = f.date_field :tag_date, class: "form-control datepicker", placeholder: "Tag Date"
               .field.document-fields
                 = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
                   .field.pull-left.field-title
@@ -77,6 +76,9 @@
           #place-bid.actions.right-align
             = f.submit 'Place bid', class: 'btn custom-btn'
 
-
+  :javascript
+    $('.datepicker').pickadate({
+      selectMonths: true
+    });
 
 
