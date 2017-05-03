@@ -11,8 +11,10 @@ class AuctionsController < ApplicationController
 
     ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
     @auction_invitees = Company.find_invitees(@auction.invitees)
-    @invited_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: true))
-    @bid_aero_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: false))
+
+    
+    @invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
+    @bid_aero_suppliers_bids = @auction.bids.joins(:company)
   end
 
   def new
