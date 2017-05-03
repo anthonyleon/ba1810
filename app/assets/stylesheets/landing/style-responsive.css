@@ -41,9 +41,7 @@ Primary use:    MultiPurpose Template
         padding: 20px 0px;
             font-size: 45px;
     }
-    .buyer-benefits {
-      padding-bottom: 65px !important;
-    }
+
 
     .seller-benefits {
         padding-bottom: 45px !important;
@@ -445,6 +443,12 @@ input#enterbutton {
     display: block;
     margin-top: 10px;
 }
+
+.buyer-benefits-row {
+    flex-flow: row wrap;
+    justify-content: center !important;
+}
+
 p.signnews {
     font-size: 20px !important;
 }

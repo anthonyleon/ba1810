@@ -21,13 +21,14 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        if attachment_params
+        if !attachment_params.empty?
           json_data = CsvImport.jsonize_csv(attachment_params[:attachment])
-          PartRequirementsUploadWorker.perform_async(json_data, current_user.id, @project.id)
+          PartRequirementsUploadWorker.perform_async(json_data, current_user.id, @project.id, project_params)
         end
-        format.html { redirect_to projects_path, notice: 'Project was successfully created.' }
+        format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render :show, status: :created, location: @project }
       else
+        flash[:error] = @project.errors.full_messages.to_sentence.gsub('.','')
         format.html { render :new }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
@@ -62,7 +63,7 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:reference_num, :description)
+      params.require(:project).permit(:reference_num, :description, :street_addy, :city, :state, :zip, :country)
     end
 
     def attachment_params

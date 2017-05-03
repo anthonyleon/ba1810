@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
     if request.headers['Content-Type'] == 'application/json'
       @data = JSON.parse(request.body.read)
       p "=+" * 120
-      p @transaction = Transaction.find_by(order_id: @data["event"]["order_id"]) if @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
+      p @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
       p "=-" * 120
       p @bid = @transaction.bid if @transaction
       p "==" * 120
@@ -96,8 +96,8 @@ class TransactionsController < ApplicationController
     redirect_to root_path unless @transaction.buyer == current_user
 
     CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) && 
-      Notification.notify(@bid, @bid.seller, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.", 
-        transaction: @transaction) unless Notification.exists?(@bid, "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.")
+      Notification.notify(@bid, @bid.seller, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.", 
+        transaction: @transaction) unless Notification.exists?(@bid, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.")
     @auction.update(active: false) if @auction.active
     if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
       response.headers.delete "X-Frame-Options"

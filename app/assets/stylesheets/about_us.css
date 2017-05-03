@@ -80,9 +80,30 @@ ul.assets-list.equipment {
   color: lightgrey;
 }
 
+.about-us-first {
+  margin: 16% 16% 16% 16%;
+  display: flex;
+  flex-direction: column;
+}
+
 h1.about-us-title {
   position: relative;
   margin-bottom: 0.3em;
+  font: normal 300 4em/1 'Josefin Sans', sans-serif;
+  text-transform: uppercase; 
+}
+
+.asset-companies {
+  display: flex;
+  justify-content: space-around;
+}
+
+.parts-list {
+  display: flex;
+}
+
+.col-1.parts {
+  width: 300px;
 }
 
 section.about-us {
@@ -114,17 +135,50 @@ section h1 {
 /*
 Responsive stlyes
 */
+@media only screen and (max-width: 736px) {
+  .list-of-parts {
+    margin-top: 125px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .third-title.line-2 {
+    font-size: 2.2em !important;
+  }
+}
+
 @media only screen and (max-width: 620px) {
     .about-us-title {
-      font-size: 3em;
+      font-size: 2.5em !important;
     }
 
+    .all-assets {
+      flex-direction: column;
+      width: 280px;
+    }
+
+    .all-assets {
+      align-self: center;
+    }
+
+    .parts {
+      align-self: center;
+    }
+
+
+
+    .parts {
+      width: 280px;
+      font-size: 12px;
+    }
+    .long-part {
+      font-size: 7px;
+    }
     .mb-lg-80 {
       margin-bottom: 20px;
     }
 
     .third-title {
-      font-size: 1.8em;
+      font-size: 1.6em;
     }
 
     .first-section {
@@ -132,9 +186,10 @@ Responsive stlyes
       margin: 20% auto 8% auto;
     }
 
+
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
     .about-us-title {
       font-size: 2.5em;
     }
@@ -146,6 +201,14 @@ Responsive stlyes
       margin-bottom: 20px;
     }
 
+    .target-market-title {
+      font-size: 2em !important;
+    }
+
+    .about-us-first {
+      margin: 10% 5.5%;
+    }
+
     .list-of-parts {
       margin-top: 50%;
     }
@@ -154,7 +217,7 @@ Responsive stlyes
       font-size: 1.8em;
     }
     .third-title.line-2 {
-      font-size: 1.2em;
+      font-size: 1.5em !important;
     }
     .fourth-title {
       font-size: 1.5em;
@@ -168,7 +231,9 @@ Responsive stlyes
   .first-section {
     margin-bottom: 50px !important;
   }
-
+  .third-title.line-2 {
+    font-size: 1.2em !important;
+  }
   .alt-features-item.align-center.boxit {
     margin-top: 110px;
   }

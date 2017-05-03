@@ -83,6 +83,14 @@ p.tit1 {
 }
 
 
+.feature-title{
+  margin-bottom: 21px;
+  font-size: 1.15em;
+  font-weight: 400;
+  text-transform: uppercase;
+  color:green;
+}
+
 .info.aircraftshow {
 	color: black;
 }
@@ -167,10 +175,6 @@ img.scroll-down {
   left: 9% !important;
 }
 
-.benefits-first-row{
-  margin-bottom: 25px;
-}
-
 .section-decorator {
   display: block;
   width: 115px;
@@ -191,16 +195,15 @@ img.scroll-down {
   letter-spacing: 0.2em;
 }
 
-.alt-features-icon.benefits {
+.feature-icon {
   color: #293860;
   margin: 0 auto;
+  font-size: 48px;
 }
-.alt-features-title.font-alt {
-  font-size: 1.15em;
-}
-.font-alt-small {
+
+.feature-description {
   font-size: 12px;
-  padding: 0 13px;
+  padding: 0 10%;
   color: grey;
 }
 
@@ -232,6 +235,11 @@ th.aircraftlisting {
 	border-bottom: 2px solid #ddd !important;
 }
 
+.feature{
+  width: 500px;
+  margin: 6% 0;
+}
+
 img.featurespc {
 	margin: 0 16.25% 30px 16.25%;
 }
@@ -259,6 +267,13 @@ h4.pricingtitle {
   color: black;
   white-space: nowrap;
   margin-bottom: 5px !important;
+}
+
+.buyer-benefits-row{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
 }
 
 

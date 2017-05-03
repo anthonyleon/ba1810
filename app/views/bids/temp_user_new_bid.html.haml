@@ -36,9 +36,17 @@
                       Condition  
                     .field.quote-detail-field.col-lg-1 
                       = cm.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
+                .col-lg-2
+                  .field.quote-detail-field.col-lg-1
+                    = f.date_field :tag_date, class: "form-control datepicker", placeholder: "Tag Date"
               .col-md-1.field-section
                 .bid-info.sub-title.left-align
                   Quote Details
+                .col-lg-2
+                  .field.pull-left.field-title.col-lg-1
+                    Quote Reference No.
+                  .field.quote-detail-field.col-lg-1
+                    = f.text_field :quote_num
                 .col-lg-2
                   .field.pull-left.field-title.col-lg-1
                     Quantity
@@ -56,18 +64,20 @@
                       = "(Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country})"
                   .field.quote-detail-field.col-lg-1
                     = f.text_field :est_shipping_cost, class: "dollars input-field"
-                .field.document-fields
-                  = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
-                    .field.pull-left.field-title
-                      Upload Files
-                    .files
-                      = cm.file_field :attachment, multiple: true
+            .field.document-fields.container
+              = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
+                .field.field-title.center-align
+                  Upload Files #{"    |"}
+                  = cm.file_field :attachment, multiple: true
               
             
               
             #place-bid.actions
               = f.submit 'Submit', class: 'btn custom-btn'
 
-
+  :javascript
+    $('.datepicker').pickadate({
+      selectMonths: true
+    });
 
 

@@ -35,6 +35,7 @@ class SessionController < ApplicationController
     else
       @company = Company.find_by_email(params[:company][:email].downcase.squish).try(:authenticate, token)
       session[:company_id] = @company.id
+      @company.update_attribute('password', password)
       redirect_to auction_path(@auction_id), flash: { success: "Welcome #{@company.name}!" }
     end
   end

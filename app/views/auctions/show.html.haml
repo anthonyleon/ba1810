@@ -30,6 +30,11 @@
                   Conditions
                 .col-sm-1
                 = ": #{AssetDecorator.rename(@auction, @auction.condition)}"
+              %h6.col-sm-2.part-details
+                .col-sm-1.font-bold
+                  Required Certs
+                .col-sm-1
+                = ": #{@auction.req_forms.reject(&:blank?).to_sentence}"
 
               %h6.col-sm-2.part-details
                 .col-sm-1.font-bold
@@ -38,7 +43,7 @@
                   = ": #{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
               -if @auction.company == current_user
                 %h6
-                  = link_to 'Edit/Invite Suppliers', edit_auction_path(@auction)
+                  = link_to 'Invite Suppliers/Edit', edit_auction_path(@auction)
             .col-lg-2
               .col-lg-1
                 - if @auction.company == current_user
@@ -76,7 +81,8 @@
             .col-lg-1
               
             .col-lg-1
-              
+              - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
+                .col-1
         %hr/
         - if @auction.bids.empty? && @auction.invitees.empty?
           .nobid.center-align
@@ -88,13 +94,15 @@
             %table#invited-suppliers.table.responsive-table.bordered
               %thead
                 %tr
-                  %th Company
-                  %th Manufacturer
-                  %th Serial Number
+                  -if current_user == @auction.company
+                    %th Co
+                  %th Mfg
+                  %th SN
                   %th Condition
                   %th Price
                   %th Est. Shipping
                   %th Docs
+                  %th Tag Date
                   %th Qty
                   %th
               %tbody
@@ -104,8 +112,10 @@
                 - @auction_invitees.each do |co|
                   -if !@auction.bidders.include?(co)
                     %tr
-                      %td
-                        =co.name
+                      -if current_user == @auction.company
+                        %td
+                          =co.name
+                      %td --
                       %td --
                       %td --
                       %td --
@@ -121,13 +131,15 @@
             %table#bid-aero-suppliers.table.responsive-table.bordered
               %thead
                 %tr
-                  %th Company
-                  %th Manufacturer
-                  %th Serial Number
+                  -if current_user == @auction.company
+                    %th Co
+                  %th Mfg
+                  %th SN
                   %th Condition
                   %th Price
                   %th Est. Shipping
                   %th Docs
+                  %th Tag Date
                   %th Qty
                   %th
               %tbody

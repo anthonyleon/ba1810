@@ -73,7 +73,7 @@ class CsvImport
 		end
 	end
 
-	def self.mass_rfq(data, company_id, project_id)
+	def self.mass_rfq(data, company_id, project_id, address)
 		headers = data.first
 		data.delete(headers)
 		project = Project.find(project_id)
@@ -95,13 +95,12 @@ class CsvImport
 							company: Company.find(company_id),
 							part_num: row["part number"],
 							condition: [row["condition"]],
-							# destination_address: nil,
-							# destination_zip: nil,
-							# destination_city: nil,
-							# destination_country: nil,
-							# destination_state: nil,
-							# required_date: nil,
-							# destination_company: nil,
+
+							destination_address: address["street_addy"],
+							destination_zip: address["zip"],
+							destination_city: address["city"],
+							destination_country: address["country"],
+							destination_state: address["state"],
 							cycles: row["cycles"],
 							quantity: row["quantity"],
 							target_price: row["target price"],
@@ -109,7 +108,6 @@ class CsvImport
 							# invitees: {},
 							project: project
 							)
-
 						rfqs << auction
 					end
 				end

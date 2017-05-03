@@ -11,8 +11,10 @@ class AuctionsController < ApplicationController
 
     ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
     @auction_invitees = Company.find_invitees(@auction.invitees)
-    @invited_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: true))
-    @bid_aero_suppliers_bids = @auction.bids.joins(:company).merge(Company.where(temp: false))
+
+    
+    @invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
+    @bid_aero_suppliers_bids = @auction.bids.joins(:company)
   end
 
   def new
@@ -41,7 +43,7 @@ class AuctionsController < ApplicationController
 
       
       Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
-      format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
+      format.html { redirect_to @auction, notice: 'RFQ was successfully created.' }
       format.json { render :show, status: :created, location: @auction }
     end
   end
@@ -53,15 +55,17 @@ class AuctionsController < ApplicationController
       elsif @auction.update(auction_params)
         @auction.set_invitees(params[:invitees]) if params[:invitees]
         @auction.invite_and_setup_suppliers
-        unless params[:commit] == "Update Auction"
-          @transaction = Transaction.find(transaction_params[:id])
-          @transaction.update(transaction_params)
-        end
+        @auction.update(condition: auction_params[:condition].map!{ |x| x.to_sym })
+        # unless params[:commit] == "Update RFQ"
+        #   @transaction = Transaction.find(transaction_params[:id])
+        #   @transaction.update(transaction_params)
+        # end
       else
         format.html { render :edit }
         format.json { render json: @auction.errors, status: :unprocessable_entity }
       end
-      format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
+      @auction.save
+      format.html { redirect_to @auction, notice: 'RFQ was successfully updated.' }
       format.js { }
       format.json { render :show, status: :ok, location: @auction }
     end
@@ -70,7 +74,7 @@ class AuctionsController < ApplicationController
   def destroy
     @auction.destroy
     respond_to do |format|
-      format.html { redirect_to current_user, notice: 'Auction was successfully destroyed.' }
+      format.html { redirect_to current_user, notice: 'RFQ was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

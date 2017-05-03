@@ -10,7 +10,7 @@ class PartRequirementsUploadWorker
     config.redis = { url: ENV["REDISTOGO_URL"], network_timeout: 5 }
   end
 
-  def perform(data, company_id, project_id)
-    CsvImport.mass_rfq(data, company_id, project_id)
+  def perform(data, company_id, project_id, address_params)
+    CsvImport.mass_rfq(data, company_id, project_id, address_params)
   end
 end

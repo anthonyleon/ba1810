@@ -16,12 +16,13 @@
           /   SEARCH
         .newsletter-label.font-alt
           .heading1
-            %p LOCATE YOUR PART NOW
+            %p The Revolution 
+            %p Is Here
           / .heading2
           /   %p.heading2 Over 160,000 Parts Listed
         .col-md-12
           .btn.custom-btn.call-to-action
-            = link_to "GET STARTED FOR FREE!", sign_up_form_path
+            = link_to "GET STARTED FOR FREE", sign_up_form_path
     / .local-scroll
     /   %a{:href => "#about"}
     /     %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
@@ -36,99 +37,98 @@
           .banner-content
             %h1.marginbo BID AERO IS...
             .banner-description
-              A sourcing and procurement platform for aftermarket aviation spare parts, that utilizes a reverse auction business model.  Reverse auction flips the traditional roles of buyer and vendor to create healthy competition for your benefit. The buyer simply requests a part and allows the vendors to compete against each other to make the sale, ensuring fair market value for the sourced item. Vendors are presented with automated sales leads, and are exposed to a greater reach to buyers they would not normally do business with. By implementing a supply chain adopted from Fortune 100 companies that meets ISM standards, Bid Aero provides the most efficient and transparent way to source the parts you need.
+              A sourcing and procurement platform for aftermarket aviation spare parts, that utilizes a reverse auction.  Reverse auction flips the traditional roles of buyer and vendor to create healthy competition for your benefit. The buyer simply issues an RFQ to their approved vendors, Bid Aero suppliers can also quote RFQs for which they have the stock.  This allows the vendors to compete against each other to make the sale, ensuring fair market value for the sourced item. 
+            .banner-description 
+              Vendors are presented with automated sales leads, and are exposed to a greater reach to buyers they would not normally do business with. By implementing supply chain methodologies adopted from Fortune 100 companies that meets ISM standards, Bid Aero provides the most efficient and transparent way to source the parts you need.
 %section#infographic.page-section.shadow_section.buyer-benefits
   %span.section-decorator
   %h6.section-title.font-alt.mb-35.mb-sm-40.benefits-title
     %span{:style => "color: #4881bd;"}BUYER BENEFITS
-  %h3.section-sub-title.font-alt.mb-20.mb-sm-40.benefits-subtitle
+  .benefits-subtitle.align-center
     %span{:style => "color: #4881bd;"}SOURCING & PROCUREMENT MADE EASY
-  .container.relative.mb-20
-    / Features Grid
-    .row.multi-columns-row.alt-features-grid.align-center.benefits-first-row
-      / Features Item
-      .benefits-squares
-        .col-md-6.mb-40
-          .alt-features-item.align-center.boxit
-            .alt-features-icon.benefits
-              %i.fa.fa-clock-o
-            %h6.alt-features-title.font-alt Reduced Lead Times
-            %h6.alt-features-title.benefits.font-alt-small
-              Our platform elimnates time spent sourcing parts. We eliminate "no quotes". One click generates an auction (RFQ) which brings all the suppliers to you.
-      .benefits-squares
-        .col-md-6.mb-40
-          .alt-features-item.align-center.boxit
-            .alt-features-icon.benefits
-              %i.fa.fa-lock
-            %h6.alt-features-title.font-alt Your Money Is Safe at All Times
-            %h6.alt-features-title.benefits.font-alt-small
-              Payment isn't released to the seller until the the part has been delivered and approved. If the part is not as described, you can file a dispute and be reimbursed.
   .container.relative
-    / Features Grid
-    .row.multi-columns-row.alt-features-grid.align-center
-      / Features Item
-      .benefits-squares
-        .col-md-6.mb-40
-          .alt-features-item.align-center.boxit
-            .alt-features-icon.benefits
-              %i.fa.fa-dollar
-            %h6.alt-features-title.font-alt Cost Savings
-            %h6.alt-features-title.benefits.font-alt-small
-              Buyers can expereince cost savings of 20-40% on part purchases.
-      .benefits-squares
-        .col-md-6.mb-40
-          .alt-features-item.align-center.boxit
-            .alt-features-icon.benefits
-              %i.fa.fa-files-o
-            %h6.alt-features-title.font-alt Organized Sourcing
-            %h6.alt-features-title.benefits.font-alt-small
-              Each sourcing event's (RFQ) information is organized in one central location. This allows you to audit and quantify your realized cost savings in purchasing.
+    .container.col-2.buyer-benefits-row
+      .col-1.feature
+        .align-center
+          .feature-icon
+            %i.fa.fa-files-o
+          .feature-title
+            Organized Sourcing
+          .features-title.feature-description
+            All RFQs are organized on one page, with all the information you need. This eliminates the hassle of sifting through all of your e-mails for quotes, documentation, and contact information. And allows you to audit and quantify your realized cost savings in purchasing.
+      .col-1.feature
+        .align-center
+          .feature-icon
+            %i.fa.fa-lock
+          .feature-title
+            Your Money Is Safe at All Times
+          .features-title.feature-description
+            Use our escrow service to ensure you get what you paid for. Payment won't released to the seller until the the part has been delivered and approved. If the part is not as described, you can file a dispute and be reimbursed.
+
+    .container.col-2.buyer-benefits-row
+      .col-1.feature
+        .align-center
+          .feature-icon
+            %i.fa.fa-clock-o
+          .feature-title
+            Reduced Lead Times
+          .features-title.feature-description
+            Our platform elimnates time spent sourcing parts. We eliminate "no quotes". One click generates an RFQ which brings all the suppliers to you.
+      .col-1.feature
+        .align-center
+          .feature-icon
+            %i.fa.fa-dollar
+          .feature-title
+            Cost Savings
+          .features-title.feature-description
+            Buyers can experience cost savings of 20-40% on part purchases through reverse auctions.
+
+
 
       / End Features Item
       / Features Item
-%section#infographic.page-section.shadow_section.seller-benefits
+%section.shadow_section.seller-benefits
   %span.section-decorator
   %h6.section-title.font-alt.mb-35.mb-sm-40.benefits-title
     %span{:style => "color: #4881bd;"}SELLER BENEFITS
-  %h3.section-sub-title.font-alt.mb-20.mb-sm-40.benefits-subtitle
+  .benefits-subtitle.align-center
     %span{:style => "color: #4881bd;"}SELL NEAR, SELL FAR, SELL MORE
-  .container.relative.mb-20
-    / Features Grid
-    .row.multi-columns-row.alt-features-grid.align-center.benefits-first-row
-      / Features Item
-      .benefits-squares
-        .col-md-6.mb-40
-          .alt-features-item.align-center.boxit
-            .alt-features-icon.benefits
-              %i.fa.fa-shield
-            %h6.alt-features-title.font-alt Never at risk of Non-payment
-            %h6.alt-features-title.benefits.font-alt-small
-              We collect payment through our secure escrow before you ship, this ensures that your assets are never at risk.
-      .benefits-squares
-        .col-md-6.mb-40
-          .alt-features-item.align-center.boxit
-            .alt-features-icon.benefits
-              %i.fa.fa-globe
-            %h6.alt-features-title.font-alt Greater Reach
-            %h6.alt-features-title.benefits.font-alt-small
-              Our security allows you to do business anywhere in the world without the worry, multiplying your sales reach with confidence.
   .container.relative
     / Features Grid
-    .row.multi-columns-row.alt-features-grid.align-center
-      / Features Item
-      .benefits-squares
-        .col-md-6.mb-40
-          .alt-features-item.align-center.boxit
-            .alt-features-icon.benefits
-              %i.fa.fa-bolt
-            %h6.alt-features-title.font-alt Quote with Efficiency
-            %h6.alt-features-title.benefits.font-alt-small
-              Traceability documents are saved to your parts, so that you can quote with the click of a button.
-      .benefits-squares
-        .col-md-6.mb-40
-          .alt-features-item.align-center.boxit
-            .alt-features-icon.benefits
-              %i.fa.fa-line-chart
-            %h6.alt-features-title.font-alt Automated Sales Leads
-            %h6.alt-features-title.benefits.font-alt-small
-              Browse through all the sourcing events (RFQs), for which you the have inventory, allowing you the ability to sell any line item in your inventory.
+    .container.col-2.buyer-benefits-row
+      .col-1.feature
+        .align-center
+          .feature-icon
+            %i.fa.fa-line-chart
+          .feature-title
+            Automated Sales Leads
+          .features-title.feature-description
+            Upload you inventory on the cloud and you can browse through a feed with all of your Sales Opportunities. These opportunities show up in real-time as RFQs are genereated.
+      .col-1.feature
+        .align-center
+          .feature-icon
+            %i.fa.fa-shield
+          .feature-title
+            Never at risk of Non-payment
+          .features-title.feature-description
+            Ensure that your assets are never at risk by utilizing our secure escrow system. By choosing to use escrow, we won't tell you to ship the part until the money has been transferred by the buyer into the escrow account.
+
+    .container.col-2.buyer-benefits-row
+      .col-1.feature
+        .align-center
+          .feature-icon
+            %i.fa.fa-bolt
+          .feature-title
+            Quote with Efficiency
+          .features-title.feature-description
+            Traceability documents are saved to your parts, so that you can quote with the click of a button.
+      .col-1.feature
+        .align-center
+          .feature-icon
+            %i.fa.fa-globe
+          .feature-title
+            Greater Reach
+          .features-title.feature-description
+            Our security allows you to do business anywhere in the world without the worry, multiplying your sales reach with confidence.
+
+

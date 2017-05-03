@@ -1,8 +1,7 @@
 
 .project-form {
 	display: flex;
-	flex-direction: row;
-	height: 300px;
+	flex-direction: column;
 	justify-content: space-between;
 }
 
@@ -10,9 +9,23 @@
 	margin-top: 2% !important;
 }
 
+.location {
+	margin: 0 5%;
+}
+
 .reference-number-field {
 	width: 22%;
 	margin: 0 5%;
+}
+
+.address {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.address-field {
+	width: 230px;
 }
 
 .description-field {
@@ -27,6 +40,7 @@
 }
 
 .project-submit {
+	margin-top: 40px;
 	align-self: center;
 }
 

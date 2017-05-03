@@ -48,6 +48,7 @@ gem 'useragent'
 gem 'sprockets'
 
 group :development, :test do
+  gem 'ultrahook'
   gem "erb2haml", :group => :development
   gem 'byebug'
   gem 'capybara'
