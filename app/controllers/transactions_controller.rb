@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
     if request.headers['Content-Type'] == 'application/json'
       @data = JSON.parse(request.body.read)
       p "=+" * 120
-      p @transaction = Transaction.find_by(order_id: @data["event"]["order_id"]) if @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
+      p @transaction = Transaction.find_by(order_id: @data["event"]["order_id"])
       p "=-" * 120
       p @bid = @transaction.bid if @transaction
       p "==" * 120

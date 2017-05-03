@@ -133,7 +133,7 @@ class Transaction < ActiveRecord::Base
     puts "Total Amount \t\t -- \t" + total_amount.to_f.to_s
   end
 
-  def parse_webhook(data, bid) 
+  def parse_webhook(data, bid)
     if data["api_key"]["api_key"] == ENV['ARMOR_PKEY']
       case data["event"]["type"]
       when 0  # order created
