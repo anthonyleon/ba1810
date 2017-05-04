@@ -17,6 +17,10 @@ class AuctionsController < ApplicationController
     @bid_aero_suppliers_bids = @auction.bids.joins(:company)
   end
 
+  def auction_invites
+    @auctions = Auction.where('invitees @> ?', {current_user.name.downcase => co.email.downcase}.to_json)
+  end
+
   def new
     @projects = current_user.projects
     @project = params[:project_id]
