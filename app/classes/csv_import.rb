@@ -94,11 +94,11 @@ class CsvImport
 						
 						part_match = Part.find_by(part_num: row['part number']) || build_new_part(row['part number'], (row['description'] || ""))
 						parts << part_match
-						row["condition"] = match_condition(row)
+						row["condition"] = match_auction_condition(row)
 						auction = Auction.new(
 							company: Company.find(company_id),
 							part_num: row["part number"],
-							condition: [row["condition"]],
+							condition: row["condition"],
 
 							destination_address: address["street_addy"],
 							destination_zip: address["zip"],
@@ -140,41 +140,41 @@ class CsvImport
 	def self.match_condition(part)
 		case part["condition"].squish.upcase
 		when "OH"
-			return 1
+			return :overhaul
 		when "OVERHAUL" 
-			return 1
+			return :overhaul
 		when "RD"
-			return 1
+			return :overhaul
 		when "AR" 
-			return 2
+			return :as_removed
 		when "AS REMOVED"
-			return 2
+			return :as_removed
 		when "SV"
-			return 3
+			return :serviceable
 		when "SERVICEABLE"
-			return 3
+			return :serviceable
 		when "RP"
-			return 4
+			return :non_serviceable
 		when "SC"
-			return 4
+			return :non_serviceable
 		when "SCRAP"
-			return 4
+			return :non_serviceable
 		when "NSV"
-			return 5
+			return :scrap
 		when "NON SERVICEABLE"
-			return 5
+			return :scrap
 		when "NE"
-			return 0
+			return :recent
 		when "NEW" 
-			return 0
+			return :recent
 		when "NS"
-			return 0
+			return :recent
 		when "NEW SURPLUS" 
-			return 0
+			return :recent
 		when "FN"
-			return 0
+			return :recent
 		when "FACTORY NEW"
-			return 0
+			return :recent
 		end
 	end
 
@@ -182,9 +182,53 @@ class CsvImport
 		Part.create(part_num: part_number, description: desc, flagged: true, manufacturer: "")
 	end
 
+	def self.match_auction_condition(part)
+		conditions = []
+
+		case part["condition"].squish.upcase
+		when "OH"
+			conditions << :overhaul
+		when "OVERHAUL" 
+			conditions << :overhaul
+		when "RD"
+			conditions << :overhaul
+		when "AR" 
+			conditions << :as_removed
+		when "AS REMOVED"
+			conditions << :as_removed
+		when "SV"
+			conditions << :serviceable
+		when "SERVICEABLE"
+			conditions << :serviceable
+		when "RP"
+			conditions << :non_serviceable
+		when "SC"
+			conditions << :non_serviceable
+		when "SCRAP"
+			conditions << :non_serviceable
+		when "NSV"
+			conditions << :scrap
+		when "NON SERVICEABLE"
+			conditions << :scrap
+		when "NE"
+			conditions << :recent
+		when "NEW" 
+			conditions << :recent
+		when "NS"
+			conditions << :recent
+		when "NEW SURPLUS" 
+			conditions << :recent
+		when "FN"
+			conditions << :recent
+		when "FACTORY NEW"
+			conditions << :recent
+		end
+		conditions << [:""]
+	end
+
 end
 
-	## commented out on 4/20/17 because I don't believe we need this anymore
+	## commented out on 4/:as_removed0/17 because I don't believe we need this anymore
 	# def self.csv_import(whole_file, company)
 	# 	time = Benchmark.measure do
 	# 		File.open(whole_file.path) do |file|

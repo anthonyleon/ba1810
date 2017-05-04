@@ -3,7 +3,7 @@ class AuctionsController < ApplicationController
   before_action :set_bid_and_auction, only: [:purchase_confirmation, :purchase]
 
   def index
-    @owned_auctions = current_user.auctions.where(active: true).decorate
+    @owned_auctions = current_user.auctions.where(active: true).where(project: nil)
   end
 
   def show
