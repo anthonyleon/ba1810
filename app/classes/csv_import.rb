@@ -81,15 +81,19 @@ class CsvImport
 			Auction.transaction do 
 				part_requests = lines.map do |line|
 					if line[0] != nil && line[1] != nil
-						line.each { |l| l.scrub! unless l == nil}
+						line.each { |l| l.scrub!.gsub!(/\s+/, "") unless l == nil}
 						Hash[headers.zip(line)]
 					end
 				end
 				rfqs = []
+				auction_parts = []
+				parts = []
+
 				part_requests.map do |row|
 					unless row == nil
-						part_match = Part.find_by(part_num: row['part number'])
-						new_part = build_new_part(row['part number'], (row['description'] || "")) unless part_match
+						
+						part_match = Part.find_by(part_num: row['part number']) || build_new_part(row['part number'], (row['description'] || ""))
+						parts << part_match
 						row["condition"] = match_condition(row)
 						auction = Auction.new(
 							company: Company.find(company_id),
@@ -108,17 +112,28 @@ class CsvImport
 							# invitees: {},
 							project: project
 							)
+
 						rfqs << auction
+						
 					end
 				end
-				Auction.import rfqs
 
+				Auction.import rfqs
+				AuctionPart.transaction do
+					count = 0
+					rfqs.each do |auction|
+						auction_part = AuctionPart.new( part_num: auction.part_num, description: parts[count].description,
+							manufacturer: parts[count].manufacturer, auction: auction, part: parts[count])
+						auction.auction_part = auction_part
+						auction_parts << auction_part
+					end
+					AuctionPart.import auction_parts
+				end
 			end
+			
+
 		end		
-		project.auctions.each do |auc|
-			part_match = Part.find_by(part_num: auc.part_num)
-			AuctionPart.make(part_match, auc)
-		end
+
 	end
 
 	#Match part condition with enum
