@@ -2,7 +2,12 @@ class AuctionPart < ActiveRecord::Base
   belongs_to :part
   belongs_to :auction
   validates :part, :auction, presence: true
+  before_save :capitalize_part_num
 
+  def capitalize_part_num
+  	part_num.upcase!
+  end
+  
   def self.make(part, auction)
 	  create(
 	            part_num: 			part[:part_num], # this should be delegated to self.part
