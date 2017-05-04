@@ -69,7 +69,7 @@ class Auction < ActiveRecord::Base
   def set_invitees(invited)
     hashy = Hash.new
     invited.each_slice(2) do |a, b|
-      hashy.merge!({a => b})
+      hashy.merge!({a.downcase => b.downcase})
     end
     self.invitees = hashy
   end
@@ -84,7 +84,7 @@ class Auction < ActiveRecord::Base
         CompanyMailer.invite_existing_user_to_bid(v, self).deliver_now #deliver_later(wait_until: 1.minute.from_now)
       else
         secret = SecureRandom.urlsafe_base64
-        co = Company.create(name: k, email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
+        co = Company.create(name: k.split.map(&:capitalize).join(' '), email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
         CompanyMailer.invite_temp_user_to_bid(v, self).deliver_now#deliver_later(wait_until: 1.minute.from_now)
       end
     end
