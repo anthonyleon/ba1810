@@ -55,6 +55,10 @@
           %i.fa.fa-gavel
           My RFQs
       %li
+        = link_to projects_path do
+          %i.fa.fa-folder-o
+          Projects
+      %li
         = link_to pending_purchases_path do
           %i.fa.fa-clock-o
           Pending Purchases
@@ -109,10 +113,6 @@
             %i.fa.fa-cogs
             Active Auctions
       -else
-        %li
-          = link_to projects_path do
-            %i.fa.fa-folder-o
-            Projects
         %li
           = link_to inventory_parts_path do
             %i.fa.fa-cogs
