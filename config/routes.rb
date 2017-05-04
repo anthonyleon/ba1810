@@ -113,6 +113,8 @@ end
     resources :bids, except: [:index] 
   end
 
+  get 'auction_invites' => 'auctions#auction_invites', as: 'auction_invites'
+
   resources :companies, except: [:index, :show] do
     resources :ratings
     resources :inventory_parts do
