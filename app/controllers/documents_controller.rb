@@ -37,7 +37,8 @@ class DocumentsController < ApplicationController
       redirect_to @inventory_part || @engine || @aircraft || @company_doc ||  auction_bid_path(@bid.auction, @bid)
       flash.now[:notice] = "The document #{@document.name} has been uploaded."
     else
-      redirect_to @inventory_part || @engine || @aircraft || @company_doc || auction_bid_path(@bid.auction, @bid), notice: "The document #{@document.name} failed to upload."
+      redirect_to @inventory_part || @engine || @aircraft || @company_doc || auction_bid_path(@bid.auction, @bid)
+      flash[:error] = "The document #{@document.name} failed to upload."
     end
   end
 
