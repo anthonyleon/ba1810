@@ -3,7 +3,7 @@
 class AttachmentUploader < CarrierWave::Uploader::Base
 
   def extension_white_list
-    %w(pdf doc htm html docx xls xlsx jpg jpeg png csv)
+    %w(pdf doc htm html docx xls xlsx jpg jpeg png)
   end
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
