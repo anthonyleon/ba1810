@@ -110,6 +110,6 @@ class CompanyMailer < ApplicationMailer
     @auction = bid.auction
     @conditions = AssetDecorator.rename(@auction, @auction.conditions)
 
-    mail to: "<#{bid.company.email}>", subject: "Bids are being placed in an auction you are participating in, find out how you rank!"
+    mail to: "<#{bid.company.email}>", subject: "Bids are being placed in an RFQ you are participating in, find out how you rank!"
   end
 end
