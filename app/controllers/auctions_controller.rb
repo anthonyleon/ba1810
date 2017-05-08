@@ -7,14 +7,14 @@ class AuctionsController < ApplicationController
   end
 
   def show
-    @auction = @auction
 
     ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
     @auction_invitees = Company.find_invitees(@auction.invitees)
 
     
     @invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
-    @bid_aero_suppliers_bids = @auction.bids.joins(:company)
+    @auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids = 
+      @auction.bids.joins(:company).where("companies.id != ?", @auction_invitees.pluck(:id))
   end
 
   def auction_invites
