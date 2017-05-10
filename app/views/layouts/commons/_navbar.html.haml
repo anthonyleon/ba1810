@@ -1,143 +1,236 @@
-%header
-  %nav
-    .nav-wrapper.top-nav
-      %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
-        %i.material-icons menu
-      %ul#nav-buttons.right.hide-on-med-and-down
-        - notification = Notification.any_unread?(current_user)
-        %li
-          = link_to dashboard_path, style: 'display: flex;',  class: "top-nav-icons" do
-            %i.material-icons{style: 'font-size: 24px'}
-              dashboard     
-        - if Notification.any_unread?(current_user)
-          %li{style: 'height: 64px;display: flex;align-items:center;'}
-            = link_to notifications_index_path, style: 'display: flex;', class: 'bell top-nav-icons' do
-              %span.material-icons{class: "red-bell"}
-                notifications_active
-        -else
-          %li{style: 'height: 64px;display: flex;align-items:center;'}
-            = link_to notifications_index_path, style: 'display: flex;', class: "bell top-nav-icons" do
-              %span.material-icons
-                notifications
-        -if current_user.armor_user_id?
-          %li
-            = link_to edit_company_path, style: 'display: flex;', class: "top-nav-icons" do
-              %i.fa.fa-cog{style: 'font-size: 20px;'}
-        %li
-          = link_to "Log out", logout_path, style: 'display: flex;', class: "top-nav-icons"
-      %span.company-logo
-        %a{:href => dashboard_path}
-          = image_tag("/images/bid_aero_logo.png")
-      %span#button.right.hide-on-med-and-down{style: "margin-right: 15px;"}
-        %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
-          New
-          %i.material-icons.my-custom-m-icons.arrow-dropdown arrow_drop_down
-        / Dropdown Structure
-        %ul#nav-dropdown.dropdown-content
-          %li
-            = link_to 'eRFQ', new_auction_path
-          %li
-            = link_to 'Mass RFQ', new_project_path
-          %li
-            = link_to 'Engine Listing', new_engine_path
-          %li
-            = link_to 'Aircraft Listing', new_aircraft_path
-    %ul#mobile-demo.side-nav.fixed
-      / %li{style: "padding-top: 65px;"}
-      /   = link_to dashboard_path do
-      /     %i.material-icons.left
-      /       home
-      /     Dashboard
-      %li#buy-sell-section{style: "padding-top: 65px;"}
-        BUY
-      %li
-        = link_to auctions_path do
-          %i.fa.fa-gavel
-          My RFQs
-      / %li
-      /   = link_to projects_path do
-      /     %i.fa.fa-folder-o
-      /     Projects
-      %li
-        = link_to pending_purchases_path do
-          %i.fa.fa-clock-o
-          Pending Purchases
-      %li
-        = link_to purchases_path do
-          %i.fa.fa-cart-plus
-          Purchase History
-      %li#buy-sell-section
-        SELL
-      %li
-        = link_to bids_path do
-          %i.fa.fa-tag
-          My Quotes
-      %li
-        = link_to current_opportunities_path do
-          %i.fa.fa-usd
-          Sales Opportunities
-      %li
-        = link_to auction_invites_path do
-          %i.fa.fa-envelope-o
-          RFQ Invites
-      %li
-        = link_to pending_sales_path do
-          %i.fa.fa-clock-o
-          Pending Sales
-      %li
-        = link_to sales_path do
-          %i.fa.fa-line-chart
-          Sales History
-      %li#buy-sell-section
-        MANAGE
-      -unless current_user.payout_selected?
-        %li
-          = link_to select_payout_preference_path do
-            %i.fa.fa-university
-            Setup Escrow
-      -if current_user.system_admin?
-        %li
-          = link_to super_index_path do
-            %i.fa.fa-cogs
-            Locate Inventory
-        %li
-          = link_to matched_auctions_path do
-            %i.fa.fa-cogs
-            matchedAuctions
-        %li
-          = link_to unmatched_auctions_path do
-            %i.fa.fa-cogs
-            unmatchedAuc
-        %li
-          = link_to all_auctions_path do
-            %i.fa.fa-cogs
-            Active Auctions
-      -else
-        %li
-          = link_to inventory_parts_path do
-            %i.fa.fa-cogs
-            Inventory
-      %li
-        = link_to aircrafts_path do
-          %i.fa.fa-plane
-          Aircraft Listings
-      %li
-        = link_to engines_path do
-          %i.fa.fa-circle
-          Engine Listings
-
-      / %li
-      /   = link_to edit_company_path do
-      /     %i.fa.fa-cog
-      /     Settings
-      / %li
-      /   = link_to logout_path do
-      /     %i.material-icons.left
-      /       power_settings_new
-      /     Log out
-
-
-  :javascript
-    $(document).ready(function(){
-      $('.dropdown-button').dropdown();
-    });
+.navbar.navbar-inverse
+	.navbar-header
+		%a.navbar-brand{:href => "index.html"}
+			%img{:alt => "", :src => "assets/images/logo_light.png"}/
+		%ul.nav.navbar-nav.pull-right.visible-xs-block
+			%li
+				%a{"data-target" => "#navbar-mobile", "data-toggle" => "collapse"}
+					%i.icon-tree5
+	#navbar-mobile.navbar-collapse.collapse
+		%ul.nav.navbar-nav
+			%li
+				%a{:href => "#"} Text link
+			%li
+				%a{:href => "#"}
+					%i.icon-calendar3
+					%span.visible-xs-inline-block.position-right Icon link
+		%ul.nav.navbar-nav.navbar-right
+			%li
+				%a{:href => "#"} Text link
+			%li
+				%a{:href => "#"}
+					%i.icon-cog3
+					%span.visible-xs-inline-block.position-right Icon link
+			%li.dropdown.dropdown-user
+				%a.dropdown-toggle{"data-toggle" => "dropdown"}
+					%img{:alt => "", :src => "assets/images/image.png"}/
+					%span Victoria
+					%i.caret
+				%ul.dropdown-menu.dropdown-menu-right
+					%li
+						%a{:href => "#"}
+							%i.icon-user-plus
+							My profile
+					%li
+						%a{:href => "#"}
+							%i.icon-coins
+							My balance
+					%li
+						%a{:href => "#"}
+							%span.badge.badge-warning.pull-right 58
+							%i.icon-comment-discussion
+							Messages
+					%li.divider
+					%li
+						%a{:href => "#"}
+							%i.icon-cog5
+							Account settings
+					%li
+						%a{:href => "#"}
+							%i.icon-switch2
+							Logout
+/ /main navbar
+/ Second navbar
+#navbar-second.navbar.navbar-default
+	%ul.nav.navbar-nav.no-border.visible-xs-block
+		%li
+			%a.text-center.collapsed{"data-target" => "#navbar-second-toggle", "data-toggle" => "collapse"}
+				%i.icon-menu7
+	#navbar-second-toggle.navbar-collapse.collapse
+		%ul.nav.navbar-nav
+			%li
+				%a{:href => "../index.html"}
+					%i.icon-display4.position-left
+					Dashboard
+			%li.dropdown.mega-menu.mega-menu-wide
+				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+					Mega menu
+					%span.caret
+				.dropdown-menu.dropdown-content
+					.dropdown-content-body
+						.row
+							.col-md-3
+								%span.menu-heading.underlined Column 1 title
+								%ul.menu-list
+									%li
+										%a{:href => "#"} First link, first column
+									%li
+										%a{:href => "#"} Second link (multilevel)
+										%ul
+											%li
+												%a{:href => "#"} Second level, first link
+											%li
+												%a{:href => "#"} Second level, second link
+											%li
+												%a{:href => "#"} Second level, third link
+											%li
+												%a{:href => "#"} Second level, fourth link
+									%li
+										%a{:href => "#"} Third link, first column
+									%li
+										%a{:href => "#"} Fourth link, first column
+							.col-md-3
+								%span.menu-heading.underlined Column 2 title
+								%ul.menu-list
+									%li
+										%a{:href => "#"} First link, second column
+									%li
+										%a{:href => "#"} Second link (multilevel)
+										%ul
+											%li
+												%a{:href => "#"} Second level, first link
+											%li
+												%a{:href => "#"} Second level, second link
+											%li
+												%a{:href => "#"} Second level, third link
+											%li
+												%a{:href => "#"} Second level, fourth link
+									%li
+										%a{:href => "#"} Third link, second column
+									%li
+										%a{:href => "#"} Fourth link, second column
+							.col-md-3
+								%span.menu-heading.underlined Column 3 title
+								%ul.menu-list
+									%li
+										%a{:href => "#"} First link, third column
+									%li
+										%a{:href => "#"} Second link (multilevel)
+										%ul
+											%li
+												%a{:href => "#"} Second level, first link
+											%li
+												%a{:href => "#"} Second level, second link
+											%li
+												%a{:href => "#"} Second level, third link
+											%li
+												%a{:href => "#"} Second level, fourth link
+									%li
+										%a{:href => "#"} Third link, third column
+									%li
+										%a{:href => "#"} Fourth link, third column
+							.col-md-3
+								%span.menu-heading.underlined Column 4 title
+								%ul.menu-list
+									%li
+										%a{:href => "#"} First link, fourth column
+									%li
+										%a{:href => "#"} Second link (multilevel)
+										%ul
+											%li
+												%a{:href => "#"} Second level, first link
+											%li
+												%a{:href => "#"} Second level, second link
+											%li
+												%a{:href => "#"} Second level, third link
+											%li
+												%a{:href => "#"} Second level, fourth link
+									%li
+										%a{:href => "#"} Third link, fourth column
+									%li
+										%a{:href => "#"} Fourth link, fourth column
+			%li.dropdown
+				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+					Starter kit
+					%span.caret
+				%ul.dropdown-menu.width-200
+					%li.dropdown-header Basic layouts
+					%li.dropdown-submenu
+						%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+							%i.icon-grid2
+							Columns
+						%ul.dropdown-menu
+							%li.dropdown-header.highlight Options
+							%li.active
+								%a{:href => "1_col.html"} One column
+							%li
+								%a{:href => "2_col.html"} Two columns
+							%li.dropdown-submenu
+								%a{:href => "#"} Three columns
+								%ul.dropdown-menu
+									%li.dropdown-header.highlight Sidebar position
+									%li
+										%a{:href => "3_col_dual.html"} Dual sidebars
+									%li
+										%a{:href => "3_col_double.html"} Double sidebars
+							%li
+								%a{:href => "4_col.html"} Four columns
+					%li.dropdown-submenu
+						%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+							%i.icon-paragraph-justify3
+							Navbars
+						%ul.dropdown-menu
+							%li.dropdown-header.highlight Fixed navbars
+							%li
+								%a{:href => "layout_navbar_fixed_main.html"} Fixed main navbar
+							%li
+								%a{:href => "layout_navbar_fixed_secondary.html"} Fixed secondary navbar
+							%li
+								%a{:href => "layout_navbar_fixed_both.html"} Both navbars fixed
+					%li.dropdown-header Optional layouts
+					%li
+						%a{:href => "layout_boxed.html"}
+							%i.icon-align-center-horizontal
+							Fixed width
+					%li
+						%a{:href => "layout_sidebar_sticky.html"}
+							%i.icon-flip-vertical3
+							Sticky sidebar
+		%ul.nav.navbar-nav.navbar-right
+			%li
+				%a{:href => "#"} Text link
+			%li.dropdown
+				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+					%i.icon-cog3
+					%span.visible-xs-inline-block.position-right Dropdown
+					%span.caret
+				%ul.dropdown-menu.dropdown-menu-right
+					%li
+						%a{:href => "#"} Action
+					%li
+						%a{:href => "#"} Another action
+					%li
+						%a{:href => "#"} Something else here
+					%li.divider
+					%li
+						%a{:href => "#"} One more separated line
+/ /second navbar
+/ Page header
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-arrow-left52.position-left
+				%span.text-semibold Starters
+				\- One Column
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					%a{:href => "index.html"} Home
+				%li
+					%a{:href => "1_col.html"} Starters
+				%li.active One column
+		.heading-elements
+			%a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn{:href => "#"}
+				Button
+				%b
+					%i.icon-menu7
