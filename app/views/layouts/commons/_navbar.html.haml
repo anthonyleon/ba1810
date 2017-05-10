@@ -1,22 +1,25 @@
 .navbar.navbar-inverse
 	.navbar-header
-		%a.navbar-brand{:href => "index.html"}
-			%img{:alt => "", :src => "assets/images/logo_light.png"}/
+		%a.navbar-brand{:href => dashboard_path}
+			= image_tag("/images/bid_aero_logo.png")
 		%ul.nav.navbar-nav.pull-right.visible-xs-block
 			%li
 				%a{"data-target" => "#navbar-mobile", "data-toggle" => "collapse"}
 					%i.icon-tree5
 	#navbar-mobile.navbar-collapse.collapse
-		%ul.nav.navbar-nav
+		%ul.nav.navbar-nav.position-right
 			%li
 				%a{:href => "#"} Text link
+				%i.glyphicon.glyphicon-plus
+				YOOOOO
 			%li
 				%a{:href => "#"}
 					%i.icon-calendar3
 					%span.visible-xs-inline-block.position-right Icon link
 		%ul.nav.navbar-nav.navbar-right
 			%li
-				%a{:href => "#"} Text link
+				%a{:href => "#"}
+					%i.icon-display4.position-left
 			%li
 				%a{:href => "#"}
 					%i.icon-cog3
