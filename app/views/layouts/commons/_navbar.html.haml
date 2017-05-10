@@ -50,34 +50,48 @@
 				%i.icon-menu7
 	#navbar-second-toggle.navbar-collapse.collapse
 		%ul.nav.navbar-nav
-			%li
-				%a{:href => "../index.html"}
-					%i
+			%li.dropdown
+				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					BUY
+					%span.caret
+				%ul.dropdown-menu
+					%li
+						=link_to auctions_path do
+							%i.glyphicon.glyphicon-list-alt
+							Sent eRFQ's
+					%li.dropdown-header My Orders
+					%li
+						=link_to pending_purchases_path do
+							%i.icon-history
+							Pending Purchases
+					%li
+						=link_to purchases_path do
+							%i.icon-price-tags
+							Purchase History
 			%li.dropdown
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					SELL
 					%span.caret
 				%ul.dropdown-menu
 					%li
-						%a{:href => "#"}
+						=link_to bids_path do
 							%i.icon-stack3
 							My Quotes
 					%li.dropdown-header Parts Wanted
 					%li
-						%a{:href => "#"}
+						=link_to current_opportunities_path do
 							%i.icon-megaphone
 							Broadcast
 					%li
-						%a{:href => "#"}
+						=link_to auction_invites_path do
 							%i.icon-envelop
-							Buyer Invites
-					%li.dropdown-header My Orders
+							Received eRFQ's
+					%li.dropdown-header My Sales
 					%li
-						%a{:href => "#"}
+						=link_to pending_sales_path do
 							%i.icon-history
 							Pending Sales
-						%a{:href => "#"}
+						=link_to sales_path do
 							%i.icon-chart
 							Sales History
 			%li.dropdown
@@ -86,40 +100,40 @@
 					%span.caret
 				%ul.dropdown-menu
 					%li
-						%a
+						= link_to inventory_parts_path do
 							%i.icon-cogs
 							Inventory
 					%li.dropdown-header Advertisements
 					%li
-						%a{:href => "layout_boxed.html"}
+						= link_to aircrafts_path do
 							%i.icon-airplane2
 							Aircraft Listings
-						%a{:href => "layout_boxed.html"}
+						= link_to engines_path do
 							%i.icon-compass4
 							Engine Listings
-					%li.dropdown-header Services
-					%li
-						%a{:href => "layout_boxed.html"}
-							%i.icon-cash
-							Setup Payoneer Escrow
-		%ul.nav.navbar-nav.navbar-right
-			%li
-				%a{:href => "#"} Text link
-			%li.dropdown
-				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-					%i.icon-cog3
-					%span.visible-xs-inline-block.position-right Dropdown
-					%span.caret
-				%ul.dropdown-menu.dropdown-menu-right
-					%li
-						%a{:href => "#"} Action
-					%li
-						%a{:href => "#"} Another action
-					%li
-						%a{:href => "#"} Something else here
-					%li.divider
-					%li
-						%a{:href => "#"} One more separated line
+					-unless current_user.payout_selected?
+						%li.dropdown-header Services
+						%li
+							= link_to select_payout_preference_path do
+								%i.icon-cash
+								Setup Payoneer Escrow
+		-# %ul.nav.navbar-nav.navbar-right
+		-# 	%li
+		-# 		%a{:href => "#"} Text link
+		-# 	%li.dropdown
+		-# 		%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+		-# 			%i.icon-cog3
+		-# 			%span.visible-xs-inline-block.position-right Dropdown
+		-# 			%span.caret
+		-# 		%ul.dropdown-menu.dropdown-menu-right
+		-# 			%li
+		-# 				%a{:href => "#"} Action
+		-# 			%li
+		-# 				%a{:href => "#"} Another action
+		-# 			%li
+		-# 				%a{:href => "#"} Something else here
+		-# 			%li.divider
+		-# 			%li
+		-# 				%a{:href => "#"} One more separated line
 / /second navbar
 / Page header
-
