@@ -3196,6 +3196,9 @@ li + .dropdown-header.highlight,
   padding-left: 0;
   padding-right: 0;
 }
+.navbar-icon {
+  font-size: 24px !important;
+}
 @media (min-width: 769px) {
   .navbar {
     padding-left: 20px;
@@ -3678,6 +3681,9 @@ li + .dropdown-header.highlight,
 @media (min-width: 769px) {
   .navbar-right {
     margin-right: 0;
+    display: flex;
+    align-items: center;
+    height: 79px;
   }
 }
 .navbar-default {
