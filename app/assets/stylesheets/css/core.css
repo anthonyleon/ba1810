@@ -3681,6 +3681,8 @@ li + .dropdown-header.highlight,
 @media (min-width: 769px) {
   .navbar-right {
     margin-right: 0;
+  }
+  .top-navbar-right {
     display: flex;
     align-items: center;
     height: 79px;
