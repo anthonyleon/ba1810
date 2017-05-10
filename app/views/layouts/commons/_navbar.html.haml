@@ -16,7 +16,8 @@
 					%i.glyphicon.glyphicon-bell.navbar-icon
 			%li.dropdown.dropdown-user
 				%a.dropdown-toggle{"data-toggle" => "dropdown"}
-					%span Victoria
+					%span
+						= current_user.representative
 					%i.caret.navbar-icon
 				%ul.dropdown-menu.dropdown-menu-right
 					%li
