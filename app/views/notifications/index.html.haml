@@ -18,8 +18,24 @@
           %i.icon-menu7
 .panel
   .panel-body
-    %hr/
-    / %table#inventoryPartsDT.table.striped.responsive-table.bordered
+    .tabbable
+      %ul.nav.nav-tabs.nav-tabs-highlight
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#highlight-tab1"} Active
+        %li
+          %a{"data-toggle" => "tab", :href => "#highlighted-tab2"} Inactive
+      .tab-content
+        #highlighted-tab1.tab-pane.active
+          Highlight top border of the active tab by adding
+          %code .nav-tabs-highlight
+          class.
+        #highlighted-tab2.tab-pane
+          Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin.
+        #highlighted-tab3.tab-pane
+          DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg whatever.
+        #highlighted-tab4.tab-pane
+          Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
+
     %table#inventoryPartsDT.table.striped.responsive-table#buyerAuctionsDT.bordered
       %thead
         %tr
