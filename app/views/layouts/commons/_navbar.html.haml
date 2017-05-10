@@ -12,12 +12,11 @@
 				%a{:href => "#"}
 					%i.icon-display4.position-left.navbar-icon
 			%li
-				%a{:href => "#"}
+				=link_to edit_company_path do
 					%i.icon-cog3.navbar-icon
 					%span.visible-xs-inline-block.position-right Icon link
 			%li.dropdown.dropdown-user
 				%a.dropdown-toggle{"data-toggle" => "dropdown"}
-					%img{:alt => "", :src => "assets/images/image.png"}/
 					%span Victoria
 					%i.caret.navbar-icon
 				%ul.dropdown-menu.dropdown-menu-right
