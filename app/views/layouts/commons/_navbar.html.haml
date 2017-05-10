@@ -62,23 +62,24 @@
 					%span.caret
 				.dropdown-menu.dropdown-content
 					%ul.menu-list
+						%li.dropdown-header Assets
 						%li
 							%a{:href => "#"}
 								%i.icon-magazine
 								My Quotes
+						%li.dropdown-header Parts Wanted
 						%li
 							%a{:href => "#"}
 								%i.opera
-								Parts Wanted
-						%li
+								Broadcast
 							%a{:href => "#"}
 								%i.icon-envelop
-								RFQ Invites
+								Buyer Invites
+						%li.dropdown-header My Orders
 						%li
 							%a{:href => "#"}
 								%i.icon-history
 								Pending Sales
-						%li
 							%a{:href => "#"}
 								%i.icon-chart
 								Sales History
@@ -86,9 +87,9 @@
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					MANAGE
 					%span.caret
-				%ul.dropdown-menu.width-200
+				%ul.dropdown-menu
 					%li.dropdown-header Assets
-					%li.dropdown-submenu
+					%li
 						%a
 							%i.icon-cogs
 							Inventory
