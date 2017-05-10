@@ -3992,7 +3992,7 @@ ul.dropdown-menu .dropdown-content-heading:first-child {
   white-space: nowrap;
 }
 .menu-list {
-  margin: 0 0 20px 0;
+  margin: 0 0 0 0;
   list-style: none;
   padding: 0;
   overflow: hidden;

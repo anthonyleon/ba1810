@@ -9,14 +9,14 @@
 	#navbar-mobile.navbar-collapse.collapse
 		%ul.nav.navbar-nav
 			%li
-				%a{:href => "#"} Text link
+				%a{:href => "#"} ONE
 			%li
 				%a{:href => "#"}
 					%i.icon-calendar3
 					%span.visible-xs-inline-block.position-right Icon link
 		%ul.nav.navbar-nav.navbar-right
 			%li
-				%a{:href => "#"} Text link
+				%a{:href => "#"} TWO
 			%li
 				%a{:href => "#"}
 					%i.icon-cog3
@@ -61,141 +61,46 @@
 			%li
 				%a{:href => "../index.html"}
 					%i.icon-display4.position-left
-					Dashboard
-			%li.dropdown.mega-menu.mega-menu-wide
-				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-					Mega menu
-					%span.caret
-				.dropdown-menu.dropdown-content
-					.dropdown-content-body
-						.row
-							.col-md-3
-								%span.menu-heading.underlined Column 1 title
-								%ul.menu-list
-									%li
-										%a{:href => "#"} First link, first column
-									%li
-										%a{:href => "#"} Second link (multilevel)
-										%ul
-											%li
-												%a{:href => "#"} Second level, first link
-											%li
-												%a{:href => "#"} Second level, second link
-											%li
-												%a{:href => "#"} Second level, third link
-											%li
-												%a{:href => "#"} Second level, fourth link
-									%li
-										%a{:href => "#"} Third link, first column
-									%li
-										%a{:href => "#"} Fourth link, first column
-							.col-md-3
-								%span.menu-heading.underlined Column 2 title
-								%ul.menu-list
-									%li
-										%a{:href => "#"} First link, second column
-									%li
-										%a{:href => "#"} Second link (multilevel)
-										%ul
-											%li
-												%a{:href => "#"} Second level, first link
-											%li
-												%a{:href => "#"} Second level, second link
-											%li
-												%a{:href => "#"} Second level, third link
-											%li
-												%a{:href => "#"} Second level, fourth link
-									%li
-										%a{:href => "#"} Third link, second column
-									%li
-										%a{:href => "#"} Fourth link, second column
-							.col-md-3
-								%span.menu-heading.underlined Column 3 title
-								%ul.menu-list
-									%li
-										%a{:href => "#"} First link, third column
-									%li
-										%a{:href => "#"} Second link (multilevel)
-										%ul
-											%li
-												%a{:href => "#"} Second level, first link
-											%li
-												%a{:href => "#"} Second level, second link
-											%li
-												%a{:href => "#"} Second level, third link
-											%li
-												%a{:href => "#"} Second level, fourth link
-									%li
-										%a{:href => "#"} Third link, third column
-									%li
-										%a{:href => "#"} Fourth link, third column
-							.col-md-3
-								%span.menu-heading.underlined Column 4 title
-								%ul.menu-list
-									%li
-										%a{:href => "#"} First link, fourth column
-									%li
-										%a{:href => "#"} Second link (multilevel)
-										%ul
-											%li
-												%a{:href => "#"} Second level, first link
-											%li
-												%a{:href => "#"} Second level, second link
-											%li
-												%a{:href => "#"} Second level, third link
-											%li
-												%a{:href => "#"} Second level, fourth link
-									%li
-										%a{:href => "#"} Third link, fourth column
-									%li
-										%a{:href => "#"} Fourth link, fourth column
+					BUY
 			%li.dropdown
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-					Starter kit
+					SELL
+					%span.caret
+				.dropdown-menu.dropdown-content
+					%ul.menu-list
+						%li
+							%a{:href => "#"} My Quotes
+						%li
+							%a{:href => "#"} Sales Opportunities
+						%li
+							%a{:href => "#"} RFQ Invites
+						%li
+							%a{:href => "#"} Pending Sales
+						%li
+							%a{:href => "#"} Sales History
+			%li.dropdown
+				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+					MANAGE
 					%span.caret
 				%ul.dropdown-menu.width-200
-					%li.dropdown-header Basic layouts
+					%li.dropdown-header Assets
 					%li.dropdown-submenu
-						%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-							%i.icon-grid2
-							Columns
-						%ul.dropdown-menu
-							%li.dropdown-header.highlight Options
-							%li.active
-								%a{:href => "1_col.html"} One column
-							%li
-								%a{:href => "2_col.html"} Two columns
-							%li.dropdown-submenu
-								%a{:href => "#"} Three columns
-								%ul.dropdown-menu
-									%li.dropdown-header.highlight Sidebar position
-									%li
-										%a{:href => "3_col_dual.html"} Dual sidebars
-									%li
-										%a{:href => "3_col_double.html"} Double sidebars
-							%li
-								%a{:href => "4_col.html"} Four columns
-					%li.dropdown-submenu
-						%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-							%i.icon-paragraph-justify3
-							Navbars
-						%ul.dropdown-menu
-							%li.dropdown-header.highlight Fixed navbars
-							%li
-								%a{:href => "layout_navbar_fixed_main.html"} Fixed main navbar
-							%li
-								%a{:href => "layout_navbar_fixed_secondary.html"} Fixed secondary navbar
-							%li
-								%a{:href => "layout_navbar_fixed_both.html"} Both navbars fixed
-					%li.dropdown-header Optional layouts
+						%a
+							%i.icon-cog7
+							Inventory
+					%li.dropdown-header Advertisements
 					%li
 						%a{:href => "layout_boxed.html"}
-							%i.icon-align-center-horizontal
-							Fixed width
+							%i.icon-airplane2
+							Aircraft Listings
+						%a{:href => "layout_boxed.html"}
+							%i.opera
+							Engine Listings
+					%li.dropdown-header Services
 					%li
-						%a{:href => "layout_sidebar_sticky.html"}
-							%i.icon-flip-vertical3
-							Sticky sidebar
+						%a{:href => "layout_boxed.html"}
+							%i.icon-cash
+							Setup Payoneer Escrow
 		%ul.nav.navbar-nav.navbar-right
 			%li
 				%a{:href => "#"} Text link
