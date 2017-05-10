@@ -1,44 +1,38 @@
-/ Page container
-.page-container
-  / Page content
-  .page-content
-    / Main content
-    .content-wrapper
-      / Simple panel
-      .panel.panel-flat
-        .panel-heading
-          %h5.panel-title Simple panel
-          .heading-elements
-            %ul.icons-list
-              %li
-                %a{"data-action" => "collapse"}
-              %li
-                %a{"data-action" => "close"}
-        .panel-body
-          %h6.text-semibold Start your development with no hassle!
-          %p.content-group Common problem of templates is that all code is deeply integrated into the core. This limits your freedom in decreasing amount of code, i.e. it becomes pretty difficult to remove unnecessary code from the project. Limitless allows you to remove unnecessary and extra code easily just by removing the path to specific LESS file with component styling. All plugins and their options are also in separate files. Use only components you actually need!
-          %h6.text-semibold What is this?
-          %p.content-group Starter kit is a set of pages, useful for developers to start development process from scratch. Each layout includes base components only: layout, page kits, color system which is still optional, bootstrap files and bootstrap overrides. No extra CSS/JS files and markup. CSS files are compiled without any plugins or components. Starter kit was moved to a separate folder for better accessibility.
-          %h6.text-semibold How does it work?
-          %p You open one of the starter pages, add necessary plugins, uncomment paths to files in components.less file, compile new CSS. That's it. I'd also recommend to open one of main pages with functionality you need and copy all paths/JS code from there to your new page, it's just faster and easier.
-      / /simple panel
-  .card-panel.grey.lighten-5
-    %h4.center.black-text.block.custom-card-title
-      = current_user.name
-  .card.dataTables_wrapper
-    .card-content
-      .card-title.center-align
-        %h5.custom-card-title.center
-          Today's Aviation Financial Data
-      %hr/
-      %table.table.bordered.highlight.responsive-table
-        %thead
-          %tr
-            %th Aviation Leasing Stocks
-            %th Currency
-            %th Price
-            %th Change
-            %th Mkt Cap
+
+/ Page content
+.page-content
+  / Main content
+  .content-wrapper
+    / Simple panel
+    .panel.panel-flat
+      .panel-heading
+        %h5.panel-title Simple panel
+        .heading-elements
+          %ul.icons-list
+            %li
+              %a{"data-action" => "collapse"}
+            %li
+              %a{"data-action" => "close"}
+      .panel-body
+        %h6.text-semibold Start your development with no hassle!
+        %p.content-group Common problem of templates is that all code is deeply integrated into the core. This limits your freedom in decreasing amount of code, i.e. it becomes pretty difficult to remove unnecessary code from the project. Limitless allows you to remove unnecessary and extra code easily just by removing the path to specific LESS file with component styling. All plugins and their options are also in separate files. Use only components you actually need!
+        %h6.text-semibold What is this?
+        %p.content-group Starter kit is a set of pages, useful for developers to start development process from scratch. Each layout includes base components only: layout, page kits, color system which is still optional, bootstrap files and bootstrap overrides. No extra CSS/JS files and markup. CSS files are compiled without any plugins or components. Starter kit was moved to a separate folder for better accessibility.
+        %h6.text-semibold How does it work?
+        %p You open one of the starter pages, add necessary plugins, uncomment paths to files in components.less file, compile new CSS. That's it. I'd also recommend to open one of main pages with functionality you need and copy all paths/JS code from there to your new page, it's just faster and easier.
+    / /simple panel
+.panel.panel-flat.panel-body
+  %h1.panel-title
+    Real-Time Aviation Financial Data
+  %hr/
+  %table.table.bordered.highlight.responsive-table
+    %thead
+      %tr
+        %th Aviation Leasing Stocks
+        %th Currency
+        %th Price
+        %th Change
+        %th Mkt Cap
         %tbody
           - @data.each do |data|
             - percent = data.change_in_percent.to_f
