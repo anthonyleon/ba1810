@@ -20,9 +20,8 @@
       - if current_user
         %main
           = render "./layouts/commons/navbar"
-          .page-container
-            = render partial: 'layouts/commons/flash'
-            = yield
+          = render partial: 'layouts/commons/flash'
+          = yield
         = render partial: 'layouts/commons/footer'
       - else
         .new-session.background

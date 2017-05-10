@@ -8,7 +8,7 @@
         %li
           = link_to dashboard_path, style: 'display: flex;',  class: "top-nav-icons" do
             %i.material-icons{style: 'font-size: 24px'}
-              dashboard     
+              dashboard
         - if Notification.any_unread?(current_user)
           %li{style: 'height: 64px;display: flex;align-items:center;'}
             = link_to notifications_index_path, style: 'display: flex;', class: 'bell top-nav-icons' do

@@ -16,54 +16,57 @@
         Button
         %b
           %i.icon-menu7
-.panel
-  .panel-body
-    .tabbable
-      %ul.nav.nav-tabs.nav-tabs-highlight
-        %li.active
-          %a{"data-toggle" => "tab", :href => "#highlight-tab1"} Active
-        %li
-          %a{"data-toggle" => "tab", :href => "#highlighted-tab2"} Inactive
-      .tab-content
-        #highlighted-tab1.tab-pane.active
-          Highlight top border of the active tab by adding
-          %code .nav-tabs-highlight
-          class.
-        #highlighted-tab2.tab-pane
-          Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin.
-        #highlighted-tab3.tab-pane
-          DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg whatever.
-        #highlighted-tab4.tab-pane
-          Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
 
-    %table#inventoryPartsDT.table.striped.responsive-table#buyerAuctionsDT.bordered
-      %thead
-        %tr
-          %th Event
-          %th Part #
-          %th When?
-          %th Condition
-      %tbody
-        - @notifications.each do |note|
-          %tr.notification
-            -if note.bid != nil && note.bid.tx
-              -if note.bid.tx.seller == current_user
-                %td.srchtbl= link_to note.message, seller_purchase_path(note.bid.tx.id)
-              -elsif note.bid.tx.buyer == current_user
-                %td.srchtbl= link_to note.message, buyer_purchase_path(note.bid.tx.id)
-            -else
-              %td.srchtbl= link_to note.message, note.auction
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-body
+          .tabbable
+            %ul.nav.nav-tabs.nav-tabs-highlight
+              %li.active
+                %a{"data-toggle" => "tab", :href => "#highlight-tab1"} Active
+              %li
+                %a{"data-toggle" => "tab", :href => "#highlighted-tab2"} Inactive
+            .tab-content
+              #highlighted-tab1.tab-pane.active
+                Highlight top border of the active tab by adding
+                %code .nav-tabs-highlight
+                class.
+              #highlighted-tab2.tab-pane
+                Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin.
+              #highlighted-tab3.tab-pane
+                DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg whatever.
+              #highlighted-tab4.tab-pane
+                Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
+          %table#inventoryPartsDT.table.striped.responsive-table#buyerAuctionsDT.bordered
+            %thead
+              %tr
+                %th Event
+                %th Part #
+                %th When?
+                %th Condition
+            %tbody
+              - @notifications.each do |note|
+                %tr.notification
+                  -if note.bid != nil && note.bid.tx
+                    -if note.bid.tx.seller == current_user
+                      %td.srchtbl= link_to note.message, seller_purchase_path(note.bid.tx.id)
+                    -elsif note.bid.tx.buyer == current_user
+                      %td.srchtbl= link_to note.message, buyer_purchase_path(note.bid.tx.id)
+                  -else
+                    %td.srchtbl= link_to note.message, note.auction
+                  %td.srchtbl= note.auction.part_num
+                  -if note.bid
+                    %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
+                    %td.srchtbl= AssetDecorator.rename(note.bid, note.bid.inventory_part.condition)
 
-            %td.srchtbl= note.auction.part_num
-            -if note.bid
-              %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
-              %td.srchtbl= AssetDecorator.rename(note.bid, note.bid.inventory_part.condition)
+                  -else
+                    %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
+                    %td.srchtbl= AssetDecorator.rename(note.auction, note.auction.condition)
 
-            -else
-              %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
-              %td.srchtbl= AssetDecorator.rename(note.auction, note.auction.condition)
 
-            
-            / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
-      
-
+                  / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
