@@ -1,31 +1,25 @@
 .navbar.navbar-inverse
 	.navbar-header
-		%a.navbar-brand{:href => "index.html"}
-			%img{:alt => "", :src => "assets/images/logo_light.png"}/
+		%a.navbar-brand{:href => dashboard_path}
+			= image_tag("/images/bid_aero_logo.png")
 		%ul.nav.navbar-nav.pull-right.visible-xs-block
 			%li
 				%a{"data-target" => "#navbar-mobile", "data-toggle" => "collapse"}
 					%i.icon-tree5
 	#navbar-mobile.navbar-collapse.collapse
-		%ul.nav.navbar-nav
-			%li
-				%a{:href => "#"} ONE
-			%li
-				%a{:href => "#"}
-					%i.icon-calendar3
-					%span.visible-xs-inline-block.position-right Icon link
 		%ul.nav.navbar-nav.navbar-right
 			%li
-				%a{:href => "#"} TWO
+				%a{:href => "#"}
+					%i.icon-display4.position-left.navbar-icon
 			%li
 				%a{:href => "#"}
-					%i.icon-cog3
+					%i.icon-cog3.navbar-icon
 					%span.visible-xs-inline-block.position-right Icon link
 			%li.dropdown.dropdown-user
 				%a.dropdown-toggle{"data-toggle" => "dropdown"}
 					%img{:alt => "", :src => "assets/images/image.png"}/
 					%span Victoria
-					%i.caret
+					%i.caret.navbar-icon
 				%ul.dropdown-menu.dropdown-menu-right
 					%li
 						%a{:href => "#"}

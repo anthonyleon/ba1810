@@ -20,8 +20,8 @@
  * ---------------------------------------------------------------------------- */
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../css/icons/glyphicons/glyphicons-halflings-regular.eot');
-  src: url('../css/icons/glyphicons/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../css/icons/glyphicons/glyphicons-halflings-regular.woff2') format('woff2'), url('../css/icons/glyphicons/glyphicons-halflings-regular.woff') format('woff'), url('../css/icons/glyphicons/glyphicons-halflings-regular.ttf') format('truetype'), url('../css/icons/glyphicons/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../icons/glyphicons/glyphicons-halflings-regular.eot');
+  src: url('../icons/glyphicons/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../icons/glyphicons/glyphicons-halflings-regular.woff2') format('woff2'), url('../icons/glyphicons/glyphicons-halflings-regular.woff') format('woff'), url('../icons/glyphicons/glyphicons-halflings-regular.ttf') format('truetype'), url('../icons/glyphicons/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   font-size: 16px;
@@ -3196,6 +3196,9 @@ li + .dropdown-header.highlight,
   padding-left: 0;
   padding-right: 0;
 }
+.navbar-icon {
+  font-size: 24px !important;
+}
 @media (min-width: 769px) {
   .navbar {
     padding-left: 20px;
@@ -3389,12 +3392,14 @@ li + .dropdown-header.highlight,
   padding-bottom: 88px;
 }
 .navbar-brand > img {
-  margin-top: 2px;
-  height: 16px;
+  height: 61px;
 }
 .navbar-nav {
   margin: 0;
   text-align: left;
+}
+.container.first-nav {
+  align-items: center;
 }
 .navbar-nav > li > a {
   padding-top: 13px;
@@ -3676,6 +3681,9 @@ li + .dropdown-header.highlight,
 @media (min-width: 769px) {
   .navbar-right {
     margin-right: 0;
+    display: flex;
+    align-items: center;
+    height: 79px;
   }
 }
 .navbar-default {
