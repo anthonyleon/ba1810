@@ -9,12 +9,11 @@
 	#navbar-mobile.navbar-collapse.collapse
 		%ul.nav.navbar-nav.navbar-right.top-navbar-right
 			%li
-				%a{:href => "#"}
-					%i.icon-display4.position-left.navbar-icon
+				=link_to dashboard_path do
+					%i.glyphicon.glyphicon-th-large.navbar-icon
 			%li
-				=link_to edit_company_path do
-					%i.icon-cog3.navbar-icon
-					%span.visible-xs-inline-block.position-right Icon link
+				=link_to notifications_index_path do
+					%i.glyphicon.glyphicon-bell.navbar-icon
 			%li.dropdown.dropdown-user
 				%a.dropdown-toggle{"data-toggle" => "dropdown"}
 					%span Victoria
@@ -23,7 +22,7 @@
 					%li
 						%a{:href => "#"}
 							%i.icon-user-plus
-							My profile
+							My/Company profile
 					%li
 						%a{:href => "#"}
 							%i.icon-coins
