@@ -1,10 +1,32 @@
-.row
-  #currentAuctions.col.s12.right-align.active
-    .row
-      .card
-        .card-content
-          .card-title.center-align{style: 'margin-top: 20px;'}
-            %h5.custom-card-title.center Active RFQs
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-arrow-left52.position-left
+        %span.text-semibold Starters
+        \- One Column
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          %a{:href => "index.html"} Home
+        %li
+          %a{:href => "1_col.html"} Starters
+        %li.active One column
+    .heading-elements
+      %a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn{:href => "#"}
+        Button
+        %b
+          %i.icon-menu7
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h5.panel-title
+            Active eRFQ's
+        .panel-body
           %hr/
           %br
           %table.table.striped.responsive-table#buyerAuctionsDT.bordered
@@ -36,4 +58,4 @@
                   %td
                     = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
                       %i.fa.fa-close
-    = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
+        = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
