@@ -3,14 +3,16 @@
     .page-title
       %h4
         %i.icon-arrow-left52.position-left
-        %span.text-semibold Starters
+        %span.text-semibold Sent eRFQ's
         \- One Column
       %ul.breadcrumb.breadcrumb-caret.position-right
         %li
-          %a{:href => "index.html"} Home
+          = link_to dashboard_path do
+            Dashboard
         %li
-          %a{:href => "1_col.html"} Starters
-        %li.active One column
+          Buy
+        %li.active
+          Sent eRFQ's
     .heading-elements
       %a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn{:href => "#"}
         Button
@@ -27,22 +29,44 @@
           %h5.panel-title
             Active eRFQ's
         .panel-body
-          %hr/
-          %br
-          %table.table.striped.responsive-table#buyerAuctionsDT.bordered
-            %thead
-              %tr
-                %th Part Number
-                %th Description
-                %th Conditions
-                %th Start Date
-                %th Days Active
-                %th Bid Count
-                %th Lowest Bid
-                %th
-            %tbody
+          ENTER BRIEF DESCRIPTION ON WHAT IS SHOWN BELOW E-RFQS
+        %hr/
+        #DataTables_Table_0_wrapper.dataTables_wrapper.no-footer
+          .datatable-header
+            #DataTables_Table_0_filter.dataTables_filter
+              %label
+                %span Filter:
+                %input{"aria-controls" => "DataTables_Table_0", :placeholder => "Type to filter...", :type => "search"}/
+            #DataTables_Table_0_length.dataTables_length
+              %label
+                %span Show:
+                %select.select2-hidden-accessible{"aria-controls" => "DataTables_Table_0", "aria-hidden" => "true", :name => "DataTables_Table_0_length", :tabindex => "-1"}
+                  %option{:value => "10"} 10
+                  %option{:value => "25"} 25
+                  %option{:value => "50"} 50
+                  %option{:value => "100"} 100
+                %span.select2.select2-container.select2-container--default{:dir => "ltr", :style => "width: auto;"}
+                  %span.selection
+                    %span.select2-selection.select2-selection--single{"aria-expanded" => "false", "aria-haspopup" => "true", "aria-labelledby" => "select2-DataTables_Table_0_length-x7-container", :role => "combobox", :tabindex => "0"}
+                      %span#select2-DataTables_Table_0_length-x7-container.select2-selection__rendered{:title => "10"} 10
+                      %span.select2-selection__arrow{:role => "presentation"}
+                        %b{:role => "presentation"}
+                  %span.dropdown-wrapper{"aria-hidden" => "true"}
+          .datatable-scroll
+            %table#DataTables_Table_0.table.datatable-basic.dataTable.no-footer{"aria-describedby" => "DataTables_Table_0_info", :role => "grid"}
+              %thead
+                %tr{:role => "row"}
+                  %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
+                  %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Description
+                  %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Conditions
+                  %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Start Date: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Start Date
+                  %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Days Active
+                  %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Bid Count: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Bid Count
+                  %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Lowest Bid
+                  %th.text-center.sorting_disabled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Actions
+              %tbody
               - @owned_auctions.each do |auction|
-                %tr
+                %tr.odd{:role => "row"}
                   %td= link_to auction.part_num, auction
                   %td= auction.auction_part.description
                   -if auction.condition[0].blank?
@@ -53,9 +77,61 @@
                   %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
                   %td= auction.bids.count
                   %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
-                  %td.clearfix
-                    = link_to "edit", edit_auction_path(auction)
-                  %td
-                    = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-                      %i.fa.fa-close
-        = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
+                  %td.text-center
+                    %ul.icons-list
+                      %li.dropdown
+                        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                          %i.icon-menu9
+                        %ul.dropdown-menu.dropdown-menu-right
+                          %li
+                            = link_to edit_auction_path(auction) do
+                              %i.icon-file-pdf
+                              EDIT
+                          %li
+                            = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
+                              %i.fa.fa-close
+                              DELETE
+                          %li
+                            %a{:href => "#"}
+                              %i.icon-file-word
+                              PRINT eRFQ'S
+          .datatable-footer
+            #DataTables_Table_0_info.dataTables_info{"aria-live" => "polite", :role => "status"} Showing 1 to 10 of 15 entries
+            #DataTables_Table_0_paginate.dataTables_paginate.paging_simple_numbers
+              %a#DataTables_Table_0_previous.paginate_button.previous.disabled{"aria-controls" => "DataTables_Table_0", "data-dt-idx" => "0", :tabindex => "0"} ←
+              %span
+                %a.paginate_button.current{"aria-controls" => "DataTables_Table_0", "data-dt-idx" => "1", :tabindex => "0"} 1
+                %a.paginate_button{"aria-controls" => "DataTables_Table_0", "data-dt-idx" => "2", :tabindex => "0"} 2
+              %a#DataTables_Table_0_next.paginate_button.next{"aria-controls" => "DataTables_Table_0", "data-dt-idx" => "3", :tabindex => "0"} →
+
+      -#   #DataTables_Table_0_wrapper.data_Tables_wrapper.no_footer
+      -#     %thead
+      -#       %tr
+      -#         %th Part Number
+      -#         %th Description
+      -#         %th Conditions
+      -#         %th Start Date
+      -#         %th Days Active
+      -#         %th Bid Count
+      -#         %th Lowest Bid
+      -#         %th Actions
+      -#         %th
+      -#     %tbody
+      -#       - @owned_auctions.each do |auction|
+      -#         %tr
+      -#           %td= link_to auction.part_num, auction
+      -#           %td= auction.auction_part.description
+      -#           -if auction.condition[0].blank?
+      -#             %td All Conditions
+      -#           -else
+      -#             %td= AssetDecorator.rename(auction, auction.conditions)
+      -#           %td= auction.created_at.strftime("%m/%d/%Y")
+      -#           %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+      -#           %td= auction.bids.count
+      -#           %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
+      -#           %td.clearfix
+      -#             = link_to "edit", edit_auction_path(auction)
+      -#           %td
+      -#             = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
+      -#               %i.fa.fa-close
+      -# = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
