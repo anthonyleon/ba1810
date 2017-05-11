@@ -1,97 +1,298 @@
-.form-container.container
-  %p#alert= alert
-  = form_for(@auction, html: { class: "inline-form" }) do |f|
-    - if @auction.errors.any?
-      #error_explanation
-        %h2
-          = pluralize(@auction.errors.count, "error")
-          prohibited this auction from being saved:
-        %ul
-          - @auction.errors.full_messages.each do |message|
-            %li= message
-    .field.form-group
-      = f.select(:project_id, @projects.collect {|p| [ p.reference_num, p.id ] }, { selected: @project, include_blank: "Select a Project" })
-    .field.form-group
-      = f.text_field :part_num, class: "form-control", placeholder: "Part number"
-    .field.form-group
-      = f.number_field :quantity, min: 1, class: "form-control", placeholder: "Quantity"
-    .field.form-group
-      = f.text_field :cycles, class: "form-control", placeholder: "Required Cycles Remaining (if applicable)"
-    .field.form-group
-      = f.text_field :target_price, class: "form-control dollars", placeholder: "Target Price (optional)"
-    #auction-checkboxes.col-sm-3
-      #conditions.col-sm-1
-        .auc-checkbox-titles
-          %h5 Conditions
-        .field.form-group.auction-condition-form
-          = f.collection_check_boxes(:condition, Auction.conditions, :to_sym, :humanize)
-      #certifications.col-sm-1
-        .auc-checkbox-titles
-          %h5 Required Certifications
-        .field.form-group.auction-req-forms
-          = f.collection_check_boxes(:req_forms, Auction.forms, :to_s, :humanize)
-      #shipping-address.col-sm-1
-        .auc-checkbox-titles
-          %h5 Shipping Address
-        .shipping-address
-          .address
-            = current_user.name
-          .address
-            = current_user.address
-          .address
-            = "#{current_user.city}, #{current_user.state} #{current_user.zip}"
-          .address
-            = current_user.country
-          .address
-            = @auction.required_date || "No Delivery Date Specified"
-          %span.edit-address
-            change
+%form.form-horizontal{:action => "#"}
+  .panel.panel-flat
+    .panel-heading
+      %h5.panel-title
+        Please complete the form below with your part requirement & desired shipping address.
+        %a.heading-elements-toggle
+          %i.icon-more
+      .heading-elements
+        %ul.icons-list
+          %li
+            %a{"data-action" => "collapse"}
+          %li
+            %a{"data-action" => "reload"}
+          %li
+            %a{"data-action" => "close"}
+    .panel-body
+      .row
+        .col-md-6
+          %fieldset
+            %legend.text-semibold
+              %i.icon-cogs.position-left
+              Part Requirement
+            .form-group
+              %label.col-lg-3.control-label Part number:
+              .col-lg-9
+                %input.form-control{:placeholder => "Ex: 8063-215", :type => "text"}/
+            .form-group
+              %label.col-lg-3.control-label Quantity:
+              .col-lg-9
+                %input.form-control{:placeholder => "1", :type => "number_field_tag"}/
+            .form-group
+              %label.col-lg-3.control-label Min cycles remaining:
+              .col-lg-9
+                %input.form-control{:placeholder => "Ex: 5000CR @ 3C1 (if applicable)", :type => "text"}/
+            .form-group
+              %label.col-lg-3.control-label Target price:
+              .col-lg-9
+                %input.form-control{:placeholder => "Ex: $1280.00", :type => "text"}/
+            .col-md-12
+              .col-md-5.col-md-offset-1
+                %label.text-semibold   Acceptable Conditons
+                .form-group
+                  .checkbox
+                    %label
+                      %input{:checked => "checked", :type => "checkbox"}/
+                      New
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      New Surplus
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      Overhaul
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      Serviceable
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      As Removed
+              .col-md-5.col-md-offset-1
+                %label.text-semibold Required Documentation
+                .form-group
+                  .checkbox
+                    %label
+                      %input{:checked => "checked", :type => "checkbox"}/
+                      8130
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      EASA
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      JAA
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      CAAC
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      SEGVOO
+                  .checkbox
+                    %label
+                      %input{:type => "checkbox"}/
+                      TC
+            -# .form-group
+            -#   %label.col-lg-3.control-label Select your state:
+            -#   .col-lg-9
+            -#     %select.select.select2-hidden-accessible{"aria-hidden" => "true", "data-placeholder" => "Select your state", :tabindex => "-1"}
+            -#       %option
+            -#       %optgroup{:label => "Alaskan/Hawaiian Time Zone"}
+            -#         %option{:value => "AK"} Alaska
+            -#         %option{:value => "HI"} Hawaii
+            -#       %optgroup{:label => "Pacific Time Zone"}
+            -#         %option{:value => "CA"} California
+            -#         %option{:value => "NV"} Nevada
+            -#         %option{:value => "WA"} Washington
+            -#       %optgroup{:label => "Mountain Time Zone"}
+            -#         %option{:value => "AZ"} Arizona
+            -#         %option{:value => "CO"} Colorado
+            -#         %option{:value => "WY"} Wyoming
+            -#       %optgroup{:label => "Central Time Zone"}
+            -#         %option{:value => "AL"} Alabama
+            -#         %option{:value => "AR"} Arkansas
+            -#         %option{:value => "KY"} Kentucky
+            -#       %optgroup{:label => "Eastern Time Zone"}
+            -#         %option{:value => "CT"} Connecticut
+            -#         %option{:value => "DE"} Delaware
+            -#         %option{:value => "WV"} West Virginia
+            -#     %span.select2.select2-container.select2-container--default{:dir => "ltr", :style => "width: 100%;"}
+            -#       %span.selection
+            -#         %span.select2-selection.select2-selection--single{"aria-expanded" => "false", "aria-haspopup" => "true", "aria-labelledby" => "select2-fvqo-container", :role => "combobox", :tabindex => "0"}
+            -#           %span#select2-fvqo-container.select2-selection__rendered
+            -#             %span.select2-selection__placeholder Select your state
+            -#           %span.select2-selection__arrow{:role => "presentation"}
+            -#             %b{:role => "presentation"}
+            -#       %span.dropdown-wrapper{"aria-hidden" => "true"}
+            -# .form-group
+            -#   %label.col-lg-3.control-label Attach screenshot:
+            -#   .col-lg-9
+            -#     .uploader
+            -#       %input.file-styled{:type => "file"}/
+            -#       %span.filename{:style => "user-select: none;"} No file selected
+            -#       %span.action.btn.bg-pink-400.legitRipple{:style => "user-select: none;"} Choose File
+        .col-md-6
+          %fieldset
+            %legend.text-semibold
+              %i.icon-truck.position-left
+              Shipping details
+            .form-group
+              %label.col-lg-3.control-label Company (optional):
+              .col-lg-9
+                %input.form-control{:placeholder => "Ex: AeroTrade Capital", :type => "text"}/
+            .form-group
+              %label.col-lg-3.control-label Address:
+              .col-lg-9
+                %input.form-control{:placeholder => "Shipping Address", :type => "text"}/
+            .form-group
+              %label.col-lg-3.control-label Location:
+              .col-lg-9
+                .row
+                  .col-md-6
+                    .mb-15
+                      %select.select.select2-hidden-accessible{"aria-hidden" => "true", "data-placeholder" => "Select your country", :tabindex => "-1"}
+                        %option
+                        %option{:value => "1"} Canada
+                        %option{:value => "2"} USA
+                        %option{:value => "3"} Australia
+                        %option{:value => "4"} Germany
+                      %span.select2.select2-container.select2-container--default{:dir => "ltr", :style => "width: 100%;"}
+                        %span.selection
+                          %span.select2-selection.select2-selection--single{"aria-expanded" => "false", "aria-haspopup" => "true", "aria-labelledby" => "select2-1yep-container", :role => "combobox", :tabindex => "0"}
+                            %span#select2-1yep-container.select2-selection__rendered{:title => "Germany"} Germany
+                            %span.select2-selection__arrow{:role => "presentation"}
+                              %b{:role => "presentation"}
+                        %span.dropdown-wrapper{"aria-hidden" => "true"}
+                    %input.form-control{:placeholder => "ZIP code", :type => "text"}/
+                  .col-md-6
+                    %input.form-control.mb-15{:placeholder => "State/Province", :type => "text"}/
+                    %input.form-control{:placeholder => "City", :type => "text"}/
+        .col-md-6
+          %fieldset
+            %legend.text-semibold
+              %i.icon-user.position-left
+              Contact Information
+            .form-group
+              %label.col-lg-3.control-label Your name:
+              .col-lg-9
+                .row
+                  .col-md-6
+                    %input.form-control{:placeholder => "First name", :type => "text"}/
+                  .col-md-6
+                    %input.form-control{:placeholder => "Last name", :type => "text"}/
+            .form-group
+              %label.col-lg-3.control-label Email:
+              .col-lg-9
+                %input.form-control{:placeholder => "eugene@kopyov.com", :type => "text"}/
+            .form-group
+              %label.col-lg-3.control-label Phone #:
+              .col-lg-9
+                %input.form-control{:placeholder => "+99-99-9999-9999", :type => "text"}/
+      .row
+        .col-md-7.col-md-offset-2
+          %fieldset
+            %legend.text-semibold
+              %i.icon-bubble-lines3.position-left
+              Optional Message:
+            .form-group
+              %label.col-lg-3.control-label Additional message:
+              .col-lg-9
+                %textarea.form-control{:cols => "5", :placeholder => "Enter your message here", :rows => "5"}
+      .text-right
+        %button.btn.btn-primary.legitRipple{:type => "submit"}
+          Submit eRFQ
+          %i.icon-arrow-right14.position-right
 
 
-    %br
-    .container.edit-shipping
-      %div{style: "text-align: center;"}
-        %h4 SHIP TO
-      .auction-destination
-        .field.form-group
-          = f.text_field :destination_company, value: current_user.name, class: "form-control", placeholder: "Destination Company"
-        .field.form-group
-          = f.text_field :destination_address, value: current_user.address, class: "form-control", placeholder: "Destination Street Address"
-        .field.form-group
-          = f.text_field :destination_city, value: current_user.city, class: "form-control", placeholder: "Destination City"
-        .field.form-group
-          = f.text_field :destination_state, value: current_user.state, class: "form-control", placeholder: "Destination State/Region"
-        .field.form-group
-          = f.text_field :destination_zip, value: current_user.zip, class: "form-control", placeholder: "Destination Zip Code"
-        .field.form-group
-          = f.text_field :destination_country, value: current_user.country, class: "form-control", placeholder: "Destination Country"
-        .field.form-group
-        = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
-      %br
-    -if current_user.resale_cert?
-      %div I am purchasing this part with the intention to resell and will provide a resale certificate.
-      #form-group.radio_button
-        = f.radio_button :resale_status, "Yes"
-        = f.label :resale_status_yes, "Yes"
-      #form-group.radio_button
-        = f.radio_button :resale_status, "No"
-        = f.label :resale_status_no, "No"
-      %br/
-    .container#add-new-supplier
-      
-    .container#invitees
-    %br
-      %a.btn.custom-btn#addNewSupplier Add your preferred suppliers
-      %br
-    .container.col-md-1.center-align.auction-create-btn
-      .btn.custom-btn
-        %i.fa.fa-check-square-o
-        = f.submit
-
-#new-supplier-partial{:style => "display: none;"}
-  = render partial: "add_supplier"
-
-  :javascript
-    $('.datepicker').pickadate({
-      selectMonths: true
-    });
+-# .form-container.container
+-#   %p#alert= alert
+-#   = form_for(@auction, html: { class: "inline-form" }) do |f|
+-#     - if @auction.errors.any?
+-#       #error_explanation
+-#         %h2
+-#           = pluralize(@auction.errors.count, "error")
+-#           prohibited this auction from being saved:
+-#         %ul
+-#           - @auction.errors.full_messages.each do |message|
+-#             %li= message
+-#     .field.form-group
+-#       = f.select(:project_id, @projects.collect {|p| [ p.reference_num, p.id ] }, { selected: @project, include_blank: "Select a Project" })
+-#     .field.form-group
+-#       = f.text_field :part_num, class: "form-control", placeholder: "Part number"
+-#     .field.form-group
+-#       = f.number_field :quantity, min: 1, class: "form-control", placeholder: "Quantity"
+-#     .field.form-group
+-#       = f.text_field :cycles, class: "form-control", placeholder: "Required Cycles Remaining (if applicable)"
+-#     .field.form-group
+-#       = f.text_field :target_price, class: "form-control dollars", placeholder: "Target Price (optional)"
+-#     #auction-checkboxes.col-sm-3
+-#       #conditions.col-sm-1
+-#         .auc-checkbox-titles
+-#           %h5 Conditions
+-#         .field.form-group.auction-condition-form
+-#           = f.collection_check_boxes(:condition, Auction.conditions, :to_sym, :humanize)
+-#       #certifications.col-sm-1
+-#         .auc-checkbox-titles
+-#           %h5 Required Certifications
+-#         .field.form-group.auction-req-forms
+-#           = f.collection_check_boxes(:req_forms, Auction.forms, :to_s, :humanize)
+-#       #shipping-address.col-sm-1
+-#         .auc-checkbox-titles
+-#           %h5 Shipping Address
+-#         .shipping-address
+-#           .address
+-#             = current_user.name
+-#           .address
+-#             = current_user.address
+-#           .address
+-#             = "#{current_user.city}, #{current_user.state} #{current_user.zip}"
+-#           .address
+-#             = current_user.country
+-#           .address
+-#             = @auction.required_date || "No Delivery Date Specified"
+-#           %span.edit-address
+-#             change
+-#
+-#
+-#     %br
+-#     .container.edit-shipping
+-#       %div{style: "text-align: center;"}
+-#         %h4 SHIP TO
+-#       .auction-destination
+-#         .field.form-group
+-#           = f.text_field :destination_company, value: current_user.name, class: "form-control", placeholder: "Destination Company"
+-#         .field.form-group
+-#           = f.text_field :destination_address, value: current_user.address, class: "form-control", placeholder: "Destination Street Address"
+-#         .field.form-group
+-#           = f.text_field :destination_city, value: current_user.city, class: "form-control", placeholder: "Destination City"
+-#         .field.form-group
+-#           = f.text_field :destination_state, value: current_user.state, class: "form-control", placeholder: "Destination State/Region"
+-#         .field.form-group
+-#           = f.text_field :destination_zip, value: current_user.zip, class: "form-control", placeholder: "Destination Zip Code"
+-#         .field.form-group
+-#           = f.text_field :destination_country, value: current_user.country, class: "form-control", placeholder: "Destination Country"
+-#         .field.form-group
+-#         = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
+-#       %br
+-#     -if current_user.resale_cert?
+-#       %div I am purchasing this part with the intention to resell and will provide a resale certificate.
+-#       #form-group.radio_button
+-#         = f.radio_button :resale_status, "Yes"
+-#         = f.label :resale_status_yes, "Yes"
+-#       #form-group.radio_button
+-#         = f.radio_button :resale_status, "No"
+-#         = f.label :resale_status_no, "No"
+-#       %br/
+-#     .container#add-new-supplier
+-#
+-#     .container#invitees
+-#     %br
+-#       %a.btn.custom-btn#addNewSupplier Add your preferred suppliers
+-#       %br
+-#     .container.col-md-1.center-align.auction-create-btn
+-#       .btn.custom-btn
+-#         %i.fa.fa-check-square-o
+-#         = f.submit
+-#
+-# #new-supplier-partial{:style => "display: none;"}
+-#   = render partial: "add_supplier"
+-#
+-#   :javascript
+-#     $('.datepicker').pickadate({
+-#       selectMonths: true
+-#     });
