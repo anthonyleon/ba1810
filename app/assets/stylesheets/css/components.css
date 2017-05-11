@@ -17296,7 +17296,7 @@ thead .htCollapseButton:after {
 }
 .dataTables_filter input {
   outline: 0;
-  width: 200px;
+  width: 200px !important;
   height: 38px;
   padding: 8px 0;
   padding-right: 24px;
