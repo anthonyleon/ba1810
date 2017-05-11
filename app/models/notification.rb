@@ -4,6 +4,8 @@ class Notification < ActiveRecord::Base
 	belongs_to :auction
   belongs_to :tx, class_name: "Transaction"
 
+  enum category: [:sell, :buy, :action_required]
+
 	def self.any_unread?(user)
 		notifications = user.notifications.map do |notify|
     	notify.read?

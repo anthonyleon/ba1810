@@ -8,6 +8,7 @@
 //= require maskmoney
 //= require bootstrap.min
 //= require_directory .
+//= require dataTable/dataTable_basic.js
 //= stub landing
 
 
@@ -210,19 +211,19 @@ $('#engineDTDashBoard').dataTable({
     ]
   });
 
-  $('#buyerAuctionsDT').dataTable({
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": false }
-    ],
-    "columnDefs": [{ "width": "80px", "targets": 7 }]
-  });
+  // $('#buyerAuctionsDT').dataTable({
+  //   "aoColumns": [
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": true },
+  //     { "bSortable": false }
+  //   ],
+  //   "columnDefs": [{ "width": "80px", "targets": 8 }]
+  // });
 
 
 
