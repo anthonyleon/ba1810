@@ -14,10 +14,11 @@
         %li.active
           Sent eRFQ's
     .heading-elements
-      %a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn{:href => "#"}
-        Button
-        %b
-          %i.icon-menu7
+      = link_to new_auction_path do
+        %a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn{:href => "/auctions/new"}
+          Create eRFQ
+          %b
+            %i.icon-menu7
   / Page container
 .page-container{:style => "min-height:159px"}
   / Page content
@@ -28,9 +29,26 @@
         .panel-heading
           %h5.panel-title
             Active eRFQ's
-        .panel-body
-          ENTER BRIEF DESCRIPTION ON WHAT IS SHOWN BELOW E-RFQS
-        %hr/
+        .col-md-5
+          .panel-body
+            Your current requests for quotation are shown below. Use Bid Aero's escrow service on any transaction and protect your money from fraud. If you have payment covered, record purchase.
+            Bid Aero will track and model monthly spending and provide market data on parts being sourced. For pending purchases or purchase history please check the links under Buy.
+        .col-md-2
+        .col-md-2
+          .panel.panel-warning
+            .panel-heading
+              .panel-title
+                Pending Purchases
+            .panel-body
+              Pending Purchases! You have #of pending eRFQ's to record.
+        .col-md-2
+          .panel.panel-success
+            .panel-heading
+              .panel-title
+                Purchases
+            .panel-body
+              Purchases History, You have purchased #of parts in the past 30 days
+        .col-md-2
         #DataTables_Table_0_wrapper.dataTables_wrapper.no-footer
           .datatable-header
             #DataTables_Table_0_filter.dataTables_filter
@@ -85,15 +103,15 @@
                         %ul.dropdown-menu.dropdown-menu-right
                           %li
                             = link_to edit_auction_path(auction) do
-                              %i.icon-file-pdf
+                              %i.icon-pencil5.text-warning
                               EDIT
                           %li
                             = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-                              %i.fa.fa-close
+                              %i.icon-trash.text-danger
                               DELETE
                           %li
                             %a{:href => "#"}
-                              %i.icon-file-word
+                              %i.icon-printer4.text-primary
                               PRINT eRFQ'S
           .datatable-footer
             #DataTables_Table_0_info.dataTables_info{"aria-live" => "polite", :role => "status"} Showing 1 to 10 of 15 entries
