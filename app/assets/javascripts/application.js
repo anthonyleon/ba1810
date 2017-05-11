@@ -225,7 +225,7 @@ $('#engineDTDashBoard').dataTable({
   });
 
 
-  
+
   $('#mybidsDT').dataTable({
     "aoColumns": [
       { "bSortable": true },
@@ -238,7 +238,7 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": false}
     ]
   });
-
+  
   $('#currentOpportunitiesDT').dataTable({
     // "processing": true,
     // "serverSide": true,
