@@ -34,6 +34,7 @@ gem 'maskmoney-rails'
 gem 'httparty'
 gem 'bootstrap-sass'
 
+
 gem 'simple_form', '~> 3.2'
 # Utilities
 gem 'faker'
