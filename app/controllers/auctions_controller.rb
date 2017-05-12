@@ -13,9 +13,8 @@ class AuctionsController < ApplicationController
 
     
     @invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
-    binding.pry
     @auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids = 
-      @auction.bids.joins(:company).where("companies.id != ?", @auction_invitees.pluck(:id))
+      @auction.bids.joins(:company).where.not(companies: {id: @auction_invitees.pluck(:id)})
 
   end
 
