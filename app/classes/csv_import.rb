@@ -4,7 +4,7 @@ require 'csv'
 class CsvImport
 
 	def self.jsonize_csv(file)
-		json = CSV.read(file.path).to_json
+		json = CSV.read(file.path, :encoding => 'ISO-8859-1').to_json
 		nj = JSON.parse(json)
 	end
 
@@ -15,7 +15,7 @@ class CsvImport
 			data.lazy.each_slice(75) do |lines|
 				Part.transaction do 
 					parts_array = lines.map do |line|
-						line.each { |l| l.scrub! }
+						# line.each { |l| l.scrub! }
 						Hash[headers.zip(line)]
 					end
 
