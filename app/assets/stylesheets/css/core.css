@@ -726,11 +726,11 @@ dt {
   font-weight: 500;
 }
 dd + dt {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 @media (min-width: 769px) {
   .dl-horizontal dt + dd {
-    margin-top: 20px;
+    margin-top: 10px;
   }
   .dl-horizontal dt:first-child + dd {
     margin-top: 0;

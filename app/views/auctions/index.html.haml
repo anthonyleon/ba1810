@@ -23,9 +23,27 @@
         .panel-heading
           %h5.panel-title
             Active eRFQ's
-        .panel-body
-          ENTER BRIEF DESCRIPTION ON WHAT IS SHOWN BELOW E-RFQS
-        %hr/
+        .col-md-5
+          .panel-body
+            Your current requests for quotation are shown below. Use Bid Aero's escrow service on any transaction and protect your money from fraud. If you have payment covered, record purchase.
+            Bid Aero will track and model monthly spending and provide market data on parts being sourced. For pending purchases or purchase history please check the links under Buy.
+        .col-md-2
+        .col-md-2
+          .panel.panel-warning
+            .panel-heading
+              .panel-title
+                Pending Purchases
+            .panel-body
+              Pending Purchases! You have #of pending eRFQ's to record.
+        .col-md-2
+          .panel.panel-success
+            .panel-heading
+              .panel-title
+                Purchases
+            .panel-body
+              Purchases History, You have purchased #of parts in the past 30 days
+        .col-md-2
+
         .datatable-scroll
           %table#buyerAuctionsDT.table.datatable-basic.dataTable.no-footer
             %thead
@@ -59,15 +77,15 @@
                         %ul.dropdown-menu.dropdown-menu-right
                           %li
                             = link_to edit_auction_path(auction) do
-                              %i.icon-file-pdf
+                              %i.icon-pencil5.text-warning
                               EDIT
                           %li
                             = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-                              %i.fa.fa-close
+                              %i.icon-trash.text-danger
                               DELETE
                           %li
                             %a{:href => "#"}
-                              %i.icon-file-word
+                              %i.icon-printer4.text-primary
                               PRINT eRFQ'S
 
 
