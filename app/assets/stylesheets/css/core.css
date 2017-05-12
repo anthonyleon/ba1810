@@ -2484,6 +2484,15 @@ li + .dropdown-header.highlight,
   border-color: transparent;
   color: #333333;
 }
+
+.nav .open > a.heading-btn,
+.nav .open > a.heading-btn:hover,
+.nav .open > a.heading-btn:focus {
+  background-color: #0288D1;
+  border-color: transparent;
+  color: white;
+}
+
 .nav.nav-lg > li > a {
   padding: 11px 20px;
 }
