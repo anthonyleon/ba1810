@@ -11,10 +11,10 @@ class AuctionsController < ApplicationController
     ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
     @auction_invitees = Company.find_invitees(@auction.invitees)
 
-    
+
     @invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
-    @auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids = 
-      @auction.bids.joins(:company).where("companies.id != ?", @auction_invitees.pluck(:id))
+    @auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids =
+      @auction.bids.joins(:company).where.not(companies: {id: @auction_invitees.pluck(:id)})
   end
 
   def auction_invites
@@ -45,7 +45,7 @@ class AuctionsController < ApplicationController
       @auction.req_forms.reject! { |c| c.empty? }
       Auction.part_match_or_not_actions(@auction, part_match)
 
-      
+
       Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
       format.html { redirect_to @auction, notice: 'RFQ was successfully created.' }
       format.json { render :show, status: :created, location: @auction }
@@ -119,9 +119,9 @@ class AuctionsController < ApplicationController
     end
 
     def auction_params
-      params.require(:auction).permit(:company_id, :project_id, :part_num, :target_price, :cycles, :quantity, :destination_company, 
-                                      :destination_address, :destination_zip, :destination_city, :destination_state, 
-                                      :destination_country, :required_date, :resale_status, :resale_yes, :resale_no, 
+      params.require(:auction).permit(:company_id, :project_id, :part_num, :target_price, :cycles, :quantity, :destination_company,
+                                      :destination_address, :destination_zip, :destination_city, :destination_state,
+                                      :destination_country, :required_date, :resale_status, :resale_yes, :resale_no,
                                       condition: [], req_forms: [], invitees: [])
     end
 

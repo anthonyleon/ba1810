@@ -132,6 +132,67 @@
                 %li
                   %a{"data-action" => "collapse"}
         .panel-body
+          - if @auction.bids.empty? && @auction.invitees.empty?
+            .nobid.center-align
+            %p.flow-text There are no bids on this auction yet.
+            #bids-container
+          - if !@auction.invitees.empty?
+            %h5.text-light
+              Invited Suppliers
+            %table#invited-suppliers.table.responsive-table.bordered
+              %thead
+                %tr
+                  -if current_user == @auction.company
+                    %th Co
+                  %th Mfg
+                  %th SN
+                  %th Condition
+                  %th Price
+                  %th Est. Shipping
+                  %th Docs
+                  %th Tag Date
+                  %th Qty
+                  %th
+              %tbody
+                - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
+                  = render bid
+                - @auction_invitees.each do |co|
+                  -if !@auction.bidders.include?(co)
+                    %tr
+                      -if current_user == @auction.company
+                        %td
+                          =co.name
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td --
+                      %td
+          - if !@bid_aero_suppliers_bids.empty?
+            %br
+            %h5.text-light
+              Bid Aero Suppliers
+            %table#bid-aero-suppliers.table.responsive-table.bordered
+              %thead
+                %tr
+                  -if current_user == @auction.company
+                    %th Co
+                  %th Mfg
+                  %th SN
+                  %th Condition
+                  %th Price
+                  %th Est. Shipping
+                  %th Docs
+                  %th Tag Date
+                  %th Qty
+                  %th
+              %tbody
+                - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
+                  %tr#cursor-row
+                    = render bid
 
   -# .col-lg-1
   -#   - if @auction.company == current_user
@@ -142,74 +203,3 @@
   -#           / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
   -#           = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color plus-button") do
   -#             %i.fa.fa-lg.fa-plus
-
-
-.col-lg-2.auction-title
-.col-lg-1
-
-.col-lg-1
-  - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
-    .col-1
-%hr/
-- if @auction.bids.empty? && @auction.invitees.empty?
-  .nobid.center-align
-  %p.flow-text There are no bids on this auction yet.
-  #bids-container
-- if !@auction.invitees.empty?
-  %h4.custom-card-title
-    Invited Suppliers
-  %table#invited-suppliers.table.responsive-table.bordered
-    %thead
-      %tr
-        -if current_user == @auction.company
-          %th Co
-        %th Mfg
-        %th SN
-        %th Condition
-        %th Price
-        %th Est. Shipping
-        %th Docs
-        %th Tag Date
-        %th Qty
-        %th
-    %tbody
-      - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
-        %tr#cursor-row
-          = render bid
-      - @auction_invitees.each do |co|
-        -if !@auction.bidders.include?(co)
-          %tr
-            -if current_user == @auction.company
-              %td
-                =co.name
-            %td --
-            %td --
-            %td --
-            %td --
-            %td --
-            %td --
-            %td --
-            %td --
-            %td
-- if !@bid_aero_suppliers_bids.empty?
-  %br
-  %h4.custom-card-title
-    Bid Aero Suppliers
-  %table#bid-aero-suppliers.table.responsive-table.bordered
-    %thead
-      %tr
-        -if current_user == @auction.company
-          %th Co
-        %th Mfg
-        %th SN
-        %th Condition
-        %th Price
-        %th Est. Shipping
-        %th Docs
-        %th Tag Date
-        %th Qty
-        %th
-    %tbody
-      - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
-        %tr#cursor-row
-          = render bid
