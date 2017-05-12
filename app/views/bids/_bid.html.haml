@@ -12,10 +12,12 @@
       = link_to 'Upload Docs', bid
     -elsif !bid.documents.blank?
       = link_to bid do
-        %i.fa.fa-file-text-o{style: "font-size: 24px;"}
+        %i.icon-file-download2{style: "font-size: 24px;"}
+    -elsif bid.documents.blank?
+      %i.icon-file-minus2{style: "font-size: 24px;"}
 -elsif bid.company != current_user
   %td
-    =""
+    %i.icon-file-download2.disabled{style: "font-size: 24px;"}
 %td= bid.tag_date || "N/A"
 %td= bid.quantity
 
@@ -24,25 +26,23 @@
   %td
     = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
       %i.fa.fa-close{style: "font-size: 18px;"}
-- if @auction.company == current_user 
+- if @auction.company == current_user
   - if !bid.tx
-    %td.btn.custom-btn.payment-btn.tooltipped.pull-left{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
-      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "real-btn"
-    %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
-      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "real-btn"
-    %td.recorded.center-align.responsive-remove-btn
-      .btn.custom-btn.remove-btn
-        =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "real-btn"
+    %td.payment-btn{style: "width: 200px;", "data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
+      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "button btn btn-primary tooltipped pull-left"
+      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn btn-danger btn-rounded tooltipped pull-right record-btn payment-btn"
+    %td.recorded.responsive-remove-btn
+      .remove-btn
+        =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"
   -elsif bid.tx
-    %td.btn.custom-btn.payment-btn.tooltipped.pull-left.purchase-btns{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
-      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "real-btn"
-    %td.btn.custom-btn.record-btn.payment-btn.tooltipped.pull-right.purchase-btns{"data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Record Your Purchase and Keep Track of Your Financial Data (in 'Purchase History')"}
-      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "real-btn"
-    %td.recorded.center-align
-      .btn.custom-btn.remove-btn.std-remove-btn
-        =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "real-btn"
-    
-    
+    %td.payment-btn.purchase-btns{style: "width: 200px;","data-delay" => "50", "data-position" => "bottom", "data-tooltip" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind"}
+      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "button btn btn-primary tooltipped pull-left"
+      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn btn-danger btn-rounded tooltipped pull-right record-btn payment-btn"
+    %td.recorded
+      .remove-btn.std-remove-btn
+        =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"
+
+
 
 -else
   %td

@@ -8,22 +8,21 @@ $(document).on('ready page:load', function() {
 	$('.purchase-btns').hide();
 
 	$('.remove-btn').click( function(){
-		
+
 		var row = event.target.parentElement.parentElement.parentElement.parentElement;
   		var num_columns = row.cells.length;
   		// row.cells
-  		console.log(row);
+  		console.log('TWO');
   		row.cells[num_columns - 3].style.display = '';
   		row.cells[num_columns - 2].style.display = '';
   		row.cells[num_columns - 1].style.display = 'none';
 	});
-	
+
 	$('.record-btn').click( function(){
+			console.log('THREE');
   		var row = event.target.parentElement.parentElement.parentElement;
   		var num_columns = row.cells.length;
   		row.cells
-  		console.log(row.cells);
-  		row.cells[num_columns - 3].style.display = 'none';
   		row.cells[num_columns - 2].style.display = 'none';
   		row.cells[num_columns - 1].style.display = "";
   		// row.deleteCell(num_columns-1);
