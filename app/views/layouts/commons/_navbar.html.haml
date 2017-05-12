@@ -5,9 +5,20 @@
 		%ul.nav.navbar-nav.pull-right.visible-xs-block
 			%li
 				%a{"data-target" => "#navbar-mobile", "data-toggle" => "collapse"}
-					%i.icon-tree5
+					%i.icon-tree5				
 	#navbar-mobile.navbar-collapse.collapse
 		%ul.nav.navbar-nav.navbar-right.top-navbar-right
+			%li
+				.heading-elements
+					%a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn.dropdown-toggle{"data-toggle" => "dropdown"}
+						New
+						%b
+							%i.caret.navbar-icon
+					%ul.dropdown-menu.dropdown-menu-right
+						%li
+							= link_to "eRFQ", new_auction_path
+						%li
+						%li
 			%li
 				=link_to dashboard_path do
 					%i.glyphicon.glyphicon-th-large.navbar-icon
