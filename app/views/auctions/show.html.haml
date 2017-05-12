@@ -143,15 +143,15 @@
               %thead
                 %tr
                   -if current_user == @auction.company
-                    %th Co
-                  %th Mfg
-                  %th SN
+                    %th Company
+                  %th MFG
+                  %th Serial Number
                   %th Condition
                   %th Price
                   %th Est. Shipping
                   %th Docs
                   %th Tag Date
-                  %th Qty
+                  %th QTY
                   %th
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
@@ -179,15 +179,15 @@
               %thead
                 %tr
                   -if current_user == @auction.company
-                    %th Co
-                  %th Mfg
-                  %th SN
+                    %th Company
+                  %th MFG
+                  %th Serial Number
                   %th Condition
                   %th Price
                   %th Est. Shipping
                   %th Docs
                   %th Tag Date
-                  %th Qty
+                  %th QTY
                   %th
               %tbody
                 - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
