@@ -155,7 +155,8 @@
                   %th
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
-                  = render bid
+                  %tr
+                    = render bid
                 - @auction_invitees.each do |co|
                   -if !@auction.bidders.include?(co)
                     %tr
