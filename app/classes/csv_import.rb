@@ -4,7 +4,7 @@ require 'csv'
 class CsvImport
 
 	def self.jsonize_csv(file)
-		json = CSV.read(file.path).to_json # needs to be json = CSV.read(file.path, :encoding => 'ISO-8859-1').to_json
+		json = CSV.read(file.path, :quote_char => "\'").to_json # needs to be json = CSV.read(file.path, :encoding => 'ISO-8859-1').to_json
 		nj = JSON.parse(json)				## but this is exceeding the redis memory allocation
 	end
 
