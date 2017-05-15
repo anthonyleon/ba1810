@@ -38,7 +38,7 @@
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Condition: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Condition
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Price Paid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Price Paid
                 %th.text-center.sorting_disabled{"aria-controls" => "DataTables_Table_0", "aria-label" => "PO: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} PO
-                %th.text-center.sorting_disabled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Invoice
+                %th.text-center.sorting_disabled{"aria-controls" => "DataTables_Table_0", "aria-label"=> "Invoice: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Invoice
             %tbody
               - @purchases.each do |transaction|
                 %tr.odd{:role => "row"}
