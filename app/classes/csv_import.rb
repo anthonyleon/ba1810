@@ -38,8 +38,10 @@ class CsvImport
 							inventory << part			
 						end
 					end
-					
-					InventoryPart.import inventory
+
+					inventory.each_slice(100) do |i|
+						InventoryPart.import i
+					end
 
 				end
 			end		
