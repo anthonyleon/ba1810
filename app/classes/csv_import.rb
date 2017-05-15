@@ -11,7 +11,7 @@ class CsvImport
 	def self.import_inventory(data, company)
 		time = Benchmark.measure do
 			headers = data.lazy.first
-			data.lazy.first.delete(headers)
+			data.delete(headers)
 			data.lazy.each_slice(75) do |lines|
 				Part.transaction do 
 					parts_array = lines.map do |line|
@@ -19,10 +19,12 @@ class CsvImport
 						Hash[headers.zip(line)]
 					end
 
+
 					inventory = []
 					parts_array.map do |row|
-						part_match = Part.find_by(part_num: row['part_num'])
-						new_part = build_new_part(row['part_num'], (row['description'] || "")) unless part_match
+						binding.pry if row[headers[0]] == nil
+						part_match = Part.find_by(part_num: row[headers[0]])
+						new_part = build_new_part(row[headers[0]], (row['description'] || "")) unless part_match
 						quantity = row['quantity'].to_i
 						row.delete('quantity')
 						row["condition"] = match_condition(row)
@@ -59,7 +61,7 @@ class CsvImport
 						rows = CSV.parse(lines.join, write_headers: true, headers: headers)
 						parts_db = rows.map do |_row|
 							Part.new(
-								part_num: _row['part_num'],
+								part_num: _row[headers[0]],
 								description: _row['description'],
 								manufacturer: _row['manufacturer'],
 								model: _row['model'],
@@ -140,6 +142,7 @@ class CsvImport
 
 	#Match part condition with enum
 	def self.match_condition(part)
+
 		case part["condition"].squish.upcase
 		when "OH"
 			return :overhaul
@@ -181,6 +184,7 @@ class CsvImport
 	end
 
 	def self.build_new_part(part_number, desc)
+
 		Part.create(part_num: part_number, description: desc, flagged: true, manufacturer: "")
 	end
 
