@@ -1,7 +1,7 @@
 -if current_user == @auction.company
-  %td= bid.company.name
+  %td= bid.company.name.upcase
 %td= bid.inventory_part.manufacturer || "--"
-%td= bid.inventory_part.serial_num || "--"
+%td= bid.inventory_part.serial_num.upcase || "--"
 
 %td= bid.inventory_part.condition_tag
 %td= number_to_currency bid.part_price

@@ -161,9 +161,9 @@
                     %tr
                       -if current_user == @auction.company
                         %td
-                          =co.name
+                          =co.name.upcase
                       %td --
-                      %td --
+                      %td.upcase --
                       %td --
                       %td --
                       %td --
