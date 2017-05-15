@@ -23,25 +23,25 @@
         .panel-heading
           %h5.panel-title
             Active eRFQ's
-        .col-md-5
+        .col-md-6
           .panel-body
             Your current requests for quotation are shown below. Use Bid Aero's escrow service on any transaction and protect your money from fraud. If you have payment covered, record purchase.
             Bid Aero will track and model monthly spending and provide market data on parts being sourced. For pending purchases or purchase history please check the links under Buy.
-        .col-md-2
+        .col-md-1
         .col-md-2
           .panel.panel-warning
             .panel-heading
               .panel-title
                 Pending Purchases
             .panel-body
-              Pending Purchases! You have #of pending eRFQ's to record.
+              Pending Purchases! You have #{link_to @pending_purchases_count, pending_purchases_path} of pending eRFQ's to record.
         .col-md-2
           .panel.panel-success
             .panel-heading
               .panel-title
                 Purchases
             .panel-body
-              Purchases History, You have purchased #of parts in the past 30 days
+              Purchase History, You have made #{link_to @purchases_count, purchases_path} purchase in the past 30 days
         .col-md-1
 
         .datatable-scroll
@@ -83,10 +83,10 @@
                             = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
                               %i.icon-trash.text-danger
                               DELETE
-                          %li
-                            %a{:href => "#"}
-                              %i.icon-printer4.text-primary
-                              PRINT eRFQ'S
+                          -# %li
+                          -#   %a{:href => "#"}
+                          -#     %i.icon-printer4.text-primary
+                          -#     PRINT eRFQ'S
 
 
       -#   #DataTables_Table_0_wrapper.data_Tables_wrapper.no_footer

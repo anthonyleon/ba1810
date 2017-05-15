@@ -22,7 +22,7 @@ class CompaniesController < ApplicationController
   def edit
     @url = ArmorPaymentsApi.select_payout_preference(current_user)
     @company = current_user
-    @company_doc = CompanyDoc.new 
+    @company_doc = CompanyDoc.new
     @company_docs = current_user.company_docs
   end
 
@@ -92,7 +92,7 @@ class CompaniesController < ApplicationController
   end
 
   def admin_inventory_upload
-    redirect_to dashboard_path unless current_user.system_admin? 
+    redirect_to dashboard_path unless current_user.system_admin?
   end
 
   private
@@ -102,8 +102,8 @@ class CompaniesController < ApplicationController
     end
 
     def company_params
-      params.require(:company).permit(:name, :armor_account_id, :armor_user_id, :email, :ein, :password, 
-        :password_confirmation, :representative, :phone, :address, :city, :state, :zip, :country, 
+      params.require(:company).permit(:name, :armor_account_id, :armor_user_id, :email, :ein, :password,
+        :password_confirmation, :representative, :phone, :address, :city, :state, :zip, :country,
         :inc_country, :inc_state, :business_type, :url)
     end
 end

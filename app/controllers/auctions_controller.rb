@@ -4,6 +4,8 @@ class AuctionsController < ApplicationController
 
   def index
     @owned_auctions = current_user.auctions.where(active: true).where(project: nil)
+    @pending_purchases_count = Transaction.where(buyer_id: current_user.id, complete: false).count
+    @purchases_count = Transaction.where(buyer_id: current_user.id, complete: true).count
   end
 
   def show
@@ -13,7 +15,7 @@ class AuctionsController < ApplicationController
 
 
     @invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
-    @auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids = 
+    @auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids =
       @auction.bids.joins(:company).where.not(companies: {id: @auction_invitees.pluck(:id)})
   end
 
