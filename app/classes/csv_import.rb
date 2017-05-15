@@ -22,7 +22,6 @@ class CsvImport
 
 					inventory = []
 					parts_array.map do |row|
-						binding.pry if row[headers[0]] == nil
 						part_match = Part.find_by(part_num: row[headers[0]])
 						new_part = build_new_part(row[headers[0]], (row['description'] || "")) unless part_match
 						quantity = row['quantity'].to_i
@@ -30,7 +29,7 @@ class CsvImport
 						row["condition"] = match_condition(row)
 						quantity.times do 
 							part = InventoryPart.new(
-								part_num: row["part_num"], 
+								part_num: row[headers[0]], 
 								description: row["description"], 
 								condition: row["condition"],
 								serial_num: row["serial_num"],
@@ -43,6 +42,7 @@ class CsvImport
 
 					inventory.each_slice(100) do |i|
 						InventoryPart.import i
+
 					end
 
 				end
