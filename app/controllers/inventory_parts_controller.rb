@@ -46,6 +46,10 @@ class InventoryPartsController < ApplicationController
   def import
     json_data = CsvImport.jsonize_csv(params[:file])
     @import = InventoryUploadWorker.perform_async(json_data, (params[:inventory_company_id] || params[:company_id].to_i))
+    ## for testing. So I don't have to do it on sidekiq
+    # CsvImport.import_inventory(json_data, Company.find(23))
+
+
 
   # run match check 
   #### PUT THIS ON A WORKER WHEN YOU START ALLOWING USERS TO UPLOAD THEIR OWN INVENTORY
