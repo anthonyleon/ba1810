@@ -12,8 +12,9 @@ class CsvImport
 		time = Benchmark.measure do
 			headers = data.lazy.first
 			data.delete(headers)
-			data.lazy.each_slice(75) do |lines|
+			data.lazy.each_slice(5) do |lines|
 				Part.transaction do 
+					quantity_count = 0
 					parts_array = lines.map do |line|
 						# line.each { |l| l.scrub! }
 						Hash[headers.zip(line)]
@@ -23,11 +24,13 @@ class CsvImport
 					inventory = []
 					parts_array.map do |row|
 						part_match = Part.find_by(part_num: row[headers[0]])
-						new_part = build_new_part(row[headers[0]], (row['description'] || "")) unless part_match
+						part_match ||= build_new_part(row[headers[0]], (row['description'] || ""))
 						quantity = row['quantity'].to_i
+						
 						row.delete('quantity')
 						row["condition"] = match_condition(row)
 						quantity.times do 
+							quantity_count += 1
 							part = InventoryPart.new(
 								part_num: row[headers[0]], 
 								description: row["description"], 
@@ -36,14 +39,16 @@ class CsvImport
 								company: company,
 								part_id: part_match ? part_match.id : new_part.id
 								)
-							inventory << part			
+							inventory << part	
+
 						end
 					end
-
+						
+					arr = []
 					inventory.each_slice(100) do |i|
 						InventoryPart.import i
-
 					end
+					
 
 				end
 			end		
