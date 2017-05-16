@@ -1,27 +1,64 @@
-.row
-  #myBids.col.s12
-    .row
-      .card
-        .card-content
-          .card-title.center-align{style: 'margin-top: 20px;'}
-            %h5.custom-card-title.center Quoted RFQs
-          %hr/
-          %br
-          %table.table.striped.responsive-table#mybidsDT.bordered
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-stack3.position-left.text-success
+        %span.text-semibold.text-success My Quotes
+        \- Submitted Quotations 
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Sell
+        %li.active
+          My Quotes
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h5.panel-title
+            Quotes Sent
+        .col-md-6
+          .panel-body
+            Your current quotes are listed below. Let us create new opportunities for you. Keep your inventory up-to-date and instantly receive new leads as buyers create theor eRFQ's.
+            Bid Aero will track and model monthly sales and provide market data on parts being sold. For pending sales or sales history please check the links under Sell.
+        .col-md-1
+        .col-md-2
+          .panel.panel-warning
+            .panel-heading
+              .panel-title
+                Pending Sales
+            .panel-body
+              Pending Sales! You have #{link_to @pending_sales_count, pending_sales_path} pending sale(s) that require action.
+        .col-md-2
+          .panel.panel-success
+            .panel-heading
+              .panel-title
+                Completed Sales
+            .panel-body
+              Sales History, You have made #{link_to @sales_count, sales_path} sale(s) in the past 30 days.
+        .col-md-1
+
+        .datatable-scroll
+          %table#buyerAuctionsDT.table.datatable-basic.dataTable.no-footer
             %thead
-              %tr
-                %th Quote No.
-                %th Part Num
-                %th Description
-                %th Conditions
-                %th Start Date
-                %th Days Active
-                %th Lowest Bid
-                %th My Bid Price
-                / %th
+              %tr{:role => "row"}
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Quote Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Quote #
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Description
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Condition
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Start Date: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Start Date
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Days Active
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Lowest Bid
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "My Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} My Bid
+                %th.text-center.sorting_disbaled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Actions
             %tbody
               - @bids.each do |bid|
-                %tr
+                %tr.odd{:role => "row"}
                   %td= link_to (bid.quote_num.empty? ? "N/A" : bid.quote_num), bid.auction
                   %td= bid.auction.part_num
                   %td= bid.auction.auction_part.description
@@ -36,3 +73,46 @@
                   %td= number_to_currency bid.part_price
                   / %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => current_user.bids.find_by(auction: auction).id, :auction_id => auction.id }, :method => :get
                   -# edit_auction_bid_path(auction, @bid)
+                  %td.text-center
+                    %ul.icons-list
+                      %li.dropdown
+                        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                          %i.icon-menu9
+                        %ul.dropdown-menu.dropdown-menu-right
+                          -# %li
+                          -#   = link_to Edit Bid', {:controller => :bids, :action => 'edit', :id => current_user.bids.find_by(auction: auction).id, :auction_id => auction.id }, :method => :get edit_auction_bid_path(auction, @bid) do
+                          -#     %i.icon-pencil5.text-warning
+                          -#     EDIT
+                          %li
+                            = link_to bid, data: { buyer_auctions_behavior: 'delete' } do
+                              %i.icon-trash.text-danger
+                              DELETE
+          -# %table.table.striped.responsive-table#mybidsDT.bordered
+          -#   %thead
+          -#     %tr
+          -#       %th Quote No.
+          -#       %th Part Num
+          -#       %th Description
+          -#       %th Conditions
+          -#       %th Start Date
+          -#       %th Days Active
+          -#       %th Lowest Bid
+          -#       %th My Bid Price
+          -#       / %th
+          -#   %tbody
+          -#     - @bids.each do |bid|
+          -#       %tr
+          -#         %td= link_to (bid.quote_num.empty? ? "N/A" : bid.quote_num), bid.auction
+          -#         %td= bid.auction.part_num
+          -#         %td= bid.auction.auction_part.description
+          -#         -if bid.auction.condition[0].blank?
+          -#           %td All Conditions
+          -#         -else
+          -#           %td= bid.auction.decorate.abbreviated_index_tags
+          -#         %td= bid.auction.created_at.strftime("%m/%d/%Y")
+          -#         %td= ((Time.zone.now - bid.auction.created_at) / 1.day).to_i
+          -#         %td= number_to_currency bid.auction.bids.minimum(:part_price)
+          -#         / This the current user's bid for this auction?
+          -#         %td= number_to_currency bid.part_price
+          -#         / %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => current_user.bids.find_by(auction: auction).id, :auction_id => auction.id }, :method => :get
+          -#         -# edit_auction_bid_path(auction, @bid)

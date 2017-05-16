@@ -33,15 +33,24 @@ $(function() {
         }
     });
 
-    // Basic datatable
-    $('.datatable-basic').DataTable({
+    $('#buyerAuctionsDT').DataTable({
         columnDefs: [{
             orderable: false,
             width: '100px',
-            targets: [ 7 ]
-        }],
-        stateSave: true
+            targets: [ 8 ]
+        }]
     });
+
+    // Basic datatable
+    // $('.datatable-basic').DataTable({
+    //     columnDefs: [{
+    //         orderable: false,
+    //         width: '100px',
+    //         targets: [ 7 ]
+    //     }],
+    //     stateSave: true
+    // });
+
     $('#purchaseDT').DataTable({
         columnDefs: [{
             orderable: false,

@@ -3,6 +3,7 @@ class AuctionsController < ApplicationController
   before_action :set_bid_and_auction, only: [:purchase_confirmation, :purchase]
 
   def index
+    @myquotes_count = current_user.bids.to_a.uniq.count { |b| b.auction_id }
     @owned_auctions = current_user.auctions.where(active: true).where(project: nil)
     @pending_purchases_count = Transaction.where(buyer_id: current_user.id, complete: false).count
     @purchases_count = Transaction.where(buyer_id: current_user.id, complete: true).count
@@ -95,6 +96,8 @@ class AuctionsController < ApplicationController
 
   def current_opportunities
     @sales_opportunities = AuctionDecorator.decorate_collection(current_user.sales_opportunities)
+    @todays_opportunity_count = 0
+    Auction.find(current_user.sales_opportunities.map(&:id)).each { |x| @todays_opportunity_count +=1 if x.created_at.between?(DateTime.now.at_beginning_of_day.utc, Time.now.utc) }
   end
 
 

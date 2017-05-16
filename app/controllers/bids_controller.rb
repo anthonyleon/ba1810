@@ -6,6 +6,9 @@ class BidsController < ApplicationController
   def index
     @bids = current_user.bids.to_a.uniq { |b| b.auction_id }
     @supplier_auctions = AuctionDecorator.decorate_collection(current_user.auctions_with_owned_bids)
+    @sales_count = Transaction.where(seller_id: current_user.id, complete: true).count
+    @pending_sales_count = Transaction.where(seller_id: current_user.id, complete: false).count
+
   end
 
   def show
@@ -15,7 +18,7 @@ class BidsController < ApplicationController
   end
 
   def new
-    redirect_to temp_user_new_bid_path if current_user.temp?    
+    redirect_to temp_user_new_bid_path if current_user.temp?
     @bid = Bid.new
     @match_parts = Bid.matched_parts(@auction, current_user)
   end
@@ -32,7 +35,7 @@ class BidsController < ApplicationController
     part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
 
     respond_to do |format|
-      if part_match 
+      if part_match
         @bid.inventory_part = @inventory_part
         if @bid.save
           @inventory_part.add_part_details(part_match, current_user)
