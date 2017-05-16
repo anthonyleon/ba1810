@@ -26,13 +26,19 @@
         .panel-heading
           %h5.panel-title
             eRFQ Details
-          .heading-elements
-            = link_to edit_auction_path do
-              .btn-group.heading-btn
-                %button.btn.btn-primary Edit eRFQ
-            %ul.icons-list
-              %li
-                %a{"data-action" => "collapse"}
+          - if @auction.company == current_user
+            .heading-elements
+              = link_to edit_auction_path do
+                .btn-group.heading-btn
+                  %button.btn.btn-primary Edit eRFQ
+              %ul.icons-list
+                %li
+                  %a{"data-action" => "collapse"}
+          - else
+            .heading-elements
+              %ul.icons-list
+                %li
+                  %a{"data-action" => "collapse"}
         .panel-body
           .row
             .col-md-12
