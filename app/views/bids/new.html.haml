@@ -1,84 +1,167 @@
-.container.row
-  .col.s12
-    .card
-      .card-content
-        #bid-new.card-title
-          #bid-info.col-lg-1
-            %h5
-              New Quote
-            %h6
-              = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}" 
-            %h6
-              = "Part Number: " + @auction.part_num
-            %h6
-              = "Condition: " + AssetDecorator.rename(@auction,@auction.conditions)
-            %h6
-              = "Quantity: " + @auction.quantity.to_s
-            %h6
-              = "Min Cycles: " + (@auction.cycles ? @auction.cycles : "N/A")
-
-        
-        = form_for([@auction, @bid], html: {class: ''})do |f|
-          - if @bid.errors.any?
-            #error_explanation
-              %h2
-                = pluralize(@bid.errors.count, "error")
-                prohibited this bid from being saved:
-              %ul
-                - @bid.errors.full_messages.each do |message|
-                  %li= message
-          .col-lg-2.bid-create
-            #bid-fields.col-1
-              .field
-                = f.text_field :part_price, class: "form-control dollars", id: "part-price", placeholder: "Amount"
-              .field
-                = f.text_field :est_shipping_cost, class: "form-control dollars", id: "est-shipping", placeholder: "Shipping Cost"
-              .field
-                .left-align.quantity-label
-                  = f.label :quantity
-                = f.text_field :quantity, class: "form-control center-align", id: "quantity", placeholder: "Quantity"
-                = f.hidden_field :inventory_part_id, value: InventoryPart.find_by(company: current_user, part_num: @auction.part_num).id
-            .col-1
-              .field
-                .left-align.quantity-label
-                = f.date_field :tag_date, class: "form-control datepicker", placeholder: "Tag Date"
-              .field.document-fields
-                = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
-                  .field.pull-left.field-title
-                    Upload Files
-                  .files
-                    = cm.file_field :attachment, multiple: true
-              #quote-num.left-align
-                .field
-                  = f.text_field :quote_num, placeholder: "Quote Reference No. (optional)"
-            
-            / this shit is commented out because we are allowing people to quote quantity.
-            / .field
-            /   = f.hidden_field :inventory_part_id, :id => 'hiddeninv', class: "form-control"
-            / #bid-inventory.col-md-1{style: "margin-top:15px;"}
-            /   *select which 
-            /   %table.table.table-hover.responsive-table
-            /     %thead
-            /       %tr
-            /         %th Part Number
-            /         %th Description
-            /         %th Serial Number
-            /         %th Condition
-            /         %th Manufacturer
-            /     %tbody
-            /       - @match_parts.each do |inventory|
-            /         %tr#cursor-row.choose-inventory{ data: { "inventory-part-id": inventory.id , url: auction_bids_path(@auction) } }
-            /           %td.srchtbl= inventory.part_num
-            /           %td.srchtbl= inventory.description
-            /           %td.srchtbl= inventory.serial_num
-            /           %td.srchtbl= AssetDecorator.rename(inventory, inventory.condition)
-            /           %td.srchtbl= inventory.manufacturer
-          #place-bid.actions.right-align
-            = f.submit 'Place bid', class: 'btn custom-btn'
-
-  :javascript
-    $('.datepicker').pickadate({
-      selectMonths: true
-    });
-
-
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-megaphone.position-left.text-success
+        %span.text-semibold.text-success New Quote
+        \- for #{@auction.company.name} - PN: #{@auction.part_num}
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Sell
+        %li
+          Parts Wanted
+        %li.active
+          = @auction.id
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h5.panel-title
+            Please complete the form to submit your quote.
+        .panel-body
+          .row
+            .col-md-4
+              .panel.panel-default.border-left-xlg.border-left-primary
+                .panel-heading.text-semibold
+                  %i.icon-cogs.position-left
+                  Request for Quotation Details
+                .panel-body.text-center
+                  %dl.dl-horizontal.text-center
+                    %dt Part number:
+                    %dd
+                      = "#{@auction.part_num}"
+                    %dt Description:
+                    %dd
+                      = "#{@auction.auction_part.description}"
+                    %dt Quantity:
+                    %dd
+                      = "#{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
+                    %dt Acceptable Conditions:
+                    %dd
+                      = "#{AssetDecorator.rename(@auction, @auction.condition)}"
+                    %dt Required Documentation:
+                    %dd
+                      = "#{@auction.req_forms.reject(&:blank?).to_sentence}"
+                    %dt Cycle Requirement:
+                    %dd
+                      = "#{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
+                    %dt Target Price:
+                    %dd
+                      = "#{@auction.target_price || "N/A"}"
+                .panel-heading.text-semibold
+                  %i.icon-truck.position-left
+                  Shipping Details
+                .panel-body.text-center
+                  %dl
+                    %dt Ship To:
+                    %dd ATTN: Bob Smith
+                    %dd
+                      = "#{@auction.company.name}"
+                    %dd
+                      = "#{@auction.company.address}"
+                      %br
+                      = "#{@auction.company.city}"
+                      = ", #{@auction.company.state}"
+                      = "#{@auction.company.zip}"
+                      = "#{@auction.company.country}"
+            .col-md-6.col-md-offset-1
+              %fieldset
+                %legend.text-semibold
+                  %i.icon-cogs.position-left
+                  Quote
+                = render 'form'
+          -#   %a.heading-elements-toggle
+          -#     %i.icon-more
+          -# .heading-elements
+          -#   %button.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
+          -#     %span Update Inventory
+          -#     %b.icon-download7
+-# .container.row
+-#   .col.s12
+-#     .card
+-#       .card-content
+-#         #bid-new.card-title
+-#           #bid-info.col-lg-1
+-#             %h5
+-#               New Quote
+-#             %h6
+-#               = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}"
+-#             %h6
+-#               = "Part Number: " + @auction.part_num
+-#             %h6
+-#               = "Condition: " + AssetDecorator.rename(@auction,@auction.conditions)
+-#             %h6
+-#               = "Quantity: " + @auction.quantity.to_s
+-#             %h6
+-#               = "Min Cycles: " + (@auction.cycles ? @auction.cycles : "N/A")
+-#
+-#
+-#         = form_for([@auction, @bid], html: {class: ''})do |f|
+-#           - if @bid.errors.any?
+-#             #error_explanation
+-#               %h2
+-#                 = pluralize(@bid.errors.count, "error")
+-#                 prohibited this bid from being saved:
+-#               %ul
+-#                 - @bid.errors.full_messages.each do |message|
+-#                   %li= message
+-#           .col-lg-2.bid-create
+-#             #bid-fields.col-1
+-#               .field
+-#                 = f.text_field :part_price, class: "form-control dollars", id: "part-price", placeholder: "Amount"
+-#               .field
+-#                 = f.text_field :est_shipping_cost, class: "form-control dollars", id: "est-shipping", placeholder: "Shipping Cost"
+-#               .field
+-#                 .left-align.quantity-label
+-#                   = f.label :quantity
+-#                 = f.text_field :quantity, class: "form-control center-align", id: "quantity", placeholder: "Quantity"
+-#                 = f.hidden_field :inventory_part_id, value: InventoryPart.find_by(company: current_user, part_num: @auction.part_num).id
+-#             .col-1
+-#               .field
+-#                 .left-align.quantity-label
+-#                 = f.date_field :tag_date, class: "form-control datepicker", placeholder: "Tag Date"
+-#               .field.document-fields
+-#                 = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
+-#                   .field.pull-left.field-title
+-#                     Upload Files
+-#                   .files
+-#                     = cm.file_field :attachment, multiple: true
+-#               #quote-num.left-align
+-#                 .field
+-#                   = f.text_field :quote_num, placeholder: "Quote Reference No. (optional)"
+-#
+-#             / this shit is commented out because we are allowing people to quote quantity.
+-#             / .field
+-#             /   = f.hidden_field :inventory_part_id, :id => 'hiddeninv', class: "form-control"
+-#             / #bid-inventory.col-md-1{style: "margin-top:15px;"}
+-#             /   *select which
+-#             /   %table.table.table-hover.responsive-table
+-#             /     %thead
+-#             /       %tr
+-#             /         %th Part Number
+-#             /         %th Description
+-#             /         %th Serial Number
+-#             /         %th Condition
+-#             /         %th Manufacturer
+-#             /     %tbody
+-#             /       - @match_parts.each do |inventory|
+-#             /         %tr#cursor-row.choose-inventory{ data: { "inventory-part-id": inventory.id , url: auction_bids_path(@auction) } }
+-#             /           %td.srchtbl= inventory.part_num
+-#             /           %td.srchtbl= inventory.description
+-#             /           %td.srchtbl= inventory.serial_num
+-#             /           %td.srchtbl= AssetDecorator.rename(inventory, inventory.condition)
+-#             /           %td.srchtbl= inventory.manufacturer
+-#           #place-bid.actions.right-align
+-#             = f.submit 'Place bid', class: 'btn custom-btn'
+-#
+-#   :javascript
+-#     $('.datepicker').pickadate({
+-#       selectMonths: true
+-#     });

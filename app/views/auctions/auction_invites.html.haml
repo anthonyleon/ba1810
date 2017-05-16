@@ -1,3 +1,34 @@
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-envelope.position-left.text-success
+        %span.text-semibold.text-success Parts Wanted
+        \- Invitations for eRFQ (Request for Quotation)
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Sell
+        %li
+          Parts Wanted
+        %li.active
+          Received eRFQs
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h6.panel-title
+            You have been invited to quote the following companies! Please review and quote.
+          -# .heading-elements
+          -#   %button.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
+          -#     %span Update Inventory
+          -#     %b.icon-download7
 .row
   #currentAuctions.col.s12.right-align.active
     .row
@@ -35,7 +66,7 @@
                   / this isn't ready yet. Right now it is deleting the auction
                   / what I need to do with this is remove the user from @auction.invitees hash
                   / Have to figure out how to do this with ajax
-                  
+
                   / %td
                   /   = link_to auction, data: { invited_auction_behavior: 'delete' } do
                   /     %i.fa.fa-close

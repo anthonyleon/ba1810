@@ -1,18 +1,46 @@
-
-= form_for([@auction, @bid]) do |f|
-  - if @bid.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@bid.errors.count, "error")
-        prohibited this bid from being saved:
-      %ul
-        - @bid.errors.full_messages.each do |message|
-          %li= message
-  .field
-    = f.text_field :part_price, class: "form-control", id: "bid-field", placeholder: "Amount"
-  .field
-    = f.text_field :est_shipping_cost, class: "form-control", id: "bid-field", placeholder: "Shipping Cost"
-  .field
-    = f.hidden_field :inventory_part_id, :id => 'hiddeninv', class: "form-control"
-  #place-bid.actions
-    = f.submit 'Place bid', class: 'btn custom-btn'
+.form-horizontal
+  = form_for([@auction, @bid], html: {class: ''})do |f|
+    - if @bid.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@bid.errors.count, "error")
+          prohibited this bid from being saved:
+        %ul
+          - @bid.errors.full_messages.each do |message|
+            %li= message
+    .form-group
+      %label.col-lg-3.control-label Amount:
+      .col-lg-9
+        = f.text_field :part_price, :placeholder => "Ex: $450.00", class: "form-control dollars"
+    .form-group
+      %label.col-lg-3.control-label Shipping Estimate:
+      .col-lg-9
+        = f.text_field :est_shipping_cost, :placeholder => "Shipping Cost", class: "form-control dollars"
+    .form-group
+      %label.col-lg-3.control-label Quantity:
+      .col-lg-9
+        = f.text_field :quantity, :placeholder => "Quantity", class: "form-control"
+        = f.hidden_field :inventory_part_id, value: InventoryPart.find_by(company: current_user, part_num: @auction.part_num).id
+    .form-group
+      %label.col-lg-3.control-label Tag Date:
+      .col-lg-9
+        = f.date_field :tag_date, :placeholder => "Tag Date", class: "form-control text-muted"
+    .form-group
+      %label.col-lg-3.control-label Quote Reference:
+      .col-lg-9
+        = f.text_field :quote_num, :placeholder => "Quote Reference No. (optional)", class: "form-control"
+    .form-group
+      .col-lg-8.col-md-offset-2
+        = f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
+          -# .field.pull-left.field-title
+          -#   Upload Files
+          .row{style: "display: flex;"}
+            .files
+              %label.btn.btn-default.btn-file.legitRipple
+                %i.icon-file-plus
+                Browse
+                = cm.file_field :attachment, multiple: true
+            .form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
+              .file-caption-name#file-name{:title => "No file selected"}
+                .text-muted No file selected
+    = f.submit 'Submit Quote', class: 'btn btn-defualt bg-success pull-right'
