@@ -4,42 +4,51 @@ require 'csv'
 class CsvImport
 
 	def self.jsonize_csv(file)
-		json = CSV.read(file.path).to_json
-		nj = JSON.parse(json)
+		json = CSV.read(file.path, :quote_char => "\'").to_json # needs to be json = CSV.read(file.path, :encoding => 'ISO-8859-1').to_json
+		nj = JSON.parse(json)				## but this is exceeding the redis memory allocation
 	end
 
 	def self.import_inventory(data, company)
 		time = Benchmark.measure do
 			headers = data.lazy.first
-			data.lazy.first.delete(headers)
-			data.lazy.each_slice(75) do |lines|
+			data.delete(headers)
+			data.lazy.each_slice(5) do |lines|
 				Part.transaction do 
+					quantity_count = 0
 					parts_array = lines.map do |line|
-						line.each { |l| l.scrub! }
+						# line.each { |l| l.scrub! }
 						Hash[headers.zip(line)]
 					end
 
+
 					inventory = []
 					parts_array.map do |row|
-						part_match = Part.find_by(part_num: row['part_num'])
-						new_part = build_new_part(row['part_num'], (row['description'] || "")) unless part_match
+						part_match = Part.find_by(part_num: row[headers[0]])
+						part_match ||= build_new_part(row[headers[0]], (row['description'] || ""))
 						quantity = row['quantity'].to_i
+						
 						row.delete('quantity')
 						row["condition"] = match_condition(row)
 						quantity.times do 
+							quantity_count += 1
 							part = InventoryPart.new(
-								part_num: row["part_num"], 
+								part_num: row[headers[0]], 
 								description: row["description"], 
 								condition: row["condition"],
 								serial_num: row["serial_num"],
 								company: company,
 								part_id: part_match ? part_match.id : new_part.id
 								)
-							inventory << part			
+							inventory << part	
+
 						end
 					end
+						
+					arr = []
+					inventory.each_slice(100) do |i|
+						InventoryPart.import i
+					end
 					
-					InventoryPart.import inventory
 
 				end
 			end		
@@ -57,7 +66,7 @@ class CsvImport
 						rows = CSV.parse(lines.join, write_headers: true, headers: headers)
 						parts_db = rows.map do |_row|
 							Part.new(
-								part_num: _row['part_num'],
+								part_num: _row[headers[0]],
 								description: _row['description'],
 								manufacturer: _row['manufacturer'],
 								model: _row['model'],
@@ -138,6 +147,7 @@ class CsvImport
 
 	#Match part condition with enum
 	def self.match_condition(part)
+
 		case part["condition"].squish.upcase
 		when "OH"
 			return :overhaul
@@ -179,6 +189,7 @@ class CsvImport
 	end
 
 	def self.build_new_part(part_number, desc)
+
 		Part.create(part_num: part_number, description: desc, flagged: true, manufacturer: "")
 	end
 
