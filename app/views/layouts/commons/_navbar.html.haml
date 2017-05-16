@@ -5,7 +5,7 @@
 		%ul.nav.navbar-nav.pull-right.visible-xs-block
 			%li
 				%a{"data-target" => "#navbar-mobile", "data-toggle" => "collapse"}
-					%i.icon-tree5				
+					%i.icon-tree5
 	#navbar-mobile.navbar-collapse.collapse
 		%ul.nav.navbar-nav.navbar-right.top-navbar-right
 			%li
@@ -62,7 +62,7 @@
 				%i.icon-menu7
 	#navbar-second-toggle.navbar-collapse.collapse
 		%ul.nav.navbar-nav
-			%li.dropdown
+			%li.dropdown.text-size-large
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					BUY
 					%span.caret
@@ -80,7 +80,7 @@
 						=link_to purchases_path do
 							%i.icon-price-tags
 							Purchase History
-			%li.dropdown
+			%li.dropdown.text-size-large
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					SELL
 					%span.caret
@@ -106,7 +106,7 @@
 						=link_to sales_path do
 							%i.icon-chart
 							Sales History
-			%li.dropdown
+			%li.dropdown.text-size-large
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					MANAGE
 					%span.caret

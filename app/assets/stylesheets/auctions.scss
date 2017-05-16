@@ -6,6 +6,10 @@ select#auction_condition {
   display: none;
 }
 
+.lowest-bid {
+    min-width: 205px !important;
+}
+
 .auction-condition-form {
   /*padding: 20px 40px;*/
   display: flex;

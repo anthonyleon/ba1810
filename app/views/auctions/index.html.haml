@@ -2,9 +2,9 @@
   .page-header-content
     .page-title
       %h4
-        %i.icon-arrow-left52.position-left
-        %span.text-semibold Sent eRFQ's
-        \- One Column
+        %i.glyphicone.glyphicon-list-alt.position-left.text-primary
+        %span.text-semibold.text-primary Sent eRFQ's
+        \- Part searches in progress
       %ul.breadcrumb.breadcrumb-caret.position-right
         %li
           = link_to dashboard_path do
@@ -34,18 +34,18 @@
               .panel-title
                 Pending Purchases
             .panel-body
-              Pending Purchases! You have #{link_to @pending_purchases_count, pending_purchases_path} of pending eRFQ's to record.
+              Pending Purchases! You have #{link_to @pending_purchases_count, pending_purchases_path} of pending eRFQ(s) to record.
         .col-md-2
           .panel.panel-success
             .panel-heading
               .panel-title
                 Purchases
             .panel-body
-              Purchase History, You have made #{link_to @purchases_count, purchases_path} purchase in the past 30 days
+              Purchase History, You have made #{link_to @purchases_count, purchases_path} purchase(s) in the past 30 days
         .col-md-1
 
         .datatable-scroll
-          %table#buyerAuctionsDT.table.datatable-basic.dataTable.no-footer
+          %table#buyerAuctionsDT.table.dataTable.no-footer
             %thead
               %tr{:role => "row"}
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
