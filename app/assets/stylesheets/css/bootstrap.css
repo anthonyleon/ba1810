@@ -4273,6 +4273,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   line-height: 30px;
   height: 79px;
 }
+.navbar-brand-signup {
+  height: 100px ;
+}
 .navbar-brand:hover,
 .navbar-brand:focus {
   text-decoration: none;
