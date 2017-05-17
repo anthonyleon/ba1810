@@ -1,21 +1,26 @@
-.card
-	.card-content
-		.card-title.center-align
-			%h5.custom-card-title.center Inventory Parts
-		%hr/
-		/ %table#inventoryPartsDT.table.striped.responsive-table.bordered
-		%table#inventoryPartsDT.table.striped.responsive-table.bordered{"data-source" => "#{inventory_parts_path(format: "json")}"}
-			%thead
-				%tr
-					%th Part Number
-					%th Description
-					%th Serial Number
-					%th Condition
-					%th Manufacturer
-			%tbody
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h4.panel-title.center
+            Inventory
+        %hr/
+        / %table#inventoryPartsDT.table.striped.responsive-table.bordered
+        %table#inventoryPartsDT.table.striped.responsive-table.bordered{"data-source" => "#{inventory_parts_path(format: "json")}"}
+          %thead
+            %tr
+              %th Part Number
+              %th Description
+              %th Serial Number
+              %th Condition
+              %th Manufacturer
+          %tbody
 
 %div.btn.custom-btn
-	%i.fa.fa-upload
-	= link_to 'Upload New Inventory', new_inventory_part_path
+  %i.fa.fa-upload
+  = link_to 'Upload New Inventory', new_inventory_part_path
 %div.right.btn.custom-btn.destroy-all-button
-	=link_to 'Delete All Inventory', remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"}
+  =link_to 'Delete All Inventory', remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"}

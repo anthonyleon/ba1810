@@ -41,7 +41,7 @@ $(function() {
         }]
     });
 
-    $('.datatable-basic#inventoryPartsDT').dataTable({
+    $('#inventoryPartsDT').dataTable({
       "processing": true,
       "serverSide": true,
       "ajax": $('#inventoryPartsDT').data('source'),
