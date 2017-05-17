@@ -1,3 +1,19 @@
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-chart.position-left.text-success
+        %span.text-semibold.text-success Inventory
+        \- Parts listed
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Sell
+        %li.active
+          Sales History
+  / Page container
 .page-container{:style => "min-height:159px"}
   / Page content
   .page-content
