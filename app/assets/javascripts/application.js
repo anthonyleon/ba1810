@@ -136,19 +136,7 @@ $('#engineDTDashBoard').dataTable({
   //   ]
   // });
 
-  $('#inventoryPartsDT').dataTable({
-    "processing": true,
-    "serverSide": true,
-    "ajax": $('#inventoryPartsDT').data('source'),
-    "pageLength": 25,
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true }
-    ]
-  });
+
 
   $('#allInventoryDT').dataTable({
     "processing": true,
@@ -240,7 +228,7 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": false}
     ]
   });
-  
+
   $('#currentOpportunitiesDT').dataTable({
     // "processing": true,
     // "serverSide": true,
