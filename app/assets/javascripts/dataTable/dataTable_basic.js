@@ -33,13 +33,6 @@ $(function() {
         }
     });
 
-    $('#buyerAuctionsDT').DataTable({
-        columnDefs: [{
-            orderable: false,
-            width: '100px',
-            targets: [ 8 ]
-        }]
-    });
 
     $('#inventoryPartsDT').dataTable({
       "processing": true,
@@ -54,6 +47,24 @@ $(function() {
         { "bSortable": true }
       ]
     });
+
+    $('#currentOpportunitiesDT').dataTable({
+      "aoColumns": [
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": false },
+        { "bSortable": true },
+        { "bSortable": false }
+      ]
+    });
+
+    $('#buyerAuctionsDT').DataTable({
+      columnDefs: [{
+        orderable: false,
+        targets: [7]
+      }]
+    });
     // Basic datatable
     // $('.datatable-basic').DataTable({
     //     columnDefs: [{
@@ -64,13 +75,54 @@ $(function() {
     //     stateSave: true
     // });
 
-    $('#purchaseDT').DataTable({
+    $('#purchasesDT').DataTable({
         columnDefs: [{
             orderable: false,
             width: '100px',
             targets: [ 7 ]
         }],
         stateSave: true
+    });
+
+    $('#pendingPurchasesDT').dataTable({
+      "aoColumns": [
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true}
+      ]
+    });
+
+
+
+    $('#pendingSalesDT').dataTable({
+      "aoColumns": [
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true}
+      ]
+    });
+
+    $('#salesDT').dataTable({
+      "aoColumns": [
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true}
+      ]
     });
 
     // Alternative pagination

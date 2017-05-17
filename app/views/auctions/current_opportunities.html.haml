@@ -79,7 +79,7 @@
                 -#     %i.icon-statistics.position-left
                 -#     Report
         .table-responsive
-          %table.table
+          %table.table#currentOpportunitiesDT
             %thead
               %tr.active
                 %th.days-active.text-center Days Active
@@ -122,7 +122,7 @@
                       %span.text-semibold Documentation:
                       = auction.req_forms
                       %span.display-block.text-muted QTY Needed: #{auction.quantity}
-                  %td.lowest-bid
+                  %td.lowest-bid{"data-order": "#{auction.bids.minimum(:part_price)}"}
                     %a.text-default.display-inline-block{:href => "#"}
                     -if auction.bids.empty?
                       %span.text-muted No Bids

@@ -10,6 +10,7 @@
 //= require_directory .
 //= require_directory ./limitless
 //= require dataTable/dataTable_basic.js
+//= require dataTable/datatables_sorting.js
 //= stub landing
 
 
@@ -123,7 +124,10 @@ $('#engineDTDashBoard').dataTable({
         { "bSortable": false }
       ]
     });
-  // $('#aircraftDT').dataTable({
+
+
+
+  // $('#buyerAuctionsDT').dataTable({
   //   "aoColumns": [
   //     { "bSortable": true },
   //     { "bSortable": true },
@@ -133,11 +137,30 @@ $('#engineDTDashBoard').dataTable({
   //     { "bSortable": true },
   //     { "bSortable": true },
   //     { "bSortable": false }
-  //   ]
+  //   ],
+  //   "columnDefs": [{ "width": "80px", "targets": 8 }]
   // });
 
 
 
+  $('#mybidsDT').dataTable({
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": false}
+    ]
+  });
+
+
+
+
+
+// ADMIN DATATABLES
   $('#allInventoryDT').dataTable({
     "processing": true,
     "serverSide": true,
@@ -199,52 +222,6 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true }
     ]
   });
-
-  // $('#buyerAuctionsDT').dataTable({
-  //   "aoColumns": [
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": false }
-  //   ],
-  //   "columnDefs": [{ "width": "80px", "targets": 8 }]
-  // });
-
-
-
-  $('#mybidsDT').dataTable({
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": false}
-    ]
-  });
-
-  $('#currentOpportunitiesDT').dataTable({
-    // "processing": true,
-    // "serverSide": true,
-    // "ajax": $('#currentOpportunitiesDT').data('source'),
-    // "pageLength": 10,
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true }
-    ]
-  });
-
 
 });
 
