@@ -123,7 +123,10 @@ $('#engineDTDashBoard').dataTable({
         { "bSortable": false }
       ]
     });
-  // $('#aircraftDT').dataTable({
+
+
+
+  // $('#buyerAuctionsDT').dataTable({
   //   "aoColumns": [
   //     { "bSortable": true },
   //     { "bSortable": true },
@@ -133,11 +136,55 @@ $('#engineDTDashBoard').dataTable({
   //     { "bSortable": true },
   //     { "bSortable": true },
   //     { "bSortable": false }
-  //   ]
+  //   ],
+  //   "columnDefs": [{ "width": "80px", "targets": 8 }]
   // });
 
 
 
+  $('#mybidsDT').dataTable({
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": false}
+    ]
+  });
+
+  $('#currentOpportunitiesDT').dataTable({
+    // "processing": true,
+    // "serverSide": true,
+    // "ajax": $('#currentOpportunitiesDT').data('source'),
+    // "pageLength": 10,
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true }
+    ]
+  });
+
+  $('#pendingPurchasesDT').dataTable({
+    "aoColumns": [
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true },
+      { "bSortable": true}
+    ]
+  });
+
+// ADMIN DATATABLES
   $('#allInventoryDT').dataTable({
     "processing": true,
     "serverSide": true,
@@ -199,52 +246,6 @@ $('#engineDTDashBoard').dataTable({
       { "bSortable": true }
     ]
   });
-
-  // $('#buyerAuctionsDT').dataTable({
-  //   "aoColumns": [
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": true },
-  //     { "bSortable": false }
-  //   ],
-  //   "columnDefs": [{ "width": "80px", "targets": 8 }]
-  // });
-
-
-
-  $('#mybidsDT').dataTable({
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": false}
-    ]
-  });
-
-  $('#currentOpportunitiesDT').dataTable({
-    // "processing": true,
-    // "serverSide": true,
-    // "ajax": $('#currentOpportunitiesDT').data('source'),
-    // "pageLength": 10,
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true }
-    ]
-  });
-
 
 });
 

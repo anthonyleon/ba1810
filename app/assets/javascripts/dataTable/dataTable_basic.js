@@ -33,13 +33,6 @@ $(function() {
         }
     });
 
-    $('#buyerAuctionsDT').DataTable({
-        columnDefs: [{
-            orderable: false,
-            width: '100px',
-            targets: [ 8 ]
-        }]
-    });
 
     $('#inventoryPartsDT').dataTable({
       "processing": true,
@@ -53,6 +46,13 @@ $(function() {
         { "bSortable": true },
         { "bSortable": true }
       ]
+    });
+
+    $('#buyerAuctionsDT').DataTable({
+      columnDefs: [{
+        orderable: false,
+        targets: [7]
+      }]
     });
     // Basic datatable
     // $('.datatable-basic').DataTable({
