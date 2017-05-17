@@ -41,6 +41,19 @@ $(function() {
         }]
     });
 
+    $('.datatable-basic#inventoryPartsDT').dataTable({
+      "processing": true,
+      "serverSide": true,
+      "ajax": $('#inventoryPartsDT').data('source'),
+      "pageLength": 25,
+      "aoColumns": [
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true }
+      ]
+    });
     // Basic datatable
     // $('.datatable-basic').DataTable({
     //     columnDefs: [{
