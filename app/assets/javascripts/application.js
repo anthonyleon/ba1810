@@ -10,6 +10,7 @@
 //= require_directory .
 //= require_directory ./limitless
 //= require dataTable/dataTable_basic.js
+//= require dataTable/datatables_sorting.js
 //= stub landing
 
 
@@ -155,34 +156,9 @@ $('#engineDTDashBoard').dataTable({
     ]
   });
 
-  $('#currentOpportunitiesDT').dataTable({
-    // "processing": true,
-    // "serverSide": true,
-    // "ajax": $('#currentOpportunitiesDT').data('source'),
-    // "pageLength": 10,
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true }
-    ]
-  });
 
-  $('#pendingPurchasesDT').dataTable({
-    "aoColumns": [
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true },
-      { "bSortable": true}
-    ]
-  });
+
+
 
 // ADMIN DATATABLES
   $('#allInventoryDT').dataTable({
