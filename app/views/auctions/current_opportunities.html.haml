@@ -98,32 +98,34 @@
                     %small.display-block.text-size-small.no-margin Days
                   %td
                     .media-left.media-middle
-                      %a.btn.bg-teal-400.btn-rounded.btn-icon.btn-xs.legitRipple
+                      .bg-teal-400.btn-rounded.btn-icon.btn-xs.legitRipple.text-center
                         %span.letter-icon
                           =auction.company.name.each_char.first
                     .media-body
-                      %a.display-inline-block.text-default.text-semibold.letter-icon-title
+                      .display-inline-block.text-default.text-semibold.letter-icon-title
                         = auction.company.name
                       .text-muted.text-size-small
                         %span.status-mark.border-blue.position-left
                         = auction.company.representative
                   %td
-                    %a.text-default.display-inline-block{:href => "#"}
+                    .text-default.display-inline-block
                       %span.text-semibold Part Number:
                       = auction.part_num
                       %span.display-block.text-muted Main Engine Control
-                  %td
-                    %a.text-default.display-inline-block{:href => "#"}
+                  %td.opportunity-details
+                    .text-default.display-inline-block
                       %span.text-semibold Conditions:
                       -if auction.condition[0].blank?
                         All Conditions
                       -else
                         = auction.abbreviated_index_tags
+                    .text-default.display-inline-block
                       %span.text-semibold Documentation:
-                      = auction.req_forms
+                      = auction.req_forms.empty? ? "Not Specified" : auction.req_forms.to_sentence
+                    .text-default.display-inline-block
                       %span.display-block.text-muted QTY Needed: #{auction.quantity}
                   %td.lowest-bid{"data-order": "#{auction.bids.minimum(:part_price)}"}
-                    %a.text-default.display-inline-block{:href => "#"}
+                    .text-default.display-inline-block
                     -if auction.bids.empty?
                       %span.text-muted No Bids
                     -else
