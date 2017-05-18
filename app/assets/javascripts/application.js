@@ -65,6 +65,7 @@ $(document).ready(function() {
             dataType: "JSON",
             method: "DELETE",
             success: function() {
+              console.log('yuh');
               swal("Deleted!", "" + message.capitalize() + " Deleted.", "success");
               // ge the tr to delete
               // debugger;
@@ -96,7 +97,7 @@ $(document).ready(function() {
   dataBehavior("[data-engine-behavior='delete']", "engine");
   dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
   dataBehavior("[data-company-purchase-behavior='delete']", "company");
-  dataBehavior("[data-invited-auction-behavior='delete'", "opportunity");
+  dataBehavior("[data-bid-document-behavior='delete'", "opportunity");
 
 $('#engineDTDashBoard').dataTable({
     "aoColumns": [
