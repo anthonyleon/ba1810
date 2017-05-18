@@ -1,3 +1,45 @@
+%body.login-container.login-cover.pace-done
+  .pace.pace-inactive
+    .pace-progress{"data-progress" => "99", "data-progress-text" => "100%", :style => "transform: translate3d(100%, 0px, 0px);"}
+      .pace-progress-inner
+    .pace-activity
+  / Page container
+  .page-container{:style => "min-height:461px"}
+    / Page content
+    .page-content
+      / Main content
+      .content-wrapper
+        = form_for(:login, url: login_path) do |f|
+          / Registration form
+          .row
+            .col-lg-6.col-lg-offset-3
+              .panel.registration-form
+                .panel-body
+                  .text-center
+                    = image_tag("bidaeroswirl.png", class: "navbar-brand-signup")
+                    %h5.content-group-lg
+                      Login to your account
+                      %small.display-block Please enter your email and password
+                  .form-group.has-feedback
+                    = f.text_field :email, class: "form-control", placeholder: "Email"
+                    .form-control-feedback
+                      %i.icon-user.text-muted
+                  .form-group.has-feedback
+                    = f.text_field :email, class: "form-control", placeholder: "Password"
+                    .form-control-feedback
+                      %i.icon-lock.text-muted
+                  .form-group
+                    %span.text-muted.pull-right
+                      = link_to new_password_reset_path do
+                        Forgot your password?
+                    %span.text-muted
+                      = link_to new_company_path do
+                        Sign Up
+                  .text-center
+                    %button.btn.bg-success.btn-labeled.legitRipple{:type => "submit"}
+                      %b
+                        %i.icon-circle-right2
+                      SIGN IN
 .row
   .col.s12
     .card
