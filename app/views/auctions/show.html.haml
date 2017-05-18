@@ -117,7 +117,7 @@
       .panel.panel-flat
         .panel-heading
           %h5.panel-title
-            Received Quotes
+            Quotes
             %a.heading-elements-toggle
               %i.icon-more
           .heading-elements
@@ -158,13 +158,14 @@
                   %th Docs
                   %th Tag Date
                   %th QTY
-                  %th
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr
                     = render bid
                 - @auction_invitees.each do |co|
+                  -raise
                   -if !@auction.bidders.include?(co)
+
                     %tr
                       -if current_user == @auction.company
                         %td
@@ -177,7 +178,6 @@
                       %td --
                       %td --
                       %td --
-                      %td
           - if !@bid_aero_suppliers_bids.empty?
             %br
             %h5.text-light
@@ -196,6 +196,8 @@
                   %th Tag Date
                   %th QTY
                   %th
+                  - if current_user == @auction.company
+                    %th
               %tbody
                 - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row
