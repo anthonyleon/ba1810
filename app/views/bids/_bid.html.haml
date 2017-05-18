@@ -11,8 +11,16 @@
     -if bid.documents.blank? && bid.company == current_user
       = link_to 'Upload Docs', bid
     -elsif !bid.documents.blank?
-      = link_to bid do
-        %i.icon-file-download2{style: "font-size: 24px;"}
+      %ul.icons-list
+        %li.dropdown
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            %i.icon-file-download2{style: "font-size: 24px; color: #2196F3;"}
+          %ul.dropdown-menu.dropdown-menu-left
+            - bid.documents.each do |document|
+              -if document.attachment.url.to_s.downcase.include? "pdf"
+                %li.view-doc= link_to document.name, document.attachment_url
+              -else
+                %li.view-doc= link_to document.name, document.attachment_url
     -elsif bid.documents.blank?
       %i.icon-file-minus2{style: "font-size: 24px; color: grey;"}
 -elsif bid.company != current_user
