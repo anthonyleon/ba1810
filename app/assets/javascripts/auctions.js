@@ -48,6 +48,10 @@ $(document).on('ready page:load', function() {
 			console.log(numFiles);
 			console.log(label);
 			document.getElementById("file-name").innerHTML = numFiles + " File(s) Selected";
+      $('button:submit').attr('disabled',false);
+      // or, as has been pointed out elsewhere:
+      // $('input:submit').removeAttr('disabled');
+
 	});
 
 
