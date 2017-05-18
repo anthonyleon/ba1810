@@ -66,6 +66,7 @@ class BidsController < ApplicationController
   end
 
   def create
+    Bid.strip_symbols(bid_params)
     @bid = @auction.bids.new(bid_params)
     respond_to do |format|
       if @bid.save
