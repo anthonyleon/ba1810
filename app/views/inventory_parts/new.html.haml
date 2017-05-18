@@ -1,6 +1,35 @@
-.row
-  .col.s12.m10.offset-m1
-    .card
-      .card-content
-        %span.card-title Upload Inventory
-        = render 'form'
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-cogs.position-left.text-success
+        %span.text-semibold.text-success Inventory
+        \- Add a new part to your inventory
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Manage
+        %li
+          Inventory
+        %li.active
+          New Part
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h4.panel-title.center
+            Inventory
+            %a.heading-elements-toggle
+              %i.icon-more
+          -# .heading-elements
+          -#   %button.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
+          -#     %span Update Inventory
+          -#     %b.icon-download7
+        .panel-body
+          = render 'form'
