@@ -41,7 +41,7 @@
                 .panel.panel-default.border-left-xlg.border-left-primary
                   .panel-heading.text-semibold
                     %i.icon-cogs.position-left
-                    Part Details
+                    Quote Details
                   .panel-body
                     %dl.dl-horizontal
                       %dt Part number:
@@ -62,39 +62,46 @@
                       %dt Cycle Requirement:
                       %dd
                         = "#{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
-                      %dt Target Price:
-                      %dd
-                        = "#{@auction.target_price || "N/A"}"
-          %h5.panel-title
-          .bid-condition.col-1
-            = number_to_currency(@bid.part_price)
-      .col-2.bid-show-details
-        .col-1.col-3
-          .bid-part-num.col-1
-            %strong
-              Part number:
-            = @bid.inventory_part.part_num
-          .bid-serial-num.col-1
-            %strong
-              Serial Number:
-            = @bid.inventory_part.serial_num
-          .bid-condition.col-1
-            %strong
-              Condition:
-            = AssetDecorator.rename(@bid.inventory_part, @bid.inventory_part.condition)
+              .col-md-2
+
+              .col-md-6
+                .panel.panel-default
+                  .panel-heading.text-semibold
+                    %i.icon-files-empty2.position-left
+                    Add Document(s)
+                  .panel-body.text-center
+                    = form_for ([@bid, @document]), html: { multipart: true, class: "form-inline" } do |f|
+                      .col-2.upload-lower
+                        .col-1
+                          = f.file_field :attachment, multiple: true
+                          .formats
+                            Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
+                        .col-1
+                          %div.btn.custom-btn.doc-upload
+                            = f.submit "Upload"
+                  .container.existing-documents
+                    - if @bid.documents.empty?
+                      %p.center
+                        %em There are currently no documents associated with this part.
+                    - else
+                      %table.table.table-hover
+                        %thead
+                          %tr
+                            %th Documentation
+                        %tbody
+                          - @bid.documents.each do |document|
+                            %tr
+                              %td= document.name
+                              -if document.attachment.url.to_s.downcase.include? "pdf"
+                                %td.view-doc= link_to 'View/Download', document.attachment_url
+                              -else
+                                %td.view-doc= link_to 'Download', document.attachment_url
+
 
         .col-1.upload-docs
           - if @bid.company == current_user
             %h6 Add Document(s)
-            = form_for ([@bid, @document]), html: { multipart: true, class: "form-inline" } do |f|
-              .col-2.upload-lower
-                .col-1
-                  = f.file_field :attachment, multiple: true
-                  .formats
-                    Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
-                .col-1
-                  %div.btn.custom-btn.doc-upload
-                    = f.submit "Upload"
+
           -else
             .container.existing-documents
               - if @bid.documents.empty?

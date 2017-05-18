@@ -21,6 +21,9 @@
                 %li.view-doc= link_to document.name, document.attachment_url
               -else
                 %li.view-doc= link_to document.name, document.attachment_url
+            =if current_user == bid.company
+              %li
+                =link_to "Add Documentation", bid
     -elsif bid.documents.blank?
       %i.icon-file-minus2{style: "font-size: 24px; color: grey;"}
 -elsif bid.company != current_user
