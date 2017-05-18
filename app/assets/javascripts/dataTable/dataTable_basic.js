@@ -76,12 +76,16 @@ $(function() {
     // });
 
     $('#purchasesDT').DataTable({
-        columnDefs: [{
-            orderable: false,
-            width: '100px',
-            targets: [ 7 ]
-        }],
-        stateSave: true
+      "aoColumns": [
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true}
+      ]
     });
 
     $('#pendingPurchasesDT').dataTable({
