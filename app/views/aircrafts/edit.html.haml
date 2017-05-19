@@ -3,16 +3,17 @@
     .page-title
       %h4
         %i.icon-airplane2.position-left.text-alert-warning
-        %span.text-semibold.text-alert-warning New Aircraft Advertisment
-        \- Please fill and submit the following form to publically advertise your Aircraft
+        %span.text-semibold.text-alert-warning Edit Aircraft Advertisment
+        \- Please fill and submit the following form to update your aircraft ad.
       %ul.breadcrumb.breadcrumb-caret.position-right
         %li
           = link_to dashboard_path do
             Dashboard
         %li
           Manage
-        %li.active
-          Aircraft Listings
+        %li
+          = link_to aircrafts_path do
+            Aircraft Listings
         %li.active
           Edit Aircraft #{@aircraft.msn}
   / Page container

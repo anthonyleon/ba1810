@@ -125,6 +125,20 @@ $(function() {
       ]
     });
 
+    $('#aircraftDT').DataTable({
+      "aoColumns": [
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true },
+        { "bSortable": true},
+        { "bSortable": true},
+        { "bSortable": false}
+      ]
+    })
     // Alternative pagination
     $('.datatable-pagination').DataTable({
         pagingType: "simple",

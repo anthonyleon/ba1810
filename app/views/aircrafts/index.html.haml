@@ -30,8 +30,8 @@
           %h6.panel-title.center
             = link_to aircraft_listing_path do
               %a Looking for an aircraft? Review what the market has to offer here!
-        .table-responsive
-          %table.table#currentOpportunitiesDT
+        .datatable-scroll
+          %table.table#aircraftDT
             %thead
               %tr{:role => "row"}
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Aircraft Type
@@ -61,4 +61,17 @@
                     %td=  "Lease"
                   - else
                     %td= "Contact Rep"
-                  %td
+                  %td.text-center
+                    %ul.icons-list
+                      %li.dropdown
+                        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                          %i.icon-menu9
+                        %ul.dropdown-menu.dropdown-menu-right
+                          %li
+                            = link_to edit_aircraft_path(aircraft) do
+                              %i.icon-pencil5.text-warning
+                              EDIT
+                          %li
+                            = link_to aircraft, data: { buyer_aircraft_behavior: 'delete' } do
+                              %i.icon-trash.text-danger
+                              DELETE
