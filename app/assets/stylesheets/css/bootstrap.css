@@ -5075,7 +5075,7 @@ a.thumbnail.active {
   color: #00545c;
 }
 .alert-warning {
-  background-color: #FFF3E0;
+  background-color: #FF9800;
   border-color: #FF9800;
   color: #EF6C00;
 }
@@ -5094,7 +5094,7 @@ a.thumbnail.active {
   border-top-color: #ff4408;
 }
 .alert-danger .alert-link {
-  color: #aa3510;
+  color: #fcfcfc;
 }
 @-webkit-keyframes progress-bar-stripes {
   from {

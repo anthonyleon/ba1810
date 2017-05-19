@@ -1,11 +1,36 @@
-.row
-  .col.s12
-    .card
-      .card-content
-        %h5.card-title.center Edit this Aircraft Listing
-        %hr
-        = render 'form'
-        %hr/
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-airplane2.position-left.text-alert-warning
+        %span.text-semibold.text-alert-warning New Aircraft Advertisment
+        \- Please fill and submit the following form to publically advertise your Aircraft
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Manage
+        %li.active
+          Aircraft Listings
+        %li.active
+          Edit Aircraft #{@aircraft.msn}
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h4.panel-title.center
+            My Aircraft Advertisements
+          %h6.panel-title.center
+            = link_to aircraft_listing_path do
+              %a Looking for an aircraft? Review what the market has to offer here!
+        .panel-body
+          = render 'form'
+
     %div.btn.custom-btn
       %i.fa.fa-arrow-left
       = link_to 'View', @aircraft
