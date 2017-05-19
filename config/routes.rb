@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
- 
+
 
   get 'projects/archive'
 
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
   get '/contact_us' => 'pages#sign_up_form', as: 'sign_up_form'
 
-  resources :documents, only: [:new, :index, :create]
+  resources :documents, only: [:new, :index, :create, :destroy]
 
   post '/contact_us' => 'pages#new_lead', as: 'new_lead'
 
@@ -110,7 +110,7 @@ end
 
   resources :auctions do
     resources :auction_parts, except: [:index]
-    resources :bids, except: [:index] 
+    resources :bids, except: [:index]
   end
 
   get 'auction_invites' => 'auctions#auction_invites', as: 'auction_invites'

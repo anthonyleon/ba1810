@@ -4,7 +4,7 @@
       %h4
         %i.icon-arrow-left52.position-left
         %span.text-semibold eRFQ
-        \- Reference #: ATC1248
+        \- Reference #: #{@auction.id}
       %ul.breadcrumb.breadcrumb-caret.position-right
         %li
           =link_to dashboard_path do
@@ -77,20 +77,20 @@
                     Contact Information
                   .panel-body
                     %dl.dl-horizontal
-                      %dt Company:
-                      %dd
+                      %dt.auction-dl-dt Company:
+                      %dd.auction-dl-dd
                         = "#{@auction.company.name}"
-                      %dt Representative:
-                      %dd
+                      %dt.auction-dl-dt Representative:
+                      %dd.auction-dl-dd
                         = "#{@auction.company.representative}"
-                      %dt Email:
-                      %dd
+                      %dt.auction-dl-dt Email:
+                      %dd.auction-dl-dd
                         = "#{@auction.company.email}"
-                      %dt Phone Number:
-                      %dd
+                      %dt.auction-dl-dt Phone Number:
+                      %dd.auction-dl-dd
                         = "#{@auction.company.phone}"
-                      %dt Address:
-                      %dd
+                      %dt.auction-dl-dt Address:
+                      %dd.auction-dl-dd
                         = "#{@auction.company.address}"
                         %br
                         = "#{@auction.company.city}"
@@ -117,7 +117,7 @@
       .panel.panel-flat
         .panel-heading
           %h5.panel-title
-            Received Quotes
+            Quotes
             %a.heading-elements-toggle
               %i.icon-more
           .heading-elements
@@ -159,12 +159,14 @@
                   %th Tag Date
                   %th QTY
                   %th
+                  %th
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr
                     = render bid
                 - @auction_invitees.each do |co|
                   -if !@auction.bidders.include?(co)
+
                     %tr
                       -if current_user == @auction.company
                         %td
@@ -177,6 +179,7 @@
                       %td --
                       %td --
                       %td --
+                      %td
                       %td
           - if !@bid_aero_suppliers_bids.empty?
             %br
@@ -196,6 +199,8 @@
                   %th Tag Date
                   %th QTY
                   %th
+                  - if current_user == @auction.company
+                    %th
               %tbody
                 - BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr#cursor-row

@@ -4,7 +4,7 @@
       %h4
         %i.icon-stack3.position-left.text-success
         %span.text-semibold.text-success My Quotes
-        \- Submitted Quotations 
+        \- Submitted Quotations
       %ul.breadcrumb.breadcrumb-caret.position-right
         %li
           = link_to dashboard_path do
@@ -44,7 +44,7 @@
         .col-md-1
 
         .datatable-scroll
-          %table#buyerAuctionsDT.table.datatable-basic.dataTable.no-footer
+          %table#buyerAuctionsDT.table.dataTable.no-footer
             %thead
               %tr{:role => "row"}
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Quote Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Quote #
@@ -84,7 +84,7 @@
                           -#     %i.icon-pencil5.text-warning
                           -#     EDIT
                           %li
-                            = link_to bid, data: { buyer_auctions_behavior: 'delete' } do
+                            = link_to auction_bid_path(bid.auction, bid), data: { buyer_auctions_behavior: 'delete' } do
                               %i.icon-trash.text-danger
                               DELETE
           -# %table.table.striped.responsive-table#mybidsDT.bordered

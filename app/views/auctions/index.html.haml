@@ -76,10 +76,6 @@
                           %i.icon-menu9
                         %ul.dropdown-menu.dropdown-menu-right
                           %li
-                            = link_to edit_auction_path(auction) do
-                              %i.icon-pencil5.text-warning
-                              EDIT
-                          %li
                             = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
                               %i.icon-trash.text-danger
                               DELETE

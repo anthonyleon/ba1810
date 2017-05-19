@@ -26,7 +26,7 @@
             %a.heading-elements-toggle
               %i.icon-more
           .heading-elements
-            %button.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
+            %button#sweet_inventory.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
               %span Update Inventory
               %b.icon-download7
             =link_to remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"} do
