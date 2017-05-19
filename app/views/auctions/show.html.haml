@@ -158,12 +158,13 @@
                   %th Docs
                   %th Tag Date
                   %th QTY
+                  %th
+                  %th
               %tbody
                 - BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
                   %tr
                     = render bid
                 - @auction_invitees.each do |co|
-                  -raise
                   -if !@auction.bidders.include?(co)
 
                     %tr
@@ -178,6 +179,8 @@
                       %td --
                       %td --
                       %td --
+                      %td
+                      %td 
           - if !@bid_aero_suppliers_bids.empty?
             %br
             %h5.text-light
