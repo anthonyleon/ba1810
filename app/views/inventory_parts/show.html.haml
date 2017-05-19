@@ -1,32 +1,97 @@
-.row
-  .col.s12
-    .card.info-card.inventory-part
-      .card-content
-        %h5.card-title.center
-          = @inventory_part.description
-        %div.container.info
-          %div.container
-            %p
-              Serial Number:
-              = @inventory_part.serial_num.empty? ? "N/A" : @inventory_part.serial_num
-            %p
-              Part No. #{@inventory_part.part_num}
-            %p
-              Condition: #{AssetDecorator.rename(@inventory_part, @inventory_part.condition)}
-        %br/
-        .document-form-inv-part
-          = render 'documents/form', object: @inventory_part
-.row.bottom-inv-part
-  %div.btn.custom-btn.left{style: "margin-left: 10px;"}
-    %i.fa.fa-arrow-left
-    = link_to "Back", inventory_parts_path, class:"waves-effect waves-light"
-  - if @inventory_part.company == current_user
-    %div.btn.custom-btn.right{style: "margin-right: 10px;"}
-      %i.fa.fa-pencil
-      = link_to 'Edit this inventory part', edit_inventory_part_path(@inventory_part)
-      / #{link_to 'Back to Inventory', inventory_parts_path} |
-      / #{link_to 'Back to Auction',auction_path(@bid.auction)}
-    -# else
-      / = link_to 'Back to Auction',auction_path(@bid.auction)
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-cogs.position-left.text-success
+        %span.text-semibold.text-success Inventory
+        \- Parts listed
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Manage
+        %li
+          = link_to "Inventory", inventory_parts_path
+        %li.active
+          = @inventory_part.part_num
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+        .panel-body
+          .row
+            .col-md-12
+              .col-md-4
+                .panel.panel-default.border-left-xlg.border-left-success
+                  .panel-heading.text-semibold
+                    %i.icon-cogs.position-left
+                    Part Details
+                  .panel-body
+                    %dl.dl-horizontal
+                      %dt Part number:
+                      %dd
+                        = "#{@inventory_part.part_num}"
+                      %dt Serial Number:
+                      %dd
+                        = @inventory_part.serial_num.empty? ? "N/A" : @inventory_part.serial_num
+                      %dt Condition:
+                      %dd
+                        = AssetDecorator.rename(@inventory_part, @inventory_part.condition)
 
+              .col-md-7.col-md-offset-1
+                .panel.panel-default
+                  .panel-heading.text-semibold
+                    %i.icon-files-empty2.position-left
+                    Add Document(s)
+                  .panel-body.text-center
 
+                    = form_for ([@inventory_part, @document]), html: { multipart: true, class: "form-inline" } do |f|
+                      .form-group
+                        .row{style: "display: flex;"}
+                          .files
+                            %label.btn.btn-default.btn-file.legitRipple
+                              %i.icon-file-plus
+                              Browse
+                              = f.file_field :attachment, multiple: true
+                          .form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
+                            .file-caption-name#file-name{:title => "No file selected"}
+                              .text-muted No file selected
+                      %br
+                      %br
+                      .formats
+                        Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
+                      .col-1
+                        = f.button(:disabled => "disabled", :type => "submit", :value => "submit", class: "btn btn-primary legitRipple") do
+                          Upload
+                          %i.icon-circle-up2.position-right
+                  .existing-documents
+                    - if @inventory_part.documents.empty?
+                      %p.center
+                        %em There are currently no documents associated with this part.
+                    - else
+                      %table.table.table-hover
+                        %thead
+                          %tr
+                            %th Available Documentation
+                            %th
+                            %th
+                        %tbody
+                          - @inventory_part.documents.each do |document|
+                            %tr
+                              %td= document.name
+                              -if document.attachment.url.to_s.downcase.include? "pdf"
+                                %td.view-doc= link_to 'View/Download', document.attachment_url
+                              -else
+                                %td.view-doc= link_to 'Download', document.attachment_url
+                              - if @inventory_part.company == current_user
+                                %td
+                                  %div.delete-doc-btn
+                                    = link_to document, data:  { inventory_document_behavior: 'delete'} do
+                                      %i.fa.fa-close{style: "font-size: 18px; color: red;"}
+                                  -# %td
+                                  -#   = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
+                                  -#     %i.fa.fa-close{style: "font-size: 18px; color: red;"}

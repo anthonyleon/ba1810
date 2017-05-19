@@ -97,7 +97,8 @@ $(document).ready(function() {
   dataBehavior("[data-engine-behavior='delete']", "engine");
   dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
   dataBehavior("[data-company-purchase-behavior='delete']", "company");
-  dataBehavior("[data-bid-document-behavior='delete'", "opportunity");
+  dataBehavior("[data-bid-document-behavior='delete'", "bid");
+    dataBehavior("[data-inventory-document-behavior='delete'", "inventory");
 
 $('#engineDTDashBoard').dataTable({
     "aoColumns": [
