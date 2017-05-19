@@ -58,6 +58,3 @@
     %td.recorded
       .remove-btn.std-remove-btn
         =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"
--else
-  %td
-    =""
