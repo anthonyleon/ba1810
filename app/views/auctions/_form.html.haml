@@ -112,7 +112,7 @@
 								%label.col-lg-3.control-label Phone #:
 								.col-lg-9
 									%input.form-control{:placeholder => "+99-99-9999-9999", :type => "text"}/
-								
+
 				%br
 				.row
 					.col-md-7.col-md-offset-2
@@ -124,134 +124,76 @@
 								%label.col-lg-3.control-label Additional message:
 								.col-lg-9
 									%textarea.form-control{:cols => "5", :placeholder => "Enter your message here", :rows => "5"}
-						
 
-						
-				
-				
+
+
+
+
 				.text-right
 					= f.button(type: "submit", class: "btn btn-primary legitRipple") do
 						Submit eRFQ
 						%i.icon-arrow-right14.position-right
 
+
 .panel.panel-white
 	.panel-heading
-		%h6.panel-title Basic example
-	%form.form-basic{:action => "#"}
+		%h6.panel-title New RFQ
+		%p#alert= alert
+	= form_for(@auction, html: { class: "form-basic" }) do |f|
+		- if @auction.errors.any?
+			#error_explanation
+				%h2
+					= pluralize(@auction.errors.count, "error")
+					prohibited this auction from being saved:
+				%ul
+					- @auction.errors.full_messages.each do |message|
+						%li= message
 		%fieldset#step1.step
 			%h6.form-wizard-title.text-semibold
 				%span.form-wizard-count 1
-				Personal info
-				%small.display-block Tell us a bit about yourself
+				Part Details
+				%small.display-block Enter yor part specifications
 			.row
 				.col-md-6
 					.form-group
-						%label Select location:
-						%select.select{"data-placeholder" => "Select position", :name => "location"}
-							%option
-							%optgroup{:label => "North America"}
-								%option{:value => "1"} United States
-								%option{:value => "2"} Canada
-							%optgroup{:label => "Europe"}
-								%option{:value => "8"} Croatia
-								%option{:value => "9"} Hungary
-								%option{:value => "10"} Ukraine
-								%option{:value => "11"} Greece
-								%option{:value => "12"} Norway
-								%option{:value => "13"} Germany
-								%option{:value => "14"} United Kingdom
-				.col-md-6
+						%label Part Number
+						= f.text_field :part_num, :placeholder => "Ex: 8063-215", class: "form-control"
 					.form-group
-						%label Select position:
-						%select.select{"data-placeholder" => "Select position", :name => "position"}
-							%option
-							%optgroup{:label => "Developer Relations"}
-								%option{:value => "1"} Sales Engineer
-								%option{:value => "2"} Ads Solutions Consultant
-								%option{:value => "3"} Technical Solutions Consultant
-								%option{:value => "4"} Business Intern
-							%optgroup{:label => "Engineering & Design"}
-								%option{:value => "5"} Interaction Designer
-								%option{:value => "6"} Technical Program Manager
-								%option{:value => "7"} Software Engineer
-								%option{:value => "8"} Information Security Engineer
-								%option{:value => "9"} Security Engineer
-								%option{:value => "10"} Usability Expert
-								%option{:value => "11"} UI Designer
-								%option{:value => "12"} Illustrator
-			.row
-				.col-md-6
+						%label Min Cycles Remaining
+						= f.text_field :cycles, :placeholder => "Ex: 5000CR @ 3C1 (if applicable)", class: "form-control"
 					.form-group
-						%label Applicant name:
-						%input.form-control{:name => "name", :placeholder => "John Doe", :type => "text"}/
+						%label Target Price
+						= f.text_field :target_price, :placeholder => "Ex: $1280.00", class: "form-control"
 				.col-md-6
-					.form-group
-						%label Email address:
-						%input.form-control{:name => "email", :placeholder => "your@email.com", :type => "email"}/
-			.row
-				.col-md-6
-					.form-group
-						%label Phone #:
-						%input.form-control{"data-mask" => "+99-99-9999-9999", :name => "tel", :placeholder => "+99-99-9999-9999", :type => "text"}/
-				.col-md-6
-					%label Date of birth:
-					.row
-						.col-md-4
+					.col-md-12
+						.form-group
+							%label Quantity
+							= f.text_field :quantity, :placeholder => "Ex: 1", class: "form-control"
+						.col-md-5.col-md-offset-1
+							%label.text-semibold   Acceptable Conditons
 							.form-group
-								%select.select{"data-placeholder" => "Month", :name => "birth-month"}
-									%option
-									%option{:value => "1"} January
-									%option{:value => "2"} February
-									%option{:value => "3"} March
-									%option{:value => "4"} April
-									%option{:value => "5"} May
-									%option{:value => "6"} June
-									%option{:value => "7"} July
-									%option{:value => "8"} August
-									%option{:value => "9"} September
-									%option{:value => "10"} October
-									%option{:value => "11"} November
-									%option{:value => "12"} December
-						.col-md-4
+								= f.collection_check_boxes(:condition, Auction.conditions, :to_sym, :humanize) do |b|
+									.checkbox
+										= b.label
+										= b.check_box
+						.col-md-5.col-md-offset-1
+							%label.text-semibold Required Documentation
 							.form-group
-								%select.select{"data-placeholder" => "Day", :name => "birth-day"}
-									%option
-									%option{:value => "1"} 1
-									%option{:value => "2"} 2
-									%option{:value => "3"} 3
-									%option{:value => "4"} 4
-									%option{:value => "5"} 5
-									%option{:value => "6"} 6
-									%option{:value => "7"} 7
-									%option{:value => "8"} 8
-									%option{:value => "9"} 9
-									%option{:value => "10"} 10
-									%option{:value => "..."} ...
-									%option{:value => "31"} 31
-						.col-md-4
-							.form-group
-								%select.select{"data-placeholder" => "Year", :name => "birth-year"}
-									%option
-									%option{:value => "1"} 1980
-									%option{:value => "2"} 1981
-									%option{:value => "3"} 1982
-									%option{:value => "4"} 1983
-									%option{:value => "5"} 1984
-									%option{:value => "6"} 1985
-									%option{:value => "7"} 1986
-									%option{:value => "8"} 1987
-									%option{:value => "9"} 1988
-									%option{:value => "10"} 1989
-									%option{:value => "11"} 1990
+								= f.collection_check_boxes(:req_forms, Auction.forms, :to_sym, :humanize, class: "checkbox") do |b|
+									.checkbox
+										= b.label
+										= b.check_box
+
+
 		%fieldset#step2.step
 			%h6.form-wizard-title.text-semibold
 				%span.form-wizard-count 2
-				Your education
-				%small.display-block Let us know about your degree
+				Shipping Info
+				%small.display-block Enter the destination details
 			.row
 				.col-md-6
 					.form-group
-						%label University:
+						%label Company (optional):
 						%input.form-control{:name => "university", :placeholder => "University name", :type => "text"}/
 				.col-md-6
 					.form-group
