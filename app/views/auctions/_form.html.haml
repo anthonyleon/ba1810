@@ -148,6 +148,24 @@
 				%ul
 					- @auction.errors.full_messages.each do |message|
 						%li= message
+		%fieldset#step4.step
+			%h6.form-wizard-title.text-semibold
+				%span.form-wizard-count 4
+				Add Suppliers
+				%small.display-block Invite all the vendors that you would like, to participate in this RFQ
+				.container#add-new-supplier
+				#new-supplier-partial{:style => "display: none;"}
+					= render partial: "add_supplier"
+				.container#invitees
+				%br
+					%a.btn.custom-btn#addNewSupplier Add your preferred suppliers
+				-# .col-md-6
+				-# 	.form-group
+				-# 		%label Additional information:
+				-# 		%textarea.form-control{:cols => "5", :name => "additional-info", :placeholder => "If you want to add any info, do it here.", :rows => "5"}
+		.form-wizard-actions
+			%button#basic-back.btn.btn-default{:type => "reset"} Back
+			%button#basic-next.btn.btn-info{:type => "submit"} Next
 		%fieldset#step1.step
 			%h6.form-wizard-title.text-semibold
 				%span.form-wizard-count 1
@@ -190,171 +208,55 @@
 				%span.form-wizard-count 2
 				Shipping Info
 				%small.display-block Enter the destination details
-			.row
-				.col-md-6
-					.form-group
-						%label Company (optional):
-						%input.form-control{:name => "university", :placeholder => "University name", :type => "text"}/
-				.col-md-6
-					.form-group
-						%label Country:
-						%select.select{"data-placeholder" => "Choose a Country...", :name => "university-country"}
-							%option
-							%option{:value => "1"} United States
-							%option{:value => "2"} France
-							%option{:value => "3"} Germany
-							%option{:value => "4"} Spain
-			.row
-				.col-md-6
-					.form-group
-						%label Degree level:
-						%input.form-control{:name => "degree-level", :placeholder => "Bachelor, Master etc.", :type => "text"}/
-					.form-group
-						%label Specialization:
-						%input.form-control{:name => "specialization", :placeholder => "Design, Development etc.", :type => "text"}/
-				.col-md-6
-					.row
-						.col-md-6
-							%label From:
-							.row
-								.col-md-6
-									.form-group
-										%select.select{"data-placeholder" => "Month", :name => "education-from-month"}
-											%option
-											%option{:value => "January"} January
-											%option{:value => "..."} ...
-											%option{:value => "December"} December
-								.col-md-6
-									.form-group
-										%select.select{"data-placeholder" => "Year", :name => "education-from-year"}
-											%option
-											%option{:value => "1995"} 1995
-											%option{:value => "..."} ...
-											%option{:value => "1980"} 1980
-						.col-md-6
-							%label To:
-							.row
-								.col-md-6
-									.form-group
-										%select.select{"data-placeholder" => "Month", :name => "education-to-month"}
-											%option
-											%option{:value => "January"} January
-											%option{:value => "..."} ...
-											%option{:value => "December"} December
-								.col-md-6
-									.form-group
-										%select.select{"data-placeholder" => "Year", :name => "education-to-year"}
-											%option
-											%option{:value => "1995"} 1995
-											%option{:value => "..."} ...
-											%option{:value => "1980"} 1980
-					.form-group
-						%label Language of education:
-						%input.form-control{:name => "education-language", :placeholder => "English, German etc.", :type => "text"}/
+			= f.fields_for :destination do |cm|
+				.row
+					.col-md-6
+						.form-group
+							%label Company (optional):
+							= cm.text_field :title, :placeholder => "Ex: Company Name", class: "form-control"
+						.form-group
+							%label Street Address:
+							%input.form-control{:name => "degree-level", :placeholder => "123 Main Street", :type => "text"}/
+					.col-md-6
+						.col-md-7
+							.form-group
+								%label City:
+								%input.form-control{:name => "specialization", :placeholder => "Miami", :type => "text"}/
+						.col-md-5
+							.form-group
+								%label State/Region
+								= cm.text_field :state, class: "form-control"
+						.form-group
+							.col-md-8
+								%label Country:
+								%select.select{"data-placeholder" => "Choose a Country...", :name => "university-country"}
+									%option
+									- CountryStateSelect.countries_collection.each do |c|
+										%option{value: "#{c[1]}"}
+											= c[0]
+							.col-md-4
+								%label State/Region
+								= cm.text_field :zip, class: "form-control"
 		%fieldset#step3.step
 			%h6.form-wizard-title.text-semibold
 				%span.form-wizard-count 3
-				Work experience
-				%small.display-block Previous work places
-			.row
-				.col-md-6
-					.form-group
-						%label Company:
-						%input.form-control{:name => "experience-company", :placeholder => "Company name", :type => "text"}/
-					.form-group
-						%label Position:
-						%input.form-control{:name => "experience-position", :placeholder => "Company name", :type => "text"}/
-					.row
-						.col-md-6
-							%label From:
-							.row
-								.col-md-6
-									.form-group
-										%select.select{"data-placeholder" => "Month", :name => "education-from-month"}
-											%option
-											%option{:value => "January"} January
-											%option{:value => "..."} ...
-											%option{:value => "December"} December
-								.col-md-6
-									.form-group
-										%select.select{"data-placeholder" => "Year", :name => "education-from-year"}
-											%option
-											%option{:value => "1995"} 1995
-											%option{:value => "..."} ...
-											%option{:value => "1980"} 1980
-						.col-md-6
-							%label To:
-							.row
-								.col-md-6
-									.form-group
-										%select.select{"data-placeholder" => "Month", :name => "education-to-month"}
-											%option
-											%option{:value => "January"} January
-											%option{:value => "..."} ...
-											%option{:value => "December"} December
-								.col-md-6
-									.form-group
-										%select.select{"data-placeholder" => "Year", :name => "education-to-year"}
-											%option
-											%option{:value => "1995"} 1995
-											%option{:value => "..."} ...
-											%option{:value => "1980"} 1980
-				.col-md-6
-					.form-group
-						%label Brief description:
-						%textarea.form-control{:cols => "4", :name => "experience-description", :placeholder => "Tasks and responsibilities", :rows => "4"}
-					.form-group
-						%label.display-block Recommendations:
-						%input.file-styled{:name => "recommendations", :type => "file"}/
-						%span.help-block Accepted formats: pdf, doc. Max file size 2Mb
-		%fieldset#step4.step
-			%h6.form-wizard-title.text-semibold
-				%span.form-wizard-count 4
-				Additional info
-				%small.display-block We are almost done now
-			.row
-				.col-md-6
-					.form-group
-						%label.display-block Applicant resume:
-						%input.file-styled{:name => "resume", :type => "file"}/
-						%span.help-block Accepted formats: pdf, doc. Max file size 2Mb
-				.col-md-6
-					.form-group
-						%label Where did you find us?
-						%select.select-simple{"data-placeholder" => "Choose an option...", :name => "source"}
-							%option
-							%option{:value => "monster"} Monster.com
-							%option{:value => "linkedin"} LinkedIn
-							%option{:value => "google"} Google
-							%option{:value => "adwords"} Google AdWords
-							%option{:value => "other"} Other source
-			.row
-				.col-md-6
-					.form-group
-						%label Availability:
-						.radio
-							%label
-								%input.styled{:name => "availability", :type => "radio"}/
-								Immediately
-						.radio
-							%label
-								%input.styled{:name => "availability", :type => "radio"}/
-								1 - 2 weeks
-						.radio
-							%label
-								%input.styled{:name => "availability", :type => "radio"}/
-								3 - 4 weeks
-						.radio
-							%label
-								%input.styled{:name => "availability", :type => "radio"}/
-								More than 1 month
-				.col-md-6
-					.form-group
-						%label Additional information:
-						%textarea.form-control{:cols => "5", :name => "additional-info", :placeholder => "If you want to add any info, do it here.", :rows => "5"}
-		.form-wizard-actions
-			%button#basic-back.btn.btn-default{:type => "reset"} Back
-			%button#basic-next.btn.btn-info{:type => "submit"} Next
+				Contact Info
+				%small.display-block Point of contact information for sellers
+			.col-md-6.col-md-offset-3.auction-contact-info
+				.mb-15
+					%label.col-lg-3.control-label Representative's Name:
+					.col-lg-9
+						= f.text_field :rep_name, :placeholder => "First & Last", :class => "form-control"
+				.mb-15
+					%label.col-lg-3.control-label Email:
+					.col-lg-9
+						= f.text_field :rep_email, :placeholder => "example@bid.aero", :class => "form-control"
+				.mb-15
+					%label.col-lg-3.control-label Phone #:
+					.col-lg-9
+						= f.text_field :rep_phone, :placeholder => "+99 999 999 999", class: "form-control"
+
+
 
 
 
@@ -438,7 +340,7 @@
 -#         = f.radio_button :resale_status, "No"
 -#         = f.label :resale_status_no, "No"
 -#       %br/
--#     .container#add-new-supplier
+-#    .container#add-new-supplier
 -#
 -#     .container#invitees
 -#     %br
