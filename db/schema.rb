@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510213020) do
+ActiveRecord::Schema.define(version: 20170522194612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,9 @@ ActiveRecord::Schema.define(version: 20170510213020) do
     t.text     "req_forms"
     t.jsonb    "invitees",            default: {},   null: false
     t.integer  "project_id"
+    t.string   "rep_name"
+    t.string   "rep_phone"
+    t.string   "rep_email"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -148,6 +151,17 @@ ActiveRecord::Schema.define(version: 20170510213020) do
   end
 
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
+
+  create_table "destinations", force: :cascade do |t|
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.string   "zip"
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "documents", force: :cascade do |t|
     t.string   "name"
