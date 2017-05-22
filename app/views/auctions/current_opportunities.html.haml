@@ -86,7 +86,7 @@
                 %th.companystyle Company
                 %th.companystyle Part Details
                 %th Requirements
-                %th Bids
+                %th Quotes
                 %th.text-center{:style => "width: 20px;"}
                   %i.icon-arrow-down12
             %tbody
@@ -127,11 +127,11 @@
                   %td.lowest-bid{"data-order": "#{auction.bids.minimum(:part_price)}"}
                     .text-default.display-inline-block
                     -if auction.bids.empty?
-                      %span.text-muted No Bids
+                      %span.text-muted No Quotes
                     -else
-                      %span.text-semibold Lowest Bid:
+                      %span.text-semibold Lowest Quote:
                       = number_to_currency auction.bids.minimum(:part_price)
-                      %span.display-block.text-muted Bids: #{auction.bids.count}
+                      %span.display-block.text-muted Quotes: #{auction.bids.count}
                   %td.text-center
                     %ul.icons-list
                       %li.dropdown

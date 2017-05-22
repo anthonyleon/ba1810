@@ -140,7 +140,7 @@
         .panel-body
           - if @auction.bids.empty? && @auction.invitees.empty?
             .nobid.center-align
-            %p.flow-text There are no bids on this auction yet.
+            %p.flow-text There are no quotes for this eRFQ yet.
             #bids-container
           - if !@auction.invitees.empty?
             %h5.text-light
