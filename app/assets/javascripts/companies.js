@@ -1,15 +1,16 @@
-$(function(){
-  return CountryStateSelect({
-    country_id: "company_country",
-    state_id: "company_state"
-  });
-  $('.chosen-single').materialize_select();
-})
+
 
 
 
 $(document).on('ready page:load', function(){
   $('#dashboard-auctions>div:visible').hide();
+
+  $(function(){
+    return CountryStateSelect({
+      country_id: "company_country",
+      state_id: "company_state"
+    });
+  });
 
   $('.nav-option').click(function() {
     $(this).addClass('active');
@@ -44,5 +45,3 @@ $(function() {
 
 
 });
-
-

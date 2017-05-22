@@ -1,4 +1,4 @@
-.form-group.add-supplier-partial
+.form-group.add-supplier-partial.mt-10
   .row
     .col-md-4.col-md-offset-1
       .supplierField
@@ -10,5 +10,6 @@
         = label_tag "Company E-mail", "Company E-mail"
         %br/
       = text_field_tag "invitees[]", "", class: "form-control"
-    %a.remove-supplier{:onclick => "removeSupplier($(this))"}
-      %i.fa.fa-close
+    .col-md-1
+      %a.remove-supplier{:onclick => "removeSupplier($(this))"}
+        %i.fa.fa-close

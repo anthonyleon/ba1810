@@ -30,6 +30,7 @@
             .col-md-6
               .form-group.has-feedback
                 = f.text_field :representative, class: "form-control", placeholder: "E-mail"
+                = f.input :country, collection: CountryStateSelect.countries_collection
                 .form-control-feedback
                   %i.icon-mention.text-muted
           .row
@@ -54,7 +55,7 @@
                   %i.icon-office.text-muted
             .col-md-6
               .form-group.has-feedback
-                = f.text_field :password_confirmation, class: "form-control", placeholder: "Country"
+                = f.text_field :country, class: "form-control", placeholder: "Country"
                 .form-control-feedback
                   %i.icon-earth.text-muted
           .row
@@ -65,7 +66,7 @@
                   %i.icon-city.text-muted
             .col-md-4
               .form-group.has-feedback
-                = f.text_field :password_confirmation, class: "form-control", placeholder: "State"
+                = f.text_field :state, class: "form-control", placeholder: "State"
                 .form-control-feedback
                   %i.icon-mention.text-muted
             .col-md-4

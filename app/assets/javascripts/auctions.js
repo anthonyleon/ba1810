@@ -9,6 +9,8 @@ $(document).on('ready page:load', function() {
 	// $('#shipping-destination-box').click(function() {
 	// 	$('.auction-destination').trigger("reset");
 	// });
+
+
 	$('.responsive-remove-btn').hide();
 	$('.purchase-btns').hide();
 
@@ -66,15 +68,16 @@ $(document).on('ready page:load', function() {
 	$('.card-edit-remove').click(function(){
 		$('.card.destination-address.large').removeClass('large');
     //this method increases the height to 72px
-  	});
+	});
 
-  	$('.edit-address').click(function(){
-  		$('.edit-shipping').show(350);
-  	});
+	$('.edit-address').click(function(){
+		$('.edit-shipping').show(350);
+	});
 
 
-  	var addSupplier = document.getElementById("addNewSupplier");
+	var addSupplier = document.getElementById("addNewSupplier");
 	$("#addNewSupplier").on("click", function() {
+    console.log("yo");
 		addSupplier.innerHTML = "Add Another Supplier";
 		$("#add-new-supplier").append($("#new-supplier-partial").html());
 	});
