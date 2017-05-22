@@ -1,73 +1,62 @@
 .page-header
-  .page-header-content
-    .page-title
-      %h4
-        %i.icon-envelope.position-left.text-success
-        %span.text-semibold.text-success Parts Wanted
-        \- Invitations for eRFQ (Request for Quotation)
-      %ul.breadcrumb.breadcrumb-caret.position-right
-        %li
-          = link_to dashboard_path do
-            Dashboard
-        %li
-          Sell
-        %li
-          Parts Wanted
-        %li.active
-          Received eRFQs
-  / Page container
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-envelope.position-left.text-success
+				%span.text-semibold.text-success Parts Wanted
+				\- Invitations for eRFQ (Request for Quotation)
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					= link_to dashboard_path do
+						Dashboard
+				%li
+					Sell
+				%li
+					Parts Wanted
+				%li.active
+					Received eRFQs
+	/ Page container
 .page-container{:style => "min-height:159px"}
-  / Page content
-  .page-content
-    / Main content
-    .content-wrapper
-      .panel.panel-flat
-        .panel-heading
-          %h6.panel-title
-            You have been invited to quote the following companies! Please review and quote.
-          -# .heading-elements
-          -#   %button.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
-          -#     %span Update Inventory
-          -#     %b.icon-download7
-        .panel-body
-          .row
-            #currentAuctions.col.s12.right-align.active
-              .row
-                .card
-                  .card-content
-                    .card-title.center-align{style: 'margin-top: 20px;'}
-                      %h5.custom-card-title.center Your RFQ Invites
-                    %hr/
-                    %br
-                    %table.table.striped#mybidsDT.bordered
-                      %thead
-                        %tr
-                          %th Part Number
-                          %th Description
-                          %th Conditions
-                          %th Start Date
-                          %th Days Active
-                          %th Bid Count
-                          %th Lowest Bid
-                          %th
-                      %tbody
-                        - @auctions.each do |auction|
-                          %tr
-                            %td= link_to auction.part_num, auction
-                            %td= auction.auction_part.description
-                            -if auction.condition[0].blank?
-                              %td All Conditions
-                            -else
-                              %td= auction.abbreviated_index_tags
-                            %td= auction.created_at.strftime("%m/%d/%Y")
-                            %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-                            %td= auction.bids.count
-                            %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-flat
+				.panel-heading
+					%h6.panel-title
+						You have been invited to quote the following companies! Please review and quote.
+					.heading-elements
+						%button.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
+							%span Update Inventory
+							%b.icon-download7
+				%table.table.striped#mybidsDT.bordered
+					%thead
+						%tr
+							%th Part Number
+							%th Description
+							%th Conditions
+							%th Start Date
+							%th Days Active
+							%th Bid Count
+							%th Lowest Bid
+							%th
+					%tbody
+						- @auctions.each do |auction|
+							%tr
+								%td= link_to auction.part_num, auction
+								%td= auction.auction_part.description
+								-if auction.condition[0].blank?
+									%td All Conditions
+								-else
+									%td= auction.abbreviated_index_tags
+								%td= auction.created_at.strftime("%m/%d/%Y")
+								%td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+								%td= auction.bids.count
+								%td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
 
-                  / this isn't ready yet. Right now it is deleting the auction
-                  / what I need to do with this is remove the user from @auction.invitees hash
-                  / Have to figure out how to do this with ajax
+/ this isn't ready yet. Right now it is deleting the auction
+/ what I need to do with this is remove the user from @auction.invitees hash
+/ Have to figure out how to do this with ajax
 
-                  / %td
-                  /   = link_to auction, data: { invited_auction_behavior: 'delete' } do
-                  /     %i.fa.fa-close
+/ %td
+/   = link_to auction, data: { invited_auction_behavior: 'delete' } do
+/     %i.fa.fa-close
