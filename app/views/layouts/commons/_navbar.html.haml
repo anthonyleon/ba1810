@@ -10,15 +10,14 @@
 		%ul.nav.navbar-nav.navbar-right.top-navbar-right
 			%li
 				.heading-elements
-					%a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn.dropdown-toggle{"data-toggle" => "dropdown"}
+					%button.btn.btn-labeled.btn-labeled-right.bg-success.heading-btn.dropdown-toggle{"data-toggle" => "dropdown"}
 						New
 						%b
 							%i.caret.navbar-icon
 					%ul.dropdown-menu.dropdown-menu-right
 						%li
-							= link_to "eRFQ", new_auction_path
-						%li
-						%li
+							= link_to "New Request for Quotaion - eRFQ", new_auction_path
+
 			%li
 				=link_to dashboard_path do
 					%i.glyphicon.glyphicon-th-large.navbar-icon
