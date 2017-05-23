@@ -1,72 +1,288 @@
 .page-header
-  .page-header-content
-    .page-title
-      %h4
-        %i.icon-arrow-left52.position-left
-        %span.text-semibold Starters
-        \- One Column
-      %ul.breadcrumb.breadcrumb-caret.position-right
-        %li
-          %a{:href => "index.html"} Home
-        %li
-          %a{:href => "1_col.html"} Starters
-        %li.active One column
-    .heading-elements
-      %a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn{:href => "#"}
-        Button
-        %b
-          %i.icon-menu7
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-arrow-left52.position-left
+				%span.text-semibold Notifications
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					= link_to dashboard_path do
+						Dashboard
+				%li.active
+					Notifications
 
-  / Page container
+		.heading-elements
+			%a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn{:href => "#"}
+				Button
+				%b
+					%i.icon-menu7
+
+	/ Page container
 .page-container{:style => "min-height:159px"}
-  / Page content
-  .page-content
-    / Main content
-    .content-wrapper
-      .panel.panel-flat
-        .panel-body
-          .tabbable
-            %ul.nav.nav-tabs.nav-tabs-highlight
-              %li.active
-                %a{"data-toggle" => "tab", :href => "#highlight-tab1"} Active
-              %li
-                %a{"data-toggle" => "tab", :href => "#highlighted-tab2"} Inactive
-            .tab-content
-              #highlighted-tab1.tab-pane.active
-                Highlight top border of the active tab by adding
-                %code .nav-tabs-highlight
-                class.
-              #highlighted-tab2.tab-pane
-                Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin.
-              #highlighted-tab3.tab-pane
-                DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg whatever.
-              #highlighted-tab4.tab-pane
-                Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
-        %table#inventoryPartsDT.table.striped.responsive-table#buyerAuctionsDT.bordered
-          %thead
-            %tr
-              %th Event
-              %th Part #
-              %th When?
-              %th Condition
-          %tbody
-            - @notifications.each do |note|
-              %tr.notification
-                -if note.bid != nil && note.bid.tx
-                  -if note.bid.tx.seller == current_user
-                    %td.srchtbl= link_to note.message, seller_purchase_path(note.bid.tx.id)
-                  -elsif note.bid.tx.buyer == current_user
-                    %td.srchtbl= link_to note.message, buyer_purchase_path(note.bid.tx.id)
-                -else
-                  %td.srchtbl= link_to note.message, note.auction
-                %td.srchtbl= note.auction.part_num
-                -if note.bid
-                  %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
-                  %td.srchtbl= AssetDecorator.rename(note.bid, note.bid.inventory_part.condition)
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-flat
+				.panel-heading
+					%h6.panel-title
+						Recent Activity
+						%a.heading-elements-toggle
+							%i.icon-more
+					.heading-elements
+						%span.heading-text
+							Balance:
+							%span.text-bold.text-danger-600.position-right $4,378
+						%ul.icons-list
+							%li.dropdown.text-muted
+								%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+									%i.icon-cog3
+									%span.caret
+								%ul.dropdown-menu.dropdown-menu-right
+									%li
+										%a{:href => "#"}
+											%i.icon-sync
+											Update data
+									%li
+										%a{:href => "#"}
+											%i.icon-list-unordered
+											Detailed log
+									%li
+										%a{:href => "#"}
+											%i.icon-pie5
+											Statistics
+									%li.divider
+									%li
+										%a{:href => "#"}
+											%i.icon-cross3
+											Clear list
+				.panel-body
+					#sales-heatmap
+				.table-responsive
+					%table.table.text-nowrap
+						%thead
+							%tr
+								%th Description
+								%th Part Number
+								%th Days ago
+						%tbody
+							- @notifications.each do |note|
+								%tr.notification
+									%td
+										-# notification for broadcast opportunity
+										.media-left.media-middle
+											%a.btn.bg-success-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+												%span.icon-megaphone
+										.media-body
+											.media-heading
+												%a.letter-icon-title{:href => "#"} New Broadcast eRFQ
+											.text-muted.text-size-small
+												%i.icon-cogs.text-size-mini.position-left
+												Parts Wanted by #{note.auction.company.name}
+									%td
+										%span.text-muted.text-size-small
+										= note.auction.part_num
+									%td
+										%h6.text-semibold.no-margin
+										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
+								%tr
+									%td
+										-# notification for invited opportunity
+										.media-left.media-middle
+											%a.btn.bg-success-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+												%span.icon-envelop
+										.media-body
+											.media-heading
+												%a.letter-icon-title{:href => "#"} You have been Invited to quote
+											.text-muted.text-size-small
+												%i.icon-cogs.text-size-mini.position-left
+												Parts Wanted by #{note.auction.company.name}
+									%td
+										%span.text-muted.text-size-small
+										= note.auction.part_num
+									%td
+										%h6.text-semibold.no-margin
+										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
+								%tr
+									%td
+										-# notification for "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.",
+										.media-left.media-middle
+											%a.btn.bg-success-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+												%span.icon-medal-first
+										.media-body
+											.media-heading
+												%a.letter-icon-title{:href => "#"} Buyer has awarded you the winner of this eRFQ. Please finalize order details.
+											.text-muted.text-size-small
+												%i.icon-cogs.text-size-mini.position-left
+												Parts Wanted by AeroTrade Capital
+									%td
+										%span.text-muted.text-size-small
+										= note.auction.part_num
+									%td
+										%h6.text-semibold.no-margin
+										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
+								%tr
+									%td
+										-# notification for "A quote has been placed on an RFQ you are participating in!",
+										.media-left.media-middle
+											%a.btn.bg-warning-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+												%span.icon-warning22
+										.media-body
+											.media-heading
+												%a.letter-icon-title{:href => "#"} Warning: New competing quotes have been submitted.
+											.text-muted.text-size-small
+												%i.icon-cogs.text-size-mini.position-left
+												Parts Wanted by #{note.auction.company.name}
+									%td
+										%span.text-muted.text-size-small
+										= note.auction.part_num
+									%td
+										%h6.text-semibold.no-margin
+										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
+								%tr
+									%td
+										-# notification for "Seller has finalized costs. Please send funds to escrow.",
+										.media-left.media-middle
+											%a.btn.bg-primary-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+												%span.icon-cash3
+										.media-body
+											.media-heading
+												%a.letter-icon-title{:href => "#"} Seller has finalized costs, please submit payment.
+											.text-muted.text-size-small
+												%i.glyphicon.glyphicon-list-alt.text-size-mini.position-left
+												For your eRFQ: #{note.auction.id}
+									%td
+										%span.text-muted.text-size-small
+										= note.auction.part_num
+									%td
+										%h6.text-semibold.no-margin
+										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
+								%tr
+									%td
+										-# notification for ""A new quote was placed in your auction!",
+										.media-left.media-middle
+											%a.btn.bg-primary-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+												%span.icon-stack3
+										.media-body
+											.media-heading
+												%a.letter-icon-title{:href => "#"} A new quote has been submitted for your review!
+											.text-muted.text-size-small
+												%i.glyphicon.glyphicon-list-alt.text-size-mini.position-left
+												For your eRFQ: #{note.auction.id}
+									%td
+										%span.text-muted.text-size-small
+										= note.auction.part_num
+									%td
+										%h6.text-semibold.no-margin
+										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
+			-#
+			-# .panel.panel-flat
+			-# 	.panel-body
+			-# 		.tabbable
+			-# 			%ul.nav.nav-tabs.nav-tabs-highlight
+			-# 				%li.active
+			-# 					%a{"data-toggle" => "tab", :href => "#highlight-tab1"} Active
+			-# 				%li
+			-# 					%a{"data-toggle" => "tab", :href => "#highlighted-tab2"} Inactive
+			-# 			.tab-content
+			-# 				#highlighted-tab1.tab-pane.active
+			-# 					Highlight top border of the active tab by adding
+			-# 					%code .nav-tabs-highlight
+			-# 					class.
+			-# 				#highlighted-tab2.tab-pane
+			-# 					Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin.
+			-# 				#highlighted-tab3.tab-pane
+			-# 					DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg whatever.
+			-# 				#highlighted-tab4.tab-pane
+			-# 					Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
+			-# 	%table#inventoryPartsDT.table.striped.responsive-table#buyerAuctionsDT.bordered
+			-# 		%thead
+			-# 			%tr
+			-# 				%th Event
+			-# 				%th Part #
+			-# 				%th Days ago
+			-# 				%th Condition
+			-# 		%tbody
+			-# 			- @notifications.each do |note|
+			-# 				%tr.notification
+			-# 					-if note.bid != nil && note.bid.tx
+			-# 						-if note.bid.tx.seller == current_user
+			-# 							%td.srchtbl= link_to note.message, seller_purchase_path(note.bid.tx.id)
+			-# 						-elsif note.bid.tx.buyer == current_user
+			-# 							%td.srchtbl= link_to note.message, buyer_purchase_path(note.bid.tx.id)
+			-# 					-else
+			-# 						%td.srchtbl= link_to note.message, note.auction
+			-# 					%td.srchtbl= note.auction.part_num
+			-# 					-if note.bid
+			-# 						%td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
+			-# 						%td.srchtbl= AssetDecorator.rename(note.bid, note.bid.inventory_part.condition)
+			-#
+			-# 					-else
+			-# 						%td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
+			-# 						%td.srchtbl= AssetDecorator.rename(note.auction, note.auction.condition)
+			-#
 
-                -else
-                  %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
-                  %td.srchtbl= AssetDecorator.rename(note.auction, note.auction.condition)
+								-# %tr
+								-# 	%td
+								-# 		.media-left.media-middle
+								-# 			%a.btn.bg-danger-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+								-# 				%span.letter-icon A
+								-# 		.media-body
+								-# 			.media-heading
+								-# 				%a.letter-icon-title{:href => "#"} Alpha application
+								-# 			.text-muted.text-size-small
+								-# 				%i.icon-spinner11.text-size-mini.position-left
+								-# 				Renewal
+								-# 	%td
+								-# 		%span.text-muted.text-size-small 04:52 pm
+								-# 	%td
+								-# 		%h6.text-semibold.no-margin $90.50
+								-# %tr
+								-# 	%td
+								-# 		.media-left.media-middle
+								-# 			%a.btn.bg-indigo-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+								-# 				%span.letter-icon D
+								-# 		.media-body
+								-# 			.media-heading
+								-# 				%a.letter-icon-title{:href => "#"} Delta application
+								-# 			.text-muted.text-size-small
+								-# 				%i.icon-lifebuoy.text-size-mini.position-left
+								-# 				Support
+								-# 	%td
+								-# 		%span.text-muted.text-size-small 01:26 pm
+								-# 	%td
+								-# 		%h6.text-semibold.no-margin $60.00
+								-# %tr
+								-# 	%td
+								-# 		.media-left.media-middle
+								-# 			%a.btn.bg-success-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+								-# 				%span.letter-icon O
+								-# 		.media-body
+								-# 			.media-heading
+								-# 				%a.letter-icon-title{:href => "#"} Omega application
+								-# 			.text-muted.text-size-small
+								-# 				%i.icon-lifebuoy.text-size-mini.position-left
+								-# 				Support
+								-# 	%td
+								-# 		%span.text-muted.text-size-small 11:46 am
+								-# 	%td
+								-# 		%h6.text-semibold.no-margin $55.00
+								-# %tr
+								-# 	%td
+								-# 		.media-left.media-middle
+								-# 			%a.btn.bg-danger-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
+								-# 				%span.letter-icon A
+								-# 		.media-body
+								-# 			.media-heading
+								-# 				%a.letter-icon-title{:href => "#"} Alpha application
+								-# 			.text-muted.text-size-small
+								-# 				%i.icon-spinner11.text-size-mini.position-left
+								-# 				Renewal
+								-# 	%td
+								-# 		%span.text-muted.text-size-small 10:29 am
+								-# 	%td
+								-# 		%h6.text-semibold.no-margin $90.50
 
 
-                  / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
+
+									/ %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
