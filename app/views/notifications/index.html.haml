@@ -2,21 +2,14 @@
 	.page-header-content
 		.page-title
 			%h4
-				%i.icon-arrow-left52.position-left
-				%span.text-semibold Notifications
+				%i.glyphicon.glyphicon-bell.position-left.text-warning
+				%span.text-semibold.text-warning Notifications
 			%ul.breadcrumb.breadcrumb-caret.position-right
 				%li
 					= link_to dashboard_path do
 						Dashboard
 				%li.active
 					Notifications
-
-		.heading-elements
-			%a.btn.btn-labeled.btn-labeled-right.bg-blue.heading-btn{:href => "#"}
-				Button
-				%b
-					%i.icon-menu7
-
 	/ Page container
 .page-container{:style => "min-height:159px"}
 	/ Page content
@@ -27,36 +20,35 @@
 				.panel-heading
 					%h6.panel-title
 						Recent Activity
-						%a.heading-elements-toggle
-							%i.icon-more
-					.heading-elements
-						%span.heading-text
-							Balance:
-							%span.text-bold.text-danger-600.position-right $4,378
-						%ul.icons-list
-							%li.dropdown.text-muted
-								%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-									%i.icon-cog3
-									%span.caret
-								%ul.dropdown-menu.dropdown-menu-right
-									%li
-										%a{:href => "#"}
-											%i.icon-sync
-											Update data
-									%li
-										%a{:href => "#"}
-											%i.icon-list-unordered
-											Detailed log
-									%li
-										%a{:href => "#"}
-											%i.icon-pie5
-											Statistics
-									%li.divider
-									%li
-										%a{:href => "#"}
-											%i.icon-cross3
-											Clear list
-				.panel-body
+					-# 	%a.heading-elements-toggle
+					-# 		%i.icon-more
+					-# .heading-elements
+					-# 	%span.heading-text
+					-# 		Balance:
+					-# 		%span.text-bold.text-danger-600.position-right $4,378
+					-# 	%ul.icons-list
+					-# 		%li.dropdown.text-muted
+					-# 			%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+					-# 				%i.icon-cog3
+					-# 				%span.caret
+					-# 			%ul.dropdown-menu.dropdown-menu-right
+					-# 				%li
+					-# 					%a{:href => "#"}
+					-# 						%i.icon-sync
+					-# 						Update data
+					-# 				%li
+					-# 					%a{:href => "#"}
+					-# 						%i.icon-list-unordered
+					-# 						Detailed log
+					-# 				%li
+					-# 					%a{:href => "#"}
+					-# 						%i.icon-pie5
+					-# 						Statistics
+					-# 				%li.divider
+					-# 				%li
+					-# 					%a{:href => "#"}
+					-# 						%i.icon-cross3
+					-# 						Clear list
 					#sales-heatmap
 				.table-responsive
 					%table.table.text-nowrap
