@@ -7,6 +7,7 @@
 			#error_explanation
 				%h2
 					= pluralize(@auction.errors.count, "error")
+					-raise
 					prohibited this auction from being saved:
 				%ul
 					- @auction.errors.full_messages.each do |message|
@@ -26,7 +27,7 @@
 						= f.text_field :cycles, :placeholder => "Ex: 5000CR @ 3C1 (if applicable)", class: "form-control"
 					.form-group
 						%label Target Price
-						= f.text_field :target_price, :placeholder => "Ex: $1280.00", class: "form-control"
+						= f.text_field :target_price, :placeholder => "Ex: $1280.00", class: "form-control dollars"
 				.col-md-6
 					.col-md-12
 						.form-group
@@ -120,7 +121,7 @@
 				-# 		%textarea.form-control{:cols => "5", :name => "additional-info", :placeholder => "If you want to add any info, do it here.", :rows => "5"}
 		.form-wizard-actions
 			%button#basic-back.btn.btn-default{:type => "reset"} Back
-			%button#basic-next.btn.btn-info{:type => "submit"} Next
+			= f.submit "Next", class: "btn btn-info", id: "basic-next"
 
 
 
