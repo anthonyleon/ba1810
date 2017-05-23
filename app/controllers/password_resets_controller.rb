@@ -20,12 +20,15 @@ class PasswordResetsController < ApplicationController
 
 	def update
 		@company = Company.find_by_password_reset_token!(params[:id])
-		if @company.password_reset_sent_at < 2.hours.ago
-			redirect_to new_password_reset_path, :alert => "Password reset has expired."
-		elsif @company.update_attributes(password: params[:company]["password"])
+		if @company.password_reset_sent_at > 2.hours.ago
+			redirect_to new_password_reset_path, :flash => { :error => "Password reset has expired." }
+		elsif params[:company][:password] != params[:company][:password_confirmation]
+			redirect_to edit_password_reset_path(@company.password_reset_token), :flash => { :error => "Passwords do not match" }
+		elsif @company.update_attribute('password', params[:company]["password"])
 			redirect_to root_url, :notice => "Password has been reset!"
 		else
-			render :edit
+			format.html { render :edit }
+			format.json { render json: @company.errors, status: :unprocessable_entity }
 		end
 	end
 end

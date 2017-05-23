@@ -1,14 +1,60 @@
+.navbar.navbar-inverse
+	.navbar-header
+		%a.navbar-brand{:href => dashboard_path}
+			= image_tag("/images/bid_aero_logo.png")
+	/ /main navbar
+.page-container{:style => "min-height:341px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			/ Password recovery
+			.col-md-6.col-md-offset-3
+				= form_for @company, :url => password_reset_path(params[:id]) do |f|
+					- if @company.errors.any?
+						.error_messages
+							%h2 Form is invalid
+							%ul
+								- for message in @company.errors.full_messages
+									%li= message
+					.panel.panel-body
+						.text-center
+							.icon-object.border-warning.text-warning
+								%i.icon-spinner11
+							%h5.content-group
+								Password recovery
+								%small.display-block Please enter a new password!
+						.form-group.has-feedback
+							= f.password_field :password, placeholder: 'New Password', class: "form-control"
+							.form-control-feedback
+								%i.icon-lock.text-muted
+						.form-group.has-feedback
+							= f.password_field :password_confirmation, placeholder: 'Confirm New Password', class: "form-control"
+							.form-control-feedback
+								%i.icon-lock.text-muted
+						.form-group
+							= submit_tag "Reset Password", class: "btn bg-success btn-block" do
+								%i.icon-arrow-right14.position-right
+				/ /password recovery
+			/ /main content
+		/ /page content
+/ Footer
+.footer.text-muted
+	.col-1
+		Website designed and programmed in Miami, Florida. Copyright ©#{Time.now.year} Bid Aero, Inc. All Rights Reserved.
+
+
 = form_for @company, :url => password_reset_path(params[:id]) do |f|
-  - if @company.errors.any?
-    .error_messages
-      %h2 Form is invalid
-      %ul
-        - for message in @company.errors.full_messages
-          %li= message
-  .field
-    = f.label :password
-    = f.password_field :password
-  .field
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation
-  .actions= f.submit "Update Password"
+	- if @company.errors.any?
+		.error_messages
+			%h2 Form is invalid
+			%ul
+				- for message in @company.errors.full_messages
+					%li= message
+	.field
+		= f.label :password
+		= f.password_field :password
+	.field
+		= f.label :password_confirmation
+		= f.password_field :password_confirmation
+	.actions= f.submit "Update Password"

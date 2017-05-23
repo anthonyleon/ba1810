@@ -32,13 +32,3 @@
 .footer.text-muted
 	.col-1
 		Website designed and programmed in Miami, Florida. Copyright ©#{Time.now.year} Bid Aero, Inc. All Rights Reserved.
-.row
-	.col.m8.offset-m2
-		.card{style: "padding: 10px"}
-			%p.custom-card-title.font-18 Reset Password
-			= form_tag password_resets_path, :method => :post do
-				.input-field
-					= text_field_tag :email, params[:email], placeholder: 'Enter your email'
-
-					= submit_tag "Reset Password", class: 'btn wave-effect wave-light green'
-					= link_to "Home", root_path, class: 'btn wave-effect wave-light green'
