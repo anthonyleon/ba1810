@@ -4,6 +4,7 @@ class Auction < ActiveRecord::Base
   has_one :tx, class_name: "Transaction"#, foreign_key: "transaction_id"
   has_one :auction_part, dependent: :destroy
   has_one :part, through: :auction_part
+  has_one :destination
   has_many :bids, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :bidders, through: :bids, source: :company
