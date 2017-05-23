@@ -35,6 +35,7 @@ class AuctionsController < ApplicationController
 
   def create
     auction_params[:target_price].gsub!(' ', '')
+    params["invitees"].delete("")
     @auction = Auction.new(auction_params)
     @auction.set_invitees(params[:invitees]) if params[:invitees]
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
@@ -57,6 +58,7 @@ class AuctionsController < ApplicationController
 
   def update
     respond_to do |format|
+      params["invitees"].delete("")
       if params[:target_price]
         @auction.update(target_price: params[:target_price].gsub(' ', ''))
       elsif @auction.update(auction_params)
