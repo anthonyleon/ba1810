@@ -16,7 +16,7 @@ class Company < ActiveRecord::Base
 
   # validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
   # validates :email, presence: true, uniqueness: true
-  # validates :name, presence: true, uniqueness: true
+  validates :name, presence: true#, uniqueness: true
   # validates :ein, uniqueness: true
   # validates :address, :city, :state, :zip, :country, presence: true
 
