@@ -46,7 +46,7 @@ class AuctionsController < ApplicationController
       @auction.condition.map!{ |x| x.to_sym }
       if @auction.save
         @destination = Destination.create(destination_params)
-        @destination.update(country: params["country"], auction: @auction)
+        @destination.update(country: params["country"])
         @auction.invite_and_setup_suppliers
 
         @auction.req_forms.reject! { |c| c.empty? }
