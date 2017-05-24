@@ -121,7 +121,8 @@
             %table#bid-aero-suppliers.table.responsive-table.bordered
               %thead
                 %tr
-                  %th Company
+                  -if current_company == auction.company
+                    %th Company
                   %th Manufacturer
                   %th Serial Number
                   %th Condition
