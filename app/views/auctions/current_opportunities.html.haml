@@ -82,7 +82,7 @@
                   %i.icon-arrow-down12
             %tbody
               - @sales_opportunities.each do |auction|
-                %tr
+                %tr.clickable-tr{ "data-link" => "#{auction_path(auction)}"}
                   %td.text-center
                     %h6.no-margin
                       = ((Time.zone.now - auction.created_at) / 1.day).to_i
