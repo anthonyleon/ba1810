@@ -83,9 +83,11 @@ ActiveRecord::Schema.define(version: 20170523211202) do
     t.string   "rep_name"
     t.string   "rep_phone"
     t.string   "rep_email"
+    t.integer  "destination_id"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
+  add_index "auctions", ["destination_id"], name: "index_auctions_on_destination_id", using: :btree
   add_index "auctions", ["invitees"], name: "index_auctions_on_invitees", using: :gin
   add_index "auctions", ["project_id"], name: "index_auctions_on_project_id", using: :btree
 
@@ -161,10 +163,7 @@ ActiveRecord::Schema.define(version: 20170523211202) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "auction_id"
   end
-
-  add_index "destinations", ["auction_id"], name: "index_destinations_on_auction_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.string   "name"
@@ -314,12 +313,12 @@ ActiveRecord::Schema.define(version: 20170523211202) do
   add_foreign_key "auction_parts", "auctions"
   add_foreign_key "auction_parts", "parts"
   add_foreign_key "auctions", "companies"
+  add_foreign_key "auctions", "destinations"
   add_foreign_key "auctions", "projects"
   add_foreign_key "bids", "auctions"
   add_foreign_key "bids", "companies"
   add_foreign_key "bids", "inventory_parts"
   add_foreign_key "company_docs", "companies"
-  add_foreign_key "destinations", "auctions"
   add_foreign_key "documents", "aircrafts"
   add_foreign_key "documents", "bids"
   add_foreign_key "documents", "company_docs"
