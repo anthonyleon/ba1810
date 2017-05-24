@@ -60,30 +60,31 @@
 					.col-md-6
 						.form-group
 							%label Company Name(optional)
-							= cm.text_field :title, :placeholder => "Ex: Company Name", class: "form-control"
+							= cm.text_field :title, value: current_user.name, class: "form-control"
 						.form-group
 							%label Street Address
-							= cm.text_field :address, :placeholder => "123 Main Street", class: "form-control"
+							= cm.text_field :address, value: current_user.address, class: "form-control"
 					.col-md-6
 						.col-md-7
 							.form-group
 								%label City
-								= cm.text_field :city, :placeholder => "Miami", class: "form-control"
+								= cm.text_field :city, value: current_user.city, class: "form-control"
 						.col-md-5
 							.form-group
 								%label State/Region
-								= cm.text_field :state, :placeholder => "FL", class: "form-control"
+								= cm.text_field :state, value: current_user.state, class: "form-control"
 						.form-group
 							.col-md-8
 								%label Country
-								%select.select{"data-placeholder" => "Choose a Country...", :name => "country"}
+								%select.select{selected: current_user.country, :name => "country"}
 									%option
+										= current_user.country
 									- CountryStateSelect.countries_collection.each do |c|
 										%option{value: "#{c[1]}"}
 											= c[0]
 							.col-md-4
 								%label Zip Code
-								= cm.text_field :zip, class: "form-control"
+								= cm.text_field :zip, value: current_user.zip, class: "form-control"
 		%fieldset#step3.step
 			%h6.form-wizard-title.text-semibold
 				%span.form-wizard-count 3
