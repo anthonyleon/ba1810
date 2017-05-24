@@ -215,12 +215,12 @@
 							%label Company (optional):
 							= cm.text_field :title, :placeholder => "Ex: Company Name", class: "form-control"
 						.form-group
-							%label Street Address:
+							%label Street Address
 							%input.form-control{:name => "degree-level", :placeholder => "123 Main Street", :type => "text"}/
 					.col-md-6
 						.col-md-7
 							.form-group
-								%label City:
+								%label City
 								%input.form-control{:name => "specialization", :placeholder => "Miami", :type => "text"}/
 						.col-md-5
 							.form-group
@@ -228,14 +228,14 @@
 								= cm.text_field :state, class: "form-control"
 						.form-group
 							.col-md-8
-								%label Country:
+								%label Country
 								%select.select{"data-placeholder" => "Choose a Country...", :name => "university-country"}
 									%option
 									- CountryStateSelect.countries_collection.each do |c|
 										%option{value: "#{c[1]}"}
 											= c[0]
 							.col-md-4
-								%label State/Region
+								%label Zip Code
 								= cm.text_field :zip, class: "form-control"
 		%fieldset#step3.step
 			%h6.form-wizard-title.text-semibold
