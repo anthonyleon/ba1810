@@ -20,6 +20,10 @@
 
 $(document).ready(function() {
 
+  // makes table rows with "data-link" attribute {"data-link" => "#{whatever_path}"} clickable to that path
+  $("tr[data-link]").click(function() {
+    window.location = $(this).data("link")
+  });
 
   var $flashTransition = $('.flash-transition');
   if (!!$flashTransition.length > 0) {

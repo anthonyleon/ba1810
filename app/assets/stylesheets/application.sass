@@ -22,7 +22,6 @@ label.select.optional
 .font-bold
   font-weight: bold
 
-
 .Site
   min-height: 100vh
   display: -webkit-box
@@ -40,6 +39,10 @@ span.caret
 
 main
   flex: 1
+
+.clickable-tr:hover td
+  cursor: pointer
+  background-color: whitesmoke
 
 .custom-card-title
   font-weight: 200
@@ -213,6 +216,32 @@ a:hover, a:focus
       flex-direction: column
 
 // ****** AUCTIONS CSS
+
+#error_explanation 
+  color: #f00
+  display: flex
+  flex-direction: column
+  ul 
+    list-style: none
+    margin: 0 0 18px 0
+  margin: 1% 25%
+
+.field_with_errors input
+  border-color: red
+
+.new-supplier-fields
+  display: flex
+  justify-content: center
+
+#error_explanation 
+  color: #f00
+  ul 
+    list-style: none
+    margin: 0 0 18px 0
+  
+
+ 
+
 .lowest-bid
   min-width: 205px !important
 
@@ -238,6 +267,20 @@ dd.auction-dl-dd
 .auction-contact-info
   display: flex
   flex-direction: column
+
+.x-supplier
+  text-align: right
+  margin-top: 3.25%
+
+@media only screen and (max-width: 1024px)
+  .x-supplier
+    text-align: left
+
+.auction-index-panel-title
+  display: flex
+  justify-content: space-between
+
+
 
 // ******* BIDS CSS
 

@@ -14,7 +14,7 @@ class AuctionsController < ApplicationController
     ## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
     @auction_invitees = Company.find_invitees(@auction.invitees)
 
-
+    @destination = @auction.destination
     @invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
     @auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids =
       @auction.bids.joins(:company).where.not(companies: {id: @auction_invitees.pluck(:id)})
@@ -35,6 +35,8 @@ class AuctionsController < ApplicationController
 
   def create
     auction_params[:target_price].gsub!(' ', '')
+    params["invitees"].delete("")
+
     @auction = Auction.new(auction_params)
     @auction.set_invitees(params[:invitees]) if params[:invitees]
     part_match = Part.find_by(part_num: @auction.part_num.upcase)
@@ -42,27 +44,34 @@ class AuctionsController < ApplicationController
     respond_to do |format|
       @auction.company = current_user
       @auction.condition.map!{ |x| x.to_sym }
-      @auction.save
-      @auction.invite_and_setup_suppliers
+      if @auction.save
+        @destination = Destination.create(destination_params)
+        @destination.update(country: params["country"], auction: @auction)
+        @auction.invite_and_setup_suppliers
 
-      @auction.req_forms.reject! { |c| c.empty? }
-      Auction.part_match_or_not_actions(@auction, part_match)
+        @auction.req_forms.reject! { |c| c.empty? }
+        Auction.part_match_or_not_actions(@auction, part_match)
 
-
-      Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
-      format.html { redirect_to @auction, notice: 'RFQ was successfully created.' }
-      format.json { render :show, status: :created, location: @auction }
+        
+        Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
+        format.html { redirect_to @auction, notice: 'RFQ was successfully created.' }
+        format.json { render :show, status: :created, location: @auction }
+      else
+        format.html { render :new }
+        format.json { render json: @auction.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def update
     respond_to do |format|
+      params["invitees"].delete("")
       if params[:target_price]
         @auction.update(target_price: params[:target_price].gsub(' ', ''))
       elsif @auction.update(auction_params)
         @auction.set_invitees(params[:invitees]) if params[:invitees]
         @auction.invite_and_setup_suppliers
-        @auction.update(condition: auction_params[:condition].map!{ |x| x.to_sym })
+        @auction.update(condition: auction_params[:condition].map!{ |x| x.to_sym }) if auction_params[:condition]
         # unless params[:commit] == "Update RFQ"
         #   @transaction = Transaction.find(transaction_params[:id])
         #   @transaction.update(transaction_params)
@@ -126,11 +135,15 @@ class AuctionsController < ApplicationController
     def auction_params
       params.require(:auction).permit(:company_id, :project_id, :part_num, :target_price, :cycles, :quantity, :destination_company,
                                       :destination_address, :destination_zip, :destination_city, :destination_state,
-                                      :destination_country, :required_date, :resale_status, :resale_yes, :resale_no,
+                                      :destination_country, :country, :required_date, :resale_status, :resale_yes, :resale_no,
                                       condition: [], req_forms: [], invitees: [])
     end
 
     def transaction_params
       params.require(:auction).permit(transactions: [:id, :carrier, :shipping_account])[:transactions]
+    end
+
+    def destination_params
+      params.require(:auction).permit(destination: [:title, :address, :city, :state, :zip])[:destination]      
     end
 end

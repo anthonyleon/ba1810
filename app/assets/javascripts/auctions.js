@@ -10,7 +10,6 @@ $(document).on('ready page:load', function() {
 	// 	$('.auction-destination').trigger("reset");
 	// });
 
-
 	$('.responsive-remove-btn').hide();
 	$('.purchase-btns').hide();
 

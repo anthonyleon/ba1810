@@ -106,14 +106,14 @@
                       %dt Ship To:
                       %dd ATTN: Bob Smith
                       %dd
-                        = "#{@auction.company.name}"
+                        = "#{@destination.title}"
                       %dd
-                        = "#{@auction.company.address}"
+                        = "#{@destination.address}"
                         %br
-                        = "#{@auction.company.city}"
-                        = ", #{@auction.company.state}"
-                        = "#{@auction.company.zip}"
-                        = "#{@auction.company.country}"
+                        = "#{@destination.city}"
+                        = ", #{@destination.state}"
+                        = "#{@destination.zip}"
+                        = "#{@destination.country}"
       .panel.panel-flat
         .panel-heading
           %h5.panel-title

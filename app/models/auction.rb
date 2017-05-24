@@ -4,11 +4,14 @@ class Auction < ActiveRecord::Base
   has_one :tx, class_name: "Transaction"#, foreign_key: "transaction_id"
   has_one :auction_part, dependent: :destroy
   has_one :part, through: :auction_part
+  belongs_to :destination
   has_many :bids, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :bidders, through: :bids, source: :company
 
   validates :quantity, presence: true
+  validates :part_num, presence: true
+
 
   before_save :strip_whitespace
   before_save :upcase_part_num
@@ -140,11 +143,11 @@ class Auction < ActiveRecord::Base
   end
 
   def full_address
-    "#{destination_address}, #{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
+    "#{destination.address}, #{destination.city.capitalize}, #{destination.state.upcase} #{destination.zip} #{destination.country.upcase}"
   end
 
   def semi_address
-    "#{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
+    "#{self.destination.city.capitalize}, #{self.destination.state.upcase} #{self.destination.zip} #{self.destination.country.upcase}"
   end
 
 end

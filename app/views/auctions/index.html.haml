@@ -20,9 +20,13 @@
     / Main content
     .content-wrapper
       .panel.panel-flat
-        .panel-heading
+        .panel-heading.auction-index-panel-title
           %h5.panel-title
             Active eRFQ's
+          %a.btn.btn-labeled.btn-labeled-right.btn-primary{href: new_auction_path}
+            Create RFQ
+            %b
+              %i.icon-file-text
         .col-md-6
           .panel-body
             Your current requests for quotation are shown below. Use Bid Aero's escrow service on any transaction and protect your money from fraud. If you have payment covered, record purchase.

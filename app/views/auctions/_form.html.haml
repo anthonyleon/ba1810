@@ -1,172 +1,19 @@
-.form-horizontal
-	%p#alert= alert
-	= form_for(@auction, html: { class: "inline-form" }) do |f|
-		- if @auction.errors.any?
-			#error_explanation
-				%h2
-					= pluralize(@auction.errors.count, "error")
-					prohibited this auction from being saved:
-				%ul
-					- @auction.errors.full_messages.each do |message|
-						%li= message
-		.panel.panel-flat
-			.panel-heading
-				%h5.panel-title
-					Please complete the form below with your part requirement & desired shipping address.
-			.panel-body
-				.row
-					.col-md-6
-						%fieldset
-							%legend.text-semibold
-								%i.icon-stack3.position-left
-								Part Details
-							.form-group
-								%label.col-lg-3.control-label Part number:
-								.col-lg-9
-									= f.text_field :part_num, :placeholder => "Ex: 8063-215", class: "form-control"
-							.form-group
-								%label.col-lg-3.control-label Quantity:
-								.col-lg-9
-									= f.text_field :quantity, :placeholder => "1", class: "form-control"
-							.form-group
-								%label.col-lg-3.control-label Min cycles remaining:
-								.col-lg-9
-									= f.text_field :cycles, :placeholder => "Ex: 5000CR @ 3C1 (if applicable)", class: "form-control"
-							.form-group
-								%label.col-lg-3.control-label Target price:
-								.col-lg-9
-									= f.text_field :target_price, :placeholder => "Ex: $1280.00", class: "form-control"
-							.col-md-12
-								.col-md-5.col-md-offset-1
-									%label.text-semibold   Acceptable Conditons
-									.form-group
-										= f.collection_check_boxes(:condition, Auction.conditions, :to_sym, :humanize) do |b|
-											.checkbox
-												= b.label
-												= b.check_box
-								.col-md-5.col-md-offset-1
-									%label.text-semibold Required Documentation
-									.form-group
-										= f.collection_check_boxes(:req_forms, Auction.forms, :to_sym, :humanize, class: "checkbox") do |b|
-											.checkbox
-												= b.label
-												= b.check_box
-					.col-md-6
-						%fieldset
-							%legend.text-semibold
-								%i.icon-truck.position-left
-								Shipping details
-							.form-group
-								%label.col-lg-3.control-label Company (optional):
-								.col-lg-9
-									%input.form-control{:placeholder => "Ex: AeroTrade Capital", :type => "text"}
-							.form-group
-								%label.col-lg-3.control-label ATTN:
-								.col-lg-9
-									%input.form-control{:placeholder => "Ex: Bob Smith",:type => "text"}
-							.form-group
-								%label.col-lg-3.control-label Address:
-								.col-lg-9
-									%input.form-control{:placeholder => "Shipping Address",:type => "text"}
-							.form-group
-								%label.col-lg-3.control-label Location:
-								.col-lg-9
-									.row
-										.col-md-6
-											.mb-15
-												%select.select.select2-hidden-accessible{"aria-hidden" => "true", "data-placeholder" => "Select your country", :tabindex => "-1"}
-													%option
-													%option{:value => "1"} Canada
-													%option{:value => "2"} USA
-													%option{:value => "3"} Australia
-													%option{:value => "4"} Germany
-												%span.select2.select2-container.select2-container--default{:dir => "ltr", :style => "width: 100%;"}
-													%span.selection
-														%span.select2-selection.select2-selection--single{"aria-expanded" => "false", "aria-haspopup" => "true", "aria-labelledby" => "select2-1yep-container", :role => "combobox", :tabindex => "0"}
-															%span#select2-1yep-container.select2-selection__rendered{:title => "Germany"} Germany
-															%span.select2-selection__arrow{:role => "presentation"}
-																%b{:role => "presentation"}
-													%span.dropdown-wrapper{"aria-hidden" => "true"}
-											%input.form-control{:placeholder => "ZIP code", :type => "text"}/
-										.col-md-6
-											%input.form-control.mb-15{:placeholder => "State/Province", :type => "text"}/
-											%input.form-control{:placeholder => "City", :type => "text"}/
-					.col-md-6
-						%fieldset
-							%legend.text-semibold
-								%i.icon-user.position-left
-								Contact Information
-							.form-group
-								%label.col-lg-3.control-label Your name:
-								.col-lg-9
-									.row
-										.col-md-6
-											%input.form-control{:placeholder => "First name", :type => "text"}/
-										.col-md-6
-											%input.form-control{:placeholder => "Last name", :type => "text"}/
-							.form-group
-								%label.col-lg-3.control-label Email:
-								.col-lg-9
-									%input.form-control{:placeholder => "eugene@kopyov.com", :type => "text"}/
-							.form-group
-								%label.col-lg-3.control-label Phone #:
-								.col-lg-9
-									%input.form-control{:placeholder => "+99-99-9999-9999", :type => "text"}/
-
-				%br
-				.row
-					.col-md-7.col-md-offset-2
-						%fieldset
-							%legend.text-semibold
-								%i.icon-bubble-lines3.position-left
-								Optional Message:
-							.form-group
-								%label.col-lg-3.control-label Additional message:
-								.col-lg-9
-									%textarea.form-control{:cols => "5", :placeholder => "Enter your message here", :rows => "5"}
-
-
-
-
-
-				.text-right
-					= f.button(type: "submit", class: "btn btn-primary legitRipple") do
-						Submit eRFQ
-						%i.icon-arrow-right14.position-right
-
-
 .panel.panel-white
 	.panel-heading
 		%h6.panel-title New RFQ
 		%p#alert= alert
 	= form_for(@auction, html: { class: "form-basic" }) do |f|
-		- if @auction.errors.any?
-			#error_explanation
-				%h2
-					= pluralize(@auction.errors.count, "error")
-					prohibited this auction from being saved:
-				%ul
-					- @auction.errors.full_messages.each do |message|
-						%li= message
-		%fieldset#step4.step
-			%h6.form-wizard-title.text-semibold
-				%span.form-wizard-count 4
-				Add Suppliers
-				%small.display-block Invite all the vendors that you would like, to participate in this RFQ
-				.container#add-new-supplier
-				#new-supplier-partial{:style => "display: none;"}
-					= render partial: "add_supplier"
-				.container#invitees
-				%br
-					%a.btn.custom-btn#addNewSupplier Add your preferred suppliers
-				-# .col-md-6
-				-# 	.form-group
-				-# 		%label Additional information:
-				-# 		%textarea.form-control{:cols => "5", :name => "additional-info", :placeholder => "If you want to add any info, do it here.", :rows => "5"}
-		.form-wizard-actions
-			%button#basic-back.btn.btn-default{:type => "reset"} Back
-			%button#basic-next.btn.btn-info{:type => "submit"} Next
+
+
+
 		%fieldset#step1.step
+			- if @auction.errors.any?
+				#error_explanation
+					.alert.alert-danger
+						The form contains #{pluralize(@auction.errors.count, "error")}.
+					%ul.error-msg-block
+						- @auction.errors.full_messages.each do |msg|
+							%li= msg
 			%h6.form-wizard-title.text-semibold
 				%span.form-wizard-count 1
 				Part Details
@@ -181,7 +28,7 @@
 						= f.text_field :cycles, :placeholder => "Ex: 5000CR @ 3C1 (if applicable)", class: "form-control"
 					.form-group
 						%label Target Price
-						= f.text_field :target_price, :placeholder => "Ex: $1280.00", class: "form-control"
+						= f.text_field :target_price, :placeholder => "Ex: $1280.00", class: "form-control dollars"
 				.col-md-6
 					.col-md-12
 						.form-group
@@ -212,31 +59,32 @@
 				.row
 					.col-md-6
 						.form-group
-							%label Company (optional):
-							= cm.text_field :title, :placeholder => "Ex: Company Name", class: "form-control"
+							%label Company Name(optional)
+							= cm.text_field :title, value: current_user.name, class: "form-control"
 						.form-group
 							%label Street Address
-							%input.form-control{:name => "degree-level", :placeholder => "123 Main Street", :type => "text"}/
+							= cm.text_field :address, value: current_user.address, class: "form-control"
 					.col-md-6
 						.col-md-7
 							.form-group
 								%label City
-								%input.form-control{:name => "specialization", :placeholder => "Miami", :type => "text"}/
+								= cm.text_field :city, value: current_user.city, class: "form-control"
 						.col-md-5
 							.form-group
 								%label State/Region
-								= cm.text_field :state, class: "form-control"
+								= cm.text_field :state, value: current_user.state, class: "form-control"
 						.form-group
 							.col-md-8
 								%label Country
-								%select.select{"data-placeholder" => "Choose a Country...", :name => "university-country"}
+								%select.select{selected: current_user.country, :name => "country"}
 									%option
+										= current_user.country
 									- CountryStateSelect.countries_collection.each do |c|
 										%option{value: "#{c[1]}"}
 											= c[0]
 							.col-md-4
 								%label Zip Code
-								= cm.text_field :zip, class: "form-control"
+								= cm.text_field :zip, value: current_user.zip, class: "form-control"
 		%fieldset#step3.step
 			%h6.form-wizard-title.text-semibold
 				%span.form-wizard-count 3
@@ -244,18 +92,38 @@
 				%small.display-block Point of contact information for sellers
 			.col-md-6.col-md-offset-3.auction-contact-info
 				.mb-15
-					%label.col-lg-3.control-label Representative's Name:
+					%label.col-lg-3.control-label Representative's Name
 					.col-lg-9
 						= f.text_field :rep_name, :placeholder => "First & Last", :class => "form-control"
 				.mb-15
-					%label.col-lg-3.control-label Email:
+					%label.col-lg-3.control-label Email
 					.col-lg-9
 						= f.text_field :rep_email, :placeholder => "example@bid.aero", :class => "form-control"
 				.mb-15
-					%label.col-lg-3.control-label Phone #:
+					%label.col-lg-3.control-label Phone #
 					.col-lg-9
 						= f.text_field :rep_phone, :placeholder => "+99 999 999 999", class: "form-control"
-
+		%fieldset#step4.step
+			%h6.form-wizard-title.text-semibold
+				%span.form-wizard-count 4
+				Add Suppliers
+				%small.display-block Invite all the vendors that you would like, to participate in this RFQ
+			.row.text-center
+				.container#add-new-supplier
+				#new-supplier-partial{:style => "display: none;"}
+					= render partial: "add_supplier"
+				.container#invitees
+				%br
+					%a.btn.custom-btn#addNewSupplier.btn-success
+						Add your preferred suppliers
+						%i.icon-envelop.position-right
+				-# .col-md-6
+				-# 	.form-group
+				-# 		%label Additional information:
+				-# 		%textarea.form-control{:cols => "5", :name => "additional-info", :placeholder => "If you want to add any info, do it here.", :rows => "5"}
+		.form-wizard-actions
+			%button#basic-back.btn.btn-default{:type => "reset"} Back
+			= f.submit "Next", class: "btn btn-info", id: "basic-next"
 
 
 

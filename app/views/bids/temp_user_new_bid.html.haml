@@ -1,10 +1,30 @@
-.row
-  .col.s12
-    .card
-      .card-content
-        .card-title.center-align
-          %h5.custom-card-title.center
-            New Quote
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-stack3.position-left.text-success
+        %span.text-semibold.text-success New Quote
+        \- for #{@auction.company.name} - PN: #{@auction.part_num}
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Sell
+        %li
+          Parts Wanted
+        %li.active
+          = @auction.id
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h5.panel-title
+            Please complete the form to submit your quote..row
           = form_for(:bid, url: temp_user_create_bid_path(@auction)) do |f|
             - if @bid.errors.any?
               #error_explanation
@@ -14,70 +34,219 @@
                 %ul
                   - @bid.errors.full_messages.each do |message|
                     %li= message
-            .container.temp-bid.col-md-2
-              .col-md-1.field-section
-                .well
-                  = f.fields_for :inventory_part, InventoryPart.new do |cm|
-                    .part-details.sub-title.left
-                      Part Details
-                    .field.pull-left.field-title
-                      Part Number
-                    .field.quote-detail-field.col-lg-1  
-                      = cm.text_field :part_num, value: @auction.part_num
-                    .field.pull-left.field-title
-                      Manufacturer  
-                    .field.quote-detail-field.col-lg-1  
-                      = cm.text_field :manufacturer
-                    .field.pull-left.field-title
-                      Serial Number  
-                    .field.quote-detail-field.col-lg-1  
-                      = cm.text_field :serial_num
-                    .field.pull-left.field-title
-                      Condition  
-                    .field.quote-detail-field.col-lg-1 
-                      = cm.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
-                .col-lg-2
-                  .field.quote-detail-field.col-lg-1
-                    = f.date_field :tag_date, class: "form-control datepicker", placeholder: "Tag Date"
-              .col-md-1.field-section
-                .bid-info.sub-title.left-align
-                  Quote Details
-                .col-lg-2
-                  .field.pull-left.field-title.col-lg-1
-                    Quote Reference No.
-                  .field.quote-detail-field.col-lg-1
-                    = f.text_field :quote_num
-                .col-lg-2
-                  .field.pull-left.field-title.col-lg-1
-                    Quantity
-                  .field.quote-detail-field.col-lg-1
-                    = f.number_field :quantity, class: "input-field"
-                .col-lg-2
-                  .field.pull-left.field-title.col-lg-1
-                    Part Total  
-                  .field.quote-detail-field.col-lg-1
-                    = f.text_field :part_price, class: "dollars input-field"
-                .col-lg-2
-                  .field.pull-left.field-title.col-lg-1
-                    Shipping Cost
-                    %span.sub-title.destination
-                      = "(Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country})"
-                  .field.quote-detail-field.col-lg-1
-                    = f.text_field :est_shipping_cost, class: "dollars input-field"
-            .field.document-fields.container
-              = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
-                .field.field-title.center-align
-                  Upload Files #{"    |"}
-                  = cm.file_field :attachment, multiple: true
+            .panel-body
+              .row
+                .col-md-4
+                  .panel.panel-default.border-left-xlg.border-left-primary
+                    .panel-heading.text-semibold
+                      %i.icon-cogs.position-left
+                      Request for Quotation Details
+                    .panel-body.text-center
+                      %dl.dl-horizontal.text-center
+                        %dt Part number:
+                        %dd
+                          = "#{@auction.part_num}"
+                        %dt Description:
+                        %dd
+                          = "#{@auction.auction_part.description}"
+                        %dt Quantity:
+                        %dd
+                          = "#{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
+                        %dt Acceptable Conditions:
+                        %dd
+                          = "#{AssetDecorator.rename(@auction, @auction.condition)}"
+                        %dt Required Documentation:
+                        %dd
+                          = "#{@auction.req_forms.reject(&:blank?).to_sentence}"
+                        %dt Cycle Requirement:
+                        %dd
+                          = "#{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
+                        %dt Target Price:
+                        %dd
+                          = "#{@auction.target_price || "N/A"}"
+                    .panel-heading.text-semibold
+                      %i.icon-truck.position-left
+                      Shipping Details
+                    .panel-body.text-center
+                      %dl
+                        %dt Ship To:
+                        %dd ATTN: Bob Smith
+                        %dd
+                          = "#{@auction.company.name}"
+                        %dd
+                          = "#{@auction.company.address}"
+                          %br
+                          = "#{@auction.company.city}"
+                          = ", #{@auction.company.state}"
+                          = "#{@auction.company.zip}"
+                          = "#{@auction.company.country}"
+                .col-md-7.col-md-offset-1
+                  %fieldset
+                    %legend.text-semibold
+                      %i.icon-stack3.position-left
+                      New Quote
+                  .form-horizontal
+                    = form_for([@auction, @bid], html: {class: ''})do |f|
+                      - if @bid.errors.any?
+                        #error_explanation
+                          %h2
+                            = pluralize(@bid.errors.count, "error")
+                            prohibited this bid from being saved:
+                          %ul
+                            - @bid.errors.full_messages.each do |message|
+                              %li= message
+                      = f.fields_for :inventory_part, InventoryPart.new do |cm|
+                        %strong.part-details.sub-title.left
+                          Part Details
+                        .form-group
+                          .col-lg-6
+                            %label.col-lg-4.control-label Part No.
+                            .col-lg-8
+                              = cm.text_field :part_num, value: @auction.part_num, class: "form-control"
+                          .col-lg-6
+                            %label.col-lg-4.control-label Manufacturer
+                            .col-lg-8
+                              = cm.text_field :manufacturer, placeholder: "Ex: Textron Aviation", class: "form-control"
+                        .form-group
+                          .col-lg-6
+                            %label.col-lg-4.control-label Serial No.
+                            .col-lg-8
+                              = cm.text_field :serial_num, placeholder: "WG2Y0B9", class: "form-control"
+                          .col-lg-6
+                            %label.col-lg-4.control-label Condition
+                            .col-lg-8
+                              .inv-radio-btns{style: "display: flex; justify-content: space-around"}
+                                .right-radios
+                                  .radio
+                                    = cm.radio_button :condition, "recent"
+                                    = cm.label :condition, "NE"
+                                  .radio
+                                    = cm.radio_button :condition, "overhaul"
+                                    = cm.label :condition, "OH"
+                                  .radio
+                                    = cm.radio_button :condition, "as_removed"
+                                    = cm.label :condition, "AR"
+                                .left-radios
+                                  .radio
+                                    = cm.radio_button :condition, "serviceable"
+                                    = cm.label :condition, "SV"
+                                  .radio
+                                    = cm.radio_button :condition, "non_serviceable"
+                                    = cm.label :condition, "NSV"
+                                  .radio
+                                    = cm.radio_button :condition, "scrap"
+                                    = cm.label :condition, "SC"
+                      %strong.part-details.sub-title.left
+                        Quote Details
+                      %br
+                      %br
+                      .row
+                        .col-lg-6
+                          .form-group
+                            %label.col-lg-4.control-label Amount:
+                            .col-lg-8
+                              = f.text_field :part_price, :placeholder => "Ex: $450.00", class: "form-control dollars"
+                          .form-group
+                            %label.col-lg-4.control-label Shipping Est:
+                            .col-lg-8
+                              = f.text_field :est_shipping_cost, :placeholder => "Shipping Cost", class: "form-control dollars"
+                          .form-group
+                            %label.col-lg-4.control-label Quantity:
+                            .col-lg-8
+                              = f.text_field :quantity, :placeholder => "Quantity", class: "form-control"
+                              = f.hidden_field :inventory_part_id, value: InventoryPart.find_by(company: current_user, part_num: @auction.part_num).id
+                        .col-lg-6
+                          .form-group
+                            %label.col-lg-4.control-label Tag Date:
+                            .col-lg-8
+                              = f.date_field :tag_date, :placeholder => "Tag Date", class: "form-control text-muted"
+                          .form-group
+                            %label.col-lg-4.control-label Quote Reference:
+                            .col-lg-8
+                              = f.text_field :quote_num, :placeholder => "Quote Reference No. (optional)", class: "form-control"
+                          .form-group
+                            .col-lg-4
+                              %label Documentation:
+                            .col-lg-8{style: "padding: 0 20px;"}
+                              = f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
+                                -# .field.pull-left.field-title
+                                -#   Upload Files
+                                .row{style: "display: flex;"}
+
+                                  .files
+                                    %label.btn.btn-default.btn-file.legitRipple
+                                      %i.icon-file-plus
+                                      Browse
+                                      = cm.file_field :attachment, multiple: true
+                                  .form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
+                                    .file-caption-name#file-name{:title => "No file selected"}
+                                      .text-muted None selected
+                      .row
+                        = f.submit 'Submit Quote', class: 'btn btn-defualt bg-success pull-right'
+  /           .container.temp-bid.col-md-2
+  /             .col-md-1.field-section
+  /               .well
+  /                 = f.fields_for :inventory_part, InventoryPart.new do |cm|
+  /                   .part-details.sub-title.left
+  /                     Part Details
+  /                   .field.pull-left.field-title
+  /                     Part Number
+  /                   .field.quote-detail-field.col-lg-1  
+  /                     = cm.text_field :part_num, value: @auction.part_num
+  /                   .field.pull-left.field-title
+  /                     Manufacturer  
+  /                   .field.quote-detail-field.col-lg-1  
+  /                     = cm.text_field :manufacturer
+  /                   .field.pull-left.field-title
+  /                     Serial Number  
+  /                   .field.quote-detail-field.col-lg-1  
+  /                     = cm.text_field :serial_num
+  /                   .field.pull-left.field-title
+  /                     Condition  
+  /                   .field.quote-detail-field.col-lg-1 
+  /                     = cm.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
+  /               .col-lg-2
+  /                 .field.quote-detail-field.col-lg-1
+  /                   = f.date_field :tag_date, class: "form-control datepicker", placeholder: "Tag Date"
+  /             .col-md-1.field-section
+  /               .bid-info.sub-title.left-align
+  /                 Quote Details
+  /               .col-lg-2
+  /                 .field.pull-left.field-title.col-lg-1
+  /                   Quote Reference No.
+  /                 .field.quote-detail-field.col-lg-1
+  /                   = f.text_field :quote_num
+  /               .col-lg-2
+  /                 .field.pull-left.field-title.col-lg-1
+  /                   Quantity
+  /                 .field.quote-detail-field.col-lg-1
+  /                   = f.number_field :quantity, class: "input-field"
+  /               .col-lg-2
+  /                 .field.pull-left.field-title.col-lg-1
+  /                   Part Total  
+  /                 .field.quote-detail-field.col-lg-1
+  /                   = f.text_field :part_price, class: "dollars input-field"
+  /               .col-lg-2
+  /                 .field.pull-left.field-title.col-lg-1
+  /                   Shipping Cost
+  /                   %span.sub-title.destination
+  /                     = "(Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country})"
+  /                 .field.quote-detail-field.col-lg-1
+  /                   = f.text_field :est_shipping_cost, class: "dollars input-field"
+  /           .field.document-fields.container
+  /             = f.fields_for :document, Document.new, html: { multipart: true } do |cm|
+  /               .field.field-title.center-align
+  /                 Upload Files #{"    |"}
+  /                 = cm.file_field :attachment, multiple: true
               
             
               
-            #place-bid.actions
-              = f.submit 'Submit', class: 'btn custom-btn'
+  /           #place-bid.actions
+  /             = f.submit 'Submit', class: 'btn custom-btn'
 
-  :javascript
-    $('.datepicker').pickadate({
-      selectMonths: true
-    });
+  / :javascript
+  /   $('.datepicker').pickadate({
+  /     selectMonths: true
+  /   });
 
 
