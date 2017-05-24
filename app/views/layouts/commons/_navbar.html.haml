@@ -10,14 +10,13 @@
 		%ul.nav.navbar-nav.navbar-right.top-navbar-right
 			%li
 				.heading-elements
-					%button.btn.btn-labeled.btn-labeled-right.bg-success.heading-btn.dropdown-toggle{"data-toggle" => "dropdown"}
+					%button.btn.btn-labeled.btn-labeled-right.bg-primary.heading-btn.dropdown-toggle{"data-toggle" => "dropdown"}
 						New
 						%b
 							%i.caret.navbar-icon
 					%ul.dropdown-menu.dropdown-menu-right
 						%li
 							= link_to "New Request for Quotaion - eRFQ", new_auction_path
-
 			%li
 				=link_to dashboard_path do
 					%i.glyphicon.glyphicon-th-large.navbar-icon
@@ -45,11 +44,11 @@
 							Messages
 					%li.divider
 					%li
-						%a{:href => "#"}
+						= link_to edit_company_path do
 							%i.icon-cog5
 							Account settings
 					%li
-						%a{:href => logout_path}
+						= link_to logout_path do
 							%i.icon-switch2
 							Logout
 / /main navbar
@@ -61,7 +60,7 @@
 				%i.icon-menu7
 	#navbar-second-toggle.navbar-collapse.collapse
 		%ul.nav.navbar-nav
-			%li.dropdown.text-size-large
+			%li.dropdown.text-size-large.text-semibold
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					BUY
 					%span.caret
@@ -79,7 +78,7 @@
 						=link_to purchases_path do
 							%i.icon-price-tags
 							Purchase History
-			%li.dropdown.text-size-large
+			%li.dropdown.text-size-large.text-semibold
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					SELL
 					%span.caret
@@ -102,10 +101,11 @@
 						=link_to pending_sales_path do
 							%i.icon-history
 							Pending Sales
+					%li
 						=link_to sales_path do
 							%i.icon-chart
 							Sales History
-			%li.dropdown.text-size-large
+			%li.dropdown.text-size-large.text-semibold
 				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
 					MANAGE
 					%span.caret
@@ -128,23 +128,5 @@
 							= link_to select_payout_preference_path do
 								%i.icon-cash
 								Setup Payoneer Escrow
-		-# %ul.nav.navbar-nav.navbar-right
-		-# 	%li
-		-# 		%a{:href => "#"} Text link
-		-# 	%li.dropdown
-		-# 		%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-		-# 			%i.icon-cog3
-		-# 			%span.visible-xs-inline-block.position-right Dropdown
-		-# 			%span.caret
-		-# 		%ul.dropdown-menu.dropdown-menu-right
-		-# 			%li
-		-# 				%a{:href => "#"} Action
-		-# 			%li
-		-# 				%a{:href => "#"} Another action
-		-# 			%li
-		-# 				%a{:href => "#"} Something else here
-		-# 			%li.divider
-		-# 			%li
-		-# 				%a{:href => "#"} One more separated line
-/ /second navbar
+
 / Page header
