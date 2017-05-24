@@ -35,7 +35,7 @@ class AuctionsController < ApplicationController
 
   def create
     auction_params[:target_price].gsub!(' ', '')
-    params["invitees"].delete("")
+    params["invitees"].delete("") if params["invitees"]
 
     @auction = Auction.new(auction_params)
     @auction.set_invitees(params[:invitees]) if params[:invitees]
