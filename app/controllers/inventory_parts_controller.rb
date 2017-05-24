@@ -24,7 +24,6 @@ class InventoryPartsController < ApplicationController
 
   def create
     @inventory_part = InventoryPart.new(inventory_part_params)
-raise
     # part_match = AvRefApi.part_num_check(@inventory_part.part_num)
     part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
     respond_to do |format|
