@@ -25,7 +25,10 @@ class InventoryPart < ActiveRecord::Base
     @@condition_abbreviations[condition]
   end
 
-
+  def self.conditions
+    %w(recent overhaul as_removed serviceable non_serviceable scrap)
+  end
+  
   def strip_whitespace
     self.attributes.each do |key, value|
       self[key] = value.squish if value.respond_to?("squish")

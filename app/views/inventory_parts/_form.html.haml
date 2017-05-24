@@ -6,10 +6,30 @@
     .field.form-group
       %strong Serial Number
       = f.text_field :serial_num, placeholder: "Serial number",class: "form-control"
-    .field.form-group
-      %strong Condition
-      = f.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
-    .text-center
+    %strong Condition
+    .inv-radio-btns{style: "display: flex; justify-content: space-between"}
+      .right-radios
+        .radio
+          = f.radio_button :condition, "recent"
+          = f.label :condition, "New"
+        .radio
+          = f.radio_button :condition, "overhaul"
+          = f.label :condition, "Overhaul"
+        .radio
+          = f.radio_button :condition, "as_removed"
+          = f.label :condition, "As Removed"
+      .left-radios
+        .radio
+          = f.radio_button :condition, "serviceable"
+          = f.label :condition, "Serviceable"
+        .radio
+          = f.radio_button :condition, "non_serviceable"
+          = f.label :condition, "Non Serviceable"
+        .radio
+          = f.radio_button :condition, "scrap"
+          = f.label :condition, "Scrap"
+
+      .text-center
       = f.button(type: "submit", class: "btn btn-success legitRipple") do
         Submit
   .col-md-4.col-md-offset-2
