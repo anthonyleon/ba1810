@@ -3,16 +3,17 @@
 		%h6.panel-title New RFQ
 		%p#alert= alert
 	= form_for(@auction, html: { class: "form-basic" }) do |f|
-		- if @auction.errors.any?
-			#error_explanation
-				%h2
-					= pluralize(@auction.errors.count, "error")
-					-raise
-					prohibited this auction from being saved:
-				%ul
-					- @auction.errors.full_messages.each do |message|
-						%li= message
+
+
+
 		%fieldset#step1.step
+			- if @auction.errors.any?
+				#error_explanation
+					.alert.alert-danger
+						The form contains #{pluralize(@auction.errors.count, "error")}.
+					%ul.error-msg-block
+						- @auction.errors.full_messages.each do |msg|
+							%li= msg
 			%h6.form-wizard-title.text-semibold
 				%span.form-wizard-count 1
 				Part Details

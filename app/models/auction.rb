@@ -10,6 +10,8 @@ class Auction < ActiveRecord::Base
   has_many :bidders, through: :bids, source: :company
 
   validates :quantity, presence: true
+  validates :part_num, presence: true
+
 
   before_save :strip_whitespace
   before_save :upcase_part_num
