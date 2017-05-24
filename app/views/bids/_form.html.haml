@@ -9,28 +9,28 @@
           - @bid.errors.full_messages.each do |message|
             %li= message
     .form-group
-      %label.col-lg-3.control-label Amount:
-      .col-lg-9
+      %label.col-sm-3.control-label Amount:
+      .col-sm-9
         = f.text_field :part_price, :placeholder => "Ex: $450.00", class: "form-control dollars"
     .form-group
-      %label.col-lg-3.control-label Shipping Estimate:
-      .col-lg-9
+      %label.col-sm-3.control-label Shipping Estimate:
+      .col-sm-9
         = f.text_field :est_shipping_cost, :placeholder => "Shipping Cost", class: "form-control dollars"
     .form-group
-      %label.col-lg-3.control-label Quantity:
-      .col-lg-9
+      %label.col-sm-3.control-label Quantity:
+      .col-sm-9
         = f.text_field :quantity, :placeholder => "Quantity", class: "form-control"
         = f.hidden_field :inventory_part_id, value: InventoryPart.find_by(company: current_user, part_num: @auction.part_num).id
     .form-group
-      %label.col-lg-3.control-label Tag Date:
-      .col-lg-9
+      %label.col-sm-3.control-label Tag Date:
+      .col-sm-9
         = f.date_field :tag_date, :placeholder => "Tag Date", class: "form-control text-muted"
     .form-group
-      %label.col-lg-3.control-label Quote Reference:
-      .col-lg-9
+      %label.col-sm-3.control-label Quote Reference:
+      .col-sm-9
         = f.text_field :quote_num, :placeholder => "Quote Reference No. (optional)", class: "form-control"
     .form-group
-      .col-lg-8.col-md-offset-2
+      .col-sm-8.col-md-offset-2
         = f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
           -# .field.pull-left.field-title
           -#   Upload Files
