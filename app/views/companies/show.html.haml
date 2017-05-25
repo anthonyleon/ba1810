@@ -1,49 +1,51 @@
 .page-container
-  / Page content
-  .page-content
-    / Main content
-    .content-wrapper
-      / Simple panel
-      .panel.panel-flat
-        .panel-heading
-          %h5.panel-title Get Started!
-          .heading-elements
-            %ul.icons-list
-              %li
-                %a{"data-action" => "collapse"}
-              %li
-                %a{"data-action" => "close"}
-        .panel-body
-          %h6.text-semibold Start your development with no hassle!
-          %p.content-group Common problem of templates is that all code is deeply integrated into the core. This limits your freedom in decreasing amount of code, i.e. it becomes pretty difficult to remove unnecessary code from the project. Limitless allows you to remove unnecessary and extra code easily just by removing the path to specific LESS file with component styling. All plugins and their options are also in separate files. Use only components you actually need!
-          %h6.text-semibold What is this?
-          %p.content-group Starter kit is a set of pages, useful for developers to start development process from scratch. Each layout includes base components only: layout, page kits, color system which is still optional, bootstrap files and bootstrap overrides. No extra CSS/JS files and markup. CSS files are compiled without any plugins or components. Starter kit was moved to a separate folder for better accessibility.
-          %h6.text-semibold How does it work?
-          %p You open one of the starter pages, add necessary plugins, uncomment paths to files in components.less file, compile new CSS. That's it. I'd also recommend to open one of main pages with functionality you need and copy all paths/JS code from there to your new page, it's just faster and easier.
-      / /simple panel
-  .panel.panel-flat.panel-body
-    %h1.panel-title
-      Real-Time Aviation Financial Data
-    %hr/
-    %table.table.bordered.highlight.responsive-table
-      %thead
-        %tr
-          %th Aviation Leasing Stocks
-          %th Currency
-          %th Price
-          %th Change
-          %th Mkt Cap
-          %tbody
-            - @data.each do |data|
-              - percent = data.change_in_percent.to_f
-              - change = data.change.to_f
-              - data.ask = (change / (percent / 100)) + change
-              %tr
-              %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
-              %td{style: "padding: 10px !important"} USD
-              -if data.ask != "N/A"
-                %td{style: "padding: 10px !important; color: #{data.ask.to_f < 0 ? 'red' : 'green'}"}= "$" + '%.2f' % data.ask
-              -else
-                %td{style: "padding: 10px !important"}= "N/A"
-              %td{style: "padding: 10px !important; color: #{data.change.to_f < 0 ? 'red' : 'green'}"}= data.change + " (" + data.change_in_percent + ")"
-              %td{style: "padding: 10px !important"}= data.market_capitalization
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			/ Simple panel
+			.panel.panel-flat
+				.panel-heading
+					%h5.panel-title Get Started!
+					.heading-elements
+						%ul.icons-list
+							%li
+								%a{"data-action" => "collapse"}
+							%li
+								%a{"data-action" => "close"}
+				.panel-body
+					%h6.text-semibold Start looking for parts you need with no hassle!
+					%p.content-group 	With one part search reach all your approved vendors and any other registered company listing that inventory. That initial eRFQ (Request for Quotation) is the only thing needed to find your spares in a timely and cost effective manner.
+					%p.content-group 	Bid Aero will organize quotes by approved vendors and other sellers.  Uniquely providing sellers with information on competing quotes, creating transparency for both buyers and sellers. Need help with payment? Take advantage of our secure escrow service for those first time purchases. Never risk a cent and still expand your reach.
+					%h6.text-semibold What is this?
+					%p.content-group  Bid Aero is modeled off a reverse auction and matches sellers with buyers by direct invitation or the inventory being listed online. We provide both parties with information on the need and competitive
+					%h6.text-semibold How does it work?
+					%p Begin by creating an eRFQ or send us an email at support@bid.aero to upload inventory. Our system is built to help you create new leads and find new approved vendors.
+					%p.content-group Questions? Give us a call or reach us at support@bid.aero
+			/ /simple panel
+	.panel.panel-flat.panel-body
+		%h1.panel-title
+			Real-Time Aviation Financial Data
+		%hr/
+		%table.table.bordered.highlight.responsive-table
+			%thead
+				%tr
+					%th Aviation Leasing Stocks
+					%th Currency
+					%th Price
+					%th Change
+					%th Mkt Cap
+					%tbody
+						- @data.each do |data|
+							- percent = data.change_in_percent.to_f
+							- change = data.change.to_f
+							- data.ask = (change / (percent / 100)) + change
+							%tr
+							%td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
+							%td{style: "padding: 10px !important"} USD
+							-if data.ask != "N/A"
+								%td{style: "padding: 10px !important; color: #{data.ask.to_f < 0 ? 'red' : 'green'}"}= "$" + '%.2f' % data.ask
+							-else
+								%td{style: "padding: 10px !important"}= "N/A"
+							%td{style: "padding: 10px !important; color: #{data.change.to_f < 0 ? 'red' : 'green'}"}= data.change + " (" + data.change_in_percent + ")"
+							%td{style: "padding: 10px !important"}= data.market_capitalization
