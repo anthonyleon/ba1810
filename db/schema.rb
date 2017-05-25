@@ -155,14 +155,14 @@ ActiveRecord::Schema.define(version: 20170523211202) do
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
 
   create_table "destinations", force: :cascade do |t|
-    t.string   "address"
-    t.string   "city"
-    t.string   "state"
-    t.string   "country"
-    t.string   "zip"
-    t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "address",    default: ""
+    t.string   "city",       default: ""
+    t.string   "state",      default: ""
+    t.string   "country",    default: ""
+    t.string   "zip",        default: ""
+    t.string   "title",      default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "documents", force: :cascade do |t|
