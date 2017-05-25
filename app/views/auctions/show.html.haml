@@ -114,6 +114,23 @@
                         = ", #{@destination.state}"
                         = "#{@destination.zip}"
                         = "#{@destination.country}"
+          -if current_user == @auction.company
+            = form_tag @auction, method: :patch, remote: true, class: "flex more-suppliers-form" do
+              .row.col-sm-12
+                .container#add-new-supplier
+                #new-supplier-partial{:style => "display: none;"}
+                  = render partial: "add_supplier"
+                .container#invitees
+                %br
+                .row.flex{style: "justify-content: space-around;"}
+                  .text-left
+                    %a.btn.custom-btn#addNewSupplier.btn-success.add-supplier-after
+                      Invite More Suppliers
+                      %i.icon-envelop.position-right
+                  .text-right.submit-added-suppliers
+                    = button_tag(type: "submit", class: "btn btn-success submit-more-suppliers") do
+                      Send Invite(s)
+                      %i.icon-envelop.position-right
       .panel.panel-flat
         .panel-heading
           %h5.panel-title
