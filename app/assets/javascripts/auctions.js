@@ -10,6 +10,18 @@ $(document).on('ready page:load', function() {
 	// 	$('.auction-destination').trigger("reset");
 	// });
 
+	// add more suppliers on auctions/show
+	$('.submit-added-suppliers').hide();
+	$('.add-supplier-after').click( function() {
+		$('.submit-added-suppliers').slideDown( "slow", function () {
+
+		});
+	});
+	$(".submit-added-suppliers").click( function() {
+		console.log("yo");
+		$(".more-suppliers-form").toggle( "drop" );
+	});
+
 	$('.responsive-remove-btn').hide();
 	$('.purchase-btns').hide();
 
@@ -76,9 +88,12 @@ $(document).on('ready page:load', function() {
 
 	var addSupplier = document.getElementById("addNewSupplier");
 	$("#addNewSupplier").on("click", function() {
-    console.log("yo");
+
 		addSupplier.innerHTML = "Add Another Supplier";
 		$("#add-new-supplier").append($("#new-supplier-partial").html());
+		$("#add-new-supplier .add-supplier-partial").last().hide().slideDown( "slow", function () {
+
+		});
 	});
 
 	this.removeSupplier = function(element) {
