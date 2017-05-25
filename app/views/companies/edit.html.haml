@@ -65,16 +65,6 @@
 													.col-md-6
 														%label Email
 														= f.text_field :email, class: "form-control", placeholder: "E-mail"
-											-# .form-group
-											-# 	.row
-											-# 		.col-md-6
-											-# 			%label Position
-											-# 			-# = f.text_field :rep_phone, class: "form-control", placeholder: "Phone Number"
-											-# 			%input.form-control{:type => "text", :value => "Account Executive"}/
-											-# 		.col-md-6
-											-# 			%label Phone #
-											-# 			%input.form-control{:type => "text", :value => "305-MIA-FACK"}/
-											-# 			-# = f.text_field :rep_phone, class: "form-control", placeholder: "Phone Number"
 											.text-right
 												%button.btn.btn-success{:type => "submit"}
 													Update User Profile
@@ -170,18 +160,13 @@
 														%label Phone #
 														= f.text_field :phone, class: "form-control", placeholder: "Company Phone Number"
 											.form-group
-												= form_for @company_doc, html: { multipart: true } do |f|
-													= f.label :attachment
-													= f.file_field :attachment
+												= f.fields_for @company_doc, html: { multipart: true } do |cm|
+													= cm.label :attachment
+													= cm.file_field :attachment
 													#form-group.checkbox
-													= f.check_box :resale_license
-													= f.label :resale_license, "Check if this is your Resale Certificate"
-													= f.submit "Save", class: "btn bg-primary"
-													-# .col-md-8.col-md-offset-2
-													-# 	%label.display-block Upload Company Logo
-													-# 	.uploader
-													-# 		%input.file-styled{:type => "file"}/
-													%span.help-block Accepted formats: gif, png, jpg. Max file size 2Mb
+													= cm.check_box :resale_license
+													= cm.label :resale_license, "Check if this is your Resale Certificate"
+													%span.help-block Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
 											.text-right
 												%button.btn.btn-success{:type => "submit"}
 													Update Company Profile
