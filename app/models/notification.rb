@@ -6,6 +6,8 @@ class Notification < ActiveRecord::Base
 
   enum category: [:sell, :buy, :action_required]
 
+
+
 	def self.any_unread?(user)
 		notifications = user.notifications.map do |notify|
     	notify.read?
