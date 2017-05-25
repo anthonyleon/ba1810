@@ -52,6 +52,7 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    CompanyDoc.create(name: document_params.original_filename, attachment: document_params, company: current_user)
     respond_to do |format|
       if @company.update(company_params) || @company.edit_attrs(company_params)
         format.html { redirect_to dashboard_path, notice: 'Company was successfully updated.' }
@@ -105,5 +106,9 @@ class CompaniesController < ApplicationController
       params.require(:company).permit(:name, :armor_account_id, :armor_user_id, :email, :ein, :password,
         :password_confirmation, :representative, :phone, :address, :city, :state, :zip, :country,
         :inc_country, :inc_state, :business_type, :url)
+    end
+
+    def document_params
+      params.require(:company).permit(company_doc: [:attachment])[:company_doc][:attachment]
     end
 end
