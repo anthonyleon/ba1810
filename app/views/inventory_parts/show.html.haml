@@ -8,7 +8,7 @@
           %div.container
             %p
               Serial Number:
-              = @inventory_part.serial_num.empty? ? "N/A" : @inventory_part.serial_num
+              = @inventory_part.serial_num == nil ? "N/A" : @inventory_part.serial_num
             %p
               Part No. #{@inventory_part.part_num}
             %p
