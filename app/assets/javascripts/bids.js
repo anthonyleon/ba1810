@@ -8,8 +8,6 @@ $(document).on('ready page:load', function() {
 		var url = $(this).attr("data-url");
 		armor.openModal(url);
 	});
-	console.log('end');
-
 	[
 	".armor-modal",
 	".freight_num",
