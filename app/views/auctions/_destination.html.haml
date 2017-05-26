@@ -9,10 +9,6 @@
 					%ul
 						- @auction.errors.full_messages.each do |message|
 							%li= message
-			%h6.form-wizard-title.text-semibold
-				%span.form-wizard-count 1
-				Confirm Shipping Details/Instructions
-				%small.display-block Enter yor part specifications
 			.row
 				.col-md-6
 					.form-group
@@ -63,11 +59,6 @@
 								%h6 Shipping Account Number
 								= cm.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
 								= cm.hidden_field :id, :value => @transaction.id
-
-		.actions.submit_button.text-center
-			= f.submit 'Submit', class: "btn bg-success"
-
-
 
 
 

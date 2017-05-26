@@ -49,7 +49,7 @@
 
 # 5.times do
 #   AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
-#                       manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
+#                       manufacturer: Faker::Company.name)
 # end
 
 
@@ -102,10 +102,9 @@ i = 0
 while (i < parts.count)
 
   i_part = parts[i]
-
-  auc = Auction.create(company: buyer, part_num: i_part.part_num, active: true, condition: [i_part.condition.to_sym, :""],
-                 destination_address: Faker::Address.street_address, destination_zip: Faker::Address.zip, 
-                 destination_city: Faker::Address.city_suffix, destination_country: Faker::Address.country, 
+  dest = Destination.create(address: Faker::Address.street_address, zip: Faker::Address.zip, 
+                            city: Faker::Address.city_suffix, country: Faker::Address.country, title: buyer.name)
+  auc = Auction.create(company: buyer, part_num: i_part.part_num, active: true, condition: [i_part.condition.to_sym, :""], 
                  required_date: Faker::Date.forward(23), target_price: Faker::Commerce.price, quantity: 1)
   auctions << auc
   i+=1

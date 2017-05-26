@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526130027) do
+ActiveRecord::Schema.define(version: 20170526135910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,13 +43,12 @@ ActiveRecord::Schema.define(version: 20170526130027) do
 
   create_table "auction_parts", force: :cascade do |t|
     t.string   "part_num"
-    t.string   "description"
-    t.string   "manufacturer"
-    t.decimal  "init_price"
+    t.string   "description",  default: "N/A"
+    t.string   "manufacturer", default: "N/A"
     t.integer  "part_id"
     t.integer  "auction_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   add_index "auction_parts", ["auction_id"], name: "index_auction_parts_on_auction_id", using: :btree
@@ -57,34 +56,27 @@ ActiveRecord::Schema.define(version: 20170526130027) do
 
   create_table "auctions", force: :cascade do |t|
     t.integer  "company_id"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.string   "part_num"
-    t.boolean  "active",              default: true, null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "part_num",                       null: false
+    t.boolean  "active",         default: true,  null: false
     t.text     "condition"
-    t.string   "po_num"
-    t.string   "destination_address"
-    t.string   "destination_zip"
-    t.string   "destination_city"
-    t.string   "destination_country"
-    t.string   "destination_state"
     t.boolean  "resale_yes"
-    t.boolean  "resale_no",           default: true
+    t.boolean  "resale_no",      default: true
     t.string   "resale_status"
     t.date     "required_date"
-    t.string   "destination_company"
-    t.string   "cycles"
-    t.integer  "quantity"
-    t.string   "target_price"
+    t.string   "cycles",         default: "N/A"
+    t.integer  "quantity",       default: 1
+    t.string   "target_price",   default: "N/A"
     t.boolean  "matched"
     t.text     "req_forms"
-    t.jsonb    "invitees",            default: {},   null: false
+    t.jsonb    "invitees",       default: {},    null: false
     t.integer  "project_id"
-    t.string   "rep_name"
-    t.string   "rep_phone"
-    t.string   "rep_email"
+    t.string   "rep_name",       default: "N/A"
+    t.string   "rep_phone",      default: "N/A"
+    t.string   "rep_email",      default: "N/A"
     t.integer  "destination_id"
-    t.string   "reference_num"
+    t.string   "reference_num",  default: "N/A"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
@@ -244,21 +236,18 @@ ActiveRecord::Schema.define(version: 20170526130027) do
   add_index "parts", ["part_num"], name: "index_parts_on_part_num", using: :btree
 
   create_table "projects", force: :cascade do |t|
-    t.string   "reference_num"
-    t.text     "description"
-    t.boolean  "active",              default: true
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.string   "reference_num",                           null: false
+    t.string   "description",    default: "Not Provided"
+    t.boolean  "active",         default: true
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "company_id"
-    t.string   "destination_address"
-    t.string   "destination_zip"
-    t.string   "destination_city"
-    t.string   "destination_state"
-    t.string   "destination_country"
-    t.boolean  "resale",              default: false
+    t.boolean  "resale",         default: false
+    t.integer  "destination_id"
   end
 
   add_index "projects", ["company_id"], name: "index_projects_on_company_id", using: :btree
+  add_index "projects", ["destination_id"], name: "index_projects_on_destination_id", using: :btree
   add_index "projects", ["reference_num"], name: "index_projects_on_reference_num", using: :btree
 
   create_table "ratings", force: :cascade do |t|
@@ -326,4 +315,5 @@ ActiveRecord::Schema.define(version: 20170526130027) do
   add_foreign_key "inventory_parts", "companies"
   add_foreign_key "inventory_parts", "parts"
   add_foreign_key "projects", "companies"
+  add_foreign_key "projects", "destinations"
 end

@@ -147,7 +147,7 @@ class Auction < ActiveRecord::Base
   end
 
   def semi_address
-    "#{self.destination.city.capitalize}, #{self.destination.state.upcase} #{self.destination.zip} #{self.destination.country.upcase}"
+    "#{destination.city.capitalize}, #{destination.state.upcase} #{destination.zip} #{destination.country.upcase}"
   end
 
 end
