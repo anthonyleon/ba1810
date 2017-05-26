@@ -4,7 +4,7 @@
 			%h4
 				%i.glyphicon.glyphicon-list-alt.position-left.text-primary
 				%span.text-semibold.text-primary Checkout
-				\- Please fill the following to proceed to the next step!
+				\- Please follow the following instructions!
 			%ul.breadcrumb.breadcrumb-caret.position-right
 				%li
 					= link_to dashboard_path do
@@ -15,6 +15,8 @@
 					Sent eRFQ's
 				%li
 					-# #{@auction.user_reference_num}
+				%li.active
+					Checkout
 	/ Page container
 .page-container{:style => "min-height:159px"}
 	/ Page content
@@ -34,7 +36,7 @@
 						%h6.form-wizard-title.text-semibold
 							%span.form-wizard-count 2
 							Please enter your Purchase Order Number
-							%small.display-block This will allow you to match your inhouse system with Bid Aero
+							%small.display-block Enter your own custom P.O. reference number
 						.form-group
 							.row
 								.col-md-6.col-md-offset-3
