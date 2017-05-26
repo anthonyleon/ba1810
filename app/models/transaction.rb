@@ -4,6 +4,7 @@ class Transaction < ActiveRecord::Base
 	belongs_to :bid
 	belongs_to :inventory_part
   has_many :companies
+  belongs_to :destination
 	#armor payments $$ brackets/tiers
   TIER0 = 0
   TIER1 = 5_000
