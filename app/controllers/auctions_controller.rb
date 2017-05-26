@@ -1,6 +1,7 @@
 class AuctionsController < ApplicationController
 	before_action :set_auction, only: [:show, :edit, :update, :destroy]
 	before_action :set_bid_and_auction, only: [:purchase_confirmation, :purchase]
+	before_action :set_destination, only: [:show, :purchase_confirmation]
 
 	def index
 		@myquotes_count = current_user.bids.to_a.uniq.count { |b| b.auction_id }
@@ -13,8 +14,6 @@ class AuctionsController < ApplicationController
 
 		## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
 		@auction_invitees = Company.find_invitees(@auction.invitees)
-
-		@destination = @auction.destination
 		@invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
 		@auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids =
 			@auction.bids.joins(:company).where.not(companies: {id: @auction_invitees.pluck(:id)})
@@ -99,11 +98,7 @@ class AuctionsController < ApplicationController
 	end
 
 	def purchase_confirmation
-			@transaction = Transaction.create_order(@bid) unless @bid.tx # change to Transaction.new, and next action Transaction.new(transaction_params) then @transaction.save
-			if @auction.tx
-				@auction.tx.destroy
-				@transaction = Transaction.create_order(@bid)
-			end
+		@transaction = Transaction.new
 	end
 
 	def current_opportunities
@@ -128,6 +123,10 @@ class AuctionsController < ApplicationController
 
 		def set_auction
 			@auction = Auction.find(params[:id])
+		end
+
+		def set_destination
+			@destination = @auction.destination
 		end
 
 		def set_bid_and_auction

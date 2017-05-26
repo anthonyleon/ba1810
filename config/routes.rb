@@ -49,18 +49,29 @@ resources :inventory_parts do
   end
 end
 
-  patch "/update_transaction/:id" => 'transactions#update', as: "transaction"
+  post "/transaction" => "transactions#create", as: "transactions"
+
+  patch "/update_transaction/:id" => 'transactions#update', as: "update_transaction"
   post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
   patch 'transactions/:id' => 'transactions#create_shipment', as: "create_shipment"
   patch '/auctions/:id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
-  get 'notifications/index'
+
 
   get '/invoice/:id' => 'transactions#invoice_pdf', as: 'transaction_invoice'
   get 'purchase_order/:id' => 'transactions#po', as: 'transaction_po'
   get '/material_cert/:id' => 'transactions#material_cert', as: 'material_cert'
 
+  get 'purchase/:id/buyer_purchase' => 'transactions#buyer_purchase', as: 'buyer_purchase'
+  get 'purchase/:id/seller_purchase' => 'transactions#seller_purchase', as: 'seller_purchase'
+
+
+  post 'record_purchase' => 'transactions#record', as: 'record_transaction'
+  delete 'remove_transaction' => 'transactions#remove_from_purchase_history', as: 'remove_transaction'
+
+
   resources :ratings
 
+  get 'notifications/index'
 
   root 'pages#show'
 
@@ -77,8 +88,6 @@ end
   get '/auctions/:id/set_auction_to_false' => 'auctions#set_auction_to_false', as: 'set_auction_to_false'
   get 'auctions/:auction_id/bids/:id/purchase_confirmation' => 'auctions#purchase_confirmation', as: 'auction_purchase_confirmation'
 
-  get 'purchase/:id/buyer_purchase' => 'transactions#buyer_purchase', as: 'buyer_purchase'
-  get 'purchase/:id/seller_purchase' => 'transactions#seller_purchase', as: 'seller_purchase'
 
   get 'select_payout_preference' => 'companies#choose_payout_preference', as: 'select_payout_preference'
   get 'pending_sales' => 'companies#pending_sales', as: 'pending_sales'
@@ -95,8 +104,6 @@ end
   get 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
   post 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_create_bid', as: 'temp_user_create_bid'
 
-  post 'record_purchase' => 'transactions#record', as: 'record_transaction'
-  delete 'remove_transaction' => 'transactions#remove_from_purchase_history', as: 'remove_transaction'
 
   resources :password_resets
 
