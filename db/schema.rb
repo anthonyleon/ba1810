@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526134640) do
+ActiveRecord::Schema.define(version: 20170526135744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -238,19 +238,16 @@ ActiveRecord::Schema.define(version: 20170526134640) do
   create_table "projects", force: :cascade do |t|
     t.string   "reference_num"
     t.text     "description"
-    t.boolean  "active",              default: true
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.boolean  "active",         default: true
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.integer  "company_id"
-    t.string   "destination_address"
-    t.string   "destination_zip"
-    t.string   "destination_city"
-    t.string   "destination_state"
-    t.string   "destination_country"
-    t.boolean  "resale",              default: false
+    t.boolean  "resale",         default: false
+    t.integer  "destination_id"
   end
 
   add_index "projects", ["company_id"], name: "index_projects_on_company_id", using: :btree
+  add_index "projects", ["destination_id"], name: "index_projects_on_destination_id", using: :btree
   add_index "projects", ["reference_num"], name: "index_projects_on_reference_num", using: :btree
 
   create_table "ratings", force: :cascade do |t|
@@ -318,4 +315,5 @@ ActiveRecord::Schema.define(version: 20170526134640) do
   add_foreign_key "inventory_parts", "companies"
   add_foreign_key "inventory_parts", "parts"
   add_foreign_key "projects", "companies"
+  add_foreign_key "projects", "destinations"
 end
