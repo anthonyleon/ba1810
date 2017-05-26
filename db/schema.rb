@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526140405) do
+ActiveRecord::Schema.define(version: 20170526141418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,14 +146,14 @@ ActiveRecord::Schema.define(version: 20170526140405) do
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
 
   create_table "destinations", force: :cascade do |t|
-    t.string   "address"
-    t.string   "city"
-    t.string   "state"
-    t.string   "country"
-    t.string   "zip"
-    t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "address",    default: "N/A"
+    t.string   "city",       default: "N/A"
+    t.string   "state",      default: "N/A"
+    t.string   "country",    default: "N/A"
+    t.string   "zip",        default: "N/A"
+    t.string   "title",      default: "N/A"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "documents", force: :cascade do |t|
@@ -222,14 +222,14 @@ ActiveRecord::Schema.define(version: 20170526140405) do
   end
 
   create_table "parts", force: :cascade do |t|
-    t.string   "description",  null: false
-    t.string   "part_num",     null: false
-    t.string   "manufacturer", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.string   "cage_code"
-    t.string   "model"
-    t.string   "nsn"
+    t.string   "description",  default: "N/A", null: false
+    t.string   "part_num",                     null: false
+    t.string   "manufacturer", default: "N/A", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "cage_code",    default: "N/A"
+    t.string   "model",        default: "N/A"
+    t.string   "nsn",          default: "N/A"
     t.boolean  "flagged"
   end
 
