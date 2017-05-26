@@ -1,31 +1,25 @@
-%link{:href => "https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700", :rel => "stylesheet", :type => "text/css"}
-.row
-	.col.s12
-		.card
-			.card-content
-				%div.card-title.grey-text.text-darken-4.center-align
-					Purchase Confirmation
-
-		%div.checkout-status-bar
-			.checkout-wrap
-				%ul.checkout-bar
-					%li.confirm-address-bubble.active Confirm Shipping Address
-					%li.generate-po-bubble.next Generate P.O.
-					%li.generate-invoice-bubble.next Awaiting Vendor Invoice
-					%li.review-payment-bubble.next Review  Payment
-					%li.track-shipping-bubble.next Track Shipping
-
-		.card-title.destination
-			= render 'destination'
-
-		.card.purchase-order-confirmation
-			.card-content
-				.form-container.destination-form-po
-					%h5.center-align
-						Please confirm purchase order number
-						%div.field
-							= text_field_tag :po_num, nil, class: "form-control", placeholder: "Purchase Order Number"
-						%div{style: "margin-bottom: 10px;"}
-							= button_tag 'Confirm Purchase Order', class: "btn custom-btn po-submit", "data-transaction-id" => "#{@transaction.id}"
-
-
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.glyphicon.glyphicon-list-alt.position-left.text-primary
+				%span.text-semibold.text-primary Checkout
+				\- Please fill the following to proceed to the next step!
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					= link_to dashboard_path do
+						Dashboard
+				%li
+					Buy
+				%li
+					Sent eRFQ's
+				%li
+					-# #{@auction.user_reference_num}
+	/ Page container
+.page-container{:style => "min-height:159px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-white
+				=render 'destination'
