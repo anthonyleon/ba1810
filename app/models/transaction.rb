@@ -13,7 +13,7 @@ class Transaction < ActiveRecord::Base
   TIER4 = 1_000_000
 
 	def self.create_order(bid)
-		self.create(
+		create(
 			buyer_id: bid.buyer.id,
 			seller_id: bid.seller.id,
 			inventory_part: bid.inventory_part,

@@ -1,8 +1,8 @@
 $(document).on('change', ':file', function() {
-    var input = $(this),
-        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
+		var input = $(this),
+				numFiles = input.get(0).files ? input.get(0).files.length : 1,
+				label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+		input.trigger('fileselect', [numFiles, label]);
 });
 $(document).on('ready page:load', function() {
 	// $('.auction-destination').hide();
@@ -28,32 +28,32 @@ $(document).on('ready page:load', function() {
 	$('.remove-btn').click( function(){
 
 		var row = event.target.parentElement.parentElement.parentElement.parentElement;
-  		var num_columns = row.cells.length;
-  		// row.cells
-  		console.log('TWO');
-  		row.cells[num_columns - 3].style.display = '';
-  		row.cells[num_columns - 2].style.display = '';
-  		row.cells[num_columns - 1].style.display = 'none';
+			var num_columns = row.cells.length;
+			// row.cells
+			console.log('TWO');
+			row.cells[num_columns - 3].style.display = '';
+			row.cells[num_columns - 2].style.display = '';
+			row.cells[num_columns - 1].style.display = 'none';
 	});
 
 	$('.record-btn').click( function(){
 			console.log('THREE');
-  		var row = event.target.parentElement.parentElement.parentElement;
-  		var num_columns = row.cells.length;
-  		row.cells
-  		row.cells[num_columns - 2].style.display = 'none';
-  		row.cells[num_columns - 1].style.display = "";
-  		// row.deleteCell(num_columns-1);
-  		// num_columns = row.cells.length;
-  		// row.deleteCell(num_columns-1);
+			var row = event.target.parentElement.parentElement.parentElement;
+			var num_columns = row.cells.length;
+			row.cells
+			row.cells[num_columns - 2].style.display = 'none';
+			row.cells[num_columns - 1].style.display = "";
+			// row.deleteCell(num_columns-1);
+			// num_columns = row.cells.length;
+			// row.deleteCell(num_columns-1);
 
-  		// num_columns = row.cells.length;
-  		// var newRow = row.insertCell(num_columns);
-  		// newRow.innerHTML = "HTLM"
+			// num_columns = row.cells.length;
+			// var newRow = row.insertCell(num_columns);
+			// newRow.innerHTML = "HTLM"
 
-  		// // $('.responsive-remove-btn').show()
+			// // $('.responsive-remove-btn').show()
 
-  		// console.log("happening")
+			// console.log("happening")
 
 	});
 
@@ -61,9 +61,9 @@ $(document).on('ready page:load', function() {
 			console.log(numFiles);
 			console.log(label);
 			document.getElementById("file-name").innerHTML = numFiles + " File(s) Selected";
-      $('button:submit').attr('disabled',false);
-      // or, as has been pointed out elsewhere:
-      // $('input:submit').removeAttr('disabled');
+			$('button:submit').attr('disabled',false);
+			// or, as has been pointed out elsewhere:
+			// $('input:submit').removeAttr('disabled');
 
 	});
 
@@ -78,7 +78,7 @@ $(document).on('ready page:load', function() {
 
 	$('.card-edit-remove').click(function(){
 		$('.card.destination-address.large').removeClass('large');
-    //this method increases the height to 72px
+		//this method increases the height to 72px
 	});
 
 	$('.edit-address').click(function(){
@@ -97,6 +97,22 @@ $(document).on('ready page:load', function() {
 	});
 
 	this.removeSupplier = function(element) {
-  		return element.parent().remove();
+			return element.parent().remove();
 	};
+
+	// purchase confirmation hide submit button
+	var element = document.querySelector('.po-confirm-wzrd-btn');
+	var observer = new MutationObserver(function(mutations) {
+		mutations.forEach(function(mutation) {
+			if (mutation.type == "attributes") {
+				console.log(mutation);
+			// $('.po-confirm-wzrd-btn').hide();
+			} else { 
+				$('.po-confirm-wzrd-btn').show();
+			}
+		});
+	});
+	observer.observe(element, {
+		attributes: true //configure it to listen to attribute changes
+	});
 });
