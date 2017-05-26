@@ -54,11 +54,30 @@ class TransactionsController < ApplicationController
     render nothing: true
   end
 
+  def create
+    bid = Bid.find(transaction_params[:bid_id])
+    @destination = Destination.find(params[:transaction][:destination][:id])
+    @destination.update(destination_params)
+    @transaction = Transaction.create_order(bid)
+    @transaction.destination = @destination
+
+    respond_to do |format|
+      if @transaction.update(transaction_params)
+        binding.pry
+        format.html { redirect_to buyer_purchase_path(@transaction), notice: 'Aircraft was successfully created.' }
+        format.json { render :show, status: :created, location: @aircraft }
+      else
+        format.html { render auction_purchase_confirmation_path(@transaction.auction, @transaction.bid) }
+        format.json { render json: @aircraft.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
-        @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
 
+        @transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
         #hotfix.. the shipment dropdown box should send carrier name as a param as well
         if carrier_code = transaction_params[:carrier_code]
           @carriers = ArmorPaymentsApi.carriers_list
@@ -95,7 +114,9 @@ class TransactionsController < ApplicationController
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
 
-    CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) && 
+    raise
+
+    CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) &&
       Notification.notify(@bid, @bid.seller, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.", 
         transaction: @transaction) unless Notification.exists?(@bid, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.")
     @auction.update(active: false) if @auction.active
@@ -155,7 +176,13 @@ class TransactionsController < ApplicationController
   private
 
     def transaction_params
-      params.require(:transaction).permit(:carrier_code, :price_before_fees, :tracking_num, :carrier, :shipment_desc, :part_price, :delivered, :shipping_account, :tax_rate, :final_shipping_cost, :po_num, :invoice_num, :order_id)
+      params.require(:transaction).permit(:carrier_code, :price_before_fees, :tracking_num, :carrier, :shipment_desc, :part_price, 
+                                          :delivered, :shipping_account, :tax_rate, :final_shipping_cost, :po_num, 
+                                          :invoice_num, :order_id, :required_date, :bid_id)
+    end
+
+    def destination_params
+      params.require(:transaction).permit(destination:[:id, :title, :address, :city, :state, :country, :zip])[:destination]
     end
 
     def set_transaction
