@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170523211202) do
+ActiveRecord::Schema.define(version: 20170526125548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,12 +84,14 @@ ActiveRecord::Schema.define(version: 20170523211202) do
     t.string   "rep_phone"
     t.string   "rep_email"
     t.integer  "destination_id"
+    t.string   "reference_num"
   end
 
   add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
   add_index "auctions", ["destination_id"], name: "index_auctions_on_destination_id", using: :btree
   add_index "auctions", ["invitees"], name: "index_auctions_on_invitees", using: :gin
   add_index "auctions", ["project_id"], name: "index_auctions_on_project_id", using: :btree
+  add_index "auctions", ["reference_num"], name: "index_auctions_on_reference_num", using: :btree
 
   create_table "bids", force: :cascade do |t|
     t.integer  "company_id"
@@ -155,14 +157,14 @@ ActiveRecord::Schema.define(version: 20170523211202) do
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
 
   create_table "destinations", force: :cascade do |t|
-    t.string   "address",    default: ""
-    t.string   "city",       default: ""
-    t.string   "state",      default: ""
-    t.string   "country",    default: ""
-    t.string   "zip",        default: ""
-    t.string   "title",      default: ""
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.string   "zip"
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "documents", force: :cascade do |t|
@@ -204,15 +206,15 @@ ActiveRecord::Schema.define(version: 20170523211202) do
   add_index "engines", ["company_id"], name: "index_engines_on_company_id", using: :btree
 
   create_table "inventory_parts", force: :cascade do |t|
-    t.string   "part_num",     null: false
-    t.string   "description"
-    t.string   "manufacturer"
+    t.string   "part_num",                     null: false
+    t.string   "description",  default: "N/A"
+    t.string   "manufacturer", default: "N/A"
     t.integer  "company_id"
     t.integer  "part_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "condition"
-    t.string   "serial_num"
+    t.string   "serial_num",   default: "N/A"
   end
 
   add_index "inventory_parts", ["company_id"], name: "index_inventory_parts_on_company_id", using: :btree
