@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526125548) do
+ActiveRecord::Schema.define(version: 20170526130027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,23 +94,20 @@ ActiveRecord::Schema.define(version: 20170526125548) do
   add_index "auctions", ["reference_num"], name: "index_auctions_on_reference_num", using: :btree
 
   create_table "bids", force: :cascade do |t|
-    t.integer  "company_id"
     t.integer  "auction_id"
     t.integer  "inventory_part_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.string   "invoice_num"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.decimal  "part_price"
     t.decimal  "est_shipping_cost"
     t.integer  "quantity",          default: 1
-    t.string   "quote_num"
+    t.string   "reference_num",     default: "N/A"
     t.date     "tag_date"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
-  add_index "bids", ["company_id"], name: "index_bids_on_company_id", using: :btree
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
-  add_index "bids", ["quote_num"], name: "index_bids_on_quote_num", using: :btree
+  add_index "bids", ["reference_num"], name: "index_bids_on_reference_num", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "name",                                   null: false
@@ -318,7 +315,6 @@ ActiveRecord::Schema.define(version: 20170526125548) do
   add_foreign_key "auctions", "destinations"
   add_foreign_key "auctions", "projects"
   add_foreign_key "bids", "auctions"
-  add_foreign_key "bids", "companies"
   add_foreign_key "bids", "inventory_parts"
   add_foreign_key "company_docs", "companies"
   add_foreign_key "documents", "aircrafts"
