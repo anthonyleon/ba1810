@@ -104,9 +104,8 @@ $(document).on('ready page:load', function() {
 	var element = document.querySelector('.po-confirm-wzrd-btn');
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
-			if (mutation.type == "attributes") {
-				console.log(mutation);
-			// $('.po-confirm-wzrd-btn').hide();
+			if (mutation.target.value == "Submit") {
+				$('.po-confirm-wzrd-btn').hide();
 			} else { 
 				$('.po-confirm-wzrd-btn').show();
 			}
