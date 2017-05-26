@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526160456) do
+ActiveRecord::Schema.define(version: 20170526162421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -296,7 +296,10 @@ ActiveRecord::Schema.define(version: 20170526160456) do
     t.integer  "auction_id"
     t.decimal  "price_before_fees"
     t.date     "required_date"
+    t.integer  "destination_id"
   end
+
+  add_index "transactions", ["destination_id"], name: "index_transactions_on_destination_id", using: :btree
 
   add_foreign_key "aircrafts", "companies"
   add_foreign_key "auction_parts", "auctions"
@@ -317,4 +320,5 @@ ActiveRecord::Schema.define(version: 20170526160456) do
   add_foreign_key "inventory_parts", "parts"
   add_foreign_key "projects", "companies"
   add_foreign_key "projects", "destinations"
+  add_foreign_key "transactions", "destinations"
 end
