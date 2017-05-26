@@ -49,7 +49,7 @@
 
 # 5.times do
 #   AuctionPart.create( part_num: Faker::Company.ein, description: Faker::Company.catch_phrase,
-#                       manufacturer: Faker::Company.name, init_price: Faker::Commerce.price)
+#                       manufacturer: Faker::Company.name)
 # end
 
 
