@@ -23,36 +23,84 @@
 		.content-wrapper
 			.panel.panel-white
 				.panel-body.form-basic
-					%fieldset#step1.step
-						%h6.form-wizard-title.text-semibold
-							%span.form-wizard-count 1
-							Confirm Shipping Details
-							%small.display-block Please enter your desired shipping destination
-						=render 'destination'
+					= form_for(@transaction, html: { class: "inline-form" } ) do |f|
+						- if @auction.errors.any?
+							#error_explanation
+								%h2
+									= pluralize(@auction.errors.count, "error")
+									prohibited this auction from being saved:
+								%ul
+									- @auction.errors.full_messages.each do |message|
+										%li= message
+						%fieldset#step1.step
+							%h6.form-wizard-title.text-semibold
+								%span.form-wizard-count 1
+								Confirm Shipping Details
+								%small.display-block Please enter your desired shipping destination
 
-					%fieldset#step2.step
-						%h6.form-wizard-title.text-semibold
-							%span.form-wizard-count 2
-							Please enter your Purchase Order Number
-							%small.display-block This will allow you to match your inhouse system with Bid Aero
-						.form-group
-							.row
-								.col-md-6.col-md-offset-3
-									= text_field_tag :po_num, nil, class: "form-control", placeholder: "Purchase Order Number"
-								.col-md-1
-									= button_tag 'Confirm Purchase Order', class: "btn bg-success po-submit", "data-transaction-id" => "#{@transaction.id}"
+							= f.fields_for :destination, @destination do |d|
+								.row
+									.col-md-6
+										.form-group
+											%label Company Name(optional)
+											= d.hidden_field :id
+											= d.text_field :title, class: "form-control", placeholder: "Destination Company"
+									.col-md-6
+										.form-group
+											%label Street Address
+											= d.text_field :address, class: "form-control", placeholder: "Destination Street Address"
+								.row
+									.col-md-3
+										.form-group
+											%label City
+											= d.text_field :city, class: "form-control", placeholder: "Destination City"
+									.col-md-3
+										.form-group
+											%label State/Region
+											= d.text_field :state, class: "form-control", placeholder: "Destination State/Region"
+									.col-md-3
+										.form-group
+											%label Country
+											= d.text_field :country, class: "form-control", placeholder: "Destination Country"
+									.col-md-3
+										.form-group
+											%label Zip Code
+											= d.text_field :zip, class: "form-control", placeholder: "Destination Zip Code"
+								.row
+									.col-md-6
+										.form-group
+											%h6 Required Delivery Date:
+											= f.date_field :required_date, class: "form-control datepicker", value: @auction.required_date
+									.col-md-6
+										.form-group
+											%h6 Have a shipping account?
+											.row
+												.col-sm-1.pt-10
+													%input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
+												%label.pt-10{:for => "filled-in-box"} Use your shipping / freight account (Seller will use this account to send part)
+								.row
+									.col-md-10.col-md-offset-2
+										.form-group
+											.form-group.col-md-5.freight_num
+												%h6 Carrier Name
+												= f.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"
+											.form-group.col-md-5.freight_num
+												%h6 Shipping Account Number
+												= f.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
+												= f.hidden_field :bid_id, value: @bid.id
 
-					.form-wizard-actions
-						%button#basic-back.btn.btn-default{:type => "reset"} Back
-						= submit_tag "Next", class: "btn btn-info", id: "basic-next"
+						%fieldset#step2.step
+							%h6.form-wizard-title.text-semibold
+								%span.form-wizard-count 2
+								Please enter your Purchase Order Number
+								%small.display-block This will allow you to match your inhouse system with Bid Aero
+							.form-group
+								.row
+									.col-md-6.col-md-offset-3
+										= f.text_field :po_num, placeholder: "Enter Your Internal Purchase Order Number", class: "form-control"
+									.col-md-1
+										= f.submit "Confirm Purchase Order", class: "btn bg-success po-submit"#, "data-transaction-id" => "#{@transaction.id}"
 
-
-				-#
-				-# .card.purchase-order-confirmation
-				-# 	.card-content
-				-# 		.form-container.destination-form-po
-				-# 			%h5.center-align Please confirm purchase order number
-				-# 			%div.field
-				-# 				= text_field_tag :po_num, nil, class: "form-control", placeholder: "Purchase Order Number"
-				-# 			%div{style: "margin-bottom: 10px;"}
-				-# 				= button_tag 'Confirm Purchase Order', class: "btn custom-btn po-submit", "data-transaction-id" => "#{@transaction.id}"
+						.form-wizard-actions
+							%button#basic-back.btn.btn-default{:type => "reset"} Back
+							%button.btn.btn-info.po-confirm-wzrd-btn#basic-next Next
