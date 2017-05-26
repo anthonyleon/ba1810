@@ -22,18 +22,37 @@
 		/ Main content
 		.content-wrapper
 			.panel.panel-white
-				.panel-body
-					%h6.form-wizard-title.text-semibold
-						%span.form-wizard-count 1
-						Confirm Shipping Details/Instructions
-						%small.display-block Enter yor part specifications
+				.panel-body.form-basic
+					%fieldset#step1.step
+						%h6.form-wizard-title.text-semibold
+							%span.form-wizard-count 1
+							Confirm Shipping Details
+							%small.display-block Please enter your desired shipping destination
 						=render 'destination'
 
-				.card.purchase-order-confirmation
-					.card-content
-						.form-container.destination-form-po
-							%h5.center-align Please confirm purchase order number
-								%div.field
+					%fieldset#step2.step
+						%h6.form-wizard-title.text-semibold
+							%span.form-wizard-count 2
+							Please enter your Purchase Order Number
+							%small.display-block This will allow you to match your inhouse system with Bid Aero
+						.form-group
+							.row
+								.col-md-6.col-md-offset-3
 									= text_field_tag :po_num, nil, class: "form-control", placeholder: "Purchase Order Number"
-								%div{style: "margin-bottom: 10px;"}
-									= button_tag 'Confirm Purchase Order', class: "btn custom-btn po-submit", "data-transaction-id" => "#{@transaction.id}"
+								.col-md-1
+									= button_tag 'Confirm Purchase Order', class: "btn bg-success po-submit", "data-transaction-id" => "#{@transaction.id}"
+
+					.form-wizard-actions
+						%button#basic-back.btn.btn-default{:type => "reset"} Back
+						= submit_tag "Next", class: "btn btn-info", id: "basic-next"
+
+
+				-#
+				-# .card.purchase-order-confirmation
+				-# 	.card-content
+				-# 		.form-container.destination-form-po
+				-# 			%h5.center-align Please confirm purchase order number
+				-# 			%div.field
+				-# 				= text_field_tag :po_num, nil, class: "form-control", placeholder: "Purchase Order Number"
+				-# 			%div{style: "margin-bottom: 10px;"}
+				-# 				= button_tag 'Confirm Purchase Order', class: "btn custom-btn po-submit", "data-transaction-id" => "#{@transaction.id}"

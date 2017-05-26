@@ -1,9 +1,6 @@
 .panel.panel-white
 	%p#alert= alert
 	= form_for(@auction, html: { class: "form-basic" }) do |f|
-
-
-
 		%fieldset#step1.step
 			- if @auction.errors.any?
 				#error_explanation
