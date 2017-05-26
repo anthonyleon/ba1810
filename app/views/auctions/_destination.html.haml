@@ -1,63 +1,70 @@
-<<<<<<< HEAD
-= form_for(@auction, html: { class: "inline-form" }, remote: true ) do |f|
-	%fieldset#step1.step
-		- if @auction.errors.any?
-			#error_explanation
-				%h2
-					= pluralize(@auction.errors.count, "error")
-					prohibited this auction from being saved:
-				%ul
-					- @auction.errors.full_messages.each do |message|
-						%li= message
-		%h6.form-wizard-title.text-semibold
-			%span.form-wizard-count 1
-			Confirm Shipping Details/Instructions
-			%small.display-block Enter yor part specifications
-		.row
-			.col-md-6
-				.form-group
-					%label Company Name(optional)
-					= f.text_field :destination_company, class: "form-control", placeholder: "Destination Company"
-				.form-group
-					%label Street Address
-					= f.text_field :destination_address, class: "form-control", placeholder: "Destination Street Address"
-			.col-md-6
-				.col-md-7
+.panel-body
+	= form_for(@auction, html: { class: "inline-form" }, remote: true ) do |f|
+		%fieldset#step1.step
+			- if @auction.errors.any?
+				#error_explanation
+					%h2
+						= pluralize(@auction.errors.count, "error")
+						prohibited this auction from being saved:
+					%ul
+						- @auction.errors.full_messages.each do |message|
+							%li= message
+			%h6.form-wizard-title.text-semibold
+				%span.form-wizard-count 1
+				Confirm Shipping Details/Instructions
+				%small.display-block Enter yor part specifications
+			.row
+				.col-md-6
+					.form-group
+						%label Company Name(optional)
+						= f.text_field :destination_company, class: "form-control", placeholder: "Destination Company"
+				.col-md-6
+					.form-group
+						%label Street Address
+						= f.text_field :destination_address, class: "form-control", placeholder: "Destination Street Address"
+			.row
+				.col-md-3
 					.form-group
 						%label City
-					= f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
-				.col-md-5
+						= f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
+				.col-md-3
 					.form-group
 						%label State/Region
-					= f.text_field :destination_state, class: "form-control", placeholder: "Destination State/Region"
-				.form-group
-					.col-md-8
+						= f.text_field :destination_state, class: "form-control", placeholder: "Destination State/Region"
+				.col-md-3
+					.form-group
 						%label Country
 						= f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
-					.col-md-4
+				.col-md-3
+					.form-group
 						%label Zip Code
 						= f.text_field :destination_zip, class: "form-control", placeholder: "Destination Zip Code"
-		.row.center
-			.field.col.s6.push-s3
-				%h6 Required Delivery Date:
-				= f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
-		.row.center
-			.shipping_account.col.s6.push-s3
-				%h6 Have a shipping account?
-				%input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
-				%label{:for => "filled-in-box"} Use your shipping / freight account
-		.row
-			.form-container
-				= f.fields_for :transactions, remote: true do |cm|
-					.field.form-group.col.s3.freight_num.push-s3
-						%h6 Carrier Name
-						= cm.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"
-					.field.form-group.col.s3.freight_num.push-s3
-						%h6 Shipping Account Number
-						= cm.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
-						= cm.hidden_field :id, :value => @transaction.id
+			.row
+				.col-md-6
+					.form-group
+						%h6 Required Delivery Date:
+						= f.date_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
+				.col-md-6
+					.form-group
+						%h6 Have a shipping account?
+						.row
+							.col-sm-1.pt-10
+								%input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
+							%label.pt-10{:for => "filled-in-box"} Use your shipping / freight account (Seller will use this account to send part)
 
-		.actions.submit_button.center
+			.row
+				.col-md-10.col-md-offset-2
+					.form-group
+						= f.fields_for :transactions, remote: true do |cm|
+							.form-group.col-md-5.freight_num
+								%h6 Carrier Name
+								= cm.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"
+							.form-group.col-md-5.freight_num
+								%h6 Shipping Account Number
+								= cm.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
+								= cm.hidden_field :id, :value => @transaction.id
+
+		.actions.submit_button.text-center
 			= f.submit 'Submit', class: "btn bg-success"
 
 
