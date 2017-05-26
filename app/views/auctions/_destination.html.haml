@@ -15,36 +15,37 @@
                 %ul
                   - @auction.errors.full_messages.each do |message|
                     %li= message
-            .row
-              .input-field.col.s5.push-s1
-                .field.form-group
-                  %h6 Company Name
-                  = f.text_field :destination_company, class: "form-control", placeholder: "Destination Company"
-              .input-field.col.s5.push-s1
-                .field.form-group
-                  %h6 Address Line
-                  = f.text_field :destination_address, class: "form-control", placeholder: "Destination Street Address"
-            .row
-              .input-field.col.s3
-                .field.form-group
-                  %h6 City
-                  = f.text_field :destination_city, class: "form-control", placeholder: "Destination City"
-              .input-field.col.s3
-                .field.form-group
-                  %h6 State / Province / Region
-                  = f.text_field :destination_state, class: "form-control", placeholder: "Destination State/Region"
-              .input-field.col.s3
-                .field.form-group
-                  %h6 Zip Code
-                  = f.text_field :destination_zip, class: "form-control", placeholder: "Destination Zip Code"
-              .input-field.col.s3
-                .field.form-group
-                  %h6 Country
-                  = f.text_field :destination_country, class: "form-control", placeholder: "Destination Country"
-            .row.center
-              .field.col.s6.push-s3
-                %h6 Required Delivery Date:
-                = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
+            = f.fields_for :destinations, remote: true do |d|
+              .row
+                .input-field.col.s5.push-s1
+                  .field.form-group
+                    %h6 Company Name
+                    = d.text_field :title, class: "form-control", placeholder: "Destination Company"
+                .input-field.col.s5.push-s1
+                  .field.form-group
+                    %h6 Address Line
+                    = d.text_field :address, class: "form-control", placeholder: "Destination Street Address"
+              .row
+                .input-field.col.s3
+                  .field.form-group
+                    %h6 City
+                    = d.text_field :city, class: "form-control", placeholder: "Destination City"
+                .input-field.col.s3
+                  .field.form-group
+                    %h6 State / Province / Region
+                    = d.text_field :state, class: "form-control", placeholder: "Destination State/Region"
+                .input-field.col.s3
+                  .field.form-group
+                    %h6 Zip Code
+                    = d.text_field :zip, class: "form-control", placeholder: "Destination Zip Code"
+                .input-field.col.s3
+                  .field.form-group
+                    %h6 Country
+                    = d.text_field :country, class: "form-control", placeholder: "Destination Country"
+              .row.center
+                .field.col.s6.push-s3
+                  %h6 Required Delivery Date:
+                  = f.text_field :required_date, class: "form-control datepicker", placeholder: "Required Delivery Date"
             .row.center
               .shipping_account.col.s6.push-s3
                 %h6 Have a shipping account?

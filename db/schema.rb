@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526135744) do
+ActiveRecord::Schema.define(version: 20170526140405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -236,11 +236,11 @@ ActiveRecord::Schema.define(version: 20170526135744) do
   add_index "parts", ["part_num"], name: "index_parts_on_part_num", using: :btree
 
   create_table "projects", force: :cascade do |t|
-    t.string   "reference_num"
-    t.text     "description"
+    t.string   "reference_num",                           null: false
+    t.string   "description",    default: "Not Provided"
     t.boolean  "active",         default: true
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "company_id"
     t.boolean  "resale",         default: false
     t.integer  "destination_id"
