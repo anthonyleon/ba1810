@@ -98,6 +98,7 @@ class AuctionsController < ApplicationController
 	end
 
 	def purchase_confirmation
+		# this action (auctions#purchase_confirmation) should be moved to Transaction as the new action
 		@transaction = Transaction.new
 	end
 
