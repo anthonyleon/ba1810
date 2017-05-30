@@ -30,7 +30,7 @@ class TransactionsController < ApplicationController
         p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
         @transaction.update(order_id: armor_order_id)
         # Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
-        CompanyMailer.send_escrow_money(@transaction, @transaction.buyer).deliver_now
+        CompanyMailer.send_escrow_money(@transaction, @transaction.buyer).deliver_later(wait_until: 1.minute.from_now)
         Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.", transaction: @transaction)
 
         format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
@@ -112,8 +112,6 @@ class TransactionsController < ApplicationController
 
   def buyer_purchase
     redirect_to root_path unless @transaction.buyer == current_user
-
-    raise
 
     CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) &&
       Notification.notify(@bid, @bid.seller, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.", 

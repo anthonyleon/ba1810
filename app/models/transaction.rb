@@ -142,7 +142,7 @@ class Transaction < ActiveRecord::Base
         #make notification to let user know to ship part(s) and dont mark as read until part has been shipped
         self.payment_received
         Notification.notify(bid, bid.seller, "Payment has been received in full please proceed to shipping procedure.")
-        CompanyMailer.ship_part(bid, bid.seller).deliver_now
+        CompanyMailer.ship_part(bid, bid.seller).deliver_later(wait_until: 1.minute.from_now)
       when 16 # order cancelled
         Notification.notify(bid, bid.seller, "The order ##{self.order_id} for part ##{bid.auction.part_num} has been cancelled.", transaction: self)
         Notification.notify(bid, bid.buyer, "You have cancelled your order ##{self.order_id}")
@@ -155,7 +155,7 @@ class Transaction < ActiveRecord::Base
         CompanyMailer.part_shipped(bid, bid.buyer, bid.tx)
       when 4 # goods received by buyer
         self.delivery_received
-        CompanyMailer.shipment_received(bid, bid.seller).deliver_now
+        CompanyMailer.shipment_received(bid, bid.seller).deliver_later(wait_until: 1.minute.from_now)
         Notification.notify(bid, self.seller, "Buyer for order ##{self.order_id}, has received shipment. Funds will be released upon approval of part.", transaction: self)
         Notification.notify(bid, self.buyer, "Order ##{self.order_id}, has been marked as received. You have 3 days to approve part.", transaction: self)
       when 6 # order accepted (ie. funds released from buyer to seller)
@@ -163,7 +163,7 @@ class Transaction < ActiveRecord::Base
         self.completed
         # CREATE A REVIEW NOTIFICATION
         Notification.notify(bid, bid.seller, "The funds for order ##{self.order_id} have been released from escrow in accordance with your payout preference.")
-        CompanyMailer.funds_released(bid, bid.seller).deliver_now
+        CompanyMailer.funds_released(bid, bid.seller).deliver_later(wait_until: 1.minute.from_now)
         Notification.notify(bid, bid.seller, "The funds for order ##{self.order_id} have been released from escrow in accordance with your payout preference.", transaction: self)
       when 10 # dispute settlement offer has been submitted by either buyer or seller
         self.settlement_offer_submitted

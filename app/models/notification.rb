@@ -40,7 +40,7 @@ class Notification < ActiveRecord::Base
 
   def self.notify_auctioner(auction, message)
     Notification.create(company: auction.company, auction: auction, message: message)
-    CompanyMailer.notify_buyer(auction.company, auction).deliver_now
+    CompanyMailer.notify_buyer(auction.company, auction).deliver_later(wait_until: 1.minute.from_now)
   end
 
   def self.notify_other_bidders(auction, user, message)
