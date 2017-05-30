@@ -39,7 +39,7 @@
 						.col-md-5.col-md-offset-1
 							%label.text-semibold Required Documentation
 							.form-group
-								= f.collection_check_boxes(:req_forms, Auction.forms, :to_sym, :humanize, class: "checkbox") do |b|
+								= f.collection_check_boxes(:req_forms, Auction.forms, :to_sym, :humanize) do |b|
 									.checkbox
 										= b.label
 										= b.check_box

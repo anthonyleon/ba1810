@@ -20,9 +20,9 @@
 			%li
 				=link_to dashboard_path do
 					%i.glyphicon.glyphicon-th-large.navbar-icon
-			%li
+			%li.navbar-icon
 				=link_to notifications_index_path do
-					%i.glyphicon.glyphicon-bell.navbar-icon
+					%i.glyphicon.glyphicon-bell.navbar-icon{class: "#{Notification.any_unread?(Company.first) ? 'animated swing text-warning' : ''}"}
 			%li.dropdown.dropdown-user
 				%a.dropdown-toggle{"data-toggle" => "dropdown"}
 					%span
@@ -129,4 +129,3 @@
 								%i.icon-cash
 								Setup Payoneer Escrow
 
-/ Page header
