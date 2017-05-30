@@ -1,5 +1,4 @@
 class Bid < ActiveRecord::Base
-  # belongs_to :company # TODO: remove bids.company_id
   has_one :company, through: :inventory_part
   belongs_to :auction
   belongs_to :inventory_part
