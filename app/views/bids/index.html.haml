@@ -44,30 +44,33 @@
         .col-md-1
 
         .datatable-scroll
-          %table#buyerAuctionsDT.table.dataTable.no-footer
+          %table#bidsDT.table.dataTable.no-footer
             %thead
               %tr{:role => "row"}
+                %th Auction
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Quote Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Quote #
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Description
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Condition
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Start Date: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Start Date
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Days Active
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Lowest Bid
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "My Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} My Bid
                 %th.text-center.sorting_disbaled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Actions
             %tbody
               - @bids.each do |bid|
                 %tr.odd{:role => "row"}
+                  %td
+                    %strong Auction Reference # 
+                    = bid.auction.reference_num + " | "
+                    %strong Part No.
+                    = bid.auction.part_num + " | "
+                    %strong Conditions: 
+                    = bid.auction.decorate.abbreviated_index_tags + " | "
+                    %strong Days Active:
+                    = ((Time.zone.now - bid.auction.created_at) / 1.day).to_i
                   %td= link_to (bid.reference_num.empty? ? "N/A" : bid.reference_num), bid.auction
                   %td= bid.auction.part_num
                   %td= bid.auction.auction_part.description
-                  -if bid.auction.condition[0].blank?
-                    %td All Conditions
-                  -else
-                    %td= bid.auction.decorate.abbreviated_index_tags
-                  %td= bid.auction.created_at.strftime("%m/%d/%Y")
-                  %td= ((Time.zone.now - bid.auction.created_at) / 1.day).to_i
+                  %td= AssetDecorator.rename(bid.inventory_part, bid.inventory_part.condition)
                   %td= number_to_currency bid.auction.bids.minimum(:part_price)
                   / This the current user's bid for this auction?
                   %td= number_to_currency bid.part_price

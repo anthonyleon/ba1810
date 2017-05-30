@@ -4,11 +4,12 @@ class BidsController < ApplicationController
   before_action :set_transaction, only: [:show, :update, :funds_released]
 
   def index
-    @bids = current_user.bids.to_a.uniq { |b| b.auction_id }
+    @bids = current_user.bids#.to_a.uniq { |b| b.auction_id }
+    # @auctions = Auction.joins(:bids).where(bids: {id: @bids}).uniq #auctions with bids
     @supplier_auctions = AuctionDecorator.decorate_collection(current_user.auctions_with_owned_bids)
     @sales_count = Transaction.where(seller_id: current_user.id, complete: true).count
     @pending_sales_count = Transaction.where(seller_id: current_user.id, complete: false).count
-
+    # raise
   end
 
   def show
