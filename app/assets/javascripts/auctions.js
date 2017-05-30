@@ -96,7 +96,22 @@ $(document).on('ready page:load', function() {
 		});
 	});
 
-
+	$('#sweet_basic').on('click', function() {
+		swal({
+				title: "Contact Info",
+				text: "Send us an e-mail with your updated inventory at support@bid.aero",
+				confirmButtonColor: "#2196F3",
+				type: "info"
+		});
+		});
+		$('#sweet_opportunities').on('click', function() {
+		swal({
+				title: "Inventory Upload",
+				text: "Keep your opportunities current! \n Send us an e-mail with your updated inventory at \n\nsupport@bid.aero\n",
+				confirmButtonColor: "#2196F3",
+				type: "info"
+		});
+	});
 	// cool mutation class for actively listening to when html elements move. couldn't use it where I wanted to here 
 
 	// this.removeSupplier = function(element) {

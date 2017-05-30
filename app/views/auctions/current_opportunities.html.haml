@@ -92,7 +92,7 @@
 											.bg-teal-400.btn-rounded.btn-icon.btn-xs.legitRipple.text-center
 												%span.letter-icon
 													= auction.company.name.each_char.first
-										.media-body{"data-content" => "#{auction.company.email}", "data-placement" => "left", "data-popup" => "popover", "data-trigger" => "hover", :type => "button"}
+										.media-body{"data-content" => "#{auction.company.email}", "data-placement" => "right", "data-popup" => "popover", "data-trigger" => "hover", :type => "button"}
 											.display-inline-block.text-default.text-semibold.letter-icon-title
 												= auction.company.name
 											.text-muted.text-size-small
@@ -140,10 +140,10 @@
 													= link_to new_auction_bid_path(auction) do
 														%i.icon-enter.text-success
 														Quick Quote
-												%li
-													%a{:href => "#"}
-														%i.icon-comment.text-primary
-														Contact Buyer
+												/ %li
+												/ 	%a#sweet_basic
+												/ 		%i.icon-comment.text-primary
+												/ 		Contact Buyer
 
 										-# .btn-group
 										-# 	%button.btn-xs.btn-primary{:type => "button"}
