@@ -28,7 +28,7 @@
     .form-group
       %label.col-sm-3.control-label Quote Reference:
       .col-sm-9
-        = f.text_field :quote_num, :placeholder => "Quote Reference No. (optional)", class: "form-control"
+        = f.text_field :reference_num, :placeholder => "Quote Reference No. (optional)", class: "form-control"
     .form-group
       .col-sm-8.col-md-offset-2
         = f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
