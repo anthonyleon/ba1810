@@ -63,8 +63,7 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.update(transaction_params)
-        binding.pry
-        format.html { redirect_to buyer_purchase_path(@transaction), notice: 'Transaction has been initiated.' }
+        format.html { redirect_to buyer_purchase_path(@transaction.id), notice: 'Transaction has been initiated.' }
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render auction_purchase_confirmation_path(@transaction.auction, @transaction.bid) }
