@@ -61,10 +61,29 @@ $(function() {
     });
 
     $('#buyerAuctionsDT').DataTable({
-      columnDefs: [{
-        orderable: false,
-        targets: [7]
-      }]
+        "order": [[ 0, "asc" ]],
+        "pageLength": 25,
+        columnDefs: [{
+            "orderable": false,
+            "targets": [8],
+            "visible": false, 
+            "targets": 0
+        }],
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last = null;
+
+            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group active text-center border-double"><td colspan="9">'+group+'</td></tr>'
+                        );
+
+                    last = group;
+                }
+            });
+        }
     });
 
 
