@@ -1,7 +1,7 @@
 class Auction < ActiveRecord::Base
   belongs_to :company
   belongs_to :project
-  has_one :tx, class_name: "Transaction"#, foreign_key: "transaction_id"
+  has_one :tx, class_name: "Transaction"#, foreign_key: "tx_id"
   has_one :auction_part, dependent: :destroy
   has_one :part, through: :auction_part
   belongs_to :destination

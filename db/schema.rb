@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531022729) do
+ActiveRecord::Schema.define(version: 20170531043636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,14 +146,14 @@ ActiveRecord::Schema.define(version: 20170531022729) do
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
 
   create_table "destinations", force: :cascade do |t|
-    t.string   "address",    default: ""
-    t.string   "city",       default: ""
-    t.string   "state",      default: ""
-    t.string   "country",    default: ""
-    t.string   "zip",        default: ""
-    t.string   "title",      default: ""
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "address",    default: "N/A"
+    t.string   "city",       default: "N/A"
+    t.string   "state",      default: "N/A"
+    t.string   "country",    default: "N/A"
+    t.string   "zip",        default: "N/A"
+    t.string   "title",      default: "N/A"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "documents", force: :cascade do |t|
@@ -220,14 +220,14 @@ ActiveRecord::Schema.define(version: 20170531022729) do
   add_index "invites", ["company_id"], name: "index_invites_on_company_id", using: :btree
 
   create_table "notifications", force: :cascade do |t|
-    t.boolean  "read?",          default: false
+    t.boolean  "read?",      default: false
     t.integer  "company_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "bid_id"
     t.integer  "auction_id"
     t.string   "message"
-    t.integer  "transaction_id"
+    t.integer  "tx_id"
     t.integer  "category"
   end
 
