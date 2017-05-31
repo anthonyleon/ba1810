@@ -28,7 +28,7 @@
 									.row
 										.col-md-8.col-md-offset-2
 											.form-group.has-feedback
-												= f.text_field :email, class: "form-control", id: 'email', value: @company.email
+												= f.text_field :email, class: "form-control", value: @company.email
 												= f.hidden_field :token, value: @token
 												= f.hidden_field :auction_id, value: @auction_id
 												.form-control-feedback
