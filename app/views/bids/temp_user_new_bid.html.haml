@@ -106,12 +106,12 @@
                           .col-lg-6
                             %label.col-lg-4.control-label Manufacturer
                             .col-lg-8
-                              = cm.text_field :manufacturer, placeholder: "Ex: Textron Aviation", class: "form-control"
+                              = cm.text_field :manufacturer, placeholder: "Ex: Textron Aviation", value: "", class: "form-control"
                         .form-group
                           .col-lg-6
                             %label.col-lg-4.control-label Serial No.
                             .col-lg-8
-                              = cm.text_field :serial_num, placeholder: "WG2Y0B9", class: "form-control"
+                              = cm.text_field :serial_num, placeholder: "WG2Y0B9", class: "form-control", value: ""
                           .col-lg-6
                             %label.col-lg-4.control-label Condition
                             .col-lg-8
@@ -154,7 +154,6 @@
                             %label.col-lg-4.control-label Quantity:
                             .col-lg-8
                               = f.text_field :quantity, :placeholder => "Quantity", class: "form-control"
-                              = f.hidden_field :inventory_part_id, value: InventoryPart.find_by(company: current_user, part_num: @auction.part_num).id
                         .col-lg-6
                           .form-group
                             %label.col-lg-4.control-label Tag Date:
@@ -163,12 +162,12 @@
                           .form-group
                             %label.col-lg-4.control-label Quote Reference:
                             .col-lg-8
-                              = f.text_field :reference_num, :placeholder => "Quote Reference No. (optional)", class: "form-control"
+                              = f.text_field :reference_num, :placeholder => "Quote Reference No. (optional)", value: "", class: "form-control"
                           .form-group
                             .col-lg-4
                               %label Documentation:
                             .col-lg-8{style: "padding: 0 20px;"}
-                              = f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
+                              = f.fields_for :document, Document.new, html: { :multipart => true, class: "form-control"} do |dm|
                                 -# .field.pull-left.field-title
                                 -#   Upload Files
                                 .row{style: "display: flex;"}
@@ -177,7 +176,7 @@
                                     %label.btn.btn-default.btn-file.legitRipple
                                       %i.icon-file-plus
                                       Browse
-                                      = cm.file_field :attachment, multiple: true
+                                      = dm.file_field :attachment
                                   .form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
                                     .file-caption-name#file-name{:title => "No file selected"}
                                       .text-muted None selected
