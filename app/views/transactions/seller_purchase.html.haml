@@ -95,8 +95,9 @@
 											.row
 												.col-md-12
 													.alert.alert-warning.alert-styled-left.alpha-orange
-														%span.text-semibold.text-warning Part Require by: MM/DD/YYYY
-														= "#{@transaction.auction.required_date}"
+														%span.text-semibold.text-warning Required Delivery Date:
+														%span.text-warning
+															= "#{@transaction.required_date}"
 										/ Invoices
 										.timeline-row
 											.timeline-icon
@@ -125,7 +126,31 @@
 										.timeline-row
 											.timeline-icon
 												=image_tag 'bidaeroswirl.png'
-											-if @transaction.invoice_num?
+											- if @transaction.pending_invoice?
+												-if @auction.resale_yes
+													%h6.center-align
+														= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
+												.form-container.destination-form
+													= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+														.row
+															.col-md-12
+																-if @transaction.shipping_account.empty?
+																	.col-md-4
+																		.input-field
+																			.form-group
+																				= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost"
+																-if @transaction.auction.resale_no
+																	.col-md-4
+																		.input-field
+																			.form-group
+																				= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
+																	.col-md-4
+																		.input-field
+																			.form-group
+																				= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+														.actions
+															= f.submit 'Submit', class: "btn bg-success pull-right"
+											-else
 												.row
 													.col-lg-12.pull-right
 														.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
@@ -166,42 +191,23 @@
 																			%tr.active
 																				%td.text-semibold.text-success Grand Total:
 																				%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount-@transaction.total_fee)}
-											- else
-												-if @auction.resale_yes
-													%h6.center-align
-														= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
-												.form-container.destination-form
-													= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
-														.row
-															.col-md-12
-																-if @transaction.shipping_account.empty?
-																	.col-md-4
-																		.input-field
-																			.form-group
-																				= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost"
-																-if @transaction.auction.resale_no
-																	.col-md-4
-																		.input-field
-																			.form-group
-																				= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
-																	.col-md-4
-																		.input-field
-																			.form-group
-																				= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-														.actions
-															= f.submit 'Submit', class: "btn bg-success pull-right"
+
+
+
 										/ Video posts
-										.timeline-row
-											.timeline-icon
-												%img{:alt => "", :src => "assets/images/placeholder.jpg"}/
-											.row
-												.col-lg-12
-													.panel.panel-flat.timeline-content
-														.panel-heading
-															%h6.panel-title
-																Shipping Instructions
-														.panel-body
-															- if !@transaction.tracking_num
+										-if @transaction.quantify_status > Transaction.statuses[:pending_payment]
+											.timeline-row
+												.timeline-icon
+													%img{:alt => "", :src => "assets/images/placeholder.jpg"}/
+												.row
+													.col-lg-12
+														.panel.panel-flat.timeline-content
+															.panel-heading
+																%h6.panel-title
+																	Shipping Instructions
+															.panel-body
+																- if @transaction.pending_shipment?
+																	= render 'shipment'
 																-if @transaction.shipping_account
 																	%h7.text-center #{@transaction.buyer.name} would like to use their freight account. Please use the following information for shipment.
 																	%p.mt-5.text-muted Have a question for #{@transaction.buyer.name}?
@@ -212,7 +218,7 @@
 																		.col-md-4.text-left
 																			= "Account ##{@transaction.shipping_account}"
 																	%br
-																= render 'shipment'
+
 														-# .panel-footer.panel-footer-transparent
 														-# 	%a.heading-elements-toggle
 														-# 		%i.icon-more
