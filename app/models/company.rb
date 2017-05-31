@@ -7,7 +7,6 @@ class Company < ActiveRecord::Base
   has_many :aircrafts
   has_many :engines
   has_many :ratings, dependent: :destroy
-  has_many :transactions
   has_many :notifications, dependent: :destroy
   has_many :documents
   has_many :company_docs
