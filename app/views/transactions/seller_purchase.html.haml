@@ -190,114 +190,43 @@
 																				= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
 														.actions
 															= f.submit 'Submit', class: "btn bg-success pull-right"
-
 										/ Video posts
 										.timeline-row
 											.timeline-icon
 												%img{:alt => "", :src => "assets/images/placeholder.jpg"}/
 											.row
-												.col-lg-6
+												.col-lg-12
 													.panel.panel-flat.timeline-content
 														.panel-heading
 															%h6.panel-title
-																Woodturner master
-																%a.heading-elements-toggle
-																	%i.icon-more
-															.heading-elements
-																%span.heading-text
-																	%i.icon-checkmark-circle.position-left.text-success
-																	Yesterday, 7:52 am
-																%ul.icons-list
-																	%li.dropdown
-																		%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																			%i.icon-arrow-down12
-																		%ul.dropdown-menu.dropdown-menu-right
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-lock
-																					Hide user posts
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-block
-																					Block user
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-minus
-																					Unfollow user
-																			%li.divider
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-embed
-																					Embed post
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-blocked
-																					Report this post
+																Shipping Instructions
 														.panel-body
-															.video-container.content-group
-																%iframe{:allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :src => "https://player.vimeo.com/video/126545288?title=0&byline=0&portrait=0", :webkitallowfullscreen => ""}
-															Bewitchingly amid heard by llama glanced fussily quetzal more that overcame eerie goodness badger woolly where since gosh accurate irrespective that pounded much winked urgent and furtive house gosh one while this more.
-														.panel-footer.panel-footer-transparent
-															%a.heading-elements-toggle
-																%i.icon-more
-															.heading-elements
-																%ul.list-inline.list-inline-condensed.heading-text
-																	%li
-																		%a.text-default{:href => "#"}
-																			%i.icon-eye4.position-left
-																			285
-																	%li
-																		%a.text-default{:href => "#"}
-																			%i.icon-comment-discussion.position-left
-																			12
-																%span.heading-btn.pull-right
-																	%a.btn.btn-link{:href => "#"}
-																		Read post
-																		%i.icon-arrow-right14.position-right
-												.col-lg-6
-													.panel.panel-flat.timeline-content
-														.panel-heading
-															%h6.panel-title
-																%i.icon-comment-discussion.position-left
-																%a{:href => "#"} Jason
-																commented:
-																%a.heading-elements-toggle
-																	%i.icon-more
-															.heading-elements
-																%ul.icons-list
-																	%li.dropdown
-																		%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																			%i.icon-arrow-down12
-																		%ul.dropdown-menu.dropdown-menu-right
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-lock
-																					Hide user posts
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-block
-																					Block user
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-minus
-																					Unfollow user
-																			%li.divider
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-embed
-																					Embed post
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-blocked
-																					Report this post
-														.panel-body
-															.video-container.content-group
-																%iframe{:allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :src => "https://player.vimeo.com/video/133217402?title=0&byline=0&portrait=0", :webkitallowfullscreen => ""}
-															%blockquote
-																%p When suspiciously goodness labrador understood rethought yawned grew piously endearingly inarticulate oh goodness jeez trout distinct hence cobra.
-																%footer
-																	Jason,
-																	%cite{:title => "Source Title"} 10:39 am
+															- if !@transaction.tracking_num
+																-if @transaction.shipping_account
+																	%h7.text-center #{@transaction.buyer.name} would like to use their freight account. Please use the following information for shipment.
+																	%p.mt-5.text-muted Have a question for #{@transaction.buyer.name}?
+																	.row
+																		.col-md-4.col-md-offset-2.text-left
+																			= "Carrier: #{@transaction.carrier}"
+
+																		.col-md-4.text-left
+																			= "Account ##{@transaction.shipping_account}"
+																	%br
+																= render 'shipment'
+														-# .panel-footer.panel-footer-transparent
+														-# 	%a.heading-elements-toggle
+														-# 		%i.icon-more
+														-# 	.heading-elements
+														-# 		%ul.list-inline.list-inline-condensed.heading-text
+														-# 			%li
+														-# 				%a.text-default{:href => "#"}
+														-# 					%i.icon-eye4.position-left
+														-# 					285
+														-# 		%span.heading-btn.pull-right
+														-# 			%a.btn.btn-link{:href => "#"}
+														-# 				Read post
+														-# 				%i.icon-arrow-right14.position-right
+
 										/ /video posts
 								/ /timeline
 							#schedule.tab-pane.fade

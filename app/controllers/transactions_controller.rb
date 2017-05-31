@@ -56,9 +56,9 @@ class TransactionsController < ApplicationController
 
 	def show
 		if @transaction.buyer == current_user
-			redirect_to buyer_purchase_path(@transaction) 
+			redirect_to buyer_purchase_path(@transaction)
 		elsif @transaction.seller == current_user
-			redirect_to seller_purchase_path(@transaction) 
+			redirect_to seller_purchase_path(@transaction)
 		else
 			redirect_to root_path
 		end
