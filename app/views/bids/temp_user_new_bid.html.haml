@@ -24,7 +24,7 @@
 			.panel.panel-flat
 				.panel-heading
 					%h5.panel-title
-						Please complete the form to submit your quote..row
+						Complete the form to submit your quote
 					= form_for(:bid, url: temp_user_create_bid_path(@auction)) do |f|
 						- if @bid.errors.any?
 							#error_explanation
