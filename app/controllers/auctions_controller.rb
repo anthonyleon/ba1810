@@ -1,5 +1,5 @@
 class AuctionsController < ApplicationController
-	before_action :set_auction, only: [:show, :edit, :update, :destroy]
+	before_action :set_auction, only: [:show, :edit, :update, :destroy, :invite_more_suppliers]
 	before_action :set_bid_and_auction, only: [:purchase_confirmation, :purchase]
 	before_action :set_destination, only: [:show, :purchase_confirmation]
 
@@ -49,7 +49,7 @@ class AuctionsController < ApplicationController
 			if @auction.save
 
 				@destination.update(country: params["country"])
-				@auction.invite_and_setup_suppliers
+				@auction.invite_and_setup_suppliers(@auction.invitees)
 
 				@auction.req_forms.reject! { |c| c.empty? }
 				Auction.part_match_or_not_actions(@auction, part_match)
@@ -65,6 +65,12 @@ class AuctionsController < ApplicationController
 		end
 	end
 
+	def invite_more_suppliers
+		params["invitees"].delete("")
+		@auction.add_invitees(params[:invitees]) if params[:invitees]
+		render nothing: true
+	end
+
 	def update
 		respond_to do |format|
 			params["invitees"].delete("")
@@ -72,7 +78,7 @@ class AuctionsController < ApplicationController
 				@auction.update(target_price: params[:target_price].gsub(' ', ''))
 			elsif @auction.update(auction_params)
 				@auction.set_invitees(params[:invitees]) if params[:invitees]
-				@auction.invite_and_setup_suppliers
+				@auction.invite_and_setup_suppliers(@auction.invitees)
 				@auction.update(condition: auction_params[:condition].map!{ |x| x.to_sym }) if auction_params[:condition]
 				# unless params[:commit] == "Update RFQ"
 				#   @transaction = Transaction.find(transaction_params[:id])

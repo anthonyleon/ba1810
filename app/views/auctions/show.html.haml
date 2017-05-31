@@ -115,7 +115,7 @@
 												= "#{@destination.zip}"
 												= "#{@destination.country}"
 					-if current_user == @auction.company
-						= form_tag @auction, method: :patch, remote: true, class: "flex more-suppliers-form" do
+						= form_tag invite_more_suppliers_path(@auction), method: :patch, remote: true, class: "flex more-suppliers-form" do
 							.row.col-sm-12
 								.container#add-new-supplier
 								#new-supplier-partial{:style => "display: none;"}
