@@ -284,8 +284,6 @@ ActiveRecord::Schema.define(version: 20170531195111) do
     t.string   "tracking_num",        default: "N/A"
     t.string   "carrier",             default: "N/A"
     t.string   "shipment_desc",       default: "N/A"
-    t.boolean  "delivered"
-    t.boolean  "paid"
     t.string   "shipping_account",    default: "N/A"
     t.float    "tax_rate",            default: 0.0
     t.decimal  "total_amount",        default: 0.0
@@ -294,11 +292,8 @@ ActiveRecord::Schema.define(version: 20170531195111) do
     t.decimal  "bid_aero_fee",        default: 0.0
     t.decimal  "final_shipping_cost", default: 0.0
     t.decimal  "total_fee",           default: 0.0
-    t.boolean  "complete",            default: false
     t.decimal  "part_price",          default: 0.0
-    t.boolean  "shipped"
     t.integer  "bid_id"
-    t.boolean  "disputed"
     t.string   "dispute_id"
     t.boolean  "dispute_settlement"
     t.boolean  "settlement_accepted"
