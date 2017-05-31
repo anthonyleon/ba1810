@@ -26,15 +26,14 @@ class SessionController < ApplicationController
 		password = params[:company][:password]
 		password_confirm = params[:company][:password_confirmation]
 		@auction_id = params[:company][:auction_id]
-
 		if params[:company][:password].length < 8
 			redirect_to invited_supplier_setup_path(@auction_id, format: token), flash: { error: "Password must be at least 8 characters long" }
 		elsif password != password_confirm
 			redirect_to invited_supplier_setup_path(@auction_id, format: token), flash: { error: "Password Confirmation does not match Password" }
-		elsif !(Company.find_by_email(params[:company][:email].downcase.squish).try(:authenticate, token))
+		elsif !(Company.find_by_email(params[:company][:email].downcase.squish)) #.try(:authenticate, token))
 			redirect_to invited_supplier_setup_path(@auction_id, format: token), flash: { error: "Invalid E-mail" }
 		else
-			@company = Company.find_by_email(params[:company][:email].downcase.squish).try(:authenticate, token)
+			@company = Company.find_by_email(params[:company][:email].downcase.squish) #if I feel the need that the passwords password entered should match the old password .try(:authenticate, token)
 			session[:company_id] = @company.id
 			@company.update_attribute('password', password)
 			redirect_to auction_path(@auction_id), flash: { success: "Welcome #{@company.name}!" }
@@ -44,6 +43,7 @@ class SessionController < ApplicationController
 	def invited_supplier_setup
 		redirect_to dashboard_path if current_user
 		@auction_id = params[:auction_id]
+		@auction = Auction.find(params[:auction_id])
 		@token = params[:format]
 		@company = Company.find_by(confirm_token: @token)
 
