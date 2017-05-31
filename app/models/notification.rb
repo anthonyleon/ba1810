@@ -4,7 +4,7 @@ class Notification < ActiveRecord::Base
 	belongs_to :auction
   belongs_to :tx, class_name: "Transaction"
 
-  enum category: [:sell, :buy, :action_required]
+  enum category: [:win, :new_quote, :competing_quote, :invite, :broadcast, :send_payment]
 
 
 
@@ -40,7 +40,7 @@ class Notification < ActiveRecord::Base
 
   def self.notify_auctioner(auction, message)
     Notification.create(company: auction.company, auction: auction, message: message)
-    CompanyMailer.notify_buyer(auction.company, auction).deliver_now
+    CompanyMailer.notify_buyer(auction.company, auction).deliver_later(wait_until: 1.minute.from_now)
   end
 
   def self.notify_other_bidders(auction, user, message)
@@ -60,5 +60,45 @@ class Notification < ActiveRecord::Base
     else
       Notification.create(message: message, bid: bid, auction: bid.auction, company: company)
     end
+  end
+
+  def link
+    tx || auction || bid
+  end
+
+  def choose_icon
+    
+    case category
+    when "win"
+      "icon-medal-first"
+    when "new_quote"
+      "icon-stack3"
+    when "competing_quote"
+      "icon-warning22"
+    when "invite"
+      "icon-envelop"
+    when "broadcast"
+      "icon-megaphone"
+    when "send_payment"
+      "icon-cash3"
+    end 
+  end
+
+  def choose_color
+    
+    case category
+    when "win"
+      "bg-success-400"
+    when "new_quote"
+      "bg-primary-400"
+    when "competing_quote"
+      "bg-warning-400"
+    when "invite"
+      "bg-success-400"
+    when "broadcast"
+      "bg-success-400"
+    when "send_payment"
+      "bg-primary-400"
+    end 
   end
 end

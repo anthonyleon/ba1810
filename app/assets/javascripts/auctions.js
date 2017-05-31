@@ -96,5 +96,41 @@ $(document).on('ready page:load', function() {
 		});
 	});
 
-	
+
+	$('#sweet_basic').on('click', function() {
+		swal({
+				title: "Contact Info",
+				text: "Send us an e-mail with your updated inventory at support@bid.aero",
+				confirmButtonColor: "#2196F3",
+				type: "info"
+		});
+		});
+		$('#sweet_opportunities').on('click', function() {
+		swal({
+				title: "Inventory Upload",
+				text: "Keep your opportunities current! \n Send us an e-mail with your updated inventory at \n\nsupport@bid.aero\n",
+				confirmButtonColor: "#2196F3",
+				type: "info"
+		});
+	});
+	// cool mutation class for actively listening to when html elements move. couldn't use it where I wanted to here
+
+	// this.removeSupplier = function(element) {
+	// 		return element.parent().remove();
+	// };
+
+	// // purchase confirmation hide submit button
+	// var element = document.querySelector('.po-confirm-wzrd-btn');
+	// var observer = new MutationObserver(function(mutations) {
+	// 	mutations.forEach(function(mutation) {
+	// 		if (mutation.target.value == "Submit") {
+	// 			$('.po-confirm-wzrd-btn').hide();
+	// 		} else {
+	// 			$('.po-confirm-wzrd-btn').show();
+	// 		}
+	// 	});
+	// });
+	// observer.observe(element, {
+	// 	attributes: true //configure it to listen to attribute changes
+	// });
 });

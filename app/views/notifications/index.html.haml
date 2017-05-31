@@ -20,35 +20,6 @@
 				.panel-heading
 					%h6.panel-title
 						Recent Activity
-					-# 	%a.heading-elements-toggle
-					-# 		%i.icon-more
-					-# .heading-elements
-					-# 	%span.heading-text
-					-# 		Balance:
-					-# 		%span.text-bold.text-danger-600.position-right $4,378
-					-# 	%ul.icons-list
-					-# 		%li.dropdown.text-muted
-					-# 			%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-					-# 				%i.icon-cog3
-					-# 				%span.caret
-					-# 			%ul.dropdown-menu.dropdown-menu-right
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-sync
-					-# 						Update data
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-list-unordered
-					-# 						Detailed log
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-pie5
-					-# 						Statistics
-					-# 				%li.divider
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-cross3
-					-# 						Clear list
 					#sales-heatmap
 				.table-responsive
 					%table.table.text-nowrap
@@ -61,13 +32,13 @@
 							- @notifications.each do |note|
 								%tr.notification
 									%td
-										-# notification for broadcast opportunity
 										.media-left.media-middle
-											%a.btn.bg-success-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
-												%span.icon-megaphone
+											=link_to note.link do
+												.btn.btn-rounded.btn-icon.btn-xs{class: "#{note.choose_color}"}
+													%span{class: "#{note.choose_icon}"}
 										.media-body
 											.media-heading
-												%a.letter-icon-title{:href => "#"} New Broadcast eRFQ
+												%a.letter-icon-title= link_to note.message, note.link
 											.text-muted.text-size-small
 												%i.icon-cogs.text-size-mini.position-left
 												Parts Wanted by #{note.auction.company.name}
@@ -77,96 +48,7 @@
 									%td
 										%h6.text-semibold.no-margin
 										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
-								%tr
-									%td
-										-# notification for invited opportunity
-										.media-left.media-middle
-											%a.btn.bg-success-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
-												%span.icon-envelop
-										.media-body
-											.media-heading
-												%a.letter-icon-title{:href => "#"} You have been Invited to quote
-											.text-muted.text-size-small
-												%i.icon-cogs.text-size-mini.position-left
-												Parts Wanted by #{note.auction.company.name}
-									%td
-										%span.text-muted.text-size-small
-										= note.auction.part_num
-									%td
-										%h6.text-semibold.no-margin
-										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
-								%tr
-									%td
-										-# notification for "You have won an auction! Please finalize tax and shipping costs, and input your invoice number.",
-										.media-left.media-middle
-											%a.btn.bg-success-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
-												%span.icon-medal-first
-										.media-body
-											.media-heading
-												%a.letter-icon-title{:href => "#"} Buyer has awarded you the winner of this eRFQ. Please finalize order details.
-											.text-muted.text-size-small
-												%i.icon-cogs.text-size-mini.position-left
-												Parts Wanted by AeroTrade Capital
-									%td
-										%span.text-muted.text-size-small
-										= note.auction.part_num
-									%td
-										%h6.text-semibold.no-margin
-										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
-								%tr
-									%td
-										-# notification for "A quote has been placed on an RFQ you are participating in!",
-										.media-left.media-middle
-											%a.btn.bg-warning-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
-												%span.icon-warning22
-										.media-body
-											.media-heading
-												%a.letter-icon-title{:href => "#"} Warning: New competing quotes have been submitted.
-											.text-muted.text-size-small
-												%i.icon-cogs.text-size-mini.position-left
-												Parts Wanted by #{note.auction.company.name}
-									%td
-										%span.text-muted.text-size-small
-										= note.auction.part_num
-									%td
-										%h6.text-semibold.no-margin
-										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
-								%tr
-									%td
-										-# notification for "Seller has finalized costs. Please send funds to escrow.",
-										.media-left.media-middle
-											%a.btn.bg-primary-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
-												%span.icon-cash3
-										.media-body
-											.media-heading
-												%a.letter-icon-title{:href => "#"} Seller has finalized costs, please submit payment.
-											.text-muted.text-size-small
-												%i.glyphicon.glyphicon-list-alt.text-size-mini.position-left
-												For your eRFQ: #{note.auction.id}
-									%td
-										%span.text-muted.text-size-small
-										= note.auction.part_num
-									%td
-										%h6.text-semibold.no-margin
-										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
-								%tr
-									%td
-										-# notification for ""A new quote was placed in your auction!",
-										.media-left.media-middle
-											%a.btn.bg-primary-400.btn-rounded.btn-icon.btn-xs{:href => "#"}
-												%span.icon-stack3
-										.media-body
-											.media-heading
-												%a.letter-icon-title{:href => "#"} A new quote has been submitted for your review!
-											.text-muted.text-size-small
-												%i.glyphicon.glyphicon-list-alt.text-size-mini.position-left
-												For your eRFQ: #{note.auction.id}
-									%td
-										%span.text-muted.text-size-small
-										= note.auction.part_num
-									%td
-										%h6.text-semibold.no-margin
-										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
+						
 			-#
 			-# .panel.panel-flat
 			-# 	.panel-body

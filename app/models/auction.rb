@@ -33,6 +33,7 @@ class Auction < ActiveRecord::Base
 
   def self.forms
     %w(FAA EASA JAA CAAC SEGVOO TC)
+    
   end
 
 
