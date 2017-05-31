@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
 	protect_from_forgery :except => [:receive_webhook]
 	skip_before_action :require_logged_in, only: [:receive_webhook]
-	before_action :set_transaction, only: [:update_tax_shipping, :create_shipment, :update]
+	before_action :set_transaction, only: [:show, :update_tax_shipping, :create_shipment, :update]
 	before_action :set_variables, only: [:buyer_purchase, :seller_purchase, :material_cert]
 	## or?
 	# skip_before_filter :verify_authenticity_token
@@ -54,6 +54,16 @@ class TransactionsController < ApplicationController
 		render nothing: true
 	end
 
+	def show
+		if @transaction.buyer == current_user
+			redirect_to buyer_purchase_path(@transaction) 
+		elsif @transaction.seller == current_user
+			redirect_to seller_purchase_path(@transaction) 
+		else
+			redirect_to root_path
+		end
+	end
+
 	def create
 		bid = Bid.find(transaction_params[:bid_id])
 		@destination = Destination.find(params[:transaction][:destination][:id])
@@ -63,8 +73,8 @@ class TransactionsController < ApplicationController
 
 		respond_to do |format|
 			if @transaction.update(transaction_params)
-				format.html { redirect_to buyer_purchase_path(@transaction), notice: 'Aircraft was successfully created.' }
-				format.json { render :show, status: :created, location: @aircraft }
+				format.html { redirect_to buyer_purchase_path(@transaction), notice: 'Transaction was successfully created.' }
+				format.json { render :show, status: :ok, location: @transaction }
 			else
 				format.html { render auction_purchase_confirmation_path(@transaction.auction, @transaction.bid) }
 				format.json { render json: @aircraft.errors, status: :unprocessable_entity }

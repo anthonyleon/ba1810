@@ -48,7 +48,8 @@ resources :inventory_parts do
     get 'remove_all'
   end
 end
-
+  
+  get "/transaction/:id" => "transactions#show", as: "transaction"
   post "/transaction" => "transactions#create", as: "transactions"
 
   patch "/update_transaction/:id" => 'transactions#update', as: "update_transaction"
