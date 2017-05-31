@@ -35,7 +35,7 @@
 								%i.icon-menu7.position-left
 								Activity
 						%li
-							%a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#schedule"}
+							%a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#messages"}
 								%i.icon-comment-discussion.position-left
 								Messages with Seller
 								%span.badge.badge-success.badge-inline.position-right 32
@@ -62,9 +62,9 @@
 																%a.heading-elements-toggle
 																	%i.icon-more
 															.heading-elements
-																%span.heading-text
+																%span.heading-text.text-muted
 																	%i.icon-history.position-left.text-success
-																	Updated #############
+																	Updated last #{@transaction.destination.created_at}
 														.panel-body
 															= "#{@auction.company.name}"
 															%br
@@ -81,9 +81,9 @@
 																%a.heading-elements-toggle
 																	%i.icon-more
 															.heading-elements
-																%span.heading-text
+																%span.heading-text.text-muted
 																	%i.icon-history.position-left.text-success
-																	Updated #############
+																	Updated #{@transaction.destination.created_at}
 														.panel-body
 															= "ATTN:" " " "#{@transaction.destination.title}"
 															%br
@@ -176,13 +176,13 @@
 												.timeline-icon
 													=image_tag 'bidaeroswirl.png'
 												.row
+													-# if at payment_url
 													.col-lg-12
 														.panel.invoice-grid.timeline-content
 															.panel-heading
-																%h6.panel-title.pull-right
+																%h6.panel-title
 																	Submit Payment
 															.panel-body
-																-# if at payment_url
 																.row
 																	.col-md-12.text-center
 																		Vendor has invoiced and is awaiting payment to commence shipping, please click below for payment instructions.
@@ -192,198 +192,98 @@
 																		%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
 																		%button.paymentInstructionsFrame-lightbox-preview.btn.btn-primary.text-center{"data-url" => "#{@payment_url}"}
 																			Submit Payment
-								- else
+													-# afsdfafdsaf
+													.col-lg-12
+														.panel.border-right-lg.border-right-primary.timeline-content
+															.panel-heading
+																%h6.panel-title Order Status
+																.heading-elements
+																	%span.heading-text.text-muted
+																		%i.icon-history.position-left.text-success
+																		Last updated  #{@transaction.updated_at}
+															.panel-body
+																.row
+																	.col-md-7.text-left
+																		%p.mb-5.text-muted Your order's status will update as #{@transaction.seller.name} proceeds with shipment.  When your part has been delivered you will have 3 days to approve or dispute your purchase.
+																		%p.text-muted Need to contact #{@transaction.seller.name}? Find the sales reps contact above in Seller Contact Information!
+																		-# %p.mb-15.text-muted Your order's status will update as #{@transaction.seller.name} proceeds with shipment.
+																	.col-md-4.col-md-offset-1
+																		-if !@transaction.tracking_num
+																			.mt-5
+																				%label.text-semibold Status:
+																				%span.pull-right-sm.label.label-warning
+																					Awaiting Shipment
+																		-elsif !@transaction.shipped
+																			.mt-5
+																				%label.text-semibold Status:
+																				%span.pull-right-sm.label.label-info
+																					In Transit
+																		-elsif @transaction.delivered
+																			.mt-5
+																				%label.text-semibold Status:
+																				%span.pull-right-sm.label.label-success
+																					Delivered
+																		.mt-5
+																			%label.text-semibold Tracking Number:
+																			%span.pull-right-sm
+																				#{@transaction.tracking_num}
+																		.mt-5
+																			%label.text-semibold Carrier:
+																			%span.pull-right-sm
+																				#{@transaction.carrier}
 
-								-# .timeline.timeline-left
-								-# 	.timeline-container
-								-# 		/ Blog post
-								-# 		.timeline-row
-								-# 			.timeline-icon
-								-# 				=image_tag 'bidaeroswirl.png'
-								-# 			.panel.panel-flat.timeline-content
-								-# 				.panel-heading
-								-# 					%h6.panel-title
-								-# 						Himalayan sunset
-								-# 						%a.heading-elements-toggle
-								-# 							%i.icon-more
-								-# 					.heading-elements
-								-# 						%span.heading-text
-								-# 							%i.icon-checkmark-circle.position-left.text-success
-								-# 							49 minutes ago
-								-# 						%ul.icons-list
-								-# 							%li.dropdown
-								-# 								%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-								-# 									%i.icon-arrow-down12
-								-# 								%ul.dropdown-menu.dropdown-menu-right
-								-# 									%li
-								-# 										%a{:href => "#"}
-								-# 											%i.icon-user-lock
-								-# 											Hide user posts
-								-# 									%li
-								-# 										%a{:href => "#"}
-								-# 											%i.icon-user-block
-								-# 											Block user
-								-# 									%li
-								-# 										%a{:href => "#"}
-								-# 											%i.icon-user-minus
-								-# 											Unfollow user
-								-# 									%li.divider
-								-# 									%li
-								-# 										%a{:href => "#"}
-								-# 											%i.icon-embed
-								-# 											Embed post
-								-# 									%li
-								-# 										%a{:href => "#"}
-								-# 											%i.icon-blocked
-								-# 											Report this post
-								-# 				.panel-body
-								-# 					%a.display-block.content-group{:href => "#"}
-								-# 						%img.img-responsive.content-group{:alt => "", :src => "assets/images/cover.jpg"}/
-								-# 					%h6.content-group
-								-# 						%i.icon-comment-discussion.position-left
-								-# 						Comment from
-								-# 						= succeed ":" do
-								-# 							%a{:href => "#"} Jason Ansley
-								-# 					%blockquote
-								-# 						%p When suspiciously goodness labrador understood rethought yawned grew piously endearingly inarticulate oh goodness jeez trout distinct hence cobra despite taped laughed the much audacious less inside tiger groaned darn stuffily metaphoric unihibitedly inside cobra.
-								-# 						%footer
-								-# 							Jason,
-								-# 							%cite{:title => "Source Title"} 10:39 am
-								-# 				.panel-footer.panel-footer-transparent
-								-# 					%a.heading-elements-toggle
-								-# 						%i.icon-more
-								-# 					.heading-elements
-								-# 						%ul.list-inline.list-inline-condensed.heading-text
-								-# 							%li
-								-# 								%a.text-default{:href => "#"}
-								-# 									%i.icon-eye4.position-left
-								-# 									438
-								-# 							%li
-								-# 								%a.text-default{:href => "#"}
-								-# 									%i.icon-comment-discussion.position-left
-								-# 									71
-								-# 						%span.heading-btn.pull-right
-								-# 							%a.btn.btn-link{:href => "#"}
-								-# 								Read post
-								-# 								%i.icon-arrow-right14.position-right
-								-# 		/ /blog post
-								-# 		/ Date stamp
-								-# 		.timeline-date.text-muted
-								-# 			%i.icon-history.position-left
-								-# 			= succeed "," do
-								-# 				%span.text-semibold Monday
-								-# 		/ /date stamp
-								-#
-								-# 		/ Video posts
-								-# 		.timeline-row
-								-# 			.timeline-icon
-								-# 				%img{:alt => "", :src => "assets/images/placeholder.jpg"}/
-								-# 			.row
-								-# 				.col-lg-6
-								-# 					.panel.panel-flat.timeline-content
-								-# 						.panel-heading
-								-# 							%h6.panel-title
-								-# 								Woodturner master
-								-# 								%a.heading-elements-toggle
-								-# 									%i.icon-more
-								-# 							.heading-elements
-								-# 								%span.heading-text
-								-# 									%i.icon-checkmark-circle.position-left.text-success
-								-# 									Yesterday, 7:52 am
-								-# 								%ul.icons-list
-								-# 									%li.dropdown
-								-# 										%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-								-# 											%i.icon-arrow-down12
-								-# 										%ul.dropdown-menu.dropdown-menu-right
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-user-lock
-								-# 													Hide user posts
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-user-block
-								-# 													Block user
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-user-minus
-								-# 													Unfollow user
-								-# 											%li.divider
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-embed
-								-# 													Embed post
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-blocked
-								-# 													Report this post
-								-# 						.panel-body
-								-# 							.video-container.content-group
-								-# 								%iframe{:allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :src => "https://player.vimeo.com/video/126545288?title=0&byline=0&portrait=0", :webkitallowfullscreen => ""}
-								-# 							Bewitchingly amid heard by llama glanced fussily quetzal more that overcame eerie goodness badger woolly where since gosh accurate irrespective that pounded much winked urgent and furtive house gosh one while this more.
-								-# 						.panel-footer.panel-footer-transparent
-								-# 							%a.heading-elements-toggle
-								-# 								%i.icon-more
-								-# 							.heading-elements
-								-# 								%ul.list-inline.list-inline-condensed.heading-text
-								-# 									%li
-								-# 										%a.text-default{:href => "#"}
-								-# 											%i.icon-eye4.position-left
-								-# 											285
-								-# 									%li
-								-# 										%a.text-default{:href => "#"}
-								-# 											%i.icon-comment-discussion.position-left
-								-# 											12
-								-# 								%span.heading-btn.pull-right
-								-# 									%a.btn.btn-link{:href => "#"}
-								-# 										Read post
-								-# 										%i.icon-arrow-right14.position-right
-								-# 				.col-lg-6
-								-# 					.panel.panel-flat.timeline-content
-								-# 						.panel-heading
-								-# 							%h6.panel-title
-								-# 								%i.icon-comment-discussion.position-left
-								-# 								%a{:href => "#"} Jason
-								-# 								commented:
-								-# 								%a.heading-elements-toggle
-								-# 									%i.icon-more
-								-# 							.heading-elements
-								-# 								%ul.icons-list
-								-# 									%li.dropdown
-								-# 										%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-								-# 											%i.icon-arrow-down12
-								-# 										%ul.dropdown-menu.dropdown-menu-right
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-user-lock
-								-# 													Hide user posts
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-user-block
-								-# 													Block user
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-user-minus
-								-# 													Unfollow user
-								-# 											%li.divider
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-embed
-								-# 													Embed post
-								-# 											%li
-								-# 												%a{:href => "#"}
-								-# 													%i.icon-blocked
-								-# 													Report this post
-								-# 						.panel-body
-								-# 							.video-container.content-group
-								-# 								%iframe{:allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :src => "https://player.vimeo.com/video/133217402?title=0&byline=0&portrait=0", :webkitallowfullscreen => ""}
-								-# 							%blockquote
-								-# 								%p When suspiciously goodness labrador understood rethought yawned grew piously endearingly inarticulate oh goodness jeez trout distinct hence cobra.
-								-# 								%footer
-								-# 									Jason,
-								-# 									%cite{:title => "Source Title"} 10:39 am
-										/ /video posts
+
+															.panel-footer.panel-footer-condensed
+																%a.heading-elements-toggle
+																	%i.icon-more
+																-if @release_payment_url
+																	.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
+																		.col-md-2.col-md-offset-2
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs.disabled{"data-url" => "#{@release_payment_url}"}
+																				Release Payment
+																		.col-md-2.col-md-offset-4
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-danger.btn-xs.disabled{"data-url" => "#{@dispute_transaction_url}"}
+																				Dispute Transaction
+																-# -else  this is the above code but with disabled remove
+																	.heading-elements.mt-5.mb-5.mr-5.ml-5
+																		.col-md-2.col-md-offset-2
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs{"data-url" => "#{@release_payment_url}"}
+																				Release Payment
+																		.col-md-2.col-md-offset-4
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-danger.btn-xs{"data-url" => "#{@dispute_transaction_url}"}
+																				Dispute Transaction
+																-elsif @transaction.disputed && !@transaction.dispute_settlement
+																	.heading-elements.mt-5.mb-5.mr-5.ml-5
+																	.col-md-12
+																		%span.text-center
+																			You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
+																	%br
+																	%div.center
+																		%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																		%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs.{"data-url" => "#{@dispute_settlement_url}"}
+																			Create Settlement Offer
+																-elsif @transaction.dispute_settlement
+																	.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
+																	%span.text-center
+																		A settlement offer has been made, please review.
+																		%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																		%a.paymentInstructionsFrame-lightbox-preview.btn.bg-warning.btn-xs.{"data-url" => "#{@settlement_offer_url}"}
+																			Review Settlement Offer
+								- else
+									/ Date stamp
+									.timeline-date.text-muted
+										%i.icon-history.position-left
+										= succeed "," do
+											%span.text-semibold Monday
+									/ /date stamp
+
+
 								/ /timeline
-							#schedule.tab-pane.fade
+							#messages.tab-pane.fade
 								/ Messages
 								.panel.panel-flat.timeline-content
 									.panel-heading
@@ -523,11 +423,6 @@
 											%tr
 												%td= document.name
 												= link_to 'View/Download', document.attachment_url
-												-# -if document.attachment.url.to_s.downcase.include? "pdf"
-												-# 	%td.view-doc= link_to 'View/Download', document.attachment_url
-												-# -else
-												-# 	%td.view-doc= link_to 'Download', document.attachment_url
-								-# %span.pull-right-sm #{@transaction.bid.documents}
 					/ /Order Details
 					/ Share your thoughts
 					.panel.panel-body
@@ -541,205 +436,73 @@
 		/ /main content
 	/ /page content
 
-%link{:href => "https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700", :rel => "stylesheet", :type => "text/css"}
-.row
-	.col.s12
-		.card
-			.card-content
-				%div.card-title.grey-text.text-darken-4.center-align
-					Checkout -
-					= @auction.part_num
-					| SN:
-					= @bid.inventory_part.serial_num
-					| Condition:
-					= AssetDecorator.rename(@bid, @bid.inventory_part.condition)
-
-		%div.checkout-status-bar
-			.checkout-wrap
-				%ul.checkout-bar
-					%li.confirm-address-bubble.visited Confirm Shipping Address
-					%li.generate-po-bubble.visited Generate P.O.
-					-if !@transaction.invoice_num
-						%li.generate-invoice-bubble.active Awaiting Vendor Invoice
-						%li.review-payment-bubble.next Review  Payment
-						%li.track-shipping-bubble.next Track Shipping
-					-else
-						%li.generate-invoice-bubble.visited Review Vendor Invoice
-						%li.review-payment-bubble.active Submit  Payment
-						%li.track-shipping-bubble.next Track Shipping
-
-		%ul
-			%li.card.checkout.destination-address.hoverable
-				.card-content.step1-2
-					%h6.left-align.collapsible-header
-						Step 1 & 2: Shipping Confirmation and P.O Generated
-					%br/
-					.row
-						%span.card-title.col.s6
-							%h5.center-align
-								Shipping To:
-							%h6.auction-full-address.center-align
-								%div
-									= @auction.destination.title
-								%div
-									= @auction.full_address
-							%h6.required_date.center-align
-								= "Required Date: "
-								= @auction.required_date
-								%br/
-								%br/
-								%br/
-								-if @auction.resale_status
-									%h6.required_date.center-align
-										= "A copy of #{@transaction.buyer.name}'s Resale Certificate was provided to the Vendor."
-						%h6.required_date.center-align
-							%div
-								To Download and View custom P.O. please click below.
-							%br/
-							%br/
-							=link_to (image_tag "BidaeroPO.jpg",  :class => "bidaeropo"), transaction_po_path(@transaction, :format => :pdf)
-
-		-if @transaction.invoice_num
-			= render 'transactions/partials/buyer3'
-			= render 'transactions/partials/buyer4'
-		-else
-			= render 'transactions/partials/buyer3blur'
-			= render 'transactions/partials/buyer4blur'
-
-
-		-if @transaction.delivered
-			= render 'transactions/partials/buyer5'
-		-else
-			= render 'transactions/partials/buyer5blur'
-/ -if @transaction.delivered
-/ 	%li.card.checkout.destination-address.hoverable
-/ 		.card-content.checkout.step4-1
-/ 			%h6.left-align.collapsible-header
-/ 				Step 5: Tracking Details & Release of Funds
-/ 			.row
-/ 				%span.card-title.col.s12
-/ 					%h6.required_date.center-align Carrier has confirmed delivery
-/ 					%h6.required_date.center-align You have 3 days to approve or file a dispute on the order
-/ 					-if @release_payment_url
-/ 						%span.right
-/ 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 							%a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@release_payment_url}"}
-/ 								/ # =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
-/ 								Release Funds
-/ 						%span.left
-/ 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 							%a.paymentInstructionsFrame-lightbox-preview.initiate-dispute-btn{"data-url" => "#{@dispute_transaction_url}"}
-/ 								%i.material-icons.initiate-dispute-icon
-/ 									error_outline
-/ 								Initiate Dispute
-/ 					-elsif @transaction.disputed && !@transaction.dispute_settlement
-/ 						%br
-/ 						%div.center{style: "text-align: center; width: 427px; margin: auto;"}
-/ 							You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
-/ 						%br
-/ 						%div.center
-/ 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
-/ 								Create Settlement Offer
-/ 					-elsif @transaction.dispute_settlement
-/ 						%br
-/ 						%div.center{style: "text-align: center; margin: auto;"}
-/ 							A settlement offer has been made, please review.
-/ 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
-/ 								Review Settlement Offer
-/ -else
-/ 	%li.card.checkout.destination-address.hoverable.blurred
-/ 		.card-content.checkout.step4-1
-/ 			%h6.left-align.collapsible-header
-/ 				Step 5: Tracking Details & Release of Funds
-/ 			.row
-/ 				%span.card-title.col.s12
-/ 					%h6.required_date.center-align Carrier has confirmed delivery
-/ 					%h6.required_date.center-align You have 3 days to approve or file a dispute on the order
-/ 					-if @release_payment_url
-/ 						%div.center-align
-/ 						%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
-/ 							=image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
+-# %link{:href => "https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700", :rel => "stylesheet", :type => "text/css"}
 -# .row
 -# 	.col.s12
--# 		.card.buyer_purchase
+-# 		.card
 -# 			.card-content
--# 			%h3.custom-card-title.center
--# 				="Auction for #{@auction.part_num}"
--# 				%br
--# 				="#{@auction.auction_part.description}"
--# 			-if !@transaction.invoice_num
--# 				%div.center
--# 					/ make this an alert
--# 					%h5 Purchase Order generated.
--# 				%div.status
--# 					%span.tag.tag-pending-seller-confirmation Status: Pending Seller Confirmation
--# 				%div.center
--# 					Pending seller confirmation of tax and shipping info.
--# 					%br
--# 					The next step will require you to send funds into escrow once the Invoice is generated.
--# 			-elsif @transaction.invoice_num && !@transaction.paid
--# 				%div.status
--# 					%span.tag.tag-pending-funds-in-escrow Status: Awaiting Funds to Be Sent to Escrow
--# 				%div.center
--# 					Please send funds to escrow.
--# 			-elsif @transaction.paid && !@transaction.shipped
--# 				%div.status
--# 					%span.tag.tag-shipping-info Status: Pending Shipment
--# 				%div.center
--# 					Waiting for shipment information to be received.
--# 			-elsif @transaction.shipped && !@transaction.delivered
--# 				%div.status
--# 					%span.tag.tag-part-shipped Status: Part en Route
--# 				%div.center
--# 					Part is on the way, once part is accepted please release funds from escrow to seller.
--# 			-elsif @transaction.delivered && !@transaction.complete
--# 				%div.status
--# 					%span.tag.tag-part-delivered Status: Delivered
--# 				%div.center
--# 					Please Approve or Dispute the transaction.
--# 			-elsif @transaction.complete
--# 				%div.status
--# 					%span.tag.tag-complete Status: Complete
--# 				%div.center
--# 					Transaction has successfully been completed.
--# 			-elsif @transaction.disputed
--# 				%div.status
--# 					%span.tag.tag-disputed Status: Disputed
--# 				%div.center
--# 					Transaction has been disputed
+-# 				%div.card-title.grey-text.text-darken-4.center-align
+-# 					Checkout -
+-# 					= @auction.part_num
+-# 					| SN:
+-# 					= @bid.inventory_part.serial_num
+-# 					| Condition:
+-# 					= AssetDecorator.rename(@bid, @bid.inventory_part.condition)
 -#
--# 			%hr
--# 			%div.part-info
--# 				%div
--# 					%strong Part Price:
--# 					= number_to_currency(@transaction.part_price)
--# 				%div
--# 					%strong Shipping Cost:
--# 					-if @transaction.shipping_account
--# 						= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
--# 					-elsif @transaction.final_shipping_cost
--# 						= number_to_currency(@transaction.final_shipping_cost)
+-# 		%div.checkout-status-bar
+-# 			.checkout-wrap
+-# 				%ul.checkout-bar
+-# 					%li.confirm-address-bubble.visited Confirm Shipping Address
+-# 					%li.generate-po-bubble.visited Generate P.O.
+-# 					-if !@transaction.invoice_num
+-# 						%li.generate-invoice-bubble.active Awaiting Vendor Invoice
+-# 						%li.review-payment-bubble.next Review  Payment
+-# 						%li.track-shipping-bubble.next Track Shipping
 -# 					-else
--# 						= number_to_currency(@transaction.bid.est_shipping_cost)
--# 						%i
--# 							= "est"
--# 				%div
--# 					%strong Tax:
--# 					= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
--# 				%div
--# 					%strong Service Fee:
--# 					= number_to_currency(@transaction.total_fee)
--# 				%div{style: "width: 50%; margin: 0 auto;"}
--# 					%strong Total:
--# 					= number_to_currency(@transaction.total_amount)
--# 			-if @payment_url || @release_payment_url
--# 				%p
--# 				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
--# 				%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
--# 					-if @payment_url
--# 						="Click Here to Send Funds to Escrow"
--# 					-elsif @release_payment_url
--# 						="Release Payment From Escrow"
+-# 						%li.generate-invoice-bubble.visited Review Vendor Invoice
+-# 						%li.review-payment-bubble.active Submit  Payment
+-# 						%li.track-shipping-bubble.next Track Shipping
+-#
+-# 		%ul
+-# 			%li.card.checkout.destination-address.hoverable
+-# 				.card-content.step1-2
+-# 					%h6.left-align.collapsible-header
+-# 						Step 1 & 2: Shipping Confirmation and P.O Generated
+-# 					%br/
+-# 					.row
+-# 						%span.card-title.col.s6
+-# 							%h5.center-align
+-# 								Shipping To:
+-# 							%h6.auction-full-address.center-align
+-# 								%div
+-# 									= @auction.destination.title
+-# 								%div
+-# 									= @auction.full_address
+-# 							%h6.required_date.center-align
+-# 								= "Required Date: "
+-# 								= @auction.required_date
+-# 								%br/
+-# 								%br/
+-# 								%br/
+-# 								-if @auction.resale_status
+-# 									%h6.required_date.center-align
+-# 										= "A copy of #{@transaction.buyer.name}'s Resale Certificate was provided to the Vendor."
+-# 						%h6.required_date.center-align
+-# 							%div
+-# 								To Download and View custom P.O. please click below.
+-# 							%br/
+-# 							%br/
+-# 							=link_to (image_tag "BidaeroPO.jpg",  :class => "bidaeropo"), transaction_po_path(@transaction, :format => :pdf)
+-#
+-# 		-if @transaction.invoice_num
+-# 			= render 'transactions/partials/buyer3'
+-# 			= render 'transactions/partials/buyer4'
+-# 		-else
+-# 			= render 'transactions/partials/buyer3blur'
+-# 			= render 'transactions/partials/buyer4blur'
+-#
+-#
+-# 		-if @transaction.delivered
+-# 			= render 'transactions/partials/buyer5'
+-# 		-else
+-# 			= render 'transactions/partials/buyer5blur'
