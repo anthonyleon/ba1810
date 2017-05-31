@@ -116,5 +116,6 @@
                                   -#   = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
                                   -#     %i.fa.fa-close{style: "font-size: 18px; color: red;"}
   .row
-    %div.btn.custom-btn.go-to-auction
-      = link_to "Go To RFQ", @auction, class:"custom-btn"
+    = link_to @auction, class:"btn bg-success" do
+      %i.icon-chevron-left
+      Return To RFQ
