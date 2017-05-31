@@ -126,7 +126,6 @@ class TransactionsController < ApplicationController
 
 	def buyer_purchase
 		redirect_to root_path unless @transaction.buyer == current_user
-		
 		if @transaction.pending_payment?
 			response.headers.delete "X-Frame-Options"
 			@payment_url = ArmorPaymentsApi.get_payment_url(@transaction)
@@ -145,6 +144,7 @@ class TransactionsController < ApplicationController
 		@carriers = ArmorPaymentsApi.carriers_list if @transaction.pending_shipment?
 		if @transaction.disputed?
 			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer) 
+
 			@settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
 		end
 	end
