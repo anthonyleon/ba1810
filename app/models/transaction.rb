@@ -3,7 +3,6 @@ class Transaction < ActiveRecord::Base
   has_many :notifications
 	belongs_to :bid
 	belongs_to :inventory_part
-  has_many :companies
   belongs_to :destination
 	#armor payments $$ brackets/tiers
   TIER0 = 0
