@@ -85,7 +85,7 @@ $(document).on('ready page:load', function() {
 		$('.edit-shipping').show(350);
 	});
 
-
+	// add supplier in auctions/_form
 	var addSupplier = document.getElementById("addNewSupplier");
 	$("#addNewSupplier").on("click", function() {
 
@@ -96,6 +96,9 @@ $(document).on('ready page:load', function() {
 		});
 	});
 
+	this.removeSupplier = function(element) {
+		return element.parent().remove();
+	};
 
 	$('#sweet_basic').on('click', function() {
 		swal({
@@ -113,11 +116,9 @@ $(document).on('ready page:load', function() {
 				type: "info"
 		});
 	});
-	// cool mutation class for actively listening to when html elements move. couldn't use it where I wanted to here
 
-	// this.removeSupplier = function(element) {
-	// 		return element.parent().remove();
-	// };
+
+	// cool mutation class for actively listening to when html elements move. couldn't use it where I wanted to here
 
 	// // purchase confirmation hide submit button
 	// var element = document.querySelector('.po-confirm-wzrd-btn');
