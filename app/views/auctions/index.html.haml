@@ -52,10 +52,10 @@
           %table#buyerAuctionsDT.table.dataTable.no-footer
             %thead
               %tr{:role => "row"}
+                %th created_at
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Description
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Conditions
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Start Date: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Start Date
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Days Active
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Bid Count: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Bid Count
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Lowest Bid
@@ -63,13 +63,14 @@
             %tbody
               - @owned_auctions.each do |auction|
                 %tr.odd{:role => "row"}
+                  / change to project instead of time
+                  %td{"data-order": ((Time.zone.now - auction.created_at) / 1.day).to_i }= to_pretty_time(auction.created_at)
                   %td= link_to auction.part_num, auction
                   %td= auction.auction_part.description
                   -if auction.condition[0].blank?
                     %td All Conditions
                   -else
                     %td= AssetDecorator.rename(auction, auction.conditions)
-                  %td= auction.created_at.strftime("%m/%d/%Y")
                   %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
                   %td= auction.bids.count
                   %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?

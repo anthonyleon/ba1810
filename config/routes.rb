@@ -104,7 +104,7 @@ end
   get 'bids' => 'bids#index', as: 'bids'
   get 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_new_bid', as: 'temp_user_new_bid'
   post 'auctions/:auction_id/supplier_bid' => 'bids#temp_user_create_bid', as: 'temp_user_create_bid'
-
+  patch '/add_suppliers/:id' => "auctions#invite_more_suppliers", as: "invite_more_suppliers"
 
   resources :password_resets
 

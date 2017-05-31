@@ -79,12 +79,27 @@ class Auction < ActiveRecord::Base
     self.invitees = hashy
   end
 
-  def invite_and_setup_suppliers
+  def add_invitees(invited)
+    hashy = Hash.new
+    invited.each_slice(2) do |a, b|
+      hashy.merge!({a.downcase => b.downcase})
+    end
+    hashy.each { |key, value| self.invitees[key] = value }
+    save
+
+    old_invites = Hash[*(invitees.to_a - hashy.to_a).flatten] 
+    new_invites = Hash[*(hashy.to_a - old_invites.to_a).flatten]
+    self.invite_and_setup_suppliers(new_invites)
+
+
+  end
+
+  def invite_and_setup_suppliers(invitees)
     invitees.each do |k, v|
       # Once I've addeed multiple logins for a company (i.e. roles) then I have to change this conditional
       ## to be if Company.find_by(name: k) || User.find_by(email: v)
       v.downcase!
-      co = Company.find_by(name: k)
+      co = Company.find_by(name: k.split.map(&:capitalize).join(' '))
       if co
         #what happens if person with email doesn't have the login info for his company
         CompanyMailer.invite_existing_user_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
