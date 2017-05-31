@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531180315) do
+ActiveRecord::Schema.define(version: 20170531195111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,14 +146,14 @@ ActiveRecord::Schema.define(version: 20170531180315) do
   add_index "company_docs", ["company_id"], name: "index_company_docs_on_company_id", using: :btree
 
   create_table "destinations", force: :cascade do |t|
-    t.string   "address",    default: ""
-    t.string   "city",       default: ""
-    t.string   "state",      default: ""
-    t.string   "country",    default: ""
-    t.string   "zip",        default: ""
-    t.string   "title",      default: ""
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "address",    default: "N/A"
+    t.string   "city",       default: "N/A"
+    t.string   "state",      default: "N/A"
+    t.string   "country",    default: "N/A"
+    t.string   "zip",        default: "N/A"
+    t.string   "title",      default: "N/A"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "documents", force: :cascade do |t|
@@ -284,8 +284,6 @@ ActiveRecord::Schema.define(version: 20170531180315) do
     t.string   "tracking_num",        default: "N/A"
     t.string   "carrier",             default: "N/A"
     t.string   "shipment_desc",       default: "N/A"
-    t.boolean  "delivered"
-    t.boolean  "paid"
     t.string   "shipping_account",    default: "N/A"
     t.float    "tax_rate",            default: 0.0
     t.decimal  "total_amount",        default: 0.0
@@ -294,11 +292,8 @@ ActiveRecord::Schema.define(version: 20170531180315) do
     t.decimal  "bid_aero_fee",        default: 0.0
     t.decimal  "final_shipping_cost", default: 0.0
     t.decimal  "total_fee",           default: 0.0
-    t.boolean  "complete",            default: false
     t.decimal  "part_price",          default: 0.0
-    t.boolean  "shipped"
     t.integer  "bid_id"
-    t.boolean  "disputed"
     t.string   "dispute_id"
     t.boolean  "dispute_settlement"
     t.boolean  "settlement_accepted"
@@ -307,6 +302,7 @@ ActiveRecord::Schema.define(version: 20170531180315) do
     t.decimal  "price_before_fees",   default: 0.0
     t.string   "required_date",       default: "N/A"
     t.integer  "destination_id"
+    t.integer  "status",              default: 0
   end
 
   add_index "transactions", ["destination_id"], name: "index_transactions_on_destination_id", using: :btree

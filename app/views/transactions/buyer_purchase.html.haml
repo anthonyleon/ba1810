@@ -118,8 +118,8 @@
 																	%ul.list.list-unstyled.text-right
 																		%li
 																			=link_to transaction_po_path(@transaction, :format => :pdf) do
-																				%a.text-semibold Click to Download
-								-if @transaction.invoice_num
+																				%span.text-semibold Click to Download
+								-unless @transaction.pending_invoice?
 									.timeline.timeline-left
 										.timeline-container
 											/ Blog post
@@ -169,117 +169,124 @@
 																			%tr.active
 																				%td.text-semibold.text-success Grand Total:
 																				%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount)}
-									.timeline.timeline-right
-										.timeline-container
-											/ Blog post
-											.timeline-row
-												.timeline-icon
-													=image_tag 'bidaeroswirl.png'
-												.row
-													-# if at payment_url
-													.col-lg-12
-														.panel.invoice-grid.timeline-content
-															.panel-heading
-																%h6.panel-title
-																	Submit Payment
-															.panel-body
-																.row
-																	.col-md-12.text-center
-																		Vendor has invoiced and is awaiting payment to commence shipping, please click below for payment instructions.
-																.row
-																	%br
-																	.col-md-12.text-center
-																		%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																		%button.paymentInstructionsFrame-lightbox-preview.btn.btn-primary.text-center{"data-url" => "#{@payment_url}"}
-																			Submit Payment
-													-# afsdfafdsaf
-													.col-lg-12
-														.panel.border-right-lg.border-right-primary.timeline-content
-															.panel-heading
-																%h6.panel-title Order Status
-																.heading-elements
-																	%span.heading-text.text-muted
-																		%i.icon-history.position-left.text-success
-																		Last updated  #{@transaction.updated_at}
-															.panel-body
-																.row
-																	.col-md-7.text-left
-																		%p.mb-5.text-muted Your order's status will update as #{@transaction.seller.name} proceeds with shipment.  When your part has been delivered you will have 3 days to approve or dispute your purchase.
-																		%p.text-muted Need to contact #{@transaction.seller.name}? Find the sales reps contact above in Seller Contact Information!
-																		-# %p.mb-15.text-muted Your order's status will update as #{@transaction.seller.name} proceeds with shipment.
-																	.col-md-4.col-md-offset-1
-																		-if !@transaction.tracking_num
+									-if @transaction.pending_payment?
+										.timeline.timeline-right
+											.timeline-container
+												/ Blog post
+												.timeline-row
+													.timeline-icon
+														=image_tag 'bidaeroswirl.png'
+													.row
+														-# if at payment_url
+														.col-lg-12
+															.panel.invoice-grid.timeline-content
+																.panel-heading
+																	%h6.panel-title
+																		Submit Payment
+																.panel-body
+																	.row
+																		.col-md-12.text-center
+																			Vendor has invoiced and is awaiting payment to commence shipping, please click below for payment instructions.
+																	.row
+																		%br
+																		.col-md-12.text-center
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%button.paymentInstructionsFrame-lightbox-preview.btn.btn-primary.text-center{"data-url" => "#{@payment_url}"}
+																				Submit Payment
+									-if @transaction.quantify_status > Transaction.statuses[:pending_payment]
+										.timeline.timeline-right
+											.timeline-container
+												/ Blog post
+												.timeline-row
+													.timeline-icon
+														=image_tag 'bidaeroswirl.png'
+													.row
+														.col-lg-12
+															.panel.border-right-lg.border-right-primary.timeline-content
+																.panel-heading
+																	%h6.panel-title Order Status
+																	.heading-elements
+																		%span.heading-text.text-muted
+																			%i.icon-history.position-left.text-success
+																			Last updated  #{@transaction.updated_at}
+																.panel-body
+																	.row
+																		.col-md-7.text-left
+																			%p.mb-5.text-muted Your order's status will update as #{@transaction.seller.name} proceeds with shipment.  When your part has been delivered you will have 3 days to approve or dispute your purchase.
+																			%p.text-muted Need to contact #{@transaction.seller.name}? Find the sales reps contact above in Seller Contact Information!
+																			-# %p.mb-15.text-muted Your order's status will update as #{@transaction.seller.name} proceeds with shipment.
+																		.col-md-4.col-md-offset-1
+																			-if @transaction.pending_shipment?
+																				.mt-5
+																					%label.text-semibold Status:
+																					%span.pull-right-sm.label.label-warning
+																						Awaiting Shipment
+																			-elsif @transaction.in_transit?
+																				.mt-5
+																					%label.text-semibold Status:
+																					%span.pull-right-sm.label.label-info
+																						In Transit
+																			-elsif @transaction.quantify_status > Transaction.statuses[:delivered]
+																				.mt-5
+																					%label.text-semibold Status:
+																					%span.pull-right-sm.label.label-success
+																						Delivered
 																			.mt-5
-																				%label.text-semibold Status:
-																				%span.pull-right-sm.label.label-warning
-																					Awaiting Shipment
-																		-elsif !@transaction.shipped
+																				%label.text-semibold Tracking Number:
+																				%span.pull-right-sm
+																					#{@transaction.tracking_num}
 																			.mt-5
-																				%label.text-semibold Status:
-																				%span.pull-right-sm.label.label-info
-																					In Transit
-																		-elsif @transaction.delivered
-																			.mt-5
-																				%label.text-semibold Status:
-																				%span.pull-right-sm.label.label-success
-																					Delivered
-																		.mt-5
-																			%label.text-semibold Tracking Number:
-																			%span.pull-right-sm
-																				#{@transaction.tracking_num}
-																		.mt-5
-																			%label.text-semibold Carrier:
-																			%span.pull-right-sm
-																				#{@transaction.carrier}
+																				%label.text-semibold Carrier:
+																				%span.pull-right-sm
+																					#{@transaction.carrier}
 
 
-															.panel-footer.panel-footer-condensed
-																%a.heading-elements-toggle
-																	%i.icon-more
-																-if @release_payment_url
-																	.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
-																		.col-md-2.col-md-offset-2
+																.panel-footer.panel-footer-condensed
+																	%a.heading-elements-toggle
+																		%i.icon-more
+																	-if @transaction.disputed?
+																		.heading-elements.mt-5.mb-5.mr-5.ml-5
+																		.col-md-12
+																			%span.text-center
+																				You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
+																		%br
+																		%div.center
 																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs.disabled{"data-url" => "#{@release_payment_url}"}
-																				Release Payment
-																		.col-md-2.col-md-offset-4
-																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-danger.btn-xs.disabled{"data-url" => "#{@dispute_transaction_url}"}
-																				Dispute Transaction
-																-# -else  this is the above code but with disabled remove
-																	.heading-elements.mt-5.mb-5.mr-5.ml-5
-																		.col-md-2.col-md-offset-2
-																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs{"data-url" => "#{@release_payment_url}"}
-																				Release Payment
-																		.col-md-2.col-md-offset-4
-																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-danger.btn-xs{"data-url" => "#{@dispute_transaction_url}"}
-																				Dispute Transaction
-																-elsif @transaction.disputed && !@transaction.dispute_settlement
-																	.heading-elements.mt-5.mb-5.mr-5.ml-5
-																	.col-md-12
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs{"data-url" => "#{@dispute_settlement_url}"}
+																				Create Settlement Offer
+																	-elsif @transaction.completed?
+																		.row.text-center
+																			.btn.btn-success.btn-float.btn-float-lg{style: "width: 400px;"}
+																				%i.icon-checkmark
+																				Complete!
+
+																	-elsif @transaction.delivered?
+																		.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
+																			.col-md-2.col-md-offset-2
+																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																				%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs.disabled{"data-url" => "#{@release_payment_url}"}
+																					Release Payment
+																			.col-md-2.col-md-offset-4
+																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																				%a.paymentInstructionsFrame-lightbox-preview.btn.bg-danger.btn-xs.disabled{"data-url" => "#{@dispute_transaction_url}"}
+																					Dispute Transaction
+																	-# -else  this is the above code but with disabled remove
+																		.heading-elements.mt-5.mb-5.mr-5.ml-5
+																			.col-md-2.col-md-offset-2
+																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																				%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs{"data-url" => "#{@release_payment_url}"}
+																					Release Payment
+																			.col-md-2.col-md-offset-4
+																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																				%a.paymentInstructionsFrame-lightbox-preview.btn.bg-danger.btn-xs{"data-url" => "#{@dispute_transaction_url}"}
+																					Dispute Transaction
+																	-elsif @transaction.dispute_settlement
+																		.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
 																		%span.text-center
-																			You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
-																	%br
-																	%div.center
-																		%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																		%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs.{"data-url" => "#{@dispute_settlement_url}"}
-																			Create Settlement Offer
-																-elsif @transaction.dispute_settlement
-																	.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
-																	%span.text-center
-																		A settlement offer has been made, please review.
-																		%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																		%a.paymentInstructionsFrame-lightbox-preview.btn.bg-warning.btn-xs.{"data-url" => "#{@settlement_offer_url}"}
-																			Review Settlement Offer
-								- else
-									/ Date stamp
-									.timeline-date.text-muted
-										%i.icon-history.position-left
-										= succeed "," do
-											%span.text-semibold Monday
-									/ /date stamp
+																			A settlement offer has been made, please review.
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-warning.btn-xs.{"data-url" => "#{@settlement_offer_url}"}
+																				Review Settlement Offer
 
 
 								/ /timeline
@@ -303,12 +310,12 @@
 														%a{:href => "#"}
 															%i.icon-pin-alt.position-right.text-muted
 												.media-right
-													%a{:href => "assets/images/placeholder.jpg"}
-														%img.img-circle.img-md{:alt => "", :src => "assets/images/placeholder.jpg"}/
+													%a{:href => "#"}
+														%img.img-circle.img-md{:alt => "", :src => "#"}/
 											%li.media
 												.media-left
-													%a{:href => "assets/images/placeholder.jpg"}
-														%img.img-circle.img-md{:alt => "", :src => "assets/images/placeholder.jpg"}/
+													%a{:href => "#"}
+														%img.img-circle.img-md{:alt => "", :src => "#"}/
 												.media-body
 													.media-content Tolerantly some understood this stubbornly after snarlingly frog far added insect into snorted more auspiciously heedless drunkenly jeez foolhardy oh.
 													%span.media-annotation.display-block.mt-10
@@ -323,12 +330,12 @@
 														%a{:href => "#"}
 															%i.icon-pin-alt.position-right.text-muted
 												.media-right
-													%a{:href => "assets/images/placeholder.jpg"}
-														%img.img-circle.img-md{:alt => "", :src => "assets/images/placeholder.jpg"}/
+													%a{:href => "#"}
+														%img.img-circle.img-md{:alt => "", :src => "#"}/
 											%li.media
 												.media-left
-													%a{:href => "assets/images/placeholder.jpg"}
-														%img.img-circle.img-md{:alt => "", :src => "assets/images/placeholder.jpg"}/
+													%a{:href => "#"}
+														%img.img-circle.img-md{:alt => "", :src => "#"}/
 												.media-body
 													.media-content Grunted smirked and grew less but rewound much despite and impressive via alongside out and gosh easy manatee dear ineffective yikes.
 													%span.media-annotation.display-block.mt-10
@@ -340,8 +347,8 @@
 													.media-content
 														%i.icon-menu.display-block
 												.media-right
-													%a{:href => "assets/images/placeholder.jpg"}
-														%img.img-circle.img-md{:alt => "", :src => "assets/images/placeholder.jpg"}/
+													%a{:href => "#"}
+														%img.img-circle.img-md{:alt => "", :src => "#"}/
 										%textarea.form-control.content-group{:cols => "1", :name => "enter-message", :placeholder => "Enter your message...", :rows => "3"}
 										.row
 											.col-xs-6
