@@ -96,23 +96,5 @@ $(document).on('ready page:load', function() {
 		});
 	});
 
-	this.removeSupplier = function(element) {
-			return element.parent().remove();
-	};
-
-	// purchase confirmation hide submit button
-	var element = document.querySelector('.po-confirm-wzrd-btn');
-	var observer = new MutationObserver(function(mutations) {
-		mutations.forEach(function(mutation) {
-			if (mutation.type == "attributes") {
-				console.log(mutation);
-			// $('.po-confirm-wzrd-btn').hide();
-			} else { 
-				$('.po-confirm-wzrd-btn').show();
-			}
-		});
-	});
-	observer.observe(element, {
-		attributes: true //configure it to listen to attribute changes
-	});
+	
 });

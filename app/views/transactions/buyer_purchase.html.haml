@@ -39,51 +39,6 @@
 								%i.icon-comment-discussion.position-left
 								Messages with Seller
 								%span.badge.badge-success.badge-inline.position-right 32
-						-# %li
-						-# 	%a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#settings"}
-						-# 		%i.icon-cog3.position-left
-						-# 		Settings
-					-# .navbar-right
-					-# 	%ul.nav.navbar-nav
-					-# 		%li
-					-# 			%a{:href => "#"}
-					-# 				%i.icon-stack-text.position-left
-					-# 				Notes
-					-# 		%li
-					-# 			%a{:href => "#"}
-					-# 				%i.icon-collaboration.position-left
-					-# 				Friends
-					-# 		%li
-					-# 			%a{:href => "#"}
-					-# 				%i.icon-images3.position-left
-					-# 				Photos
-					-# 		%li.dropdown
-					-# 			%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-					-# 				%i.icon-gear
-					-# 				%span.visible-xs-inline-block.position-right Options
-					-# 				%span.caret
-					-# 			%ul.dropdown-menu.dropdown-menu-right
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-image2
-					-# 						Update cover
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-clippy
-					-# 						Update info
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-make-group
-					-# 						Manage sections
-					-# 				%li.divider
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-three-bars
-					-# 						Activity log
-					-# 				%li
-					-# 					%a{:href => "#"}
-					-# 						%i.icon-cog5
-					-# 						Profile settings
 			/ /toolbar
 			/ User profile
 			.row
@@ -92,13 +47,12 @@
 						.tab-content
 							#activity.tab-pane.fade.active.in
 								/ Timeline
-								.timeline.timeline-left.content-group
+								.timeline.timeline-right.content-group
 									.timeline-container
 										/ Sales stats
 										.timeline-row
 											.timeline-icon
-												%a{:href => "#"}
-													=image_tag 'bidaeroswirl.png'
+												=image_tag 'bidaeroswirl.png'
 											.row
 												.col-lg-6
 													.panel.panel-flat.timeline-content
@@ -138,11 +92,39 @@
 															= "#{@transaction.destination.city}"
 															= ", #{@transaction.destination.state}"
 															= "#{@transaction.destination.country}"
-										/ /sales stats
+											.row
+												.col-md-12
+													.alert.alert-warning.alert-styled-right.alpha-orange
+														%span.text-semibold.text-warning Date Needed by:
+														= "#{@transaction.auction.required_date}"
+										/ Invoices
+										.timeline-row
+											.timeline-icon
+												=image_tag 'bidaeroswirl.png'
+											.row
+												.col-lg-12.pull-right
+													.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
+														.panel-body
+															.row
+																.col-sm-6
+																	%h6.text-semibold.no-margin-top #{@transaction.buyer.name}
+																	%ul.list.list-unstyled
+																		%li Purchase Order #: #{@transaction.po_num}
+																		%li
+																			Issued on:
+																			%span.text-semibold #{@transaction.po_num}
+																.col-sm-6
+																	%h6.text-semibold.text-right.no-margin-top #{number_to_currency @transaction.bid.part_price}
+																	%ul.list.list-unstyled.text-right
+																		%li
+																			=link_to transaction_po_path(@transaction, :format => :pdf) do
+																				%a.text-semibold Click to Download
+								.timeline.timeline-left
+									.timeline-container
 										/ Blog post
 										.timeline-row
 											.timeline-icon
-												%img{:alt => "", :src => "assets/images/placeholder.jpg"}/
+												=image_tag 'bidaeroswirl.png'
 											.panel.panel-flat.timeline-content
 												.panel-heading
 													%h6.panel-title
@@ -216,169 +198,7 @@
 											= succeed "," do
 												%span.text-semibold Monday
 										/ /date stamp
-										/ Invoices
-										.timeline-row
-											.timeline-icon
-												.bg-warning-400
-													%i.icon-cash3
-											.row
-												.col-lg-6
-													.panel.border-left-lg.border-left-danger.invoice-grid.timeline-content
-														.panel-body
-															.row
-																.col-sm-6
-																	%h6.text-semibold.no-margin-top Leonardo Fellini
-																	%ul.list.list-unstyled
-																		%li Invoice #:  0028
-																		%li
-																			Issued on:
-																			%span.text-semibold 2015/01/25
-																.col-sm-6
-																	%h6.text-semibold.text-right.no-margin-top $8,750
-																	%ul.list.list-unstyled.text-right
-																		%li
-																			Method:
-																			%span.text-semibold SWIFT
-																		%li.dropdown
-																			Status:  
-																			%a.label.bg-danger-400.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																				Overdue
-																				%span.caret
-																			%ul.dropdown-menu.dropdown-menu-right.active
-																				%li.active
-																					%a{:href => "#"}
-																						%i.icon-alert
-																						Overdue
-																				%li
-																					%a{:href => "#"}
-																						%i.icon-alarm
-																						Pending
-																				%li
-																					%a{:href => "#"}
-																						%i.icon-checkmark3
-																						Paid
-																				%li.divider
-																				%li
-																					%a{:href => "#"}
-																						%i.icon-spinner2.spinner
-																						On hold
-																				%li
-																					%a{:href => "#"}
-																						%i.icon-cross2
-																						Canceled
-														.panel-footer.panel-footer-condensed
-															%a.heading-elements-toggle
-																%i.icon-more
-															.heading-elements
-																%span.heading-text
-																	%span.status-mark.border-danger.position-left
-																	Due:
-																	%span.text-semibold 2015/02/25
-																%ul.list-inline.list-inline-condensed.heading-text.pull-right
-																	%li
-																		%a.text-default{"data-target" => "#invoice", "data-toggle" => "modal", :href => "#"}
-																			%i.icon-eye8
-																	%li.dropdown
-																		%a.text-default.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																			%i.icon-menu7
-																			%span.caret
-																		%ul.dropdown-menu.dropdown-menu-right
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-printer
-																					Print invoice
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-file-download
-																					Download invoice
-																			%li.divider
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-file-plus
-																					Edit invoice
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-cross2
-																					Remove invoice
-												.col-lg-6
-													.panel.border-left-lg.border-left-success.invoice-grid.timeline-content
-														.panel-body
-															.row
-																.col-sm-6
-																	%h6.text-semibold.no-margin-top Rebecca Manes
-																	%ul.list.list-unstyled
-																		%li Invoice #:  0027
-																		%li
-																			Issued on:
-																			%span.text-semibold 2015/02/24
-																.col-sm-6
-																	%h6.text-semibold.text-right.no-margin-top $5,100
-																	%ul.list.list-unstyled.text-right
-																		%li
-																			Method:
-																			%span.text-semibold Paypal
-																		%li.dropdown
-																			Status:  
-																			%a.label.bg-success-400.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																				Paid
-																				%span.caret
-																			%ul.dropdown-menu.dropdown-menu-right.active
-																				%li
-																					%a{:href => "#"}
-																						%i.icon-alert
-																						Overdue
-																				%li
-																					%a{:href => "#"}
-																						%i.icon-alarm
-																						Pending
-																				%li.active
-																					%a{:href => "#"}
-																						%i.icon-checkmark3
-																						Paid
-																				%li.divider
-																				%li
-																					%a{:href => "#"}
-																						%i.icon-spinner2.spinner
-																						On hold
-																				%li
-																					%a{:href => "#"}
-																						%i.icon-cross2
-																						Canceled
-														.panel-footer.panel-footer-condensed
-															%a.heading-elements-toggle
-																%i.icon-more
-															.heading-elements
-																%span.heading-text
-																	%span.status-mark.border-success.position-left
-																	Due:
-																	%span.text-semibold 2015/03/24
-																%ul.list-inline.list-inline-condensed.heading-text.pull-right
-																	%li
-																		%a.text-default{"data-target" => "#invoice", "data-toggle" => "modal", :href => "#"}
-																			%i.icon-eye8
-																	%li.dropdown
-																		%a.text-default.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																			%i.icon-menu7
-																			%span.caret
-																		%ul.dropdown-menu.dropdown-menu-right
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-printer
-																					Print invoice
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-file-download
-																					Download invoice
-																			%li.divider
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-file-plus
-																					Edit invoice
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-cross2
-																					Remove invoice
-										/ /invoices
+
 										/ Video posts
 										.timeline-row
 											.timeline-icon
@@ -496,33 +316,6 @@
 											Conversation with James
 											%a.heading-elements-toggle
 												%i.icon-more
-										-# .heading-elements
-										-# 	%ul.icons-list
-										-# 		%li.dropdown
-										-# 			%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-										-# 				%i.icon-circle-down2
-										-# 			%ul.dropdown-menu.dropdown-menu-right
-										-# 				%li
-										-# 					%a{:href => "#"}
-										-# 						%i.icon-user-lock
-										-# 						Hide user posts
-										-# 				%li
-										-# 					%a{:href => "#"}
-										-# 						%i.icon-user-block
-										-# 						Block user
-										-# 				%li
-										-# 					%a{:href => "#"}
-										-# 						%i.icon-user-minus
-										-# 						Unfollow user
-										-# 				%li.divider
-										-# 				%li
-										-# 					%a{:href => "#"}
-										-# 						%i.icon-embed
-										-# 						Embed post
-										-# 				%li
-										-# 					%a{:href => "#"}
-										-# 						%i.icon-blocked
-										-# 						Report this post
 									.panel-body
 										%ul.media-list.chat-list.content-group
 											%li.media.date-step
@@ -597,7 +390,7 @@
 					.panel.panel-white
 						.panel-heading
 							%h6.panel-title
-								Contact information
+								Seller contact information
 								%a.heading-elements-toggle
 									%i.icon-more
 							.heading-elements
@@ -620,19 +413,6 @@
 							.mt-5
 								%label.text-semibold Email:
 								%span.pull-right-sm #{@transaction.seller.email}
-							-# - else
-							-# 	.form-group.mt-5
-							-# 		%label.text-semibold Company:
-							-# 		%span.pull-right-sm #{@transaction.buyer.name}
-							-# 	.form-group.mt-5
-							-# 		%label.text-semibold Representative:
-							-# 		%span.pull-right-sm #{@transaction.buyer.representative}
-							-# 	.form-group
-							-# 		%label.text-semibold Phone number:
-							-# 		%span.pull-right-sm #{@transaction.buyer.phone}
-							-# 	.form-group
-							-# 		%label.text-semibold Corporate Email:
-							-# 		%span.pull-right-sm #{@transaction.buyer.email}
 					/ Order Details
 					.panel.panel-white
 						.panel-heading

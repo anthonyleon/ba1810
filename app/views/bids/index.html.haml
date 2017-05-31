@@ -59,7 +59,7 @@
             %tbody
               - @bids.each do |bid|
                 %tr.odd{:role => "row"}
-                  %td= link_to (bid.quote_num.empty? ? "N/A" : bid.quote_num), bid.auction
+                  %td= link_to (bid.reference_num.empty? ? "N/A" : bid.reference_num), bid.auction
                   %td= bid.auction.part_num
                   %td= bid.auction.auction_part.description
                   -if bid.auction.condition[0].blank?
@@ -102,7 +102,7 @@
           -#   %tbody
           -#     - @bids.each do |bid|
           -#       %tr
-          -#         %td= link_to (bid.quote_num.empty? ? "N/A" : bid.quote_num), bid.auction
+          -#         %td= link_to (bid.reference_num.empty? ? "N/A" : bid.reference_num), bid.auction
           -#         %td= bid.auction.part_num
           -#         %td= bid.auction.auction_part.description
           -#         -if bid.auction.condition[0].blank?
