@@ -8,7 +8,8 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :bidders, through: :bids, source: :company
-
+  has_many :invites
+  
   validates :quantity, presence: true
   validates :part_num, presence: true
 
