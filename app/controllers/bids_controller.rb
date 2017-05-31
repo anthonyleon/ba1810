@@ -6,8 +6,8 @@ class BidsController < ApplicationController
 	def index
 		@bids = current_user.bids.to_a.uniq { |b| b.auction_id }
 		@supplier_auctions = AuctionDecorator.decorate_collection(current_user.auctions_with_owned_bids)
-		@sales_count = Transaction.where(seller_id: current_user.id, complete: true).count
-		@pending_sales_count = Transaction.where(seller_id: current_user.id, complete: false).count
+		@sales_count = Transaction.where(seller_id: current_user.id, status: :completed).count
+		@pending_sales_count = Transaction.where(seller_id: current_user.id).where.not(status: :completed).count
 
 	end
 

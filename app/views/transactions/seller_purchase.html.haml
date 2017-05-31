@@ -3,20 +3,20 @@
 		.page-title
 			%h4
 				%i.icon-history.position-left.text-primary
-				%span.text-semibold.text-primary Pending Purchases
+				%span.text-semibold.text-primary Pending Sales
 				\- Transaction Details
 			%ul.breadcrumb.breadcrumb-caret.position-right
 				%li
 					= link_to dashboard_path do
 						Dashboard
 				%li
-					Buy
+					Sell
 				%li
-					Sent eRFQ's
+					My Quotes
 				%li
 					-# #{@auction.user_reference_num}
 				%li.active
-					Pending Purchase
+					Pending Sales
 .page-container{:style => "min-height:363px"}
 	/ Page content
 	.page-content
@@ -170,26 +170,33 @@
 												-if @auction.resale_yes
 													%h6.center-align
 														= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
-												.form-container.destination-form
-													= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
-														.row
-															.col-md-12
-																-if @transaction.shipping_account.empty?
-																	.col-md-4
-																		.input-field
-																			.form-group
-																				= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost"
-																-if @transaction.auction.resale_no
-																	.col-md-4
-																		.input-field
-																			.form-group
-																				= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
-																	.col-md-4
-																		.input-field
-																			.form-group
-																				= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-														.actions
-															= f.submit 'Submit', class: "btn bg-success pull-right"
+												.row
+													.col-lg-12.pull-right
+														.panel.panel-flat.timeline-content
+															.panel-heading
+																%h6.panel-title
+																	Confirm Shipping Details
+															.panel-body
+																.form-container.destination-form
+																	= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+																		.row
+																			.col-md-12
+																				-if @transaction.shipping_account.empty?
+																					.col-md-4
+																						.input-field
+																							.form-group
+																								= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost"
+																				-if @transaction.auction.resale_no
+																					.col-md-4
+																						.input-field
+																							.form-group
+																								= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
+																					.col-md-4
+																						.input-field
+																							.form-group
+																								= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+																		.actions
+																			= f.submit 'Submit', class: "btn bg-success pull-right"
 										/ Video posts
 										.timeline-row
 											.timeline-icon

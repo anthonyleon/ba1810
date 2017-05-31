@@ -127,7 +127,7 @@ class TransactionsController < ApplicationController
 		CompanyMailer.won_auction_notification(@bid, @bid.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) &&
 			Notification.notify(@bid, @bid.seller, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.",
 				transaction: @transaction) unless Notification.exists?(@bid, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.")
-		
+
 		if @transaction.pending_payment?
 			response.headers.delete "X-Frame-Options"
 			@payment_url = ArmorPaymentsApi.get_payment_url(@transaction)
@@ -142,11 +142,12 @@ class TransactionsController < ApplicationController
 	end
 
 	def seller_purchase
-		redirect_to dashboard_path unless @bid.seller == current_user
 		redirect_to select_payout_preference_path unless current_user.payout_selected?
-		@carriers = ArmorPaymentsApi.carriers_list
-		@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer) if @transaction.disputed
-		@settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
+		@carriers = ArmorPaymentsApi.carriers_list if @transaction.pending_shipment?
+		if @transaction.disputed?
+			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer)
+			@settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
+		end
 	end
 
 	def invoice_pdf
