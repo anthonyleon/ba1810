@@ -119,193 +119,245 @@
 																		%li
 																			=link_to transaction_po_path(@transaction, :format => :pdf) do
 																				%a.text-semibold Click to Download
-								.timeline.timeline-left
-									.timeline-container
-										/ Blog post
-										.timeline-row
-											.timeline-icon
-												=image_tag 'bidaeroswirl.png'
-											.panel.panel-flat.timeline-content
-												.panel-heading
-													%h6.panel-title
-														Himalayan sunset
-														%a.heading-elements-toggle
-															%i.icon-more
-													.heading-elements
-														%span.heading-text
-															%i.icon-checkmark-circle.position-left.text-success
-															49 minutes ago
-														%ul.icons-list
-															%li.dropdown
-																%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																	%i.icon-arrow-down12
-																%ul.dropdown-menu.dropdown-menu-right
-																	%li
-																		%a{:href => "#"}
-																			%i.icon-user-lock
-																			Hide user posts
-																	%li
-																		%a{:href => "#"}
-																			%i.icon-user-block
-																			Block user
-																	%li
-																		%a{:href => "#"}
-																			%i.icon-user-minus
-																			Unfollow user
-																	%li.divider
-																	%li
-																		%a{:href => "#"}
-																			%i.icon-embed
-																			Embed post
-																	%li
-																		%a{:href => "#"}
-																			%i.icon-blocked
-																			Report this post
-												.panel-body
-													%a.display-block.content-group{:href => "#"}
-														%img.img-responsive.content-group{:alt => "", :src => "assets/images/cover.jpg"}/
-													%h6.content-group
-														%i.icon-comment-discussion.position-left
-														Comment from
-														= succeed ":" do
-															%a{:href => "#"} Jason Ansley
-													%blockquote
-														%p When suspiciously goodness labrador understood rethought yawned grew piously endearingly inarticulate oh goodness jeez trout distinct hence cobra despite taped laughed the much audacious less inside tiger groaned darn stuffily metaphoric unihibitedly inside cobra.
-														%footer
-															Jason,
-															%cite{:title => "Source Title"} 10:39 am
-												.panel-footer.panel-footer-transparent
-													%a.heading-elements-toggle
-														%i.icon-more
-													.heading-elements
-														%ul.list-inline.list-inline-condensed.heading-text
-															%li
-																%a.text-default{:href => "#"}
-																	%i.icon-eye4.position-left
-																	438
-															%li
-																%a.text-default{:href => "#"}
-																	%i.icon-comment-discussion.position-left
-																	71
-														%span.heading-btn.pull-right
-															%a.btn.btn-link{:href => "#"}
-																Read post
-																%i.icon-arrow-right14.position-right
-										/ /blog post
-										/ Date stamp
-										.timeline-date.text-muted
-											%i.icon-history.position-left
-											= succeed "," do
-												%span.text-semibold Monday
-										/ /date stamp
+								-if @transaction.invoice_num
+									.timeline.timeline-right
+										.timeline-container
+											/ Blog post
+											.timeline-row
+												.timeline-icon
+													=image_tag 'bidaeroswirl.png'
+												.row
+													.col-md-6.pull-right
+														.panel.invoice-grid.timeline-content
+															.panel-body
+																%h5.text-center.text-semibold
+																	Order Payout Breakdown:
+																.table-responsive
+																	%table.table
+																		%thead
+																		%tbody
+																			%tr
+																				%td.text-semibold Unit Price:
+																				%td.text-right #{number_to_currency(@transaction.part_price)}
+																			%tr
+																				%td.text-semibold Shipping (if applicable):
+																				%td.text-right #{number_to_currency(@transaction.final_shipping_cost)}
+																			%tr
+																				%td.text-semibold Tax:
+																				%td.text-right #{number_to_currency(@transaction.tax)}
+																			%tr
+																				%td.text-semibold Service Fee:
+																				%td.text-right #{number_to_currency(@transaction.total_fee)}
+																			%tr.active
+																				%td.text-semibold.text-success Grand Total:
+																				%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount)}
+													.col-sm-6.pull-left
+														.col-lg-12.pull-right
+															.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
+																.panel-body
+																	.row
+																		.col-sm-6
+																			%h6.text-semibold.no-margin-top #{@transaction.seller.name}
+																			%ul.list.list-unstyled
+																				%li Invoice #: #{@transaction.invoice_num}
+																				%li
+																					Issued on:
+																					%span.text-semibold #{@transaction.invoice_num}
+																		.col-sm-6
+																			%h6.text-semibold.text-right.no-margin-top #{number_to_currency @transaction.total_amount}
+																			%ul.list.list-unstyled.text-right
+																				%li
+																					=link_to transaction_invoice_path(@transaction, :format => :pdf) do
+																						%span.text-semibold Click to Download
+								- else
 
-										/ Video posts
-										.timeline-row
-											.timeline-icon
-												%img{:alt => "", :src => "assets/images/placeholder.jpg"}/
-											.row
-												.col-lg-6
-													.panel.panel-flat.timeline-content
-														.panel-heading
-															%h6.panel-title
-																Woodturner master
-																%a.heading-elements-toggle
-																	%i.icon-more
-															.heading-elements
-																%span.heading-text
-																	%i.icon-checkmark-circle.position-left.text-success
-																	Yesterday, 7:52 am
-																%ul.icons-list
-																	%li.dropdown
-																		%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																			%i.icon-arrow-down12
-																		%ul.dropdown-menu.dropdown-menu-right
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-lock
-																					Hide user posts
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-block
-																					Block user
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-minus
-																					Unfollow user
-																			%li.divider
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-embed
-																					Embed post
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-blocked
-																					Report this post
-														.panel-body
-															.video-container.content-group
-																%iframe{:allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :src => "https://player.vimeo.com/video/126545288?title=0&byline=0&portrait=0", :webkitallowfullscreen => ""}
-															Bewitchingly amid heard by llama glanced fussily quetzal more that overcame eerie goodness badger woolly where since gosh accurate irrespective that pounded much winked urgent and furtive house gosh one while this more.
-														.panel-footer.panel-footer-transparent
-															%a.heading-elements-toggle
-																%i.icon-more
-															.heading-elements
-																%ul.list-inline.list-inline-condensed.heading-text
-																	%li
-																		%a.text-default{:href => "#"}
-																			%i.icon-eye4.position-left
-																			285
-																	%li
-																		%a.text-default{:href => "#"}
-																			%i.icon-comment-discussion.position-left
-																			12
-																%span.heading-btn.pull-right
-																	%a.btn.btn-link{:href => "#"}
-																		Read post
-																		%i.icon-arrow-right14.position-right
-												.col-lg-6
-													.panel.panel-flat.timeline-content
-														.panel-heading
-															%h6.panel-title
-																%i.icon-comment-discussion.position-left
-																%a{:href => "#"} Jason
-																commented:
-																%a.heading-elements-toggle
-																	%i.icon-more
-															.heading-elements
-																%ul.icons-list
-																	%li.dropdown
-																		%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-																			%i.icon-arrow-down12
-																		%ul.dropdown-menu.dropdown-menu-right
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-lock
-																					Hide user posts
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-block
-																					Block user
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-user-minus
-																					Unfollow user
-																			%li.divider
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-embed
-																					Embed post
-																			%li
-																				%a{:href => "#"}
-																					%i.icon-blocked
-																					Report this post
-														.panel-body
-															.video-container.content-group
-																%iframe{:allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :src => "https://player.vimeo.com/video/133217402?title=0&byline=0&portrait=0", :webkitallowfullscreen => ""}
-															%blockquote
-																%p When suspiciously goodness labrador understood rethought yawned grew piously endearingly inarticulate oh goodness jeez trout distinct hence cobra.
-																%footer
-																	Jason,
-																	%cite{:title => "Source Title"} 10:39 am
+								-# .timeline.timeline-left
+								-# 	.timeline-container
+								-# 		/ Blog post
+								-# 		.timeline-row
+								-# 			.timeline-icon
+								-# 				=image_tag 'bidaeroswirl.png'
+								-# 			.panel.panel-flat.timeline-content
+								-# 				.panel-heading
+								-# 					%h6.panel-title
+								-# 						Himalayan sunset
+								-# 						%a.heading-elements-toggle
+								-# 							%i.icon-more
+								-# 					.heading-elements
+								-# 						%span.heading-text
+								-# 							%i.icon-checkmark-circle.position-left.text-success
+								-# 							49 minutes ago
+								-# 						%ul.icons-list
+								-# 							%li.dropdown
+								-# 								%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+								-# 									%i.icon-arrow-down12
+								-# 								%ul.dropdown-menu.dropdown-menu-right
+								-# 									%li
+								-# 										%a{:href => "#"}
+								-# 											%i.icon-user-lock
+								-# 											Hide user posts
+								-# 									%li
+								-# 										%a{:href => "#"}
+								-# 											%i.icon-user-block
+								-# 											Block user
+								-# 									%li
+								-# 										%a{:href => "#"}
+								-# 											%i.icon-user-minus
+								-# 											Unfollow user
+								-# 									%li.divider
+								-# 									%li
+								-# 										%a{:href => "#"}
+								-# 											%i.icon-embed
+								-# 											Embed post
+								-# 									%li
+								-# 										%a{:href => "#"}
+								-# 											%i.icon-blocked
+								-# 											Report this post
+								-# 				.panel-body
+								-# 					%a.display-block.content-group{:href => "#"}
+								-# 						%img.img-responsive.content-group{:alt => "", :src => "assets/images/cover.jpg"}/
+								-# 					%h6.content-group
+								-# 						%i.icon-comment-discussion.position-left
+								-# 						Comment from
+								-# 						= succeed ":" do
+								-# 							%a{:href => "#"} Jason Ansley
+								-# 					%blockquote
+								-# 						%p When suspiciously goodness labrador understood rethought yawned grew piously endearingly inarticulate oh goodness jeez trout distinct hence cobra despite taped laughed the much audacious less inside tiger groaned darn stuffily metaphoric unihibitedly inside cobra.
+								-# 						%footer
+								-# 							Jason,
+								-# 							%cite{:title => "Source Title"} 10:39 am
+								-# 				.panel-footer.panel-footer-transparent
+								-# 					%a.heading-elements-toggle
+								-# 						%i.icon-more
+								-# 					.heading-elements
+								-# 						%ul.list-inline.list-inline-condensed.heading-text
+								-# 							%li
+								-# 								%a.text-default{:href => "#"}
+								-# 									%i.icon-eye4.position-left
+								-# 									438
+								-# 							%li
+								-# 								%a.text-default{:href => "#"}
+								-# 									%i.icon-comment-discussion.position-left
+								-# 									71
+								-# 						%span.heading-btn.pull-right
+								-# 							%a.btn.btn-link{:href => "#"}
+								-# 								Read post
+								-# 								%i.icon-arrow-right14.position-right
+								-# 		/ /blog post
+								-# 		/ Date stamp
+								-# 		.timeline-date.text-muted
+								-# 			%i.icon-history.position-left
+								-# 			= succeed "," do
+								-# 				%span.text-semibold Monday
+								-# 		/ /date stamp
+								-#
+								-# 		/ Video posts
+								-# 		.timeline-row
+								-# 			.timeline-icon
+								-# 				%img{:alt => "", :src => "assets/images/placeholder.jpg"}/
+								-# 			.row
+								-# 				.col-lg-6
+								-# 					.panel.panel-flat.timeline-content
+								-# 						.panel-heading
+								-# 							%h6.panel-title
+								-# 								Woodturner master
+								-# 								%a.heading-elements-toggle
+								-# 									%i.icon-more
+								-# 							.heading-elements
+								-# 								%span.heading-text
+								-# 									%i.icon-checkmark-circle.position-left.text-success
+								-# 									Yesterday, 7:52 am
+								-# 								%ul.icons-list
+								-# 									%li.dropdown
+								-# 										%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+								-# 											%i.icon-arrow-down12
+								-# 										%ul.dropdown-menu.dropdown-menu-right
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-user-lock
+								-# 													Hide user posts
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-user-block
+								-# 													Block user
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-user-minus
+								-# 													Unfollow user
+								-# 											%li.divider
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-embed
+								-# 													Embed post
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-blocked
+								-# 													Report this post
+								-# 						.panel-body
+								-# 							.video-container.content-group
+								-# 								%iframe{:allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :src => "https://player.vimeo.com/video/126545288?title=0&byline=0&portrait=0", :webkitallowfullscreen => ""}
+								-# 							Bewitchingly amid heard by llama glanced fussily quetzal more that overcame eerie goodness badger woolly where since gosh accurate irrespective that pounded much winked urgent and furtive house gosh one while this more.
+								-# 						.panel-footer.panel-footer-transparent
+								-# 							%a.heading-elements-toggle
+								-# 								%i.icon-more
+								-# 							.heading-elements
+								-# 								%ul.list-inline.list-inline-condensed.heading-text
+								-# 									%li
+								-# 										%a.text-default{:href => "#"}
+								-# 											%i.icon-eye4.position-left
+								-# 											285
+								-# 									%li
+								-# 										%a.text-default{:href => "#"}
+								-# 											%i.icon-comment-discussion.position-left
+								-# 											12
+								-# 								%span.heading-btn.pull-right
+								-# 									%a.btn.btn-link{:href => "#"}
+								-# 										Read post
+								-# 										%i.icon-arrow-right14.position-right
+								-# 				.col-lg-6
+								-# 					.panel.panel-flat.timeline-content
+								-# 						.panel-heading
+								-# 							%h6.panel-title
+								-# 								%i.icon-comment-discussion.position-left
+								-# 								%a{:href => "#"} Jason
+								-# 								commented:
+								-# 								%a.heading-elements-toggle
+								-# 									%i.icon-more
+								-# 							.heading-elements
+								-# 								%ul.icons-list
+								-# 									%li.dropdown
+								-# 										%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+								-# 											%i.icon-arrow-down12
+								-# 										%ul.dropdown-menu.dropdown-menu-right
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-user-lock
+								-# 													Hide user posts
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-user-block
+								-# 													Block user
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-user-minus
+								-# 													Unfollow user
+								-# 											%li.divider
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-embed
+								-# 													Embed post
+								-# 											%li
+								-# 												%a{:href => "#"}
+								-# 													%i.icon-blocked
+								-# 													Report this post
+								-# 						.panel-body
+								-# 							.video-container.content-group
+								-# 								%iframe{:allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :src => "https://player.vimeo.com/video/133217402?title=0&byline=0&portrait=0", :webkitallowfullscreen => ""}
+								-# 							%blockquote
+								-# 								%p When suspiciously goodness labrador understood rethought yawned grew piously endearingly inarticulate oh goodness jeez trout distinct hence cobra.
+								-# 								%footer
+								-# 									Jason,
+								-# 									%cite{:title => "Source Title"} 10:39 am
 										/ /video posts
 								/ /timeline
 							#schedule.tab-pane.fade
