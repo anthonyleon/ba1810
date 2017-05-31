@@ -125,71 +125,71 @@
 										.timeline-row
 											.timeline-icon
 												=image_tag 'bidaeroswirl.png'
-											.row
-												.col-md-6.pull-right
-													.panel.invoice-grid.timeline-content
-														.panel-body
-															%h5.text-center.text-semibold
-																Order Payout Breakdown:
-															.table-responsive
-																%table.table
-																	%thead
-																	%tbody
-																		%tr
-																			%td.text-semibold Unit Price:
-																			%td.text-right #{number_to_currency(@transaction.part_price)}
-																		%tr
-																			%td.text-semibold Shipping (if applicable):
-																			%td.text-right #{number_to_currency(@transaction.final_shipping_cost)}
-																		%tr
-																			%td.text-semibold Tax:
-																			%td.text-right #{number_to_currency(@transaction.tax)}
-																		%tr.active
-																			%td.text-semibold.text-success Grand Total:
-																			%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount-@transaction.total_fee)}
-												.col-sm-6.pull-left
-													-if @transaction.invoice_num?
-														.col-lg-12.pull-right
-															.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
-																.panel-body
-																	.row
-																		.col-sm-6
-																			%h6.text-semibold.no-margin-top #{@transaction.seller.name}
-																			%ul.list.list-unstyled
-																				%li Invoice #: #{@transaction.invoice_num}
-																				%li
-																					Issued on:
-																					%span.text-semibold #{@transaction.invoice_num}
-																		.col-sm-6
-																			%h6.text-semibold.text-right.no-margin-top #{number_to_currency @transaction.total_amount}
-																			%ul.list.list-unstyled.text-right
-																				%li
-																					=link_to transaction_invoice_path(@transaction, :format => :pdf) do
-																						%span.text-semibold Click to Download
-													- else
-														-if @auction.resale_yes
-															%h6.center-align
-																= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
-														.form-container.destination-form
-															= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+											-if @transaction.invoice_num?
+												.row
+													.col-lg-12.pull-right
+														.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
+															.panel-body
 																.row
-																	.col-md-12
-																		-if @transaction.shipping_account.empty?
-																			.col-md-4
-																				.input-field
-																					.form-group
-																						= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost"
-																		-if @transaction.auction.resale_no
-																			.col-md-4
-																				.input-field
-																					.form-group
-																						= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
-																			.col-md-4
-																				.input-field
-																					.form-group
-																						= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
-																.actions
-																	= f.submit 'Submit', class: "btn bg-success pull-right"
+																	.col-sm-6
+																		%h6.text-semibold.no-margin-top #{@transaction.seller.name}
+																		%ul.list.list-unstyled
+																			%li Invoice #: #{@transaction.invoice_num}
+																			%li
+																				Issued on:
+																				%span.text-semibold #{@transaction.invoice_num}
+																	.col-sm-6
+																		%h6.text-semibold.text-right.no-margin-top #{number_to_currency @transaction.total_amount}
+																		%ul.list.list-unstyled.text-right
+																			%li
+																				=link_to transaction_invoice_path(@transaction, :format => :pdf) do
+																					%span.text-semibold Click to Download
+												.row
+													.col-md-6.col-md-offset-3
+														.panel.invoice-grid.timeline-content
+															.panel-body
+																%h5.text-center.text-semibold
+																	Order Payout Breakdown:
+																.table-responsive
+																	%table.table
+																		%thead
+																		%tbody
+																			%tr
+																				%td.text-semibold Unit Price:
+																				%td.text-right #{number_to_currency(@transaction.part_price)}
+																			%tr
+																				%td.text-semibold Shipping (if applicable):
+																				%td.text-right #{number_to_currency(@transaction.final_shipping_cost)}
+																			%tr
+																				%td.text-semibold Tax:
+																				%td.text-right #{number_to_currency(@transaction.tax)}
+																			%tr.active
+																				%td.text-semibold.text-success Grand Total:
+																				%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount-@transaction.total_fee)}
+											- else
+												-if @auction.resale_yes
+													%h6.center-align
+														= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
+												.form-container.destination-form
+													= form_for(@transaction, html: { class: "inline-form" }, url: update_tax_shipping_path(@transaction.id)) do |f|
+														.row
+															.col-md-12
+																-if @transaction.shipping_account.empty?
+																	.col-md-4
+																		.input-field
+																			.form-group
+																				= f.text_field :final_shipping_cost, class: "form-control dollars", id: "finalized-shipping",  :value => nil, placeholder: "Confirm Final Shipping Cost"
+																-if @transaction.auction.resale_no
+																	.col-md-4
+																		.input-field
+																			.form-group
+																				= f.text_field :tax_rate, maxlength: 7, class: "form-control percentage", id: "tax-rate", :value => nil, placeholder: "Tax Rate (%)"
+																	.col-md-4
+																		.input-field
+																			.form-group
+																				= f.text_field :invoice_num, class: "form-control", :value => nil, placeholder: "Invoice No."
+														.actions
+															= f.submit 'Submit', class: "btn bg-success pull-right"
 
 										/ Video posts
 										.timeline-row
