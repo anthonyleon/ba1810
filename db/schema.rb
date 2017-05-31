@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531043636) do
+ActiveRecord::Schema.define(version: 20170531050251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -288,14 +288,14 @@ ActiveRecord::Schema.define(version: 20170531043636) do
     t.boolean  "paid"
     t.string   "shipping_account"
     t.float    "tax_rate",            default: 0.0
-    t.decimal  "total_amount"
-    t.decimal  "tax"
+    t.decimal  "total_amount",        default: 0.0
+    t.decimal  "tax",                 default: 0.0
     t.decimal  "armor_fee"
-    t.decimal  "bid_aero_fee"
-    t.decimal  "final_shipping_cost"
-    t.decimal  "total_fee"
+    t.decimal  "bid_aero_fee",        default: 0.0
+    t.decimal  "final_shipping_cost", default: 0.0
+    t.decimal  "total_fee",           default: 0.0
     t.boolean  "complete",            default: false
-    t.decimal  "part_price"
+    t.decimal  "part_price",          default: 0.0
     t.boolean  "shipped"
     t.integer  "bid_id"
     t.boolean  "disputed"
@@ -304,7 +304,7 @@ ActiveRecord::Schema.define(version: 20170531043636) do
     t.boolean  "settlement_accepted"
     t.boolean  "settlement_rejected"
     t.integer  "auction_id"
-    t.decimal  "price_before_fees"
+    t.decimal  "price_before_fees",   default: 0.0
     t.date     "required_date"
     t.integer  "destination_id"
   end
