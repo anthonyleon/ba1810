@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531050251) do
+ActiveRecord::Schema.define(version: 20170531180315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -274,19 +274,19 @@ ActiveRecord::Schema.define(version: 20170531050251) do
   create_table "transactions", force: :cascade do |t|
     t.string   "order_id"
     t.integer  "inventory_part_id"
-    t.string   "po_num"
-    t.string   "invoice_num"
+    t.string   "po_num",              default: "N/A"
+    t.string   "invoice_num",         default: "N/A"
     t.integer  "seller_id"
     t.integer  "buyer_id"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "carrier_code"
-    t.string   "tracking_num"
-    t.string   "carrier"
-    t.string   "shipment_desc"
+    t.string   "carrier_code",        default: "N/A"
+    t.string   "tracking_num",        default: "N/A"
+    t.string   "carrier",             default: "N/A"
+    t.string   "shipment_desc",       default: "N/A"
     t.boolean  "delivered"
     t.boolean  "paid"
-    t.string   "shipping_account"
+    t.string   "shipping_account",    default: "N/A"
     t.float    "tax_rate",            default: 0.0
     t.decimal  "total_amount",        default: 0.0
     t.decimal  "tax",                 default: 0.0
@@ -305,7 +305,7 @@ ActiveRecord::Schema.define(version: 20170531050251) do
     t.boolean  "settlement_rejected"
     t.integer  "auction_id"
     t.decimal  "price_before_fees",   default: 0.0
-    t.date     "required_date"
+    t.string   "required_date",       default: "N/A"
     t.integer  "destination_id"
   end
 
