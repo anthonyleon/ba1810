@@ -4,7 +4,7 @@
 			%h4
 				%i.glyphicon.glyphicon-list-alt.position-left.text-primary
 				%span.text-semibold.text-primary Checkout
-				\- Please fill the following to proceed to the next step!
+				\- Please follow the following instructions!
 			%ul.breadcrumb.breadcrumb-caret.position-right
 				%li
 					= link_to dashboard_path do
@@ -15,6 +15,8 @@
 					Sent eRFQ's
 				%li
 					-# #{@auction.user_reference_num}
+				%li.active
+					Checkout
 	/ Page container
 .page-container{:style => "min-height:159px"}
 	/ Page content
@@ -37,58 +39,56 @@
 								%span.form-wizard-count 1
 								Confirm Shipping Details
 								%small.display-block Please enter your desired shipping destination
-
-								= f.fields_for :destination, @destination do |d|
-									.row
-										.col-md-6
-											.form-group
-												%label Company Name(optional)
-												= d.hidden_field :id
-												= d.text_field :title, class: "form-control", placeholder: "Destination Company"
-										.col-md-6
-											.form-group
-												%label Street Address
-												= d.text_field :address, class: "form-control", placeholder: "Destination Street Address"
-									.row
-										.col-md-3
-											.form-group
-												%label City
-												= d.text_field :city, class: "form-control", placeholder: "Destination City"
-										.col-md-3
-											.form-group
-												%label State/Region
-												= d.text_field :state, class: "form-control", placeholder: "Destination State/Region"
-										.col-md-3
-											.form-group
-												%label Country
-												= d.text_field :country, class: "form-control", placeholder: "Destination Country"
-										.col-md-3
-											.form-group
-												%label Zip Code
-												= d.text_field :zip, class: "form-control", placeholder: "Destination Zip Code"
-									.row
-										.col-md-6
-											.form-group
-												%h6 Required Delivery Date:
-												= f.date_field :required_date, class: "form-control datepicker", value: @auction.required_date
-										.col-md-6
-											.form-group
-												%h6 Have a shipping account?
-												.row
-													.col-sm-1.pt-10
-														%input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
-													%label.pt-10{:for => "filled-in-box"} Use your shipping / freight account (Seller will use this account to send part)
-									.row
-										.col-md-10.col-md-offset-2
-											.form-group
-												.form-group.col-md-5.freight_num
-													%h6 Carrier Name
-													= f.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"
-												.form-group.col-md-5.freight_num
-													%h6 Shipping Account Number
-													= f.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
-													= f.hidden_field :bid_id, value: @bid.id
-
+							= f.fields_for :destination, @destination do |d|
+								.row
+									.col-md-6
+										.form-group
+											%label Company Name(optional)
+											= d.hidden_field :id
+											= d.text_field :title, class: "form-control", placeholder: "Destination Company"
+									.col-md-6
+										.form-group
+											%label Street Address
+											= d.text_field :address, class: "form-control", placeholder: "Destination Street Address"
+								.row
+									.col-md-3
+										.form-group
+											%label City
+											= d.text_field :city, class: "form-control", placeholder: "Destination City"
+									.col-md-3
+										.form-group
+											%label State/Region
+											= d.text_field :state, class: "form-control", placeholder: "Destination State/Region"
+									.col-md-3
+										.form-group
+											%label Country
+											= d.text_field :country, class: "form-control", placeholder: "Destination Country"
+									.col-md-3
+										.form-group
+											%label Zip Code
+											= d.text_field :zip, class: "form-control", placeholder: "Destination Zip Code"
+								.row
+									.col-md-6
+										.form-group
+											%h6 Required Delivery Date:
+											= f.date_field :required_date, class: "form-control datepicker", value: @auction.required_date
+									.col-md-6
+										.form-group
+											%h6 Have a shipping account?
+											.row
+												.col-sm-1.pt-10
+													%input#filled-in-box.filled-in.checkbox{:type => "checkbox"}/
+												%label.pt-10{:for => "filled-in-box"} Use your shipping / freight account (Seller will use this account to send part)
+								.row
+									.col-md-10.col-md-offset-2
+										.form-group
+											.form-group.col-md-5.freight_num
+												%h6 Carrier Name
+												= f.text_field :carrier, class: "form-control", value: nil, placeholder: "Carrier Name"
+											.form-group.col-md-5.freight_num
+												%h6 Shipping Account Number
+												= f.text_field :shipping_account, class: "form-control", value: nil, placeholder: "Account #"
+												= f.hidden_field :bid_id, value: @bid.id
 						%fieldset#step2.step
 							%h6.form-wizard-title.text-semibold
 								%span.form-wizard-count 2

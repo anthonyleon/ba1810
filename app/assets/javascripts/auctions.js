@@ -96,6 +96,7 @@ $(document).on('ready page:load', function() {
 		});
 	});
 
+
 	$('#sweet_basic').on('click', function() {
 		swal({
 				title: "Contact Info",
@@ -112,7 +113,7 @@ $(document).on('ready page:load', function() {
 				type: "info"
 		});
 	});
-	// cool mutation class for actively listening to when html elements move. couldn't use it where I wanted to here 
+	// cool mutation class for actively listening to when html elements move. couldn't use it where I wanted to here
 
 	// this.removeSupplier = function(element) {
 	// 		return element.parent().remove();
@@ -124,7 +125,7 @@ $(document).on('ready page:load', function() {
 	// 	mutations.forEach(function(mutation) {
 	// 		if (mutation.target.value == "Submit") {
 	// 			$('.po-confirm-wzrd-btn').hide();
-	// 		} else { 
+	// 		} else {
 	// 			$('.po-confirm-wzrd-btn').show();
 	// 		}
 	// 	});

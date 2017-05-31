@@ -4,7 +4,7 @@
 			%h4
 				%i.icon-arrow-left52.position-left
 				%span.text-semibold eRFQ
-				\- Reference #: #{@auction.id}
+				\- Reference No. #{@auction.reference_num}
 			%ul.breadcrumb.breadcrumb-caret.position-right
 				%li
 					=link_to dashboard_path do
@@ -175,15 +175,15 @@
 									%th Docs
 									%th Tag Date
 									%th QTY
-									%th
-									%th
+									-if current_user == @auction.company
+										%th
+										%th
 							%tbody
 								- BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
 									%tr
 										= render bid
 								- @auction_invitees.each do |co|
 									-if !@auction.bidders.include?(co)
-
 										%tr
 											-if current_user == @auction.company
 												%td

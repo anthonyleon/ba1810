@@ -22,7 +22,7 @@
             =link_to auctions_path do
               Sent eRFQ's
         %li.active
-          = link_to "eRFQ: #{@auction.id}", @auction
+          = link_to "eRFQ: #{@auction.reference_num}", @auction
         %h4.pull-right
           = number_to_currency(@bid.part_price)
 
