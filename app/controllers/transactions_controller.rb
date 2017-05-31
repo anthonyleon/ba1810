@@ -128,14 +128,14 @@ class TransactionsController < ApplicationController
 			Notification.notify(@bid, @bid.seller, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.",
 				transaction: @transaction) unless Notification.exists?(@bid, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.")
 		
-		if !@transaction.shipped && !@transaction.paid && @transaction.bid_aero_fee
+		if @transaction.pending_payment?
 			response.headers.delete "X-Frame-Options"
 			@payment_url = ArmorPaymentsApi.get_payment_url(@transaction)
-		elsif @transaction.delivered && @transaction.paid && !@transaction.complete && !@transaction.disputed
+		elsif @transaction.delivered?
 			response.headers.delete "X-Frame-Options"
 			p @release_payment_url = ArmorPaymentsApi.release_payment(@transaction)
 			p @dispute_transaction_url = ArmorPaymentsApi.initiate_dispute(@transaction)
-		elsif @transaction.disputed
+		elsif @transaction.disputed?
 			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.seller) if @transaction.disputed
 			@settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
 		end

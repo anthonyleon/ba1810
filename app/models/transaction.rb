@@ -11,7 +11,11 @@ class Transaction < ActiveRecord::Base
   TIER3 = 500_000
   TIER4 = 1_000_000
 
-  enum status: [:pending_invoice, :escrow_payment, :waiting_shipment, :in_transit, :delivered, :completed]
+  enum status: [:pending_invoice, :pending_payment, :pending_shipment, :in_transit, :delivered, :completed, :disputed]
+
+  def quantify_status
+    self.class.statuses[status]
+  end
 
 	def self.create_order(bid)
 		create(
