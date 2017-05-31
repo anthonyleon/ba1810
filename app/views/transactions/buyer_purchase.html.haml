@@ -120,14 +120,32 @@
 																			=link_to transaction_po_path(@transaction, :format => :pdf) do
 																				%a.text-semibold Click to Download
 								-if @transaction.invoice_num
-									.timeline.timeline-right
+									.timeline.timeline-left
 										.timeline-container
 											/ Blog post
 											.timeline-row
 												.timeline-icon
 													=image_tag 'bidaeroswirl.png'
 												.row
-													.col-md-6.pull-right
+													.col-lg-12
+														.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
+															.panel-body
+																.row
+																	.col-sm-6
+																		%h6.text-semibold.no-margin-top #{@transaction.seller.name}
+																		%ul.list.list-unstyled
+																			%li Invoice #: #{@transaction.invoice_num}
+																			%li
+																				Issued on:
+																				%span.text-semibold #{@transaction.invoice_num}
+																	.col-sm-6
+																		%h6.text-semibold.text-right.no-margin-top #{number_to_currency @transaction.total_amount}
+																		%ul.list.list-unstyled.text-right
+																			%li
+																				=link_to transaction_invoice_path(@transaction, :format => :pdf) do
+																					%span.text-semibold Click to Download
+												.row
+													.col-md-6.col-md-offset-3
 														.panel.invoice-grid.timeline-content
 															.panel-body
 																%h5.text-center.text-semibold
@@ -151,24 +169,29 @@
 																			%tr.active
 																				%td.text-semibold.text-success Grand Total:
 																				%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount)}
-													.col-sm-6.pull-left
-														.col-lg-12.pull-right
-															.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
-																.panel-body
-																	.row
-																		.col-sm-6
-																			%h6.text-semibold.no-margin-top #{@transaction.seller.name}
-																			%ul.list.list-unstyled
-																				%li Invoice #: #{@transaction.invoice_num}
-																				%li
-																					Issued on:
-																					%span.text-semibold #{@transaction.invoice_num}
-																		.col-sm-6
-																			%h6.text-semibold.text-right.no-margin-top #{number_to_currency @transaction.total_amount}
-																			%ul.list.list-unstyled.text-right
-																				%li
-																					=link_to transaction_invoice_path(@transaction, :format => :pdf) do
-																						%span.text-semibold Click to Download
+									.timeline.timeline-right
+										.timeline-container
+											/ Blog post
+											.timeline-row
+												.timeline-icon
+													=image_tag 'bidaeroswirl.png'
+												.row
+													.col-lg-12
+														.panel.invoice-grid.timeline-content
+															.panel-heading
+																%h6.panel-title.pull-right
+																	Submit Payment
+															.panel-body
+																-# if at payment_url
+																.row
+																	.col-md-12.text-center
+																		Vendor has invoiced and is awaiting payment to commence shipping, please click below for payment instructions.
+																.row
+																	%br
+																	.col-md-12.text-center
+																		%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																		%button.paymentInstructionsFrame-lightbox-preview.btn.btn-primary.text-center{"data-url" => "#{@payment_url}"}
+																			Submit Payment
 								- else
 
 								-# .timeline.timeline-left
