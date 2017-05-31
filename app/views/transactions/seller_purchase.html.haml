@@ -144,12 +144,9 @@
 																		%tr
 																			%td.text-semibold Tax:
 																			%td.text-right #{number_to_currency(@transaction.tax)}
-																		%tr
-																			%td.text-semibold Service Fee:
-																			%td.text-right #{number_to_currency(@transaction.total_fee)}
 																		%tr.active
 																			%td.text-semibold.text-success Grand Total:
-																			%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount)}
+																			%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount-@transaction.total_fee)}
 												.col-sm-6.pull-left
 													-if @transaction.invoice_num?
 														.col-lg-12.pull-right
