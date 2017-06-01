@@ -227,7 +227,7 @@
 																					%label.text-semibold Status:
 																					%span.pull-right-sm.label.label-info
 																						In Transit
-																			-elsif @transaction.quantify_status > Transaction.statuses[:delivered]
+																			-elsif @transaction.quantify_status >= Transaction.statuses[:delivered]
 																				.mt-5
 																					%label.text-semibold Status:
 																					%span.pull-right-sm.label.label-success
@@ -257,7 +257,7 @@
 																				Create Settlement Offer
 																	-elsif @transaction.completed?
 																		.row.text-center
-																			.btn.btn-success.btn-float.btn-float-lg{style: "width: 400px;"}
+																			.btn.btn-success.btn-float.btn-float-lg{style: "width: 300px;"}
 																				%i.icon-checkmark
 																				Complete!
 

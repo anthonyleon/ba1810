@@ -54,9 +54,24 @@ class Notification < ActiveRecord::Base
     end
   end
 
-  def self.notify(bid, company, message, opts = {})
+  def self.notify(bid, company, category, opts = {})
+    case category
+      when :win
+        message = ""
+      when :new_quote
+        message = "Seller has finalized costs. Please send funds to escrow."
+      when :competing_quote
+        message = ""
+      when :invite
+        message = ""
+      when :broadcast
+        message = ""
+      when :send_payment
+        message = ""
+    end
+      
     if transaction = opts[:transaction]
-      Notification.create(message: message, bid: bid, auction: bid.auction, company: company, tx: transaction)
+      Notification.create(message: message, category: category, bid: bid, auction: bid.auction, company: company, tx: transaction)
     else
       Notification.create(message: message, bid: bid, auction: bid.auction, company: company)
     end

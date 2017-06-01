@@ -55,7 +55,7 @@ end
 	patch "/transaction/:id" => 'transactions#update'
 	post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
 	patch 'transactions/:id' => 'transactions#create_shipment', as: "create_shipment"
-	patch '/auctions/:id/purchase' => 'transactions#update_tax_shipping', as: "update_tax_shipping"
+	patch '/purchase/:id/seller_purchase' => 'transactions#send_invoice', as: "send_invoice"
 
 
 	get '/invoice/:id' => 'transactions#invoice_pdf', as: 'transaction_invoice'

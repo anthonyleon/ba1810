@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
 	protect_from_forgery :except => [:receive_webhook]
 	skip_before_action :require_logged_in, only: [:receive_webhook]
-	before_action :set_transaction, only: [:show, :update_tax_shipping, :create_shipment, :update]
+	before_action :set_transaction, only: [:show, :send_invoice, :create_shipment, :update]
 	before_action :set_variables, only: [:buyer_purchase, :seller_purchase, :material_cert]
 	## or?
 	# skip_before_filter :verify_authenticity_token
@@ -23,15 +23,14 @@ class TransactionsController < ApplicationController
 		render nothing: true
 	end
 
-	def update_tax_shipping
+	def send_invoice
 		respond_to do |format|  ## Add this
 			if @transaction.update(transaction_params)
-				@transaction.calculate_total_payment
-				p armor_order_id = ArmorPaymentsApi.create_order(@transaction)
-				@transaction.update(order_id: armor_order_id)
-				# Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.")
 				CompanyMailer.send_escrow_money(@transaction, @transaction.buyer).deliver_now
-				Notification.notify(@transaction.bid, @transaction.buyer, "Seller has finalized costs. Please send funds to escrow.", transaction: @transaction)
+				@transaction.calculate_total_payment
+				ArmorPaymentsApi.create_order(@transaction)
+				
+				Notification.notify(@transaction.bid, @transaction.buyer, :send_payment, transaction: @transaction)
 
 				format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
 				format.json { render :show, status: :ok, location: @transaction }
