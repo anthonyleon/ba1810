@@ -6,8 +6,8 @@ class AuctionsController < ApplicationController
 	def index
 		@myquotes_count = current_user.bids.to_a.uniq.count { |b| b.auction_id }
 		@owned_auctions = current_user.auctions.where(active: true).where(project: nil)
-		@pending_purchases_count = Transaction.where(buyer_id: current_user.id, complete: false).count
-		@purchases_count = Transaction.where(buyer_id: current_user.id, complete: true).count
+		@pending_purchases_count = Transaction.where(buyer_id: current_user.id, status: :complete).count
+		@purchases_count = Transaction.where.not(buyer_id: current_user.id, status: :complete).count
 	end
 
 	def show
