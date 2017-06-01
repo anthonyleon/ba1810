@@ -102,7 +102,7 @@
 										.text-default.display-inline-block
 											%span.text-semibold Part Number:
 											= auction.part_num
-											%span.display-block.text-muted 
+											%span.display-block.text-muted
 												= auction.auction_part.description
 									%td.opportunity-details
 										.text-default.display-inline-block
@@ -115,7 +115,7 @@
 											%span.text-semibold Documentation:
 											= auction.req_forms.empty? ? "Not Specified" : auction.req_forms.to_sentence
 										.text-default.display-inline-block
-											%span.display-block.text-muted QTY Needed: #{auction.quantity}
+											%span.display-block.text-semibold QTY Needed: #{auction.quantity}
 									%td.lowest-bid{"data-order": "#{auction.bids.minimum(:part_price)}"}
 										.text-default.display-inline-block
 										-if auction.bids.empty?
