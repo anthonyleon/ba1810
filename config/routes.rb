@@ -53,6 +53,7 @@ end
 	post "/transaction" => "transactions#create", as: "transactions"
 
 	patch "/transaction/:id" => 'transactions#update'
+	
 	post '/receive_webhook' => 'transactions#receive_webhook', as: "webhook"
 	patch 'transactions/:id' => 'transactions#create_shipment', as: "create_shipment"
 	patch '/purchase/:id/seller_purchase' => 'transactions#send_invoice', as: "send_invoice"
