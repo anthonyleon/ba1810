@@ -87,21 +87,16 @@ class TransactionsController < ApplicationController
 
 	def update
 		respond_to do |format|
-			if @transaction.update(transaction_params)
 
-				@transaction.update(shipping_account: nil) if @transaction.shipping_account.blank?
+			if @transaction.update(transaction_params)
 				#hotfix.. the shipment dropdown box should send carrier name as a param as well
 				if carrier_code = transaction_params[:carrier_code]
 					@carriers = ArmorPaymentsApi.carriers_list
 					@transaction.update(carrier: @carriers[:body][carrier_code.to_i - 1]["name"])
-
-				end
-				@transaction.update(shipped: true) if params[:commit] == "Update Tracking Info"
-				if @transaction.seller == current_user
-					format.html { redirect_to seller_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
-				elsif @transaction.buyer == current_user
-					format.html { redirect_to buyer_purchase_path(@transaction), notice: 'Transaction was successfully updated.' }
-				end
+					@transaction.update(status: :in_transit)
+					Notification.notify(@transaction.bid, @transaction.buyer, :shipment_in_transit, transaction: @transaction)
+				end				
+				format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
 				format.json { render :show, status: :ok, location: @transaction }
 			else
 				format.html { render :edit }
@@ -184,8 +179,8 @@ class TransactionsController < ApplicationController
 
 		def transaction_params
 			params.require(:transaction).permit(:carrier_code, :price_before_fees, :tracking_num, :carrier, :shipment_desc, :part_price,
-																					:delivered, :shipping_account, :tax_rate, :final_shipping_cost, :po_num,
-																					:invoice_num, :order_id, :required_date, :bid_id)
+																					:delivered, :shipping_account, :tax_rate, :final_shipping_cost, 
+																					:po_num, :invoice_num, :order_id, :required_date, :bid_id)
 		end
 
 		def destination_params
