@@ -262,16 +262,6 @@
 																				Complete!
 
 																	-elsif @transaction.delivered?
-																		.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
-																			.col-md-2.col-md-offset-2
-																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																				%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs.disabled{"data-url" => "#{@release_payment_url}"}
-																					Release Payment
-																			.col-md-2.col-md-offset-4
-																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																				%a.paymentInstructionsFrame-lightbox-preview.btn.bg-danger.btn-xs.disabled{"data-url" => "#{@dispute_transaction_url}"}
-																					Dispute Transaction
-																	-# -else  this is the above code but with disabled remove
 																		.heading-elements.mt-5.mb-5.mr-5.ml-5
 																			.col-md-2.col-md-offset-2
 																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
@@ -286,7 +276,7 @@
 																		%span.text-center
 																			A settlement offer has been made, please review.
 																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-warning.btn-xs.{"data-url" => "#{@settlement_offer_url}"}
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-warning.btn-xs{"data-url" => "#{@settlement_offer_url}"}
 																				Review Settlement Offer
 
 

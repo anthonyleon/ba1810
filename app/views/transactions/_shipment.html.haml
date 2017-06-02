@@ -12,7 +12,7 @@
 			%legend.text-semibold
 				%i.icon-truck.position-left
 				Shipping details
-				%small.display-block.text-italic.text-muted *Carrier and tracking number are required for release of funds
+				%small.display-block.text-italic.text-muted * Carrier and tracking number are required in order to receive payment
 		.row
 			.col-md-6
 				.form-group
@@ -27,12 +27,12 @@
 			.col-md-6
 				.form-group
 					%h7 Tracking Number
-					= f.text_field :tracking_num, class: 'form-control', placeholder: "Tracking Number"
+					= f.text_field :tracking_num, class: 'form-control', placeholder: "Tracking Number", value: nil
 		.row
 			.col-md-8
 				.form-group
 					%h7 Shipment Comments & Description
-					= f.text_area :shipment_desc, class: 'form-control', placeholder: "Description of Shipment"
+					= f.text_area :shipment_desc, class: 'form-control', placeholder: "Optional Message", value: nil
 		.row
 			.actions.pull-right.pr-10
 				= f.submit 'Submit Tracking Info', class: 'btn bg-success'

@@ -198,6 +198,18 @@
 																			%tr.active
 																				%td.text-semibold.text-success Grand Total:
 																				%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount-@transaction.total_fee)}
+												-if @transaction.pending_payment?
+													.row
+														.col-md-12
+															.alert.alert-styled-right.alpha-blue.text-right
+																%span.text-semibold.text-primary
+																	= "Waiting for Buyer to Transfer Funds to Escrow"
+												-else 
+													.row
+														.col-md-12
+															.alert.alert-styled-right.alpha-green.text-right
+																%span.text-semibold.text-success
+																	= "Funds Are In The Escrow Acount"
 
 										/ Video posts
 										-if @transaction.quantify_status > Transaction.statuses[:pending_payment]
