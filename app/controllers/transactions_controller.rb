@@ -23,21 +23,6 @@ class TransactionsController < ApplicationController
 		render nothing: true
 	end
 
-	def send_invoice
-		respond_to do |format|  ## Add this
-			if @transaction.update(transaction_params)
-				CompanyMailer.send_escrow_money(@transaction, @transaction.buyer).deliver_now
-				@transaction.calculate_total_payment
-				ArmorPaymentsApi.create_order(@transaction)
-				
-				Notification.notify(@transaction.bid, @transaction.buyer, :send_payment, transaction: @transaction)
-
-				format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
-				format.json { render :show, status: :ok, location: @transaction }
-			end
-		end
-	end
-
 	def record
 		@bid = Bid.find(params[:bid_id])
 		@auction = Auction.find(params[:auction_id])
@@ -105,6 +90,21 @@ class TransactionsController < ApplicationController
 		end
 	end
 
+	def send_invoice
+		respond_to do |format|  ## Add this
+			if @transaction.update(transaction_params)
+				CompanyMailer.send_escrow_money(@transaction, @transaction.buyer).deliver_now
+				@transaction.calculate_total_payment
+				ArmorPaymentsApi.create_order(@transaction)
+				
+				Notification.notify(@transaction.bid, @transaction.buyer, :send_payment, transaction: @transaction)
+
+				format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
+				format.json { render :show, status: :ok, location: @transaction }
+			end
+		end
+	end
+	
 	def create_shipment
 		respond_to do |format|
 			if @transaction.update(transaction_params)
