@@ -92,9 +92,9 @@ class Notification < ActiveRecord::Base
       when :settlement_accepted
         message = "Your settlement offer for order ##{@transaction.order_id} has been accepeted"
       when :arbitration_seller_notice
-        message = ="Disputed Order ##{@transaction.order_num} has been escalated to arbitration."
+        message ="Disputed Order ##{@transaction.order_num} has been escalated to arbitration."
       when :arbitration_buyer_notice
-        message = ="Disputed Order ##{@transaction.order_num} has been escalated to arbitration."
+        message ="Disputed Order ##{@transaction.order_num} has been escalated to arbitration."
     end
       
     if transaction = opts[:transaction]
