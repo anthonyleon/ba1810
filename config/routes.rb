@@ -3,7 +3,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
 
 
-
+	get '/auction_invite/:auction_id/invitee' => 'session#invite_login', as: 'invite_existing_user'
 	get 'projects/archive'
 
 	resources :projects do
@@ -37,7 +37,6 @@ Rails.application.routes.draw do
 	resources :engines do
 		resources :documents, shallow: true
 	end
-
 
 	resources :aircrafts do
 		resources :documents, shallow: true

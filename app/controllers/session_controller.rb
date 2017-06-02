@@ -20,8 +20,27 @@ class SessionController < ApplicationController
 		end
 	end
 
+
+	## this method is temporary, until I create the User model
+	def invite_login
+		co = Company.find_by(confirm_token: params[:format])
+		auction = Auction.find(params[:auction_id])
+
+		if !co
+			redirect_to login_path, flash: { error: "Username or Password is invalid" }
+		elsif co.email_confirmed
+			session[:company_id] = co.id
+			redirect_to new_auction_bid_path(auction)
+
+		else !co.email_confirmed
+			redirect_to login_path, flash: {warning: "Please check your e-mail for a confirmation link"}
+		end
+	end
+
 	def temp_login
+
 		@auction = Auction.find_by(@auction_id)
+
 		token = params[:company][:token]
 		password = params[:company][:password]
 		password_confirm = params[:company][:password_confirmation]
