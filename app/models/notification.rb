@@ -4,7 +4,9 @@ class Notification < ActiveRecord::Base
 	belongs_to :auction
   belongs_to :tx, class_name: "Transaction"
 
-  enum category: [:win, :new_quote, :competing_quote, :invite, :broadcast, :send_payment]
+  enum category: [:win, :new_quote, :competing_quote, :invite, :shipment_in_transit, :broadcast, :send_payment, :payment_received, 
+                  :order_cancelled, :shipment_delivered, :shipment_received, :funds_released, :dispute_settlement_offer, :tx_disputed, 
+                  :counter_offer, :settlement_accepted, :arbitration_seller_notice, :arbitration_buyer_notice]
 
 
 
@@ -31,7 +33,8 @@ class Notification < ActiveRecord::Base
     matches = parts.uniq { |p| p.company_id }
     
     matches.each do |part|
-      Notification.create(company: part.company, auction: auction, message: message) unless part.company == auction_creator
+      ##dont do if company is invited to bid, it should just be one notification for the invite
+      Notification.create(company: part.company, auction: auction, message: message) unless part.company == auction_creator 
       CompanyMailer.notify_of_opportunity(part.company, auction).deliver_later(wait_until: 1.minute.from_now) unless part.company == auction_creator
     end
     
@@ -64,10 +67,34 @@ class Notification < ActiveRecord::Base
         message = ""
       when :invite
         message = ""
+      when :shipment_in_transit
+        message = "Shipping Info has been received, your order (##{opts[:transaction].order_id}) is in transit."
       when :broadcast
         message = ""
       when :send_payment
         message = ""
+      when :payment_received
+        message = "Payment has been received in full please proceed to shipping procedure."
+      when :order_cancelled
+        message = "The order ##{@transaction.order_id} for part ##{@transaction.auction.part_num} has been cancelled."
+      when :shipment_delivered
+        message = "Buyer for order ##{@transaction.order_id}, has received shipment. Funds will be released upon approval of part."
+      when :shipment_received
+        message = "Order ##{@transaction.order_id}, has been marked as received. You have 3 days to approve part."
+      when :funds_released
+        message = "The funds for order ##{@transaction.order_id} have been released from escrow in accordance with your payout preference."
+      when :dispute_settlement_offer
+        message = "A settlement offer has been submitted to you. Please review."
+      when :tx_disputed
+        message = "Buyer for #{bid.auction.part_num}, order ##{@transaction.order_id}, has disputed the transaction."
+      when :counter_offer
+        message = "A settlement offer has been created on dispute ##{data["event"]["order_id"]}"
+      when :settlement_accepted
+        message = "Your settlement offer for order ##{@transaction.order_id} has been accepeted"
+      when :arbitration_seller_notice
+        message = ="Disputed Order ##{@transaction.order_num} has been escalated to arbitration."
+      when :arbitration_buyer_notice
+        message = ="Disputed Order ##{@transaction.order_num} has been escalated to arbitration."
     end
       
     if transaction = opts[:transaction]
