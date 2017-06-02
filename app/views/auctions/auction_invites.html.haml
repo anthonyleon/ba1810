@@ -20,38 +20,127 @@
 	.page-content
 		/ Main content
 		.content-wrapper
-			.panel.panel-flat
+			.panel.panel-white
 				.panel-heading
-					%h6.panel-title
-						You have been invited to quote the following companies! Please review and quote.
-					.heading-elements
-						%button.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
-							%span Update Inventory
-							%b.icon-download7
-				%table.table.striped#mybidsDT.bordered
-					%thead
-						%tr
-							%th Part Number
-							%th Description
-							%th Conditions
-							%th Start Date
-							%th Days Active
-							%th Bid Count
-							%th Lowest Bid
-							%th
-					%tbody
-						- @auctions.each do |auction|
-							%tr
-								%td= link_to auction.part_num, auction
-								%td= auction.auction_part.description
-								-if auction.condition[0].blank?
-									%td All Conditions
-								-else
-									%td= auction.abbreviated_index_tags
-								%td= auction.created_at.strftime("%m/%d/%Y")
-								%td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-								%td= auction.bids.count
-								%td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
+					%h6.panel-title My eRFQ Invites - Please review the following invitations to quote.
+					.heading-elements.not-collapsible
+						%span.label.bg-blue.heading-text ### new invites
+				.panel-toolbar.panel-toolbar-inbox
+					.navbar.navbar-default
+						%ul.nav.navbar-nav.visible-xs-block.no-border
+							%li
+								%a.text-center.collapsed{"data-target" => "#inbox-toolbar-toggle-single", "data-toggle" => "collapse"}
+									%i.icon-circle-down2
+						#inbox-toolbar-toggle-single.navbar-collapse.collapse
+							-# .btn-group.navbar-btn
+							-# 	%button.btn.btn-default.btn-icon.btn-checkbox-all{:type => "button"}
+							-# 		.checker
+							-# 			%span
+							-# 				%input.styled{:type => "checkbox"}/
+							-# 	%button.btn.btn-default.btn-icon.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
+							-# 		%span.caret
+							-# 	%ul.dropdown-menu
+							-# 		%li
+							-# 			%a{:href => "#"} Select all
+							-# 		%li
+							-# 			%a{:href => "#"} Select read
+							-# 		%li
+							-# 			%a{:href => "#"} Select unread
+							-# 		%li.divider
+							-# 		%li
+							-# 			%a{:href => "#"} Clear selection
+							.btn-group.navbar-btn
+								%button.btn.btn-default{:type => "button"}
+									%i.icon-pencil7
+									%span.hidden-xs.position-right Compose
+								%button.btn.btn-default{:type => "button"}
+									%i.icon-bin
+									%span.hidden-xs.position-right Delete
+								%button.btn.btn-default{:type => "button"}
+									%i.icon-spam
+									%span.hidden-xs.position-right Spam
+							.navbar-right
+								%p.navbar-text
+									%span.text-semibold 1-50
+									of
+									%span.text-semibold 528
+								.btn-group.navbar-left.navbar-btn
+									%button.btn.btn-default.btn-icon.disabled{:type => "button"}
+										%i.icon-arrow-left12
+									%button.btn.btn-default.btn-icon{:type => "button"}
+										%i.icon-arrow-right13
+				.table-responsive
+					%table.table.table-inbox
+						-# %thead
+						-# 	%tr.active
+						-# 		%th.table-inbox-image.text-center
+						-# 		%th.table-inbox-name.pl-0 Company
+						-# 		%th.table-inbox-message eRFQ Details
+						-# 		%th.table-inbox-attachment
+						-# 		%th.table-inbox-time Quotes
+						-# -# 		%th.text-center.days-active
+						-# -# 			%i.fa.fa-chevron-downth
+						%tbody
+							- @auctions.each do |auction|
+								%tr.unread
+									%td.table-inbox-image.text-center
+										=image_tag 'bidaeroswirl.png', class: "img-circle img-xs text-center"
+									%td.table-inbox-name
+										.display-inline-block.letter-icon-title.text-default
+											= auction.company.representative
+										.text-muted.text-size-small.text-regular
+											= auction.company.name
+									%td.table-inbox-message
+										.table-inbox-subject Request for Quotation - Part Number: #{auction.part_num}
+										%span.table-inbox-preview #{auction.company.name} is sourcing the market for PN: #{auction.part_num}, to participate in the bid please submit your quote online.
+									%td.table-inbox-requirements
+										.display-inline-block.text-muted.text-size-small.table-inbox-preview Conditions: #{auction.condition[0].blank? ? "All Conditions" : auction.abbreviated_index_tags}
+										.text-muted.text-size-small.table-inbox-preview  Documentation: #{auction.req_forms.empty? ? "Not Specified" : auction.req_forms.to_sentence}
+										.text-muted.text-size-small.table-inbox-preview QTY Needed: #{auction.quantity}
+									%td.table-inbox-time
+										-if auction.created_at == Date.today
+											= auction.created_at.strftime("%I/%M/%p")
+										-else
+											= auction.created_at.strftime("%m/%d")
+									%td.table-inbox-button
+										= link_to auction do
+											%button.btn-xs.bg-success.inbox-button
+												Quote
+												%span.icon-reply
+
+			-#
+			-# .panel.panel-flat
+			-# 	.panel-heading
+			-# 		%h6.panel-title
+			-# 			You have been invited to quote the following companies! Please review and quote.
+			-# 		.heading-elements
+			-# 			%button.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
+			-# 				%span Update Inventory
+			-# 				%b.icon-download7
+			-# 	%table.table.striped#mybidsDT.bordered
+			-# 		%thead
+			-# 			%tr
+			-# 				%th Part Number
+			-# 				%th Description
+			-# 				%th Conditions
+			-# 				%th Start Date
+			-# 				%th Days Active
+			-# 				%th Bid Count
+			-# 				%th Lowest Bid
+			-# 				%th
+			-# 		%tbody
+			-# 			- @auctions.each do |auction|
+			-# 				%tr
+			-# 					%td= link_to auction.part_num, auction
+			-# 					%td= auction.auction_part.description
+			-# 					-if auction.condition[0].blank?
+			-# 						%td All Conditions
+			-# 					-else
+			-# 						%td= auction.abbreviated_index_tags
+			-# 					%td= auction.created_at.strftime("%m/%d/%Y")
+			-# 					%td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+			-# 					%td= auction.bids.count
+			-# 					%td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
 
 / this isn't ready yet. Right now it is deleting the auction
 / what I need to do with this is remove the user from @auction.invitees hash
