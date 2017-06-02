@@ -1,123 +1,123 @@
 .page-header
-  .page-header-content
-    .page-title
-      %h4
-        %i.glyphicon.glyphicon-list-alt.position-left.text-primary
-        %span.text-semibold.text-primary Sent eRFQ's
-        \- Part searches in progress
-      %ul.breadcrumb.breadcrumb-caret.position-right
-        %li
-          = link_to dashboard_path do
-            Dashboard
-        %li
-          Buy
-        %li.active
-          Sent eRFQ's
-  / Page container
+	.page-header-content
+		.page-title
+			%h4
+				%i.glyphicon.glyphicon-list-alt.position-left.text-primary
+				%span.text-semibold.text-primary Sent eRFQ's
+				\- Part searches in progress
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					= link_to dashboard_path do
+						Dashboard
+				%li
+					Buy
+				%li.active
+					Sent eRFQ's
+	/ Page container
 .page-container{:style => "min-height:159px"}
-  / Page content
-  .page-content
-    / Main content
-    .content-wrapper
-      .panel.panel-flat
-        .panel-heading.auction-index-panel-title
-          %h5.panel-title
-            Active eRFQ's
-          %a.btn.btn-labeled.btn-labeled-right.btn-primary{href: new_auction_path}
-            Create RFQ
-            %b
-              %i.icon-file-text
-        .col-md-6
-          .panel-body
-            Your current requests for quotation are shown below. Use Bid Aero's escrow service on any transaction and protect your money from fraud. If you have payment covered, record purchase.
-            Bid Aero will track and model monthly spending and provide market data on parts being sourced. For pending purchases or purchase history please check the links under Buy.
-        .col-md-1
-        .col-md-2
-          .panel.panel-warning
-            .panel-heading
-              .panel-title
-                Pending Purchases
-            .panel-body
-              Pending Purchases! You have #{link_to @pending_purchases_count, pending_purchases_path} of pending eRFQ(s) to record.
-        .col-md-2
-          .panel.panel-success
-            .panel-heading
-              .panel-title
-                Purchases
-            .panel-body
-              Purchase History, You have made #{link_to @purchases_count, purchases_path} purchase(s) in the past 30 days
-        .col-md-1
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-flat
+				.panel-heading.auction-index-panel-title
+					%h5.panel-title
+						Active eRFQ's
+					%a.btn.btn-labeled.btn-labeled-right.btn-primary{href: new_auction_path}
+						Create RFQ
+						%b
+							%i.glyphicon.glyphicon-list-alt
+				.col-md-6
+					.panel-body
+						Your current requests for quotation are shown below. Use Bid Aero's escrow service on any transaction and protect your money from fraud. If you have payment covered, record purchase.
+						Bid Aero will track and model monthly spending and provide market data on parts being sourced. For pending purchases or purchase history please check the links under Buy.
+				.col-md-1
+				.col-md-2
+					.panel.panel-warning
+						.panel-heading
+							.panel-title
+								Pending Purchases
+						.panel-body
+							Pending Purchases! You have #{link_to @pending_purchases_count, pending_purchases_path} of pending eRFQ(s) to record.
+				.col-md-2
+					.panel.panel-success
+						.panel-heading
+							.panel-title
+								Purchases
+						.panel-body
+							Purchase History, You have made #{link_to @purchases_count, purchases_path} purchase(s) in the past 30 days
+				.col-md-1
 
-        .datatable-scroll
-          %table#buyerAuctionsDT.table.dataTable.no-footer
-            %thead
-              %tr{:role => "row"}
-                %th created_at
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Description
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Conditions
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Days Active
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Bid Count: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Bid Count
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Lowest Bid
-                %th.text-center.sorting_disabled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Actions
-            %tbody
-              - @owned_auctions.each do |auction|
-                %tr.odd{:role => "row"}
-                  / change to project instead of time
-                  %td{"data-order": ((Time.zone.now - auction.created_at) / 1.day).to_i }= to_pretty_time(auction.created_at)
-                  %td= link_to auction.part_num, auction
-                  %td= auction.auction_part.description
-                  -if auction.condition[0].blank?
-                    %td All Conditions
-                  -else
-                    %td= AssetDecorator.rename(auction, auction.conditions)
-                  %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-                  %td= auction.bids.count
-                  %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
-                  %td.text-center
-                    %ul.icons-list
-                      %li.dropdown
-                        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                          %i.icon-menu9
-                        %ul.dropdown-menu.dropdown-menu-right
-                          %li
-                            = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-                              %i.icon-trash.text-danger
-                              DELETE
-                          -# %li
-                          -#   %a{:href => "#"}
-                          -#     %i.icon-printer4.text-primary
-                          -#     PRINT eRFQ'S
+				.datatable-scroll
+					%table#buyerAuctionsDT.table.dataTable.no-footer
+						%thead
+							%tr{:role => "row"}
+								%th created_at
+								%th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
+								%th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Description
+								%th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Conditions
+								%th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Days Active
+								%th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Bid Count: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Bid Count
+								%th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Lowest Bid
+								%th.text-center.sorting_disabled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Actions
+						%tbody
+							- @owned_auctions.each do |auction|
+								%tr.odd{:role => "row"}
+									/ change to project instead of time
+									%td{"data-order": ((Time.zone.now - auction.created_at) / 1.day).to_i }= to_pretty_time(auction.created_at)
+									%td= link_to auction.part_num, auction
+									%td= auction.auction_part.description
+									-if auction.condition[0].blank?
+										%td All Conditions
+									-else
+										%td= AssetDecorator.rename(auction, auction.conditions)
+									%td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+									%td= auction.bids.count
+									%td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
+									%td.text-center
+										%ul.icons-list
+											%li.dropdown
+												%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+													%i.icon-menu9
+												%ul.dropdown-menu.dropdown-menu-right
+													%li
+														= link_to auction, data: { buyer_auctions_behavior: 'delete' } do
+															%i.icon-trash.text-danger
+															DELETE
+													-# %li
+													-#   %a{:href => "#"}
+													-#     %i.icon-printer4.text-primary
+													-#     PRINT eRFQ'S
 
 
-      -#   #DataTables_Table_0_wrapper.data_Tables_wrapper.no_footer
-      -#     %thead
-      -#       %tr
-      -#         %th Part Number
-      -#         %th Description
-      -#         %th Conditions
-      -#         %th Start Date
-      -#         %th Days Active
-      -#         %th Bid Count
-      -#         %th Lowest Bid
-      -#         %th Actions
-      -#         %th
-      -#     %tbody
-      -#       - @owned_auctions.each do |auction|
-      -#         %tr
-      -#           %td= link_to auction.part_num, auction
-      -#           %td= auction.auction_part.description
-      -#           -if auction.condition[0].blank?
-      -#             %td All Conditions
-      -#           -else
-      -#             %td= AssetDecorator.rename(auction, auction.conditions)
-      -#           %td= auction.created_at.strftime("%m/%d/%Y")
-      -#           %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-      -#           %td= auction.bids.count
-      -#           %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
-      -#           %td.clearfix
-      -#             = link_to "edit", edit_auction_path(auction)
-      -#           %td
-      -#             = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-      -#               %i.fa.fa-close
-      -# = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
+			-#   #DataTables_Table_0_wrapper.data_Tables_wrapper.no_footer
+			-#     %thead
+			-#       %tr
+			-#         %th Part Number
+			-#         %th Description
+			-#         %th Conditions
+			-#         %th Start Date
+			-#         %th Days Active
+			-#         %th Bid Count
+			-#         %th Lowest Bid
+			-#         %th Actions
+			-#         %th
+			-#     %tbody
+			-#       - @owned_auctions.each do |auction|
+			-#         %tr
+			-#           %td= link_to auction.part_num, auction
+			-#           %td= auction.auction_part.description
+			-#           -if auction.condition[0].blank?
+			-#             %td All Conditions
+			-#           -else
+			-#             %td= AssetDecorator.rename(auction, auction.conditions)
+			-#           %td= auction.created_at.strftime("%m/%d/%Y")
+			-#           %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+			-#           %td= auction.bids.count
+			-#           %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
+			-#           %td.clearfix
+			-#             = link_to "edit", edit_auction_path(auction)
+			-#           %td
+			-#             = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
+			-#               %i.fa.fa-close
+			-# = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
