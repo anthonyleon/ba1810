@@ -165,18 +165,18 @@
 															= f.text_field :reference_num, :placeholder => "Quote Reference No. (optional)", value: "", class: "form-control"
 													.form-group
 														.col-lg-4
-															%label Documentation:
-														.col-lg-8{style: "padding: 0 20px;"}
-															= f.fields_for :document, Document.new, html: { class: "form-control"} do |dm|
-																-# .field.pull-left.field-title
-																-#   Upload Files
-																.row{style: "display: flex;"}
+														/ 	%label Documentation:
+														/ .col-lg-8{style: "padding: 0 20px;"}
+														/ 	= f.fields_for :document, Document.new, html: { class: "form-control"} do |dm|
+														/ 		-# .field.pull-left.field-title
+														/ 		-#   Upload Files
+														/ 		.row{style: "display: flex;"}
 
-																	.files
-																		%label.btn.btn-default.btn-file.legitRipple
-																			%i.icon-file-plus
-																			Browse
-																			= dm.file_field :attachment
+														/ 			.files
+														/ 				%label.btn.btn-default.btn-file.legitRipple
+														/ 					%i.icon-file-plus
+														/ 					Browse
+														/ 					= dm.file_field :attachment
 																	.form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
 																		.file-caption-name#file-name{:title => "No file selected"}
 																			.text-muted None selected
