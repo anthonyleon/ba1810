@@ -39,7 +39,7 @@ class BidsController < ApplicationController
 				if @bid.save
 					@inventory_part.add_part_details(part_match, current_user)
 					if @inventory_part.save
-						document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
+						# document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
 						Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an RFQ you are participating in!")
 						Notification.notify_auctioner(@auction, "A new quote was placed in your RFQ!")
 						format.html { redirect_to @bid.auction, notice: 'Your quote has been saved' }
