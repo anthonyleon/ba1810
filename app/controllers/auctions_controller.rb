@@ -6,8 +6,8 @@ class AuctionsController < ApplicationController
 	def index
 		@myquotes_count = current_user.bids.to_a.uniq.count { |b| b.auction_id }
 		@owned_auctions = current_user.auctions.where(active: true).where(project: nil)
-		@pending_purchases_count = Transaction.where(buyer_id: current_user.id, status: :complete).count
-		@purchases_count = Transaction.where.not(buyer_id: current_user.id, status: :complete).count
+		@pending_purchases_count = Transaction.where(buyer_id: current_user.id, status: "complete").count
+		@purchases_count = Transaction.where(buyer_id: current_user.id).where.not(status: "complete").count
 	end
 
 	def show
@@ -20,8 +20,7 @@ class AuctionsController < ApplicationController
 	end
 
 	def auction_invites
-		# @auctions = Auction.where('invitees @> ?', {current_user.name.downcase => current_user.email.downcase}.to_json).decorate
-		@auctions = AuctionDecorator.decorate_collection(current_user.sales_opportunities)
+		@auctions = Auction.where('invitees @> ?', {current_user.name.downcase => current_user.email.downcase}.to_json).decorate
 	end
 
 	def new
