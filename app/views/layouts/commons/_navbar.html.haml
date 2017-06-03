@@ -30,20 +30,6 @@
 					%i.caret.navbar-icon
 				%ul.dropdown-menu.dropdown-menu-right
 					%li
-						%a{:href => "#"}
-							%i.icon-user-plus
-							My Company profile
-					%li
-						%a{:href => "#"}
-							%i.icon-coins
-							My balance
-					%li
-						%a{:href => "#"}
-							%span.badge.badge-warning.pull-right 58
-							%i.icon-comment-discussion
-							Messages
-					%li.divider
-					%li
 						= link_to edit_company_path do
 							%i.icon-cog5
 							Account settings
@@ -114,14 +100,14 @@
 						= link_to inventory_parts_path do
 							%i.icon-cogs
 							Inventory
-					%li.dropdown-header Advertisements
-					%li
-						= link_to aircrafts_path do
-							%i.icon-airplane2
-							Aircraft Listings
-						= link_to engines_path do
-							%i.icon-compass4
-							Engine Listings
+					/ %li.dropdown-header Advertisements
+					/ %li
+					/ 	= link_to aircrafts_path do
+					/ 		%i.icon-airplane2
+					/ 		Aircraft Listings
+					/ 	= link_to engines_path do
+					/ 		%i.icon-compass4
+					/ 		Engine Listings
 					-unless current_user.payout_selected?
 						%li.dropdown-header Services
 						%li

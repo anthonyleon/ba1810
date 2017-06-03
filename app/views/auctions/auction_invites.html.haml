@@ -22,53 +22,9 @@
 		.content-wrapper
 			.panel.panel-white
 				.panel-heading
-					%h6.panel-title My eRFQ Invites - Please review the following invitations to quote.
+					%h6.panel-title My eRFQ Invites - These are the eRFQ's that buyers have invited you to quote.
 					.heading-elements.not-collapsible
-						%span.label.bg-blue.heading-text ### new invites
-				.panel-toolbar.panel-toolbar-inbox
-					.navbar.navbar-default
-						%ul.nav.navbar-nav.visible-xs-block.no-border
-							%li
-								%a.text-center.collapsed{"data-target" => "#inbox-toolbar-toggle-single", "data-toggle" => "collapse"}
-									%i.icon-circle-down2
-						#inbox-toolbar-toggle-single.navbar-collapse.collapse
-							-# .btn-group.navbar-btn
-							-# 	%button.btn.btn-default.btn-icon.btn-checkbox-all{:type => "button"}
-							-# 		.checker
-							-# 			%span
-							-# 				%input.styled{:type => "checkbox"}/
-							-# 	%button.btn.btn-default.btn-icon.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
-							-# 		%span.caret
-							-# 	%ul.dropdown-menu
-							-# 		%li
-							-# 			%a{:href => "#"} Select all
-							-# 		%li
-							-# 			%a{:href => "#"} Select read
-							-# 		%li
-							-# 			%a{:href => "#"} Select unread
-							-# 		%li.divider
-							-# 		%li
-							-# 			%a{:href => "#"} Clear selection
-							.btn-group.navbar-btn
-								%button.btn.btn-default{:type => "button"}
-									%i.icon-pencil7
-									%span.hidden-xs.position-right Compose
-								%button.btn.btn-default{:type => "button"}
-									%i.icon-bin
-									%span.hidden-xs.position-right Delete
-								%button.btn.btn-default{:type => "button"}
-									%i.icon-spam
-									%span.hidden-xs.position-right Spam
-							.navbar-right
-								%p.navbar-text
-									%span.text-semibold 1-50
-									of
-									%span.text-semibold 528
-								.btn-group.navbar-left.navbar-btn
-									%button.btn.btn-default.btn-icon.disabled{:type => "button"}
-										%i.icon-arrow-left12
-									%button.btn.btn-default.btn-icon{:type => "button"}
-										%i.icon-arrow-right13
+						%span.label.bg-blue.heading-text #{@auctions.count} new invites
 				.table-responsive
 					%table.table.table-inbox
 						-# %thead

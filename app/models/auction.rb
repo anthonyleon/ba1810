@@ -90,8 +90,6 @@ class Auction < ActiveRecord::Base
     old_invites = Hash[*(invitees.to_a - hashy.to_a).flatten] 
     new_invites = Hash[*(hashy.to_a - old_invites.to_a).flatten]
     self.invite_and_setup_suppliers(new_invites)
-
-
   end
 
   def invite_and_setup_suppliers(invitees)
@@ -99,7 +97,8 @@ class Auction < ActiveRecord::Base
       # Once I've addeed multiple logins for a company (i.e. roles) then I have to change this conditional
       ## to be if Company.find_by(name: k) || User.find_by(email: v)
       v.downcase!
-      co = Company.find_by(email: v)
+      co = Company.find_by(email: v) || Company.find_by(name: k)
+      binding.pry
       if co
         CompanyMailer.invite_existing_user_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
       else

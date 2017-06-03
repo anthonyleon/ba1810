@@ -77,19 +77,19 @@ class CompaniesController < ApplicationController
 	end
 
 	def sales
-		@sales = Transaction.where(seller_id: current_user.id, status: :complete)
+		@sales = Transaction.where(seller_id: current_user.id, status: "complete")
 	end
 
 	def pending_sales
-		@sales = Transaction.where.not(seller_id: current_user.id, status: :complete)
+		@sales = Transaction.where.not(seller_id: current_user.id, status: "complete")
 	end
 
 	def purchases
-		@purchases = Transaction.where(buyer_id: current_user.id, status: :complete)
+		@purchases = Transaction.where(buyer_id: current_user.id, status: "complete")
 	end
 
 	def pending_purchases
-		@purchases = Transaction.where.not(buyer_id: current_user.id, status: :complete)
+		@purchases = Transaction.where.not(buyer_id: current_user.id, status: "complete")
 	end
 
 	def admin_inventory_upload

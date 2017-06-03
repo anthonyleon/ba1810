@@ -16,17 +16,17 @@
 			.row
 				.col-md-6
 					.form-group
-						%label Internal RFQ Number
-						= f.text_field :reference_num, :placeholder => "Your Company's Internal RFQ# (Optional)", class: "form-control", value: ""
-					.form-group
 						%label Part Number
 						= f.text_field :part_num, :placeholder => "Ex: 8063-215", class: "form-control"
 					.form-group
 						%label Min Cycles Remaining
-						= f.text_field :cycles, :placeholder => "Ex: 5000CR @ 3C1 (if applicable)", class: "form-control", value: ""
+						= f.text_field :cycles, :placeholder => "Ex: 5000CR @ 3C1 (if applicable)", class: "form-control", value: nil
 					.form-group
 						%label Target Price
-						= f.text_field :target_price, :placeholder => "Ex: $1280.00", class: "form-control dollars", value: ""
+						= f.text_field :target_price, :placeholder => "Ex: $1280.00", class: "form-control dollars", value: nil
+					.form-group
+						%label Internal RFQ Number
+						= f.text_field :reference_num, :placeholder => "Your Company's Internal RFQ# (Optional)", class: "form-control", value: nil
 				.col-md-6
 					.col-md-12
 						.form-group
