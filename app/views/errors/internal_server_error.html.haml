@@ -1,0 +1,31 @@
+.page-container
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      / Error title
+      .text-center.content-group
+        %h1.error-title 500
+        %h5 Oops, an error has occurred. Internal server error!
+      / /error title
+      / Error content
+      .row
+        .col-lg-4.col-lg-offset-4.col-sm-6.col-sm-offset-3
+          %form.main-search{:action => "#"}
+            .input-group.content-group
+              %input.form-control.input-lg{:placeholder => "Search", :type => "text"}/
+              .input-group-btn
+                %button.btn.bg-slate-600.btn-icon.btn-lg{:type => "submit"}
+                  %i.icon-search4
+            .row
+              .col-sm-6
+                %a.btn.btn-primary.btn-block.content-group{:href => "#"}
+                  %i.icon-circle-left2.position-left
+                  Go to dashboard
+              .col-sm-6
+                %a.btn.btn-default.btn-block.content-group{:href => "#"}
+                  %i.icon-menu7.position-left
+                  Advanced search
+      / /error wrapper
+    / /main content
+  / /page content
