@@ -160,6 +160,7 @@
 														%label Phone #
 														= f.text_field :phone, class: "form-control", placeholder: "Company Phone Number"
 											.form-group
+												%label Add Company Documents
 												= f.fields_for @company_doc, html: { multipart: true } do |cm|
 													= cm.label :attachment
 													= cm.file_field :attachment
@@ -185,69 +186,19 @@
 								#{@company.representative}
 								%small.display-block Account Executive
 								%small.display-block #{@company.city}, #{@company.state}
-							-# %ul.icons-list.mt-15
-							-# 	%li
-							-# 		%a{"data-original-title" => "Google Drive", "data-popup" => "tooltip", :href => "#", :title => ""}
-							-# 			%i.icon-google-drive
-							-# 	%li
-							-# 		%a{"data-original-title" => "Twitter", "data-popup" => "tooltip", :href => "#", :title => ""}
-							-# 			%i.icon-twitter
-							-# 	%li
-							-# 		%a{"data-original-title" => "Github", "data-popup" => "tooltip", :href => "#", :title => ""}
-							-# 			%i.icon-github
-
--# .row
--# 	.col.s12
--# 		.card
--# 			.card-content
--# 				.card-title.center-align
--# 					%h5.custom-card-title.center
--# 						Company Profile
--# 				%hr/
--# 				.row.tab-box
--# 					.col.s12
--# 						%ul.tabs
--# 							%li.tab.col.m3.s12
--# 								%a.custom-green-text{:href => "#account"} Escrow
--# 							%li.tab.col.m3.s12
--# 								%a.custom-green-text{:href => "#companyDocuments"} Documents
--# 							%li.tab.col.m3.s12
--# 								%a.custom-green-text{:href => "#edit"} Edit Profile Info
--# 							%li.tab.col.m3.s12
--# 								%a.custom-green-text{:href => "#changePassword"} Change Password
--# 							.indicator.custom-green-color{:style => "z-index:1"}
--#
--# 					#account.col.s12.active{style: "margin-top: 90px;"}
--# 						.center
--# 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
--# 							%a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
--# 								%i.fa.fa-lock{"aria-hidden" => "true"}
--# 								Manage Escrow Settings
--# 					#companyDocuments.col.s12.active{style: "margin-top: 15px;"}
--# 						= render 'company_docs/index'
--# 					#edit.col.s12.active{style: "margin-top: 15px;"}
--# 						= render 'edit_form'
--# 					#changePassword.col.s12.active
--# 						= simple_form_for(@company) do |f|
--# 							- if @company.errors.any?
--# 								#error_explanation
--# 									%p
--# 										= pluralize(@company.errors.count, "error")
--# 										prohibited this company from being saved:
--# 									%ul
--# 										- @company.errors.full_messages.each do |message|
--# 											%li= message
--# 							.input-field.col.s12.m6
--# 								= f.label :password
--# 								= f.password_field :password
--# 							.input-field.col.s12.m6
--# 								= f.label :password_confirmation
--# 								= f.password_field :password_confirmation
--# 							%span.actions
--# 								= f.submit 'Update Password', class: 'btn custom-btn'
--#
--#
--# 							:javascript
--# 								$(function($){
--# 									$("#phone").mask("(999) 999-9999");
--# 								});
+					- if !@company.company_docs.empty?
+						.panel
+							.existing-documents	
+								%table.table.table-hover
+									%thead
+										%tr
+											%th Company Documents
+											%th
+									%tbody
+										- @company.company_docs.each do |document|
+											%tr
+												%td.view-doc= link_to document.name, document.attachment_url
+												%td
+													%div.delete-doc-btn
+														= link_to document, data:  { company_document_behavior: 'delete'} do
+															%i.fa.fa-close{style: "font-size: 18px; color: red;"}

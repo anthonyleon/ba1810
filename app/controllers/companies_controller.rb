@@ -52,10 +52,10 @@ class CompaniesController < ApplicationController
 	end
 
 	def update
-		CompanyDoc.create(name: document_params.original_filename, attachment: document_params, company: current_user)
+		CompanyDoc.create(name: document_params.original_filename, attachment: document_params, company: current_user) if document_params
 		respond_to do |format|
 			if @company.update(company_params) || @company.edit_attrs(company_params)
-				format.html { redirect_to dashboard_path, notice: 'Company was successfully updated.' }
+				format.html { redirect_to edit_company_path, notice: 'Company profile was successfully updated.' }
 				format.json { render :show, status: :ok, location: @company }
 			else
 				format.html { render :edit }

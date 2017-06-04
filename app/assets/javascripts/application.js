@@ -102,7 +102,8 @@ $(document).ready(function() {
 	dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
 	dataBehavior("[data-company-purchase-behavior='delete']", "company");
 	dataBehavior("[data-bid-document-behavior='delete'", "bid");
-		dataBehavior("[data-inventory-document-behavior='delete'", "inventory");
+	dataBehavior("[data-inventory-document-behavior='delete'", "inventory");
+	dataBehavior("[data-company-document-behavior='delete'", "document");
 
 $('#engineDTDashBoard').dataTable({
 		"aoColumns": [
