@@ -34,11 +34,6 @@
 							%a{"aria-expanded" => "true", "data-toggle" => "tab", :href => "#activity"}
 								%i.icon-menu7.position-left
 								Activity
-						%li
-							%a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#schedule"}
-								%i.icon-comment-discussion.position-left
-								Messages with Seller
-								%span.badge.badge-success.badge-inline.position-right 32
 			/ /toolbar
 			/ User profile
 			.row
@@ -328,85 +323,7 @@
 														-# 				Read post
 														-# 				%i.icon-arrow-right14.position-right
 
-										/ /video posts
-								/ /timeline
-							#schedule.tab-pane.fade
-								/ Messages
-								.panel.panel-flat.timeline-content
-									.panel-heading
-										%h6.panel-title
-											Conversation with James
-											%a.heading-elements-toggle
-												%i.icon-more
-									.panel-body
-										%ul.media-list.chat-list.content-group
-											%li.media.date-step
-												%span Today
-											%li.media.reversed
-												.media-body
-													.media-content Thus superb the tapir the wallaby blank frog execrably much since dalmatian by in hot. Uninspiringly arose mounted stared one curt safe
-													%span.media-annotation.display-block.mt-10
-														Tue, 8:12 am
-														%a{:href => "#"}
-															%i.icon-pin-alt.position-right.text-muted
-												.media-right
-													%a{:href => "#"}
-														%img.img-circle.img-md{:alt => "", :src => "#"}/
-											%li.media
-												.media-left
-													%a{:href => "#"}
-														%img.img-circle.img-md{:alt => "", :src => "#"}/
-												.media-body
-													.media-content Tolerantly some understood this stubbornly after snarlingly frog far added insect into snorted more auspiciously heedless drunkenly jeez foolhardy oh.
-													%span.media-annotation.display-block.mt-10
-														Wed, 4:20 pm
-														%a{:href => "#"}
-															%i.icon-pin-alt.position-right.text-muted
-											%li.media.reversed
-												.media-body
-													.media-content Satisfactorily strenuously while sleazily dear frustratingly insect menially some shook far sardonic badger telepathic much jeepers immature much hey.
-													%span.media-annotation.display-block.mt-10
-														2 hours ago
-														%a{:href => "#"}
-															%i.icon-pin-alt.position-right.text-muted
-												.media-right
-													%a{:href => "#"}
-														%img.img-circle.img-md{:alt => "", :src => "#"}/
-											%li.media
-												.media-left
-													%a{:href => "#"}
-														%img.img-circle.img-md{:alt => "", :src => "#"}/
-												.media-body
-													.media-content Grunted smirked and grew less but rewound much despite and impressive via alongside out and gosh easy manatee dear ineffective yikes.
-													%span.media-annotation.display-block.mt-10
-														13 minutes ago
-														%a{:href => "#"}
-															%i.icon-pin-alt.position-right.text-muted
-											%li.media.reversed
-												.media-body
-													.media-content
-														%i.icon-menu.display-block
-												.media-right
-													%a{:href => "#"}
-														%img.img-circle.img-md{:alt => "", :src => "#"}/
-										%textarea.form-control.content-group{:cols => "1", :name => "enter-message", :placeholder => "Enter your message...", :rows => "3"}
-										.row
-											.col-xs-6
-												%ul.icons-list.icons-list-extended.mt-10
-													%li
-														%a{"data-container" => "body", "data-original-title" => "Send photo", "data-popup" => "tooltip", :href => "#", :title => ""}
-															%i.icon-file-picture
-													%li
-														%a{"data-container" => "body", "data-original-title" => "Send video", "data-popup" => "tooltip", :href => "#", :title => ""}
-															%i.icon-file-video
-													%li
-														%a{"data-container" => "body", "data-original-title" => "Send file", "data-popup" => "tooltip", :href => "#", :title => ""}
-															%i.icon-file-plus
-											.col-xs-6.text-right
-												%button.btn.bg-teal-400.btn-labeled.btn-labeled-right{:type => "button"}
-													%b
-														%i.icon-circle-right2
-													Send
+
 				.col-lg-3
 					/ Buyer/Seller Contact info
 					.panel.panel-white
