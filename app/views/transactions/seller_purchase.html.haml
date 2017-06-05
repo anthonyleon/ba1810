@@ -374,8 +374,7 @@
 									%tbody
 										- @transaction.bid.documents.each do |document|
 											%tr
-												%td= document.name
-												= link_to 'View/Download', document.attachment_url
+												%td= link_to document.name, document.attachment_url
 												-# -if document.attachment.url.to_s.downcase.include? "pdf"
 												-# 	%td.view-doc= link_to 'View/Download', document.attachment_url
 												-# -else
