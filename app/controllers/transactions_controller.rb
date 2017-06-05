@@ -80,7 +80,7 @@ class TransactionsController < ApplicationController
 					@transaction.update(carrier: @carriers[:body][carrier_code.to_i - 1]["name"])
 					@transaction.update(status: :in_transit)
 					Notification.notify(@transaction.bid, @transaction.buyer, :shipment_in_transit, transaction: @transaction)
-				end				
+				end
 				format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
 				format.json { render :show, status: :ok, location: @transaction }
 			else
@@ -96,7 +96,7 @@ class TransactionsController < ApplicationController
 				CompanyMailer.send_escrow_money(@transaction, @transaction.buyer).deliver_now
 				@transaction.calculate_total_payment
 				ArmorPaymentsApi.create_order(@transaction)
-				
+
 				Notification.notify(@transaction.bid, @transaction.buyer, :send_payment, transaction: @transaction)
 
 				format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
@@ -104,7 +104,7 @@ class TransactionsController < ApplicationController
 			end
 		end
 	end
-	
+
 	def create_shipment
 		respond_to do |format|
 			if @transaction.update(transaction_params)
@@ -137,7 +137,7 @@ class TransactionsController < ApplicationController
 		redirect_to select_payout_preference_path unless current_user.payout_selected?
 		@carriers = ArmorPaymentsApi.carriers_list if @transaction.pending_shipment?
 		if @transaction.disputed?
-			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer) 
+			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer)
 
 			@settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
 		end
@@ -179,7 +179,7 @@ class TransactionsController < ApplicationController
 
 		def transaction_params
 			params.require(:transaction).permit(:carrier_code, :price_before_fees, :tracking_num, :carrier, :shipment_desc, :part_price,
-																					:delivered, :shipping_account, :tax_rate, :final_shipping_cost, 
+																					:delivered, :shipping_account, :tax_rate, :final_shipping_cost,
 																					:po_num, :invoice_num, :order_id, :required_date, :bid_id)
 		end
 
