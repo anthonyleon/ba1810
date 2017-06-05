@@ -82,13 +82,13 @@
 												= "#{@auction.company.name}"
 											%dt.auction-dl-dt Representative:
 											%dd.auction-dl-dd
-												= "#{@auction.company.representative}"
+												= "#{@auction.rep_name}"
 											%dt.auction-dl-dt Email:
 											%dd.auction-dl-dd
-												= "#{@auction.company.email}"
+												= "#{@auction.rep_email}"
 											%dt.auction-dl-dt Phone Number:
 											%dd.auction-dl-dd
-												= "#{@auction.company.phone}"
+												= "#{@auction.rep_phone}"
 											%dt.auction-dl-dt Address:
 											%dd.auction-dl-dd
 												= "#{@auction.company.address}"
@@ -105,7 +105,7 @@
 									.panel-body.text-center
 										%dl
 											%dt Ship To:
-											%dd ATTN: Bob Smith
+											%dd ATTN: #{@auction.rep_name}
 											%dd
 												= "#{@destination.title}"
 											%dd
