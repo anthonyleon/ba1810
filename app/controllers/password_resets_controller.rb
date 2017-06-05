@@ -12,6 +12,7 @@ class PasswordResetsController < ApplicationController
 		else
 			redirect_to new_password_reset_path, :notice => "E-Mail Does Not Exist In Our Database"
 		end
+
 	end
 
 	def edit
@@ -25,7 +26,8 @@ class PasswordResetsController < ApplicationController
 		elsif params[:company][:password] != params[:company][:password_confirmation]
 			redirect_to edit_password_reset_path(@company.password_reset_token), :flash => { :error => "Passwords do not match" }
 		elsif @company.update_attribute('password', params[:company]["password"])
-			redirect_to root_url, :notice => "Password has been reset!"
+			session[:company_id] = @company.id
+			redirect_to dashboard_path, flash: { success: "Password has been reset!" }
 		else
 			format.html { render :edit }
 			format.json { render json: @company.errors, status: :unprocessable_entity }

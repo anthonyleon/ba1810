@@ -12,8 +12,6 @@ class SessionController < ApplicationController
 			redirect_to login_path, flash: { error: "Username or Password is invalid" }
 		elsif @company.email_confirmed
 			session[:company_id] = @company.id
-			#flash.now[:notice] = "Welcome #{@company.name}"
-			#flash.keep
 			redirect_to dashboard_path, flash: { success: "Successfully logging in #{@company.name}" }
 		else !@company.email_confirmed
 			redirect_to login_path, flash: {warning: "Please check your e-mail for a confirmation link"}
