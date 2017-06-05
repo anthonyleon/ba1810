@@ -60,19 +60,19 @@ class Notification < ActiveRecord::Base
   def self.notify(bid, company, category, opts = {})
     case category
       when :win
-        message = ""
+        message = "Buyer has awarded you the winner of this eRFQ. Please finalize order details"
       when :new_quote
-        message = "Seller has finalized costs. Please send funds to escrow."
+        message = "A new quote has been submitted for your review!"
       when :competing_quote
-        message = ""
+        message = "A competing quote has been placed on an RFQ you are participating in!"
       when :invite
-        message = ""
+        message = "You have been Invited to quote"
       when :shipment_in_transit
         message = "Shipping Info has been received, your order (##{opts[:transaction].order_id}) is in transit."
       when :broadcast
-        message = ""
+        message = "You have a new opportunity to sell!"
       when :send_payment
-        message = ""
+        message = "Seller has finalized costs. Please send funds to escrow."
       when :payment_received
         message = "Payment has been received in full please proceed to shipping procedure."
       when :order_cancelled
