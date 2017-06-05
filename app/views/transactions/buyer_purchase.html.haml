@@ -334,7 +334,7 @@
 										%tr
 											%th.text-center Available Documentation
 									%tbody
-										- @transaction.bid.inventory_part.documents.each do |document|
+										- @transaction.bid.documents.each do |document|
 											%tr
 												%td= document.name
 												= link_to 'View/Download', document.attachment_url
