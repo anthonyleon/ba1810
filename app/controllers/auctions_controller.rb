@@ -30,6 +30,7 @@ class AuctionsController < ApplicationController
 	end
 
 	def edit
+		@auction_invitees = Company.find_invitees(@auction.invitees)
 	end
 
 	def create
@@ -77,13 +78,11 @@ class AuctionsController < ApplicationController
 			if params[:target_price]
 				@auction.update(target_price: params[:target_price].gsub(' ', ''))
 			elsif @auction.update(auction_params)
+				@destination = @auction.destination
+				@destination.update(destination_params)
 				@auction.set_invitees(params[:invitees]) if params[:invitees]
 				@auction.invite_and_setup_suppliers(@auction.invitees)
 				@auction.update(condition: auction_params[:condition].map!{ |x| x.to_sym }) if auction_params[:condition]
-				# unless params[:commit] == "Update RFQ"
-				#   @transaction = Transaction.find(transaction_params[:id])
-				#   @transaction.update(transaction_params)
-				# end
 			else
 				format.html { render :edit }
 				format.json { render json: @auction.errors, status: :unprocessable_entity }
