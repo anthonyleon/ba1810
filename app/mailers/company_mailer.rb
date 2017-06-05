@@ -29,12 +29,12 @@ class CompanyMailer < ApplicationMailer
 		mail to: @invitee.email, subject: "#{auction.company.name} has invited you to participate in an RFQ"
 	end
 
-	def invite_existing_user_to_bid(email, auction, opts = {})
-		@invitee = Company.find_by(email: email)
+	def invite_existing_user_to_bid(co, email, auction, opts = {})
+		@invitee = co
 		@auction = auction
 		@conditions = AssetDecorator.rename(@auction, @auction.conditions)
 
-		mail to: @invitee.email, subject: "#{auction.company.name} has invited you to participate in an RFQ"
+		mail to: email, subject: "#{auction.company.name} has invited you to participate in an RFQ"
 	end
 
 	def notify_of_opportunity company , auction

@@ -30,6 +30,7 @@ class AuctionsController < ApplicationController
 	end
 
 	def edit
+		@auction_invitees = Company.find_invitees(@auction.invitees)
 	end
 
 	def create
