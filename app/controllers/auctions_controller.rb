@@ -4,10 +4,9 @@ class AuctionsController < ApplicationController
 	before_action :set_destination, only: [:show, :purchase_confirmation]
 
 	def index
-		@myquotes_count = current_user.bids.to_a.uniq.count { |b| b.auction_id }
 		@owned_auctions = current_user.auctions.where(active: true).where(project: nil)
-		@pending_purchases_count = Transaction.where(buyer_id: current_user.id, status: "complete").count
-		@purchases_count = Transaction.where(buyer_id: current_user.id).where.not(status: "complete").count
+		@pending_purchases_count = Transaction.where(buyer_id: current_user.id, status: 5).count
+		@purchases_count = Transaction.where(buyer_id: current_user.id).where.not(status: 5).count
 	end
 
 	def show
