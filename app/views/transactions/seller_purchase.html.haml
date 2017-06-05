@@ -59,7 +59,7 @@
 															.heading-elements
 																%span.heading-text
 																	%i.icon-history.position-left.text-success
-																	Updated #############
+																	Updated #{@transaction.destination.created_at.to_formatted_s(:long_ordinal)}
 														.panel-body
 															= "#{@auction.company.name}"
 															%br
@@ -78,7 +78,7 @@
 															.heading-elements
 																%span.heading-text
 																	%i.icon-history.position-left.text-success
-																	Updated #############
+																	Updated #{@transaction.destination.created_at.to_formatted_s(:long_ordinal)}
 														.panel-body
 															= "ATTN:" " " "#{@transaction.destination.title}"
 															%br
