@@ -238,7 +238,7 @@
 																					#{@transaction.carrier}
 
 
-																.panel-footer.panel-footer-condensed
+																.panel-footer.panel-footer-condensed{class: "#{@transaction.completed? ? "bg-success" : ""}"}
 																	%a.heading-elements-toggle
 																		%i.icon-more
 																	-if @transaction.disputed?
@@ -253,9 +253,8 @@
 																				Create Settlement Offer
 																	-elsif @transaction.completed?
 																		.row.text-center
-																			.btn.btn-success.btn-float.btn-float-lg{style: "width: 300px;"}
-																				%i.icon-checkmark
-																				Complete!
+																			%i.icon-checkmark
+																			Complete!
 
 																	-elsif @transaction.delivered?
 																		.heading-elements.mt-5.mb-5.mr-5.ml-5
@@ -349,4 +348,3 @@
 			/ /user profile
 		/ /main content
 	/ /page content
-

@@ -276,7 +276,7 @@
 																						#{@transaction.carrier}
 
 
-																	.panel-footer.panel-footer-condensed{class: "#{@transaction.completed? ? "bg-success" : ""}"}
+																	.panel-footer.panel-footer-condensed{class: "#{@transaction.completed? ? "bg-success" : "" && @transaction.delivered? ? "bg-slate-600" : ""}"}
 																		%a.heading-elements-toggle
 																			%i.icon-more
 																		-if @transaction.disputed?
@@ -291,15 +291,13 @@
 																					Create Settlement Offer
 																		-elsif @transaction.completed?
 																			.row.text-center
-																				.btn.btn-success.btn-float.btn-float-lg{style: "width: 300px;"}
-																					%i.icon-checkmark
-																					Complete!
+																				%i.icon-checkmark
+																				Complete!
 
 																		-elsif @transaction.delivered?
 																			.row.text-center
-																				.btn.bg-slate-600.btn-float.btn-float-lg{style: "width: 300px;"}
-																					%i.icon-history
-																					Awaiting Release of Funds
+																				%i.icon-history
+																				Awaiting Release of Funds
 																		-elsif @transaction.dispute_settlement
 																			.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
 																			%span.text-center
