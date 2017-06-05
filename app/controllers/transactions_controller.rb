@@ -57,8 +57,8 @@ class TransactionsController < ApplicationController
 		@transaction.destination = @destination
 		@auction.update(active: false) if @auction.active
 		CompanyMailer.won_auction_notification(@transaction.bid, @transaction.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) &&
-			Notification.notify(@transaction.bid, @transaction.seller, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.",
-				transaction: @transaction) unless Notification.exists?(@bid, "You have won an RFQ! Please finalize tax and shipping costs, and input your invoice number.")
+			Notification.notify(@transaction.bid, @transaction.seller, :win,
+				transaction: @transaction) unless Notification.exists?(@bid, :win)
 		respond_to do |format|
 			if @transaction.update(transaction_params)
 				format.html { redirect_to buyer_purchase_path(@transaction), notice: 'Transaction was successfully created.' }
