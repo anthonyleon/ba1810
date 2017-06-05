@@ -122,9 +122,6 @@
 											.timeline-icon
 												=image_tag 'bidaeroswirl.png'
 											- if @transaction.pending_invoice?
-												-if @auction.resale_yes
-													%h6.center-align
-														= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
 												.row
 													.col-lg-12.pull-right
 														.panel.panel-flat.timeline-content
@@ -132,6 +129,9 @@
 																%h6.panel-title
 																	Confirm Invoice Details
 															.panel-body
+																-if @auction.resale_yes
+																	%h6.center-align
+																		= "A copy of #{@transaction.buyer.name}'s Resale Certificate has been provided."
 																.form-container.destination-form
 																	= form_for(@transaction, html: { class: "inline-form" }, url: send_invoice_path(@transaction.id)) do |f|
 																		.row
