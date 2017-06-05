@@ -21,6 +21,7 @@ class AuctionsController < ApplicationController
 
 	def auction_invites
 		@auctions = Auction.where('invitees @> ?', {current_user.name.downcase => current_user.email.downcase}.to_json).decorate
+		raise
 	end
 
 	def new
@@ -132,7 +133,7 @@ class AuctionsController < ApplicationController
 	def auction_params
 		params.require(:auction).permit(:company_id, :project_id, :part_num, :target_price, :cycles, :quantity,
 										:country, :required_date, :resale_status, :resale_yes, :resale_no,
-										:rep_name, :rep_email, :rep_phone,
+										:rep_name, :rep_email, :rep_phone, :reference_num,
 										condition: [], req_forms: [], invitees: [])
 	end
 

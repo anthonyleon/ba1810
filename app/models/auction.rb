@@ -96,12 +96,14 @@ class Auction < ActiveRecord::Base
     invitees.each do |k, v|
       # Once I've addeed multiple logins for a company (i.e. roles) then I have to change this conditional
       ## to be if Company.find_by(name: k) || User.find_by(email: v)
+      secret = SecureRandom.urlsafe_base64
       v.downcase!
       co = Company.find_by(email: v) || Company.find_by(name: k)
       if co
-        CompanyMailer.invite_existing_user_to_bid(co, v, self).deliver_later(wait_until: 1.minute.from_now)
+        co.update_attribute('confirm_token', secret) if co.confirm_token == nil
+        CompanyMailer.invite_existing_user_to_bid(co, v, self).delilver_now #deliver_later(wait_until: 1.minute.from_now)
       else
-        secret = SecureRandom.urlsafe_base64
+        
         co = Company.create(name: k.split.map(&:capitalize).join(' '), email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
         CompanyMailer.invite_temp_user_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
       end

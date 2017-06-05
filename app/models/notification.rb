@@ -69,7 +69,7 @@ class Notification < ActiveRecord::Base
       when :competing_quote
         "A competing quote has been placed on an RFQ you are participating in!"
       when :invite
-        "You have been Invited to quote"
+        "You have been invited to quote!"
       when :shipment_in_transit
         "Shipping Info has been received, your order (##{opts[:transaction].order_id}) is in transit."
       when :broadcast
