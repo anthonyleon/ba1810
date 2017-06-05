@@ -29,7 +29,7 @@
 								%th Part Number
 								%th Days ago
 						%tbody
-							- @notifications.each do |note|
+							- @notifications.uniq {|n| n.category }.each do |note|
 								%tr.notification
 									%td
 										.media-left.media-middle
