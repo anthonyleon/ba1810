@@ -108,8 +108,7 @@ class Notification < ActiveRecord::Base
     tx || auction || bid
   end
 
-  def choose_icon
-    
+  def choose_icon    
     case category
     when "win"
       "icon-medal-first"
@@ -123,6 +122,28 @@ class Notification < ActiveRecord::Base
       "icon-megaphone"
     when "send_payment"
       "icon-cash3"
+    when "payment_received"
+      "icon-cash3"
+    when "order_cancelled"
+      "icon-warning22"
+    when "shipment_delivered"
+      "icon-truck"
+    when "shipment_received"
+      "icon-truck"
+    when "funds_released"
+      "icon-coin-dollar"
+    when "dispute_settlement_offer"
+      "icon-folder"
+    when "tx_disputed"
+      "icon-warning22"
+    when "counter_offer"
+      "icon-folder"
+    when "settlement_accepted"
+      "icon-file-check2"
+    when "arbitration_seller_notice"
+      "icon-file-text3"
+    when "arbitration_buyer_notice"
+      "icon-file-text3"
     end 
   end
 
@@ -141,6 +162,28 @@ class Notification < ActiveRecord::Base
       "bg-success-400"
     when "send_payment"
       "bg-primary-400"
+    when "payment_received"
+      "bg-success-400"
+    when "order_cancelled"
+      "bg-warning-300"
+    when "shipment_delivered"
+      "bg-success-400"
+    when "shipment_received"
+      "bg-success-400"
+    when "funds_released"
+      "bg-success-400"
+    when "dispute_settlement_offer"
+      "icon-folder"
+    when "tx_disputed"
+      "bg-warning-300"
+    when "counter_offer"
+      "bg-warning-300"
+    when "settlement_accepted"
+      "bg-success-300"
+    when "arbitration_seller_notice"
+      "bg-warning-300"
+    when "arbitration_buyer_notice"
+      "bg-warning-300"
     end 
   end
 end
