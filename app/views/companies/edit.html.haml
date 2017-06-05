@@ -93,10 +93,10 @@
 												.row
 													.col-md-6
 														%label New password
-														= f.text_field :password, class: "form-control", placeholder: "Password"
+														= f.password_field :password, class: "form-control", placeholder: "Password"
 													.col-md-6
 														%label Confirm new password
-														= f.text_field :password_confirmation, class: "form-control", placeholder: "Confirm Password"
+														= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password"
 											.text-right
 												%button.btn.btn-warning{:type => "submit"}
 													Update Password

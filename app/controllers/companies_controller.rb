@@ -109,6 +109,6 @@ class CompaniesController < ApplicationController
 		end
 
 		def document_params
-			params.require(:company).permit(company_doc: [:attachment])[:company_doc][:attachment]
+			params.require(:company).permit(company_doc: [:attachment])[:company_doc][:attachment] unless params.require(:company).permit(company_doc: [:attachment]).empty?
 		end
 end
