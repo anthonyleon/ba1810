@@ -249,7 +249,7 @@
 																		.row
 																			.col-md-7.text-left
 																				%p.mb-5.text-muted Order status will update with the shipments status.  When order has been delivered buyer will have 3 days to approve the transaction.
-																				%p.text-muted Need to contact #{@transaction.buyer.name}? Find the sales reps contact above in Buyer Contact Information!
+																				%p.text-muted Need to contact #{@transaction.buyer.name}? Find #{@transaction.buyer.name}'s contact above in Buyer Contact Information!
 																			.col-md-4.col-md-offset-1
 																				-if @transaction.pending_shipment?
 																					.mt-5
