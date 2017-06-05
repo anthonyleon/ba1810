@@ -173,7 +173,7 @@ class Notification < ActiveRecord::Base
     when "funds_released"
       "bg-success-400"
     when "dispute_settlement_offer"
-      "icon-folder"
+      "bg-primary-300"
     when "tx_disputed"
       "bg-warning-300"
     when "counter_offer"

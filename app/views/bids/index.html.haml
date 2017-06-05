@@ -77,19 +77,8 @@
 									/ %td= link_to 'Edit Bid', {:controller => :bids, :action => 'edit', :id => current_user.bids.find_by(auction: auction).id, :auction_id => auction.id }, :method => :get
 									-# edit_auction_bid_path(auction, @bid)
 									%td.text-center
-										%ul.icons-list
-											%li.dropdown
-												%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-													%i.icon-menu9
-												%ul.dropdown-menu.dropdown-menu-right
-													-# %li
-													-#   = link_to Edit Bid', {:controller => :bids, :action => 'edit', :id => current_user.bids.find_by(auction: auction).id, :auction_id => auction.id }, :method => :get edit_auction_bid_path(auction, @bid) do
-													-#     %i.icon-pencil5.text-warning
-													-#     EDIT
-													%li
-														= link_to auction_bid_path(bid.auction, bid), data: { buyer_auctions_behavior: 'delete' } do
-															%i.icon-trash.text-danger
-															DELETE
+										= link_to auction_bid_path(bid.auction, bid), data: { auction_bid_behavior: 'delete' } do
+											%i.icon-trash.text-danger
 					-# %table.table.striped.responsive-table#mybidsDT.bordered
 					-#   %thead
 					-#     %tr

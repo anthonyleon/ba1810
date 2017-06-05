@@ -144,6 +144,7 @@ class AuctionsController < ApplicationController
 		def auction_params
 			params.require(:auction).permit(:company_id, :project_id, :part_num, :target_price, :cycles, :quantity,
 											:country, :required_date, :resale_status, :resale_yes, :resale_no,
+											:rep_name, :rep_email, :rep_phone,
 											condition: [], req_forms: [], invitees: [])
 		end
 
