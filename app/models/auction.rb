@@ -25,7 +25,7 @@ class Auction < ActiveRecord::Base
 
 
   def self.conditions
-    %w(recent overhaul as_removed serviceable non_serviceable scrap)
+    %w(recent overhaul serviceable as_removed non_serviceable scrap)
   end
 
   def conditions # patch until column is renamed
@@ -165,5 +165,4 @@ class Auction < ActiveRecord::Base
   def semi_address
     "#{destination.city.capitalize}, #{destination.state.upcase} #{destination.zip} #{destination.country.upcase}"
   end
-
 end
