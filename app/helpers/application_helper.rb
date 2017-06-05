@@ -30,4 +30,12 @@ module ApplicationHelper
 				((a+180000)/(60*60*24*7)).to_i.to_s+' Weeks Ago'
 		end
 	end
+
+	def override_default(attribute)
+		if attribute == "N/A"
+			nil
+		else
+			attribute
+		end
+	end
 end
