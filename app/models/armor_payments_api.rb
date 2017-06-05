@@ -4,7 +4,7 @@ class ArmorPaymentsApi
     if Rails.env == "development"
       return true
     elsif Rails.env == "production"
-      return false
+      return true
     end
   end
 

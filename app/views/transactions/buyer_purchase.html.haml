@@ -60,7 +60,7 @@
 															.heading-elements
 																%span.heading-text.text-muted
 																	%i.icon-history.position-left.text-success
-																	Updated last #{@transaction.destination.created_at}
+																	Updated last #{@transaction.destination.created_at.to_formatted_s(:long_ordinal)}
 														.panel-body
 															= "#{@auction.company.name}"
 															%br
@@ -79,7 +79,7 @@
 															.heading-elements
 																%span.heading-text.text-muted
 																	%i.icon-history.position-left.text-success
-																	Updated #{@transaction.destination.created_at}
+																	Updated #{@transaction.destination.created_at.to_formatted_s(:long_ordinal)}
 														.panel-body
 															= "ATTN:" " " "#{@transaction.destination.title}"
 															%br
@@ -334,10 +334,9 @@
 										%tr
 											%th.text-center Available Documentation
 									%tbody
-										- @transaction.bid.inventory_part.documents.each do |document|
+										- @transaction.bid.documents.each do |document|
 											%tr
-												%td= document.name
-												= link_to 'View/Download', document.attachment_url
+												%td= link_to document.name, document.attachment_url
 					/ /Order Details
 					/ Share your thoughts
 					.panel.panel-body

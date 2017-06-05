@@ -40,8 +40,8 @@ class BidsController < ApplicationController
 					@inventory_part.add_part_details(part_match, current_user)
 					if @inventory_part.save
 						# document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
-						Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an RFQ you are participating in!")
-						Notification.notify_auctioner(@auction, "A new quote was placed in your RFQ!")
+						Notification.notify_other_bidders(@auction, current_user, :competing_quote)
+						Notification.notify_auctioner(@auction, :new_quote)
 						format.html { redirect_to @bid.auction, notice: 'Your quote has been saved' }
 					else
 						format.html { render :temp_user_new_bid }
@@ -70,8 +70,8 @@ class BidsController < ApplicationController
 		respond_to do |format|
 			if @bid.save
 				document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
-				Notification.notify_other_bidders(@auction, current_user, "A quote has been placed on an RFQ you are participating in!")
-				Notification.notify_auctioner(@auction, "A new quote was placed in your RFQ!")
+				Notification.notify_other_bidders(@auction, current_user, :competing_quote)
+				Notification.notify_auctioner(@auction, :new_quote)
 				format.html { redirect_to @auction, notice: 'Quote was successfully created.' }
 				format.json { render :show, status: :created, location: @bid }
 			else

@@ -77,19 +77,19 @@ class CompaniesController < ApplicationController
 	end
 
 	def sales
-		@sales = Transaction.where(seller_id: current_user.id, status: "complete")
+		@sales = Transaction.where(seller_id: current_user.id, status: 5)
 	end
 
 	def pending_sales
-		@sales = Transaction.where.not(seller_id: current_user.id, status: "complete")
+		@sales = Transaction.where(seller_id: current_user.id).where.not(status: 5)
 	end
 
 	def purchases
-		@purchases = Transaction.where(buyer_id: current_user.id, status: "complete")
+		@purchases = Transaction.where(buyer_id: current_user.id, status: 5)
 	end
 
 	def pending_purchases
-		@purchases = Transaction.where.not(buyer_id: current_user.id, status: "complete")
+		@purchases = Transaction.where(buyer_id: current_user.id).where.not(status: 5)
 	end
 
 	def admin_inventory_upload
@@ -109,6 +109,6 @@ class CompaniesController < ApplicationController
 		end
 
 		def document_params
-			params.require(:company).permit(company_doc: [:attachment])[:company_doc][:attachment]
+			params.require(:company).permit(company_doc: [:attachment])[:company_doc][:attachment] unless params.require(:company).permit(company_doc: [:attachment]).empty?
 		end
 end
