@@ -244,7 +244,7 @@
 																		.heading-elements
 																			%span.heading-text.text-muted
 																				%i.icon-history.position-left.text-success
-																				Last updated  #{@transaction.updated_at}
+																				Last updated  #{@transaction.updated_at.to_formatted_s(:long_ordinal)}
 																	.panel-body
 																		.row
 																			.col-md-7.text-left
