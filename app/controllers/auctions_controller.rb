@@ -83,7 +83,6 @@ class AuctionsController < ApplicationController
 				@auction.set_invitees(params[:invitees]) if params[:invitees]
 				@auction.invite_and_setup_suppliers(@auction.invitees)
 				@auction.update(condition: auction_params[:condition].map!{ |x| x.to_sym }) if auction_params[:condition]
-
 			else
 				format.html { render :edit }
 				format.json { render json: @auction.errors, status: :unprocessable_entity }

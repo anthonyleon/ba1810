@@ -33,7 +33,7 @@ class CompanyMailer < ApplicationMailer
 		@invitee = co
 		@auction = auction
 		@conditions = AssetDecorator.rename(@auction, @auction.conditions)
-		@confirmation_token = @company.confirm_token
+		@confirmation_token = @invitee.confirm_token
 
 		mail to: email, subject: "#{auction.company.name} has invited you to participate in an RFQ"
 	end
