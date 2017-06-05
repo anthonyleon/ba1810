@@ -59,7 +59,7 @@ class CompanyMailer < ApplicationMailer
 		@seller = seller
 		@transaction = transaction
 
-		mail to: seller.email, subject: "You won an auction"
+		mail to: seller.email, subject: "#{@transaction.buyer.name} has selected you as the winner of their eRFQ, Please review!"
 	end
 
 	def send_escrow_money transaction , buyer
