@@ -56,7 +56,7 @@ class AuctionsController < ApplicationController
 				Auction.part_match_or_not_actions(@auction, part_match)
 
 
-				Notification.notify_of_opportunities(@auction, @auction.company, "You have a new opportunity to sell!")
+				Notification.notify_of_opportunities(@auction, @auction.company, :broadcast)
 				format.html { redirect_to @auction, notice: 'RFQ was successfully created.' }
 				format.json { render :show, status: :created, location: @auction }
 			else
@@ -116,42 +116,31 @@ class AuctionsController < ApplicationController
 
 	private
 
-		def notify_of_opportunities(message)
-			parts = []
-			parts = InventoryPart.where(part_num: @auction.part_num).each do |part|
-				parts << part if @auction.condition.include?(part.condition) || @auction.condition == "All Conditions"
-			end
-			parts.uniq! { |p| p.company_id }
-			parts.each do |part|
-				Notification.create(company: part.company, auction: @auction, message: message) unless part.company == current_user
-			end
-		end
+	def set_auction
+		@auction = Auction.find(params[:id])
+	end
 
-		def set_auction
-			@auction = Auction.find(params[:id])
-		end
+	def set_destination
+		@destination = @auction.destination
+	end
 
-		def set_destination
-			@destination = @auction.destination
-		end
+	def set_bid_and_auction
+		@auction = Auction.find(params[:auction_id])
+		@bid = Bid.find(params[:id])
+	end
 
-		def set_bid_and_auction
-			@auction = Auction.find(params[:auction_id])
-			@bid = Bid.find(params[:id])
-		end
+	def auction_params
+		params.require(:auction).permit(:company_id, :project_id, :part_num, :target_price, :cycles, :quantity,
+										:country, :required_date, :resale_status, :resale_yes, :resale_no,
+										:rep_name, :rep_email, :rep_phone,
+										condition: [], req_forms: [], invitees: [])
+	end
 
-		def auction_params
-			params.require(:auction).permit(:company_id, :project_id, :part_num, :target_price, :cycles, :quantity,
-											:country, :required_date, :resale_status, :resale_yes, :resale_no,
-											:rep_name, :rep_email, :rep_phone,
-											condition: [], req_forms: [], invitees: [])
-		end
+	def transaction_params
+		params.require(:auction).permit(transactions: [:id, :carrier, :shipping_account])[:transactions]
+	end
 
-		def transaction_params
-			params.require(:auction).permit(transactions: [:id, :carrier, :shipping_account])[:transactions]
-		end
-
-		def destination_params
-			params.require(:auction).permit(destination: [:title, :address, :city, :state, :zip])[:destination]
-		end
+	def destination_params
+		params.require(:auction).permit(destination: [:title, :address, :city, :state, :zip])[:destination]
+	end
 end
