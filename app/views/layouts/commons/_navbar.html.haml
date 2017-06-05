@@ -22,7 +22,7 @@
 					%i.glyphicon.glyphicon-th-large.navbar-icon
 			%li.navbar-icon
 				=link_to notifications_index_path do
-					%i.glyphicon.glyphicon-bell.navbar-icon{class: "#{Notification.any_unread?(Company.first) ? 'animated swing text-warning' : ''}"}
+					%i.glyphicon.glyphicon-bell.navbar-icon{class: "#{Notification.any_unread?(current_user) ? 'animated swing text-warning' : ''}"}
 			%li.dropdown.dropdown-user
 				%a.dropdown-toggle{"data-toggle" => "dropdown"}
 					%span
