@@ -90,7 +90,7 @@ class InventoryPartsController < ApplicationController
   end
 
   def remove_all
-    current_user.inventory_parts.destroy_all
+    InventoryDestroyerWorker.perform_async(current_user.id)
     flash[:error] = "You have removed all Inventory Parts"
     redirect_to inventory_parts_path
   end
