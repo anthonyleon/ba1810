@@ -34,6 +34,6 @@
                   %td.clearfix
                     - if auction.company == current_user
                       = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-                        %i.fa.fa-close
+                        %i.icon-cross3
                         
     = link_to 'New Auction', {controller: "auctions", action: "new", project_id: @project.id}, class: 'btn custom-btn'

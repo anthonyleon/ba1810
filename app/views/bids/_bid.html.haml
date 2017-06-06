@@ -39,7 +39,7 @@
   / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
   %td
     = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
-      %i.fa.fa-close{style: "font-size: 18px; color: red;"}
+      %i.icon-cross3{style: "font-size: 18px; color: red;"}
 -else
   %td
     =""
@@ -47,14 +47,14 @@
   - if !bid.tx
     %td.payment-btn{style: "width: 200px;"}
       = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "button btn btn-primary tooltipped pull-left", "data-content" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind", "data-popup" => "popover", "data-placement" => "left", "data-trigger" => "hover", :title => "Escrow Service", :type => "button"
-      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn bg-teal-400 btn-rounded tooltipped pull-right record-btn payment-btn", "data-content" => "Log all of your purchases and keep track of your purchases over time in the 'Purchase History' secotion", "data-popup" => "popover", "data-trigger" => "hover", "data-placement" => "left", :title => "Log Purchase", :type => "button"
+      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn bg-teal-400 btn-rounded tooltipped pull-right record-btn payment-btn", "data-content" => "Log all of your purchases and keep track of your purchases over time in the 'Purchase History' sections", "data-popup" => "popover", "data-trigger" => "hover", "data-placement" => "left", :title => "Log Purchase", :type => "button"
     %td.recorded.responsive-remove-btn
       .remove-btn
         =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"
   -elsif bid.tx
     %td.payment-btn.purchase-btns{style: "width: 200px;"}
       = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "button btn btn-primary tooltipped pull-left", "data-content" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind", "data-popup" => "popover", "data-placement" => "left", "data-trigger" => "hover", :title => "Escrow Service", :type => "button"
-      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn bg-teal-400 btn-rounded tooltipped pull-right record-btn payment-btn", "data-content" => "Log all of your purchases and keep track of your purchases over time in the 'Purchase History' secotion", "data-popup" => "popover", "data-trigger" => "hover", "data-placement" => "left", :title => "Log Purchase", :type => "button"
+      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn bg-teal-400 btn-rounded tooltipped pull-right record-btn payment-btn", "data-content" => "Log all of your purchases and keep track of your purchases over time in the 'Purchase History' sections", "data-popup" => "popover", "data-trigger" => "hover", "data-placement" => "left", :title => "Log Purchase", :type => "button"
     %td.recorded
       .remove-btn.std-remove-btn
         =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"

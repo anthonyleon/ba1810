@@ -5,17 +5,35 @@
 				%i.icon-arrow-left52.position-left
 				%span.text-semibold eRFQ
 				\- Reference No. #{@auction.reference_num}
-			%ul.breadcrumb.breadcrumb-caret.position-right
-				%li
-					=link_to dashboard_path do
-						Dashboard
-				%li
-					Buy
-				%li
-					=link_to auctions_path do
-						Sent eRFQ's
-				%li.active
-					eRFQ: #{@auction.reference_num}
+			- if current_user == @auction.company
+				%ul.breadcrumb.breadcrumb-caret.position-right
+					%li
+						=link_to dashboard_path do
+							Dashboard
+					%li
+						Buy
+					%li
+						=link_to auctions_path do
+							Sent eRFQ's
+					%li.active
+						eRFQ: #{@auction.reference_num}
+			- else
+				%ul.breadcrumb.breadcrumb-caret.position-right
+					%li
+						=link_to dashboard_path do
+							Dashboard
+					%li
+						Sell
+					%li
+						-if @auction.invitees.to_s.include?(current_user.email) || @auction.invitees.to_s.include?(current_user.name)
+							=link_to auction_invites_path do
+								Received eRFQ's
+						-else
+							=link_to current_opportunities_path do
+								Broadcast
+
+					%li.active
+						eRFQ: #{@auction.reference_num}
 	/ Page container
 .page-container{:style => "min-height:159px"}
 	/ Page content
@@ -43,7 +61,7 @@
 					.row
 						.col-md-12
 							.col-md-4
-								.panel.panel-default.border-left-xlg.border-left-primary
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
 									.panel-heading.text-semibold
 										%i.icon-cogs.position-left
 										Part Details
@@ -71,7 +89,7 @@
 											%dd
 												= "#{@auction.target_price || "N/A"}"
 							.col-md-4
-								.panel.panel-default.border-left-xlg.border-left-primary
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
 									.panel-heading.text-semibold
 										%i.icon-user.position-left
 										Contact Information
@@ -98,7 +116,7 @@
 												= "#{@auction.company.zip}"
 												= "#{@auction.company.country}"
 							.col-md-4
-								.panel.panel-default.border-left-xlg.border-left-primary
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
 									.panel-heading.text-semibold
 										%i.icon-truck.position-left
 										Shipping Details
@@ -147,11 +165,11 @@
 							- if current_user.temp
 								= link_to temp_user_new_bid_path(@auction) do
 									.btn-group.heading-btn
-										%button.btn.btn-primary Submit Quote
+										%button.btn.btn-success Submit Quote
 							- else
 								= link_to new_auction_bid_path(@auction) do
 									.btn-group.heading-btn
-										%button.btn.btn-primary Submit Quote
+										%button.btn.btn-success Submit Quote
 							%ul.icons-list
 								%li
 									%a{"data-action" => "collapse"}
