@@ -18,7 +18,7 @@ class BidsController < ApplicationController
 	end
 
 	def new
-		redirect_to temp_user_new_bid_path if current_user.temp?
+		redirect_to temp_user_new_bid_path if current_user.temp? || !InventoryPart.find_by(company: current_user, part_num: @auction.part_num)
 		@bid = Bid.new
 		@match_parts = Bid.matched_parts(@auction, current_user)
 	end
