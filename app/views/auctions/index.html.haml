@@ -24,7 +24,7 @@
 					%h5.panel-title
 						Active eRFQ's
 					%a.btn.btn-labeled.btn-labeled-right.btn-primary{href: new_auction_path}
-						Create RFQ
+						Create eRFQ
 						%b
 							%i.glyphicon.glyphicon-list-alt
 				.col-md-6
@@ -64,7 +64,7 @@
 							- @owned_auctions.each do |auction|
 								%tr.odd{:role => "row"}
 									/ change to project instead of time
-									%td{"data-order": ((Time.zone.now - auction.created_at) / 1.day).to_i }= to_pretty_time(auction.created_at)
+									%td{"data-order": (Time.zone.now - auction.created_at).to_i }= to_pretty_time(auction.created_at)
 									%td= link_to auction.part_num, auction
 									%td= auction.auction_part.description
 									-if auction.condition[0].blank?
@@ -88,36 +88,3 @@
 													-#   %a{:href => "#"}
 													-#     %i.icon-printer4.text-primary
 													-#     PRINT eRFQ'S
-
-
-			-#   #DataTables_Table_0_wrapper.data_Tables_wrapper.no_footer
-			-#     %thead
-			-#       %tr
-			-#         %th Part Number
-			-#         %th Description
-			-#         %th Conditions
-			-#         %th Start Date
-			-#         %th Days Active
-			-#         %th Bid Count
-			-#         %th Lowest Bid
-			-#         %th Actions
-			-#         %th
-			-#     %tbody
-			-#       - @owned_auctions.each do |auction|
-			-#         %tr
-			-#           %td= link_to auction.part_num, auction
-			-#           %td= auction.auction_part.description
-			-#           -if auction.condition[0].blank?
-			-#             %td All Conditions
-			-#           -else
-			-#             %td= AssetDecorator.rename(auction, auction.conditions)
-			-#           %td= auction.created_at.strftime("%m/%d/%Y")
-			-#           %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-			-#           %td= auction.bids.count
-			-#           %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
-			-#           %td.clearfix
-			-#             = link_to "edit", edit_auction_path(auction)
-			-#           %td
-			-#             = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
-			-#               %i.icon-cross3
-			-# = link_to 'New Auction', new_auction_path, class: 'btn custom-btn'
