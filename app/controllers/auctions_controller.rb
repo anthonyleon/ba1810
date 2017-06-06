@@ -20,7 +20,7 @@ class AuctionsController < ApplicationController
 
 	def auction_invites
 		@auctions = Auction.where("invitees::text LIKE '%#{current_user.name.downcase}%' 
-									OR invitees::text LIKE '%#{urrent_user.email.downcase}%'").decorate
+									OR invitees::text LIKE '%#{current_user.email.downcase}%'").decorate
 	end
 
 	def new
