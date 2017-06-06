@@ -91,7 +91,7 @@ class InventoryPartsController < ApplicationController
 
   def remove_all
     InventoryDestroyerWorker.perform_async(current_user.id)
-    flash[:error] = "You have removed all Inventory Parts"
+    flash[:error] = "Inventory is being deleted. This may take a few moments"
     redirect_to inventory_parts_path
   end
 
