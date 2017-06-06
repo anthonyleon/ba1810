@@ -52,13 +52,13 @@
 					%span.caret
 				%ul.dropdown-menu
 					%li
-						=link_to auctions_path do
-							%i.glyphicon.glyphicon-list-alt
-							My eRFQ's
-					%li
 						= link_to new_auction_path do
 							%i.icon-paperplane
 							Generate eRFQ
+					%li
+						=link_to auctions_path do
+							%i.glyphicon.glyphicon-list-alt
+							My eRFQ's
 					%li.dropdown-header My Orders
 					%li
 						=link_to pending_purchases_path do
