@@ -16,7 +16,7 @@
 							%i.caret.navbar-icon
 					%ul.dropdown-menu.dropdown-menu-right
 						%li
-							= link_to "New Request for Quotaion - eRFQ", new_auction_path
+							= link_to "Generate eRFQ", new_auction_path
 			%li
 				=link_to dashboard_path do
 					%i.glyphicon.glyphicon-th-large.navbar-icon
@@ -54,7 +54,11 @@
 					%li
 						=link_to auctions_path do
 							%i.glyphicon.glyphicon-list-alt
-							Sent eRFQ's
+							My eRFQ's
+					%li
+						= link_to new_auction_path do
+							%i.icon-paperplane
+							Generate eRFQ
 					%li.dropdown-header My Orders
 					%li
 						=link_to pending_purchases_path do
