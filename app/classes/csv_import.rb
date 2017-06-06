@@ -104,22 +104,25 @@ class CsvImport
 						part_match = Part.find_by(part_num: row['part number']) || build_new_part(row['part number'], (row['description'] || ""))
 						parts << part_match
 						row["condition"] = match_auction_condition(row)
+						dest = Destination.new(
+							address: address["street_addy"],
+							zip: address["zip"],
+							city: address["city"],
+							country: address["country"],
+							state: address["state"]
+							)
+
 						auction = Auction.new(
 							company: Company.find(company_id),
 							part_num: row["part number"],
 							condition: row["condition"],
-
-							destination_address: address["street_addy"],
-							destination_zip: address["zip"],
-							destination_city: address["city"],
-							destination_country: address["country"],
-							destination_state: address["state"],
 							cycles: row["cycles"],
 							quantity: row["quantity"],
 							target_price: row["target price"],
 							# req_forms: [],
 							# invitees: {},
-							project: project
+							project: project,
+							destination: dest
 							)
 
 						rfqs << auction

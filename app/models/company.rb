@@ -7,16 +7,16 @@ class Company < ActiveRecord::Base
   has_many :aircrafts
   has_many :engines
   has_many :ratings, dependent: :destroy
-  has_many :transactions
   has_many :notifications, dependent: :destroy
   has_many :documents
   has_many :company_docs
   has_many :projects
+  has_many :invites
   validates :password, presence: true, length: { minimum: 6 }
 
-  # validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
+  validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
   # validates :email, presence: true, uniqueness: true
-  # validates :name, presence: true, uniqueness: true
+  validates :name, presence: true#, uniqueness: true
   # validates :ein, uniqueness: true
   # validates :address, :city, :state, :zip, :country, presence: true
 

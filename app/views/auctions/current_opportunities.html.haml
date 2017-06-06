@@ -1,35 +1,343 @@
-.row
-  .card
-    .card-content
-      .card-title.center-align{style: 'margin-top: 20px;'}
-        %h5.custom-card-title.center Current Opportunities
-      %hr/
-      %br
-      %table#currentOpportunitiesDT.table.striped.responsive-table.bordered
-        %thead
-          %tr
-            %th Part Number
-            %th Description
-            %th Conditions
-            %th Quantity
-            %th Days Active
-            %th Amount of Bids
-            %th Lowest Bid
-        %tbody
-          - @sales_opportunities.each do |auction|
-            %tr
-              %td= link_to auction.part_num, auction
-              %td= auction.auction_part.description
-              -if auction.condition[0].blank?
-                %td All Conditions
-              -else
-                %td= auction.abbreviated_index_tags
-              %td= auction.quantity
-              %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
-              %td= auction.bids.count
-              -if auction.bids.empty?
-                %td= "N/A"
-              -else
-                %td= number_to_currency auction.bids.minimum(:part_price)
-              -# %td= link_to 'Edit', edit_auction_path(auction)
-              -# %td= link_to 'Delete', auction, data: { current_opportunities_behavior: 'delete' }
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-megaphone.position-left.text-success
+				%span.text-semibold.text-success Parts Wanted
+				\- Broadcast eRFQs (Request for Quotation)
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					= link_to dashboard_path do
+						Dashboard
+				%li
+					Sell
+				%li
+					Parts Wanted
+				%li.active
+					Broadcast
+	/ Page container
+.page-container{:style => "min-height:159px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-flat
+				.panel-heading
+					%h6.panel-title
+						The following buyers are looking for your inventory, please review and quote!
+						%a.heading-elements-toggle
+							%i.icon-more
+					.heading-elements
+						%button#sweet_opportunities.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
+							%span Update Inventory
+							%b.icon-download7
+				.table-responsive
+					%table.table.table-xlg
+						%tbody
+							%tr
+								%td.col-md-3
+									.media-left.media-middle
+										%a.btn.border-success.text-success-400.btn-flat.btn-rounded.btn-xs.btn-icon.legitRipple
+											%i.icon-stats-growth2
+									.media-left
+										%h5.text-semibold.no-margin
+											Today's New eRFQs
+											%small.text-success.text-size-base
+												%span.badge.badge-success.badge-icon
+													%i.icon-arrow-up12
+													= @todays_opportunity_count
+										%span.text-muted
+											%span.status-mark.border-success.position-left
+											= Date.today.strftime("%a, %e %b %Y")
+								%td.col-md-3
+									.media-left.media-middle
+										%span.btn.border-warning-400.btn-flat.btn-rounded.btn-xs.btn-icon.legitRipple
+											%i.icon-megaphone.text-warning
+									.media-left
+										%h5.text-semibold.no-margin
+											#{@sales_opportunities.count} Total Opportunities
+											%small.display-block.no-margin Update your inventory to create new leads
+								%td.col-md-3
+									.media-left.media-middle
+										%a.btn.border-indigo-400.text-indigo-400.btn-flat.btn-rounded.btn-xs.btn-icon.legitRipple{:href => "/bids"}
+											%i.icon-stack3
+									.media-left
+										%h5.text-semibold.no-margin
+											#{current_user.bids.count} Quotes Submitted
+											%small.display-block.no-margin Quote more buyers and track your performance
+								-# %td.text-right.col-md-2
+								-#   %a.btn.bg-teal-400.legitRipple{:href => "#"}
+								-#     %i.icon-statistics.position-left
+								-#     Report
+				.table-responsive
+					%table.table#currentOpportunitiesDT
+						%thead
+							%tr.active
+								%th.days-active.text-center Days Active
+								%th.companystyle Company
+								%th.companystyle Part Details
+								%th Requirements
+								%th Quotes
+								%th.text-center.days-active
+									%i.fa.fa-chevron-down
+						%tbody
+							- @sales_opportunities.each do |auction|
+								%tr
+									%td.text-center{"data-order": ((Time.zone.now - auction.created_at) / 1.day).to_i}
+										%h6.no-margin
+											= ((Time.zone.now - auction.created_at) / 1.day).to_i
+										%small.display-block.text-size-small.no-margin Days
+									%td
+										.media-left.media-middle
+											.bg-teal-400.btn-rounded.btn-icon.btn-xs.legitRipple.text-center
+												%span.letter-icon
+													= auction.company.name.each_char.first
+										.media-body{"data-content" => "#{auction.company.email}", "data-placement" => "right", "data-popup" => "popover", "data-trigger" => "hover", :type => "button"}
+											.display-inline-block.text-default.text-semibold.letter-icon-title
+												= auction.company.name
+											.text-muted.text-size-small
+												%span.status-mark.border-blue.position-left
+												= auction.company.representative
+									%td
+										.text-default.display-inline-block
+											%span.text-semibold Part Number:
+											= auction.part_num
+											%span.display-block.text-muted
+												= auction.auction_part.description
+									%td.opportunity-details
+										.text-default.display-inline-block
+											%span.text-semibold Conditions:
+											-if auction.condition[0].blank?
+												All Conditions
+											-else
+												= auction.abbreviated_index_tags
+										.text-default.display-inline-block
+											%span.text-semibold Documentation:
+											= auction.req_forms.empty? ? "Not Specified" : auction.req_forms.to_sentence
+										.text-default.display-inline-block
+											%span.display-block.text-semibold QTY Needed: #{auction.quantity}
+									%td.lowest-bid{"data-order": "#{auction.bids.minimum(:part_price)}"}
+										.text-default.display-inline-block
+										-if auction.bids.empty?
+											%span.text-muted No Quotes
+										-else
+											%span.text-semibold Lowest Quote:
+											= number_to_currency auction.bids.minimum(:part_price)
+											%span.display-block.text-muted Quotes: #{auction.bids.count}
+									%td.text-center
+										.btn-group
+											-# %button.btn.bg-success.btn-icon{:type => "button"}
+											-# 	%i.glyphicon.glyphicon-list-alt
+											%button.btn-xs.bg-success.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
+												Actions
+												%span.icon-arrow-down5
+											%ul.dropdown-menu.dropdown-menu-right
+												%li
+													= link_to auction do
+														%i.glyphicon.glyphicon-list-alt.text-warning
+														View eRFQ
+												%li
+													= link_to new_auction_bid_path(auction) do
+														%i.icon-enter.text-success
+														Quick Quote
+												/ %li
+												/ 	%a#sweet_basic
+												/ 		%i.icon-comment.text-primary
+												/ 		Contact Buyer
+
+										-# .btn-group
+										-# 	%button.btn-xs.btn-primary{:type => "button"}
+										-# 		View eRFQ
+										-# 	%button.btn.btn-primary.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
+										-# 		%span.caret
+										-# 	%ul.dropdown-menu.dropdown-menu-right
+										-# 		%li
+										-# 			= link_to new_auction_bid_path(auction) do
+										-# 				%i.icon-enter.text-success
+										-# 				Quick Quote
+										-# 		%li
+										-# 			%a{:href => "#"}
+										-# 				%i.icon-comment.text-primary
+										-# 				Contact Buyer
+
+										-#
+										-# .btn-group
+										-# 	%button.btn.btn-primary.dropdown-toggle{"aria-expanded" => "true", "data-toggle" => "dropdown", :type => "button"}
+										-# 		%i.glyphicon.glyphicon-list-alt.position-left
+										-# 		View eRFQ
+										-# 		%span.caret
+										-# 	%ul.dropdown-menu.dropdown-menu-right
+										-# 		%li
+										-# 			= link_to new_auction_bid_path(auction) do
+										-# 				%i.icon-enter.text-success
+										-# 				Quick Quote
+										-# 		%li
+										-# 			= link_to auction do
+										-# 				%i.glyphicon.glyphicon-list-alt.text-warning
+										-# 				View eRFQ
+										-# 		%li.divider
+										-# 		%li
+										-# 			%a{:href => "#"}
+										-# 				%i.icon-comment.text-primary
+										-# 				Contact Buyer
+
+										-# %ul.icons-list
+										-# 	%li.dropdown
+										-# 		%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+										-# 			%i.icon-menu7
+										-# 		%ul.dropdown-menu.dropdown-menu-right
+										-# 			%li
+										-# 				= link_to new_auction_bid_path(auction) do
+										-# 					%i.icon-enter.text-success
+										-# 					Quick Quote
+										-# 			%li
+										-# 				= link_to auction do
+										-# 					%i.glyphicon.glyphicon-list-alt.text-warning
+										-# 					View eRFQ
+										-# 			%li.divider
+										-# 			%li
+										-# 				%a{:href => "#"}
+										-# 					%i.icon-comment.text-primary
+										-# 					Contact Buyer
+		-# #modal_update_inventory.modal.fade.in{:style => "display: block;"}
+		-#   .modal-dialog
+		-#     .modal-content
+		-#       .modal-header
+		-#         %button.close{"data-dismiss" => "modal", :type => "button"} ×
+		-#         %h5.modal-title Need to update your inventory?
+		-#       .modal-body
+		-#         %h6.text-semibold Contact us at support@bid.aero
+		-#         %p Send us an email with your company & account holders name and our experienced team will update your listing for you. We can update your inventory by an Excel or CSV file with your current inventory.
+		-#       .modal-footer
+		-#         %button.btn.btn-link.legitRipple{"data-dismiss" => "modal", :type => "button"}
+		-#           Close
+		-#           %span.legitRipple-ripple{:style => "left: 70.2483%; top: 50%; transform: translate3d(-50%, -50%, 0px); width: 225.475%; opacity: 0;"}
+		-#           %span.legitRipple-ripple{:style => "left: 70.2483%; top: 31.5789%; transform: translate3d(-50%, -50%, 0px); width: 225.475%; opacity: 0;"}
+		-#           %span.legitRipple-ripple{:style => "left: 70.2483%; top: 39.4737%; transform: translate3d(-50%, -50%, 0px); width: 225.475%; opacity: 0;"}
+		-#         %button.btn.btn-primary.legitRipple{:type => "button"} Save changes
+
+
+		-# %tr.active.border-double
+		-#   %td{:colspan => "5"} Closed eRFQs
+		-#   %td.text-right
+		-#     %span.badge.bg-success 42
+		-# %tr
+		-#   %td.text-center
+		-#     %i.icon-checkmark3.text-success
+		-#   %td
+		-#     .media-left.media-middle
+		-#       %a.btn.bg-success-400.btn-rounded.btn-icon.btn-xs.legitRipple{:href => "#"}
+		-#         %span.letter-icon A
+		-#     .media-body
+		-#       %a.display-inline-block.text-default.letter-icon-title{:href => "#"} Alan Macedo
+		-#       .text-muted.text-size-small
+		-#         %span.status-mark.border-success.position-left
+		-#         Resolved
+		-#   %td
+		-#     %a.text-default.display-inline-block{:href => "#"}
+		-#       [#1046] Avoid some unnecessary HTML string
+		-#       %span.display-block.text-muted Rather than building a string of HTML and then parsing it...
+		-#   %td.text-center
+		-#     %ul.icons-list
+		-#       %li.dropdown
+		-#         %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+		-#           %i.icon-menu7
+		-#         %ul.dropdown-menu.dropdown-menu-right
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-undo
+		-#               Quick reply
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-history
+		-#               Full history
+		-#           %li.divider
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-plus3.text-blue
+		-#               Unresolve issue
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-cross2.text-danger
+		-#               Close issue
+		-# %tr
+		-#   %td.text-center
+		-#     %i.icon-checkmark3.text-success
+		-#   %td
+		-#     .media-left.media-middle
+		-#       %a.btn.bg-pink-400.btn-rounded.btn-icon.btn-xs.legitRipple{:href => "#"}
+		-#         %span.letter-icon B
+		-#     .media-body
+		-#       %a.display-inline-block.text-default.letter-icon-title{:href => "#"} Brett Castellano
+		-#       .text-muted.text-size-small
+		-#         %span.status-mark.border-success.position-left
+		-#         Resolved
+		-#   %td
+		-#     %a.text-default.display-inline-block{:href => "#"}
+		-#       [#1038] Update json configuration
+		-#       %span.display-block.text-muted
+		-#         The
+		-#         %code files
+		-#         property is necessary to override the files property...
+		-#   %td.text-center
+		-#     %ul.icons-list
+		-#       %li.dropdown
+		-#         %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+		-#           %i.icon-menu7
+		-#         %ul.dropdown-menu.dropdown-menu-right
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-undo
+		-#               Quick reply
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-history
+		-#               Full history
+		-#           %li.divider
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-plus3.text-blue
+		-#               Unresolve issue
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-cross2.text-danger
+		-#               Close issue
+		-# %tr
+		-#   %td.text-center
+		-#     %i.icon-checkmark3.text-success
+		-#   %td
+		-#     .media-left.media-middle
+		-#       %a{:href => "#"}
+		-#         %img.img-circle.img-xs{:alt => "", :src => "assets/images/placeholder.jpg"}/
+		-#     .media-body
+		-#       %a.display-inline-block.text-default{:href => "#"} Roxanne Forbes
+		-#       .text-muted.text-size-small
+		-#         %span.status-mark.border-success.position-left
+		-#         Resolved
+		-#   %td
+		-#     %a.text-default.display-inline-block{:href => "#"}
+		-#       [#1034] Tooltip multiple event
+		-#       %span.display-block.text-muted Fix behavior when using tooltips and popovers that are...
+		-#   %td.text-center
+		-#     %ul.icons-list
+		-#       %li.dropdown
+		-#         %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+		-#           %i.icon-menu7
+		-#         %ul.dropdown-menu.dropdown-menu-right
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-undo
+		-#               Quick reply
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-history
+		-#               Full history
+		-#           %li.divider
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-plus3.text-blue
+		-#               Unresolve issue
+		-#           %li
+		-#             %a{:href => "#"}
+		-#               %i.icon-cross2.text-danger
+		-#               Close issue

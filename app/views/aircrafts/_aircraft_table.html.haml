@@ -1,45 +1,31 @@
-%table.table.striped.responsive-table.bordered
-  - #add #aircraftDTIndex if you want to be a datatable to end of ^ line
-  %thead
-    %tr
-      %th Aircraft Type
-      %th MSN
-      %th Y.O.B.
-      %th Tail Num
-      %th Engine Type
-      %th APU
-      %th Maintenance status
-      %th Available Date
-      %th Available For
-      %th.is_th
-  %tbody
-    - @aircrafts.each do |aircraft|
-      %tr
-        %td= aircraft.aircraft_type.upcase
-        %td= aircraft.msn.upcase
-        %td= aircraft.yob.upcase
-        %td= aircraft.tail_number.upcase
-        %td= aircraft.engine_major_variant.upcase + "-" + aircraft.engine_minor_variant.upcase
-        %td= aircraft.apu_model.upcase
-        %td= aircraft.maintenance_status.upcase
-        %td= aircraft.available_date.upcase
-        - if aircraft.sale? && aircraft.lease?
-          %td= "Sale or Lease"
-        - elsif aircraft.lease?
-          %td=  "Lease"
-        -else
-          %td= "Contact Rep"
-        - if aircraft.company == current_user
-          = hidden_field_tag 'is_available_aircraft', 'true'
-          %td
-            %span
-              = link_to edit_aircraft_path(aircraft) do
-                %span.material-icons.amber-text.icon-34
-                  mode_edit
-              = link_to aircraft, data: { aircraft_behavior: 'delete' } do
-                %span.material-icons.red-text.icon-34
-                  delete_forever
-%br
-%div.btn.custom-btn
-  %i.fa.fa-upload
-  = link_to 'Add an Aircraft', new_aircraft_path
+.datatable-scroll
+  %table#buyerAuctionsDT.table.dataTable.no-footer
+    %thead
+      %tr{:role => "row"}
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Aircraft Type
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} MSN
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} YOB
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Start Date: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Tail Num
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Engine Type
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Bid Count: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} APU
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Maintenance Status
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Available Date
+        %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Sale or Lease
+        %th.text-center.sorting_disabled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Actions
+    %tbody
+      - @aircrafts.each do |aircraft|
+        %tr.odd{:role => "row"}
+          %td= aircraft.aircraft_type.upcase
+          %td= aircraft.msn.upcase
+          %td= aircraft.yob.upcase
+          %td= aircraft.tail_number.upcase
+          %td= aircraft.engine_major_variant.upcase + "-" + aircraft.engine_minor_variant.upcase
+          %td= aircraft.apu_model.upcase
+          %td= aircraft.maintenance_status.upcase
+          %td= aircraft.available_date.upcase
+          - if aircraft.sale? && aircraft.lease?
+            %td= "Sale or Lease"
+          - elsif aircraft.lease?
+            %td=  "Lease"
+          -else
+            %td= "Contact Rep"

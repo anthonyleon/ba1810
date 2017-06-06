@@ -24,7 +24,6 @@ class InventoryPartsController < ApplicationController
 
   def create
     @inventory_part = InventoryPart.new(inventory_part_params)
-
     # part_match = AvRefApi.part_num_check(@inventory_part.part_num)
     part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
     respond_to do |format|
@@ -91,8 +90,8 @@ class InventoryPartsController < ApplicationController
   end
 
   def remove_all
-    current_user.inventory_parts.destroy_all
-    flash[:error] = "You have removed all Inventory Parts"
+    InventoryDestroyerWorker.perform_async(current_user.id)
+    flash[:error] = "Inventory is being deleted. This may take a few moments"
     redirect_to inventory_parts_path
   end
 

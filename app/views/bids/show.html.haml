@@ -1,87 +1,120 @@
-.row
-  .card.info-card.bid-show
-    .card-content
-      .col-2
-        .col-1.card-title.quote-title
-          %h5.col-1
-            = "Quote Reference No. " + (@bid.quote_num || "")
-          .bid-condition.col-1
-            = number_to_currency(@bid.part_price)
-      .col-2.bid-show-details
-        .col-1.col-3
-          .bid-part-num.col-1
-            %strong
-              Part number:
-            = @bid.inventory_part.part_num
-          .bid-serial-num.col-1
-            %strong
-              Serial Number:
-            = @bid.inventory_part.serial_num
-          .bid-condition.col-1
-            %strong
-              Condition: 
-            = AssetDecorator.rename(@bid.inventory_part, @bid.inventory_part.condition)
-          
-        .col-1.upload-docs
-          - if @bid.company == current_user
-            %h6 Add Document(s)
-            = form_for ([@bid, @document]), html: { multipart: true, class: "form-inline" } do |f|
-              .col-2.upload-lower
-                .col-1  
-                  = f.file_field :attachment, multiple: true
-                  .formats
-                    Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
-                .col-1
-                  %div.btn.custom-btn.doc-upload 
-                    = f.submit "Upload"
-          -else
-            .container.existing-documents
-              - if @bid.documents.empty?
-                %p.center There are no documents associated with this part.
-              - else
-                %table.table.table-hover
-                  %thead
-                    %tr
-                      %th Documentation
-                  %tbody
-                    - @bid.documents.each do |document|
-                      %tr
-                        %td= document.name
-                        -if document.attachment.url.to_s.downcase.include? "pdf"
-                          %td.view-doc= link_to 'View/Download', document.attachment_url
-                        -else
-                          %td.view-doc= link_to 'Download', document.attachment_url
-      -if @bid.company == current_user
-        .col-1.bid-documents.container
-          .container.existing-documents
-            - if @bid.documents.empty?
-              %p.center There are no documents associated with this part.
-            - else
-              %table.table.table-hover
-                %thead
-                  %tr
-                    %th Name
-                    %th Download Link
-                    %th  
-                %tbody
-                  - @bid.documents.each do |document|
-                    %tr
-                      %td= document.name
-                      -if document.attachment.url.to_s.downcase.include? "pdf"
-                        %td= link_to 'View/Download', document.attachment_url
-                      -else
-                        %td= link_to 'Download', document.attachment_url
-                      - if document.send(@bid.class.to_s.underscore.to_sym).company == current_user
-                        %td
-                          %div.delete-doc-btn
-                            = link_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}
-  .row
-    %div.btn.custom-btn.go-to-auction
-      = link_to "Go To RFQ", @auction, class:"custom-btn"
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-arrow-left52.position-left.text-success
+				%span.text-semibold.text-success Quote
+				\- Reference #: #{@bid.reference_num || ""}
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					=link_to dashboard_path do
+						Dashboard
+				-if current_user == @bid.company
+					%li
+						Sell
+					%li
+						=link_to bids_path do
+							My Quotes
+				-else
+					%li
+						Buy
+					%li
+						=link_to auctions_path do
+							Sent eRFQ's
+				%li.active
+					= link_to "eRFQ: #{@auction.reference_num}", @auction
+				%h4.pull-right
+					= number_to_currency(@bid.part_price)
 
+	/ Page container
+.page-container{:style => "min-height:159px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-flat
+				.panel-heading
+				.panel-body
+					.row
+						.col-md-12
+							.col-md-4
+								.panel.panel-default.border-left-xlg.border-left-primary
+									.panel-heading.text-semibold
+										%i.icon-cogs.position-left
+										Quote Details
+									.panel-body
+										%dl.dl-horizontal
+											%dt Part number:
+											%dd
+												= "#{@auction.part_num}"
+											%dt Description:
+											%dd
+												= "#{@auction.auction_part.description}"
+											%dt Quantity:
+											%dd
+												= "#{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
+											%dt Acceptable Conditions:
+											%dd
+												= "#{AssetDecorator.rename(@auction, @auction.condition)}"
+											%dt Required Documentation:
+											%dd
+												= "#{@auction.req_forms.reject(&:blank?).to_sentence}"
+											%dt Cycle Requirement:
+											%dd
+												= "#{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
+							.col-md-6.col-md-offset-2
+								.panel.panel-default
+									.panel-heading.text-semibold
+										%i.icon-files-empty2.position-left
+										Add Document(s)
+									.panel-body.text-center
 
-
-
-
-
-
+										= form_for ([@bid, @document]), html: { multipart: true, class: "form-inline" } do |f|
+											.form-group
+												.row{style: "display: flex;"}
+													.files
+														%label.btn.btn-default.btn-file.legitRipple
+															%i.icon-file-plus
+															Browse
+															= f.file_field :attachment, multiple: true
+													.form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
+														.file-caption-name#file-name{:title => "No file selected"}
+															.text-muted No file selected
+											%br
+											%br
+											.formats
+												Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
+											.col-1
+												= f.button(:disabled => "disabled", :type => "submit", :value => "submit", class: "btn btn-primary legitRipple") do
+													Upload
+													%i.icon-circle-up2.position-right
+									.existing-documents
+										- if @bid.documents.empty?
+											%p.center
+												%em There are currently no documents associated with this part.
+										- else
+											%table.table.table-hover
+												%thead
+													%tr
+														%th Available Documentation
+														%th
+														%th
+												%tbody
+													- @bid.documents.each do |document|
+														%tr
+															%td= document.name
+															-if document.attachment.url.to_s.downcase.include? "pdf"
+																%td.view-doc= link_to 'View/Download', document.attachment_url
+															-else
+																%td.view-doc= link_to 'Download', document.attachment_url
+															- if @bid.company == current_user
+																%td
+																	%div.delete-doc-btn
+																		= link_to document, data:  { bid_document_behavior: 'delete'} do
+																			%i.fa.fa-close{style: "font-size: 18px; color: red;"}
+																	-# %td
+																	-#   = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
+																	-#     %i.fa.fa-close{style: "font-size: 18px; color: red;"}
+								= link_to @auction, class:"btn bg-success pull-right" do
+									%i.icon-chevron-left
+									Return To RFQ

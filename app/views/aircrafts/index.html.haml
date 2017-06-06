@@ -1,6 +1,77 @@
-.card
-  .card-content
-    .card-title.center-align
-      %h5.custom-card-title.center My Aircraft Listings on Bid Aero
-    %hr/
-    = render partial: 'aircraft_table'
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-airplane2.position-left.text-alert-warning
+        %span.text-semibold.text-alert-warning Aircraft Listings
+        \- For Sale or Lease
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Manage
+        %li.active
+          Aircrafts
+    .heading-elements
+      =link_to new_aircraft_path do
+        %button.btn.alert-warning.text-semibold.legitRipple.heading-btn Create Aircraft Ad
+
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h4.panel-title.center
+            My Aircraft Advertisements
+          %h6.panel-title.center
+            = link_to aircraft_listing_path do
+              %a Looking for an aircraft? Review what the market has to offer here!
+        .datatable-scroll
+          %table.table#aircraftDT
+            %thead
+              %tr{:role => "row"}
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Aircraft Type
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} MSN
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} YOB
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Start Date: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Tail Num
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Engine Type
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Bid Count: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} APU
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Maintenance Status
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Available Date
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Sale or Lease
+                %th.text-center.sorting_disabled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Actions
+            %tbody
+              - @aircrafts.each do |aircraft|
+                %tr.odd{:role => "row"}
+                  %td= aircraft.aircraft_type.upcase
+                  %td= aircraft.msn.upcase
+                  %td= aircraft.yob.upcase
+                  %td= aircraft.tail_number.upcase
+                  %td= aircraft.engine_major_variant.upcase + "-" + aircraft.engine_minor_variant.upcase
+                  %td= aircraft.apu_model.upcase
+                  %td= aircraft.maintenance_status.upcase
+                  %td= aircraft.available_date.upcase
+                  - if aircraft.sale? && aircraft.lease?
+                    %td= "Sale or Lease"
+                  - elsif aircraft.lease?
+                    %td=  "Lease"
+                  - else
+                    %td= "Contact Rep"
+                  %td.text-center
+                    %ul.icons-list
+                      %li.dropdown
+                        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                          %i.icon-menu9
+                        %ul.dropdown-menu.dropdown-menu-right
+                          %li
+                            = link_to edit_aircraft_path(aircraft) do
+                              %i.icon-pencil5.text-warning
+                              EDIT
+                          %li
+                            = link_to aircraft, data: { buyer_aircraft_behavior: 'delete' } do
+                              %i.icon-trash.text-danger
+                              DELETE

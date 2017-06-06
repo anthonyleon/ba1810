@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/flori/json.git
+  revision: 7f4cfd853f2c919d854fb95548a19980feff17e8
+  branch: v1.8
+  specs:
+    json (1.8.6)
+    json_pure (1.8.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -266,8 +274,6 @@ GEM
     jquery-turbolinks (2.1.0)
       railties (>= 3.1.0)
       turbolinks
-    json (1.8.3)
-    json_pure (1.8.3)
     justify (1.0.2)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -495,7 +501,7 @@ DEPENDENCIES
   capybara
   carrierwave
   coffee-rails (~> 4.1.0)
-  country_state_select (= 3.0.0)
+  country_state_select
   dawnscanner
   draper
   erb2haml
@@ -511,6 +517,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
+  json!
   launchy
   maskedinput-rails
   maskmoney-rails
@@ -527,7 +534,7 @@ DEPENDENCIES
   rspec-rails
   rubocop
   rubycritic
-  sass-rails (~> 5.0)
+  sass-rails (~> 5.0.1)
   sdoc (~> 0.4.0)
   sendgrid
   sidekiq
@@ -545,4 +552,4 @@ DEPENDENCIES
   yahoo-finance
 
 BUNDLED WITH
-   1.14.5
+   1.14.6

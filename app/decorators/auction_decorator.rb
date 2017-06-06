@@ -36,24 +36,13 @@ class AuctionDecorator < AssetDecorator
   end
 
   def abbreviated_index_tags
-    # if condition.reject { |c| c.to_s.empty? }.size > 1
-
-    #   # collection = abbreviated_condition_tag(conditions.first)
-    #   # # count = 1
-    #   # condition.each do |c|
-    #   #   collection += abbreviated_condition_tag(conditions[count])}
-    #   #   # count += 1
-    #   # end
-    #   # conditions.map do |condition|
-    #   #   abbreviated_condition_tag(condition)
-    #   # end.to_sentence.html_safe
-    #   h.content_tag(:span, self.class.rename(self.object, conditions), class: "tag #{tag_name}")
-    # else
-    #   abbreviated_condition_tag(condition.first)
-    # end
-    abbreviated_conditions.reject(&:blank?).map do |abbrev_cond|
-      h.content_tag(:span, abbrev_cond, class: "tag tag_#{abbrev_cond.downcase}")
-    end.to_sentence.html_safe
+    if abbreviated_conditions.count > 1
+      abbreviated_conditions.reject(&:blank?).map do |abbrev_cond|
+        h.content_tag(:span, abbrev_cond, class: "tag tag_#{abbrev_cond.downcase}")
+      end.to_sentence.html_safe
+    else
+      "All Conditions"
+    end
   end
 
   def index_condition_tag

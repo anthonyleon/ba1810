@@ -1,14 +1,18 @@
 class Auction < ActiveRecord::Base
   belongs_to :company
   belongs_to :project
-  has_one :tx, class_name: "Transaction"#, foreign_key: "transaction_id"
+  has_one :tx, class_name: "Transaction"#, foreign_key: "tx_id"
   has_one :auction_part, dependent: :destroy
   has_one :part, through: :auction_part
+  belongs_to :destination
   has_many :bids, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :bidders, through: :bids, source: :company
+  has_many :invites
 
   validates :quantity, presence: true
+  validates :part_num, presence: true
+
 
   before_save :strip_whitespace
   before_save :upcase_part_num
@@ -21,7 +25,7 @@ class Auction < ActiveRecord::Base
 
 
   def self.conditions
-    %w(recent overhaul as_removed serviceable non_serviceable scrap)
+    %w(recent overhaul serviceable as_removed non_serviceable scrap)
   end
 
   def conditions # patch until column is renamed
@@ -30,6 +34,7 @@ class Auction < ActiveRecord::Base
 
   def self.forms
     %w(FAA EASA JAA CAAC SEGVOO TC)
+    
   end
 
 
@@ -74,16 +79,31 @@ class Auction < ActiveRecord::Base
     self.invitees = hashy
   end
 
-  def invite_and_setup_suppliers
+  def add_invitees(invited)
+    hashy = Hash.new
+    invited.each_slice(2) do |a, b|
+      hashy.merge!({a.downcase => b.downcase})
+    end
+    hashy.each { |key, value| self.invitees[key] = value }
+    save
+
+    old_invites = Hash[*(invitees.to_a - hashy.to_a).flatten] 
+    new_invites = Hash[*(hashy.to_a - old_invites.to_a).flatten]
+    self.invite_and_setup_suppliers(new_invites)
+  end
+
+  def invite_and_setup_suppliers(invitees)
     invitees.each do |k, v|
       # Once I've addeed multiple logins for a company (i.e. roles) then I have to change this conditional
       ## to be if Company.find_by(name: k) || User.find_by(email: v)
+      secret = SecureRandom.urlsafe_base64
       v.downcase!
-      co = Company.find_by(email: v)
+      co = Company.find_by(email: v) || Company.find_by(name: k)
       if co
-        CompanyMailer.invite_existing_user_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
+        co.update_attribute('confirm_token', secret) if co.confirm_token == nil
+        CompanyMailer.invite_existing_user_to_bid(co, v, self).deliver_later(wait_until: 10.seconds.from_now)
       else
-        secret = SecureRandom.urlsafe_base64
+        
         co = Company.create(name: k.split.map(&:capitalize).join(' '), email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
         CompanyMailer.invite_temp_user_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
       end
@@ -140,11 +160,10 @@ class Auction < ActiveRecord::Base
   end
 
   def full_address
-    "#{destination_address}, #{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
+    "#{destination.address}, #{destination.city.capitalize}, #{destination.state.upcase} #{destination.zip} #{destination.country.upcase}"
   end
 
   def semi_address
-    "#{destination_city.capitalize}, #{destination_state.upcase} #{destination_zip} #{destination_country.upcase}"
+    "#{destination.city.capitalize}, #{destination.state.upcase} #{destination.zip} #{destination.country.upcase}"
   end
-
 end

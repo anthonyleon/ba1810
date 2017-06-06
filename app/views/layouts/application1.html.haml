@@ -1,0 +1,56 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{name: "viewport", content: "initial-scale=1, maximum-scale=1"}
+    /[if IE 7] 
+      %script
+        window.location = "http://www.google.com/";
+
+
+    %title BidAero
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    = favicon_link_tag 'favicon.ico'
+    / CSS
+    = stylesheet_link_tag     "https://fonts.googleapis.com/css?family=Roboto:400,300,100,500"
+    = stylesheet_link_tag     "https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"
+    = stylesheet_link_tag     "https://cdn.datatables.net/s/bs/dt-1.10.10/datatables.min.css"
+    = stylesheet_link_tag     "https://cdn.datatables.net/plug-ins/1.10.11/integration/font-awesome/dataTables.fontAwesome.css"
+    = stylesheet_link_tag     "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css"
+    = stylesheet_link_tag     "https://fonts.googleapis.com/icon?family=Material+Icons"
+    / JavaScript
+    = javascript_include_tag  "https://cdn.datatables.net/s/bs/dt-1.10.10/datatables.min.js"
+    = javascript_include_tag  "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"
+
+
+  %body{:class => "#{body_class} Site"}
+    - unless current_user
+      = render partial: 'layouts/commons/flash'
+    - if current_user
+      %main
+        = render "./layouts/commons/navbar"
+        .custom-container
+          = render partial: 'layouts/commons/flash'
+          = yield
+      = render partial: 'layouts/commons/footer'
+    - else
+      .new-session.background
+        .container
+          = yield
+
+  :javascript
+    $(function(){
+      $('.modal-trigger').leanModal();
+      $('.button-collapse').sideNav({
+          menuWidth: 240, // Default is 240
+        }
+      );
+    var pgurl = window.location.pathname;
+     $(".side-nav li a").each(function(){
+        if( $(this).attr("href") == pgurl || $(this).attr("href") == '' ) {
+          $($(this)).parent().addClass("active-tab");
+        };
+      });
+    });

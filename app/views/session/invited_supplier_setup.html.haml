@@ -1,31 +1,53 @@
-.row
-  .col.s12
-    .card
-      .card-content
-        .card-title.center-align
-          .company-logo
-            %a{:href => root_path}
-              = image_tag("bid-areo-white.png", class: 'responsive-img')
-          %h5.custom-card-title.center Welcome!
-      %hr.clearfix/
-      .container{style: "width: 40%;"}
-        = form_for(:company, url: temp_login_path) do |f|
-          .row
-            .input-field
-              .label.center-align{style: "color: darkgrey;"}
-                E-Mail
-              = f.text_field :email, class: "validate center", id: 'email', value: @company.email
-              = f.hidden_field :token, value: @token
-              = f.hidden_field :auction_id, value: @auction_id
-          .row
-            .input-field
-              .label.center-align{style: "color: darkgrey;"}
-                Create Password
-              = f.password_field :password, class: "validate center"
-              .label.center-align{style: "color: darkgrey;"}
-                Confirm Password
-              = f.password_field :password_confirmation, class: "validate center"
-          .container.center-align
-            %button.btn.custom-btn.waves-effect.waves-light#continueButton{:name => "action", :type => "submit", style: "margin: 5px 0px 25px 0;", auction_id: @auction_id}
-              %i.fa.fa-angle-right.right
-              Continue
+.navbar.navbar-inverse
+	.navbar-header
+		%a.navbar-brand{:href => dashboard_path}
+			= image_tag("/images/bid_aero_logo.png")
+	/ /main navbar
+%body.login-container.login-cover.pace-done
+	.pace.pace-inactive
+		.pace-progress{"data-progress" => "99", "data-progress-text" => "100%", :style => "transform: translate3d(100%, 0px, 0px);"}
+			.pace-progress-inner
+		.pace-activity
+	/ Page container
+	.page-container{:style => "min-height:461px"}
+		/ Page content
+		.page-content
+			/ Main content
+			.content-wrapper
+				= form_for(:company, url: temp_login_path) do |f|
+					.row
+						.col-lg-6.col-lg-offset-3
+							.panel.registration-form
+								.panel-body
+									.text-center
+										= image_tag("bidaeroswirl.png", class: "navbar-brand-signup")
+										%h5.content-group-md
+											Get started and create your free account!
+											%h6 #{@auction.company.name} - #{@auction.company.representative} is awaiting your quote
+											%small.display-block.text-muted Please enter your email and password
+									.row
+										.col-md-8.col-md-offset-2
+											.form-group.has-feedback
+												= f.text_field :email, class: "form-control", value: @company.email
+												= f.hidden_field :token, value: @token
+												= f.hidden_field :auction_id, value: @auction_id
+												.form-control-feedback
+													%i.icon-user.text-muted
+									.row
+										.col-md-6
+											.form-group.has-feedback
+												= f.password_field :password, class: "form-control", placeholder: "Password"
+												.form-control-feedback
+													%i.icon-lock.text-muted
+										.col-md-6
+											.form-group.has-feedback
+												= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password"
+												.form-control-feedback
+													%i.icon-lock.text-muted
+									.text-center
+										%button.btn.bg-success.legitRipple{:name => "action", :type => "submit", auction_id: @auction_id}
+											%i.icon-circle-right2
+											SIGN UP
+	.footer.text-muted
+		.col-1
+			Website designed and programmed in Miami, Florida. Copyright ©#{Time.now.year} Bid Aero, Inc. All Rights Reserved.

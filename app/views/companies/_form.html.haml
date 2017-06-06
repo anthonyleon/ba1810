@@ -1,68 +1,174 @@
 = simple_form_for(@company) do |f|
-  - if @company.errors.any?
-    #error_explanation
-      %p
-        = pluralize(@company.errors.count, "error")
-        prohibited this company from being saved:
-      %ul
-        - @company.errors.full_messages.each do |message|
-          %li= message
-  .input-field.col.s12.m6
-    = f.label :name, 'Company Name'
-    = f.text_field :name
-  .input-field.col.s12.m6
-    = f.label :email, 'Registered Email'
-    = f.text_field :email
-  .input-field.col.s12.m6
-    = f.label :phone
-    = f.text_field :phone, id: 'phone'
-  .input-field.col.s12.m6
-    = f.label :representative, 'Representative Full Name'
-    = f.text_field :representative
-  .input-field.col.s12.m6
-    = f.label :ein
-    = f.text_field :ein
-  .input-field.col.s12.m6
-    = f.label :address, 'Street Address'
-    = f.text_field :address
-  .input-field.col.s12.m6.form-selection-space
-    = f.label :country
-    %br
-    %br
-    = f.input :country, collection: CountryStateSelect.countries_collection
-  .input-field.col.s12.m6.form-selection-space
-    = f.label :state
-    %br
-    %br
-    - options = { form: f, field_names: { :country => :country, :state => :state } }
-    = f.input :state, CountryStateSelect.state_options(options)
-  .input-field.col.s12.m6
-    = f.label :city
-    = f.text_field :city
-  .input-field.col.s12.m6
-    = f.label :zip, 'Zip Code'
-    = f.text_field :zip
-  .input-field.col.s12.m6.form-selection-space
-    = f.label :business_type
-    %br
-    %br
-    = f.input :business_type, collection: Company.company_types
-  .input-field.col.s12.m6.url-field
-    = f.label :url, "Company Website"
-    = f.text_field :url
-  .input-field.col.s12.m6
-    = f.label :password
-    = f.password_field :password
-  .input-field.col.s12.m6
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation
-  %span.actions
-  %button.btn.custom-btn.waves-effect.waves-light{:name => "action", :type => "submit"}
-    %i.material-icons.right lock_open
-    Sign Up
+	- if @company.errors.any?
+		#error_explanation
+			%p
+				= pluralize(@company.errors.count, "error")
+				prohibited this company from being saved:
+			%ul
+				- @company.errors.full_messages.each do |message|
+					%li= message
+	/ Registration form
+	.row
+		.col-lg-6.col-lg-offset-3
+			.panel.registration-form
+				.panel-body
+					.text-center
+						= image_tag("bidaeroswirl.png", class: "navbar-brand-signup")
+						%h5.content-group-lg
+							Create account
+							%small.display-block All fields are required
+					.row
+						.col-md-6
+							.form-group.has-feedback
+								= f.text_field :name, class: "form-control", placeholder: "Company"
+								.form-control-feedback
+									%i.icon-user-plus.text-muted
+						.col-md-6
+							.form-group.has-feedback
+								= f.text_field :name, class: "form-control", placeholder: "Representative Full Name"
+								.form-control-feedback
+									%i.icon-user-plus.text-muted
+					.row
+						.col-md-6
+							.form-group.has-feedback
+								= f.text_field :phone, class: "form-control", placeholder: "Phone Number"
+								.form-control-feedback
+									%i.icon-user-check.text-muted
+						.col-md-6
+							.form-group.has-feedback
+								= f.text_field :email, class: "form-control", placeholder: "E-mail"
+								.form-control-feedback
+									%i.icon-mention.text-muted
+					.row
+						.col-md-6
+							.form-group.has-feedback
+								= f.text_field :password, class: "form-control", placeholder: "Password"
+								.form-control-feedback
+									%i.icon-user-lock.text-muted
+						.col-md-6
+							.form-group.has-feedback
+								= f.text_field :password_confirmation, class: "form-control", placeholder: "Confirm Password"
+								.form-control-feedback
+									%i.icon-user-lock.text-muted
+					%hr
+					.span.text-center.text-muted Optional
+					%br
+					.row
+						.col-md-6
+							.form-group.has-feedback
+								= f.text_field :address, class: "form-control", placeholder: "Street Address"
+								.form-control-feedback
+									%i.icon-office.text-muted
+						.col-md-6
+							.form-group.has-feedback
+								%select.select{"data-placeholder" => "Choose a Country...", :name => "university-country"}
+									%option
+									- CountryStateSelect.countries_collection.each do |c|
+										%option{value: "#{c[1]}"}
+											= c[0]
+
+					.row
+						.col-md-4
+							.form-group.has-feedback
+								= f.text_field :city, class: "form-control", placeholder: "City"
+								.form-control-feedback
+									%i.icon-city.text-muted
+						.col-md-4
+							.form-group.has-feedback
+								= f.text_field :state, class: "form-control", placeholder: "State"
+								.form-control-feedback
+									%i.icon-mention.text-muted
+						.col-md-4
+							.form-group.has-feedback
+								= f.text_field :zip, class: "form-control", placeholder: "Zip Code"
+								.form-control-feedback
+									%i.icon-mention.text-muted
+					.form-group
+						.checkbox
+							%label
+								.checker
+									%span
+									%input.styled{:type => "checkbox"}/
+								Accept
+								%a.text-muted{:href => "/terms_and_conditions"} terms of service
+								&
+								%a.text-muted{:href => "/privacy_policy"} privacy policy
+					.text-right
+						%button.btn.btn-link.legitRipple{:type => "submit"}
+							%i.icon-arrow-left13.position-left
+							Back to login form
+						%button.btn.bg-success.btn-labeled.btn-labeled-right.ml-10.legitRipple{:type => "submit"}
+							%b
+								%i.icon-plus3
+							Create account
 
 
-  :javascript
-    $(function($){
-      $("#phone").mask("(999) 999-9999");
-    });
+
+-# = simple_form_for(@company) do |f|
+-#   - if @company.errors.any?
+-#     #error_explanation
+-#       %p
+-#         = pluralize(@company.errors.count, "error")
+-#         prohibited this company from being saved:
+-#       %ul
+-#         - @company.errors.full_messages.each do |message|
+-#           %li= message
+-#   .input-field.col.s12.m6
+-#     = f.label :name, 'Company Name'
+-#     = f.text_field :name
+-#   .input-field.col.s12.m6
+-#     = f.label :email, 'Registered Email'
+-#     = f.text_field :email
+-#   .input-field.col.s12.m6
+-#     = f.label :phone
+-#     = f.text_field :phone, id: 'phone'
+-#   .input-field.col.s12.m6
+-#     = f.label :representative, 'Representative Full Name'
+-#     = f.text_field :representative
+-#   .input-field.col.s12.m6
+-#     = f.label :ein
+-#     = f.text_field :ein
+-#   .input-field.col.s12.m6
+-#     = f.label :address, 'Street Address'
+-#     = f.text_field :address
+-#   .input-field.col.s12.m6.form-selection-space
+-#     = f.label :country
+-#     %br
+-#     %br
+-#     = f.input :country, collection: CountryStateSelect.countries_collection
+-#   .input-field.col.s12.m6.form-selection-space
+-#     = f.label :state
+-#     %br
+-#     %br
+-#     - options = { form: f, field_names: { :country => :country, :state => :state } }
+-#     = f.input :state, CountryStateSelect.state_options(options)
+-#   .input-field.col.s12.m6
+-#     = f.label :city
+-#     = f.text_field :city
+-#   .input-field.col.s12.m6
+-#     = f.label :zip, 'Zip Code'
+-#     = f.text_field :zip
+-#   .input-field.col.s12.m6.form-selection-space
+-#     = f.label :business_type
+-#     %br
+-#     %br
+-#     = f.input :business_type, collection: Company.company_types
+-#   .input-field.col.s12.m6.url-field
+-#     = f.label :url, "Company Website"
+-#     = f.text_field :url
+-#   .input-field.col.s12.m6
+-#     = f.label :password
+-#     = f.password_field :password
+-#   .input-field.col.s12.m6
+-#     = f.label :password_confirmation
+-#     = f.password_field :password_confirmation
+-#   %span.actions
+-#   %button.btn.custom-btn.waves-effect.waves-light{:name => "action", :type => "submit"}
+-#     %i.material-icons.right lock_open
+-#     Sign Up
+-#
+-#
+-#   :javascript
+-#     $(function($){
+-#       $("#phone").mask("(999) 999-9999");
+-#     });

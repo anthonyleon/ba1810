@@ -1,14 +1,14 @@
-.col-lg-2.add-supplier-partial
-  .col-lg-1.supplier-field
-    .supplierField
-      = label_tag "Company Name"
-      %br/
-    = text_field_tag "invitees[]"
-  .col-lg-1.supplier-field
-    .supplierField
-      = label_tag "Company E-mail"
-      %br/
-    = text_field_tag "invitees[]"
-  %a.remove-supplier{:onclick => "removeSupplier($(this))"}
-    %i.fa.fa-close
-  %br/
+.form-group.add-supplier-partial.mt-10
+  .row.new-supplier-fields
+    %a.remove-supplier{style: "align-self: center;", :onclick => "removeSupplier($(this))"}
+      %i.fa.fa-close
+    .col-sm-4
+      .supplierField
+        = label_tag "Company Name", "Company Name"
+        %br/
+      = text_field_tag "invitees[]", "", class: "form-control"
+    .col-sm-4
+      .supplierField
+        = label_tag "Company E-mail", "Company E-mail"
+        %br/
+      = text_field_tag "invitees[]", "", class: "form-control"

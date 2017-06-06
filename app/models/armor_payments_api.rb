@@ -4,7 +4,7 @@ class ArmorPaymentsApi
     if Rails.env == "development"
       return true
     elsif Rails.env == "production"
-      return false
+      return true
     end
   end
 
@@ -69,11 +69,10 @@ class ArmorPaymentsApi
         "cc_accept" => true
       } ]
     }
-    p transaction.total_amount
-    p "***" * 80
-    p result = CLIENT.orders(transaction.seller.armor_account_id).create(data)
-    p result[:body]["order_id"]
-
+    transaction.total_amount
+    "***" * 80
+    result = CLIENT.orders(transaction.seller.armor_account_id).create(data)
+    transaction.update(order_id: result[:body]["order_id"], status: :pending_payment)
   end
 
   def self.update_order(transaction, opts = {})

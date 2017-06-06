@@ -5,7 +5,7 @@ class InventoryPart < ActiveRecord::Base
   belongs_to :company
   belongs_to :part
   has_many :auctions, through: :part
-  has_one :tx, class_name: "Transaction", foreign_key: "transaction_id"
+  has_one :tx, class_name: "Transaction"
   has_many :bids, dependent: :destroy
   has_many :documents, dependent: :destroy
 
@@ -25,7 +25,10 @@ class InventoryPart < ActiveRecord::Base
     @@condition_abbreviations[condition]
   end
 
-
+  def self.conditions
+    %w(recent overhaul as_removed serviceable non_serviceable scrap)
+  end
+  
   def strip_whitespace
     self.attributes.each do |key, value|
       self[key] = value.squish if value.respond_to?("squish")

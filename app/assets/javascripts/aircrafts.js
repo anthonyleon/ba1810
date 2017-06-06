@@ -8,7 +8,6 @@ $(function() {
     value.val()
     if( value.val() != "true" || value.length == 0 ){
       $('.is_th').remove();
-      console.log("DONE");
     }
   $('#aircraftDTIndex').DataTable();
 

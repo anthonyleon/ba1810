@@ -1,8 +1,29 @@
-.row
-  .col.s12
-    .card
-      .card-content
-        %div.card-title.activator.grey-text.text-darken-4.center-align
-          New Engine Listing
-        %hr/
-        = render 'form'
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-compass4.position-left.text-alert-warning
+        %span.text-semibold.text-alert-warning New Engine Advertisement
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Manage
+        %li
+          = link_to engines_path do
+            Engine Listings
+        %li.active
+          New Engine Advertisement
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h5.panel-title
+            Please complete the form below with your engine specs!
+        .panel-body
+          = render 'form'

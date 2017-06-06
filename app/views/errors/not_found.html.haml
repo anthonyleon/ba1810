@@ -1,0 +1,21 @@
+.page-container
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      / Error title
+      .text-center.content-group
+        %h1.error-title 404
+        %h5 Oops, an error has occurred. Page not found!
+      / /error title
+      / Error content
+      .row
+        .col-sm-4.col-sm-offset-4
+          %button.btn.btn-primary.btn-block.content-group
+            =link_to root_path, class: "text-white" do
+              %i.icon-circle-left2.position-left
+              Go to dashboard
+
+      / /error wrapper
+    / /main content
+  / /page content

@@ -1,202 +1,350 @@
-%link{:href => "https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700", :rel => "stylesheet", :type => "text/css"}
-.row
-	.col.s12
-		.card
-			.card-content
-				%div.card-title.grey-text.text-darken-4.center-align
-					Checkout -
-					= @auction.part_num
-					| SN: 
-					= @bid.inventory_part.serial_num
-					| Condition: 
-					= AssetDecorator.rename(@bid, @bid.inventory_part.condition)
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-history.position-left.text-primary
+				%span.text-semibold.text-primary Pending Purchases
+				\- Transaction Details
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					= link_to dashboard_path do
+						Dashboard
+				%li
+					Buy
+				%li
+					Sent eRFQ's
+				%li
+					-# #{@auction.user_reference_num}
+				%li.active
+					Pending Purchase
+.page-container{:style => "min-height:363px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			/ Toolbar
+			.navbar.navbar-default.navbar-component.navbar-xs
+				%ul.nav.navbar-nav.visible-xs-block
+					%li.full-width.text-center
+						%a{"data-target" => "#navbar-filter", "data-toggle" => "collapse"}
+							%i.icon-menu7
+				#navbar-filter.navbar-collapse.collapse
+					%ul.nav.navbar-nav
+						%li.active
+							%a{"aria-expanded" => "true", "data-toggle" => "tab", :href => "#activity"}
+								%i.icon-menu7.position-left
+								Activity
 
-		%div.checkout-status-bar
-			.checkout-wrap
-				%ul.checkout-bar
-					%li.confirm-address-bubble.visited Confirm Shipping Address
-					%li.generate-po-bubble.visited Generate P.O.
-					-if !@transaction.invoice_num
-						%li.generate-invoice-bubble.active Awaiting Vendor Invoice
-						%li.review-payment-bubble.next Review  Payment
-						%li.track-shipping-bubble.next Track Shipping
-					-else
-						%li.generate-invoice-bubble.visited Review Vendor Invoice
-						%li.review-payment-bubble.active Submit  Payment
-						%li.track-shipping-bubble.next Track Shipping
+			/ /toolbar
+			/ User profile
+			.row
+				.col-lg-9
+					.tabbable
+						.tab-content
+							#activity.tab-pane.fade.active.in
+								/ Timeline
+								.timeline.timeline-right.content-group
+									.timeline-container
+										/ Sales stats
+										.timeline-row
+											.timeline-icon
+												=image_tag 'bidaeroswirl.png'
+											.row
+												.col-lg-6
+													.panel.panel-flat.timeline-content
+														.panel-heading
+															%h6.panel-title
+																Bill To:
+																%a.heading-elements-toggle
+																	%i.icon-more
+															.heading-elements
+																%span.heading-text.text-muted
+																	%i.icon-history.position-left.text-success
+																	Updated last #{@transaction.destination.created_at.to_formatted_s(:long_ordinal)}
+														.panel-body
+															= "#{@auction.company.name}"
+															%br
+															= "#{@auction.company.address}"
+															%br
+															= "#{@auction.company.city}"
+															= ", #{@auction.company.state}"
+															= "#{@auction.company.country}"
+												.col-lg-6
+													.panel.panel-flat.timeline-content
+														.panel-heading
+															%h6.panel-title
+																Ship To:
+																%a.heading-elements-toggle
+																	%i.icon-more
+															.heading-elements
+																%span.heading-text.text-muted
+																	%i.icon-history.position-left.text-success
+																	Updated #{@transaction.destination.created_at.to_formatted_s(:long_ordinal)}
+														.panel-body
+															= "ATTN:" " " "#{@transaction.destination.title}"
+															%br
+															= "#{@transaction.destination.address}"
+															%br
+															= "#{@transaction.destination.city}"
+															= ", #{@transaction.destination.state}"
+															= "#{@transaction.destination.country}"
+											.row
+												.col-md-12
+													.alert.alert-warning.alert-styled-right.alpha-orange
+														%span.text-semibold.text-warning Required Delivery Date:
+														%span.text-warning
+															= "#{@transaction.required_date}"
+										/ Invoices
+										.timeline-row
+											.timeline-icon
+												=image_tag 'bidaeroswirl.png'
+											.row
+												.col-lg-12.pull-right
+													.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
+														.panel-body
+															.row
+																.col-sm-6
+																	%h6.text-semibold.no-margin-top #{@transaction.buyer.name}
+																	%ul.list.list-unstyled
+																		%li Purchase Order #: #{@transaction.po_num}
+																		%li
+																			Issued on:
+																			%span.text-semibold #{@transaction.po_num}
+																.col-sm-6
+																	%h6.text-semibold.text-right.no-margin-top #{number_to_currency @transaction.bid.part_price}
+																	%ul.list.list-unstyled.text-right
+																		%li
+																			=link_to transaction_po_path(@transaction, :format => :pdf) do
+																				%span.text-semibold Click to Download
+								-unless @transaction.pending_invoice?
+									.timeline.timeline-left
+										.timeline-container
+											/ Blog post
+											.timeline-row
+												.timeline-icon
+													=image_tag 'bidaeroswirl.png'
+												.row
+													.col-lg-12
+														.panel.border-right-lg.border-right-success.invoice-grid.timeline-content
+															.panel-body
+																.row
+																	.col-sm-6
+																		%h6.text-semibold.no-margin-top #{@transaction.seller.name}
+																		%ul.list.list-unstyled
+																			%li Invoice #: #{@transaction.invoice_num}
+																			%li
+																				Issued on:
+																				%span.text-semibold #{@transaction.invoice_num}
+																	.col-sm-6
+																		%h6.text-semibold.text-right.no-margin-top #{number_to_currency @transaction.total_amount}
+																		%ul.list.list-unstyled.text-right
+																			%li
+																				=link_to transaction_invoice_path(@transaction, :format => :pdf) do
+																					%span.text-semibold Click to Download
+												.row
+													.col-md-6.col-md-offset-3
+														.panel.invoice-grid.timeline-content
+															.panel-body
+																%h5.text-center.text-semibold
+																	Order Payout Breakdown:
+																.table-responsive
+																	%table.table
+																		%thead
+																		%tbody
+																			%tr
+																				%td.text-semibold Unit Price:
+																				%td.text-right #{number_to_currency(@transaction.part_price)}
+																			%tr
+																				%td.text-semibold Shipping (if applicable):
+																				%td.text-right #{number_to_currency(@transaction.final_shipping_cost)}
+																			%tr
+																				%td.text-semibold Tax:
+																				%td.text-right #{number_to_currency(@transaction.tax)}
+																			%tr
+																				%td.text-semibold Service Fee:
+																				%td.text-right #{number_to_currency(@transaction.total_fee)}
+																			%tr.active
+																				%td.text-semibold.text-success Grand Total:
+																				%td.text-right.text-semibold.text-success #{number_to_currency(@transaction.total_amount)}
+									-if @transaction.pending_payment?
+										.timeline.timeline-right
+											.timeline-container
+												/ Blog post
+												.timeline-row
+													.timeline-icon
+														=image_tag 'bidaeroswirl.png'
+													.row
+														-# if at payment_url
+														.col-lg-12
+															.panel.invoice-grid.timeline-content
+																.panel-heading
+																	%h6.panel-title
+																		Submit Payment
+																.panel-body
+																	.row
+																		.col-md-12.text-center
+																			Vendor has invoiced and is awaiting payment to commence shipping, please click below for payment instructions.
+																	.row
+																		%br
+																		.col-md-12.text-center
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%button.paymentInstructionsFrame-lightbox-preview.btn.btn-primary.text-center{"data-url" => "#{@payment_url}"}
+																				Submit Payment
+									-if @transaction.quantify_status > Transaction.statuses[:pending_payment]
+										.timeline.timeline-right
+											.timeline-container
+												/ Blog post
+												.timeline-row
+													.timeline-icon
+														=image_tag 'bidaeroswirl.png'
+													.row
+														.col-lg-12
+															.panel.border-right-lg.border-right-primary.timeline-content
+																.panel-heading
+																	%h6.panel-title Order Status
+																	.heading-elements
+																		%span.heading-text.text-muted
+																			%i.icon-history.position-left.text-success
+																			Last updated  #{@transaction.updated_at.to_formatted_s(:long_ordinal)}
+																.panel-body
+																	.row
+																		.col-md-7.text-left
+																			%p.mb-5.text-muted Your order's status will update as #{@transaction.seller.name} proceeds with shipment.  When your part has been delivered you will have 3 days to approve or dispute your purchase.
+																			%p.text-muted Need to contact #{@transaction.seller.name}? Find the sales reps contact above in Seller Contact Information!
+																			-# %p.mb-15.text-muted Your order's status will update as #{@transaction.seller.name} proceeds with shipment.
+																		.col-md-4.col-md-offset-1
+																			-if @transaction.pending_shipment?
+																				.mt-5
+																					%label.text-semibold Status:
+																					%span.pull-right-sm.label.label-warning
+																						Awaiting Shipment
+																			-elsif @transaction.in_transit?
+																				.mt-5
+																					%label.text-semibold Status:
+																					%span.pull-right-sm.label.label-info
+																						In Transit
+																			-elsif @transaction.quantify_status >= Transaction.statuses[:delivered]
+																				.mt-5
+																					%label.text-semibold Status:
+																					%span.pull-right-sm.label.label-success
+																						Delivered
+																			.mt-5
+																				%label.text-semibold Tracking Number:
+																				%span.pull-right-sm
+																					#{@transaction.tracking_num}
+																			.mt-5
+																				%label.text-semibold Carrier:
+																				%span.pull-right-sm
+																					#{@transaction.carrier}
 
-		%ul
-			%li.card.checkout.destination-address.hoverable
-				.card-content.step1-2
-					%h6.left-align.collapsible-header
-						Step 1 & 2: Shipping Confirmation and P.O Generated
-					%br/
-					.row
-						%span.card-title.col.s6
-							%h5.center-align
-								Shipping To:
-							%h6.auction-full-address.center-align
-								%div
-									= @auction.destination_company
-								%div
-									= @auction.full_address
-							%h6.required_date.center-align
-								= "Required Date: "
-								= @auction.required_date
-								%br/
-								%br/
-								%br/
-								-if @auction.resale_status
-									%h6.required_date.center-align
-										= "A copy of #{@transaction.buyer.name}'s Resale Certificate was provided to the Vendor."
-						%h6.required_date.center-align
-							%div
-								To Download and View custom P.O. please click below.
-							%br/
-							%br/
-							=link_to (image_tag "BidaeroPO.jpg",  :class => "bidaeropo"), transaction_po_path(@transaction, :format => :pdf)
-							
-		-if @transaction.invoice_num
-			= render 'transactions/partials/buyer3'
-			= render 'transactions/partials/buyer4'
-		-else
-			= render 'transactions/partials/buyer3blur'
-			= render 'transactions/partials/buyer4blur'
 
+																.panel-footer.panel-footer-condensed{class: "#{@transaction.completed? ? "bg-success" : ""}"}
+																	%a.heading-elements-toggle
+																		%i.icon-more
+																	-if @transaction.disputed?
+																		.heading-elements.mt-5.mb-5.mr-5.ml-5
+																		.col-md-12
+																			%span.text-center
+																				You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
+																		%br
+																		%div.center
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs{"data-url" => "#{@dispute_settlement_url}"}
+																				Create Settlement Offer
+																	-elsif @transaction.completed?
+																		.row.text-center
+																			%i.icon-checkmark
+																			Complete!
 
-		-if @transaction.delivered
-			= render 'transactions/partials/buyer5'
-		-else
-			= render 'transactions/partials/buyer5blur'
-/ -if @transaction.delivered
-/ 	%li.card.checkout.destination-address.hoverable
-/ 		.card-content.checkout.step4-1
-/ 			%h6.left-align.collapsible-header
-/ 				Step 5: Tracking Details & Release of Funds
-/ 			.row
-/ 				%span.card-title.col.s12
-/ 					%h6.required_date.center-align Carrier has confirmed delivery
-/ 					%h6.required_date.center-align You have 3 days to approve or file a dispute on the order
-/ 					-if @release_payment_url
-/ 						%span.right
-/ 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 							%a.paymentInstructionsFrame-lightbox-preview.release-payment-btn{"data-url" => "#{@release_payment_url}"}
-/ 								/ # =image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
-/ 								Release Funds
-/ 						%span.left
-/ 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 							%a.paymentInstructionsFrame-lightbox-preview.initiate-dispute-btn{"data-url" => "#{@dispute_transaction_url}"}
-/ 								%i.material-icons.initiate-dispute-icon
-/ 									error_outline
-/ 								Initiate Dispute
-/ 					-elsif @transaction.disputed && !@transaction.dispute_settlement
-/ 						%br
-/ 						%div.center{style: "text-align: center; width: 427px; margin: auto;"}
-/ 							You have disputed this transaction. Please resolve the issue within three business days or it will be eleveated to the Arbitration phase (to be handled by NetNeutrals).
-/ 						%br
-/ 						%div.center
-/ 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@dispute_settlement_url}"}
-/ 								Create Settlement Offer
-/ 					-elsif @transaction.dispute_settlement
-/ 						%br
-/ 						%div.center{style: "text-align: center; margin: auto;"}
-/ 							A settlement offer has been made, please review.
-/ 							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 							%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@settlement_offer_url}"}
-/ 								Review Settlement Offer
-/ -else
-/ 	%li.card.checkout.destination-address.hoverable.blurred
-/ 		.card-content.checkout.step4-1
-/ 			%h6.left-align.collapsible-header
-/ 				Step 5: Tracking Details & Release of Funds
-/ 			.row
-/ 				%span.card-title.col.s12
-/ 					%h6.required_date.center-align Carrier has confirmed delivery
-/ 					%h6.required_date.center-align You have 3 days to approve or file a dispute on the order
-/ 					-if @release_payment_url
-/ 						%div.center-align
-/ 						%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
-/ 						%a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
-/ 							=image_tag "releasefundsbutton.jpg",  :class => "paymentbutton"
--# .row
--# 	.col.s12
--# 		.card.buyer_purchase
--# 			.card-content
--# 			%h3.custom-card-title.center
--# 				="Auction for #{@auction.part_num}"
--# 				%br
--# 				="#{@auction.auction_part.description}"
--# 			-if !@transaction.invoice_num
--# 				%div.center
--# 					/ make this an alert
--# 					%h5 Purchase Order generated.
--# 				%div.status
--# 					%span.tag.tag-pending-seller-confirmation Status: Pending Seller Confirmation
--# 				%div.center
--# 					Pending seller confirmation of tax and shipping info.
--# 					%br
--# 					The next step will require you to send funds into escrow once the Invoice is generated.
--# 			-elsif @transaction.invoice_num && !@transaction.paid
--# 				%div.status
--# 					%span.tag.tag-pending-funds-in-escrow Status: Awaiting Funds to Be Sent to Escrow
--# 				%div.center
--# 					Please send funds to escrow.
--# 			-elsif @transaction.paid && !@transaction.shipped
--# 				%div.status
--# 					%span.tag.tag-shipping-info Status: Pending Shipment
--# 				%div.center
--# 					Waiting for shipment information to be received.
--# 			-elsif @transaction.shipped && !@transaction.delivered
--# 				%div.status
--# 					%span.tag.tag-part-shipped Status: Part en Route
--# 				%div.center
--# 					Part is on the way, once part is accepted please release funds from escrow to seller.
--# 			-elsif @transaction.delivered && !@transaction.complete
--# 				%div.status
--# 					%span.tag.tag-part-delivered Status: Delivered
--# 				%div.center
--# 					Please Approve or Dispute the transaction.
--# 			-elsif @transaction.complete
--# 				%div.status
--# 					%span.tag.tag-complete Status: Complete
--# 				%div.center
--# 					Transaction has successfully been completed.
--# 			-elsif @transaction.disputed
--# 				%div.status
--# 					%span.tag.tag-disputed Status: Disputed
--# 				%div.center
--# 					Transaction has been disputed
--#
--# 			%hr
--# 			%div.part-info
--# 				%div
--# 					%strong Part Price:
--# 					= number_to_currency(@transaction.part_price)
--# 				%div
--# 					%strong Shipping Cost:
--# 					-if @transaction.shipping_account
--# 						= "Shipping is being placed on your account. Account ##{@transaction.shipping_account}"
--# 					-elsif @transaction.final_shipping_cost
--# 						= number_to_currency(@transaction.final_shipping_cost)
--# 					-else
--# 						= number_to_currency(@transaction.bid.est_shipping_cost)
--# 						%i
--# 							= "est"
--# 				%div
--# 					%strong Tax:
--# 					= @transaction.tax ? number_to_currency(@transaction.tax) : "TBD"
--# 				%div
--# 					%strong Service Fee:
--# 					= number_to_currency(@transaction.total_fee)
--# 				%div{style: "width: 50%; margin: 0 auto;"}
--# 					%strong Total:
--# 					= number_to_currency(@transaction.total_amount)
--# 			-if @payment_url || @release_payment_url
--# 				%p
--# 				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
--# 				%a#paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@payment_url || @release_payment_url}"}
--# 					-if @payment_url
--# 						="Click Here to Send Funds to Escrow"
--# 					-elsif @release_payment_url
--# 						="Release Payment From Escrow"
+																	-elsif @transaction.delivered?
+																		.heading-elements.mt-5.mb-5.mr-5.ml-5
+																			.col-md-2.col-md-offset-2
+																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																				%a.paymentInstructionsFrame-lightbox-preview.btn.bg-success.btn-xs{"data-url" => "#{@release_payment_url}"}
+																					Release Payment
+																			.col-md-2.col-md-offset-4
+																				%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																				%a.paymentInstructionsFrame-lightbox-preview.btn.bg-danger.btn-xs{"data-url" => "#{@dispute_transaction_url}"}
+																					Dispute Transaction
+																	-elsif @transaction.dispute_settlement
+																		.heading-elements.mt-5.mb-5.mr-5.ml-5.disabled
+																		%span.text-center
+																			A settlement offer has been made, please review.
+																			%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+																			%a.paymentInstructionsFrame-lightbox-preview.btn.bg-warning.btn-xs{"data-url" => "#{@settlement_offer_url}"}
+																				Review Settlement Offer
+
+				.col-lg-3
+					/ Buyer/Seller Contact info
+					.panel.panel-white
+						.panel-heading
+							%h6.panel-title
+								Seller contact information
+								%a.heading-elements-toggle
+									%i.icon-more
+							.heading-elements
+								%ul.icons-list
+									%li
+										%a{"data-action" => "collapse"}
+						.panel-body
+							.thumb.thumb-rounded.thumb-slide.thumb-transaction
+								= image_tag("bidaeroswirl.png", class: "navbar-brand-signup")
+						.panel-body
+							.mt-5
+								%label.text-semibold Company:
+								%span.pull-right-sm #{@transaction.seller.name}
+							.mt-5
+								%label.text-semibold Representative:
+								%span.pull-right-sm #{@transaction.seller.representative}
+							.mt-5
+								%label.text-semibold Phone number:
+								%span.pull-right-sm #{@transaction.seller.phone}
+							.mt-5
+								%label.text-semibold Email:
+								%span.pull-right-sm #{@transaction.seller.email}
+					/ Order Details
+					.panel.panel-white
+						.panel-heading
+							%h6.panel-title
+								Part Details
+								%a.heading-elements-toggle
+									%i.icon-more
+							.heading-elements
+								%ul.icons-list
+									%li
+										%a{"data-action" => "collapse"}
+						.panel-body
+							.mt-5
+								%label.text-semibold Part Number:
+								%span.pull-right-sm #{@auction.part_num}
+							.mt-5
+								%label.text-semibold Serial Number:
+								%span.pull-right-sm #{@transaction.bid.inventory_part.serial_num}
+							.mt-5
+								%label.text-semibold Condition:
+								%span.pull-right-sm #{AssetDecorator.rename(@bid, @bid.inventory_part.condition)}
+							%tr
+							.mt-5
+								%label.text-semibold Tag Date:
+								%span.pull-right-sm #{@transaction.bid.tag_date}
+							.mt-5
+								%table.table.table-hover
+									%thead
+										%tr
+											%th.text-center Available Documentation
+									%tbody
+										- @transaction.bid.documents.each do |document|
+											%tr
+												%td= link_to document.name, document.attachment_url
+					/ /Order Details
+					/ Share your thoughts
+					.panel.panel-body
+						.media.no-margin.stack-media-on-mobile
+							.media-left.media-middle
+								%i.icon-lifebuoy.icon-3x.text-muted.no-edge-top
+							.media-body
+								%h6.media-heading.text-semibold Got a question or request?
+								%span.text-muted Contact us directly at Support@bid.aero
+			/ /user profile
+		/ /main content
+	/ /page content

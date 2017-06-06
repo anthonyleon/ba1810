@@ -1,35 +1,59 @@
-.card
-  .card-content
-    .card-title.center-align
-      %h5.custom-card-title.center Purchases
-    %hr/
-    %table#purchaseDT.table.striped.responsive-table.bordered
-      %thead
-        %tr
-          %th Order #
-          %th Part Number
-          %th Description
-          %th Serial Number
-          %th Condition
-          %th Price Paid
-          %th PO
-          %th Invoice
-      %tbody
-        - @purchases.each do |transaction|
-          %tr
-            -if transaction.order_id
-              %td.srchtbl= link_to transaction.order_id, buyer_purchase_path(transaction)
-            -else
-              %td.srchtbl= link_to "N/A", transaction.bid
-            %td.srchtbl= transaction.bid.inventory_part.part_num
-            %td.srchtbl= transaction.bid.inventory_part.description
-            %td.srchtbl= transaction.bid.inventory_part.serial_num
-            %td.srchtbl= AssetDecorator.rename(transaction.bid, transaction.bid.inventory_part.condition)
-            %td.srchtbl= number_to_currency transaction.total_amount
-            -if transaction.order_id
-              %td.srchtbl= link_to transaction.po_num || "N/A", transaction_po_path(transaction, :format => :pdf) 
-              %td.srchtbl= link_to transaction.invoice_num || "N/A", transaction_invoice_path(transaction, :format => :pdf)
-            -else
-              %td.srchtbl= "N/A"
-              %td.srchtbl= "N/A"
-
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-price-tags.position-left.text-primary
+        %span.text-semibold.text-primary Purchase History
+        \- Review previous transactions
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          =link_to dashboard_path do
+            Dashboard
+        %li
+          Buy
+        %li.active
+          Purchase History
+      .heading-elements
+        -# = link_to @auction do
+          .btn-group.heading-btn
+            %button.btn.btn-primary Return to eRFQ
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h5.panel-title
+            Purchase History
+        .datatable-scroll
+          %table#purchasesDT.table.datatable-basic.dataTable.no-footer
+            %thead
+              %tr{:role => "row"}
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Order Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Order Number
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Description
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Serial Number: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Serial Number
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Condition: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Condition
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Price Paid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Price Paid
+                %th.text-center.sorting_disabled{"aria-controls" => "DataTables_Table_0", "aria-label" => "PO: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} PO
+                %th.text-center.sorting_disabled{"aria-controls" => "DataTables_Table_0", "aria-label"=> "Invoice: activate to sort column ascending", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Invoice
+            %tbody
+              - @purchases.each do |transaction|
+                %tr.odd{:role => "row"}
+                  -if transaction.order_id
+                    %td= link_to transaction.order_id, buyer_purchase_path(transaction)
+                  -else
+                    %td= link_to "N/A", transaction.bid
+                  %td= transaction.bid.inventory_part.part_num
+                  %td= transaction.bid.inventory_part.description
+                  %td= transaction.bid.inventory_part.serial_num
+                  %td= AssetDecorator.rename(transaction.bid, transaction.bid.inventory_part.condition)
+                  %td= number_to_currency transaction.total_amount
+                  -if transaction.order_id
+                    %td= link_to transaction.po_num || "N/A", transaction_po_path(transaction, :format => :pdf)
+                    %td= link_to transaction.invoice_num || "N/A", transaction_invoice_path(transaction, :format => :pdf)
+                  -else
+                    %td= "N/A"
+                    %td= "N/A"

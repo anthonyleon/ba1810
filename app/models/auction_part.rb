@@ -11,7 +11,6 @@ class AuctionPart < ActiveRecord::Base
   def self.make(part, auction)
 	  create(
 	            part_num: 			part[:part_num], # this should be delegated to self.part
-	            init_price: 		part[:manufacturer_price],
 	            description: 		part[:description],
 	            manufacturer: 		part[:manufacturer],
 	            auction:   			auction,

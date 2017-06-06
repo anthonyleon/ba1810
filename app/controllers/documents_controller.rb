@@ -24,7 +24,7 @@ class DocumentsController < ApplicationController
     not_saved = []
     if attachments
       if attachments.count > 1
-        attachments.each do |doc| 
+        attachments.each do |doc|
           @document = Document.check_object(@bid, @inventory_part, @engine, @aircraft, @company_doc, doc)
           not_saved << doc.original_filename unless @document.save
         end
@@ -45,11 +45,15 @@ class DocumentsController < ApplicationController
   def destroy
     @document = Document.find(params[:id])
     @inventory_part = @document.inventory_part
-    @engine = @document.engine 
+    @engine = @document.engine
     @aircraft = @document.aircraft
     @company_doc = @document.company_doc
     @document.destroy
     redirect_to @inventory_part || @engine || @aircraft || documents_path, notice:  "The document #{@document.name} has been deleted."
+    respond_to do |format|
+      format.html { redirect_to current_user, notice: 'Document was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private
@@ -66,7 +70,7 @@ class DocumentsController < ApplicationController
     @engine = Engine.find(params[:engine_id]) unless params[:engine_id] == nil
   end
 
-  def set_aircraft 
+  def set_aircraft
     @aircraft = Aircraft.find(params[:aircraft_id]) unless params[:aircraft_id] == nil
   end
 

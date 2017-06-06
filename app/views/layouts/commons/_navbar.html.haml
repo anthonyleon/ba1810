@@ -1,141 +1,117 @@
-%header
-  %nav
-    .nav-wrapper.top-nav
-      %a.button-collapse{"data-activates" => "mobile-demo", :href => "#"}
-        %i.material-icons menu
-      %ul#nav-buttons.right.hide-on-med-and-down
-        - notification = Notification.any_unread?(current_user)
-        %li
-          = link_to dashboard_path, style: 'display: flex;',  class: "top-nav-icons" do
-            %i.material-icons{style: 'font-size: 24px'}
-              dashboard     
-        - if Notification.any_unread?(current_user)
-          %li{style: 'height: 64px;display: flex;align-items:center;'}
-            = link_to notifications_index_path, style: 'display: flex;', class: 'bell top-nav-icons' do
-              %span.material-icons{class: "red-bell"}
-                notifications_active
-        -else
-          %li{style: 'height: 64px;display: flex;align-items:center;'}
-            = link_to notifications_index_path, style: 'display: flex;', class: "bell top-nav-icons" do
-              %span.material-icons
-                notifications
-        -if current_user.armor_user_id?
-          %li
-            = link_to edit_company_path, style: 'display: flex;', class: "top-nav-icons" do
-              %i.fa.fa-cog{style: 'font-size: 20px;'}
-        %li
-          = link_to "Log out", logout_path, style: 'display: flex;', class: "top-nav-icons"
-      %span.company-logo
-        %a{:href => dashboard_path}
-          = image_tag("/images/bid_aero_logo.png")
-      %span#button.right.hide-on-med-and-down{style: "margin-right: 15px;"}
-        %a.dropdown-button.btn.custom-btn{"data-activates" => "nav-dropdown", "data-beloworigin" => "true", :href => "javascript:void(0)"}
-          New
-          %i.material-icons.my-custom-m-icons.arrow-dropdown arrow_drop_down
-        / Dropdown Structure
-        %ul#nav-dropdown.dropdown-content
-          %li
-            = link_to 'eRFQ', new_auction_path
-          %li
-            = link_to 'Engine Listing', new_engine_path
-          %li
-            = link_to 'Aircraft Listing', new_aircraft_path
-    %ul#mobile-demo.side-nav.fixed
-      / %li{style: "padding-top: 65px;"}
-      /   = link_to dashboard_path do
-      /     %i.material-icons.left
-      /       home
-      /     Dashboard
-      %li#buy-sell-section{style: "padding-top: 65px;"}
-        BUY
-      %li
-        = link_to auctions_path do
-          %i.fa.fa-gavel
-          My RFQs
-      / %li
-      /   = link_to projects_path do
-      /     %i.fa.fa-folder-o
-      /     Projects
-      %li
-        = link_to pending_purchases_path do
-          %i.fa.fa-clock-o
-          Pending Purchases
-      %li
-        = link_to purchases_path do
-          %i.fa.fa-cart-plus
-          Purchase History
-      %li#buy-sell-section
-        SELL
-      %li
-        = link_to bids_path do
-          %i.fa.fa-tag
-          My Quotes
-      %li
-        = link_to current_opportunities_path do
-          %i.fa.fa-usd
-          Sales Opportunities
-      %li
-        = link_to auction_invites_path do
-          %i.fa.fa-envelope-o
-          RFQ Invites
-      %li
-        = link_to pending_sales_path do
-          %i.fa.fa-clock-o
-          Pending Sales
-      %li
-        = link_to sales_path do
-          %i.fa.fa-line-chart
-          Sales History
-      %li#buy-sell-section
-        MANAGE
-      -unless current_user.payout_selected?
-        %li
-          = link_to select_payout_preference_path do
-            %i.fa.fa-university
-            Setup Escrow
-      -if current_user.system_admin?
-        %li
-          = link_to super_index_path do
-            %i.fa.fa-cogs
-            Locate Inventory
-        %li
-          = link_to matched_auctions_path do
-            %i.fa.fa-cogs
-            matchedAuctions
-        %li
-          = link_to unmatched_auctions_path do
-            %i.fa.fa-cogs
-            unmatchedAuc
-        %li
-          = link_to all_auctions_path do
-            %i.fa.fa-cogs
-            Active Auctions
-      -else
-        %li
-          = link_to inventory_parts_path do
-            %i.fa.fa-cogs
-            Inventory
-      %li
-        = link_to aircrafts_path do
-          %i.fa.fa-plane
-          Aircraft Listings
-      %li
-        = link_to engines_path do
-          %i.fa.fa-circle
-          Engine Listings
+.navbar.navbar-inverse
+	.navbar-header
+		%a.navbar-brand{:href => dashboard_path}
+			= image_tag("/images/bid_aero_logo.png")
+		%ul.nav.navbar-nav.pull-right.visible-xs-block
+			%li
+				%a{"data-target" => "#navbar-mobile", "data-toggle" => "collapse"}
+					%i.icon-tree5
+	#navbar-mobile.navbar-collapse.collapse
+		%ul.nav.navbar-nav.navbar-right.top-navbar-right
+			%li
+				.heading-elements
+					%button.btn.btn-labeled.btn-labeled-right.bg-primary.heading-btn.dropdown-toggle{"data-toggle" => "dropdown"}
+						New
+						%b
+							%i.caret.navbar-icon
+					%ul.dropdown-menu.dropdown-menu-right
+						%li
+							= link_to "New Request for Quotaion - eRFQ", new_auction_path
+			%li
+				=link_to dashboard_path do
+					%i.glyphicon.glyphicon-th-large.navbar-icon
+			%li.navbar-icon
+				=link_to notifications_index_path do
+					%i.glyphicon.glyphicon-bell.navbar-icon{class: "#{Notification.any_unread?(current_user) ? 'animated swing text-warning' : ''}"}
+			%li.dropdown.dropdown-user
+				%a.dropdown-toggle{"data-toggle" => "dropdown"}
+					%span
+						= current_user.representative
+					%i.caret.navbar-icon
+				%ul.dropdown-menu.dropdown-menu-right
+					%li
+						= link_to edit_company_path do
+							%i.icon-cog5
+							Account settings
+					%li
+						= link_to logout_path do
+							%i.icon-switch2
+							Logout
+/ /main navbar
+/ Second navbar
+#navbar-second.navbar.navbar-default
+	%ul.nav.navbar-nav.no-border.visible-xs-block
+		%li
+			%a.text-center.collapsed{"data-target" => "#navbar-second-toggle", "data-toggle" => "collapse"}
+				%i.icon-menu7
+	#navbar-second-toggle.navbar-collapse.collapse
+		%ul.nav.navbar-nav
+			%li.dropdown.text-size-large.text-semibold
+				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+					BUY
+					%span.caret
+				%ul.dropdown-menu
+					%li
+						=link_to auctions_path do
+							%i.glyphicon.glyphicon-list-alt
+							Sent eRFQ's
+					%li.dropdown-header My Orders
+					%li
+						=link_to pending_purchases_path do
+							%i.icon-history
+							Pending Purchases
+					%li
+						=link_to purchases_path do
+							%i.icon-price-tags
+							Purchase History
+			%li.dropdown.text-size-large.text-semibold
+				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+					SELL
+					%span.caret
+				%ul.dropdown-menu
+					%li
+						=link_to bids_path do
+							%i.icon-stack3
+							My Quotes
+					%li.dropdown-header Parts Wanted
+					%li
+						=link_to current_opportunities_path do
+							%i.icon-megaphone
+							Broadcast
+					%li
+						=link_to auction_invites_path do
+							%i.icon-envelop
+							Received eRFQ's
+					%li.dropdown-header My Sales
+					%li
+						=link_to pending_sales_path do
+							%i.icon-history
+							Pending Sales
+					%li
+						=link_to sales_path do
+							%i.icon-chart
+							Sales History
+			%li.dropdown.text-size-large.text-semibold
+				%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+					MANAGE
+					%span.caret
+				%ul.dropdown-menu
+					%li
+						= link_to inventory_parts_path do
+							%i.icon-cogs
+							Inventory
+					/ %li.dropdown-header Advertisements
+					/ %li
+					/ 	= link_to aircrafts_path do
+					/ 		%i.icon-airplane2
+					/ 		Aircraft Listings
+					/ 	= link_to engines_path do
+					/ 		%i.icon-compass4
+					/ 		Engine Listings
+					-unless current_user.payout_selected?
+						%li.dropdown-header Services
+						%li
+							= link_to select_payout_preference_path do
+								%i.icon-cash
+								Setup Payoneer Escrow
 
-      / %li
-      /   = link_to edit_company_path do
-      /     %i.fa.fa-cog
-      /     Settings
-      / %li
-      /   = link_to logout_path do
-      /     %i.material-icons.left
-      /       power_settings_new
-      /     Log out
-
-
-  :javascript
-    $(document).ready(function(){
-      $('.dropdown-button').dropdown();
-    });
