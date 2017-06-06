@@ -19,7 +19,8 @@ class AuctionsController < ApplicationController
 	end
 
 	def auction_invites
-		@auctions = Auction.where('invitees @> ?', {current_user.name.downcase => current_user.email.downcase}.to_json).decorate
+		@auctions = Auction.where("invitees::text LIKE '%#{current_user.name.downcase}%' 
+									OR invitees::text LIKE '%#{urrent_user.email.downcase}%'").decorate
 	end
 
 	def new
