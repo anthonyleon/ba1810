@@ -101,7 +101,7 @@ class Auction < ActiveRecord::Base
       co = Company.find_by(email: v) || Company.find_by(name: k)
       if co
         co.update_attribute('confirm_token', secret) if co.confirm_token == nil
-        CompanyMailer.invite_existing_user_to_bid(co, v, self).delilver_now #deliver_later(wait_until: 1.minute.from_now)
+        CompanyMailer.invite_existing_user_to_bid(co, v, self).deliver_later(wait_until: 10.seconds.from_now)
       else
         
         co = Company.create(name: k.split.map(&:capitalize).join(' '), email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
