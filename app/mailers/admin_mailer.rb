@@ -36,7 +36,7 @@ class AdminMailer < ApplicationMailer
     @email = email
     @message = message
 
-    mail to: 'support@bid.aero', subject: "#{subject} => MRO ORLANDO 2017"
+    mail to: 'support@bid.aero', subject: "Bid Aero 2.0"
     
   end
 
