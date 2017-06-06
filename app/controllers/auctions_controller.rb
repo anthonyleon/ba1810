@@ -20,7 +20,6 @@ class AuctionsController < ApplicationController
 
 	def auction_invites
 		@auctions = Auction.where('invitees @> ?', {current_user.name.downcase => current_user.email.downcase}.to_json).decorate
-		raise
 	end
 
 	def new
