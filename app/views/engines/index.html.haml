@@ -27,9 +27,11 @@
         .panel-heading
           %h4.panel-title.center
             My Engine Advertisements
-          %h6.panel-title.center
-            = link_to engine_listings_path do
-              %a Looking for an Engine to lease or buy? Review what the market has to offer here!
+          %h6.center
+            As a bonus to our users we allow you to advertise any engine on our home page completely free of charge! Below are all of the engines you currently have listed on Bid Aero, you can edit or delete them by using the action dropdown to the right of each row.
+          %h6
+            OR View what's available on our 
+            = link_to "Engine Listing Page", engine_listings_path
         .datatable-scroll
           %table.table#aircraftDT
             %thead
@@ -65,7 +67,7 @@
                     %ul.icons-list
                       %li.dropdown
                         %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                          %i.icon-menu9
+                          %i.icon-menu9.text-primary
                         %ul.dropdown-menu.dropdown-menu-right
                           %li
                             = link_to edit_engine_path(engine) do

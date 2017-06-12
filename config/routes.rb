@@ -134,7 +134,7 @@ end
 		collection { post :import }
 	end
 
-	get 'companies/confirm_email', to: 'companies#confirm_email', as: 'confirm_email'
+	get 'companies/confirm_email/:confirm_token', to: 'companies#confirm_email', as: 'confirm_email'
 
 	resources :company_docs
 

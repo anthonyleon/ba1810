@@ -16,41 +16,61 @@
 						%i.icon-compass4.position-left
 						Engine Details
 					.form-group
-						%label.col-lg-3.control-label Engine Major Variant:
-						.col-lg-9
+						%label.col-sm-3.control-label Engine Major Variant:
+						.col-sm-9
 							= f.text_field :engine_major_variant, :placeholder => "CFM56, PW4000 ", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Engine Minor Variant:
-						.col-lg-9
+						%label.col-sm-3.control-label Engine Minor Variant:
+						.col-sm-9
 							= f.text_field :engine_minor_variant, :placeholder => "3C1, 112", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label ESN:
-						.col-lg-9
+						%label.col-sm-3.control-label ESN:
+						.col-sm-9
 							= f.text_field :esn, :placeholder => "831084", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Disk Limiter:
-						.col-lg-9
+						%label.col-sm-3.control-label Disk Limiter:
+						.col-sm-9
 							= f.text_field :cycles_remaining, :placeholder => "6700 CR @ 3C1", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Condition:
-						.col-lg-9
-							= f.select :condition, Engine.conditions.to_a.map { |c| [c[0].humanize, c[0]] }, class: "form-control"
+						%label.col-sm-3.control-label Condition:
+						.col-sm-9
+							.inv-radio-btns{style: "display: flex; justify-content: space-around"}
+								.right-radios
+									.radio
+										= f.radio_button :condition, "recent"
+										= f.label :condition, "New"
+									.radio
+										= f.radio_button :condition, "overhaul"
+										= f.label :condition, "Overhaul"
+									.radio
+										= f.radio_button :condition, "as_removed"
+										= f.label :condition, "As Removed"
+								.left-radios
+									.radio
+										= f.radio_button :condition, "serviceable"
+										= f.label :condition, "Serviceable"
+									.radio
+										= f.radio_button :condition, "non_serviceable"
+										= f.label :condition, "Non-Serviceable"
+									.radio
+										= f.radio_button :condition, "scrap"
+										= f.label :condition, "Scrap"
 			.col-md-6
 				%fieldset
 					%legend.text-semibold
 						%i.icon-history.position-left
 						Engine History
 					.form-group
-						%label.col-lg-3.control-label Current Operator:
-						.col-lg-9
+						%label.col-sm-3.control-label Current Operator:
+						.col-sm-9
 							= f.text_field :current_operator, :placeholder => "Magni-Charters", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Last Operator:
-						.col-lg-9
+						%label.col-sm-3.control-label Last Operator:
+						.col-sm-9
 							= f.text_field :last_operator, :placeholder => "Southwest", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Stored Location
-						.col-lg-9
+						%label.col-sm-3.control-label Stored Location
+						.col-sm-9
 							= f.text_field :location, :placeholder => "Arizona", class: "form-control"
 		.row
 			.col-md-6
@@ -59,16 +79,21 @@
 						%i.icon-check.position-left
 						Asset Status
 					.form-group
-						%label.col-lg-3.control-label Engine Status:
-						.col-lg-9
-							= f.select :service_status, Engine.service_statuses.to_a.map { |s| [s[0].humanize, s[0]] }
+						%label.col-sm-3.control-label Engine Status:
+						.col-sm-9
+							.radio
+								= f.radio_button :service_status, "in_service"
+								= f.label :service_status, "In Service"
+							.radio
+								= f.radio_button :service_status, "off_service"
+								= f.label :service_status, "Off Service"
 					.form-group
-						%label.col-lg-3.control-label Available Date:
-						.col-lg-9
+						%label.col-sm-3.control-label Available Date:
+						.col-sm-9
 							= f.text_field :available_date, :placeholder => "DD/MM/YY", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Available For:
-						.col-lg-9
+						%label.col-sm-3.control-label Available For:
+						.col-sm-9
 							= f.check_box :sale
 							= f.label :sale, "Sale"
 
@@ -79,19 +104,39 @@
 					%legend.text-semibold
 						%i.icon-download.position-left
 						Attach Documents
-				-# .well
-				-# 	= f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
-				-# 		-# .field.pull-left.field-title
-				-# 		-#   Upload Files
-				-# 		.row{style: "display: flex;"}
-				-# 			.files
-				-# 				%label.btn.btn-default.btn-file.legitRipple
-				-# 					%i.icon-file-plus
-				-# 					Browse
-				-# 					= cm.file_field :attachment, multiple: true
-				-# 			.form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
-				-# 				.file-caption-name#file-name{:title => "No file selected"}
-				-# 					.text-muted No file selected
+				.well
+					= f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
+						.field.pull-left.field-title
+							Upload Files
+						.row{style: "display: flex;"}
+							.files
+								%label.btn.btn-default.btn-file.legitRipple
+									%i.icon-file-plus
+									Browse
+									= cm.file_field :attachment, multiple: true
+							.form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
+								.file-caption-name#file-name{:title => "No file selected"}
+									.text-muted No file selected
+					%br
+					- if !@engine.documents.empty?
+						.panel
+							.existing-documents	
+								%table.table.table-hover
+									%thead
+										%tr
+											%th Engine Documents
+											%th
+									%tbody
+										- @engine.documents.each do |document|
+											%tr
+												%td.view-doc= link_to document.name, document.attachment_url
+												%td
+													%div.delete-doc-btn
+														= link_to document, data:  { company_document_behavior: 'delete'} do
+															%i.fa.fa-close{style: "font-size: 18px; color: red;"}
+
+
+		%br
 		.row
 			.col-md-12
 				.col-md-2.col-md-offset-5

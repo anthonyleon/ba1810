@@ -39,11 +39,11 @@ class Company < ActiveRecord::Base
     self.confirm_token = nil
     save!(validate: false)
     # only for testing in development seeds
-    unless self.armor_user_id
-      armor_ids = ArmorPaymentsApi.create_account(self)
-      self.update_attribute('armor_account_id', armor_ids[:armor_account_number])
-      self.update_attribute('armor_user_id', armor_ids[:armor_user_number])
-    end
+    # unless self.armor_user_id
+    #   armor_ids = ArmorPaymentsApi.create_account(self)
+    #   self.update_attribute('armor_account_id', armor_ids[:armor_account_number])
+    #   self.update_attribute('armor_user_id', armor_ids[:armor_user_number])
+    # end
   end
 
   def generate_token(column)

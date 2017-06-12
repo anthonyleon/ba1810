@@ -104,14 +104,14 @@
 						= link_to inventory_parts_path do
 							%i.icon-cogs
 							Inventory
-					/ %li.dropdown-header Advertisements
-					/ %li
-					/ 	= link_to aircrafts_path do
-					/ 		%i.icon-airplane2
-					/ 		Aircraft Listings
-					/ 	= link_to engines_path do
-					/ 		%i.icon-compass4
-					/ 		Engine Listings
+					%li.dropdown-header Advertisements
+					%li
+						= link_to aircrafts_path do
+							%i.icon-airplane2
+							Aircraft Listings
+						= link_to engines_path do
+							%i.icon-compass4
+							Engine Listings
 					-unless current_user.payout_selected?
 						%li.dropdown-header Services
 						%li

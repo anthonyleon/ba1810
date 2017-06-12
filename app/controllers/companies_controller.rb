@@ -27,10 +27,17 @@ class CompaniesController < ApplicationController
 	end
 
 	def confirm_email
-		company = Company.find_by(confirm_token: params[:format])
+		company = Company.find_by(confirm_token: params[:confirm_token])
 		if company
 			company.email_activate
-			redirect_to login_path, notice: 'Welcome to bid.aero, your email has been confirmed'
+			session[:company_id] = company.id
+			if params[:format] == "aircrafts"
+				redirect_to new_aircraft_path, flash: { success: "Successfully logged in, create your FREE Aircraft Listing Here!" }
+			elsif params[:format] == "engines"
+				redirect_to new_engine_path, flash: { success: "Successfully logged in, create your FREE Engine Listing Here!" }
+			else
+				redirect_to dashboard_path, flash: { success: "Successfully logged in" }
+			end
 		else
 			redirect_to root_path, notice: 'Sorry, company does not exist'
 		end
@@ -39,9 +46,15 @@ class CompaniesController < ApplicationController
 	def create
 		@company = Company.new(company_params)
 		respond_to do |format|
-			if @company.save
+			if !params["terms"]
+				format.html { 
+					flash[:error] = "Please read and accept the Terms of Service and Privacy Policy"
+					render :new 
+				}
+			elsif @company.save
 					## need to make validations so that errors are not received from armor payments (testing purposes)
 				AdminMailer.new_register(@company).deliver
+				CompanyMailer.registration_confirm(@company, reason: params[:reason]).deliver_now
 				format.html { redirect_to root_path, notice: 'Please confirm your email address to complete registration.' }
 				format.json { render :show, status: :created, location: @company }
 			else

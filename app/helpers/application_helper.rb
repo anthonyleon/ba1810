@@ -1,7 +1,11 @@
 module ApplicationHelper
-  def redirect_back
-    redirect_to :back
-  end
+	def redirect_back
+		redirect_to :back
+	end
+
+	def set_empty_params_to_na(params)
+		params.each { |set| params[set.first] = "N/A" if params[set.first].empty? }
+	end
 
 	def to_pretty_time(time)
 		a = (Time.now-time).to_i
