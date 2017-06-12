@@ -10,7 +10,7 @@
 					- @aircraft.errors.full_messages.each do |message|
 						%li= message
 		.row
-			.col-md-6
+			.col-sm-6
 				%fieldset
 					%legend.text-semibold
 						%i.icon-airplane2.position-left
@@ -35,7 +35,7 @@
 						%label.col-sm-3.control-label MTOW:
 						.col-sm-9
 							= f.text_field :mtow, :placeholder => "130,000", class: "form-control"
-			.col-md-6
+			.col-sm-6
 				%fieldset
 					%legend.text-semibold
 						%i.icon-cogs.position-left
@@ -57,7 +57,7 @@
 						.col-sm-9
 							= f.text_field :cabin_config, :placeholder => "2 Classes (B/C and Y/C)", class: "form-control"
 		.row
-			.col-md-6
+			.col-sm-6
 				%fieldset
 					%legend.text-semibold
 						%i.icon-check.position-left
@@ -84,7 +84,7 @@
 							.radio
 								= f.check_box :lease
 								= f.label :lease, "Lease"
-			.col-md-6
+			.col-sm-6
 				%fieldset
 					%legend.text-semibold
 						%i.icon-history.position-left
@@ -105,8 +105,43 @@
 						%label.col-sm-3.control-label Maintenance Status:
 						.col-sm-9
 							= f.text_field :maintenance_status, :placeholder => "Maintenance Status", class: "form-control"
+		.col-sm-12
+			%fieldset
+				%legend.text-semibold
+					%i.icon-download.position-left
+					Attach Documents
+			.well
+				= f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
+					.field.pull-left.field-title
+						Upload Files
+					.row{style: "display: flex;"}
+						.files
+							%label.btn.btn-default.btn-file.legitRipple
+								%i.icon-file-plus
+								Browse
+								= cm.file_field :attachment, multiple: true
+						.form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
+							.file-caption-name#file-name{:title => "No file selected"}
+								.text-muted No file selected
+			%br
+			- if !@aircraft.documents.empty?
+				.panel
+					.existing-documents	
+						%table.table.table-hover
+							%thead
+								%tr
+									%th Aircraft Documents
+									%th
+							%tbody
+								- @aircraft.documents.each do |document|
+									%tr
+										%td.view-doc= link_to document.name, document.attachment_url
+										%td
+											%div.delete-doc-btn
+												= link_to document, data:  { company_document_behavior: 'delete'} do
+													%i.fa.fa-close{style: "font-size: 18px; color: red;"}
 		.row
-			.col-md-12
-				.col-md-2.col-md-offset-5
+			.col-sm-12
+				.col-sm-2.col-sm-offset-5
 					= f.button(type: "submit", class: "btn btn-success legitRipple") do
 						Post Aircraft Advertisement
