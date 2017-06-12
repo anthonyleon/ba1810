@@ -98,12 +98,12 @@ $(document).ready(function() {
 	dataBehavior("[data-buyer-auctions-behavior='delete']", "auction");
 	dataBehavior("[data-current-opportunities-behavior='delete']", "auction");
 	dataBehavior("[data-auction-bid-behavior='delete']", "bid");
-	dataBehavior("[data-engine-behavior='delete']", "engine");
-	dataBehavior("[data-aircraft-behavior='delete']", "aircraft");
 	dataBehavior("[data-company-purchase-behavior='delete']", "company");
 	dataBehavior("[data-bid-document-behavior='delete'", "bid");
 	dataBehavior("[data-inventory-document-behavior='delete'", "inventory");
 	dataBehavior("[data-company-document-behavior='delete'", "document");
+	dataBehavior("[data-aircraft-behavior='delete'", "aircraft");
+	dataBehavior("[data-engine-behavior='delete'", "engine");
 
 $('#engineDTDashBoard').dataTable({
 		"aoColumns": [
