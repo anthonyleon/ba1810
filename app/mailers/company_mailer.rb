@@ -7,9 +7,15 @@ class CompanyMailer < ApplicationMailer
 	#
 
 
-	def registration_confirm company
+	def registration_confirm company, opts={}
 		@company = company
-
+		if opts[:reason] == "aircrafts"
+			@link = ".aircrafts"
+		elsif opts[:reason] == "engines"
+			@link = ".engines"
+		else
+			@link = ""
+		end
 		mail to: @company.email, subject: "BID.AERO Confirmation Email"
 	end
 
