@@ -37,7 +37,7 @@
 						.panel-body
 							.row
 								.col-md-4
-									.panel.panel-default.border-left-xlg.border-left-primary
+									.panel.panel-default.border-left-xsm.border-left-primary
 										.panel-heading.text-semibold
 											%i.icon-cogs.position-left
 											Request for Quotation Details
@@ -99,22 +99,22 @@
 												%strong.part-details.sub-title.left
 													Part Details
 												.form-group
-													.col-lg-6
-														%label.col-lg-4.control-label Part No.
-														.col-lg-8
+													.col-sm-6
+														%label.col-sm-4.control-label Part No.
+														.col-sm-8
 															= cm.text_field :part_num, value: @auction.part_num, class: "form-control"
-													.col-lg-6
-														%label.col-lg-4.control-label Manufacturer
-														.col-lg-8
+													.col-sm-6
+														%label.col-sm-4.control-label Manufacturer
+														.col-sm-8
 															= cm.text_field :manufacturer, placeholder: "Ex: Textron Aviation", value: "", class: "form-control"
 												.form-group
-													.col-lg-6
-														%label.col-lg-4.control-label Serial No.
-														.col-lg-8
+													.col-sm-6
+														%label.col-sm-4.control-label Serial No.
+														.col-sm-8
 															= cm.text_field :serial_num, placeholder: "WG2Y0B9", class: "form-control", value: ""
-													.col-lg-6
-														%label.col-lg-4.control-label Condition
-														.col-lg-8
+													.col-sm-6
+														%label.col-sm-4.control-label Condition
+														.col-sm-8
 															.inv-radio-btns{style: "display: flex; justify-content: space-around"}
 																.right-radios
 																	.radio
@@ -141,32 +141,32 @@
 											%br
 											%br
 											.row
-												.col-lg-6
+												.col-sm-6
 													.form-group
-														%label.col-lg-4.control-label Amount:
-														.col-lg-8
+														%label.col-sm-4.control-label Amount:
+														.col-sm-8
 															= f.text_field :part_price, :placeholder => "Ex: $450.00", class: "form-control dollars"
 													.form-group
-														%label.col-lg-4.control-label Shipping Est:
-														.col-lg-8
+														%label.col-sm-4.control-label Shipping Est:
+														.col-sm-8
 															= f.text_field :est_shipping_cost, :placeholder => "Shipping Cost", class: "form-control dollars"
 													.form-group
-														%label.col-lg-4.control-label Quantity:
-														.col-lg-8
+														%label.col-sm-4.control-label Quantity:
+														.col-sm-8
 															= f.text_field :quantity, :placeholder => "Quantity", class: "form-control"
-												.col-lg-6
+												.col-sm-6
 													.form-group
-														%label.col-lg-4.control-label Tag Date:
-														.col-lg-8
+														%label.col-sm-4.control-label Tag Date:
+														.col-sm-8
 															= f.date_field :tag_date, :placeholder => "Tag Date", class: "form-control text-muted"
 													.form-group
-														%label.col-lg-4.control-label Quote Reference:
-														.col-lg-8
+														%label.col-sm-4.control-label Quote Reference:
+														.col-sm-8
 															= f.text_field :reference_num, :placeholder => "Quote Reference No. (optional)", value: "", class: "form-control"
 													.form-group
-														.col-lg-4
+														.col-sm-4
 														/ 	%label Documentation:
-														/ .col-lg-8{style: "padding: 0 20px;"}
+														/ .col-sm-8{style: "padding: 0 20px;"}
 														/ 	= f.fields_for :document, Document.new, html: { class: "form-control"} do |dm|
 														/ 		-# .field.pull-left.field-title
 														/ 		-#   Upload Files

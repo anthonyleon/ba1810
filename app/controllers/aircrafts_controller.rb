@@ -1,5 +1,6 @@
 class AircraftsController < ApplicationController
   before_action :set_aircraft, only: [:show, :edit, :update, :destroy]
+  include ApplicationHelper
 
   def index
     @aircrafts = current_user.aircrafts.decorate
@@ -18,7 +19,9 @@ class AircraftsController < ApplicationController
   end
 
   def create
-    @aircraft = Aircraft.new(aircraft_params)
+
+    @aircraft = Aircraft.new(set_empty_params_to_na(aircraft_params))
+        binding.pry
     @aircraft.company = current_user
 
     respond_to do |format|

@@ -21,11 +21,14 @@ class EnginesController < ApplicationController
   def create
     @engine = Engine.new(engine_params)
     @engine.company = current_user
-    @document = Document.new(document_params)
-    @document.engine = @engine
+    if params.require(:engine)[:document]  
+      @document = Document.new(attachment: document_params, name: document_params.original_filename)
+      @document.engine = @engine
+      @document.save
+    end
     respond_to do |format|
       if @engine.save
-        @document.save
+
         format.html { redirect_to engines_path, notice: 'Engine was successfully created.' }
         format.json { render :show, status: :created, location: @engine }
       else
@@ -36,11 +39,14 @@ class EnginesController < ApplicationController
   end
 
   def update
-    @document = Document.new(document_params)
+    if params.require(:engine)[:document]
+      @document = Document.new(attachment: document_params, name: document_params.original_filename) if params.require(:engine)[:document]
+      @document.engine = @engine 
+      @document.save
+    end
     respond_to do |format|
       if @engine.update(engine_params)
-        @document.engine = @engine
-        @document.save
+
         format.html { redirect_to engines_path, notice: 'Engine was successfully updated.' }
         format.json { render :show, status: :ok, location: @engine }
       else
@@ -69,7 +75,7 @@ class EnginesController < ApplicationController
     end
 
     def document_params
-      params.require(:engine).permit(documents_attributes: [:name, :attachment])[:documents_attributes]["0"]
+      params.require(:engine).require(:document)["attachment"][0] 
       # params.require(:engine).permit(documents: [:id, :name, :attachment]) [:documents]
     end
 end

@@ -27,9 +27,11 @@
         .panel-heading
           %h4.panel-title.center
             My Aircraft Advertisements
-          %h6.panel-title.center
-            = link_to aircraft_listing_path do
-              %a Looking for an aircraft? Review what the market has to offer here!
+          %h6.center
+            As a bonus to our users we allow you to advertise any aircraft on our home page completely free of charge! Below are all of the aircrafts you currently have listed on Bid Aero, you can edit or delete them by using the action dropdown to theright of each row.
+          %h6
+            Or view what's available on our 
+            = link_to "Aircraft Listing Page", aircraft_listing_path
         .datatable-scroll
           %table.table#aircraftDT
             %thead

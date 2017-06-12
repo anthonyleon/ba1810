@@ -16,24 +16,24 @@
 						%i.icon-airplane2.position-left
 						Aircraft Details
 					.form-group
-						%label.col-lg-3.control-label Aircraft Type:
-						.col-lg-9
+						%label.col-sm-3.control-label Aircraft Type:
+						.col-sm-9
 							= f.text_field :aircraft_type, :placeholder => "B777-700, A350-800 ", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label MSN:
-						.col-lg-9
+						%label.col-sm-3.control-label MSN:
+						.col-sm-9
 							= f.text_field :msn, :placeholder => "12354", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Tail Number:
-						.col-lg-9
+						%label.col-sm-3.control-label Tail Number:
+						.col-sm-9
 							= f.text_field :tail_number, :placeholder => "N34231", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label YOB:
-						.col-lg-9
+						%label.col-sm-3.control-label YOB:
+						.col-sm-9
 							= f.text_field :yob, :placeholder => "2005", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label MTOW:
-						.col-lg-9
+						%label.col-sm-3.control-label MTOW:
+						.col-sm-9
 							= f.text_field :mtow, :placeholder => "130,000", class: "form-control"
 			.col-md-6
 				%fieldset
@@ -41,21 +41,21 @@
 						%i.icon-cogs.position-left
 						Aircraft Configuration
 					.form-group
-						%label.col-lg-3.control-label Engine Major Variant:
-						.col-lg-9
+						%label.col-sm-3.control-label Engine Major Variant:
+						.col-sm-9
 							= f.text_field :engine_major_variant, :placeholder => "CFM56", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Engine Minor Variant:
-						.col-lg-9
+						%label.col-sm-3.control-label Engine Minor Variant:
+						.col-sm-9
 							= f.text_field :engine_minor_variant, :placeholder => "7B26", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label APU:
-						.col-lg-9
+						%label.col-sm-3.control-label APU:
+						.col-sm-9
 							= f.text_field :apu_model, :placeholder => "GTC-1241", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Cabin Configuration:
-						.col-lg-9
-							= f.text_field :yob, :placeholder => "2 Classes (B/C and Y/C)", class: "form-control"
+						%label.col-sm-3.control-label Cabin Configuration:
+						.col-sm-9
+							= f.text_field :cabin_config, :placeholder => "2 Classes (B/C and Y/C)", class: "form-control"
 		.row
 			.col-md-6
 				%fieldset
@@ -63,96 +63,50 @@
 						%i.icon-check.position-left
 						Asset Status
 					.form-group
-						%label.col-lg-3.control-label Aircraft Status:
-						.col-lg-9
-							= f.select :service_status, Aircraft.service_statuses.to_a.map { |s| [s[0].humanize, s[0]] }
+						%label.col-sm-3.control-label Aircraft Status:
+						.col-sm-9
+							.radio
+								= f.radio_button :service_status, "in_service"
+								= f.label :service_status, "In Service"
+							.radio
+								= f.radio_button :service_status, "off_service"
+								= f.label :service_status, "Off Service"
 					.form-group
-						%label.col-lg-3.control-label Available Date:
-						.col-lg-9
+						%label.col-sm-3.control-label Available Date:
+						.col-sm-9
 							= f.text_field :available_date, :placeholder => "DD/MM/YY", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Available For:
-						.col-lg-9
-							= f.check_box :sale
-							= f.label :sale, "Sale"
-
-							= f.check_box :lease
-							= f.label :lease, "Lease"
+						%label.col-sm-3.control-label Available For:
+						.col-sm-9
+							.radio
+								= f.check_box :sale
+								= f.label :sale, "Sale"
+							.radio
+								= f.check_box :lease
+								= f.label :lease, "Lease"
 			.col-md-6
 				%fieldset
 					%legend.text-semibold
 						%i.icon-history.position-left
 						Aircraft History
 					.form-group
-						%label.col-lg-3.control-label Current Operator:
-						.col-lg-9
+						%label.col-sm-3.control-label Current Operator:
+						.col-sm-9
 							= f.text_field :current_operator, :placeholder => "Magni-Charters", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Last Operator:
-						.col-lg-9
+						%label.col-sm-3.control-label Last Operator:
+						.col-sm-9
 							= f.text_field :last_operator, :placeholder => "Southwest", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Stored Location
-						.col-lg-9
+						%label.col-sm-3.control-label Stored Location
+						.col-sm-9
 							= f.text_field :location, :placeholder => "Arizona", class: "form-control"
 					.form-group
-						%label.col-lg-3.control-label Maintenance Status:
-						.col-lg-9
+						%label.col-sm-3.control-label Maintenance Status:
+						.col-sm-9
 							= f.text_field :maintenance_status, :placeholder => "Maintenance Status", class: "form-control"
 		.row
 			.col-md-12
 				.col-md-2.col-md-offset-5
 					= f.button(type: "submit", class: "btn btn-success legitRipple") do
 						Post Aircraft Advertisement
--# = form_for(@aircraft) do |f|
--#   - if @aircraft.errors.any?
--#     #error_explanation
--#       %h2
--#         = pluralize(@aircraft.errors.count, "error")
--#         prohibited this aircraft from being saved:
--#       %ul
--#         - @aircraft.errors.full_messages.each do |message|
--#           %li= message
--#   .field
--#     = f.text_field :aircraft_type, placeholder: "Aircraft Type"
--#   .field
--#     = f.text_field :msn, placeholder: "MSN"
--#   .field
--#     = f.text_field :tail_number, placeholder: "Tail Number"
--#   .field
--#     = f.text_field :yob, placeholder: "YOB"
--#   .field
--#     = f.text_field :mtow, placeholder: "MTOW"
--#   .field
--#     = f.text_field :engine_major_variant, placeholder: "Engine Major Variant"
--#   .field
--#     = f.text_field :engine_minor_variant, placeholder: "Engine Minor Variant"
--#   .field
--#     = f.text_field :apu_model, placeholder: "APU Model"
--#   .field
--#     = f.text_field :cabin_config, placeholder: "Cabin Configuration"
--#   .field
--#     %p Aircraft Status
--#     = f.select :service_status, Aircraft.service_statuses.to_a.map { |s| [s[0].humanize, s[0]] }
--#   %br
--#   .field
--#     = f.text_field :current_operator, placeholder: "Current Operator"
--#   .field
--#     = f.text_field :last_operator, placeholder: "Last Operator"
--#   .field
--#     = f.text_field :location, placeholder: "Location"
--#   .field
--#     = f.text_field :maintenance_status, placeholder: "Maintenance Status"
--#   .field
--#     = f.text_field :available_date, placeholder: "Available Date (DD/MM/YY)"
--#   #form-group.checkbox
--#     = f.check_box :sale
--#     = f.label :sale, "For Sale"
--#   #form-group.field
--#     = f.check_box :lease
--#     = f.label :lease, "For Lease"
--#   %br
--#   .actions
--#     %div.btn.custom-btn
--#       %i.fa.fa-check-square-o
--#       = f.submit
