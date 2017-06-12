@@ -45,6 +45,7 @@ class CompaniesController < ApplicationController
 
 	def create
 		@company = Company.new(company_params)
+		raise
 		respond_to do |format|
 			if !params["terms"]
 				format.html { 
