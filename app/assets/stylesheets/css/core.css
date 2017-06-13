@@ -1,4 +1,4 @@
-/* ------------------------------------------------------------------------------
+asdfs{{{{{/* ------------------------------------------------------------------------------
  *
  *  # Components
  *
@@ -3402,7 +3402,7 @@ li + .dropdown-header.highlight,
   padding-bottom: 88px;
 }
 .navbar-brand > img {
-  height: 61px;
+  height: 61px !important;
 }
 .navbar-nav {
   margin: 0;
