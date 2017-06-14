@@ -57,7 +57,7 @@ class TransactionsController < ApplicationController
 		@transaction.destination = @destination
 		@auction.update(active: false) if @auction.active
 		CompanyMailer.won_auction_notification(@transaction.bid, @transaction.seller, @transaction).deliver_later(wait_until: 1.minute.from_now) &&
-			Notification.notify(@transaction.bid, @transaction.seller, :win,
+			Notification.notify(@transaction.seller, :win, bid: @transaction.bid,
 				transaction: @transaction) unless Notification.exists?(@bid, :win)
 		respond_to do |format|
 			if @transaction.update(transaction_params)
@@ -79,7 +79,7 @@ class TransactionsController < ApplicationController
 					@carriers = ArmorPaymentsApi.carriers_list
 					@transaction.update(carrier: @carriers[:body][carrier_code.to_i - 1]["name"])
 					@transaction.update(status: :in_transit)
-					Notification.notify(@transaction.bid, @transaction.buyer, :shipment_in_transit, transaction: @transaction)
+					Notification.notify(@transaction.buyer, :shipment_in_transit, bid: @transaction.bid, transaction: @transaction)
 				end
 				format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
 				format.json { render :show, status: :ok, location: @transaction }
@@ -97,7 +97,7 @@ class TransactionsController < ApplicationController
 				@transaction.calculate_total_payment
 				ArmorPaymentsApi.create_order(@transaction)
 
-				Notification.notify(@transaction.bid, @transaction.buyer, :send_payment, transaction: @transaction)
+				Notification.notify(@transaction.buyer, :send_payment, bid: @transaction.bid, transaction: @transaction)
 
 				format.html { redirect_to seller_purchase_path(@transaction), notice: 'Invoice was successfully created.' }
 				format.json { render :show, status: :ok, location: @transaction }
