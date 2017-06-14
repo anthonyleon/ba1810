@@ -41,7 +41,7 @@
 												%a.letter-icon-title= link_to note.message, note.link
 											.text-muted.text-size-small
 												%i.icon-cogs.text-size-mini.position-left
-												Parts Wanted by #{note.auction.company.name}
+												= note.sub_message(current_user)
 									%td
 										%span.text-muted.text-size-small
 										= note.auction.part_num

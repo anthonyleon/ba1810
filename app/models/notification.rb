@@ -67,9 +67,9 @@ class Notification < ActiveRecord::Base
       when :new_quote
         "A new quote has been submitted for your review!"
       when :competing_quote
-        "A competing quote has been placed on an RFQ you are participating in!"
+        "A competing quote has been placed on an eRFQ you are participating in!"
       when :invite
-        "You have been invited to quote!"
+        "You have been invited to participate in an eRFQ!"
       when :shipment_in_transit
         "Shipping Info has been received, your order (##{opts[:transaction].order_id}) is in transit."
       when :broadcast
@@ -93,7 +93,7 @@ class Notification < ActiveRecord::Base
       when :counter_offer
         "A settlement offer has been created on dispute ##{data["event"]["order_id"]}"
       when :settlement_accepted
-        "Your settlement offer for order ##{@transaction.order_id} has been accepeted"
+        "Your settlement offer for order ##{@transaction.order_id} has been accepted"
       when :arbitration_seller_notice
         "Disputed Order ##{@transaction.order_num} has been escalated to arbitration."
       when :arbitration_buyer_notice
@@ -101,13 +101,19 @@ class Notification < ActiveRecord::Base
       end
   end
 
-  def self.notify(bid, company, category, opts = {}) 
-    message = categorize(category)
-    if transaction = opts[:transaction]
-      Notification.create(message: message, category: category, bid: bid, auction: bid.auction, company: company, tx: transaction)
-    else
-      Notification.create(message: message, bid: bid, auction: bid.auction, company: company, category: category)
+  def sub_message(user)
+    if tx
+      "by #{tx.seller == user ? tx.buyer.name : tx.seller.name}"
+    elsif bid
+      "by #{bid.company.name}"
+    elsif auction
+      "by #{auction.company.name}"
     end
+  end
+
+  def self.notify(company, category, opts = {}) 
+    message = categorize(category)
+    create(message: message, company: company, category: category, bid: opts[:bid], auction: opts[:auction], tx: opts[:transaction])
   end
 
   def link
