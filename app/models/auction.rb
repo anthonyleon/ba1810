@@ -8,7 +8,7 @@ class Auction < ActiveRecord::Base
   has_many :bids, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :bidders, through: :bids, source: :company
-  has_many :invites
+  has_many :invites, dependent: :destroy
 
   validates :quantity, presence: true
   validates :part_num, presence: true
@@ -74,28 +74,14 @@ class Auction < ActiveRecord::Base
   def set_invitees(invited)
     hashy = Hash.new
     invited.each_slice(2) do |a, b|
-      hashy.merge!({a.downcase => b.downcase})
+      hashy.merge!({a.split.map(&:capitalize).join(' ') => b.downcase})
     end
-    self.invitees = hashy
-  end
-
-  def add_invitees(invited)
-    hashy = Hash.new
-    invited.each_slice(2) do |a, b|
-      hashy.merge!({a.downcase => b.downcase})
-    end
-    hashy.each { |key, value| self.invitees[key] = value }
-    save
-
-    old_invites = Hash[*(invitees.to_a - hashy.to_a).flatten] 
-    new_invites = Hash[*(hashy.to_a - old_invites.to_a).flatten]
-    self.invite_and_setup_suppliers(new_invites)
+    hashy
+    invite_and_setup_suppliers(hashy)
   end
 
   def invite_and_setup_suppliers(invitees)
     invitees.each do |k, v|
-      # Once I've addeed multiple logins for a company (i.e. roles) then I have to change this conditional
-      ## to be if Company.find_by(name: k) || User.find_by(email: v)
       secret = SecureRandom.urlsafe_base64
       v.downcase!
       co = Company.find_by(email: v) || Company.find_by(name: k)
@@ -103,10 +89,11 @@ class Auction < ActiveRecord::Base
         co.update_attribute('confirm_token', secret) if co.confirm_token == nil
         CompanyMailer.invite_existing_user_to_bid(co, v, self).deliver_later(wait_until: 10.seconds.from_now)
       else
-        
-        co = Company.create(name: k.split.map(&:capitalize).join(' '), email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
+        co = Company.create(name: k, email: v.downcase.squish, email_confirmed: true, temp: true, password: secret) #user will come and create a password
         CompanyMailer.invite_temp_user_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
       end
+      Invite.create(auction: self, company: co)
+      Notification.notify(co, :invite, auction: self)
     end
   end
 

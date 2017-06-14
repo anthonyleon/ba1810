@@ -10,17 +10,15 @@ class AuctionsController < ApplicationController
 	end
 
 	def show
-
 		## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
-		@auction_invitees = Company.find_invitees(@auction.invitees)
-		@invited_suppliers_bids = @auction.bids.joins(:company).merge(@auction_invitees)
-		@auction_invitees.empty? ? @bid_aero_suppliers_bids = @auction.bids.joins(:company) : @bid_aero_suppliers_bids =
-			@auction.bids.joins(:company).where.not(companies: {id: @auction_invitees.pluck(:id)})
+		@auction_invitees = @auction.invites.joins(:company).map(&:company)
+		@invited_suppliers_bids = @auction.bids.joins(:company).where(companies: {id: @auction.invites.map(&:company_id)})
+		@bid_aero_suppliers_bids = (@auction_invitees.empty? ? @auction.bids.joins(:company) : 
+									@auction.bids.joins(:company).where.not(companies: {id: @auction_invitees.map(&:id)}))
 	end
 
 	def auction_invites
-		@auctions = Auction.where("invitees::text LIKE '%#{current_user.name.downcase}%' 
-									OR invitees::text LIKE '%#{current_user.email.downcase}%'").decorate
+		@auctions = current_user.invites.map(&:auction)
 	end
 
 	def new
@@ -34,28 +32,24 @@ class AuctionsController < ApplicationController
 	end
 
 	def create
+
 		auction_params[:target_price].gsub!(' ', '')
 		params["invitees"].delete("") if params["invitees"]
 
 		@auction = Auction.new(auction_params)
 		@destination = Destination.new(destination_params)
 		@auction.destination = @destination
-		@auction.set_invitees(params[:invitees]) if params[:invitees]
 		part_match = Part.find_by(part_num: @auction.part_num.upcase)
 		@auction.resale_check
 		respond_to do |format|
 			@auction.company = current_user
 			@auction.condition.map!{ |x| x.to_sym }
-
 			if @auction.save
-
+				invitees = @auction.set_invitees(params[:invitees]) if params[:invitees]
 				@destination.update(country: params["country"])
-				@auction.invite_and_setup_suppliers(@auction.invitees)
-
+				# @auction.invite_and_setup_suppliers(invitees)
 				@auction.req_forms.reject! { |c| c.empty? }
 				Auction.part_match_or_not_actions(@auction, part_match)
-
-
 				Notification.notify_of_opportunities(@auction, @auction.company, :broadcast)
 				format.html { redirect_to @auction, notice: 'RFQ was successfully created.' }
 				format.json { render :show, status: :created, location: @auction }
@@ -68,7 +62,7 @@ class AuctionsController < ApplicationController
 
 	def invite_more_suppliers
 		params["invitees"].delete("")
-		@auction.add_invitees(params[:invitees]) if params[:invitees]
+		@auction.set_invitees(params[:invitees]) if params[:invitees]
 		render nothing: true
 	end
 
