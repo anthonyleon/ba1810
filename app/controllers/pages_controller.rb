@@ -41,6 +41,11 @@ class PagesController < ApplicationController
   def terms_and_conditions
   end
 
+  def inventory_part
+    @part_count = InventoryPart.where(part_num: params[:part_num]).count
+    @part = InventoryPart.find_by(part_num: params[:part_num])
+  end
+
   def sign_up_form
     # not the best way to do this, must refactor at a later time
     new_lead_mail if params[:contact]
@@ -62,6 +67,5 @@ class PagesController < ApplicationController
   def send_mail
     AdminMailer.new_contact(params[:name], params[:phone], params[:email], params[:message]).deliver_now if params[:name]    
   end
-
 
 end

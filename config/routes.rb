@@ -34,6 +34,8 @@ Rails.application.routes.draw do
 
 	get '/about' => 'pages#about', as: 'about_us'
 
+	get 'part/:part_num' => 'pages#inventory_part', as: 'sitemap_inventory'
+
 	resources :engines do
 		resources :documents, shallow: true
 	end

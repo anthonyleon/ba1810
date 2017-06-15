@@ -17,7 +17,9 @@ SitemapGenerator::Sitemap.create do
   # Defaults: :priority => 0.5, :changefreq => 'weekly',
   #           :lastmod => Time.now, :host => default_host
 
-  add '/about'
+  InventoryPart.select(:part_num, :updated_at).find_each do |ip|
+    add sitemap_inventory_path(part_num), :lastmod => ip.updated_at
+  end
   #
   # Examples:
   #
