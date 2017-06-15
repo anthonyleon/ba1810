@@ -1,23 +1,68 @@
-= simple_form_for ([@part, @inventory_part]) do |f|
-  .field.form-group
-    %strong Part Number
-    = f.text_field :part_num, placeholder: "Part number", class: "form-control"
-  .field.form-group
-    %strong Serial Number
-    = f.text_field :serial_num, placeholder: "Serial number",class: "form-control"
-  .field.form-group
+= form_for ([@part, @inventory_part]) do |f|
+  .col-md-4.col-md-offset-1
+    .field.form-group
+      %strong Part Number
+      = f.text_field :part_num, placeholder: "Part number", class: "form-control"
+    .field.form-group
+      %strong Serial Number
+      = f.text_field :serial_num, placeholder: "Serial number",class: "form-control"
     %strong Condition
-    = f.select :condition, InventoryPart.conditions.to_a.map { |c| [c[0].humanize, c[0]] }
-  .actions{style: 'margin: 5px 0'}
-    %div.btn.custom-btn
-      %i.fa.fa-check-square-o
-      = f.submit 'Submit'
-%br
-%br
-%div
-  = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
-    = file_field_tag :file
-    .actions{style: 'margin: 5px 0'}
-      %div#import-btn.btn.custom-btn
-        = submit_tag "Import"
-        
+    .inv-radio-btns{style: "display: flex; justify-content: space-between"}
+      .right-radios
+        .radio
+          = f.radio_button :condition, "recent"
+          = f.label :condition, "New"
+        .radio
+          = f.radio_button :condition, "overhaul"
+          = f.label :condition, "Overhaul"
+        .radio
+          = f.radio_button :condition, "as_removed"
+          = f.label :condition, "As Removed"
+      .left-radios
+        .radio
+          = f.radio_button :condition, "serviceable"
+          = f.label :condition, "Serviceable"
+        .radio
+          = f.radio_button :condition, "non_serviceable"
+          = f.label :condition, "Non Serviceable"
+        .radio
+          = f.radio_button :condition, "scrap"
+          = f.label :condition, "Scrap"
+
+      .text-center
+      = f.button(type: "submit", class: "btn btn-success legitRipple") do
+        Submit
+  .col-md-4.col-md-offset-2
+    %br
+    %div.text-center.text-semibold.text-size-large Update Inventory
+    %br
+    %div.text-center Need to update more than one part? Send us an email at Support@bid.aero and we'll help you refresh your listing.
+    %div.text-center
+      %b.icon-download7.text-muted.largeicon
+      %div.text-center.text-muted We accept the following file formats .xls, .xlsx, .csv
+
+/ %br
+/ %br
+/ %div{style: "font-size: 20px;"}
+/   OR
+/ %br
+/ %div.card-title
+/   Upload an Inventory File
+/ %table.table.table-bordered.table-striped
+/   %thead
+/     %tr
+/       %th Please use the following template to format your excel sheet.*
+/       %th= link_to "Template", Document.find_by(name: "Bid_Aero_Parts_Template").attachment_url
+/ %br
+/ %div
+/   = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+/     = file_field_tag :file
+/     .actions{style: 'margin: 10px 0;'}
+/       %div#import-btn.btn.custom-btn
+/         = submit_tag "Import"
+/ %br
+/ %div{style: "font-size: 14px; font-style: italic;"}
+/   *If you do not have the information for one of the columns, you may leave that column blank. It is important that the headers have the same name as those of our templates, and that no additional columns are used.
+/ %br
+/ %div{style: "font-size: 14px; font-style: italic;"}
+/   **If you experience any issues when uploading inventory please contact us at support@bid.aero

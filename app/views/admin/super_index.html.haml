@@ -1,0 +1,14 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center Inventory Parts
+    %hr/
+    %table#allInventoryDT.table.striped.responsive-table.bordered{"data-source" => "#{super_index_path(format: "json")}"}
+      %thead
+        %tr
+          %th Part Number
+          %th Description
+          %th Serial Number
+          %th Condition
+          %th Company
+      %tbody

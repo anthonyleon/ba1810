@@ -1,51 +1,51 @@
-.card-panel.grey.lighten-5
-  %h4.center.black-text.block.custom-card-title
-    = current_user.name
-.card.dataTables_wrapper
-  .card-content
-    .card-title.center-align
-      %h5.custom-card-title.center
-        Today's Aviation Financial Data
-    %hr/
-    %table.table.bordered.highlight.responsive-table
-      %thead
-        %tr
-          %th Aviation Leasing Stocks
-          %th Currency
-          %th Price
-          %th Change
-          %th Mkt Cap
-      %tbody
-        - @data.each do |data|
-          %tr
-          %td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
-          %td{style: "padding: 10px !important"} USD
-          -if data.ask != "N/A"
-            %td{style: "padding: 10px !important; color: #{data.ask.to_f < 0 ? 'red' : 'green'}"}= "$" + '%.2f' % data.ask
-          -else
-            %td{style: "padding: 10px !important"}= "N/A"
-          %td{style: "padding: 10px !important; color: #{data.change.to_f < 0 ? 'red' : 'green'}"}= data.change + " (" + data.change_in_percent + ")"
-          %td{style: "padding: 10px !important"}= data.market_capitalization
-/ .row
-/   .col.s12.m3.left{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0; margin-top: 4%;"}
-/     .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
-/       = @opportunity_count
-/     .card-content.white-text.center
-/       Current Number of Sales Opportunities
-/   .col.s12.m3.right{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0; margin-top: 4%;"}
-/     .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
-/       = @bids_count
-/     .card-content.white-text.center
-/       Quotes on Active Auctions
-/ .row
-/   .col.s12.m3.center{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0;"}
-/     .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
-/       = @inventory_count
-/     .card-content.white-text.center-align
-/       Inventory Parts Listed
-/   .col.s12.m7.right{style: "background-color: grey; padding: 20px; border-radius: 3px; padding: 40px 0;"}
-/     .card-content.white-text.data-display{style: 'font-size: 60px; text-align: center;'}
-/       = @inventory_count
-/     .card-content.white-text.center-align
-/       Inventory Parts Listed
-
+.page-container
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			/ Simple panel
+			.panel.panel-flat
+				.panel-heading
+					%h5.panel-title Get Started!
+					.heading-elements
+						%ul.icons-list
+							%li
+								%a{"data-action" => "collapse"}
+							%li
+								%a{"data-action" => "close"}
+				.panel-body
+					%h6.text-semibold What is this?
+					%p.content-group  Bid Aero utilizes the reverse auction methods used in strategic sourcing to match sellers with buyers either by direct invitation or by matching Requests For Quotes with current users who have the appropriate inventory listed. 
+					%h6.text-semibold Start looking for parts you need with no hassle!
+					%p.content-group 	By starting a part search, you can reach all the approved vendors you choose to invite AND any other registered company that is listing that inventory. That initial part search is actually an eRFQ (Request for Quotation) and is the only thing needed to find your spares in a timely, cost effective, and organized manner.
+					%p.content-group 	Bid Aero organizes quotes by approved vendors and Bid Aero suppliers that you didn't personally invite to quote.  By uniquely providing sellers with information on competing quotes, transparency is created for both buyers and sellers. Need help with payment? Take advantage of our secure escrow service for those first time purchases. Never risk a cent and still expand your reach.
+					%h6.text-semibold How does it work?
+					%p Begin by creating an eRFQ or send us an email at support@bid.aero to upload inventory or to have us give you a run through of the site (free of charge, of course). Our system is built to help you create new leads and find new approved vendors.
+					%p.content-group Questions? Give us a call or reach us at support@bid.aero
+			/ /simple panel
+	.panel.panel-flat.panel-body
+		%h1.panel-title
+			Real-Time Aviation Financial Data
+		%hr/
+		%table.table.bordered.highlight.responsive-table
+			%thead
+				%tr
+					%th Aviation Leasing Stocks
+					%th Currency
+					%th Price
+					%th Change
+					%th Mkt Cap
+					%tbody
+						- @data.each do |data|
+							- percent = data.change_in_percent.to_f
+							- change = data.change.to_f
+							- data.ask = (change / (percent / 100)) + change
+							%tr
+							%td{style: "padding: 10px !important"}= data.name + " (" + data.symbol + ")"
+							%td{style: "padding: 10px !important"} USD
+							-if data.ask != "N/A"
+								%td{style: "padding: 10px !important; color: #{data.ask.to_f < 0 ? 'red' : 'green'}"}= "$" + '%.2f' % data.ask
+							-else
+								%td{style: "padding: 10px !important"}= "N/A"
+							%td{style: "padding: 10px !important; color: #{data.change.to_f < 0 ? 'red' : 'green'}"}= data.change + " (" + data.change_in_percent + ")"
+							%td{style: "padding: 10px !important"}= data.market_capitalization

@@ -1,0 +1,10 @@
+.row
+  .col.s12
+    .card
+      .card-content
+        %div.card-title.activator.grey-text.text-darken-4.center-align
+          New Project
+        .container{stye: "color: grey;"}
+          By creating a new project you can organize all RFQs per repair, or work order. Simply enter in the project reference number, location, and a short description. A mass RFQ will be created when you upload a part requirements sheet.
+        %hr/
+        = render 'form'

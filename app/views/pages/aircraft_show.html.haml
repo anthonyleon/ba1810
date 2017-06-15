@@ -1,0 +1,104 @@
+.col-md-12.mt-40
+  .row
+    .col-md-6
+      .container
+        .row
+          .col-xs-12.col-sm-6.col-md-6.col-lg-6
+            .box
+              .box-icon
+                %span.fa.fa-4x.fa-plane
+              .info.aircraftshow
+                %h4 OWNER INFO
+                .table-responsive
+                  %table.table
+                    %tbody
+                      %tr
+                        %td.align-left OWNER:
+                        %td= @aircraft.company.name
+                      %tr
+                        %td.align-left  LISTING DATE:
+                        %td= @aircraft.created_at
+                      %tr
+                        %td.align-left  REPRESENTATIVE:
+                        %td= @aircraft.company.representative
+                      %tr
+                        %td.align-left  PHONE NUMBER:
+                        %td= @aircraft.company.phone
+                      %tr
+                        %td.align-left  E-MAIL:
+                        %td= @aircraft.company.email
+
+                %h4 ASSET CONDITIONS
+                .table-responsive
+                  %table.table
+                    %tbody
+                      %tr
+                        %td.align-left AIRCRAFT LOCATION:
+                        %td.aicraft_input= @aircraft.location
+                      %tr
+                        %td.align-left AVAILABLE AFTER:
+                        %td.aicraft_input= @aircraft.available_date
+                      %tr
+                        %td.align-left SALE OR LEASE:
+                        -if @aircraft.sale? && @aircraft.lease?
+                          %td.aicraft_input Sale or Lease
+                        -elsif @aircraft.sale?
+                          %td.aicraft_input Sale
+                        -else @aircraft.lease?
+                          %td.aicraft_input Lease
+
+
+                %h4 AIRCRAFT DESCRIPTION
+                .table-responsive
+                  %table.table
+                    %tbody
+                      %tr
+                        %td.align-left AIRCRAFT TYPE:
+                        %td= @aircraft.aircraft_type
+                      %tr
+                        %td.align-left MSN:
+                        %td= @aircraft.msn
+                      %tr
+                        %td.align-left Y.O.B.:
+                        %td= @aircraft.yob
+                      %tr
+                        %td.align-left TAIL NUMBER:
+                        %td= @aircraft.tail_number
+                      %tr
+                        %td.align-left MTOW:
+                        %td= @aircraft.mtow
+                      %tr
+                        %td.align-left ENGINE MAJOR VARIANT:
+                        %td= @aircraft.engine_major_variant
+                      %tr
+                        %td.align-left ENGINE MINOR VARIANT:
+                        %td= @aircraft.engine_minor_variant
+                      %tr
+                        %td.align-left APU MODEL:
+                        %td= @aircraft.apu_model
+                      %tr
+                        %td.align-left CABIN CONFIGURATION:
+                        %td= @aircraft.cabin_config
+                      %tr
+                        %td.align-left SERVICE STATUS:
+                        %td= @aircraft.service_status
+                      %tr
+                        %td.align-left CURRENT OPERATOR:
+                        %td= @aircraft.current_operator
+                      %tr
+                        %td.align-left LAST OPERATOR:
+                        %td= @aircraft.last_operator
+
+    .col-md-6
+      .col-xs-12.col-sm-6.col-md-12.col-lg-12
+        .box
+          .info.aircraftshow
+            %h4 AIRCRAFT GALLERY
+            %div.profile-image.align-center
+              = image_tag 'aircraft.png', size: '200x200', alt: 'Aircraft'
+            %br
+            %h4 Documents
+          - if @aircraft.documents.empty?
+            %h5.align-center No Documents Available
+          - else
+            = render @aircraft.documents

@@ -1,0 +1,83 @@
+
+.project-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.part-req-sheet {
+	margin-top: 2% !important;
+}
+
+.location {
+	margin: 0 5%;
+}
+
+.reference-number-field {
+	width: 22%;
+	margin: 0 5%;
+}
+
+.address {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.address-field {
+	width: 230px;
+}
+
+.description-field {
+	width: 88%;
+	height: auto;
+	margin: 0 5%;
+	padding: 0;
+}
+
+.description-field textarea {
+	height: 300px;
+}
+
+.project-submit {
+	margin-top: 40px;
+	align-self: center;
+}
+
+.project-title {
+	font-size: 20px;
+}
+
+.project-description {
+	text-decoration: underline;
+}
+
+.project-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+
+.projects-index-title {
+	font-size: 30px;
+	text-align: center;
+}
+
+.dataTables_length {
+	float: left;
+}
+
+#projectDT td{
+	font-size: 14px;
+}
+
+.fa-close {
+	color: red;
+	margin: auto;
+}
+
+.no-projects {
+	margin: 10% 0;
+}

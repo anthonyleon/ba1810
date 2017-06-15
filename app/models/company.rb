@@ -1,28 +1,37 @@
 class Company < ActiveRecord::Base
   has_secure_password
   has_many :auctions, dependent: :destroy
-  has_many :bids, dependent: :destroy
+  # has_many :bids, dependent: :destroy
+  has_many :bids, through: :inventory_parts
   has_many :inventory_parts, dependent: :destroy
   has_many :aircrafts
   has_many :engines
   has_many :ratings, dependent: :destroy
-  has_many :transactions
   has_many :notifications, dependent: :destroy
-  has_many :documents, dependent: :destroy
+  has_many :documents
   has_many :company_docs
+  has_many :projects
+  has_many :invites, dependent: :destroy
   validates :password, presence: true, length: { minimum: 6 }
-  # validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
+
+  validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
   # validates :email, presence: true, uniqueness: true
-  # validates :name, presence: true, uniqueness: true
+  validates :name, presence: true#, uniqueness: true
   # validates :ein, uniqueness: true
   # validates :address, :city, :state, :zip, :country, presence: true
 
   before_create :confirmation_token
   before_save :downcase_email, :strip_whitespace
 
-  before_validation(:on => :create) do
+  before_validation(:on => [:create, :update]) do
     self.inc_state = self.state
     self.inc_country = self.country
+  end
+
+  def self.find_invitees(invitees_hash)
+    co_array = []
+    invitees_hash.each { |k, v| co_array << v}
+    where(email: co_array)
   end
 
   def email_activate
@@ -30,11 +39,11 @@ class Company < ActiveRecord::Base
     self.confirm_token = nil
     save!(validate: false)
     # only for testing in development seeds
-    unless self.armor_user_id
-      armor_ids = ArmorPaymentsApi.create_account(self)
-      self.update_attribute('armor_account_id', armor_ids[:armor_account_number])
-      self.update_attribute('armor_user_id', armor_ids[:armor_user_number])
-    end
+    # unless self.armor_user_id
+    #   armor_ids = ArmorPaymentsApi.create_account(self)
+    #   self.update_attribute('armor_account_id', armor_ids[:armor_account_number])
+    #   self.update_attribute('armor_user_id', armor_ids[:armor_user_number])
+    # end
   end
 
   def generate_token(column)
@@ -44,8 +53,14 @@ class Company < ActiveRecord::Base
   end
 
   def self.company_types
-    {"Public Corporation (Co/Corp)" => 1, "Private Corporation" => 2, "Sole Proprietorship" => 3, "Limited Liability Company (LLC)" => 4,
-      "Limited Liability Partnership (LLP)" => 5, "Limited Company (Ltd)" => 6, "Incorporation (Inc)" => 7 }
+    { "Public Corporation (Co/Corp)" => 1,
+      "Private Corporation" => 2,
+      "Sole Proprietorship" => 3,
+      "Limited Liability Company (LLC)" => 4,
+      "Limited Liability Partnership (LLP)" => 5,
+      "Limited Company (Ltd)" => 6,
+      "Incorporation (Inc)" => 7 
+    }
   end
 
   def auctions_with_owned_bids
@@ -58,7 +73,7 @@ class Company < ActiveRecord::Base
 
   def send_password_reset
     generate_token(:password_reset_token)
-    self.password_reset_sent_at = Time.zone.now
+    password_reset_sent_at = Time.zone.now
     save!(validate: false)
     CompanyMailer.password_reset(self).deliver_now
   end
@@ -67,6 +82,48 @@ class Company < ActiveRecord::Base
     self.attributes.each do |key, value|
       self[key] = value.squish if value.respond_to?("squish")
     end
+  end
+
+  def sales_opportunities
+    sales_opportunities = []
+    user_bids = bids
+
+    inventory_parts.
+      includes(part: :auctions).
+      joins(part: {auctions: [:company]}).
+      joins("LEFT OUTER JOIN bids ON bids.auction_id = auctions.id").
+      joins("LEFT OUTER JOIN inventory_parts inventory_company_parts ON bids.inventory_part_id = inventory_company_parts.id").
+      joins("LEFT OUTER JOIN companies companies_bids ON inventory_company_parts.company_id = companies_bids.id").
+      where.not("auctions.company" => self). # user didn't create the auction
+      where("companies_bids.id IS NULL or companies_bids.id != ? ", id). # user didn't make a bid
+      distinct.
+      each do |inventory_part|
+        inventory_part.auctions.includes(:bids).each do |auction|
+          conditions = auction.conditions
+          ##have to check how InventoryPart is saving the condition, there are some opportunities that show up with .to_sym
+          ## and some that only show up without the .to_sym method
+          part_matches = conditions.include?(inventory_part.condition.to_sym)
+          user_has_placed_bids = (auction.bids & user_bids).present?
+          any_condition = auction.any_condition?
+          if (part_matches || any_condition) && !user_has_placed_bids
+            sales_opportunities << auction if auction.company != self
+
+          end
+        end
+      end
+    sales_opportunities.uniq
+  end
+
+  def self.spit
+    Company.all.each do |co|
+      puts co.id.to_s + "\t -- \t" + co.name
+    end
+  end
+
+
+  ## hot fix, since I can't find a way to allow a user to edit account without inputing the password
+  def edit_attrs(params)
+    params.each { |key, val| self.update_attribute(key.to_s, val.to_s)}
   end
 
   private
@@ -78,6 +135,8 @@ class Company < ActiveRecord::Base
   def confirmation_token
     if self.confirm_token.blank?
       self.confirm_token = SecureRandom.urlsafe_base64.to_s
+      #make the password the confirmation token if the user is a new temp user
+      self.password = confirm_token if self.temp?
     end
   end
 end

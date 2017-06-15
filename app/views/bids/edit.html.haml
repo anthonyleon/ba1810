@@ -6,7 +6,7 @@
           %h5.custom-card-title.center
             Place Bid
           .card-title
-            = "Destination: #{@auction.destination_city}, #{@auction.destination_state} #{@auction.destination_zip} #{@auction.destination_country}" 
+            = "Destination: #{@auction.destination.city}, #{@auction.destination.state} #{@auction.destination.zip} #{@auction.destination.country}" 
         = form_for([@auction, @bid]) do |f|
           - if @bid.errors.any?
             #error_explanation

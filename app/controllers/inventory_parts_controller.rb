@@ -3,11 +3,14 @@ class InventoryPartsController < ApplicationController
 
 
   def index
-    @inventory_parts = current_user.inventory_parts.decorate
+    respond_to do |format|
+      format.html
+      format.json { render json: InventoryPartsDatatable.new(view_context, current_user) }
+    end
   end
 
   def show
-    @inventory_part = @inventory_part.decorate
+    @inventory_part = @inventory_part
     @bid = Bid.find(params[:bid_id]) unless params[:bid_id].nil?
     @document = Document.new
   end
@@ -21,13 +24,11 @@ class InventoryPartsController < ApplicationController
 
   def create
     @inventory_part = InventoryPart.new(inventory_part_params)
-
-    part_match = AvRefApi.part_num_check(@inventory_part.part_num)
-
+    # part_match = AvRefApi.part_num_check(@inventory_part.part_num)
+    part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
     respond_to do |format|
       if part_match
         @inventory_part.add_part_details(part_match, current_user)
-
         unless @inventory_part.save
           format.html { render :new }
         end
@@ -42,15 +43,30 @@ class InventoryPartsController < ApplicationController
 
   # import spreadsheet of parts inventory
   def import
-    @import = InventoryPart.import(params[:file], current_user)
-    if @import.size == 2
-      flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
-      redirect_to new_inventory_part_path(current_user)
-    elsif @import.empty?
-      redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
-    elsif @import.size == 1
-      redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
+    json_data = CsvImport.jsonize_csv(params[:file])
+    @import = InventoryUploadWorker.perform_async(json_data, (params[:inventory_company_id] || params[:company_id].to_i))
+    ## for testing. So I don't have to do it on sidekiq
+    # CsvImport.import_inventory(json_data, Company.find(23))
+
+
+
+  # run match check 
+  #### PUT THIS ON A WORKER WHEN YOU START ALLOWING USERS TO UPLOAD THEIR OWN INVENTORY
+    Auction.check_new_inventory_for_auction_matches
+    # if @import.size == 2
+    #   flash[:error] = "Invalid part number #{@import[1]} in your uploaded file."
+    #   redirect_to new_inventory_part_path(current_user)
+    # elsif @import.empty?
+    #   redirect_to inventory_parts_path(current_user), notice: "Parts Imported."
+    # elsif @import.size == 1
+    #   redirect_to inventory_parts_path(current_user), notice: "Import complete. #{@import[0]} duplicates were found."
+    # end
+    if current_user.system_admin?
+      redirect_to admin_inventory_upload_path 
+    else
+      redirect_to inventory_parts_path
     end
+
   end
 
   def update
@@ -74,8 +90,8 @@ class InventoryPartsController < ApplicationController
   end
 
   def remove_all
-    current_user.inventory_parts.destroy_all
-    flash[:error] = "You have removed all Inventory Parts"
+    InventoryDestroyerWorker.perform_async(current_user.id)
+    flash[:error] = "Inventory is being deleted. This may take a few moments"
     redirect_to inventory_parts_path
   end
 
@@ -86,7 +102,7 @@ class InventoryPartsController < ApplicationController
     end
 
     def import_inventory
-      params.require(:contact_import).permit(:file)
+      params.require(:contact_import).permit(:file, :company_id, :inventory_company_id)
     end
 
     def inventory_part_params

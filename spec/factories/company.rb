@@ -35,5 +35,6 @@ FactoryGirl.define do
     representative        Faker::Internet.user_name
     country               Faker::Address.country_code
     ein                   Faker::Company.ein
+    payout_selected       true
   end
 end

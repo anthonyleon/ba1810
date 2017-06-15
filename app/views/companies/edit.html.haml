@@ -1,31 +1,204 @@
-.row
-  .col.s12
-    .card
-      .card-content
-        .card-title.center-align
-          %h5.custom-card-title.center
-            Company Profile
-        %hr/
-        .row.tab-box
-          .col.s12
-            %ul.tabs
-              %li.tab.col.m3.s12
-                %a.custom-green-text{:href => "#Account"} Account
-              %li.tab.col.m3.s12
-                %a.custom-green-text{:href => "#companyDocuments"} Documents
-              %li.tab.col.m3.s12
-                %a.custom-green-text{:href => "#Edit"} Edit Profile Info
-              .indicator.custom-green-color{:style => "z-index:1"}
-              
-          #Account.col.s12.active{style: "margin-top: 15px;"}
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-cogs.position-left.text-warning
+				%span.text-semibold.text-warning Account Settings
+.page-container{:style => "min-height:363px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			/ Toolbar
+			.navbar.navbar-default.navbar-component.navbar-xs
+				%ul.nav.navbar-nav.visible-xs-block
+					%li.full-width.text-center
+						%a{"data-target" => "#navbar-filter", "data-toggle" => "collapse"}
+							%i.icon-menu7
+				#navbar-filter.navbar-collapse.collapse
+					%ul.nav.navbar-nav
+						%li.active
+							%a{"data-toggle" => "tab", :href => "#userprofile"}
+								%i.icon-user.position-left
+								User Profile
+						%li
+							%a{"data-toggle" => "tab", :href => "#companyprofile"}
+								%i.icon-office.position-left
+								Company Profile
+						%li
+							%script{:src => "#{Rails.application.config.armor_modal_url}", :type => "text/javascript"}
+							%a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
+								%i.icon-piggy-bank.position-left
+								Escrow Service Setup
+			/ /toolbar
+			.row
+				.col-lg-9
+					.tabbable
+						.tab-content
+							#userprofile.tab-pane.fade.active.in
+								/ User Profile info
+								.panel.panel-flat
+									.panel-heading
+										%h6.panel-title
+											#{@company.representative}'s Profile information
+											%a.heading-elements-toggle
+												%i.icon-more
+										.heading-elements
+											%ul.icons-list
+												%li
+													%a{"data-action" => "collapse"}
+									.panel-body
+										= simple_form_for(@company) do |f|
+											- if @company.errors.any?
+												#error_explanation
+													%p
+														= pluralize(@company.errors.count, "error")
+														prohibited this company from being saved:
+													%ul
+														- @company.errors.full_messages.each do |message|
+															%li= message
+											.form-group
+												.row
+													.col-md-6
+														%label Full name
+														= f.text_field :representative, class: "form-control", placeholder: "Full Name"
+													.col-md-6
+														%label Email
+														= f.text_field :email, class: "form-control", placeholder: "E-mail"
+											.text-right
+												%button.btn.btn-success{:type => "submit"}
+													Update User Profile
+													%i.icon-arrow-right14.position-right
+								.panel.panel-flat
+									.panel-heading
+										%h6.panel-title
+											Password Reset
+											%a.heading-elements-toggle
+												%i.icon-more
+										.heading-elements
+											%ul.icons-list
+												%li
+													%a{"data-action" => "collapse"}
+									.panel-body
+										= simple_form_for(@company) do |f|
+											- if @company.errors.any?
+												#error_explanation
+													%p
+														= pluralize(@company.errors.count, "error")
+														prohibited this company from being saved:
+													%ul
+														- @company.errors.full_messages.each do |message|
+															%li= message
+											.form-group
+												.row
+													.col-md-6
+														%label New password
+														= f.password_field :password, class: "form-control", placeholder: "Password"
+													.col-md-6
+														%label Confirm new password
+														= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password"
+											.text-right
+												%button.btn.btn-warning{:type => "submit"}
+													Update Password
+													%i.icon-warning.position-right
+							#companyprofile.tab-pane.fade.in
+								/ Company Profile info
+								.panel.panel-flat
+									.panel-heading
+										%h6.panel-title
+											#{@company.name}'s Profile Information
+											%a.heading-elements-toggle
+												%i.icon-more
+										.heading-elements
+											%ul.icons-list
+												%li
+													%a{"data-action" => "collapse"}
+									.panel-body
+										= simple_form_for(@company) do |f|
+											- if @company.errors.any?
+												#error_explanation
+													%p
+														= pluralize(@company.errors.count, "error")
+														prohibited this company from being saved:
+													%ul
+														- @company.errors.full_messages.each do |message|
+															%li= message
+											.form-group
+												.row
+													.col-md-6
+														%label Company
+														= f.text_field :name, class: "form-control", placeholder: "Company"
+													.col-md-6
+														%label Website
+														= f.text_field :url, class: "form-control", placeholder: "Website"
+											.form-group
+												.row
+													.col-md-12
+														%label Address line
+														= f.text_field :address, class: "form-control", placeholder: "Street Address"
+											.form-group
+												.row
+													.col-md-4
+														%label City
+														= f.text_field :city, class: "form-control", placeholder: "City"
+													.col-md-4
+														%label State/Province
+														= f.text_field :state, class: "form-control", placeholder: "State"
+													.col-md-4
+														%label ZIP code
+														= f.text_field :zip, class: "form-control", placeholder: "Zip Code"
+											.form-group
+												.row
+													.col-md-6
+														%label Country
+														%select.select{"data-placeholder" => "Choose a Country...", :name => "university-country"}
+															%option
+															- CountryStateSelect.countries_collection.each do |c|
+																%option{value: "#{c[1]}"}
+																	= c[0]
+													.col-md-6
+														%label Phone #
+														= f.text_field :phone, class: "form-control", placeholder: "Company Phone Number"
+											.form-group
+												%label Add Company Documents
+												= f.fields_for @company_doc, html: { multipart: true } do |cm|
+													= cm.label :attachment
+													= cm.file_field :attachment
+													#form-group.checkbox
+													= cm.check_box :resale_license
+													= cm.label :resale_license, "Check if this is your Resale Certificate"
+													%span.help-block Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
+											.text-right
+												%button.btn.btn-success{:type => "submit"}
+													Update Company Profile
+													%i.icon-arrow-right14.position-right
+								/ /profile info
+								/ Account settings
 
-          #companyDocuments.col.s12.active{style: "margin-top: 15px;"}
-            = render 'company_docs/index'
-          #Edit.col.s12.active{style: "margin-top: 15px;"}
-            = render 'form'
-
-%div.center
-  %script{:src => "https://armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-  %a.paymentInstructionsFrame-lightbox-preview.payout-preference-btn{"data-url" => "#{@url}"}
-    %i.fa.fa-lock{"aria-hidden" => "true"}
-    Escrow Setup
+								/ /account settings
+				.col-lg-3
+					/ User thumbnail
+					.thumbnail
+						.thumb.thumb-rounded
+							= image_tag("bidaeroswirl.png", class: "navbar-brand-signup")
+						.caption.text-center
+							%h6.text-semibold.no-margin
+								#{@company.representative}
+								%small.display-block Account Executive
+								%small.display-block #{@company.city}, #{@company.state}
+					- if !@company.company_docs.empty?
+						.panel
+							.existing-documents	
+								%table.table.table-hover
+									%thead
+										%tr
+											%th Company Documents
+											%th
+									%tbody
+										- @company.company_docs.each do |document|
+											%tr
+												%td.view-doc= link_to document.name, document.attachment_url
+												%td
+													%div.delete-doc-btn
+														= link_to document, data:  { company_document_behavior: 'delete'} do
+															%i.icon-cross3{style: "font-size: 18px; color: red;"}

@@ -1,4 +1,4 @@
-%section#key.shadow_section.page-section.pt-0.pb-0.banner-section.bg-dark{"data-background" => asset_path("full-width-images/Features_bid-1.jpg"), :style => "background-attachment:initial;"}
+%section#key.shadow_section.page-section.pt-0.pb-0.bg-dark.fill-screen-mobile{"data-background" => asset_path("full-width-images/Features_bid-1.jpg"), :style => "background-attachment:initial;"}
   .container.relative
     .row
       .col-md-6
@@ -8,17 +8,17 @@
           .banner-content
             .banner-description{:style => "height:250px"}
     / Scroll Down
-    .local-scroll
-      %a{:href => "#key1"}
-        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+  .row
+    %a.discover-btn{:href => "#features"}
+      %img.key-features-scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
     / End Scroll Down
 / END KEY FEATURES
 / KEY FEATURES 1
-%section#key1.shadow_section.page-section.pt-0.pb-0.bg-dark{:style => "background-attachment:initial; background-color:#098d18;"}
+%section.shadow_section.page-section.pt-0.pb-0.bg-dark{:style => "background-attachment:initial; background-color:#098d18;"}
   .row
     %ul.nav.nav-pills.nav-justified
       %li.active
-        %a{"data-toggle" => "tab", :href => "#REVERSE"} REVERSE AUCTION
+        %a{"data-toggle" => "tab", :href => "#REVERSE"} REVERSE AUCTION (RFQ)
       %li
         %a{"data-toggle" => "tab", :href => "#POTENTIAL"} AUTOMATED SALES LEADS
       %li
@@ -35,7 +35,7 @@
           #REVERSE.tab-pane.fade.in.active
             .col-md-6.banner-image.wow.fadeInUp{"data-wow-duration" => "1.2s"}
               %img.featurespc{:alt => "", :src => asset_path("full-width-images/pc1.png"), :style => ""}/
-            %h1.marginbo REVERSE AUCTION
+            %h1.marginbo REVERSE AUCTION (RFQ)
             %p.tit1 Ensure affordability and efficiency with our Reverse Auction approach. When the roles of buyer and seller are flipped, healthy competition ensures fair market value. 
           #POTENTIAL.tab-pane.fade
             .col-md-6.banner-image
@@ -63,7 +63,7 @@
             %h1.marginbo FINANCIAL TRACKING
             %p.tit1 We understand the importance of visually understanding your company’s cash flow patterns, which is why we provide the ability to easily review past purchases and sales with an organized cash flow view. 
 
-%section#infographic.page-section.shadow_section
+%section#infographic.page-section.shadow_section{style: "background-color: white !important;"}
   %h1.section-title.font-alt.mb-40.mb-sm-40
     %span{:style => "color: #4881bd;"}HOW IT WORKS
   %h3.section-sub-title.font-alt.mb-20.mb-sm-40
@@ -74,7 +74,7 @@
       / Features Item
       .col-sm-6.col-md-4.col-lg-4.mb-40
         .alt-features-item.align-center.boxit
-          .alt-features-icon
+          .alt-features-icon.icon
             %img.services{:src => asset_path("service/3.png")}/
           %h6.alt-features-title.font-alt REACH MULTIPLE SUPPLIERS
           %h6#margin.alt-features-title.font-alt-small
@@ -124,6 +124,6 @@
       .alt-features-item1.align-center.boxit
         .alt-features-icon
           %img.services{:src => asset_path("service/4.png")}/
-        %h6.alt-features-title.font-alt RECIEVE PAYMENT
+        %h6.alt-features-title.font-alt RECEIVE PAYMENT
         %h6#margin.alt-features-title.font-alt-small
           Payment is released upon buyer approval.

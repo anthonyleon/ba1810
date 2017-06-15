@@ -1,36 +1,52 @@
-.card
-  .card-content
-    .card-title.center-align
-      %h5 Notifications
-    %hr/
-    %table#invetoryPartsDT.table.striped.responsive-table.bordered
-      %thead
-        %tr
-          %th Event
-          %th Part #
-          %th When?
-          %th Condition
-      %tbody
-        - @notifications.each do |note|
-          %tr.notification
-            -if note.bid != nil && note.bid.tx
-              -if note.bid.tx.seller == current_user
-                %td.srchtbl= link_to note.message, seller_purchase_path(note.bid.tx.id)
-              -elsif note.bid.tx.buyer == current_user
-                %td.srchtbl= link_to note.message, buyer_purchase_path(note.bid.tx.id)
-            -else
-              %td.srchtbl= link_to note.message, note.auction
-
-            %td.srchtbl= note.auction.part_num
-            -if note.bid
-              %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
-              %td.srchtbl= AssetDecorator.rename(note.bid, note.bid.inventory_part.condition)
-
-            -else
-              %td.srchtbl= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f) + ' ago'
-              %td.srchtbl= AssetDecorator.rename(note.auction, note.auction.condition)
-
-            
-            / %td= link_to 'Delete', inventory_part_path(inventory), method: :delete, data: { confirm: 'Are you sure?' }
-      
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.glyphicon.glyphicon-bell.position-left.text-warning
+				%span.text-semibold.text-warning Notifications
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					= link_to dashboard_path do
+						Dashboard
+				%li.active
+					Notifications
+	/ Page container
+.page-container{:style => "min-height:159px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-flat
+				.panel-heading
+					%h6.panel-title
+						Recent Activity
+					#sales-heatmap
+				.table-responsive
+					%table.table.text-nowrap
+						%thead
+							%tr
+								%th Description
+								%th Part Number
+								%th Days ago
+						%tbody
+							- @notifications.uniq {|n| n.category }.each do |note|
+								%tr.notification
+									%td
+										.media-left.media-middle
+											=link_to note.link do
+												.btn.btn-rounded.btn-icon.btn-xs{class: "#{note.choose_color}"}
+													%span{class: "#{note.choose_icon}"}
+										.media-body
+											.media-heading
+												%a.letter-icon-title= link_to note.message, note.link
+											.text-muted.text-size-small
+												%i.icon-cogs.text-size-mini.position-left
+												= note.sub_message(current_user)
+									%td
+										%span.text-muted.text-size-small
+										= note.auction.part_num
+									%td
+										%h6.text-semibold.no-margin
+										= distance_of_time_in_words(Time.zone.now.to_f - note.created_at.to_f)
+						
 

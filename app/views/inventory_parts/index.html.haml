@@ -1,34 +1,49 @@
-.card
-  .card-content
-    .card-title.center-align
-      %h5.custom-card-title.center Inventory Parts
-    %hr/
-    %table#invetoryPartsDT.table.striped.responsive-table.bordered
-      %thead
-        %tr
-          %th Part Number
-          %th Description
-          %th Serial Number
-          %th Condition
-          %th Manufacturer
-          %th
-      %tbody
-        - @inventory_parts.each do |inventory|
-          %tr
-            %td.srchtbl= link_to inventory.part_num, inventory
-            %td.srchtbl= inventory.description
-            %td.srchtbl= inventory.serial_num
-            %td.srchtbl= inventory.condition_tag
-            %td.srchtbl= inventory.manufacturer
-            %td
-              = link_to inventory_part_path(inventory), data: { inventory_behavior: 'delete' }  do
-                %span.material-icons.red-text.icon-34
-                  delete_forever
-%div.btn.custom-btn
-  %i.fa.fa-upload
-  = link_to 'Upload New Inventory', new_inventory_part_path
-%div.right.btn.custom-btn.destroy-all-button
-  =link_to 'Delete All Inventory', remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"}
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-cogs.position-left.text-alert-warning
+        %span.text-semibold.text-alert-warning Inventory
+        \- Parts listed
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Manage
+        %li.active
+          Inventory
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h4.panel-title.center
+            Inventory
+            %a.heading-elements-toggle
+              %i.icon-more
+          .heading-elements
+            %button#sweet_inventory.btn.btn-link.heading-btn.text-semibold.legitRipple{"data-target" => "#modal_update_inventory", "data-toggle" => "modal", :type => "button"}
+              %span Update Inventory
+              %b.icon-download7
+            =link_to remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"} do
+              %button.btn.bg-danger.text-semibold.legitRipple.heading-btn Delete All Inventory
+        / %table#inventoryPartsDT.table.striped.responsive-table.bordered
+        %table#inventoryPartsDT.table.striped.responsive-table.bordered{"data-source" => "#{inventory_parts_path(format: "json")}"}
+          %thead
+            %tr
+              %th Part Number
+              %th Description
+              %th Serial Number
+              %th Condition
+              %th Manufacturer
+          %tbody
 
-
-
+-# %div.btn
+-#   %i
+-#   = link_to 'Upload New Inventory', new_inventory_part_path
+-# %div.right.btn.destroy-all-button
+-#   =link_to 'Delete All Inventory', remove_all_inventory_parts_path, method: :get, data: {confirm: "Are you sure you want to delete ALL of your inventory?"}

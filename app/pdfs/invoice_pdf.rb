@@ -91,8 +91,8 @@ include ActionView::Helpers::NumberHelper
       move_down 5
 
       text "Destination Company"
-      text "#{@transaction.auction.destination_address}"
-      text "#{@transaction.auction.destination_city}, #{@transaction.auction.destination_state} #{@transaction.auction.destination_zip}"
+      text "#{@transaction.auction.destination.address}"
+      text "#{@transaction.auction.destination.city}, #{@transaction.auction.destination.state} #{@transaction.auction.destination.zip}"
     end
   end
 

@@ -87,9 +87,9 @@ include ActionView::Helpers::NumberHelper
       stroke_horizontal_rule
       move_down 5
 
-      text "#{@transaction.auction.destination_company}"
-      text "#{@transaction.auction.destination_address}"
-      text "#{@transaction.auction.destination_city}, #{@transaction.auction.destination_state} #{@transaction.auction.destination_zip}"
+      text "#{@transaction.destination.title}"
+      text "#{@transaction.destination.address}"
+      text "#{@transaction.destination.city}, #{@transaction.destination.state} #{@transaction.destination.zip}"
     end
   end
 
@@ -107,9 +107,9 @@ include ActionView::Helpers::NumberHelper
   def shipping_info
     shipment = []
     if @transaction.shipping_account
-      shipment << ["#{@transaction.carrier}", "#{@transaction.shipment_desc}", "N/A", "#{@transaction.auction.required_date}"]
+      shipment << ["#{@transaction.carrier}", "#{@transaction.shipment_desc}", "N/A", "#{@transaction.required_date}"]
     else
-      shipment << ["N/A", "N/A", "N/A", "#{@transaction.auction.required_date}"]
+      shipment << ["N/A", "N/A", "N/A", "#{@transaction.required_date}"]
     end
     array = [["Ship Via", "Requested Shipping Method", "Shipping Terms", "Delivery Date"]] + shipment
   end

@@ -1,59 +1,253 @@
-.row
-  .col.s12
-    .card
-      .card-content
-        %span.card-title.activator.grey-text.text-darken-4
-          %h5
-            = @auction.auction_part.description
-          %h6
-            = @auction.part_num
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-arrow-left52.position-left
+				%span.text-semibold eRFQ
+				\- Reference No. #{@auction.reference_num}
+			- if current_user == @auction.company
+				%ul.breadcrumb.breadcrumb-caret.position-right
+					%li
+						=link_to dashboard_path do
+							Dashboard
+					%li
+						Buy
+					%li
+						=link_to auctions_path do
+							Sent eRFQ's
+					%li.active
+						eRFQ: #{@auction.reference_num}
+			- else
+				%ul.breadcrumb.breadcrumb-caret.position-right
+					%li
+						=link_to dashboard_path do
+							Dashboard
+					%li
+						Sell
+					%li
+						-if @auction.invites.to_s.include?(current_user.email) || @auction.invites.to_s.include?(current_user.name)
+							=link_to auction_invites_path do
+								Received eRFQ's
+						-else
+							=link_to current_opportunities_path do
+								Broadcast
 
-        - if @auction.company == current_user
-          %div.btn.custom-btn.right
-            %i.fa.fa-pencil
-            = link_to 'Edit this Auction', edit_auction_path(@auction)
-        - else
-          = link_to 'New Bid', new_auction_bid_path(@auction), class: 'btn custom-btn right'
-        %hr{style: "clear:both;margin-top: 60px;"}/
-        %ul
-          %li.center-align
-            %h5= @auction.condition_header
-            - @auction.conditions.each do |condition|
-              = @auction.condition_tag(condition)
-        %ul
-          %li.center-align
-            %h5= "Shipping Instructions"
-            %div{style: "text-align: center; margin-top: 10px;"}
-              = @auction.destination_zip + ", "
-              = @auction.destination_city + ", "
-              = @auction.destination_country
-            %div{style: "text-align: center;"}
-              ="Must be received by "
-              %strong
-                = @auction.required_date
-        %hr/
-        %p.flow-text
-          New List Price:
-          %strong
-            = number_to_currency @msrp
-        - if @auction.bids.empty?
-          .nobid.center-align
-            %p.flow-text There are no bids on this auction yet.
-        - else
-          #bids-container
-            %h4.custom-card-title.center
-              Bids
-            %table.table.responsive-table.bordered
-              %thead
-                %tr
-                  %th Company
-                  %th Serial Number
-                  %th Condition
-                  %th Manufacturer
-                  %th Amount
-                  %th Est. Shipping
-                  %th Avg Rating
-              %tbody
-                - BidDecorator.decorate_collection(@auction.bids.order(part_price: :asc)).each do |bid|
-                  %tr#cursor-row
-                    = render bid
+					%li.active
+						eRFQ: #{@auction.reference_num}
+	/ Page container
+.page-container{:style => "min-height:159px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-flat
+				.panel-heading
+					%h5.panel-title
+						eRFQ Details
+					- if @auction.company == current_user
+						.heading-elements
+							= link_to edit_auction_path do
+								.btn-group.heading-btn
+									%button.btn.btn-primary Edit eRFQ
+							%ul.icons-list
+								%li
+									%a{"data-action" => "collapse"}
+					- else
+						.heading-elements
+							%ul.icons-list
+								%li
+									%a{"data-action" => "collapse"}
+				.panel-body
+					.row
+						.col-md-12
+							.col-md-4
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
+									.panel-heading.text-semibold
+										%i.icon-cogs.position-left
+										Part Details
+									.panel-body
+										%dl.dl-horizontal
+											%dt Part number:
+											%dd
+												= "#{@auction.part_num}"
+											%dt Description:
+											%dd
+												= "#{@auction.auction_part.description}"
+											%dt Quantity:
+											%dd
+												= "#{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
+											%dt Acceptable Conditions:
+											%dd
+												= "#{AssetDecorator.rename(@auction, @auction.condition)}"
+											%dt Required Documentation:
+											%dd
+												= "#{@auction.req_forms.reject(&:blank?).to_sentence}"
+											%dt Cycle Requirement:
+											%dd
+												= "#{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
+											%dt Target Price:
+											%dd
+												= "#{@auction.target_price || "N/A"}"
+							.col-md-4
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
+									.panel-heading.text-semibold
+										%i.icon-user.position-left
+										Contact Information
+									.panel-body
+										%dl.dl-horizontal
+											%dt.auction-dl-dt Company:
+											%dd.auction-dl-dd
+												= "#{@auction.company.name}"
+											%dt.auction-dl-dt Representative:
+											%dd.auction-dl-dd
+												= "#{@auction.rep_name}"
+											%dt.auction-dl-dt Email:
+											%dd.auction-dl-dd
+												= "#{@auction.rep_email}"
+											%dt.auction-dl-dt Phone Number:
+											%dd.auction-dl-dd
+												= "#{@auction.rep_phone}"
+											%dt.auction-dl-dt Address:
+											%dd.auction-dl-dd
+												= "#{@auction.company.address}"
+												%br
+												= "#{@auction.company.city}"
+												= ", #{@auction.company.state}"
+												= "#{@auction.company.zip}"
+												= "#{@auction.company.country}"
+							.col-md-4
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
+									.panel-heading.text-semibold
+										%i.icon-truck.position-left
+										Shipping Details
+									.panel-body.text-center
+										%dl
+											%dt Ship To:
+											%dd ATTN: #{@auction.rep_name}
+											%dd
+												= "#{@destination.title}"
+											%dd
+												= "#{@destination.address}"
+												%br
+												= "#{@destination.city}"
+												= ", #{@destination.state}"
+												= "#{@destination.zip}"
+												= "#{@destination.country}"
+					-if current_user == @auction.company
+						= form_tag invite_more_suppliers_path(@auction), method: :patch, remote: true, class: "flex more-suppliers-form" do
+							.row.col-sm-12
+								.container#add-new-supplier
+								#new-supplier-partial{:style => "display: none;"}
+									= render partial: "add_supplier"
+								.container#invitees
+								%br
+								.row.flex{style: "justify-content: space-around;"}
+									.text-left
+										%a.btn.custom-btn#addNewSupplier.btn-success.add-supplier-after
+											Invite More Suppliers
+											%i.icon-envelop.position-right
+									.text-right.submit-added-suppliers
+										= button_tag(type: "submit", class: "btn btn-success submit-more-suppliers") do
+											Send Invite(s)
+											%i.icon-envelop.position-right
+			.panel.panel-flat
+				.panel-heading
+					%h5.panel-title
+						Quotes
+						%a.heading-elements-toggle
+							%i.icon-more
+					.heading-elements
+						- if @auction.company == current_user
+							%ul.icons-list
+								%li
+									%a{"data-action" => "collapse"}
+						-else
+							- if current_user.temp
+								= link_to temp_user_new_bid_path(@auction) do
+									.btn-group.heading-btn
+										%button.btn.btn-success Submit Quote
+							- else
+								= link_to new_auction_bid_path(@auction) do
+									.btn-group.heading-btn
+										%button.btn.btn-success Submit Quote
+							%ul.icons-list
+								%li
+									%a{"data-action" => "collapse"}
+				.panel-body
+					- if @auction.bids.empty? && @auction.invites.empty?
+						.nobid.center-align
+						%p.flow-text There are no quotes for this eRFQ yet.
+						#bids-container
+					- if !@auction.invites.empty?
+						%h5.text-light
+							Invited Suppliers
+						%table#invited-suppliers.table.responsive-table.bordered
+							%thead
+								%tr
+									-if current_user == @auction.company
+										%th Company
+									%th MFG
+									%th Serial Number
+									%th Condition
+									%th Price
+									%th Est. Shipping
+									%th Docs
+									%th Tag Date
+									%th QTY
+									-if current_user == @auction.company
+										%th
+										%th
+							%tbody
+								- BidDecorator.decorate_collection(@invited_suppliers_bids.order(part_price: :asc)).each do |bid|
+									%tr
+										= render bid
+								- @auction_invitees.each do |co|
+									-if !@auction.bidders.include?(co)
+										%tr
+											-if current_user == @auction.company
+												%td
+													=co.name.upcase
+											%td --
+											%td.upcase --
+											%td --
+											%td --
+											%td --
+											%td --
+											%td --
+											%td --
+											-if current_user == @auction.company
+												%td
+												%td
+					- if !@bid_aero_suppliers_bids.empty?
+						%br
+						%h5.text-light
+							Bid Aero Suppliers
+						%table#bid-aero-suppliers.table.responsive-table.bordered
+							%thead
+								%tr
+									-if current_user == @auction.company
+										%th Company
+									%th MFG
+									%th Serial Number
+									%th Condition
+									%th Price
+									%th Est. Shipping
+									%th Docs
+									%th Tag Date
+									%th QTY
+									%th
+									- if current_user == @auction.company
+										%th
+							%tbody
+								- BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
+									%tr#cursor-row
+										= render bid
+	-# .col-lg-1
+	-#   - if @auction.company == current_user
+	-#     .col-md-3
+	-#       .col-md-2
+	-#         = form_tag "/auctions/#{@auction.id}", class: "update-target-price", method: 'PATCH' do
+	-#           = text_field_tag 'target_price', nil, placeholder: 'Update Target Price', class: "dollars"
+	-#           / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
+	-#           = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color plus-button") do
+	-#             %i.fa.fa-lg.fa-plus

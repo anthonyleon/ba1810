@@ -19,7 +19,6 @@
 
         initWorkFilter();
         
-        $(window).trigger("scroll");
         $(window).trigger("resize");
         
         // Hash menu forwarding
@@ -33,7 +32,7 @@
     });
     
     $(document).ready(function(){
-        
+        $(window).scrollTop(0);
         $(window).trigger("resize");            
         init_classic_menu();
         init_fullscreen_menu();

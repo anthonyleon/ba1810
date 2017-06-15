@@ -1,0 +1,39 @@
+.row
+  #currentAuctions.col.s12.right-align.active
+    .row
+      .card
+        .card-content
+          .card-title.center-align{style: 'margin-top: 20px;'}
+            %h5.custom-card-title.center Project: #{@project.reference_num}
+          %hr/
+          %br
+          %table.table.striped.responsive-table#projectDT.bordered
+            %thead
+              %tr
+                %th Part Number
+                %th Description
+                %th Conditions
+                %th Start Date
+                %th Days Active
+                %th Bid Count
+                %th Lowest Bid
+                %th
+            %tbody
+              - @project.auctions.each do |auction|
+                %tr
+                  %td= link_to auction.part_num, auction
+                  %td= auction.auction_part.description
+                  -if auction.condition[0].blank?
+                    %td All Conditions
+                  -else
+                    %td= AssetDecorator.rename(auction, auction.conditions)
+                  %td= auction.created_at.strftime("%m/%d/%Y")
+                  %td= ((Time.zone.now - auction.created_at) / 1.day).to_i
+                  %td= auction.bids.count
+                  %td= number_to_currency auction.bids.minimum(:part_price) unless auction.bids.empty?
+                  %td.clearfix
+                    - if auction.company == current_user
+                      = link_to auction, data: { buyer_auctions_behavior: 'delete' } do
+                        %i.icon-cross3
+                        
+    = link_to 'New Auction', {controller: "auctions", action: "new", project_id: @project.id}, class: 'btn custom-btn'

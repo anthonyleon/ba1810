@@ -1,9 +1,15 @@
 class ArmorPaymentsApi
-  # if ENV['ARMOR_SANDBOX_BOOLEAN'] == "true"
-  #   CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], true)
-  # else
-  CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], false)
-  # end
+  
+  def self.sandbox?
+    if Rails.env == "development"
+      return true
+    elsif Rails.env == "production"
+      return false
+    end
+  end
+
+  CLIENT = ArmorPayments::API.new( ENV['ARMOR_PKEY'], ENV['ARMOR_SKEY'], sandbox?)
+
 
 
   def self.get_account(account_id)
@@ -39,7 +45,7 @@ class ArmorPaymentsApi
 
   def self.select_payout_preference(company)
     auth_data = { 'uri' => "/accounts/#{company.armor_account_id}/bankaccounts", 'action' => 'create' }
-    p result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
+    result = CLIENT.accounts.users(company.armor_account_id).authentications(company.armor_user_id).create(auth_data)
     result.data[:body]["url"]
   end
 
@@ -48,9 +54,9 @@ class ArmorPaymentsApi
       "type" => 1,
       "seller_id" => transaction.seller.armor_user_id,
       "buyer_id" => transaction.buyer.armor_user_id,
-      "amount" => transaction.price_before_fees.round(2),
+      "amount" => transaction.total_amount.round(2),
       "summary" => transaction.auction.part_num,
-      "description" => transaction.part.condition,
+      "description" => transaction.part.condition.capitalize,
       "invoice_num" => transaction.invoice_num,
       "purchase_order_num" => transaction.po_num,
       "message" => "Order has been created. Awaiting buyer funds.",
@@ -59,14 +65,14 @@ class ArmorPaymentsApi
         "amount" => transaction.bid_aero_fee.round(2),
         "account_id" => ENV["PAYONEER_ACCOUNT_ID"],
         "paid_by" => 'Buyer',
-        "description" => 'Transaction'
+        "description" => 'Transaction',
+        "cc_accept" => true
       } ]
     }
-    p transaction.total_amount
-    p "***" * 80
-    p result = CLIENT.orders(transaction.seller.armor_account_id).create(data)
-    p result[:body]["order_id"]
-
+    transaction.total_amount
+    "***" * 80
+    result = CLIENT.orders(transaction.seller.armor_account_id).create(data)
+    transaction.update(order_id: result[:body]["order_id"], status: :pending_payment)
   end
 
   def self.update_order(transaction, opts = {})
@@ -78,7 +84,7 @@ class ArmorPaymentsApi
       "pays_fees" => 'Buyer',
       "fees" => [ {
         "amount" => transaction.bid_aero_fee.round(2),
-        "account_id" => "160429190641",
+        "account_id" => ENV["PAYONEER_ACCOUNT_ID"],
         "paid_by" => 'Buyer',
         "description" => 'Transaction'
       } ]

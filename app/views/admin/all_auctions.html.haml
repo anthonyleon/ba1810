@@ -1,0 +1,16 @@
+.card
+  .card-content
+    .card-title.center-align
+      %h5.custom-card-title.center All Active RFQs
+    %hr/
+
+    %table#unmatchedAuctionsDT.table.striped.responsive-table.bordered{"data-source" => "#{all_auctions_path(format: "json")}"}
+      %thead
+        %tr
+          %th Auctioner
+          %th Part Number
+          %th Conditions
+          %th Delivery Date
+          %th Target Price
+          %th Created On
+      %tbody

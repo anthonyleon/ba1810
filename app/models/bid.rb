@@ -1,11 +1,12 @@
 class Bid < ActiveRecord::Base
-  belongs_to :company
+  has_one :company, through: :inventory_part
   belongs_to :auction
   belongs_to :inventory_part
   has_one :tx, class_name: "Transaction", dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :documents, dependent: :destroy
 
-  validates :inventory_part_id, presence: true
+  # validates :inventory_part, presence: true
   validates :part_price, presence: true
   validates :est_shipping_cost, presence: true
   # before_save :strip_symbols
@@ -33,15 +34,24 @@ class Bid < ActiveRecord::Base
     (arr.sum / arr.count.to_f) unless arr.empty?
   end
 
+  def self.matched_parts(auction, user)
+    match_parts = []
+    parts = user.inventory_parts
+    parts.where(part_num: auction.part_num).each do |part|
+      match_parts << part if auction.condition.include?(part.condition.to_sym) || auction.condition[0].blank?
+    end
+  end
+
   def strip_whitespace
     self.attributes.each do |key, value|
       self[key] = value.squish if value.respond_to?("squish")
     end
   end
-  private
 
-  # def strip_symbols
-  #   self.part_price.gsub!(/[ $,]/, '').to_d
-  #   self.est_shipping_cost.gsub(/[ $,]/, '')
-  # end
+  def self.strip_symbols(params)
+    params[:part_price].gsub!(/[ $,]/, '').to_d if !params[:est_shipping_cost].empty?
+    params[:est_shipping_cost].gsub!(/[ $,]/, '').to_d if !params[:est_shipping_cost].empty?
+  end
+
+
 end

@@ -1,0 +1,6 @@
+%div
+  = form_tag import_parts_path, multipart: true do
+    = file_field_tag :file
+    .actions{style: 'margin: 5px 0'}
+      %div#import-btn.btn.custom-btn
+        = submit_tag "Import"

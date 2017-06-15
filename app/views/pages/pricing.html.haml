@@ -8,18 +8,23 @@
           .banner-content
             .banner-description{:style => "height:250px"}
     / Scroll Down
-    .local-scroll
-      %a{:href => "#footer"}
-        %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+  .row
+    %a.discover-btn{:href => "#pricing-breakdown"}
+      %img.key-features-scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
+    / .local-scroll
+    /   %a{:href => "#footer"}
+    /     %img.scroll-down{:src => asset_path("footer/white-arrow-down.png")}/
     / End Scroll Down
 / END KEY FEATURES
 / Pricing Section
-%section.shadow_section.small-section.bg-gray-lighter.new
+%section#pricing-breakdown.shadow_section.small-section.bg-gray-lighter.new
+  %br
+  %br
   .container.relative
     %form#mailchimp.form.align-center
       .row
         .col-md-12
-          #footer.newsletter-label.font-alt
+          .newsletter-label.font-alt
             .col-md-12
               %h4 NO MONTHLY SUBSCRIPTION + FREE AIRCRAFT AND ENGINE LISTINGS
               .banner-description.center Listing assets on our site is completely free of charge, this allows for automated sales leads without any incurred costs. We offer free aircraft and engine listings in order to market any asset on our site. Service fees are only incurred when a sale is completed. However, as the sale price increases we decrease our service fee. When it comes to part sales you will never incur a service fee greater than 4%.
@@ -66,3 +71,6 @@
           Transaction fee for this order:
         #transactionFee.col-md-5{:style => "margin-top: 20px;"}
           $0.00
+      .row
+        %em#minimum-fee.col-md-offset-5.col-md-5{:style => "margin-top: 20px;"}
+          * A minimum fee of $10.00 will apply to completed orders.

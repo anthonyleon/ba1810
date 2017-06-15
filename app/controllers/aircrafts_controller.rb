@@ -1,5 +1,6 @@
 class AircraftsController < ApplicationController
   before_action :set_aircraft, only: [:show, :edit, :update, :destroy]
+  include ApplicationHelper
 
   def index
     @aircrafts = current_user.aircrafts.decorate
@@ -18,9 +19,13 @@ class AircraftsController < ApplicationController
   end
 
   def create
-    @aircraft = Aircraft.new(aircraft_params)
+    @aircraft = Aircraft.new(set_empty_params_to_na(aircraft_params))
     @aircraft.company = current_user
-
+    if params.require(:aircraft)[:document]  
+      @document = Document.new(attachment: document_params, name: document_params.original_filename)
+      @document.aircraft = @aircraft
+      @document.save
+    end
     respond_to do |format|
       if @aircraft.save
         format.html { redirect_to aircrafts_path, notice: 'Aircraft was successfully created.' }
@@ -33,9 +38,14 @@ class AircraftsController < ApplicationController
   end
 
   def update
+    if params.require(:aircraft)[:document]
+      @document = Document.new(attachment: document_params, name: document_params.original_filename) if params.require(:aircraft)[:document]
+      @document.aircraft = @aircraft 
+      @document.save
+    end
     respond_to do |format|
       if @aircraft.update(aircraft_params)
-        format.html { redirect_to @aircraft, notice: 'Aircraft was successfully updated.' }
+        format.html { redirect_to aircrafts_path, notice: 'Aircraft was successfully updated.' }
         format.json { render :show, status: :ok, location: @aircraft }
       else
         format.html { render :edit }
@@ -56,6 +66,10 @@ class AircraftsController < ApplicationController
 
     def set_aircraft
       @aircraft = Aircraft.find(params[:id])
+    end
+
+    def document_params
+      params.require(:aircraft).require(:document)["attachment"][0]  
     end
 
     def aircraft_params

@@ -1,28 +1,52 @@
-.card
-  .card-content
-    .card-title.center-align
-      %h5.custom-card-title.center Pending Purchases
-    %hr/
-    %table#purchaseDT.table.striped.responsive-table.bordered
-      %thead
-        %tr
-          %th Order #
-          %th Part Number
-          %th Description
-          %th Serial Number
-          %th Condition
-          %th Price Paid
-          %th PO
-          %th Invoice
-      %tbody
-        - @purchases.each do |transaction|
-          %tr
-            %td.srchtbl= link_to transaction.order_id || "N/A", buyer_purchase_path(transaction)
-            %td.srchtbl= transaction.bid.inventory_part.part_num
-            %td.srchtbl= transaction.bid.inventory_part.description
-            %td.srchtbl= transaction.bid.inventory_part.serial_num
-            %td.srchtbl= AssetDecorator.rename(transaction.bid, transaction.bid.inventory_part.condition)
-            %td.srchtbl= number_to_currency transaction.total_amount
-            %td.srchtbl= link_to transaction.po_num || "N/A", transaction_po_path(transaction, :format => :pdf) 
-            %td.srchtbl= link_to transaction.invoice_num || "N/A", transaction_invoice_path(transaction, :format => :pdf) 
-
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-history.position-left.text-primary
+        %span.text-semibold.text-primary Pending Purchases
+        \- The following eRFQs require action
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          =link_to dashboard_path do
+            Dashboard
+        %li
+          Buy
+        %li.active
+          Pending Purchases
+      .heading-elements
+        -# = link_to @auction do
+          .btn-group.heading-btn
+            %button.btn.btn-primary Return to eRFQ
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h5.panel-title
+            Pending Purchases
+        .datatable-scroll
+          %table#pendingPurchasesDT.table.dataTable.no-footer
+            %thead
+              %tr{:role => "row"}
+                %th.sorting Order Number
+                %th.sorting Part Number
+                %th.sorting Description
+                %th.sorting Serial Number
+                %th.sorting Condition
+                %th.sorting Total Amount
+                %th.text-center PO
+                %th.text-center Invoice
+            %tbody
+              - @purchases.each do |transaction|
+                %tr.odd{:role => "row"}
+                  %td= link_to transaction.order_id || "N/A", buyer_purchase_path(transaction)
+                  %td= transaction.bid.inventory_part.part_num
+                  %td= transaction.bid.inventory_part.description
+                  %td= transaction.bid.inventory_part.serial_num
+                  %td= AssetDecorator.rename(transaction.bid, transaction.bid.inventory_part.condition)
+                  %td= number_to_currency transaction.total_amount
+                  %td= link_to transaction.po_num || "N/A", transaction_po_path(transaction, :format => :pdf)
+                  %td= link_to transaction.invoice_num || "N/A", transaction_invoice_path(transaction, :format => :pdf)

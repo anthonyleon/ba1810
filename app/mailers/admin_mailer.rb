@@ -5,7 +5,10 @@ class AdminMailer < ApplicationMailer
   #
   #   en.company_mailer.registration_confirm.subject
   #
-
+  def yee
+    mail to: 'gmartinez@bid.aero', subject: 'YEE GABO IT WORKED'
+  end
+  
   def resale_uploaded(company, document)
     @company = company
     @document = document
@@ -16,6 +19,33 @@ class AdminMailer < ApplicationMailer
     @company = company
 
     mail to: 'support@bid.aero', subject: "New Client Registration"
+  end
+
+  def new_auction(auction)
+    @auction = auction
+    @company = auction.company
+    @auction_id = auction.id
+
+    mail to: 'support@bid.aero', subject: "#{@company.name.upcase} JUST CREATED AN AUCTION"
+  end
+
+  def new_lead(contact, company, phone, email, message, subject)
+    @name = contact
+    @company = company
+    @phone = phone
+    @email = email
+    @message = message
+
+    mail to: 'support@bid.aero', subject: "Bid Aero 2.0"
+    
+  end
+
+
+  def no_part_match(auction)
+    @auction = auction
+    @company = auction.company
+
+    mail to: 'support@bid.aero', subject:  "#{@company.name.upcase} MADE AN AUCTION W NO MATCH TO PARTS_DB"
   end
 
   def no_matches_for_auction(company, auction)

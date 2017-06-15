@@ -26,42 +26,79 @@ class AssetDecorator < Draper::Decorator
     h.content_tag(:span,  tag_name.to_s.split('_')[1..-1].join(' ').capitalize, class: "tag #{tag_name}")
   end
 
+
+
+  def abbreviated_condition
+    case condition
+    when :overhaul
+      "OH"
+    when :recent
+      "NE"
+    when :serviceable
+      "SV"
+    when :as_removed
+      "AR"
+    when :scrap
+      "SC"
+    when :non_serviceable
+      "NSV"
+    end
+  end
+
+
   def self.rename(event, condition) #event or inventory part
     @conditions = []
     if event.class == Bid || event.class == InventoryPart
       case condition
-      when "overhaul"
-        @conditions << "OH"
-      when "recent"
+
+      when "recent" || 0
         @conditions << "NE"
-      when "serviceable"
-        @conditions << "SV"
-      when "as_removed"
+      when "overhaul" || 1
+        @conditions << "OH"
+      when "as_removed" || 2
         @conditions << "AR"
-      when "scrap"
-        @conditions << "SC"
-      when "non_serviceable"
+      when "serviceable" || 3
+        @conditions << "SV"
+      when "non_serviceable" || 4
         @conditions << "NSV"
+      when "scrap" || 5
+        @conditions << "SC"
       end
     elsif event.class == Auction
       condition.each do |condition|
         case condition
-        when "overhaul"
+        when :overhaul
           @conditions << "OH"
-        when "recent"
+        when :recent
           @conditions << "NE"
-        when "serviceable"
+        when :serviceable
           @conditions << "SV"
-        when "as_removed"
+        when :as_removed
           @conditions << "AR"
-        when "scrap"
+        when :scrap
           @conditions << "SC"
-        when "non_serviceable"
+        when :non_serviceable
           @conditions << "NSV"
         end
       end
+      @conditions << "All Conditions" if condition == [:""] || condition == [""]
+    elsif event.class == Engine
+      case condition
+      when "overhaul"
+        @conditions << "Overhaul"
+      when "recent"
+        @conditions << "New"
+      when "serviceable"
+        @conditions << "Serviceable"
+      when "as_removed"
+        @conditions << "As Removed"
+      when "scrap"
+        @conditions << "Scrap"
+      when "non_serviceable"
+        @conditions << "Non Serviceable"
+      end
     end
-    @conditions.to_sentence
+    @conditions.to_sentence    
   end
 
   def service_status_tag

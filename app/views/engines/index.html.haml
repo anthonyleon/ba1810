@@ -1,11 +1,79 @@
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-compass4.position-left.text-alert-warning
+        %span.text-semibold.text-alert-warning Engine Listings
+        \- For Sale or Lease
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Manage
+        %li.active
+          Engine Listings
+    .heading-elements
+      =link_to new_engine_path do
+        %button.btn.alert-warning.text-semibold.legitRipple.heading-btn Create Engine Ad
 
-
-.card
-  .card-content
-    .card-title.center-align
-      %h5.custom-card-title.center Engines Availability
-    %hr/
-    = render partial: 'engine_table'
-%div.btn.custom-btn
-  %i.fa.fa-upload
-  = link_to ' Add New Engine', new_engine_path
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h4.panel-title.center
+            My Engine Advertisements
+          %h6.center
+            As a bonus to our users we allow you to advertise any engine on our home page completely free of charge! Below are all of the engines you currently have listed on Bid Aero, you can edit or delete them by using the action dropdown to the right of each row.
+          %h6
+            OR View what's available on our 
+            = link_to "Engine Listing Page", engine_listings_path
+        .datatable-scroll
+          %table.table#aircraftDT
+            %thead
+              %tr{:role => "row"}
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Engine Model
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} ESN
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Conditions: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Condition
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Start Date: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Current Status
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Days Active: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Last Operator
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Bid Count: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Location
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Cycle Limiter
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Available Date
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Lowest Bid: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Sale or Lease
+                %th.text-center.sorting_disabled{"aria-label" => "Actions", :colspan => "1", :rowspan => "1", :style => "width: 100px;"} Actions
+            %tbody
+              - @engines.each do |engine|
+                %tr.odd{:role => "row"}
+                  %td= engine.engine_major_variant.upcase + "-" + engine.engine_minor_variant.upcase
+                  %td= engine.esn
+                  %td= engine.condition_tag
+                  %td.tag-cell= engine.service_status_tag
+                  %td= engine.last_operator.capitalize
+                  %td= engine.location.capitalize
+                  %td= engine.cycles_remaining
+                  %td= engine.available_date
+                  - if engine.sale? && engine.lease?
+                    %td= "Sale or Lease"
+                  - elsif engine.lease?
+                    %td=  "Lease"
+                  -else
+                    %td= "Contact Rep"
+                  %td.text-center
+                    %ul.icons-list
+                      %li.dropdown
+                        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                          %i.icon-menu9.text-primary
+                        %ul.dropdown-menu.dropdown-menu-right
+                          %li
+                            = link_to edit_engine_path(engine) do
+                              %i.icon-pencil5.text-warning
+                              EDIT
+                          %li
+                            = link_to engine, data: { engine_behavior: 'delete' } do
+                              %i.icon-trash.text-danger
+                              DELETE

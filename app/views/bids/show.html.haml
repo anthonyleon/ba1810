@@ -1,88 +1,120 @@
-/ Are we even using this view anymore??
-%main
-  #banner.clearfix
-    %h1
-      Review your order
-  #main-container
-    #checkout-container.container.clearfix
-      .col-md-5#bid-buy
-      %p
-        %h2 Amount:
-        = number_to_currency @bid.part_price
-      %p
-        %h2 Company:
-        = @bid.company.name
-        
-.col-md-6
-  .container
-    = "Destination: " + @auction.destination_address + ", " + @auction.destination_city + ", " + @auction.destination_state + @auction.destination_zip 
-  .container
-    -if !@shipping_account
-      = "Confirm shipping costs for part to arrive by #{@auction.required_date}"
-  .form-container
-    = form_for([@auction, @bid], html: { class: "inline-form costs" }, remote: true) do |f|
-      .field.form-group.cost
-        = f.text_field :shipping_cost, class: "form-control", placeholder: "#{@bid.est_shipping_cost}"
-      .actions.confirm_cost{style: "margin-bottom: 20px;"}
-        = f.submit 'Submit', class: "btn custom-btn"
-        
-  .container
-    %h3
-      Shipment Carrier
+.page-header
+	.page-header-content
+		.page-title
+			%h4
+				%i.icon-arrow-left52.position-left.text-success
+				%span.text-semibold.text-success Quote
+				\- Reference #: #{@bid.reference_num || ""}
+			%ul.breadcrumb.breadcrumb-caret.position-right
+				%li
+					=link_to dashboard_path do
+						Dashboard
+				-if current_user == @bid.company
+					%li
+						Sell
+					%li
+						=link_to bids_path do
+							My Quotes
+				-else
+					%li
+						Buy
+					%li
+						=link_to auctions_path do
+							Sent eRFQ's
+				%li.active
+					= link_to "eRFQ: #{@auction.reference_num}", @auction
+				%h4.pull-right
+					= number_to_currency(@bid.part_price)
 
-    .container
-      - if @transaction.carrier_code && @transaction.tracking_num
-        %h4
-          Shipment has been sent:
-        %h5
-          Carrier: #{@transaction.carrier}
-        %h5
-          Tracking Number: #{@transaction.tracking_num}
-        %h5
-          Description: #{@transaction.shipment_desc}
-      - elsif current_user == @bid.company
-        = render 'shipment'
-      - elsif current_user == @auction.company && !@transaction.carrier_code
-        Part has not been shipped yet.
-      
-      - if current_user == @auction.company && !@transaction.paid # Add this when out of Testing Purposes && @transaction.delivered
-        %p
-          %script{:src => "https://armorpayments.com/assets/js/modal.min.js", :type => "text/javascript"}
-          %a.paymentInstructionsFrame-lightbox-preview.ui-action.ui-action-small{"data-url" => "#{@url}"} Release Payment
-      - elsif @transaction.paid ## add association to bid to know if rating has been made
-        = render :partial => "ratings/rate", :locals => {:rating => @rating}
+	/ Page container
+.page-container{:style => "min-height:159px"}
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			.panel.panel-flat
+				.panel-heading
+				.panel-body
+					.row
+						.col-md-12
+							.col-md-4
+								.panel.panel-default.border-left-xlg.border-left-primary
+									.panel-heading.text-semibold
+										%i.icon-cogs.position-left
+										Quote Details
+									.panel-body
+										%dl.dl-horizontal
+											%dt Part number:
+											%dd
+												= "#{@auction.part_num}"
+											%dt Description:
+											%dd
+												= "#{@auction.auction_part.description}"
+											%dt Quantity:
+											%dd
+												= "#{number_with_delimiter(@auction.quantity, :delimiter => ',') || "1"}"
+											%dt Acceptable Conditions:
+											%dd
+												= "#{AssetDecorator.rename(@auction, @auction.condition)}"
+											%dt Required Documentation:
+											%dd
+												= "#{@auction.req_forms.reject(&:blank?).to_sentence}"
+											%dt Cycle Requirement:
+											%dd
+												= "#{@auction.cycles ? number_with_delimiter(@auction.cycles, :delimiter => ',') : "N/A"}"
+							.col-md-6.col-md-offset-2
+								.panel.panel-default
+									.panel-heading.text-semibold
+										%i.icon-files-empty2.position-left
+										Add Document(s)
+									.panel-body.text-center
 
-    %h4
-      Part: #{@bid.inventory_part.description}
-    %h4
-      Part number: #{@bid.inventory_part.part_num}
-    %h4
-      Serial number: #{@bid.inventory_part.serial_num}
-    %h4
-      Condition: #{@bid.inventory_part.condition}
-    %h4
-      Manufacturer: #{@bid.inventory_part.manufacturer}
-    
-    %br
-
-  #documents.col-md-12
-    - if @bid.inventory_part.documents.empty?
-      %p There are no documents associated with this part.
-    - else
-      %table.table.table-hover
-        %thead
-          %tr
-            %th Name
-            %th Download Link
-            %th
-        %tbody
-          - @bid.inventory_part.documents.each do |document|
-            %tr
-              %td= document.name
-              %td= link_to 'Download', document.attachment_url
-              - if document.inventory_part.company == current_user
-                %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn'
-
-
-
-
+										= form_for ([@bid, @document]), html: { multipart: true, class: "form-inline" } do |f|
+											.form-group
+												.row{style: "display: flex;"}
+													.files
+														%label.btn.btn-default.btn-file.legitRipple
+															%i.icon-file-plus
+															Browse
+															= f.file_field :attachment, multiple: true
+													.form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
+														.file-caption-name#file-name{:title => "No file selected"}
+															.text-muted No file selected
+											%br
+											%br
+											.formats
+												Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .png .html
+											.col-1
+												= f.button(:disabled => "disabled", :type => "submit", :value => "submit", class: "btn btn-primary legitRipple") do
+													Upload
+													%i.icon-circle-up2.position-right
+									.existing-documents
+										- if @bid.documents.empty?
+											%p.center
+												%em There are currently no documents associated with this part.
+										- else
+											%table.table.table-hover
+												%thead
+													%tr
+														%th Available Documentation
+														%th
+														%th
+												%tbody
+													- @bid.documents.each do |document|
+														%tr
+															%td= document.name
+															-if document.attachment.url.to_s.downcase.include? "pdf"
+																%td.view-doc= link_to 'View/Download', document.attachment_url
+															-else
+																%td.view-doc= link_to 'Download', document.attachment_url
+															- if @bid.company == current_user
+																%td
+																	%div.delete-doc-btn
+																		= link_to document, data:  { bid_document_behavior: 'delete'} do
+																			%i.icon-cross3{style: "font-size: 18px; color: red;"}
+																	-# %td
+																	-#   = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
+																	-#     %i.icon-cross3{style: "font-size: 18px; color: red;"}
+								= link_to @auction, class:"btn bg-success pull-right" do
+									%i.icon-chevron-left
+									Return To RFQ

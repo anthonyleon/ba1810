@@ -10,23 +10,38 @@ class AuctionDecorator < AssetDecorator
   end
 
   def abbreviated_condition_tag(condition)
-    return "" if condition.to_s.empty?
-    tag_name = @@abbreviated_condition_tags[condition.to_s.downcase]  
-    h.content_tag(:span,  tag_name.to_s.split('_')[1..-1].join(' ').upcase, class: "tag #{tag_name}")
+    # return "" if condition.to_s.empty?
+    # tag_name = @@abbreviated_condition_tags[condition.to_s.downcase]  
+    # h.content_tag(:span,  tag_name.to_s.split('_')[1..-1].join(' ').upcase, class: "tag #{tag_name}")
+    # h.content_tag(:span, AuctionDecorator.rename(self.object, conditions), class: "tag #{tag_name}")
+  end
+
+  def abbreviated_conditions
+    conditions.map do |condition|
+      case condition
+      when :overhaul
+        "OH"
+      when :recent
+        "NE"
+      when :serviceable
+        "SV"
+      when :as_removed
+        "AR"
+      when :scrap
+        "SC"
+      when :non_serviceable
+        "NSV"
+      end
+    end
   end
 
   def abbreviated_index_tags
-    if condition.reject { |c| c.to_s.empty? }.size > 1
-
-      collection = abbreviated_condition_tag(conditions.first)
-      count = 1
-      condition.each do |c|
-        collection += abbreviated_condition_tag(conditions[count])
-        count += 1
-      end
-      collection 
+    if abbreviated_conditions.count > 1
+      abbreviated_conditions.reject(&:blank?).map do |abbrev_cond|
+        h.content_tag(:span, abbrev_cond, class: "tag tag_#{abbrev_cond.downcase}")
+      end.to_sentence.html_safe
     else
-      abbreviated_condition_tag(condition.first)
+      "All Conditions"
     end
   end
 

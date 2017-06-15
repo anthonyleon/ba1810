@@ -1,10 +1,30 @@
-.row
-  .col.s12
-    .card
-      .card-content
-        %div.card-title.activator.grey-text.text-darken-4.center-align
-          Editing Engine Listing
-        = render 'form'
-  %div.btn.custom-btn
-    %i.fa.fa-arrow-left
-    = link_to 'View', @engine
+.page-header
+  .page-header-content
+    .page-title
+      %h4
+        %i.icon-compass4.position-left.text-alert-warning
+        %span.text-semibold.text-alert-warning Edit Engine Advertisment
+        \- Please fill and submit the following form to update your engine ad.
+      %ul.breadcrumb.breadcrumb-caret.position-right
+        %li
+          = link_to dashboard_path do
+            Dashboard
+        %li
+          Manage
+        %li
+          = link_to engines_path do
+            Engine Listings
+        %li.active
+          Edit Engine #{@engine.esn}
+  / Page container
+.page-container{:style => "min-height:159px"}
+  / Page content
+  .page-content
+    / Main content
+    .content-wrapper
+      .panel.panel-flat
+        .panel-heading
+          %h5.panel-title
+            Please complete the form below with your engine specs!
+        .panel-body
+          = render 'form'

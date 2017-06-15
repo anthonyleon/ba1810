@@ -1,13 +1,17 @@
 source 'https://rubygems.org'
 
+gem 'rails', '4.2.5.1'
+
+gem 'bugsnag'
+gem 'activerecord-import'
+gem 'will_paginate'
 gem 'draper'
 gem 'sidekiq'
-gem 'country_state_select', '3.0.0'
+gem 'country_state_select'
 gem 'prawn'
 gem 'prawn-table'
 gem 'armor_payments'
 gem 'yahoo-finance'
-gem 'roo'
 gem 'erd'
 gem 'newrelic_rpm'
 gem 'fog-aws'
@@ -15,7 +19,8 @@ gem 'sendgrid'
 gem 'figaro'
 gem 'carrierwave'
 gem 'pry-rails'
-gem 'rails', '4.2.5.1'
+gem 'json', github: 'flori/json', branch: 'v1.8'
+
 gem 'pg'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
@@ -29,22 +34,23 @@ gem 'maskmoney-rails'
 gem 'httparty'
 gem 'bootstrap-sass'
 
+
 gem 'simple_form', '~> 3.2'
 # Utilities
 gem 'faker'
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 5.0.1'
 gem 'haml'
 gem "flutie"
 gem 'stylus'
 gem 'jquery-turbolinks'
 gem 'font-awesome-sass'
 gem 'sweetalert-rails'
-gem 'httparty'
 gem 'nokogiri'
 gem 'useragent'
 gem 'sprockets'
 
 group :development, :test do
+  gem 'ultrahook'
   gem "erb2haml", :group => :development
   gem 'byebug'
   gem 'capybara'
