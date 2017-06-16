@@ -56,7 +56,7 @@ class Notification < ActiveRecord::Base
     end
     bid_collection.uniq! { |b| b.company }
     bid_collection.each do |bid|
-      Notification.create(company_id: bid.company.id, auction_id: auction.id, bid_id: bid.id, message: message, category: category) unless bid.company == user
+      Notification.create(company: bid.company, auction: bid.auction, bid: bid, message: message, category: category) unless bid.company == user
     end
   end
 
