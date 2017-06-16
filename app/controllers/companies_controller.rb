@@ -51,6 +51,11 @@ class CompaniesController < ApplicationController
 					flash[:error] = "Please read and accept the Terms of Service and Privacy Policy"
 					render :new 
 				}
+			elsif Company.find_by_name(@company.name)
+				format.html { 
+					flash[:error] = "An account already exists under this company"
+					render :new 
+				}
 			elsif @company.save
 					## need to make validations so that errors are not received from armor payments (testing purposes)
 				AdminMailer.new_register(@company).deliver
