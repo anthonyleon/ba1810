@@ -2,6 +2,7 @@ class AuctionsController < ApplicationController
 	before_action :set_auction, only: [:show, :edit, :update, :destroy, :invite_more_suppliers]
 	before_action :set_bid_and_auction, only: [:purchase_confirmation, :purchase]
 	before_action :set_destination, only: [:show, :purchase_confirmation]
+	autocomplete :company, :name, full: true
 
 	def index
 		@owned_auctions = current_user.auctions.where(active: true).where(project: nil)

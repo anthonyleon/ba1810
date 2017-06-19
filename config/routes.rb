@@ -2,6 +2,9 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+	resources :auctions do
+  	get :autocomplete_company_name, :on => :collection
+	end
 
 	get '/auction_invite/:auction_id/invitee' => 'session#invite_login', as: 'invite_existing_user'
 	get 'projects/archive'
@@ -44,11 +47,11 @@ Rails.application.routes.draw do
 		resources :documents, shallow: true
 	end
 
-resources :inventory_parts do
-	collection do
-		get 'remove_all'
+	resources :inventory_parts do
+		collection do
+			get 'remove_all'
+		end
 	end
-end
 
 	get "/transaction/:id" => "transactions#show", as: "transaction"
 	post "/transaction" => "transactions#create", as: "transactions"
