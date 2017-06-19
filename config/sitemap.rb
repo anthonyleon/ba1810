@@ -3,7 +3,7 @@ SitemapGenerator::Sitemap.default_host = "https://www.bid.aero/"
 SitemapGenerator::Sitemap.adapter = SitemapGenerator::WaveAdapter.new
 SitemapGenerator::Sitemap.sitemaps_host = ENV['SITEMAP_HOST']
 SitemapGenerator::Sitemap.public_path = 'tmp/'
-SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps/'
+SitemapGenerator::Sitemap.sitemaps_path = 'parts/'
 
 SitemapGenerator::Sitemap.create do
   # Put links creation logic here.

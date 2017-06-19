@@ -22,4 +22,5 @@ xml.tag! 'urlset', 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9', 'xm
   xml.url do
     xml.loc base_url+'engine_listings.html'
   end
+
 end
