@@ -23,4 +23,8 @@ xml.tag! 'urlset', 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9', 'xm
     xml.loc base_url+'engine_listings.html'
   end
 
+  xml.url do
+    xml.loc "https://bidaero.s3.amazonaws.com/parts/sitemap.xml.gz"
+  end
+  
 end
