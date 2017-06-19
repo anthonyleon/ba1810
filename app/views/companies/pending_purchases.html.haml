@@ -31,10 +31,10 @@
           %table#pendingPurchasesDT.table.dataTable.no-footer
             %thead
               %tr{:role => "row"}
-                %th.sorting Order Number
-                %th.sorting Part Number
+                %th.sorting Reference No.
+                %th.sorting Part No.
                 %th.sorting Description
-                %th.sorting Serial Number
+                %th.sorting Serial No.
                 %th.sorting Condition
                 %th.sorting Total Amount
                 %th.text-center PO
@@ -42,7 +42,7 @@
             %tbody
               - @purchases.each do |transaction|
                 %tr.odd{:role => "row"}
-                  %td= link_to transaction.order_id || "N/A", buyer_purchase_path(transaction)
+                  %td= link_to transaction.auction.reference_num || "N/A", buyer_purchase_path(transaction)
                   %td= transaction.bid.inventory_part.part_num
                   %td= transaction.bid.inventory_part.description
                   %td= transaction.bid.inventory_part.serial_num

@@ -27,10 +27,10 @@
           %table#pendingSalesDT.table.datatable-basic.dataTable.no-footer
             %thead
               %tr{:role => "row"}
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Order Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Order Number
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part Number
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Order Number: activate to sort column descending", "aria-sort" => "ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Reference No.
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Part Number: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Part No.
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Description: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Description
-                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Serial Number: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Serial Number
+                %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Serial Number: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Serial No.
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Condition: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Condition
                 %th.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "Sale Price: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} Sale Price
                 %th.text-center.sorting{"aria-controls" => "DataTables_Table_0", "aria-label" => "PO: activate to sort column ascending", :colspan => "1", :rowspan => "1", :tabindex => "0"} PO
@@ -38,7 +38,7 @@
             %tbody
               - @sales.each do |transaction|
                 %tr.odd{:role => "row"}
-                  %td= link_to transaction.order_id || "N/A", seller_purchase_path(transaction)
+                  %td= link_to transaction.bid.reference_num || "N/A", seller_purchase_path(transaction)
                   %td= transaction.bid.inventory_part.part_num
                   %td= transaction.bid.inventory_part.description
                   %td= transaction.bid.inventory_part.serial_num
