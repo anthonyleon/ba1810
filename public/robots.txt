@@ -1,4 +1,4 @@
 User-agent: *
 
 Sitemap: https://www.bid.aero/sitemap.xml
-Sitemap: https://bidaero.s3.amazonaws.com/sitemaps/sitemap.xml.gz
+Sitemap: https://bidaero.s3.amazonaws.com/parts/sitemap.xml.gz
