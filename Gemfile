@@ -21,11 +21,13 @@ gem 'figaro'
 gem 'carrierwave'
 gem 'pry-rails'
 gem 'json', github: 'flori/json', branch: 'v1.8'
+gem 'rails4-autocomplete'
 
 gem 'pg'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
+gem "jquery-ui-rails"
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc

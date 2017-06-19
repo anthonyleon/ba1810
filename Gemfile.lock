@@ -274,6 +274,8 @@ GEM
     jquery-turbolinks (2.1.0)
       railties (>= 3.1.0)
       turbolinks
+    jquery-ui-rails (6.0.1)
+      railties (>= 3.2.16)
     justify (1.0.2)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -347,6 +349,8 @@ GEM
       ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails4-autocomplete (1.1.1)
+      rails (>= 3.0)
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
@@ -519,6 +523,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
+  jquery-ui-rails
   json!
   launchy
   maskedinput-rails
@@ -532,6 +537,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.2.5.1)
   rails-erd
+  rails4-autocomplete
   rails_12factor
   rspec-rails
   rubocop
