@@ -1,5 +1,5 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = "https://www.bid.aero/"
+SitemapGenerator::Sitemap.default_host = ENV['SITEMAP_HOST']
 SitemapGenerator::Sitemap.adapter = SitemapGenerator::WaveAdapter.new
 SitemapGenerator::Sitemap.sitemaps_host = ENV['SITEMAP_HOST']
 SitemapGenerator::Sitemap.public_path = 'tmp/'
