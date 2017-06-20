@@ -37,7 +37,7 @@
                         = "#{@inventory_part.part_num}"
                       %dt Serial Number:
                       %dd
-                        = @inventory_part.serial_num.empty? ? "N/A" : @inventory_part.serial_num
+                        = !@inventory_part.serial_num? ? "N/A" : @inventory_part.serial_num
                       %dt Condition:
                       %dd
                         = AssetDecorator.rename(@inventory_part, @inventory_part.condition)
