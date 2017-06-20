@@ -57,6 +57,12 @@ class PagesController < ApplicationController
     end
   end
 
+  def sitemap_index
+    respond_to do |format|
+      format.xml
+    end
+  end
+
 
   private 
 

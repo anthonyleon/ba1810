@@ -24,21 +24,6 @@ xml.tag! 'urlset', 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9', 'xm
   end
 
   xml.url do
-    xml.loc base_url+'part/sitemap1.xml.gz'
+    xml.loc base_url+'sitemapindex.xml'
   end
-
-  xml.url do
-    xml.loc base_url+'part/sitemap2.xml.gz'
-  end
-
-  xml.url do
-    xml.loc base_url+'part/sitemap3.xml.gz'
-  end
-
-  xml.url do
-    xml.loc base_url+'part/sitemap4.xml.gz'
-  end
-
-
-
 end

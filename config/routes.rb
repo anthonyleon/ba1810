@@ -35,6 +35,8 @@ Rails.application.routes.draw do
 
 	get "/sitemap.xml" => "pages#sitemap", format: "xml", :as => :sitemap
 
+	get "/sitemapindex.xml" => "pages#sitemapindex", format: "xml", :as => :sitemapindex
+
 	get '/about' => 'pages#about', as: 'about_us'
 
 	get 'part/:part_num' => 'pages#inventory_part', as: 'sitemap_inventory'
