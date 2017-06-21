@@ -3,3 +3,4 @@ User-agent: *
 Disallow: 
 
 Sitemap: https://www.bid.aero/sitemap.xml
+Sitemap: https://www.bid.aero/sitemapindex.xml
