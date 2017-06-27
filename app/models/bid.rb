@@ -49,7 +49,7 @@ class Bid < ActiveRecord::Base
   end
 
   def self.strip_symbols(params)
-    params[:part_price].gsub!(/[ $,]/, '').to_d if !params[:est_shipping_cost].empty?
+    params[:part_price].gsub!(/[ $,]/, '').to_d if !params[:part_price].empty?
     params[:est_shipping_cost].gsub!(/[ $,]/, '').to_d if !params[:est_shipping_cost].empty?
   end
 
