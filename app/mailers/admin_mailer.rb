@@ -25,8 +25,17 @@ class AdminMailer < ApplicationMailer
     @auction = auction
     @company = auction.company
     @auction_id = auction.id
-
+    @invites = Hash[auction.invites.map(&:company).map(&:name).zip(auction.invites.map(&:company).map(&:email))] 
     mail to: 'support@bid.aero', subject: "#{@company.name.upcase} JUST CREATED AN AUCTION"
+  end
+
+  def new_bid(bid)
+    @bid = bid
+    @company = bid.company
+    @bid_id = bid.id
+    @auction = bid.auction
+
+    mail to: "support@bid.aero", subject: "#{@company.name.upcase} JUST CREATED A BID"
   end
 
   def new_lead(contact, company, phone, email, message, subject)

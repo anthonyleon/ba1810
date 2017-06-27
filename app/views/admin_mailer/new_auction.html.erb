@@ -6,3 +6,7 @@
 <div>Auction ID: <%= @auction_id %></div>
 <div>Part: <%= @auction.part_num %></div>
 <div>Condition: <%= @auction.condition %></div>
+<div> Invited people below: </div>
+<% @invites.each do |k, v| %>
+	<div><%= k + " | " + v %></div>
+<% end %>

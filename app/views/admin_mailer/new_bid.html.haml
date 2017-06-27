@@ -1,0 +1,24 @@
+%h2
+  New Auction has been created
+
+%div
+  Bidder: 
+  = @company.name
+%div
+  Bidder ID: 
+  = @company.id
+%div
+  Bidder E-Mail: 
+  = @company.email
+%div
+  Auction ID: 
+  = @auction.id
+%div
+  Part: 
+  = @auction.part_num
+%div
+  Condition: 
+  = @auction.condition
+%div
+  Auctioner:
+  = @auction.company.name
