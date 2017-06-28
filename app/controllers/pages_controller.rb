@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  skip_before_action :require_logged_in
+  skip_before_action :authenticate_user!
   before_action :send_mail, except: [:new_lead, :sign_up_form]
   layout 'landing'
 

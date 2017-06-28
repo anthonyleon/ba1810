@@ -3,17 +3,14 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   helper_method :current_user
-  before_action :require_logged_in, except: [:find_states]
   # before_action :check_browser
+  before_action :authenticate_user!
   force_ssl if: :ssl_configured?
 
   def ssl_configured?
     !Rails.env.development?
   end
   
-  def current_user
-    @current_user ||= Company.find_by(id: session[:company_id])
-  end
 
   def require_logged_in
     redirect_to root_path unless current_user

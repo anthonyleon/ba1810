@@ -22,6 +22,7 @@ gem 'carrierwave'
 gem 'pry-rails'
 gem 'json', github: 'flori/json', branch: 'v1.8'
 gem 'rails4-autocomplete'
+gem 'devise', '~> 4.2'
 
 gem 'pg'
 gem 'uglifier', '>= 1.3.0'
@@ -31,7 +32,6 @@ gem "jquery-ui-rails"
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'bcrypt', '~> 3.1.7'
 gem 'maskedinput-rails'
 gem 'maskmoney-rails'
 gem 'httparty'
