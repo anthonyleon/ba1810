@@ -12,9 +12,8 @@ class Company < ActiveRecord::Base
   has_many :projects, through: :users
   has_many :invites, dependent: :destroy
   has_many :users, dependent: :destroy
-  validates :password, presence: true, length: { minimum: 6 }
 
-  validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
+  # validates :password, :format => {with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ ,message: "Password must be 8 characters long.  Must contain letters and numbers." }
   # validates :email, presence: true, uniqueness: true
   validates :name, presence: true#, uniqueness: true
   # validates :ein, uniqueness: true
