@@ -134,7 +134,7 @@ class TransactionsController < ApplicationController
 	end
 
 	def seller_purchase
-		redirect_to select_payout_preference_path unless current_user.payout_selected?
+		redirect_to select_payout_preference_path unless current_company.payout_selected?
 		@carriers = ArmorPaymentsApi.carriers_list if @transaction.pending_shipment?
 		if @transaction.disputed?
 			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer)
