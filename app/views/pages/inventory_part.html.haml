@@ -1,13 +1,84 @@
-.col-sm-12.mt-70
-  .col-sm-4.col-sm-offset-4.text-center
-    %h3
-      You want it? We got it!
-    %h5
-      Part Number:
-      = @part.part_num
-    %h5
-      Quantity listed on Bid Aero:
-      = @part_count
-    %h5
-      Description:
-      = @part.part.description
+.page-container.pt-50.bg-white
+	/ Page content
+	.page-content
+		/ Main content
+		.content-wrapper
+			/ Main charts
+			.row
+				.col-lg-6
+					/ Traffic sources
+					.panel.panel-flat
+						.panel-heading
+							%h5.text-semibold.no-margin
+								%i.icon.icon-cogs.position-left.text-slate
+								YOU WANT IT? WE GOT IT!
+							%span.text-muted.text-size-small Our network of suppliers are readily available to help buy the part you need.
+						.container-fluid
+							-# %h6.panel-title.text-center Having trouble finding this part?
+							.row
+								.col-sm-10.col-sm-offset-1.text-left
+									.row
+										.col-sm-6
+											%h5.text-bold.text-muted
+												Part Number:
+										.col-sm-6
+											%h5.text-semibold.text-success
+												= @part.part_num
+									.row
+										.col-sm-6
+											%h5.text-bold.text-muted
+												Quantity on Bid Aero:
+										.col-sm-6
+											%h5.text-semibold.text-success
+												= @part_count
+									.row
+										.col-sm-6
+											%h5.text-bold.text-muted
+												Description:
+										.col-sm-6
+											%h5.text-semibold.text-success
+												= @part.part.description
+									.row
+										.col-sm-6
+											%h5.text-bold.text-muted
+												Available:
+										.col-sm-6
+											%h5.text-semibold.text-success
+												= Date.today
+						.container-fluid
+							.row
+								.panel-body
+									.media.no-margin.stack-media-on-mobile
+										.media-left.media-middle
+											%i.icon-airplane2.icon-3x.text-muted.no-edge-top
+										.media-body
+											%h6.media-heading.text-semibold Get started now!
+											%span.text-muted Sign up today and find the parts you need.
+											%h6.h6.media-heading.text-semibold.text-muted
+												%i.icon-checkmark-circle.position-left.text-success
+												Free basic access!
+												%span.text-size-small.text-muted  (excluding escrow service)
+											%h6.h6.media-heading.text-semibold.text-muted
+												%i.icon-checkmark-circle.position-left.text-success
+												100% hassel-free!
+										.media-right.media-middle
+											= link_to new_company_path do
+												.action.btn.bg-success.text-size-large
+													Sign Up
+
+
+
+					/ /traffic sources
+				.col-lg-6
+					/ Sales stats
+					.panel.panel-flat
+						.panel-heading
+							%h5.text-semibold.no-margin
+								%i.icon.icon-info3.position-left.text-slate
+								HOW DOES IT WORK?
+							%span.text-muted.text-size-small Our aviation focused software was built to make buying parts easy and quick. Watch the video below for a quick demo!
+						.container-fluid
+							.col-lg-12.col-md-12.col-sm-12
+								.video-container.mb-15
+									%div{:style => "position:relative;height:0;padding-bottom:56.25%"}
+										%iframe{:allowfullscreen => "", :frameborder => "0", :height => "360", :src => "https://www.youtube.com/embed/Ahveb21zohs?ecver=2", :style => "position:absolute;width:100%;height:100%;left:0", :width => "640"}
