@@ -33,10 +33,12 @@ class BidsController < ApplicationController
 		@bid = @auction.bids.new(bid_params)
 		@inventory_part = InventoryPart.new(inventory_part_params)
 		part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
+
 		respond_to do |format|
 			if part_match
 				@bid.inventory_part = @inventory_part
 				if @bid.save
+					AdminMailer.new_bid(@bid).deliver_later(wait_until: 1.minute.from_now)
 					@inventory_part.add_part_details(part_match, current_user)
 					if @inventory_part.save
 						# document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
@@ -69,6 +71,7 @@ class BidsController < ApplicationController
 		@bid = @auction.bids.new(bid_params)
 		respond_to do |format|
 			if @bid.save
+				AdminMailer.new_bid(@bid).deliver_later(wait_until: 1.minute.from_now)
 				document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
 				Notification.notify_other_bidders(@auction, current_user, :competing_quote)
 				Notification.notify_auctioner(@auction, :new_quote)
