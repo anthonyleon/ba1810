@@ -1,6 +1,5 @@
 class ChangesCompanyReferencesToUsers < ActiveRecord::Migration
   def change
-    remove_column :auctions, :company_id, :integer
     add_reference :auctions, :user, index: true, foreign_key: true
 
     remove_column :invites, :company_id, :integer
