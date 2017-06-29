@@ -25,7 +25,7 @@ class Notification < ActiveRecord::Base
 		arr.include?(msg)
 	end
 
-  def self.notify_of_opportunities(auction, auction_creator, category)
+  def self.notify_of_opportunities(auction, auction_company, category)
     message = categorize(category)
     parts = []
     parts = InventoryPart.where(part_num: auction.part_num).each do |part|
@@ -35,16 +35,16 @@ class Notification < ActiveRecord::Base
     
     matches.each do |part|
       ##dont do if company is invited to bid, it should just be one notification for the invite
-      Notification.create(company: part.company, auction: auction, category: category, message: message) unless part.company == auction_creator 
-      CompanyMailer.notify_of_opportunity(part.company, auction).deliver_later(wait_until: 1.minute.from_now) unless part.company == auction_creator
+      Notification.create(company: part.company, auction: auction, category: category, message: message) unless part.company == auction_company 
+      CompanyMailer.notify_of_opportunity(part.company, auction).deliver_later(wait_until: 1.minute.from_now) unless part.company == auction_company
     end
     
-    AdminMailer.no_matches_for_auction(auction_creator, auction) if matches.count == 0
+    AdminMailer.no_matches_for_auction(auction_company, auction) if matches.count == 0
   end
 
   def self.notify_auctioner(auction, category)
     message = categorize(category)
-    Notification.create(company: auction.company, auction: auction, message: message, category: category)
+    Notification.create(user: auction.user, auction: auction, message: message, category: category)
     CompanyMailer.notify_buyer(auction.company, auction).deliver_later(wait_until: 1.minute.from_now)
   end
 
@@ -54,9 +54,9 @@ class Notification < ActiveRecord::Base
     auction.bids.each do |bid|
       bid_collection << bid
     end
-    bid_collection.uniq! { |b| b.company }
+    bid_collection.uniq! { |b| b.user }
     bid_collection.each do |bid|
-      Notification.create(company: bid.company, auction: bid.auction, bid: bid, message: message, category: category) unless bid.company == user
+      Notification.create(user: bid.user, auction: bid.auction, bid: bid, message: message, category: category) unless bid.user == user
     end
   end
 
@@ -111,9 +111,9 @@ class Notification < ActiveRecord::Base
     end
   end
 
-  def self.notify(company, category, opts = {}) 
+  def self.notify(user, category, opts = {}) 
     message = categorize(category)
-    create(message: message, company: company, category: category, bid: opts[:bid], auction: opts[:auction], tx: opts[:transaction])
+    create(message: message, user: user, category: category, bid: opts[:bid], auction: opts[:auction], tx: opts[:transaction])
   end
 
   def link

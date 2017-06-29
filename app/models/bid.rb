@@ -15,11 +15,11 @@ class Bid < ActiveRecord::Base
 
   
   def seller
-    company
+    user
   end
 
   def buyer
-    auction.company
+    auction.user
   end
 
   def average_rating

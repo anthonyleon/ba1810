@@ -170,11 +170,11 @@ class Transaction < ActiveRecord::Base
       when 3004 # Offer to settle dispute on order accepted
         company_accepting = Company.find_by(armor_user_id: data["event"]["user_id"])
         if company_accepting == self.seller
-          company = self.buyer
+          user = self.buyer
         else
-          company = self.seller
+          user = self.seller
         end
-        Notification.notify(company, :settlement_accepted, bid: bid, transaction: self)
+        Notification.notify(user, :settlement_accepted, bid: bid, transaction: self)
       when 2005 #dispute escalated to arbitration
         Notification.notify(bid.seller, :arbitration_seller_notice, bid: bid, transaction: self)
         Notification.notify(bid.buyer, :arbitration_buyer_notice, bid: bid, transaction: self)

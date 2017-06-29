@@ -93,7 +93,7 @@ class Auction < ActiveRecord::Base
         CompanyMailer.invite_temp_user_to_bid(v, self).deliver_later(wait_until: 1.minute.from_now)
       end
       Invite.create(auction: self, company: co)
-      Notification.notify(co, :invite, auction: self)
+      Notification.notify(user, :invite, auction: self)
     end
   end
 
