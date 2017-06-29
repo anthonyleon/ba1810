@@ -2,7 +2,7 @@ class EnginesController < ApplicationController
   before_action :set_engine, only: [:show, :edit, :update, :destroy]
 
   def index
-    @engines = current_user.engines.decorate
+    @engines = current_company.engines.decorate
   end
 
   def show
@@ -20,7 +20,7 @@ class EnginesController < ApplicationController
 
   def create
     @engine = Engine.new(engine_params)
-    @engine.company = current_user
+    @engine.company = current_company
     if params.require(:engine)[:document]  
       @document = Document.new(attachment: document_params, name: document_params.original_filename)
       @document.engine = @engine

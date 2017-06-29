@@ -3,7 +3,7 @@ class AircraftsController < ApplicationController
   include ApplicationHelper
 
   def index
-    @aircrafts = current_user.aircrafts.decorate
+    @aircrafts = current_company.aircrafts.decorate
   end
 
   def show
