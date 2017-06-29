@@ -112,7 +112,7 @@
 						= link_to engines_path do
 							%i.icon-compass4
 							Engine Listings
-					-unless current_user.payout_selected?
+					-unless current_user.company.payout_selected?
 						%li.dropdown-header Services
 						%li
 							= link_to select_payout_preference_path do
