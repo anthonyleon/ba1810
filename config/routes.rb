@@ -5,12 +5,10 @@ Rails.application.routes.draw do
   #===== devise
   devise_for :users
   
-  resource :user, only: [:edit] do
-    collection do
-      patch 'update_password'
-    end
-  end
+
   #===== end devise
+
+  
 
   resources :auctions do
     get :autocomplete_company_name, :on => :collection
