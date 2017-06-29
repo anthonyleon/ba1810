@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  helper_method :current_user
+  helper_method :current_company
   # before_action :check_browser
   before_action :authenticate_user!
   force_ssl if: :ssl_configured?
@@ -11,9 +11,8 @@ class ApplicationController < ActionController::Base
     !Rails.env.development?
   end
   
-
-  def require_logged_in
-    redirect_to root_path unless current_user
+  def current_company
+    @current_company ||= current_user.company
   end
 
   private
