@@ -7,12 +7,21 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   force_ssl if: :ssl_configured?
 
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   def ssl_configured?
     !Rails.env.development?
   end
   
   def current_company
     @current_company ||= current_user.company
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    update_attrs = [:password, :password_confirmation, :current_password, :first_name, :last_name, :phone, :email]
+    devise_parameter_sanitizer.permit :account_update, keys: update_attrs
   end
 
   private
