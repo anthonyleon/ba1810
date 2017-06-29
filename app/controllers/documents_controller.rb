@@ -3,7 +3,7 @@ class DocumentsController < ApplicationController
 
   def index
     #our documents
-    redirect_to dashboard_path unless current_user.email != "support@bid.aero" || current_user.email != "general@gaylord.io"
+    redirect_to dashboard_path unless current_user.system_admin?
     # binding.pry
     @documents = Document.where(engine_id: nil, aircraft_id: nil, company_doc_id: nil)
   end

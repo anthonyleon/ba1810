@@ -9,7 +9,7 @@ class Company < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :documents
   has_many :company_docs
-  has_many :projects
+  has_many :projects, through: :users
   has_many :invites, dependent: :destroy
   has_many :users, dependent: :destroy
   validates :password, presence: true, length: { minimum: 6 }

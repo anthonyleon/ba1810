@@ -20,7 +20,7 @@ class AircraftsController < ApplicationController
 
   def create
     @aircraft = Aircraft.new(set_empty_params_to_na(aircraft_params))
-    @aircraft.company = current_user
+    @aircraft.company = current_company
     if params.require(:aircraft)[:document]  
       @document = Document.new(attachment: document_params, name: document_params.original_filename)
       @document.aircraft = @aircraft

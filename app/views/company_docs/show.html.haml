@@ -9,7 +9,7 @@
           .col.s12.m6
             .card
 
-- if @company_doc.company == current_user
+- if @company_doc.company == current_company
 %div
 Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
  %br/
@@ -36,5 +36,5 @@ Accepted formats: .pdf .doc .docx .xlsx .xls .jpeg .jpg .html
               %td= link_to 'View/Download', document.attachment_url
             -else
               %td= link_to 'Download', document.attachment_url
-            - if document.company_doc.company == current_user
+            - if document.company_doc.company == current_company
               %td= button_to 'Delete', document, method: :delete, data:  { confirm: 'Are you sure that you wish to delete document?'}, class: 'btn custom-btn'

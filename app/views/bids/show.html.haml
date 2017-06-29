@@ -9,7 +9,7 @@
 				%li
 					=link_to dashboard_path do
 						Dashboard
-				-if current_user == @bid.company
+				-if current_user == @bid.user
 					%li
 						Sell
 					%li
@@ -107,7 +107,7 @@
 																%td.view-doc= link_to 'View/Download', document.attachment_url
 															-else
 																%td.view-doc= link_to 'Download', document.attachment_url
-															- if @bid.company == current_user
+															- if @bid.user == current_user
 																%td
 																	%div.delete-doc-btn
 																		= link_to document, data:  { bid_document_behavior: 'delete'} do

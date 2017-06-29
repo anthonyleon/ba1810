@@ -8,14 +8,14 @@ class CompanyDocsController < ApplicationController
 
 	def index
     @company_doc = CompanyDoc.new 
-		@company_docs = current_user.company_docs
+		@company_docs = current_company.company_docs
 	end
 
 	def create 
     @company_doc = CompanyDoc.new(company_doc_params)
-    @company_doc.company = current_user
+    @company_doc.company = current_company
     if @company_doc.save
-      AdminMailer.resale_uploaded(current_user, @company_doc)..deliver_later(wait: 1.hour) if @company_doc.resale_license
+      AdminMailer.resale_uploaded(current_company, @company_doc)..deliver_later(wait: 1.hour) if @company_doc.resale_license
       redirect_to edit_company_path #company_docs_url
       flash.now[:notice] = "The document #{@company_doc.name} has been uploaded."
     else

@@ -6,11 +6,11 @@ class PartsController < ApplicationController
   end
 
   def new
-  	redirect_to dashboard_path unless current_user.email == "support@bid.aero" || current_user.email == "general@gaylord.io"
+  	redirect_to dashboard_path unless current_user.system_admin?
   end
 
   def index
-    redirect_to dashboard_path unless current_user.email == "support@bid.aero" || current_user.email == "general@gaylord.io"
+    redirect_to dashboard_path unless current_user.system_admin?
   	@parts = Part.all
   end
 

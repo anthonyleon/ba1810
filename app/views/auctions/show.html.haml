@@ -5,7 +5,7 @@
 				%i.icon-arrow-left52.position-left
 				%span.text-semibold eRFQ
 				\- Reference No. #{@auction.reference_num}
-			- if current_user == @auction.company
+			- if current_user == @auction.user
 				%ul.breadcrumb.breadcrumb-caret.position-right
 					%li
 						=link_to dashboard_path do
@@ -44,7 +44,7 @@
 				.panel-heading
 					%h5.panel-title
 						eRFQ Details
-					- if @auction.company == current_user
+					- if @auction.user == current_user
 						.heading-elements
 							= link_to edit_auction_path do
 								.btn-group.heading-btn
@@ -61,7 +61,7 @@
 					.row
 						.col-md-12
 							.col-md-4
-								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.user ? "border-left-primary" : "border-left-success"}"}
 									.panel-heading.text-semibold
 										%i.icon-cogs.position-left
 										Part Details
@@ -89,7 +89,7 @@
 											%dd
 												= "#{@auction.target_price || "N/A"}"
 							.col-md-4
-								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.user ? "border-left-primary" : "border-left-success"}"}
 									.panel-heading.text-semibold
 										%i.icon-user.position-left
 										Contact Information
@@ -116,7 +116,7 @@
 												= "#{@auction.company.zip}"
 												= "#{@auction.company.country}"
 							.col-md-4
-								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.company ? "border-left-primary" : "border-left-success"}"}
+								.panel.panel-default.border-left-xlg{class: "#{current_user == @auction.user ? "border-left-primary" : "border-left-success"}"}
 									.panel-heading.text-semibold
 										%i.icon-truck.position-left
 										Shipping Details
@@ -133,7 +133,7 @@
 												= ", #{@destination.state}"
 												= "#{@destination.zip}"
 												= "#{@destination.country}"
-					-if current_user == @auction.company
+					-if current_user == @auction.user
 						= form_tag invite_more_suppliers_path(@auction), method: :patch, remote: true, class: "flex more-suppliers-form" do
 							.row.col-sm-12
 								.container#add-new-supplier
@@ -157,7 +157,7 @@
 						%a.heading-elements-toggle
 							%i.icon-more
 					.heading-elements
-						- if @auction.company == current_user
+						- if @auction.user == current_user
 							%ul.icons-list
 								%li
 									%a{"data-action" => "collapse"}
@@ -184,7 +184,7 @@
 						%table#invited-suppliers.table.responsive-table.bordered
 							%thead
 								%tr
-									-if current_user == @auction.company
+									-if current_user == @auction.user
 										%th Company
 									%th MFG
 									%th Serial Number
@@ -194,7 +194,7 @@
 									%th Docs
 									%th Tag Date
 									%th QTY
-									-if current_user == @auction.company
+									-if current_user == @auction.user
 										%th
 										%th
 							%tbody
@@ -204,7 +204,7 @@
 								- @auction_invitees.each do |co|
 									-if !@auction.bidders.include?(co)
 										%tr
-											-if current_user == @auction.company
+											-if current_user == @auction.user
 												%td
 													=co.name.upcase
 											%td --
@@ -215,7 +215,7 @@
 											%td --
 											%td --
 											%td --
-											-if current_user == @auction.company
+											-if current_user == @auction.user
 												%td
 												%td
 					- if !@bid_aero_suppliers_bids.empty?
@@ -225,7 +225,7 @@
 						%table#bid-aero-suppliers.table.responsive-table.bordered
 							%thead
 								%tr
-									-if current_user == @auction.company
+									-if current_user == @auction.user
 										%th Company
 									%th MFG
 									%th Serial Number
@@ -236,18 +236,9 @@
 									%th Tag Date
 									%th QTY
 									%th
-									- if current_user == @auction.company
+									- if current_user == @auction.user
 										%th
 							%tbody
 								- BidDecorator.decorate_collection(@bid_aero_suppliers_bids.order(part_price: :asc)).each do |bid|
 									%tr#cursor-row
 										= render bid
-	-# .col-lg-1
-	-#   - if @auction.company == current_user
-	-#     .col-md-3
-	-#       .col-md-2
-	-#         = form_tag "/auctions/#{@auction.id}", class: "update-target-price", method: 'PATCH' do
-	-#           = text_field_tag 'target_price', nil, placeholder: 'Update Target Price', class: "dollars"
-	-#           / %div.btn.custom-btn.target-price{style: 'margin-top: 10px;'}
-	-#           = button_tag(type: "submit", class: "btn-floating btn-small custom-green-color plus-button") do
-	-#             %i.fa.fa-lg.fa-plus

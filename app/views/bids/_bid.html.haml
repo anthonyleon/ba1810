@@ -6,9 +6,9 @@
 %td= bid.inventory_part.condition_tag
 %td= number_to_currency bid.part_price
 %td= number_to_currency bid.est_shipping_cost
-- if @auction.company == current_user || bid.company == current_user
+- if @auction.user == current_user || bid.user == current_user
   %td
-    -if bid.documents.blank? && bid.company == current_user
+    -if bid.documents.blank? && bid.user == current_user
       = link_to 'Upload Docs', bid
     -elsif !bid.documents.blank?
       %ul.icons-list
@@ -21,7 +21,7 @@
                 %li.view-doc= link_to document.name, document.attachment_url
               -else
                 %li.view-doc= link_to document.name, document.attachment_url
-            - if current_user == bid.company
+            - if current_user == bid.user
               %li.divider
               %li
                 =link_to bid do
@@ -29,13 +29,13 @@
                   Add Documentation
     -elsif bid.documents.blank?
       %i.icon-file-minus2{style: "font-size: 24px; color: grey;"}
--elsif bid.company != current_user
+-elsif bid.user != current_user
   %td
     %i.icon-file-download2.disabled{style: "font-size: 24px; color: grey;"}
 %td= bid.tag_date || "N/A"
 %td= bid.quantity
 
-- if bid.company == current_user
+- if bid.user == current_user
   / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
   %td
     = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do

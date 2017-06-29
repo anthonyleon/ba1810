@@ -39,9 +39,9 @@ class TransactionsController < ApplicationController
 	end
 
 	def show
-		if @transaction.buyer == current_user
+		if @transaction.buyer == current_company
 			redirect_to buyer_purchase_path(@transaction)
-		elsif @transaction.seller == current_user
+		elsif @transaction.seller == current_company
 			redirect_to seller_purchase_path(@transaction)
 		else
 			redirect_to root_path
@@ -119,7 +119,7 @@ class TransactionsController < ApplicationController
 	end
 
 	def buyer_purchase
-		redirect_to root_path unless @transaction.buyer == current_user
+		redirect_to root_path unless @transaction.buyer == current_company
 		if @transaction.pending_payment?
 			response.headers.delete "X-Frame-Options"
 			@payment_url = ArmorPaymentsApi.get_payment_url(@transaction)
@@ -128,7 +128,7 @@ class TransactionsController < ApplicationController
 			@release_payment_url = ArmorPaymentsApi.release_payment(@transaction)
 			@dispute_transaction_url = ArmorPaymentsApi.initiate_dispute(@transaction)
 		elsif @transaction.disputed?
-			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.seller) if @transaction.disputed
+			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_company, @transaction, @transaction.seller) if @transaction.disputed
 			@settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
 		end
 	end
@@ -137,7 +137,7 @@ class TransactionsController < ApplicationController
 		redirect_to select_payout_preference_path unless current_company.payout_selected?
 		@carriers = ArmorPaymentsApi.carriers_list if @transaction.pending_shipment?
 		if @transaction.disputed?
-			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_user, @transaction, @transaction.buyer)
+			@dispute_settlement_url = ArmorPaymentsApi.offer_dispute_settlement(current_company, @transaction, @transaction.buyer)
 
 			@settlement_offer_url = ArmorPaymentsApi.respond_to_settlement_offer(company_responding_to_offer, transaction, company_receiving_response) if @transaction.dispute_settlement
 		end

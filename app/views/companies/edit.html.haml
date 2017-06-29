@@ -80,11 +80,11 @@
 												%li
 													%a{"data-action" => "collapse"}
 									.panel-body
-										= simple_form_for(@company) do |f|
-											- if @company.errors.any?
+										= form_for(current_user, :url => { :controller => "users",:action => "update_password" } ) do |f|
+											- if current_user.errors.any?
 												#error_explanation
 													%p
-														= pluralize(@company.errors.count, "error")
+														= pluralize(current_user.errors.count, "error")
 														prohibited this company from being saved:
 													%ul
 														- @company.errors.full_messages.each do |message|

@@ -86,7 +86,7 @@
                                 %td.view-doc= link_to 'View/Download', document.attachment_url
                               -else
                                 %td.view-doc= link_to 'Download', document.attachment_url
-                              - if @inventory_part.company == current_user
+                              - if @inventory_part.company == current_company
                                 %td
                                   %div.delete-doc-btn
                                     = link_to document, data:  { inventory_document_behavior: 'delete'} do

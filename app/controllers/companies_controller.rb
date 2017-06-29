@@ -20,10 +20,10 @@ class CompaniesController < ApplicationController
 	end
 
 	def edit
-		@url = ArmorPaymentsApi.select_payout_preference(current_user)
-		@company = current_user
+		@url = ArmorPaymentsApi.select_payout_preference(current_company)
+		@company = current_company
 		@company_doc = CompanyDoc.new
-		@company_docs = current_user.company_docs
+		@company_docs = current_company.company_docs
 	end
 
 	def confirm_email
@@ -70,7 +70,7 @@ class CompaniesController < ApplicationController
 	end
 
 	def update
-		CompanyDoc.create(name: document_params.original_filename, attachment: document_params, company: current_user) if document_params
+		CompanyDoc.create(name: document_params.original_filename, attachment: document_params, company: current_company) if document_params
 		respond_to do |format|
 			if @company.update(company_params) || @company.edit_attrs(company_params)
 				format.html { redirect_to edit_company_path, notice: 'Company profile was successfully updated.' }
@@ -91,23 +91,23 @@ class CompaniesController < ApplicationController
 	end
 
 	def choose_payout_preference
-		@url = ArmorPaymentsApi.select_payout_preference(current_user)
+		@url = ArmorPaymentsApi.select_payout_preference(current_company)
 	end
 
 	def sales
-		@sales = Transaction.where(seller_id: current_user.id, status: 5)
+		@sales = Transaction.where(seller_id: current_company.id, status: 5)
 	end
 
 	def pending_sales
-		@sales = Transaction.where(seller_id: current_user.id).where.not(status: 5)
+		@sales = Transaction.where(seller_id: current_company.id).where.not(status: 5)
 	end
 
 	def purchases
-		@purchases = Transaction.where(buyer_id: current_user.id, status: 5)
+		@purchases = Transaction.where(buyer_id: current_company.id, status: 5)
 	end
 
 	def pending_purchases
-		@purchases = Transaction.where(buyer_id: current_user.id).where.not(status: 5)
+		@purchases = Transaction.where(buyer_id: current_company.id).where.not(status: 5)
 	end
 
 	def admin_inventory_upload

@@ -10,7 +10,7 @@
       / # %th= link_to "Template", Document.find_by(name: "Bid_Aero_Parts_Template").attachment_url
 %br
 %div
-  = form_tag import_company_inventory_parts_path(current_user.id), multipart: true do
+  = form_tag import_company_inventory_parts_path(current_company.id), multipart: true do
     = file_field_tag :file
     .input-field
       = text_field_tag :inventory_company_id, params[:inventory_company_id], placeholder: 'Enter Companies company_id'
