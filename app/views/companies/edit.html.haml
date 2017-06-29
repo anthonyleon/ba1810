@@ -79,28 +79,7 @@
 											%ul.icons-list
 												%li
 													%a{"data-action" => "collapse"}
-									.panel-body
-										= form_for(current_user, :url => { :controller => "users",:action => "update_password" } ) do |f|
-											- if current_user.errors.any?
-												#error_explanation
-													%p
-														= pluralize(current_user.errors.count, "error")
-														prohibited this company from being saved:
-													%ul
-														- @company.errors.full_messages.each do |message|
-															%li= message
-											.form-group
-												.row
-													.col-md-6
-														%label New password
-														# = f.password_field :password, class: "form-control", placeholder: "Password"
-													.col-md-6
-														%label Confirm new password
-														= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password"
-											.text-right
-												%button.btn.btn-warning{:type => "submit"}
-													Update Password
-													%i.icon-warning.position-right
+									/ # =render 'users/passwords/edit'
 							#companyprofile.tab-pane.fade.in
 								/ Company Profile info
 								.panel.panel-flat
