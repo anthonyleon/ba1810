@@ -103,9 +103,10 @@ class AuctionsController < ApplicationController
 	end
 
 	def current_opportunities
-		@sales_opportunities = AuctionDecorator.decorate_collection(current_user.sales_opportunities)
-		@todays_opportunity_count = 0
-		Auction.find(current_user.sales_opportunities.map(&:id)).each { |x| @todays_opportunity_count +=1 if x.created_at.between?(DateTime.now.at_beginning_of_day.utc, Time.now.utc) }
+		@sales_opportunities = current_company.sales_opportunities
+		@todays_opportunity_count = (@sales_opportunities.select { |attachment| attachment.created_at == Time.zone.now.beginning_of_day }).count
+		Auction.find(@sales_opportunities.map(&:id)).each { |x| @todays_opportunity_count +=1 if x.created_at.between?(DateTime.now.at_beginning_of_day.utc, Time.now.utc) }
+		@decorated_sales_opportunities = AuctionDecorator.decorate_collection(@sales_opportunities)
 	end
 
 

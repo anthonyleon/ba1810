@@ -81,7 +81,7 @@
 								%th.text-center.days-active
 									%i.fa.fa-chevron-down
 						%tbody
-							- @sales_opportunities.each do |auction|
+							- @decorated_sales_opportunities.each do |auction|
 								%tr
 									%td.text-center{"data-order": ((Time.zone.now - auction.created_at) / 1.day).to_i}
 										%h6.no-margin
