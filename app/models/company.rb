@@ -1,5 +1,5 @@
 class Company < ActiveRecord::Base
-  has_many :auctions, dependent: :destroy
+  has_many :auctions, through: :users
   # has_many :bids, dependent: :destroy
   has_many :bids, through: :inventory_parts
   has_many :inventory_parts, dependent: :destroy
@@ -63,13 +63,6 @@ class Company < ActiveRecord::Base
     }
   end
 
-  def auctions_with_owned_bids
-    auctions = []
-    self.bids.each do |bid|
-      auctions << bid.auction if bid.auction.active
-    end
-    auctions.uniq { |auction| [auction[:id]] }
-  end
 
   def send_password_reset
     generate_token(:password_reset_token)
