@@ -17,11 +17,11 @@
 							%i.icon-menu7
 				#navbar-filter.navbar-collapse.collapse
 					%ul.nav.navbar-nav
+						/ %li.active
+						/ 	%a{"data-toggle" => "tab", :href => "#userprofile"}
+						/ 		%i.icon-user.position-left
+						/ 		User Profile
 						%li.active
-							%a{"data-toggle" => "tab", :href => "#userprofile"}
-								%i.icon-user.position-left
-								User Profile
-						%li
 							%a{"data-toggle" => "tab", :href => "#companyprofile"}
 								%i.icon-office.position-left
 								Company Profile
@@ -35,52 +35,52 @@
 				.col-lg-9
 					.tabbable
 						.tab-content
-							#userprofile.tab-pane.fade.active.in
-								/ User Profile info
-								.panel.panel-flat
-									.panel-heading
-										%h6.panel-title
-											#{@company.representative}'s Profile information
-											%a.heading-elements-toggle
-												%i.icon-more
-										.heading-elements
-											%ul.icons-list
-												%li
-													%a{"data-action" => "collapse"}
-									.panel-body
-										= simple_form_for(@company) do |f|
-											- if @company.errors.any?
-												#error_explanation
-													%p
-														= pluralize(@company.errors.count, "error")
-														prohibited this company from being saved:
-													%ul
-														- @company.errors.full_messages.each do |message|
-															%li= message
-											.form-group
-												.row
-													.col-md-6
-														%label Full name
-														= f.text_field :representative, class: "form-control", placeholder: "Full Name"
-													.col-md-6
-														%label Email
-														= f.text_field :email, class: "form-control", placeholder: "E-mail"
-											.text-right
-												%button.btn.btn-success{:type => "submit"}
-													Update User Profile
-													%i.icon-arrow-right14.position-right
-								.panel.panel-flat
-									.panel-heading
-										%h6.panel-title
-											Password Reset
-											%a.heading-elements-toggle
-												%i.icon-more
-										.heading-elements
-											%ul.icons-list
-												%li
-													%a{"data-action" => "collapse"}
-									/ # =render 'users/passwords/edit'
-							#companyprofile.tab-pane.fade.in
+							/ #userprofile.tab-pane.fade.active.in
+							/ 	/ User Profile info
+							/ 	.panel.panel-flat
+							/ 		.panel-heading
+							/ 			%h6.panel-title
+							/ 				#{@company.representative}'s Profile information
+							/ 				%a.heading-elements-toggle
+							/ 					%i.icon-more
+							/ 			.heading-elements
+							/ 				%ul.icons-list
+							/ 					%li
+							/ 						%a{"data-action" => "collapse"}
+							/ 		.panel-body
+							/ 			= simple_form_for(@company) do |f|
+							/ 				- if @company.errors.any?
+							/ 					#error_explanation
+							/ 						%p
+							/ 							= pluralize(@company.errors.count, "error")
+							/ 							prohibited this company from being saved:
+							/ 						%ul
+							/ 							- @company.errors.full_messages.each do |message|
+							/ 								%li= message
+							/ 				.form-group
+							/ 					.row
+							/ 						.col-md-6
+							/ 							%label Full name
+							/ 							= f.text_field :representative, class: "form-control", placeholder: "Full Name"
+							/ 						.col-md-6
+							/ 							%label Email
+							/ 							= f.text_field :email, class: "form-control", placeholder: "E-mail"
+							/ 				.text-right
+							/ 					%button.btn.btn-success{:type => "submit"}
+							/ 						Update User Profile
+							/ 						%i.icon-arrow-right14.position-right
+							/ 	.panel.panel-flat
+							/ 		.panel-heading
+							/ 			%h6.panel-title
+							/ 				Password Reset
+							/ 				%a.heading-elements-toggle
+							/ 					%i.icon-more
+							/ 			.heading-elements
+							/ 				%ul.icons-list
+							/ 					%li
+							/ 						%a{"data-action" => "collapse"}
+							/ 		/ # =render 'users/passwords/edit'
+							#companyprofile.tab-pane.fade.active.in
 								/ Company Profile info
 								.panel.panel-flat
 									.panel-heading

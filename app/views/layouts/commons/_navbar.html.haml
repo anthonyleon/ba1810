@@ -29,10 +29,15 @@
 						= current_user.name
 					%i.caret.navbar-icon
 				%ul.dropdown-menu.dropdown-menu-right
+					-if current_user.admin?
+						%li
+							= link_to edit_company_path do
+								%i.icon-cog5
+								Company Settings
 					%li
-						= link_to edit_company_path do
-							%i.icon-cog5
-							Account settings
+						= link_to edit_user_registration_path do
+							%i.icon-profile
+							User Settings
 					%li
 						= link_to logout_path do
 							%i.icon-switch2

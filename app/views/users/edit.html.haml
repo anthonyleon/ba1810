@@ -1,0 +1,61 @@
+.row
+  .col-lg-9
+    .tabbable
+      .tab-content
+        #userprofile.tab-pane.fade.active.in
+          / User Profile info
+          .panel.panel-flat
+            .panel-heading
+              %h6.panel-title
+                #{current_user.name}'s Profile information
+                %a.heading-elements-toggle
+                  %i.icon-more
+              .heading-elements
+                %ul.icons-list
+                  %li
+                    %a{"data-action" => "collapse"}
+            .panel-body
+              = simple_form_for(update_password_user) do |f|
+                - if current_user.errors.any?
+                  #error_explanation
+                    %p
+                      = pluralize(current_user.errors.count, "error")
+                      prohibited this company from being saved:
+                    %ul
+                      - current_user.errors.full_messages.each do |message|
+                        %li= message
+                .form-group
+                  .row
+                    .col-md-6
+                      %label First Name
+                      = f.text_field :first_name, class: "form-control", placeholder: "First"
+                    .col-md-6
+                      %label Last Name
+                      = f.text_field :last_name, class: "form-control", placeholder: "Last"
+                .text-right
+                  %button.btn.btn-success{:type => "submit"}
+                    Update User Profile
+                    %i.icon-arrow-right14.position-right
+            .panel-body
+              = simple_form_for(update_password_user) do |f|
+                - if current_user.errors.any?
+                  #error_explanation
+                    %p
+                      = pluralize(current_user.errors.count, "error")
+                      prohibited this company from being saved:
+                    %ul
+                      - current_user.errors.full_messages.each do |message|
+                        %li= message
+                .form-group
+                  .row
+                    .col-md-6
+                      %label
+                        Change your password
+                      = f.input :password, label: "New password", required: true, autofocus: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) 
+                    .col-md-6
+                      %label Confirm new password
+                      = f.input :password_confirmation, label: "Confirm your new password", required: true 
+                  %button.btn.btn-warning{:type => "submit"}
+                    Update Password
+                    %i.icon-warning.position-right
+
