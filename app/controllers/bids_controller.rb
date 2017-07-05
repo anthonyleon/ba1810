@@ -136,7 +136,7 @@ class BidsController < ApplicationController
 		end
 
 		def bid_params
-			params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, :quantity, :reference_num, :tag_date)
+			params.require(:bid).permit(:part_price, :est_shipping_cost, :company_id, :auction_id, :inventory_part_id, :quantity, :reference_num, :tag_date, :message)
 		end
 
 		def inventory_part_params

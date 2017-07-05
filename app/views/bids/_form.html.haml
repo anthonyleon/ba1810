@@ -30,6 +30,10 @@
 			.col-sm-9
 				= f.text_field :reference_num, :placeholder => "Quote Reference No. (optional)", value: nil, class: "form-control"
 		.form-group
+			%label.col-sm-3.control-label Comments:
+			.col-sm-9
+				= f.text_area :message, :placeholder => "Write Any Additional Comments Here....", value: nil, class: "form-control"
+		.form-group
 			.col-sm-8.col-md-offset-2
 				= f.fields_for :document, Document.new, html: { multipart: true }, class: "form-control" do |cm|
 					-# .field.pull-left.field-title
@@ -42,5 +46,5 @@
 								= cm.file_field :attachment, multiple: true
 						.form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
 							.file-caption-name#file-name{:title => "No file selected"}
-								.text-muted No file selected
+								.text-muted Upload Documents
 		= f.submit 'Submit Quote', class: 'btn btn-defualt bg-success pull-right'
