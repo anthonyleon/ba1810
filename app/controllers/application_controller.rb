@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   end
   
   def current_user
+    
     @current_user ||= Company.find_by(id: session[:company_id])
   end
 

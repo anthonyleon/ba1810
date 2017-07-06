@@ -8,7 +8,7 @@ class PasswordResetsController < ApplicationController
 		company = Company.find_by_email(params[:email])
 		if company
 			company.send_password_reset
-			redirect_to root_url, :notice => "E-Mail sent with password reset instructions."
+			redirect_to new_password_reset_path, :notice => "E-Mail sent with password reset instructions."
 		else
 			redirect_to new_password_reset_path, :notice => "E-Mail Does Not Exist In Our Database"
 		end
