@@ -1,5 +1,5 @@
 -if current_user == @auction.company
-  %td= bid.company.name.upcase
+	%td= bid.company.name.upcase
 %td= bid.inventory_part.manufacturer || "--"
 %td= bid.inventory_part.serial_num.upcase || "--"
 
@@ -7,54 +7,56 @@
 %td= number_to_currency bid.part_price
 %td= number_to_currency bid.est_shipping_cost
 - if @auction.company == current_user || bid.company == current_user
-  %td
-    -if bid.documents.blank? && bid.company == current_user
-      = link_to 'Upload Docs', bid
-    -elsif !bid.documents.blank?
-      %ul.icons-list
-        %li.dropdown
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            %i.icon-file-download2{style: "font-size: 24px; color: #2196F3;"}
-          %ul.dropdown-menu.dropdown-menu-left
-            - bid.documents.each do |document|
-              -if document.attachment.url.to_s.downcase.include? "pdf"
-                %li.view-doc= link_to document.name, document.attachment_url
-              -else
-                %li.view-doc= link_to document.name, document.attachment_url
-            - if current_user == bid.company
-              %li.divider
-              %li
-                =link_to bid do
-                  %i.icon-file-plus2
-                  Add Documentation
-    -elsif bid.documents.blank?
-      %i.icon-file-minus2{style: "font-size: 24px; color: grey;"}
+	%td
+		-if bid.documents.blank? && bid.company == current_user
+			= link_to 'Upload Docs', bid
+		-elsif !bid.documents.blank?
+			%ul.icons-list
+				%li.dropdown
+					%a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+						%i.icon-file-download2{style: "font-size: 24px; color: #2196F3;"}
+					%ul.dropdown-menu.dropdown-menu-left
+						- bid.documents.each do |document|
+							-if document.attachment.url.to_s.downcase.include? "pdf"
+								%li.view-doc= link_to document.name, document.attachment_url
+							-else
+								%li.view-doc= link_to document.name, document.attachment_url
+						- if current_user == bid.company
+							%li.divider
+							%li
+								=link_to bid do
+									%i.icon-file-plus2
+									Add Documentation
+		-elsif bid.documents.blank?
+			%i.icon-file-minus2{style: "font-size: 24px; color: grey;"}
 -elsif bid.company != current_user
-  %td
-    %i.icon-file-download2.disabled{style: "font-size: 24px; color: grey;"}
+	%td
+		%i.icon-file-download2.disabled{style: "font-size: 24px; color: grey;"}
 %td= bid.tag_date || "N/A"
+%td
+	%i.icon-comment{class: "button btn btn-primary tooltipped pull-left", "data-content" => "#{bid.message}", "data-popup" => "popover", "data-placement" => "left", "data-trigger" => "hover", :title => "Message", :type => "button"}
 %td= bid.quantity
 
 - if bid.company == current_user
-  / %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
-  %td
-    = link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
-      %i.icon-cross3{style: "font-size: 18px; color: red;"}
+	/ %td= link_to 'Delete', auction_bid_path(@auction, bid), method: :delete, data: { confirm: 'Are you sure?' }
+	%td
+		= link_to auction_bid_path(@auction, bid), data: { auction_bid_behavior: 'delete' } do
+			%i.icon-cross3{style: "font-size: 18px; color: red;"}
 -else
-  %td
-    =""
+	%td
+		=""
 - if @auction.company == current_user
-  - if !bid.tx
-    %td.payment-btn{style: "width: 200px;"}
-      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "button btn btn-primary tooltipped pull-left", "data-content" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind", "data-popup" => "popover", "data-placement" => "left", "data-trigger" => "hover", :title => "Escrow Service", :type => "button"
-      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn bg-teal-400 btn-rounded tooltipped pull-right record-btn payment-btn", "data-content" => "Log all of your purchases and keep track of your purchases over time in the 'Purchase History' sections", "data-popup" => "popover", "data-trigger" => "hover", "data-placement" => "left", :title => "Log Purchase", :type => "button"
-    %td.recorded.responsive-remove-btn
-      .remove-btn
-        =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"
-  -elsif bid.tx
-    %td.payment-btn.purchase-btns{style: "width: 200px;"}
-      = button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "button btn btn-primary tooltipped pull-left", "data-content" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind", "data-popup" => "popover", "data-placement" => "left", "data-trigger" => "hover", :title => "Escrow Service", :type => "button"
-      = button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn bg-teal-400 btn-rounded tooltipped pull-right record-btn payment-btn", "data-content" => "Log all of your purchases and keep track of your purchases over time in the 'Purchase History' sections", "data-popup" => "popover", "data-trigger" => "hover", "data-placement" => "left", :title => "Log Purchase", :type => "button"
-    %td.recorded
-      .remove-btn.std-remove-btn
-        =button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"
+	- if !bid.tx
+		%td.payment-btn{style: "width: 200px;"}
+			= button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "button btn btn-primary tooltipped pull-left", "data-content" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind", "data-popup" => "popover", "data-placement" => "left", "data-trigger" => "hover", :title => "Escrow Service", :type => "button"
+			= button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn bg-teal-400 btn-rounded tooltipped pull-right record-btn payment-btn", "data-content" => "Log all of your purchases and keep track of your purchases over time in the 'Purchase History' sections", "data-popup" => "popover", "data-trigger" => "hover", "data-placement" => "left", :title => "Log Purchase", :type => "button"
+		%td.recorded.responsive-remove-btn
+			.remove-btn
+				=button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"
+	-elsif bid.tx
+		%td.payment-btn.purchase-btns{style: "width: 200px;"}
+			= button_to "Checkout", {:controller => :auctions, :action => 'purchase_confirmation', :id => bid.id, :auction_id => @auction.id }, :method => :get, class: "button btn btn-primary tooltipped pull-left", "data-content" => "Don't Know This Buyer? Checkout Using our Secure Escrow, and Give Yourself Peace Of Mind", "data-popup" => "popover", "data-placement" => "left", "data-trigger" => "hover", :title => "Escrow Service", :type => "button"
+			= button_to "Record", {:controller => :transactions, :action => 'record', :bid_id => bid.id, :auction_id => @auction.id }, remote: true, class: "button btn bg-teal-400 btn-rounded tooltipped pull-right record-btn payment-btn", "data-content" => "Log all of your purchases and keep track of your purchases over time in the 'Purchase History' sections", "data-popup" => "popover", "data-trigger" => "hover", "data-placement" => "left", :title => "Log Purchase", :type => "button"
+		%td.recorded
+			.remove-btn.std-remove-btn
+				=button_to 'Remove From Purchase History', {:controller => :transactions, :action => 'remove_from_purchase_history', :bid_id => bid.id }, method: :delete, remote: true, class: "button btn btn-danger btn-rounded"
