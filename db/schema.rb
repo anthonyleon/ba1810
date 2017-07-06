@@ -55,7 +55,6 @@ ActiveRecord::Schema.define(version: 20170705171433) do
   add_index "auction_parts", ["part_id"], name: "index_auction_parts_on_part_id", using: :btree
 
   create_table "auctions", force: :cascade do |t|
-    t.integer  "company_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.string   "part_num",                       null: false
@@ -77,13 +76,15 @@ ActiveRecord::Schema.define(version: 20170705171433) do
     t.string   "rep_email",      default: "N/A"
     t.integer  "destination_id"
     t.string   "reference_num",  default: "N/A"
+    t.integer  "company_id"
+    t.integer  "user_id"
   end
 
-  add_index "auctions", ["company_id"], name: "index_auctions_on_company_id", using: :btree
   add_index "auctions", ["destination_id"], name: "index_auctions_on_destination_id", using: :btree
   add_index "auctions", ["invitees"], name: "index_auctions_on_invitees", using: :gin
   add_index "auctions", ["project_id"], name: "index_auctions_on_project_id", using: :btree
   add_index "auctions", ["reference_num"], name: "index_auctions_on_reference_num", using: :btree
+  add_index "auctions", ["user_id"], name: "index_auctions_on_user_id", using: :btree
 
   create_table "bids", force: :cascade do |t|
     t.integer  "auction_id"
@@ -211,18 +212,17 @@ ActiveRecord::Schema.define(version: 20170705171433) do
   add_index "inventory_parts", ["part_id"], name: "index_inventory_parts_on_part_id", using: :btree
 
   create_table "invites", force: :cascade do |t|
-    t.integer  "company_id"
     t.integer  "auction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
   end
 
   add_index "invites", ["auction_id"], name: "index_invites_on_auction_id", using: :btree
-  add_index "invites", ["company_id"], name: "index_invites_on_company_id", using: :btree
+  add_index "invites", ["user_id"], name: "index_invites_on_user_id", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.boolean  "read?",      default: false
-    t.integer  "company_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "bid_id"
@@ -230,7 +230,10 @@ ActiveRecord::Schema.define(version: 20170705171433) do
     t.string   "message"
     t.integer  "tx_id"
     t.integer  "category"
+    t.integer  "user_id"
   end
+
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "parts", force: :cascade do |t|
     t.string   "description",  default: "N/A", null: false
@@ -252,14 +255,14 @@ ActiveRecord::Schema.define(version: 20170705171433) do
     t.boolean  "active",         default: true
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
-    t.integer  "company_id"
     t.boolean  "resale",         default: false
     t.integer  "destination_id"
+    t.integer  "user_id"
   end
 
-  add_index "projects", ["company_id"], name: "index_projects_on_company_id", using: :btree
   add_index "projects", ["destination_id"], name: "index_projects_on_destination_id", using: :btree
   add_index "projects", ["reference_num"], name: "index_projects_on_reference_num", using: :btree
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "packaging"
@@ -308,12 +311,39 @@ ActiveRecord::Schema.define(version: 20170705171433) do
 
   add_index "transactions", ["destination_id"], name: "index_transactions_on_destination_id", using: :btree
 
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "company_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone"
+    t.boolean  "admin",                  default: false
+  end
+
+  add_index "users", ["company_id"], name: "index_users_on_company_id", using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
   add_foreign_key "aircrafts", "companies"
   add_foreign_key "auction_parts", "auctions"
   add_foreign_key "auction_parts", "parts"
-  add_foreign_key "auctions", "companies"
   add_foreign_key "auctions", "destinations"
   add_foreign_key "auctions", "projects"
+  add_foreign_key "auctions", "users"
   add_foreign_key "bids", "auctions"
   add_foreign_key "bids", "inventory_parts"
   add_foreign_key "company_docs", "companies"
@@ -326,8 +356,10 @@ ActiveRecord::Schema.define(version: 20170705171433) do
   add_foreign_key "inventory_parts", "companies"
   add_foreign_key "inventory_parts", "parts"
   add_foreign_key "invites", "auctions"
-  add_foreign_key "invites", "companies"
-  add_foreign_key "projects", "companies"
+  add_foreign_key "invites", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "projects", "destinations"
+  add_foreign_key "projects", "users"
   add_foreign_key "transactions", "destinations"
+  add_foreign_key "users", "companies"
 end
