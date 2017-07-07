@@ -11,7 +11,7 @@ class AuctionsController < ApplicationController
 	end
 
 	def show
-		## test to make sure that the bids from a temp user and a bid aero supplier are separated properly
+		## should show if one of the auctions is a current_users
 		@auction_invitees = @auction.invites.joins(:company).map(&:company)
 		@invited_suppliers_bids = @auction.bids.joins(:company).where(companies: {id: @auction.invites.map(&:company_id)})
 		@bid_aero_suppliers_bids = (@auction_invitees.empty? ? @auction.bids.joins(:company) : 
@@ -43,7 +43,8 @@ class AuctionsController < ApplicationController
 		part_match = Part.find_by(part_num: @auction.part_num.upcase)
 		@auction.resale_check
 		respond_to do |format|
-			@auction.company = current_user
+			@auction.company = current_company
+			@auction.user = current_user
 			@auction.condition.map!{ |x| x.to_sym }
 			if @auction.save
 				invitees = @auction.set_invitees(params[:invitees]) if params[:invitees]
@@ -92,7 +93,7 @@ class AuctionsController < ApplicationController
 	def destroy
 		@auction.destroy
 		respond_to do |format|
-			format.html { redirect_to current_user, notice: 'RFQ was successfully destroyed.' }
+			format.html { redirect_to auctions_path, notice: 'RFQ was successfully destroyed.' }
 			format.json { head :no_content }
 		end
 	end

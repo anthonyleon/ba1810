@@ -1,5 +1,6 @@
 class Auction < ActiveRecord::Base
-  belongs_to :company
+  delegate :company, :to => :user, :allow_nil => true
+  belongs_to :user
   belongs_to :project
   has_one :tx, class_name: "Transaction"#, foreign_key: "tx_id"
   has_one :auction_part, dependent: :destroy
@@ -112,7 +113,7 @@ class Auction < ActiveRecord::Base
   end
 
 
-
+  #this should be deleted
   def self.part_match_or_not_actions(auction, part_match)
     #part_match is for Parts Table
     if part_match
@@ -137,6 +138,7 @@ class Auction < ActiveRecord::Base
     end
   end
 
+  # this should be deleted
   def self.define_matched_auctions(auction)
         part = InventoryPart.where.not(company: auction.company).where(part_num: auction.part_num)
       if !part.empty?
