@@ -16,11 +16,11 @@ class Bid < ActiveRecord::Base
 
   
   def seller
-    user
+    company
   end
 
   def buyer
-    auction.user
+    auction.company
   end
 
   def average_rating
@@ -35,9 +35,9 @@ class Bid < ActiveRecord::Base
     (arr.sum / arr.count.to_f) unless arr.empty?
   end
 
-  def self.matched_parts(auction, user)
+  def self.matched_parts(auction, co)
     match_parts = []
-    parts = user.inventory_parts
+    parts = co.inventory_parts
     parts.where(part_num: auction.part_num).each do |part|
       match_parts << part if auction.condition.include?(part.condition.to_sym) || auction.condition[0].blank?
     end

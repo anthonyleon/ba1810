@@ -20,7 +20,7 @@ class BidsController < ApplicationController
 	def new
 		redirect_to temp_user_new_bid_path if !current_user.inventory_parts.find_by(part_num: @auction.part_num)
 		@bid = Bid.new
-		@match_parts = Bid.matched_parts(@auction, current_user)
+		@match_parts = Bid.matched_parts(@auction, current_company)
 	end
 
 	def temp_user_new_bid
@@ -37,7 +37,7 @@ class BidsController < ApplicationController
 			if part_match
 				@bid.inventory_part = @inventory_part
 				if @bid.save
-					@inventory_part.add_part_details(part_match, current_user)
+					@inventory_part.add_part_details(part_match, current_company)
 					if @inventory_part.save
 						# document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
 						Notification.notify_other_bidders(@auction, current_user, :competing_quote)
@@ -59,14 +59,12 @@ class BidsController < ApplicationController
 	end
 
 	def edit
-		@parts = current_user.inventory_parts
-		@match_parts = @parts.where(part_num: @auction.part_num)
-		@inventory = @match_parts.ids
 	end
 
 	def create
 		Bid.strip_symbols(bid_params)
 		@bid = @auction.bids.new(bid_params)
+		@bid.user = current_user
 		respond_to do |format|
 			if @bid.save
 				document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
@@ -85,24 +83,9 @@ class BidsController < ApplicationController
 	def update
 		respond_to do |format|
 			@bid.assign_attributes(bid_params)
-			ArmorPaymentsApi.update_order(@transaction) if @transaction.bid.changed?
 			if @bid.update(bid_params)
 				format.html { redirect_to @auction, notice: 'Quote was successfully updated.' }
 				format.json { render :show, status: :ok, location: @bid }
-				if @transaction.tracking_num # POST shipping info to armor
-					set_armor_client
-					@bid.update(carrier: @client.shipmentcarriers.all[:body][@transaction.carrier_code.to_i - 1]["name"])
-					user_id = @bid.company.armor_user_id
-					account_id = @bid.company.armor_account_id
-					order_id = @transaction.order_id
-					action_data = { "user_id" => user_id, "carrier_id" => @transaction.carrier_code, "tracking_id" => @transaction.tracking_num,
-													 "description" => @transaction.shipment_desc }
-					result = @client.orders(account_id).shipments(order_id).create(action_data)
-
-					# for sandbox testing purposes only (should be triggered on webhook)
-					deliver_data = { "action" => "delivered", "confirm" => true }
-					delivery_result = @client.orders(account_id).update(order_id, deliver_data)
-				end
 			else
 				format.html { render :edit }
 				format.json { render json: @bid.errors, status: :unprocessable_entity }

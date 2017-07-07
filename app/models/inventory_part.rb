@@ -43,7 +43,8 @@ class InventoryPart < ActiveRecord::Base
     self.description = part_match[:description]
     self.part = part_match
     self.part_num.upcase!
-    self.company = user
+    self.company = user.company
+    self.user = user
   end
 
 end

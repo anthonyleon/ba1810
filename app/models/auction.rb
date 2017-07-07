@@ -1,5 +1,5 @@
 class Auction < ActiveRecord::Base
-  delegate :company, :to => :user, :allow_nil => true
+  belongs_to :company
   belongs_to :user
   belongs_to :project
   has_one :tx, class_name: "Transaction"#, foreign_key: "tx_id"
