@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170629192511) do
+ActiveRecord::Schema.define(version: 20170707162708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,11 +96,14 @@ ActiveRecord::Schema.define(version: 20170629192511) do
     t.integer  "quantity",          default: 1
     t.string   "reference_num",     default: "N/A"
     t.date     "tag_date"
+    t.text     "message"
+    t.integer  "user_id"
   end
 
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
   add_index "bids", ["inventory_part_id"], name: "index_bids_on_inventory_part_id", using: :btree
   add_index "bids", ["reference_num"], name: "index_bids_on_reference_num", using: :btree
+  add_index "bids", ["user_id"], name: "index_bids_on_user_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "name",                                   null: false
@@ -345,6 +348,7 @@ ActiveRecord::Schema.define(version: 20170629192511) do
   add_foreign_key "auctions", "users"
   add_foreign_key "bids", "auctions"
   add_foreign_key "bids", "inventory_parts"
+  add_foreign_key "bids", "users"
   add_foreign_key "company_docs", "companies"
   add_foreign_key "documents", "aircrafts"
   add_foreign_key "documents", "bids"
