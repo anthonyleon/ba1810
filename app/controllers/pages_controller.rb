@@ -74,4 +74,7 @@ class PagesController < ApplicationController
 		AdminMailer.new_contact(params[:name], params[:phone], params[:email], params[:message]).deliver_now if params[:name]
 	end
 
+	def send_mail
+		AdminMailer.new_contact_autoreply(params[:name], params[:phone], params[:email], params[:message]).deliver_now if params[:name]
+	end
 end
