@@ -147,10 +147,6 @@
 														.col-sm-8
 															= f.text_field :part_price, :placeholder => "Ex: $450.00", class: "form-control dollars"
 													.form-group
-														%label.col-sm-4.control-label Shipping Est:
-														.col-sm-8
-															= f.text_field :est_shipping_cost, :placeholder => "Shipping Cost", class: "form-control dollars"
-													.form-group
 														%label.col-sm-4.control-label Quantity:
 														.col-sm-8
 															= f.text_field :quantity, :placeholder => "Quantity", class: "form-control"
@@ -180,5 +176,9 @@
 														/ 			.form-control.file-caption.kv-fileinput-caption{:tabindex => "500"}
 														/ 				.file-caption-name#file-name{:title => "No file selected"}
 														/ 					.text-muted None selected
+
+											.form-group
+												%strong.control-label Message:
+												= f.text_area :message, class: "form-control", placeholder: "Please write any additional comments here..."
 											.row
 												= f.submit 'Submit Quote', class: 'btn btn-defualt bg-success pull-right'
