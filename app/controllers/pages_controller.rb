@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
 	skip_before_action :require_logged_in
 	before_action :send_mail, except: [:new_lead, :sign_up_form]
+	before_action :send_autoreply_mail, except: [:new_lead, :sign_up_form]
 	layout 'landing'
 
 	def show
@@ -74,7 +75,7 @@ class PagesController < ApplicationController
 		AdminMailer.new_contact(params[:name], params[:phone], params[:email], params[:message]).deliver_now if params[:name]
 	end
 
-	def send_mail
+	def send_autoreply_mail
 		AdminMailer.new_contact_autoreply(params[:name], params[:phone], params[:email], params[:message]).deliver_now if params[:name]
 	end
 end
