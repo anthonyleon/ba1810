@@ -2,6 +2,7 @@ class Notification < ActiveRecord::Base
 	belongs_to :company
 	belongs_to :bid
 	belongs_to :auction
+  belongs_to :user
   belongs_to :tx, class_name: "Transaction"
 
   enum category: [:win, :new_quote, :competing_quote, :invite, :shipment_in_transit, :broadcast, :send_payment, :payment_received, 
