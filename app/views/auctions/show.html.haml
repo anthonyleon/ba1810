@@ -162,14 +162,9 @@
 								%li
 									%a{"data-action" => "collapse"}
 						-else
-							- if current_user.temp
-								= link_to temp_user_new_bid_path(@auction) do
-									.btn-group.heading-btn
-										%button.btn.btn-success Submit Quote
-							- else
-								= link_to new_auction_bid_path(@auction) do
-									.btn-group.heading-btn
-										%button.btn.btn-success Submit Quote
+							= link_to temp_user_new_bid_path(@auction) do
+								.btn-group.heading-btn
+									%button.btn.btn-success Submit Quote
 							%ul.icons-list
 								%li
 									%a{"data-action" => "collapse"}
