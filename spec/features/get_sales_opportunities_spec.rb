@@ -60,6 +60,7 @@ feature "Sales Opportunities" do
 	def sign_in_and_visit
 		sign_in selling_company
 		visit current_opportunities_path
+
 	end
 
 	def condition_match?(auction, inventory_part)
@@ -151,6 +152,7 @@ feature "Sales Opportunities" do
 				create(:bid, company: selling_company, auction: second_auction, inventory_part: selling_company.inventory_parts.first)
 
 				sign_in_and_visit
+				save_and_open_page
 				sales_opportunity_not_duplicated?
 			end
 		end

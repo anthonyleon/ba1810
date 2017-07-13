@@ -4,11 +4,8 @@ FactoryGirl.define do
     active                true
     quantity              1
     condition             [:as_removed, :overhaul]
-    destination_address   Faker::Address.street_address
-    destination_zip       Faker::Address.zip
-    destination_city      Faker::Address.city_suffix
-    destination_country   Faker::Address.country
     required_date         Faker::Date.forward(23)
+    destination
     # company
     # auction_part
   end
