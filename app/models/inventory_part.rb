@@ -39,12 +39,11 @@ class InventoryPart < ActiveRecord::Base
 #==============================================================  
 
 #for an individually uploaded part
-  def add_part_details part_match, user
+  def add_part_details part_match, company
     self.description = part_match[:description]
     self.part = part_match
     self.part_num.upcase!
-    self.company = user.company
-    self.user = user
+    self.company = company
   end
 
 end
