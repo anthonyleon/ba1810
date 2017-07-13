@@ -12,8 +12,8 @@ class AuctionsController < ApplicationController
 
 	def show
 		## should show if one of the auctions is a current_users
-		@auction_invitees = @auction.invites.joins(:company).map(&:company)
-		@invited_suppliers_bids = @auction.bids.joins(:company).where(companies: {id: @auction.invites.map(&:company_id)})
+		@auction_invitees = @auction.invites.map(&:company)
+		@invited_suppliers_bids = @auction.bids.joins(:company).where(companies: {id: @auction_invitees.map(&:id)})
 		@bid_aero_suppliers_bids = (@auction_invitees.empty? ? @auction.bids.joins(:company) : 
 									@auction.bids.joins(:company).where.not(companies: {id: @auction_invitees.map(&:id)}))
 	end
