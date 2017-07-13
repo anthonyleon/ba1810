@@ -35,10 +35,10 @@ class BidsController < ApplicationController
 		part_match = Part.find_by(part_num: @inventory_part.part_num.upcase)
 		respond_to do |format|
 			if part_match
-				@bid.inventory_part = @inventory_part
-				if @bid.save
-					@inventory_part.add_part_details(part_match, current_company)
-					if @inventory_part.save
+				@inventory_part.add_part_details(part_match, current_company)
+				if @inventory_part.save
+					@bid.inventory_part = @inventory_part
+					if @bid.save
 						# document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
 						Notification.notify_other_bidders(@auction, current_user, :competing_quote)
 						Notification.notify_auctioner(@auction, :new_quote)
@@ -116,7 +116,7 @@ class BidsController < ApplicationController
 		end
 
 		def bid_params
-			params.require(:bid).permit(:part_price, :company_id, :auction_id, :inventory_part_id, :quantity, :reference_num, :tag_date)
+			params.require(:bid).permit(:part_price, :company_id, :auction_id, :inventory_part_id, :quantity, :reference_num, :tag_date, :message)
 		end
 
 		def inventory_part_params
