@@ -119,11 +119,11 @@ end
 
 i = 0
 while (i < parts.count)
-  Bid.create( part_price: Faker::Commerce.price, est_shipping_cost: Faker::Commerce.price, 
+  Bid.create( part_price: Faker::Commerce.price, 
               auction: auctions[i], inventory_part: parts[i])
-  Bid.create( part_price: Faker::Commerce.price, est_shipping_cost: Faker::Commerce.price, 
+  Bid.create( part_price: Faker::Commerce.price, 
               auction: auctions[i], inventory_part: parts2[i])
-  Bid.create( part_price: Faker::Commerce.price, est_shipping_cost: Faker::Commerce.price, 
+  Bid.create( part_price: Faker::Commerce.price, 
               auction: auctions[i], inventory_part: parts3[i])
   i+=1
 end

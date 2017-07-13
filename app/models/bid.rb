@@ -9,7 +9,6 @@ class Bid < ActiveRecord::Base
 
   # validates :inventory_part, presence: true
   validates :part_price, presence: true
-  validates :est_shipping_cost, presence: true
   # before_save :strip_symbols
   # before_create :strip_symbols
   before_save :strip_whitespace
@@ -51,7 +50,6 @@ class Bid < ActiveRecord::Base
 
   def self.strip_symbols(params)
     params[:part_price].gsub!(/[ $,]/, '').to_d if !params[:part_price].empty?
-    params[:est_shipping_cost].gsub!(/[ $,]/, '').to_d if !params[:est_shipping_cost].empty?
   end
 
 

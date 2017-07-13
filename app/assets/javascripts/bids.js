@@ -98,7 +98,6 @@ $(document).on('ready page:load', function() {
   	$("form").submit(function() {
       	// in bid/new.html.haml
       	$('#part-price').val($('#part-price').maskMoney('unmasked')[0]);
-      	$('#est-shipping').val($('#est-shipping').maskMoney('unmasked')[0]);
         // in seller_purchase.html.haml
         $('#finalized-shipping').val($('#finalized-shipping').maskMoney('unmasked')[0]);
         $('#tax-rate').val($('#tax-rate').maskMoney('unmasked')[0]);
