@@ -40,7 +40,7 @@ class BidsController < ApplicationController
 				if @inventory_part.save
 					@bid.inventory_part = @inventory_part
 					if @bid.save
-						AdminMailer.new_bid(@bid).deliver_later(wait_until: 1.minute.from_now)
+						AdminMailer.new_bid(@bid).deliver_later(wait: 1.minute)
 						# document_params[:attachment].each { |doc| @bid.documents.create(name: doc.original_filename, attachment: doc)} if document_params
 						Notification.notify_other_bidders(@auction, current_user, :competing_quote)
 						Notification.notify_auctioner(@auction, :new_quote)
