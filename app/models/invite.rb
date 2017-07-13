@@ -1,4 +1,5 @@
 class Invite < ActiveRecord::Base
-  belongs_to :company
+  has_one	 :company, through: :user
   belongs_to :auction
+  belongs_to :user
 end
